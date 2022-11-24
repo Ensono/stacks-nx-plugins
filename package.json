@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build": "nx affected:build --parallel 8",
     "local-registry": "./scripts/local-registry.sh",
     "release": "ts-node -P ./scripts/tsconfig.scripts.json ./scripts/release"
   },
