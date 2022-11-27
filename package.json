@@ -3,15 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "nx affected:build --parallel 8",
+    "build": "nx run-many --target build --all --parallel 8",
     "local-registry": "./scripts/local-registry.sh",
-    "release": "ts-node -P ./scripts/tsconfig.scripts.json ./scripts/release"
+    "e2e-start-local-registry": "ts-node ./scripts/e2e-start-local-registry"
   },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
     "@commitlint/config-nx-scopes": "^17.2.0",
+    "@commitlint/cz-commitlint": "^17.3.0",
+    "@jscutlery/semver": "^2.29.0",
     "@nrwl/cli": "^15.2.1",
     "@nrwl/devkit": "15.2.1",
     "@nrwl/eslint-plugin-nx": "15.2.1",
@@ -28,25 +30,23 @@
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "commitizen": "^4.2.5",
-    "cz-conventional-changelog": "^3.3.0",
-    "cz-customizable": "^7.0.0",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "husky": "^8.0.2",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "jsonc-eslint-parser": "^2.1.0",
-    "lerna": "^6.0.3",
+    "ngx-deploy-npm": "^4.3.7",
     "nx": "15.2.1",
     "prettier": "^2.6.2",
     "ts-jest": "28.0.5",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.1",
     "verdaccio": "^5.18.0",
     "yargs": "^17.6.2"
   },
   "config": {
     "commitizen": {
-      "path": "node_modules/cz-customizable"
+      "path": "@commitlint/cz-commitlint"
     }
   },
   "dependencies": {
