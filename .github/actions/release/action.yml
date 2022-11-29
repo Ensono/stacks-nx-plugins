@@ -2,27 +2,19 @@ name: Release
 
 description: Release packages
 
-inputs:
-  github_token:
-    description: GitHub token
-    required: true
-  npm_token:
-    description: NPM token
-    required: true
-
 runs:
   using: composite
   steps:
     - name: Check Authentication with Registry
       env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       shell: bash
       run: npm whoami
 
     - name: Release
       env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       shell: bash
       run: npx nx affected --base=last-release --target=release
 
