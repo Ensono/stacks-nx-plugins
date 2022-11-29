@@ -22,6 +22,3 @@ jobs:
 
       - name: Release
         uses: ./.github/actions/release
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          npm_token: ${{ secrets.NPM_TOKEN }}
