@@ -1,0 +1,23 @@
+name: Test
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        shell: bash
+        run: npx nx affected:lint --base=last-release
+
+      - name: Test
+        shell: bash
+        run: npx nx affected:test --base=last-release

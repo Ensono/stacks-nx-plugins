@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "sourceMap": true,
+    "importHelpers": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "types": ["node", "jest"],
+    "lib": ["es2019"],
+    "declaration": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "tmp"]
+}
