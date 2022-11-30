@@ -23,9 +23,9 @@ runs:
       run: git tag -f last-release
 
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
       with:
-        github_token: ${{ inputs.github_token }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
         force: true
         tags: true
