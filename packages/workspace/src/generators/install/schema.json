@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Install",
+  "title": "Configure a Nx Workspace for Ensono Stacks",
+  "type": "object",
+  "properties": {
+    "cloudProvider": {
+      "type": "string",
+      "description": "The cloud provider for the workspace",
+      "x-prompt": {
+        "message": "Which cloud provider should the workspace use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "azure",
+            "label": "Azure"
+          }
+        ]
+      },
+      "default": "azure"
+    },
+    "pipelineProvider": {
+      "type": "string",
+      "description": "The CI/CD provider for the workspace",
+      "x-prompt": {
+        "message": "Which CI/CD provider should the workspace use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "azdo",
+            "label": "Azure Pipelines"
+          }
+        ]
+      },
+      "default": "azdo"
+    },
+    "husky": {
+      "type": "boolean",
+      "description": "Install & configure husky",
+      "default": true
+    },
+    "commitizen": {
+      "type": "boolean",
+      "description": "Install & configure commitizen",
+      "default": true
+    },
+    "eslint": {
+      "type": "boolean",
+      "description": "Install & configure eslint",
+      "default": true
+    },
+    "skipInstall": {
+      "description": "Skip install dependencies",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": []
+}
