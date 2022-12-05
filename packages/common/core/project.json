@@ -1,0 +1,61 @@
+{
+    "name": "common-core",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/common/core/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/packages/common/core",
+                "main": "packages/common/core/src/index.ts",
+                "tsConfig": "packages/common/core/tsconfig.lib.json",
+                "assets": ["packages/common/core/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["packages/common/core/**/*.ts"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/common/core/jest.config.ts",
+                "passWithNoTests": true
+            }
+        },
+        "version": {
+            "executor": "@jscutlery/semver:version",
+            "options": {}
+        },
+        "release": {
+            "executor": "@jscutlery/semver:version",
+            "options": {
+                "preset": "conventional",
+                "trackDeps": true,
+                "noVerify": true,
+                "push": true,
+                "postTargets": ["common-core:publish", "common-core:github"]
+            }
+        },
+        "publish": {
+            "executor": "ngx-deploy-npm:deploy",
+            "options": {
+                "access": "public"
+            }
+        },
+        "github": {
+            "executor": "@jscutlery/semver:github",
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
+        }
+    },
+    "tags": ["core"]
+}

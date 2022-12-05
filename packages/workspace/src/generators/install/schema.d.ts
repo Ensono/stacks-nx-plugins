@@ -1,8 +1,8 @@
 export interface InstallGeneratorSchema {
-  cloudProvider: 'azure';
-  pipelineProvider: 'azdo';
-  eslint?: boolean;
-  husky?: boolean;
-  commitizen?: boolean;
-  skipInstall?: boolean;
+    cloudProvider: 'azure';
+    pipelineProvider: 'azdo';
+    eslint?: boolean;
+    husky?: boolean;
+    commitizen?: boolean;
+    skipFormat?: boolean;
 }
