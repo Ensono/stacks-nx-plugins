@@ -62,8 +62,7 @@
             "options": {
                 "preset": "conventional",
                 "trackDeps": true,
-                "noVerify": true,
-                "push": true
+                "noVerify": true
             }
         },
         "publish": {
