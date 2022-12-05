@@ -12,8 +12,6 @@ runs:
       run: npm whoami
 
     - name: Version
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: bash
       run: npx nx affected --base=last-release --target=version
 
