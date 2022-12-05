@@ -60,18 +60,10 @@
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
-                "trackDeps": true,
-                "skipCommit": true
-            }
-        },
-        "release": {
-            "executor": "@jscutlery/semver:version",
-            "options": {
                 "preset": "conventional",
                 "trackDeps": true,
                 "noVerify": true,
-                "push": true,
-                "postTargets": ["workspace:publish", "workspace:github"]
+                "push": true
             }
         },
         "publish": {

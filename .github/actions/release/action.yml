@@ -11,12 +11,24 @@ runs:
       shell: bash
       run: npm whoami
 
-    - name: Release
+    - name: Version
+      shell: bash
+      run: npx nx affected --base=last-release --target=version
+
+    - name: Build
+        uses: ./.github/actions/build
+
+    - name: Publish
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       shell: bash
-      run: npx nx affected --base=last-release --target=release
+      run: npx nx affected --base=last-release --target=publish
+
+    - name: Github Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      shell: bash
+      run: npx nx affected --base=last-release --target=github
 
     - name: Tag last-release
       shell: bash
