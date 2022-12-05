@@ -1,24 +1,26 @@
 {
-  "compilerOptions": {
-    "target": "es2015",
-    "sourceMap": true,
-    "importHelpers": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "skipLibCheck": true,
-    "types": ["node", "jest"],
-    "lib": ["es2019"],
-    "declaration": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "rootDir": ".",
-    "paths": {
-      "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"]
-    }
-  },
-  "include": ["**/*"],
-  "exclude": ["node_modules", "tmp"]
+    "compilerOptions": {
+        "target": "es2015",
+        "sourceMap": true,
+        "importHelpers": true,
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "types": ["node", "jest"],
+        "lib": ["es2019"],
+        "declaration": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "rootDir": ".",
+        "paths": {
+            "@ensono-stacks/core": ["packages/common/core/src/index.ts"],
+            "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"]
+        }
+    },
+    "include": ["**/*"],
+    "exclude": ["node_modules", "tmp"]
 }
