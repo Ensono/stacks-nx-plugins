@@ -48,9 +48,6 @@ jobs:
         with:
           registry-url: 'http://localhost:4872'
 
-      - name: Build
-        uses: ./.github/actions/build
-
       - name: Version
         shell: bash
         run: npx nx affected --base=last-release --target=version

@@ -59,7 +59,10 @@
         },
         "version": {
             "executor": "@jscutlery/semver:version",
-            "options": {}
+            "options": {
+                "trackDeps": true,
+                "skipCommit": true
+            }
         },
         "release": {
             "executor": "@jscutlery/semver:version",
