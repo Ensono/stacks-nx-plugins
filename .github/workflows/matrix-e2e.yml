@@ -52,6 +52,9 @@ jobs:
         shell: bash
         run: npx nx affected --base=last-release --target=version
 
+      - name: Build
+        uses: ./.github/actions/build
+
       - name: Publish to Local Registry
         shell: bash
         run: npx nx affected --base=last-release --target=publish
