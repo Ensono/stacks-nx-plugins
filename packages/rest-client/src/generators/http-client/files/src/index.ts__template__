@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-const client = axios.create({
-    responseType: 'json',
-});
+// Reusable instance
+const httpClient = axios.create();
 
-export { AxiosError } from 'axios'
-
-export default client;
+export default httpClient;

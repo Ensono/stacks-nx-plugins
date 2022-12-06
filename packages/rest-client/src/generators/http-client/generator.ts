@@ -1,6 +1,5 @@
 import {
   addDependenciesToPackageJson,
-  addProjectConfiguration,
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
@@ -8,6 +7,7 @@ import {
   offsetFromRoot,
   Tree,
 } from '@nrwl/devkit';
+import { libraryGenerator } from '@nrwl/js';
 import * as path from 'path';
 import { HttpClientGeneratorSchema } from './schema';
 import { axiosVersion } from '../../../utils/versions';
@@ -69,21 +69,20 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 }
 
 export default async function (tree: Tree, options: HttpClientGeneratorSchema) {
+  // Normalize options
   const normalizedOptions = normalizeOptions(tree, options);
 
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    tags: normalizedOptions.parsedTags,
-  });
+  // Use the existing library generator
+  await libraryGenerator(tree, { ...options, importPath: 'test-path' });
+  // Delete the default generated lib folder
+  tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
+  // Generate files
   addFiles(tree, normalizedOptions);
-  
-  if (!options.skipPackageJson) {
-    updateDependencies(tree);
-  }
- 
+  // Update package.json
+  updateDependencies(tree);
+
+  // Format files
   if (!options.skipFormat) {
     await formatFiles(tree);
   }

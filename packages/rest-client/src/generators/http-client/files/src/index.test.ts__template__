@@ -1,0 +1,9 @@
+import httpClient from './';
+
+describe('axios', () => {
+  it('should be an axios instance', () => {
+    expect(httpClient).toBeDefined();
+    expect(httpClient).toHaveProperty('get');
+    expect(httpClient).toHaveProperty('post');
+  });
+});
