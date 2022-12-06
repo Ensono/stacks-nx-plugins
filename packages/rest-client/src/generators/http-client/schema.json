@@ -15,23 +15,6 @@
       "x-prompt": "What name would you like to use for the library?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "linter": {
-      "description": "The tool to use for running lint checks.",
-      "type": "string",
-      "enum": [
-        "eslint"
-      ],
-      "default": "eslint"
-    },
-    "unitTestRunner": {
-      "type": "string",
-      "enum": [
-        "jest",
-        "none"
-      ],
-      "description": "Test runner to use for unit tests.",
-      "default": "jest"
-    },
     "directory": {
       "type": "string",
       "description": "A directory where the lib is placed.",
@@ -46,16 +29,9 @@
       "description": "Skip formatting files.",
       "type": "boolean",
       "default": false
-    },
-    "skipPackageJson": {
-      "description": "Do not add dependencies to `package.json`.",
-      "type": "boolean",
-      "default": false
     }
   },
   "required": [
-    "name",
-    "linter",
-    "unitTestRunner"
+    "name"
   ]
 }
