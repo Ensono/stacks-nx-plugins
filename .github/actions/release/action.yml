@@ -1,21 +1,32 @@
 name: Release
 
 description: Release packages
+inputs:
+  GITHUB_TOKEN:
+    required: true
+    description: "GitHub Token"
+  NODE_AUTH_TOKEN:
+    required: true
+    description: "Node Auth Token"
+  NX_CLOUD_ACCESS_TOKEN:
+    required: true
+    description: "Nx Cloud Token"
+  
 
 runs:
   using: composite
   steps:
     - name: Check Authentication with Registry
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ inputs.NPM_TOKEN }}
       shell: bash
       run: npm whoami
 
     - name: Release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ inputs.NPM_TOKEN }}
+        NX_CLOUD_ACCESS_TOKEN: ${{ inputs.NX_CLOUD_ACCESS_TOKEN }}
       shell: bash
       run: npx nx affected --base=last-release --target=release
 
@@ -26,7 +37,7 @@ runs:
     - name: Push changes
       uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
         force: true
         tags: true

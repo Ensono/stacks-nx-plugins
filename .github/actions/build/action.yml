@@ -1,6 +1,10 @@
 name: Build
 
 description: Build packages
+inputs:
+  NX_CLOUD_ACCESS_TOKEN:
+    required: true
+    description: "Nx Cloud Token"
 
 runs:
   using: composite
@@ -8,6 +12,6 @@ runs:
     - name: Build
       env:
         NODE_OPTIONS: --max_old_space_size=8192
-        NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+        NX_CLOUD_ACCESS_TOKEN: ${{ inputs.NX_CLOUD_ACCESS_TOKEN }}
       shell: bash
       run: npx nx affected --base=last-release --target=build
