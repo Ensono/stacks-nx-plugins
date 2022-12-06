@@ -54,6 +54,8 @@ jobs:
       - name: Version
         shell: bash
         run: npx nx affected --base=last-release --target=version
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
       - name: Publish to Local Registry
         shell: bash
@@ -61,6 +63,7 @@ jobs:
         env:
           npm_config_registry: http://localhost:4872
           YARN_REGISTRY: http://localhost:4872
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
       - name: Run e2e tests
         run: npx nx affected --base=last-release --target=e2e --parallel=1
@@ -73,3 +76,4 @@ jobs:
           NX_VERBOSE_LOGGING: ${{ 'true' }}
           NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
           NX_CACHE_DIRECTORY: ${{ 'tmp' }}
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}

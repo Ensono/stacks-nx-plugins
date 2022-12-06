@@ -8,5 +8,6 @@ runs:
     - name: Build
       env:
         NODE_OPTIONS: --max_old_space_size=8192
+        NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       shell: bash
       run: npx nx affected --base=last-release --target=build

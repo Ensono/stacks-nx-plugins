@@ -17,7 +17,11 @@ jobs:
       - name: Lint
         shell: bash
         run: npx nx affected:lint --base=last-release
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
       - name: Test
         shell: bash
         run: npx nx affected:test --base=last-release
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
