@@ -1,18 +1,20 @@
 {
-  "name": "workspace-e2e",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "sourceRoot": "e2e/workspace-e2e/src",
-  "targets": {
-    "e2e": {
-      "executor": "@nrwl/nx-plugin:e2e",
-      "options": {
-        "target": "workspace:build",
-        "jestConfig": "e2e/workspace-e2e/jest.config.ts",
-        "passWithNoTests": true
-      }
-    }
-  },
-  "tags": [],
-  "implicitDependencies": ["workspace"]
+    "name": "workspace-e2e",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "sourceRoot": "e2e/workspace-e2e/src",
+    "targets": {
+        "e2e": {
+            "executor": "@ensono-stacks/e2e:e2e",
+            "options": {
+                "verdaccioConfig": ".verdaccio/config.yml",
+                "jestOptions": {
+                    "jestConfig": "e2e/workspace-e2e/jest.config.ts",
+                    "passWithNoTests": true
+                }
+            }
+        }
+    },
+    "tags": ["e2e"],
+    "implicitDependencies": ["workspace"]
 }

@@ -3,9 +3,7 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "build": "nx run-many --target build --all --parallel 8",
-        "local-registry": "./scripts/local-registry.sh",
-        "e2e-start-local-registry": "ts-node ./scripts/e2e-start-local-registry"
+        "build": "nx run-many --target build --all --parallel 8"
     },
     "private": true,
     "devDependencies": {

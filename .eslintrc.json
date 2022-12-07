@@ -9,7 +9,6 @@
         "airbnb-base",
         "plugin:prettier/recommended",
         "plugin:unicorn/recommended",
-        "plugin:compat/recommended",
         "plugin:import/recommended",
         "plugin:import/typescript",
         "plugin:security/recommended",
@@ -34,8 +33,12 @@
                         "allow": [],
                         "depConstraints": [
                             {
-                                "sourceTag": "*",
-                                "onlyDependOnLibsWithTags": ["*"]
+                                "sourceTag": "e2e",
+                                "onlyDependOnLibsWithTags": ["e2e"]
+                            },
+                            {
+                                "sourceTag": "plugin",
+                                "onlyDependOnLibsWithTags": ["plugin"]
                             }
                         ]
                     }
@@ -91,7 +94,8 @@
                     {
                         "allowList": {
                             "getServerSideProps": true,
-                            "getStaticProps": true
+                            "getStaticProps": true,
+                            "args": true
                         },
                         "replacements": {
                             "env": {

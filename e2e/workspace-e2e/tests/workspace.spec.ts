@@ -1,30 +1,51 @@
 import {
-  checkFilesExist,
-  ensureNxProject,
-  readJson,
-  runNxCommandAsync,
-  uniq,
+    checkFilesExist,
+    readJson,
+    runNxCommandAsync,
 } from '@nrwl/nx-plugin/testing';
+import { newProject, cleanup } from '@ensono-stacks/e2e';
+describe('workspace', () => {
+    beforeAll(async () => {
+        await newProject(['@ensono-stacks/workspace']);
+    });
 
-describe('workspace e2e', () => {
-  // Setting up individual workspaces per
-  // test can cause e2e runs to take a long time.
-  // For this reason, we recommend each suite only
-  // consumes 1 workspace. The tests should each operate
-  // on a unique project in the workspace, such that they
-  // are not dependant on one another.
-  beforeAll(() => {
-    ensureNxProject('@ensono-stacks/workspace', 'dist/packages/workspace');
-  });
+    afterAll(() => {
+        runNxCommandAsync('reset');
+        cleanup();
+    });
 
-  afterAll(() => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
-  });
+    it('runs the install generator', async () => {
+        await runNxCommandAsync(
+            `generate @ensono-stacks/workspace:install --no-interactive`,
+            {
+                env: {
+                    // Nx create will not create a git context for e2e,
+                    // so skip husky installation
+                    // https://github.com/typicode/husky/blob/main/src/index.ts#L14
+                    HUSKY: '0',
+                },
+            },
+        );
 
-  // TODO: add relevant test
-  it('test', () => {
-    expect(true).toBe(true);
-  });
+        expect(() =>
+            checkFilesExist(
+                '.eslintrc.json',
+                '.husky/commit-msg',
+                '.husky/pre-commit',
+                '.husky/prepare-commit-msg',
+            ),
+        ).not.toThrow();
+
+        const packageJson = readJson('package.json');
+
+        expect(packageJson).toMatchObject(
+            expect.objectContaining({
+                config: {
+                    commitizen: {
+                        path: '@commitlint/cz-commitlint',
+                    },
+                },
+            }),
+        );
+    }, 100000);
 });
