@@ -38,8 +38,8 @@ function addPreCommit(tree: Tree) {
 
     const contents = getOrCreateHook(tree, path);
 
-    if (!contents.includes('lint')) {
-        tree.write(path, `${contents}\n${preCommit}`, { mode: '0o775' });
+    if (!contents?.includes('lint')) {
+        tree.write(path, `${contents}\n${preCommit}`, { mode: '775' });
     }
 }
 
@@ -49,8 +49,8 @@ function addCommitMessage(tree: Tree) {
 
     const contents = getOrCreateHook(tree, path);
 
-    if (!contents.includes('commitlint')) {
-        tree.write(path, `${contents}\n${commitMessage}`, { mode: '0o775' });
+    if (!contents?.includes('commitlint')) {
+        tree.write(path, `${contents}\n${commitMessage}`, { mode: '775' });
     }
 }
 
@@ -60,9 +60,9 @@ function addPrepareCommitMessage(tree: Tree) {
 
     const contents = getOrCreateHook(tree, path);
 
-    if (!contents.includes('cz --hook')) {
+    if (!contents?.includes('cz --hook')) {
         tree.write(path, `${contents}\n${prepareCommitMessage}`, {
-            mode: '0o775',
+            mode: '775',
         });
     }
 }

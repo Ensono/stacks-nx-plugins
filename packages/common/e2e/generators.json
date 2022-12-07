@@ -1,0 +1,6 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "name": "common-e2e",
+    "version": "0.0.1",
+    "generators": {}
+}
