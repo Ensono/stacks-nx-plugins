@@ -18,6 +18,7 @@
         "rootDir": ".",
         "paths": {
             "@ensono-stacks/core": ["packages/common/core/src/index.ts"],
+            "@ensono-stacks/e2e": ["packages/common/e2e/src/index.ts"],
             "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"]
         }
     },

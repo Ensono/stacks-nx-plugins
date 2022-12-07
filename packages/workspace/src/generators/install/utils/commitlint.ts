@@ -40,7 +40,7 @@ function addCommitlintConfig(tree: Tree) {
         generateFiles(
             tree,
             path.join(__dirname, '..', 'files', 'commitlint'),
-            tree.root,
+            '',
             {},
         );
     }
