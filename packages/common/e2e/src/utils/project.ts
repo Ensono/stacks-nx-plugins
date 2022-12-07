@@ -27,7 +27,7 @@ export function runCreateWorkspace(options: CreateWorkspaceOptions) {
 
     let command = `${createCommand} proj --preset=${options.preset} --package-manager=${options.packageManager}`;
 
-    command += ' --cli=nx --no-nxCloud --no-interactive --skipGit=false';
+    command += ' --cli=nx --no-nxCloud --no-interactive';
     if (options.args) {
         command += ` ${options.args}`;
     }

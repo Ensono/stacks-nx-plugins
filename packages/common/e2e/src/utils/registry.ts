@@ -1,4 +1,5 @@
-import { joinPathFragments, logger, workspaceRoot } from '@nrwl/devkit';
+import { joinPathFragments, workspaceRoot } from '@nrwl/devkit';
+import { tmpProjPath } from '@nrwl/nx-plugin/testing';
 import { ChildProcess, fork, execSync } from 'child_process';
 import { URL } from 'url';
 
@@ -22,8 +23,8 @@ export function runRegistry(
             }
         });
 
-        childFork.on('error', reject);
-        childFork.on('disconnect', reject);
+        childFork.on('error', error => reject(error));
+        childFork.on('disconnect', error => reject(error));
     });
 }
 
@@ -42,5 +43,9 @@ export async function startVerdaccio(verdaccioConfig: string) {
 
 export function addUser(url: string) {
     const registryUrl = new URL(url);
-    execSync(`npm set //${registryUrl.host}/:_authToken="ola"`);
+    execSync(`npm config set //${registryUrl.host}/:_authToken="ola"`, {
+        cwd: tmpProjPath(),
+        env: process.env,
+        stdio: 'pipe',
+    });
 }

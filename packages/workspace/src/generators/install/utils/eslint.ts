@@ -24,6 +24,8 @@ import {
 
 function stacksEslintConfig(tree: Tree): Linter.Config {
     return {
+        root: true,
+        ignorePatterns: ['**/*'],
         plugins: ['@typescript-eslint', '@nrwl/nx', 'import', 'security'],
         parser: '@typescript-eslint/parser',
         extends: [

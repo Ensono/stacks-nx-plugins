@@ -12,7 +12,7 @@ module.exports = {
                 'root',
                 ...(await getProjects(
                     context,
-                    ({ projectType }) => projectType === 'application',
+                    ({ name }) => !name.includes('-e2e'),
                 )),
             ],
         ],

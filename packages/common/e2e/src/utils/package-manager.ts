@@ -31,13 +31,20 @@ export async function installPackages(
     packageManager: SupportedPackageManager,
     packages: string[],
 ) {
+    if (packages.length === 0) {
+        return;
+    }
+
     const pm = getPackageManagerCommand(packageManager);
 
-    const { stdout } = await runCommandAsync(
+    const { stdout, stderr } = await runCommandAsync(
         `${pm.addDev} ${packages.join(' ')}`,
     );
 
-    return stdout;
+    if (stderr) {
+        logger.log(stdout);
+        logger.error(stderr);
+    }
 }
 
 export function installVersionedPackages(
