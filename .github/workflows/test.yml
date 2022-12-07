@@ -2,22 +2,24 @@ name: Test
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Lint
-        shell: bash
-        run: npx nx affected:lint --base=last-release
-
-      - name: Test
-        shell: bash
-        run: npx nx affected:test --base=last-release
+    name: Test
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    with:
+      node-version: 18
+      number-of-agents: 3
+      init-commands: |
+        git config --global user.name '@ensono'
+        git config --global user.email 'git@ensono.com'
+      parallel-commands-on-agents: |
+        npx nx affected --target=lint --base=last-release --parallel=3 & npx nx affected --target=test --base=last-release --parallel=3
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  agents:
+    name: Nx Cloud - Agents
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    with:
+      number-of-agents: 3
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}

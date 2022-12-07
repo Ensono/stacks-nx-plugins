@@ -9,16 +9,29 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     name: Release
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    with:
+      node-version: 18
+      number-of-agents: 3
+      init-commands: |
+        git config --global user.name '@ensono'
+        git config --global user.email 'git@ensono.com'
+      parallel-commands-on-agents: |
+        npx nx affected --base=last-release --target=build --parallel=3 & npx nx affected --base=last-release --target=version --parallel=3 & npx nx affected --base=last-release --target=publish --parallel=3 & npx nx affected --base=last-release --target=github --parallel=3
+      final-commands: |
+        git tag -f last-release
+        git push origin last-release
+      environment-variables: |
+        NODE_OPTIONS=--max_old_space_size=8192
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  agents:
+    name: Nx Cloud - Agents
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    with:
+      number-of-agents: 3
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Build
-        uses: ./.github/actions/build
-
-      - name: Release
-        uses: ./.github/actions/release
