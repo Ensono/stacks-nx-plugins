@@ -36,7 +36,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           os: ${{ matrix.os }}
-          package-manager: ${{ matrix.package_manager }}
+          package_manager: ${{ matrix.package_manager }}
           node_version: ${{ matrix.node_version }}
 
       - name: Set Node Registry

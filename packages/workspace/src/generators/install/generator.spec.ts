@@ -198,7 +198,7 @@ describe('Workspace: Install generator', () => {
 
             const preCommit = tree.read('.husky/pre-commit');
 
-            expect(preCommit.toString()).toEqual(
+            expect(preCommit?.toString()).toEqual(
                 expect.stringContaining('npx nx affected:lint --uncommitted'),
             );
 
@@ -218,7 +218,7 @@ describe('Workspace: Install generator', () => {
 
             const preCommit = tree.read('.husky/pre-commit');
 
-            expect(preCommit.toString()).toEqual(
+            expect(preCommit?.toString()).toEqual(
                 expect.stringContaining(
                     `npx do-something
 npx nx affected:lint --uncommitted`,
@@ -239,13 +239,13 @@ npx nx affected:lint --uncommitted`,
             const commitMessage = tree.read('.husky/commit-msg');
             const prepareMessage = tree.read('.husky/prepare-commit-msg');
 
-            expect(commitMessage.toString()).toEqual(
+            expect(commitMessage?.toString()).toEqual(
                 expect.stringContaining(
                     'npx --no-install commitlint --edit "$1"',
                 ),
             );
 
-            expect(prepareMessage.toString()).toEqual(
+            expect(prepareMessage?.toString()).toEqual(
                 expect.stringContaining(
                     'exec < /dev/tty && npx cz --hook || true',
                 ),
