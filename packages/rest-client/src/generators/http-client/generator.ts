@@ -73,7 +73,7 @@ export default async function (tree: Tree, options: HttpClientGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
 
   // Use the existing library generator
-  await libraryGenerator(tree, { ...options, importPath: 'test-path' });
+  await libraryGenerator(tree, options);
   // Delete the default generated lib folder
   tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
