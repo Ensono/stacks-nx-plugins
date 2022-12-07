@@ -177,15 +177,15 @@ function mergeConfig(tree: Tree, current: Linter.Config) {
 
     // Merge top-level properties with user preference
     base.plugins = [
-        ...new Set([...(base.plugins || []), ...stacksConfig.plugins]),
+        ...new Set([...(base.plugins || []), ...(stacksConfig.plugins || [])]),
     ];
     base.extends = [
-        ...new Set([...(base.extends || []), ...stacksConfig.extends]),
+        ...new Set([...(base.extends || []), ...(stacksConfig.extends || [])]),
     ];
 
     if (base.overrides) {
-        stacksConfig.overrides.forEach(override => {
-            const indexOfOverride = base.overrides.findIndex(({ files }) => {
+        stacksConfig.overrides?.forEach(override => {
+            const indexOfOverride = base.overrides?.findIndex(({ files }) => {
                 // Clone to preserve original config
                 const filesClone = [...ensureArray(files)];
                 const overrideFilesClone = [...ensureArray(override.files)];
@@ -195,9 +195,12 @@ function mergeConfig(tree: Tree, current: Linter.Config) {
                 );
             });
 
-            const baseOverride = base.overrides[indexOfOverride];
+            if (indexOfOverride === undefined) {
+                return;
+            }
 
-            if (indexOfOverride >= 0) {
+            if (base.overrides && indexOfOverride >= 0) {
+                const baseOverride = base.overrides[indexOfOverride];
                 if (baseOverride.plugins || override.plugins) {
                     baseOverride.plugins = [
                         ...new Set([
@@ -219,7 +222,7 @@ function mergeConfig(tree: Tree, current: Linter.Config) {
                     ...override.rules,
                 };
             } else {
-                base.overrides.push(override);
+                base.overrides?.push(override);
             }
         });
     } else {
@@ -241,20 +244,22 @@ function addRules(tree: Tree) {
             );
         }
         if (rootConfigPath.endsWith('.js')) {
-            const rootConfigJs = tree.read(rootConfigPath).toString();
+            const rootConfigJs = tree.read(rootConfigPath)?.toString();
 
-            // expect module.export = {}
-            const updatedConfigContents = tsquery.replace(
-                rootConfigJs,
-                'BinaryExpression > ObjectLiteralExpression',
-                node => {
-                    const rootConfig = JSON.parse(
-                        rootConfigJs.slice(node.pos, node.end),
-                    );
-                    return JSON.stringify(mergeConfig(tree, rootConfig));
-                },
-            );
-            tree.write(rootConfigPath, updatedConfigContents);
+            if (rootConfigJs) {
+                // expect module.export = {}
+                const updatedConfigContents = tsquery.replace(
+                    rootConfigJs,
+                    'BinaryExpression > ObjectLiteralExpression',
+                    node => {
+                        const rootConfig = JSON.parse(
+                            rootConfigJs.slice(node.pos, node.end),
+                        );
+                        return JSON.stringify(mergeConfig(tree, rootConfig));
+                    },
+                );
+                tree.write(rootConfigPath, updatedConfigContents);
+            }
         }
     } else {
         tree.write('.eslintrc.json', JSON.stringify(stacksEslintConfig(tree)));
@@ -263,15 +268,18 @@ function addRules(tree: Tree) {
 
 function addEslintDependencies(tree: Tree) {
     const { devDependencies } = readRootPackageJson();
-    const nrwlDependency = Object.entries(devDependencies).find(([key]) =>
-        key.startsWith('@nrwl/'),
-    );
+    const nrwlDependency =
+        (devDependencies &&
+            Object.entries(devDependencies)
+                .find(([key]) => key.startsWith('@nrwl/'))
+                ?.at(1)) ||
+        'latest';
 
     return addDependenciesToPackageJson(
         tree,
         {},
         {
-            '@nrwl/eslint-plugin-nx': nrwlDependency[1] || 'latest',
+            '@nrwl/eslint-plugin-nx': nrwlDependency || 'latest',
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,
             'eslint-config-prettier': ESLINT_CONFIG_PRETTIER_VERSION,

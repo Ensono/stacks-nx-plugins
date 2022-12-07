@@ -1,0 +1,21 @@
+{
+    "name": "common-e2e",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/common/e2e/src",
+    "projectType": "library",
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/common/e2e/**/*.ts",
+                    "packages/common/e2e/generators.json",
+                    "packages/common/e2e/executors.json",
+                    "packages/common/e2e/package.json"
+                ]
+            }
+        }
+    },
+    "tags": ["e2e"]
+}

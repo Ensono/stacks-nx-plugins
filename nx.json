@@ -45,6 +45,7 @@
             ]
         },
         "e2e": {
+            "dependsOn": ["^build"],
             "inputs": [
                 "default",
                 "^production",
