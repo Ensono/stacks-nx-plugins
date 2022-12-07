@@ -1,39 +1,61 @@
 {
-  "extends": "nx/presets/npm.json",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "ensono-stacks",
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
-    }
-  },
-  "workspaceLayout": {
-    "appsDir": "e2e",
-    "libsDir": "packages"
-  },
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
-    ],
-    "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
-  },
-  "targetDefaults": {
-    "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    "extends": "nx/presets/npm.json",
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "npmScope": "ensono-stacks",
+    "pluginsConfig": {
+        "@nrwl/js": {
+            "analyzeSourceFiles": true
+        }
     },
-    "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "nx/tasks-runners/default",
+            "options": {
+                "cacheableOperations": ["build", "lint", "test", "e2e"]
+            }
+        }
     },
-    "e2e": {
-      "inputs": ["default", "^production", { "env": "NX_E2E_CI_CACHE_KEY" }]
+    "workspaceLayout": {
+        "appsDir": "e2e",
+        "libsDir": "packages"
+    },
+    "namedInputs": {
+        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "production": [
+            "default",
+            "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+            "!{projectRoot}/tsconfig.spec.json",
+            "!{projectRoot}/jest.config.[jt]s",
+            "!{projectRoot}/.eslintrc.json"
+        ],
+        "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
+    },
+    "targetDefaults": {
+        "build": {
+            "dependsOn": ["^build"]
+        },
+        "lint": {
+            "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+        },
+        "test": {
+            "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js"
+            ]
+        },
+        "e2e": {
+            "inputs": [
+                "default",
+                "^production",
+                { "env": "NX_E2E_CI_CACHE_KEY" }
+            ]
+        },
+        "version": {
+            "dependsOn": ["^version"]
+        },
+        "release": {
+            "dependsOn": ["^release"]
+        }
     }
-  }
 }
