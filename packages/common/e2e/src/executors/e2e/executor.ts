@@ -57,9 +57,8 @@ export default async function runEnd2EndExecutor(
     logger.log(`[${context.projectName}] Starting Verdaccio`);
     try {
         child = await startVerdaccio(options.verdaccioConfig);
-    } catch (error) {
+    } catch {
         logger.log(`Verdaccio already running...`);
-        logger.debug(error);
     }
 
     try {
