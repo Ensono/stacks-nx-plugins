@@ -1,6 +1,12 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "name": "workspace",
-  "version": "0.0.1",
-  "generators": {}
+    "$schema": "http://json-schema.org/schema",
+    "name": "workspace",
+    "version": "0.0.1",
+    "generators": {
+        "install": {
+            "factory": "./src/generators/install/generator",
+            "schema": "./src/generators/install/schema.json",
+            "description": "Configure Workspace for Stacks"
+        }
+    }
 }
