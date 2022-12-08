@@ -1,6 +1,7 @@
 import { joinPathFragments, workspaceRoot } from '@nrwl/devkit';
 import { tmpProjPath } from '@nrwl/nx-plugin/testing';
 import { ChildProcess, fork, execSync } from 'child_process';
+import fs from 'fs';
 import { URL } from 'url';
 
 export function runRegistry(
@@ -41,7 +42,25 @@ export async function startVerdaccio(verdaccioConfig: string) {
     );
 }
 
+function getNpmConfigPath() {
+    const raw = execSync(`npm config list --json`, {
+        cwd: tmpProjPath(),
+        env: process.env,
+    });
+
+    const { userconfig } = JSON.parse(raw.toString());
+    return userconfig;
+}
+
 export function addUser(url: string) {
+    const configPath =
+        process.env['NPM_CONFIG_USERCONFIG'] || getNpmConfigPath();
+
+    if (!fs.existsSync(configPath)) {
+        fs.writeFileSync(configPath, '');
+        process.env['NPM_CONFIG_USERCONFIG'] = configPath;
+    }
+
     const registryUrl = new URL(url);
     execSync(`npm config set //${registryUrl.host}/:_authToken="ola"`, {
         cwd: tmpProjPath(),
