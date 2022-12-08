@@ -1,1 +1,1 @@
-export const axiosVersion = '1.2.0'
+export const axiosVersion = '1.2.0';
