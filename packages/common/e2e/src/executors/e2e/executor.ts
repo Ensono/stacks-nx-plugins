@@ -30,19 +30,14 @@ export default async function runEnd2EndExecutor(
     options: End2EndExecutorSchema,
     context: ExecutorContext,
 ) {
-    console.log('Tada');
-
     const verdaccioUrl = `http://localhost:4872/`;
     process.env.npm_config_registry = verdaccioUrl;
     process.env.YARN_REGISTRY = process.env.npm_config_registry;
-    console.log({ verdaccioUrl });
 
     // https://github.com/nrwl/nx/issues/11205
     const { npmScope } = readJsonFile(
         joinPathFragments(context.root, 'nx.json'),
     );
-
-    console.log({ npmScope });
 
     // Remove previously published packages
     // read verdaccio yml to get path to storage
