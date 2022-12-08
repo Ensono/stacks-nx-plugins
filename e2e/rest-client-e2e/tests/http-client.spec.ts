@@ -7,7 +7,7 @@ import { newProject, cleanup } from '@ensono-stacks/e2e';
 
 describe('http-client e2e', () => {
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/rest-client']);
+        await newProject(['@ensono-stacks/rest-client'], ['@nrwl/js']);
     });
 
     afterAll(() => {
