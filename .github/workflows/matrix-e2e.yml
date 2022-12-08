@@ -46,10 +46,10 @@ jobs:
 
       - name: Version
         shell: bash
-        run: npx nx affected --base=last-release --target=version --skipCommit
+        run: npx nx version rest-client --base=last-release --skipCommit
 
       - name: Run e2e tests
-        run: npx nx affected --base=last-release --target=e2e --parallel=1
+        run: npx nx e2e rest-client-e2e --base=last-release --parallel=1
         env:
           NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
           NODE_OPTIONS: --max_old_space_size=8192

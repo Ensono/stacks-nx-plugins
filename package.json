@@ -1,63 +1,64 @@
 {
-    "name": "stacks-nx-plugins",
-    "version": "0.0.0",
-    "license": "MIT",
-    "scripts": {
-        "build": "nx run-many --target build --all --parallel 8"
-    },
-    "private": true,
-    "devDependencies": {
-        "@commitlint/cli": "^17.3.0",
-        "@commitlint/config-conventional": "^17.3.0",
-        "@commitlint/config-nx-scopes": "^17.2.0",
-        "@commitlint/cz-commitlint": "^17.3.0",
-        "@jscutlery/semver": "^2.29.0",
-        "@nrwl/cli": "15.2.1",
-        "@nrwl/devkit": "15.2.1",
-        "@nrwl/eslint-plugin-nx": "15.2.1",
-        "@nrwl/jest": "15.2.1",
-        "@nrwl/js": "15.2.1",
-        "@nrwl/linter": "15.2.1",
-        "@nrwl/nx-plugin": "15.2.1",
-        "@nrwl/workspace": "15.2.1",
-        "@phenomnomnominal/tsquery": "^5.0.0",
-        "@swc-node/register": "^1.4.2",
-        "@swc/cli": "~0.1.55",
-        "@swc/core": "^1.2.173",
-        "@types/eslint": "^8.4.10",
-        "@types/jest": "28.1.1",
-        "@types/node": "16.11.7",
-        "@typescript-eslint/eslint-plugin": "^5.36.1",
-        "@typescript-eslint/parser": "^5.36.1",
-        "commitizen": "^4.2.5",
-        "eslint": "8.15.0",
-        "eslint-config-airbnb": "19.0.4",
-        "eslint-config-prettier": "8.5.0",
-        "eslint-import-resolver-typescript": "3.5.2",
-        "eslint-plugin-compat": "4.0.2",
-        "eslint-plugin-import": "2.26.0",
-        "eslint-plugin-prettier": "4.0.0",
-        "eslint-plugin-security": "1.4.0",
-        "eslint-plugin-unicorn": "37.0.1",
-        "husky": "^8.0.2",
-        "jest": "28.1.1",
-        "jest-environment-jsdom": "28.1.1",
-        "jsonc-eslint-parser": "^2.1.0",
-        "ngx-deploy-npm": "^4.3.7",
-        "nx": "15.2.1",
-        "prettier": "^2.6.2",
-        "ts-jest": "28.0.5",
-        "ts-node": "^10.9.1",
-        "verdaccio": "^5.18.0",
-        "yargs": "^17.6.2"
-    },
-    "config": {
-        "commitizen": {
-            "path": "@commitlint/cz-commitlint"
-        }
-    },
-    "dependencies": {
-        "@swc/helpers": "~0.4.11",
-        "tslib": "^2.3.0"
+  "name": "stacks-nx-plugins",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nx run-many --target build --all --parallel 8"
+  },
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "@commitlint/config-nx-scopes": "^17.2.0",
+    "@commitlint/cz-commitlint": "^17.3.0",
+    "@jscutlery/semver": "^2.29.0",
+    "@nrwl/cli": "15.3.0",
+    "@nrwl/devkit": "15.3.0",
+    "@nrwl/eslint-plugin-nx": "15.3.0",
+    "@nrwl/jest": "15.3.0",
+    "@nrwl/js": "15.3.0",
+    "@nrwl/linter": "15.3.0",
+    "@nrwl/nx-plugin": "15.3.0",
+    "@nrwl/workspace": "15.3.0",
+    "@phenomnomnominal/tsquery": "^5.0.0",
+    "@swc-node/register": "^1.4.2",
+    "@swc/cli": "~0.1.55",
+    "@swc/core": "^1.2.173",
+    "@types/eslint": "^8.4.10",
+    "@types/jest": "28.1.1",
+    "@types/node": "16.11.7",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "commitizen": "^4.2.5",
+    "eslint": "8.15.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-import-resolver-typescript": "3.5.2",
+    "eslint-plugin-compat": "4.0.2",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-security": "1.4.0",
+    "eslint-plugin-unicorn": "37.0.1",
+    "husky": "^8.0.2",
+    "jest": "28.1.1",
+    "jest-environment-jsdom": "28.1.1",
+    "jsonc-eslint-parser": "^2.1.0",
+    "ngx-deploy-npm": "^4.3.7",
+    "nx": "15.3.0",
+    "prettier": "^2.6.2",
+    "ts-jest": "28.0.5",
+    "ts-node": "^10.9.1",
+    "verdaccio": "^5.18.0",
+    "yargs": "^17.6.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
     }
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.4.11",
+    "tslib": "^2.3.0"
+  }
 }
+
