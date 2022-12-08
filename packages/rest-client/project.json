@@ -8,6 +8,7 @@
             "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
+                "buildableProjectDepsInPackageJsonType": "dependencies",
                 "outputPath": "dist/packages/rest-client",
                 "main": "packages/rest-client/src/index.ts",
                 "tsConfig": "packages/rest-client/tsconfig.lib.json",
@@ -79,5 +80,5 @@
             }
         }
     },
-    "tags": []
+    "tags": ["plugin"]
 }
