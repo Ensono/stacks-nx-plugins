@@ -62,7 +62,9 @@
             "options": {
                 "preset": "conventional",
                 "trackDeps": true,
-                "noVerify": true
+                "noVerify": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true
             }
         },
         "publish": {
