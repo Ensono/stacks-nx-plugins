@@ -4,5 +4,4 @@ export interface HttpClientGeneratorSchema {
     importPath?: string;
     tags?: string;
     skipFormat?: boolean;
-    skipPackageJson?: boolean;
 }
