@@ -1,0 +1,6 @@
+import axios from 'axios';
+
+// Reusable instance
+const httpClient = axios.create();
+
+export default httpClient;

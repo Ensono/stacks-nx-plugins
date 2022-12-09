@@ -6,7 +6,7 @@
     },
     "parser": "@typescript-eslint/parser",
     "extends": [
-        "airbnb-base",
+        "airbnb/base",
         "plugin:prettier/recommended",
         "plugin:unicorn/recommended",
         "plugin:import/recommended",
