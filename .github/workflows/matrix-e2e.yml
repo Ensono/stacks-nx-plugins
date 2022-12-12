@@ -35,7 +35,7 @@ jobs:
         git config --global user.email 'git@ensono.com'
         npx nx-cloud start-ci-run --agent-count=3
       parallel-commands-on-agents: |
-        npx nx affected --base=last-release --target=e2e --parallel=3
+        npx nx affected --base=last-release --target=e2e --configuration="ci" --parallel=3
       environment-variables: |
         NX_E2E_CI_CACHE_KEY=e2e-gha-${{ matrix.os }}-18 #${{ matrix.node_version }}-${{ matrix.package_manager }}
         NODE_OPTIONS=--max_old_space_size=8192
