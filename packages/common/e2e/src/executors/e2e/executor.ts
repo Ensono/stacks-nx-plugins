@@ -114,15 +114,15 @@ export default async function runEnd2EndExecutor(
         success = false;
     }
 
-    if (child) {
-        child.kill();
-    }
+    // if (child) {
+    //     child.kill();
+    // }
 
-    process.on('exit', () => {
-        if (child) {
-            child.kill();
-        }
-    });
+    // process.on('exit', () => {
+    //     if (child) {
+    //         child.kill();
+    //     }
+    // });
 
     return {
         success,

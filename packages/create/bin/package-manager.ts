@@ -2,8 +2,6 @@ import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import path from 'path';
 
-import { execAsync } from './exec';
-
 export const packageManagerList = ['pnpm', 'yarn', 'npm'] as const;
 
 export type PackageManager = typeof packageManagerList[number];
