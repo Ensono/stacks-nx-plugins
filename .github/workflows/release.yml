@@ -1,37 +1,49 @@
 name: Release
 on:
-  - workflow_dispatch
-
+- workflow_dispatch
 jobs:
   release:
-    if: github.ref == 'refs/heads/main'
-    permissions:
-      contents: read
     runs-on: ubuntu-latest
-    name: Release
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
-    with:
-      node-version: 18
-      number-of-agents: 3
-      init-commands: |
-        git config --global user.name '@ensono'
-        git config --global user.email 'git@ensono.com'
-      parallel-commands-on-agents: |
-        npx nx affected --base=last-release --target=build --parallel=3 & npx nx affected --base=last-release --target=version --parallel=3 & npx nx affected --base=last-release --target=publish --parallel=3 & npx nx affected --base=last-release --target=github --parallel=3
-      final-commands: |
-        git tag -f last-release
-        git push origin last-release
-      environment-variables: |
-        NODE_OPTIONS=--max_old_space_size=8192
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  agents:
-    name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
-    with:
-      number-of-agents: 3
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: volta-cli/action@v4
+      with:
+        node-version: "18"
+    - name: Node Modules Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-18-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-18-
+    - name: Version
+      shell: bash
+      run: npx nx affected --target=version --base=last-release --configuration=ci --parallel=1
 
+    - name: Build
+      shell: bash
+      run: npx nx affected --target=build --base=last-release
+      env:
+        NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+    - name: Publish
+      shell: bash
+      run: npx nx affected --target=publish --base=last-release
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Github Release
+      shell: bash
+      run: npx nx affected --target=github --base=last-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Tag last-release
+      shell: bash
+      run: git tag -f last-release
+    - name: Push changes
+      uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        force: true
+        tags: true
