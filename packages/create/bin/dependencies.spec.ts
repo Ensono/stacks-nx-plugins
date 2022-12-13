@@ -31,7 +31,7 @@ it('installs dependencies correctly', async () => {
     await installPackages(packages, 'folder/path');
 
     expect(execAsync).toHaveBeenCalledWith(
-        'npm install -D @ensono-stacks/workspace @ensono-stacks/rest-client',
+        'npm install -D @ensono-stacks/workspace',
         'folder/path',
     );
 });
@@ -74,13 +74,7 @@ it('runs generators with preferred package manager', async () => {
         () => '7.0.0',
     );
     (detectPackageManager as jest.Mock).mockImplementationOnce(() => 'pnpm');
-    await runGenerators(
-        [
-            '@ensono-stacks/workspace:install',
-            '@ensono-stacks/rest-client:install',
-        ],
-        'folder/path',
-    );
+    await runGenerators(['@ensono-stacks/workspace:install'], 'folder/path');
 
     expect(execAsync).toBeCalledTimes(2);
     expect(execAsync).toHaveBeenCalledWith(

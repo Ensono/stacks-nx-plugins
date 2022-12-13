@@ -8,7 +8,7 @@ import {
 
 const stacksRequiredPlugins = [
     '@ensono-stacks/workspace',
-    '@ensono-stacks/rest-client',
+    // '@ensono-stacks/rest-client',
 ];
 
 export function getGeneratorsToRun(argv: yargs.Arguments) {

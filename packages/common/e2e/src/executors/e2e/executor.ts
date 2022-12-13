@@ -41,7 +41,7 @@ export default async function runEnd2EndExecutor(
     );
 
     // Remove previously published packages
-    // read verdaccio yml to get path to storage
+    // TODO: read verdaccio yml to get path to storage
     const orgPackagePath = joinPathFragments(
         context.root,
         'tmp',
@@ -55,7 +55,7 @@ export default async function runEnd2EndExecutor(
     }
 
     if (!fs.existsSync(tmpProjPath())) {
-        fs.mkdirSync(tmpProjPath(), { recursive: true, force: true });
+        fs.mkdirSync(tmpProjPath(), { recursive: true });
     }
 
     let child: ChildProcess;
@@ -85,8 +85,8 @@ export default async function runEnd2EndExecutor(
     let success = false;
 
     try {
-        publishableLibraries.forEach(async library => {
-            await runExecutor(
+        const publishPromises = publishableLibraries.map(library => {
+            return runExecutor(
                 { project: library.name, target: 'publish' },
                 readTargetOptions(
                     { project: library.name, target: 'publish' },
@@ -95,6 +95,8 @@ export default async function runEnd2EndExecutor(
                 context,
             );
         });
+
+        await Promise.allSettled(publishPromises);
 
         logger.log(`[${context.projectName}] Executing jest tests`);
 
@@ -114,15 +116,15 @@ export default async function runEnd2EndExecutor(
         success = false;
     }
 
-    // if (child) {
-    //     child.kill();
-    // }
+    if (child) {
+        child.kill();
+    }
 
-    // process.on('exit', () => {
-    //     if (child) {
-    //         child.kill();
-    //     }
-    // });
+    process.on('exit', () => {
+        if (child) {
+            child.kill();
+        }
+    });
 
     return {
         success,
