@@ -6,24 +6,12 @@ import {
     getGeneratorsToRun,
     runGenerators,
 } from './dependencies';
-import { execAsync } from './exec';
-import {
-    detectPackageManager,
-    getPackageManagerVersion,
-} from './package-manager';
+import { execAsync, getCommandVersion } from './exec';
+import { detectPackageManager } from './package-manager';
 
-jest.mock('./exec', () => ({
-    execAsync: jest.fn(),
-}));
-
-jest.mock('./package-manager', () => ({
-    ...jest.requireActual('./package-manager'),
-    detectPackageManager: jest.fn(() => 'npm'),
-    getPackageManagerVersion: jest.fn(() => '1.0.0'),
-}));
-
+console.log(detectPackageManager, getCommandVersion);
 beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
 });
 
 it('installs dependencies correctly', async () => {
@@ -70,19 +58,13 @@ it('skips running generators if there are no generators defined', async () => {
 });
 
 it('runs generators with preferred package manager', async () => {
-    (getPackageManagerVersion as jest.Mock).mockImplementationOnce(
-        () => '7.0.0',
-    );
-    (detectPackageManager as jest.Mock).mockImplementationOnce(() => 'pnpm');
+    (getCommandVersion as jest.Mock).mockImplementation(() => '7.0.0');
+    (detectPackageManager as jest.Mock).mockImplementation(() => 'pnpm');
     await runGenerators(['@ensono-stacks/workspace:install'], 'folder/path');
 
-    expect(execAsync).toBeCalledTimes(2);
+    expect(execAsync).toBeCalledTimes(1);
     expect(execAsync).toHaveBeenCalledWith(
         'pnpm exec nx g @ensono-stacks/workspace:install',
-        'folder/path',
-    );
-    expect(execAsync).toHaveBeenCalledWith(
-        'pnpm exec nx g @ensono-stacks/rest-client:install',
         'folder/path',
     );
 });

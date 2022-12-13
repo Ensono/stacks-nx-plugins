@@ -1,4 +1,4 @@
-import { exec, ExecOptions } from 'child_process';
+import { exec, execSync, ExecOptions } from 'child_process';
 
 export function execAsync(
     command: string,
@@ -19,4 +19,8 @@ export function execAsync(
             },
         );
     });
+}
+
+export function getCommandVersion(command: string) {
+    return execSync(`${command} --version`).toString('utf-8').trim();
 }
