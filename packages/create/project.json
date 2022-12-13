@@ -36,7 +36,16 @@
             "options": {
                 "preset": "conventional",
                 "trackDeps": true,
-                "noVerify": true
+                "skipCommit": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true
+            },
+            "configurations": {
+                "ci": {
+                    "dryRun": false,
+                    "noVerify": true
+                }
             }
         },
         "publish": {
