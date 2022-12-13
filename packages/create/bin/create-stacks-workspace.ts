@@ -50,7 +50,6 @@ async function getConfiguration(argv: yargs.Arguments) {
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
-    console.log(parsedArgv);
     const argumentsToForward = unparse(forwardArgv as unparse.Arguments);
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
@@ -61,7 +60,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             env: process.env,
             shell: true,
             cwd: process.cwd(),
-            stdio: [process.stdin, process.stdout, process.stderr],
+            stdio: 'inherit',
         },
     );
 

@@ -10,28 +10,40 @@ import path from 'path';
 import { cleanup } from '@ensono-stacks/e2e';
 
 describe('create', () => {
-    beforeAll(async () => {
-        const temporaryDirectory = path.dirname(tmpProjPath());
+    const temporaryDirectory = path.dirname(tmpProjPath());
+    const cacheDirectory = path.join(temporaryDirectory, '.cache');
 
-        if (!fs.existsSync(temporaryDirectory)) {
-            fs.mkdirSync(temporaryDirectory, { recursive: true });
+    beforeAll(async () => {
+        cleanup();
+
+        if (!fs.existsSync(cacheDirectory)) {
+            fs.mkdirSync(cacheDirectory, {
+                recursive: true,
+            });
         }
 
-        execSync(
-            'npx @ensono-stacks/create-stacks-workspace@latest proj --no-interactive',
-            {
-                cwd: temporaryDirectory,
-                stdio: 'pipe',
-                env: process.env,
-            },
-        );
+        process.env['npm_config_cache'] = cacheDirectory;
     });
 
     afterAll(() => {
-        // cleanup();
+        if (fs.existsSync(cacheDirectory)) {
+            fs.rmSync(cacheDirectory, { recursive: true, force: true });
+        }
     });
 
-    it('installs the workspace dependency', async () => {
+    afterEach(() => {
+        cleanup();
+    });
+
+    it('configures an npm package nx workspace', async () => {
+        execSync(
+            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=npm --no-nxCloud --no-interactive --verbose',
+            {
+                cwd: temporaryDirectory,
+                stdio: 'inherit',
+                env: process.env,
+            },
+        );
         expect(() =>
             checkFilesExist(
                 '.eslintrc.json',
