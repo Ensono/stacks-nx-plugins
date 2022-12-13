@@ -13,7 +13,7 @@
             "options": {
                 "cacheableOperations": ["build", "lint", "test", "e2e"],
                 "accessToken": "Njg2NjM4NDUtOGY5ZC00ODk1LWIyMjctM2M5ZWM3NzczMTY1fHJlYWQ=",
-                "encryptionKey": "stacksnxplugins"
+                "encryptionKey": "stacks-nx-plugins"
             }
         }
     },
@@ -47,7 +47,7 @@
             ]
         },
         "e2e": {
-            "dependsOn": ["^version", "^build"],
+            "dependsOn": ["^build"],
             "inputs": [
                 "default",
                 "^production",
@@ -62,5 +62,13 @@
         "release": {
             "dependsOn": ["^release"]
         }
+    },
+    "targetDependencies": {
+        "version": [
+            {
+                "target": "version",
+                "projects": "dependencies"
+            }
+        ]
     }
 }
