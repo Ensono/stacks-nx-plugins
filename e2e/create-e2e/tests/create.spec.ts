@@ -2,6 +2,7 @@ import {
     tmpProjPath,
     checkFilesExist,
     readJson,
+    runNxCommandAsync,
 } from '@nrwl/nx-plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
@@ -14,34 +15,32 @@ describe('create', () => {
     const cacheDirectory = path.join(temporaryDirectory, '.cache');
 
     beforeAll(async () => {
-        cleanup();
-
         if (!fs.existsSync(cacheDirectory)) {
             fs.mkdirSync(cacheDirectory, {
                 recursive: true,
             });
         }
-
-        process.env['npm_config_cache'] = cacheDirectory;
     });
 
-    afterAll(() => {
+    afterAll(async () => {
         if (fs.existsSync(cacheDirectory)) {
             fs.rmSync(cacheDirectory, { recursive: true, force: true });
         }
-    });
-
-    afterEach(() => {
+        await runNxCommandAsync('reset');
         cleanup();
     });
 
     it('configures an npm package nx workspace', async () => {
         execSync(
-            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=npm --no-nxCloud --no-interactive --verbose',
+            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=npm --no-nxCloud --skipGit --no-interactive --verbose',
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
-                env: process.env,
+                env: {
+                    ...process.env,
+                    npm_config_cache: cacheDirectory,
+                    HUSKY: '0',
+                },
             },
         );
         expect(() =>

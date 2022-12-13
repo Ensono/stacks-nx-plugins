@@ -27,6 +27,13 @@ function filterPublishableLibraries(
     });
 }
 
+async function chain([executor, ...list]: Array<() => Promise<any>>) {
+    if (executor) {
+        await executor();
+        await chain(list);
+    }
+}
+
 export default async function runEnd2EndExecutor(
     options: End2EndExecutorSchema,
     context: ExecutorContext,
@@ -86,17 +93,18 @@ export default async function runEnd2EndExecutor(
 
     try {
         const publishPromises = publishableLibraries.map(library => {
-            return runExecutor(
-                { project: library.name, target: 'publish' },
-                readTargetOptions(
+            return async () =>
+                runExecutor(
                     { project: library.name, target: 'publish' },
+                    readTargetOptions(
+                        { project: library.name, target: 'publish' },
+                        context,
+                    ),
                     context,
-                ),
-                context,
-            );
+                );
         });
 
-        await Promise.allSettled(publishPromises);
+        await chain(publishPromises);
 
         logger.log(`[${context.projectName}] Executing jest tests`);
 
