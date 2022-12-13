@@ -1,6 +1,7 @@
-import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import path from 'path';
+
+import { getCommandVersion } from './exec';
 
 export const packageManagerList = ['pnpm', 'yarn', 'npm'] as const;
 
@@ -14,20 +15,13 @@ export function detectPackageManager(directory = ''): PackageManager {
         : 'npm';
 }
 
-export function getPackageManagerVersion(
-    packageManager: PackageManager,
-): string {
-    return execSync(`${packageManager} --version`).toString('utf-8').trim();
-}
-
 export function getPackageManagerCommand(
     packageManager: PackageManager = detectPackageManager(),
 ): {
     addDependency: string;
     exec: string;
 } {
-    const [pmMajor, pmMinor] =
-        getPackageManagerVersion(packageManager).split('.');
+    const [pmMajor, pmMinor] = getCommandVersion(packageManager).split('.');
 
     switch (packageManager) {
         case 'yarn': {
