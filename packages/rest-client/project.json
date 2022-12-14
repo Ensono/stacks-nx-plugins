@@ -71,7 +71,8 @@
                 "ci": {
                     "dryRun": false,
                     "noVerify": true,
-                    "push": true
+                    "push": true,
+                    "postTargets": ["rest-client:github"]
                 }
             }
         },
