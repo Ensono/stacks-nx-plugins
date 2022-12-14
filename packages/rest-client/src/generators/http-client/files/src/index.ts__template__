@@ -1,6 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 // Reusable instance
 const httpClient = axios.create();
+
+export type Response = AxiosResponse;
 
 export default httpClient;
