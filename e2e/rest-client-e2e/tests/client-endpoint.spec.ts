@@ -1,4 +1,4 @@
-import { checkFilesExist, runNxCommand, uniq } from '@nrwl/nx-plugin/testing';
+import { checkFilesExist, runNxCommand, runNxCommandAsync, uniq } from '@nrwl/nx-plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 
 describe('http-client e2e', () => {
@@ -7,8 +7,8 @@ describe('http-client e2e', () => {
     });
 
     afterAll(() => {
-        // runNxCommandAsync('reset');
-        // cleanup();
+        runNxCommandAsync('reset');
+        cleanup();
     });
 
     describe('client-endpoint', () => {
