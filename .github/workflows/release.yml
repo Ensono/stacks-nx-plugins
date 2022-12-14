@@ -14,8 +14,11 @@ jobs:
     - name: Setup git user
       shell: bash
       run: |
+        npm config set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
         git config --global user.name '@ensono'
         git config --global user.email 'git@ensono.com'
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - uses: volta-cli/action@v4
       with:
