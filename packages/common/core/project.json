@@ -44,7 +44,7 @@
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["core:github"]
+                    "postTargets": ["common-core:github"]
                 }
             }
         },
