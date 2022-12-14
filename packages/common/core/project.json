@@ -42,7 +42,8 @@
             "configurations": {
                 "ci": {
                     "dryRun": false,
-                    "noVerify": true
+                    "noVerify": true,
+                    "push": true
                 }
             }
         },
