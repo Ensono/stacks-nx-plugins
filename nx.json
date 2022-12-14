@@ -9,9 +9,11 @@
     },
     "tasksRunnerOptions": {
         "default": {
-            "runner": "nx/tasks-runners/default",
+            "runner": "@nrwl/nx-cloud",
             "options": {
-                "cacheableOperations": ["build", "lint", "test", "e2e"]
+                "cacheableOperations": ["build", "lint", "test", "e2e"],
+                "accessToken": "Njg2NjM4NDUtOGY5ZC00ODk1LWIyMjctM2M5ZWM3NzczMTY1fHJlYWQ=",
+                "encryptionKey": "stacks-nx-plugins"
             }
         }
     },
@@ -49,7 +51,9 @@
             "inputs": [
                 "default",
                 "^production",
-                { "env": "NX_E2E_CI_CACHE_KEY" }
+                {
+                    "env": "NX_E2E_CI_CACHE_KEY"
+                }
             ]
         },
         "version": {
@@ -58,5 +62,13 @@
         "release": {
             "dependsOn": ["^release"]
         }
+    },
+    "targetDependencies": {
+        "version": [
+            {
+                "target": "version",
+                "projects": "dependencies"
+            }
+        ]
     }
 }
