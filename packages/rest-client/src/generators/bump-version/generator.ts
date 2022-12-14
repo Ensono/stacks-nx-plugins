@@ -35,7 +35,7 @@ function copyFilesAndBumpVersion(
 
     generateFiles(
         tree,
-        path.join(__dirname, absoluteEndpointPath, currentVersion),
+        path.join(absoluteEndpointPath, currentVersion),
         path.join(
             absoluteEndpointPath,
             `V${options.endpointVersion.toString()}`,
