@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "BumpVersion",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "endpointPath": {
+            "type": "string",
+            "description": "The path to your endpoint.",
+            "x-prompt": "What is the path of your endpoint?"
+        },
+        "endpoint": {
+            "type": "string",
+            "description": "The endpoint you want to bump to the specified version.",
+            "x-prompt": "What is the endpiont you want to bump to the specified version?"
+        },
+        "endpointVersion": {
+            "type": "number",
+            "description": "The version you want to bump your endpoint.",
+            "x-prompt": "What version you want to bump your endpoint to?"
+        }
+    },
+    "required": ["endpointVersion", "endpoint", "endpointPath"]
+}

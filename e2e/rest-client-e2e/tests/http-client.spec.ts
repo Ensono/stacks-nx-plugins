@@ -1,44 +1,44 @@
 import {
-    checkFilesExist,
-    runNxCommandAsync,
-    uniq,
+  checkFilesExist,
+  runNxCommandAsync,
+  uniq,
 } from '@nrwl/nx-plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 
 describe('http-client e2e', () => {
-    beforeAll(async () => {
-        await newProject(['@ensono-stacks/rest-client'], ['@nrwl/js']);
-    });
+  beforeAll(async () => {
+      await newProject(['@ensono-stacks/rest-client'], ['@nrwl/js']);
+  });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
-        cleanup();
-    });
+  afterAll(() => {
+      // runNxCommandAsync('reset');
+      // cleanup();
+  });
 
-    describe('http-client', () => {
-        const project = uniq('rest-client');
+  describe('http-client', () => {
+      const project = uniq('rest-client');
 
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/rest-client:http-client ${project}`,
-            );
-        })
+      beforeAll(async () => {
+          await runNxCommandAsync(
+              `generate @ensono-stacks/rest-client:http-client ${project}`,
+          );
+      })
 
-        it('should create src in the specified directory', async () => {
-            expect(() =>
-                checkFilesExist(
-                    `libs/${project}/src/index.ts`,
-                    `libs/${project}/src/index.test.ts`,
-                ),
-            ).not.toThrow();
-        }, 120000);
+      it('should create src in the specified directory', async () => {
+          expect(() =>
+              checkFilesExist(
+                  `libs/${project}/src/index.ts`,
+                  `libs/${project}/src/index.test.ts`,
+              ),
+          ).not.toThrow();
+      }, 120000);
 
-        it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(
-                `test ${project}`,
-            );
+      it('should run the generated tests without failure', async () => {
+          const result = await runNxCommandAsync(
+              `test ${project}`,
+          );
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
-        });
-    });
+          expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+      });
+  });
 });
