@@ -43,7 +43,8 @@
                 "ci": {
                     "dryRun": false,
                     "noVerify": true,
-                    "push": true
+                    "push": true,
+                    "postTargets": ["core:github"]
                 }
             }
         },
