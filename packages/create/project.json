@@ -1,34 +1,36 @@
 {
-    "name": "common-core",
-    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/common/core/src",
+    "name": "create",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/create/src",
     "projectType": "library",
     "targets": {
         "build": {
             "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/common/core",
-                "main": "packages/common/core/src/index.ts",
-                "tsConfig": "packages/common/core/tsconfig.lib.json",
-                "assets": ["packages/common/core/*.md"]
+                "buildableProjectDepsInPackageJsonType": "dependencies",
+                "outputPath": "dist/packages/create",
+                "main": "packages/create/src/index.ts",
+                "tsConfig": "packages/create/tsconfig.lib.json",
+                "assets": ["packages/create/*.md"]
             }
         },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["packages/common/core/**/*.ts"]
+                "lintFilePatterns": ["packages/create/**/*.ts"]
             }
         },
         "test": {
             "executor": "@nrwl/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "packages/common/core/jest.config.ts",
+                "jestConfig": "packages/create/jest.config.ts",
                 "passWithNoTests": true
             }
         },
+
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
@@ -61,5 +63,5 @@
             }
         }
     },
-    "tags": ["plugin"]
+    "tags": []
 }

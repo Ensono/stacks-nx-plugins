@@ -63,7 +63,6 @@ export function addUser(url: string) {
 
     const registryUrl = new URL(url);
     execSync(`npm config set //${registryUrl.host}/:_authToken="ola"`, {
-        cwd: tmpProjPath(),
         env: process.env,
         stdio: 'pipe',
     });

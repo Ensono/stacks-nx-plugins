@@ -27,6 +27,13 @@ function filterPublishableLibraries(
     });
 }
 
+async function chain([executor, ...list]: Array<() => Promise<any>>) {
+    if (executor) {
+        await executor();
+        await chain(list);
+    }
+}
+
 export default async function runEnd2EndExecutor(
     options: End2EndExecutorSchema,
     context: ExecutorContext,
@@ -41,7 +48,7 @@ export default async function runEnd2EndExecutor(
     );
 
     // Remove previously published packages
-    // read verdaccio yml to get path to storage
+    // TODO: read verdaccio yml to get path to storage
     const orgPackagePath = joinPathFragments(
         context.root,
         'tmp',
@@ -55,7 +62,7 @@ export default async function runEnd2EndExecutor(
     }
 
     if (!fs.existsSync(tmpProjPath())) {
-        fs.mkdirSync(tmpProjPath(), { recursive: true, force: true });
+        fs.mkdirSync(tmpProjPath(), { recursive: true });
     }
 
     let child: ChildProcess;
@@ -85,16 +92,19 @@ export default async function runEnd2EndExecutor(
     let success = false;
 
     try {
-        publishableLibraries.forEach(async library => {
-            await runExecutor(
-                { project: library.name, target: 'publish' },
-                readTargetOptions(
+        const publishPromises = publishableLibraries.map(library => {
+            return async () =>
+                runExecutor(
                     { project: library.name, target: 'publish' },
+                    readTargetOptions(
+                        { project: library.name, target: 'publish' },
+                        context,
+                    ),
                     context,
-                ),
-                context,
-            );
+                );
         });
+
+        await chain(publishPromises);
 
         logger.log(`[${context.projectName}] Executing jest tests`);
 
