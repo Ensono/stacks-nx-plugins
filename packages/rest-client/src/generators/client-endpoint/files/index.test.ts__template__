@@ -1,6 +1,6 @@
-//TODO: Write generated tests
+// TODO: Write generated tests
 
-describe(' <%= className %> endpoint', () => {
+describe('<%= className %> endpoint', () => {
     it('should generate the right methods', () => {
         expect(true).toBeTruthy();
     });

@@ -11,7 +11,6 @@ describe('http-client e2e', () => {
   });
 
   afterAll(() => {
-      runNxCommandAsync('reset');
       cleanup();
   });
 
