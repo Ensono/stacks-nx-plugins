@@ -3,14 +3,18 @@ on:
 - workflow_dispatch
 jobs:
   release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
     - uses: volta-cli/action@v4
       with:
         node-version: "18"
+
     - name: Node Modules Cache
       uses: actions/cache@v3
       with:
@@ -18,6 +22,11 @@ jobs:
         key: ${{ runner.os }}-node-18-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-18-
+
+    - name: Install
+      shell: bash
+      run: npm ci
+
     - name: Version
       shell: bash
       run: npx nx affected --target=version --base=last-release --configuration=ci --parallel=1
@@ -27,19 +36,23 @@ jobs:
       run: npx nx affected --target=build --base=last-release
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
     - name: Publish
       shell: bash
       run: npx nx affected --target=publish --base=last-release
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     - name: Github Release
       shell: bash
       run: npx nx affected --target=github --base=last-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Tag last-release
       shell: bash
       run: git tag -f last-release
+
     - name: Push changes
       uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
       with:
