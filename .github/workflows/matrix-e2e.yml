@@ -2,60 +2,69 @@ name: E2E
 on:
   pull_request:
     branches:
-      - main
+    - main
     types: [opened, synchronize, reopened]
 jobs:
   e2e:
     permissions:
       contents: read
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os:
-          - ubuntu-latest
-          - macos-latest
+        - ubuntu-latest
+        - macos-latest
         include:
-          - os: ubuntu-latest
-            os-name: ubuntu
-          - os: macos-latest
-            os-name: osx
+        - os: ubuntu-latest
+          os-name: ubuntu
+        - os: macos-latest
+          os-name: osx
         node_version:
-          - '18'
+        - '18'
         package_manager:
-          - npm
-          - yarn
-          - pnpm
-
+        - npm
+        - yarn
+        - pnpm
     name: E2E ${{ matrix.os-name }}/${{ matrix.package_manager }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup
-        uses: ./.github/actions/setup
-        with:
-          os: ${{ matrix.os }}
-          package_manager: ${{ matrix.package_manager }}
-          node_version: ${{ matrix.node_version }}
-
-      - name: Set Node Registry
-        uses: actions/setup-node@v3
-        with:
-          registry-url: 'http://localhost:4872'
-
-      - name: Version
-        shell: bash
-        run: npx nx affected --base=last-release --target=version --skipCommit
-
-      - name: Run e2e tests
-        run: npx nx affected --base=last-release --target=e2e --parallel=1
-        env:
-          NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
-          NODE_OPTIONS: --max_old_space_size=8192
-          SELECTED_PM: ${{ matrix.package_manager }}
-          npm_config_registry: http://localhost:4872
-          YARN_REGISTRY: http://localhost:4872
-          NX_VERBOSE_LOGGING: ${{ 'true' }}
-          NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
-          NX_CACHE_DIRECTORY: ${{ 'tmp' }}
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    with:
+      node-version: 18
+      number-of-agents: 3
+      runs-on: ${{ matrix.os }}
+      parallel-commands-on-agents: |
+        npx nx affected --base=last-release --target=e2e --parallel=1
+      environment-variables: |
+        NX_E2E_CI_CACHE_KEY=e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
+        NODE_OPTIONS=--max_old_space_size=8192
+        SELECTED_PM=${{ matrix.package_manager }}
+        NX_VERBOSE_LOGGING=${{ 'true' }}
+        NX_E2E_SKIP_BUILD_CLEANUP=${{ 'true' }}
+        NPM_CONFIG_USERCONFIG=$RUNNER_TEMP/.npmrc
+        NX_RUN_GROUP=${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  agents:
+    name: Nx Cloud - Agents ${{ matrix.os-name }}/${{ matrix.package_manager }}
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
+        include:
+        - os: ubuntu-latest
+          os-name: ubuntu
+        - os: macos-latest
+          os-name: osx
+        node_version:
+        - '18'
+        package_manager:
+        - npm
+        - yarn
+        - pnpm
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    with:
+      number-of-agents: 3
+      runs-on: ${{ matrix.os }}
+      environment-variables: |
+        NX_RUN_GROUP=${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}

@@ -10,6 +10,7 @@ import {
     readJsonFile,
 } from '@nrwl/devkit';
 import { jestExecutor } from '@nrwl/jest/src/executors/jest/jest.impl';
+import { tmpProjPath } from '@nrwl/nx-plugin/testing';
 import { ChildProcess } from 'child_process';
 import fs from 'fs';
 
@@ -51,6 +52,10 @@ export default async function runEnd2EndExecutor(
 
     if (fs.existsSync(orgPackagePath)) {
         fs.rmSync(orgPackagePath, { recursive: true, force: true });
+    }
+
+    if (!fs.existsSync(tmpProjPath())) {
+        fs.mkdirSync(tmpProjPath(), { recursive: true, force: true });
     }
 
     let child: ChildProcess;
