@@ -45,7 +45,8 @@
                 "ci": {
                     "dryRun": false,
                     "noVerify": true,
-                    "push": true
+                    "push": true,
+                    "postTargets": ["create:github"]
                 }
             }
         },
