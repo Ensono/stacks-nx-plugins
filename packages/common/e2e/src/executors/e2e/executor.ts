@@ -16,7 +16,11 @@ import { ChildProcess } from 'child_process';
 import fs from 'fs';
 import semver from 'semver';
 
-import { addUser, startVerdaccio } from '../../utils/registry';
+import {
+    addUser,
+    getNpmPackageVersion,
+    startVerdaccio,
+} from '../../utils/registry';
 import { End2EndExecutorSchema } from './schema';
 
 function filterPublishableLibraries(
@@ -70,7 +74,6 @@ export default async function runEnd2EndExecutor(
             joinPathFragments(verdaccioStoragePath, '.verdaccio-db.json'),
             {},
         );
-        console.log(`@${npmScope} deleted`);
     }
 
     if (!fs.existsSync(tmpProjPath())) {
@@ -96,14 +99,10 @@ export default async function runEnd2EndExecutor(
         context.projectName,
     );
 
-    console.log(workspaceLibraries);
-
     const publishableLibraries = filterPublishableLibraries(
         workspaceLibraries,
         context.projectGraph,
     );
-
-    console.log(publishableLibraries);
 
     let success = false;
 
@@ -118,7 +117,9 @@ export default async function runEnd2EndExecutor(
             const packageJson = readJsonFile(
                 joinPathFragments(context.root, distOutput, 'package.json'),
             );
-            const version = semver.inc(packageJson.version, 'patch');
+            const currentVersion = getNpmPackageVersion(packageJson.name);
+
+            const version = semver.inc(currentVersion, 'patch');
             return async () =>
                 runExecutor(
                     { project: library.name, target: 'publish' },
@@ -156,12 +157,10 @@ export default async function runEnd2EndExecutor(
 
     if (child) {
         child.kill();
-        console.log('process killed');
     }
 
     process.on('exit', () => {
         if (child) {
-            console.log('process killed on exit');
             child.kill();
         }
     });
