@@ -44,15 +44,14 @@
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["common-core:github"]
+                    "postTargets": ["common-core:publish", "common-core:github"]
                 }
             }
         },
         "publish": {
             "executor": "ngx-deploy-npm:deploy",
             "options": {
-                "access": "public",
-                "noBuild": true
+                "access": "public"
             }
         },
         "github": {

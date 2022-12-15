@@ -8,11 +8,13 @@ import {
     logger,
     joinPathFragments,
     readJsonFile,
+    writeJsonFile,
 } from '@nrwl/devkit';
 import { jestExecutor } from '@nrwl/jest/src/executors/jest/jest.impl';
 import { tmpProjPath } from '@nrwl/nx-plugin/testing';
 import { ChildProcess } from 'child_process';
 import fs from 'fs';
+import semver from 'semver';
 
 import { addUser, startVerdaccio } from '../../utils/registry';
 import { End2EndExecutorSchema } from './schema';
@@ -49,16 +51,26 @@ export default async function runEnd2EndExecutor(
 
     // Remove previously published packages
     // TODO: read verdaccio yml to get path to storage
-    const orgPackagePath = joinPathFragments(
+    const verdaccioStoragePath = joinPathFragments(
         context.root,
         'tmp',
         'local-registry',
         'storage',
-        `@${npmScope}`,
     );
 
-    if (fs.existsSync(orgPackagePath)) {
-        fs.rmSync(orgPackagePath, { recursive: true, force: true });
+    if (fs.existsSync(verdaccioStoragePath)) {
+        const orgPackagePath = joinPathFragments(
+            verdaccioStoragePath,
+            `@${npmScope}`,
+        );
+        if (fs.existsSync(orgPackagePath)) {
+            fs.rmSync(orgPackagePath, { recursive: true, force: true });
+        }
+        writeJsonFile(
+            joinPathFragments(verdaccioStoragePath, '.verdaccio-db.json'),
+            {},
+        );
+        console.log(`@${npmScope} deleted`);
     }
 
     if (!fs.existsSync(tmpProjPath())) {
@@ -84,22 +96,40 @@ export default async function runEnd2EndExecutor(
         context.projectName,
     );
 
+    console.log(workspaceLibraries);
+
     const publishableLibraries = filterPublishableLibraries(
         workspaceLibraries,
         context.projectGraph,
     );
 
+    console.log(publishableLibraries);
+
     let success = false;
 
     try {
         const publishPromises = publishableLibraries.map(library => {
+            // We need to patch the version higher than whats on npm
+            // as verdaccio will validate versions via it's proxies
+            const distOutput = readTargetOptions(
+                { project: library.name, target: 'build' },
+                context,
+            ).outputPath;
+            const packageJson = readJsonFile(
+                joinPathFragments(context.root, distOutput, 'package.json'),
+            );
+            const version = semver.inc(packageJson.version, 'patch');
             return async () =>
                 runExecutor(
                     { project: library.name, target: 'publish' },
-                    readTargetOptions(
-                        { project: library.name, target: 'publish' },
-                        context,
-                    ),
+                    {
+                        ...readTargetOptions(
+                            { project: library.name, target: 'publish' },
+                            context,
+                        ),
+                        noBuild: true,
+                        packageVersion: version,
+                    },
                     context,
                 );
         });
@@ -126,10 +156,12 @@ export default async function runEnd2EndExecutor(
 
     if (child) {
         child.kill();
+        console.log('process killed');
     }
 
     process.on('exit', () => {
         if (child) {
+            console.log('process killed on exit');
             child.kill();
         }
     });
