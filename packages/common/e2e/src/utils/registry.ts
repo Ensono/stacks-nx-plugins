@@ -52,6 +52,21 @@ function getNpmConfigPath() {
     return userconfig;
 }
 
+export function getNpmPackageVersion(packageName: string) {
+    let version: string;
+    try {
+        version = execSync(`npm view ${packageName} version`, {
+            env: process.env,
+        })
+            .toString('utf-8')
+            .trim();
+    } catch {
+        version = '0.0.0';
+    }
+
+    return version;
+}
+
 export function addUser(url: string) {
     const configPath =
         process.env['NPM_CONFIG_USERCONFIG'] || getNpmConfigPath();
