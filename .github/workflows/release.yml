@@ -39,23 +39,9 @@ jobs:
     - name: Version
       shell: bash
       run: npx nx affected --target=version --base=last-release --configuration=ci --parallel=1
-
-    - name: Build
-      shell: bash
-      run: npx nx affected --target=build --base=last-release
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-
-    - name: Github Release
-      shell: bash
-      run: npx nx affected --target=github --base=last-release
-      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Publish
-      shell: bash
-      run: npx nx affected --target=publish --base=last-release
-      env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: Tag last-release

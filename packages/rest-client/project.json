@@ -72,15 +72,14 @@
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["rest-client:github"]
+                    "postTargets": ["rest-client:publish", "rest-client:github"]
                 }
             }
         },
         "publish": {
             "executor": "ngx-deploy-npm:deploy",
             "options": {
-                "access": "public",
-                "noBuild": true
+                "access": "public"
             }
         },
         "github": {

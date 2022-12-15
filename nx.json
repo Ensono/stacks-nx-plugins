@@ -57,10 +57,7 @@
             ]
         },
         "version": {
-            "dependsOn": ["^version"]
-        },
-        "release": {
-            "dependsOn": ["^release"]
+            "dependsOn": ["build"]
         }
     },
     "targetDependencies": {
