@@ -72,15 +72,14 @@
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["workspace:github"]
+                    "postTargets": ["workspace:publish", "workspace:github"]
                 }
             }
         },
         "publish": {
             "executor": "ngx-deploy-npm:deploy",
             "options": {
-                "access": "public",
-                "noBuild": true
+                "access": "public"
             }
         },
         "github": {
