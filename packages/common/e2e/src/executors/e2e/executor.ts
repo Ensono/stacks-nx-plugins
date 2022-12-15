@@ -70,7 +70,6 @@ export default async function runEnd2EndExecutor(
             joinPathFragments(verdaccioStoragePath, '.verdaccio-db.json'),
             {},
         );
-        console.log(`@${npmScope} deleted`);
     }
 
     if (!fs.existsSync(tmpProjPath())) {
@@ -96,14 +95,10 @@ export default async function runEnd2EndExecutor(
         context.projectName,
     );
 
-    console.log(workspaceLibraries);
-
     const publishableLibraries = filterPublishableLibraries(
         workspaceLibraries,
         context.projectGraph,
     );
-
-    console.log(publishableLibraries);
 
     let success = false;
 
@@ -156,12 +151,10 @@ export default async function runEnd2EndExecutor(
 
     if (child) {
         child.kill();
-        console.log('process killed');
     }
 
     process.on('exit', () => {
         if (child) {
-            console.log('process killed on exit');
             child.kill();
         }
     });
