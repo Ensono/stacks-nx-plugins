@@ -16,7 +16,11 @@ import { ChildProcess } from 'child_process';
 import fs from 'fs';
 import semver from 'semver';
 
-import { addUser, startVerdaccio } from '../../utils/registry';
+import {
+    addUser,
+    getNpmPackageVersion,
+    startVerdaccio,
+} from '../../utils/registry';
 import { End2EndExecutorSchema } from './schema';
 
 function filterPublishableLibraries(
@@ -113,7 +117,9 @@ export default async function runEnd2EndExecutor(
             const packageJson = readJsonFile(
                 joinPathFragments(context.root, distOutput, 'package.json'),
             );
-            const version = semver.inc(packageJson.version, 'patch');
+            const currentVersion = getNpmPackageVersion(packageJson.name);
+
+            const version = semver.inc(currentVersion, 'patch');
             return async () =>
                 runExecutor(
                     { project: library.name, target: 'publish' },
