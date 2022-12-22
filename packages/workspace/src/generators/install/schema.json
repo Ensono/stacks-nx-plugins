@@ -50,6 +50,11 @@
             "description": "Install & configure eslint",
             "default": true
         },
+        "tsconfig": {
+            "type": "boolean",
+            "description": "Add tsconfig to the workspace",
+            "default": true
+        },
         "skipFormat": {
             "description": "Skip formatting files",
             "type": "boolean",
