@@ -19,6 +19,7 @@
         "paths": {
             "@ensono-stacks/core": ["packages/common/core/src/index.ts"],
             "@ensono-stacks/e2e": ["packages/common/e2e/src/index.ts"],
+            "@ensono-stacks/next": ["packages/next/src/index.ts"],
             "@ensono-stacks/rest-client": ["packages/rest-client/src/index.ts"],
             "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"]
         }

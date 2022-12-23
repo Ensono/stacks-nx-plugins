@@ -1,0 +1,62 @@
+{
+    "name": "next",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/next/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "buildableProjectDepsInPackageJsonType": "dependencies",
+                "outputPath": "dist/packages/next",
+                "main": "packages/next/src/index.ts",
+                "tsConfig": "packages/next/tsconfig.lib.json",
+                "assets": [
+                    "packages/next/*.md",
+                    {
+                        "input": "./packages/next/src",
+                        "glob": "**/!(*.ts)",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/next/src",
+                        "glob": "**/*.d.ts",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/next",
+                        "glob": "generators.json",
+                        "output": "."
+                    },
+                    {
+                        "input": "./packages/next",
+                        "glob": "executors.json",
+                        "output": "."
+                    }
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/next/**/*.ts",
+                    "packages/next/generators.json",
+                    "packages/next/executors.json",
+                    "packages/next/package.json"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/next/jest.config.ts",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": ["plugin"]
+}
