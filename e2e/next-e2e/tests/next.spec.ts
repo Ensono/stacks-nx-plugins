@@ -18,10 +18,10 @@ describe('next e2e', () => {
 
     it('runs the install generator', async () => {
         await runNxCommandAsync(
-            `generate @nrwl/app nextjs`
+            `generate @nrwl/next:application ${project}`
         )
         await runNxCommandAsync(
-            `generate @ensono-stacks/next:install --project ${project} --no-interactive`
+            `generate @ensono-stacks/next:install --project=${project} --no-interactive`
         );
 
         expect(() =>

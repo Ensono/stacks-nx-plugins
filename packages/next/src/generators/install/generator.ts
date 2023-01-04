@@ -16,5 +16,6 @@ export default async function installGenerator(
     }
 
     addEslint(tree, project.sourceRoot);
+
     await formatFiles(tree);
 }

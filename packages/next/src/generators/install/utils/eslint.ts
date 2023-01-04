@@ -3,7 +3,6 @@ import {
     Tree,
     addDependenciesToPackageJson,
     updateJson,
-    GeneratorCallback,
     joinPathFragments,
 } from '@nrwl/devkit';
 import { tsquery } from '@phenomnomnominal/tsquery';
