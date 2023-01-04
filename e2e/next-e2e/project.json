@@ -9,7 +9,7 @@
             "options": {
                 "verdaccioConfig": ".verdaccio/config.yml",
                 "jestOptions": {
-                    "jestConfig": "e2e/workspace-e2e/jest.config.ts",
+                    "jestConfig": "e2e/next-e2e/jest.config.ts",
                     "passWithNoTests": true
                 }
             }
