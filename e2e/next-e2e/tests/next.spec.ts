@@ -1,7 +1,9 @@
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
+    runNxCommand,
     runNxCommandAsync,
+    uniq,
 } from '@nrwl/nx-plugin/testing';
 
 describe('next e2e', () => {
@@ -14,15 +16,15 @@ describe('next e2e', () => {
         cleanup();
     });
 
-    const project = 'nextjs';
+    const project = uniq('nextjs');
 
     it('runs the install generator', async () => {
         await runNxCommandAsync(
             `generate @nrwl/next:application ${project}`
         )
         await runNxCommandAsync(
-            `generate @ensono-stacks/next:install --project=${project} --no-interactive`
-        );
+            `generate @ensono-stacks/next:next --project=${project} --no-interactive`
+        )
 
         expect(() =>
             checkFilesExist(
@@ -30,5 +32,5 @@ describe('next e2e', () => {
                 '.eslintrc.json',
             ),
         ).not.toThrow();
-    }, 100000);
+    });
 });
