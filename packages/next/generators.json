@@ -3,10 +3,10 @@
     "name": "next",
     "version": "0.0.1",
     "generators": {
-        "next": {
-            "factory": "./src/generators/install/generator",
-            "schema": "./src/generators/install/schema.json",
-            "description": "next generator"
+        "init": {
+            "factory": "./src/generators/init/generator",
+            "schema": "./src/generators/init/schema.json",
+            "description": "next init generator"
         }
     }
 }

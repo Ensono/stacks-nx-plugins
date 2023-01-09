@@ -3,7 +3,7 @@ import { formatFiles, getProjects, Tree } from '@nrwl/devkit';
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
 
-export default async function installGenerator(
+export default async function initGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {

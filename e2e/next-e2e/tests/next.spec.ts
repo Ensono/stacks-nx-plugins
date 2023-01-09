@@ -23,7 +23,7 @@ describe('next e2e', () => {
             `generate @nrwl/next:application ${project}`
         )
         await runNxCommandAsync(
-            `generate @ensono-stacks/next:next --project=${project} --no-interactive`
+            `generate @ensono-stacks/next:init --project=${project} --no-interactive`
         )
 
         expect(() =>
