@@ -7,7 +7,7 @@ import { addCommitizen } from './utils/commitizen';
 import { addCommitlint } from './utils/commitlint';
 import { addEslint } from './utils/eslint';
 import { addHusky } from './utils/husky';
-import { addTsConfigBase } from './utils/tsconfig';
+import { createTsConfigBase } from './utils/tsconfig';
 
 export default async function install(
     tree: Tree,
@@ -27,9 +27,8 @@ export default async function install(
         tasks.push(addEslint(tree));
     }
 
-    if (options.tsconfig) {
-        addTsConfigBase(tree);
-    }
+    // Create tsconfig.base if it doesn't exist
+    createTsConfigBase(tree);
 
     if (!options.skipFormat) {
         await (options.eslint
