@@ -29,6 +29,7 @@ describe('workspace', () => {
 
         expect(() =>
             checkFilesExist(
+                'tsconfig.base.json',
                 '.eslintrc.json',
                 '.husky/commit-msg',
                 '.husky/pre-commit',

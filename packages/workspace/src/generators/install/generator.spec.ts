@@ -252,4 +252,17 @@ npx nx affected:lint --uncommitted`,
             );
         });
     });
+
+    describe('tsconfig.base', () => {
+        it('should generate the tsconfig.base file', async () => {
+            await generator(tree, {
+                ...options,
+                eslint: false,
+                commitizen: false,
+                husky: false,
+            });
+
+            expect(tree.exists('tsconfig.base.json')).toBeTruthy();
+        });
+    });
 });
