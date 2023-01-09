@@ -260,7 +260,6 @@ npx nx affected:lint --uncommitted`,
                 eslint: false,
                 commitizen: false,
                 husky: false,
-                tsconfig: true,
             });
 
             expect(tree.exists('tsconfig.base.json')).toBeTruthy();
