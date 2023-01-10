@@ -7,6 +7,16 @@
             "factory": "./src/generators/http-client/generator",
             "schema": "./src/generators/http-client/schema.json",
             "description": "http-client generator"
+        },
+        "client-endpoint": {
+            "factory": "./src/generators/client-endpoint/generator",
+            "schema": "./src/generators/client-endpoint/schema.json",
+            "description": "client-endpoint generator"
+        },
+        "bump-version": {
+            "factory": "./src/generators/bump-version/generator",
+            "schema": "./src/generators/bump-version/schema.json",
+            "description": "bump-version generator"
         }
     }
 }
