@@ -1,0 +1,20 @@
+{
+    "name": "next-e2e",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "sourceRoot": "e2e/next-e2e/src",
+    "targets": {
+        "e2e": {
+            "executor": "@ensono-stacks/e2e:e2e",
+            "options": {
+                "verdaccioConfig": ".verdaccio/config.yml",
+                "jestOptions": {
+                    "jestConfig": "e2e/next-e2e/jest.config.ts",
+                    "passWithNoTests": true
+                }
+            }
+        }
+    },
+    "tags": ["e2e"],
+    "implicitDependencies": ["next"]
+}
