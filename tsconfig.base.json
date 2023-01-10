@@ -17,6 +17,9 @@
         "baseUrl": ".",
         "rootDir": ".",
         "paths": {
+            "@ensono-stacks/azure-node": [
+                "packages/azure-node/src/index.ts"
+            ],
             "@ensono-stacks/core": ["packages/common/core/src/index.ts"],
             "@ensono-stacks/e2e": ["packages/common/e2e/src/index.ts"],
             "@ensono-stacks/next": ["packages/next/src/index.ts"],

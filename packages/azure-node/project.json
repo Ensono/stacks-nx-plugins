@@ -1,0 +1,94 @@
+{
+    "name": "azure-node",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/azure-node/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "buildableProjectDepsInPackageJsonType": "dependencies",
+                "outputPath": "dist/packages/azure-node",
+                "main": "packages/azure-node/src/index.ts",
+                "tsConfig": "packages/azure-node/tsconfig.lib.json",
+                "assets": [
+                    "packages/azure-node/*.md",
+                    {
+                        "input": "./packages/azure-node/src",
+                        "glob": "**/!(*.ts)",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/azure-node/src",
+                        "glob": "**/*.d.ts",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/azure-node",
+                        "glob": "generators.json",
+                        "output": "."
+                    },
+                    {
+                        "input": "./packages/azure-node",
+                        "glob": "executors.json",
+                        "output": "."
+                    }
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/azure-node/**/*.ts",
+                    "packages/azure-node/generators.json",
+                    "packages/azure-node/executors.json",
+                    "packages/azure-node/package.json"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/azure-node/jest.config.ts",
+                "passWithNoTests": true
+            }
+        },
+        "version": {
+            "executor": "@jscutlery/semver:version",
+            "options": {
+                "preset": "conventional",
+                "trackDeps": true,
+                "skipCommit": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true
+            },
+            "configurations": {
+                "ci": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["azure-node:publish", "azure-node:github"]
+                }
+            }
+        },
+        "publish": {
+            "executor": "ngx-deploy-npm:deploy",
+            "options": {
+                "access": "public"
+            }
+        },
+        "github": {
+            "executor": "@jscutlery/semver:github",
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
+        }
+    },
+    "tags": ["plugin"]
+}
