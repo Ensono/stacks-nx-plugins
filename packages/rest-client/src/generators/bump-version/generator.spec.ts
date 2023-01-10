@@ -43,6 +43,15 @@ describe('bump-version generator', () => {
         );
     });
 
+    it('should throw a TypeError if version is not a nunber', async () => {
+        await expect(
+            generator(tree, {
+                ...options,
+                endpointVersion: Number('test'),
+            }),
+        ).rejects.toThrowError('The endpoint version needs to be a number.');
+    });
+
     it("should throw an error if the endpoint doesn't exist", async () => {
         await expect(() =>
             generator(tree, {

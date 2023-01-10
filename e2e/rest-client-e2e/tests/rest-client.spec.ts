@@ -12,6 +12,7 @@ describe('rest-client e2e', () => {
   });
 
   afterAll(() => {
+      runNxCommandAsync('reset');
       cleanup();
   });
 
@@ -68,10 +69,10 @@ describe('rest-client e2e', () => {
 
       beforeAll(() => {
           runNxCommand(
-              `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --endpointVersion=${Number(1)} --no-interactive`,
+              `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --endpointVersion=1 --no-interactive`,
           );
           runNxCommand(
-              `generate @ensono-stacks/rest-client:bump-version --endpointPath=endpoints --endpoint=${endpoint} --endpointVersion=${Number(2)} --no-interactive`,
+              `generate @ensono-stacks/rest-client:bump-version --endpointPath=endpoints --endpoint=${endpoint} --endpointVersion=2 --no-interactive`,
           );
       });
 
