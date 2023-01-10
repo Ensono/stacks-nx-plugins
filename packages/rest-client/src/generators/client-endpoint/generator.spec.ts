@@ -42,4 +42,24 @@ describe('client-endpoint generator', () => {
 
         expect(tree.exists('.env')).toBeTruthy();
     });
+
+    it('should throw an error if method is not selected', async () => {
+        await expect(
+            generator(tree, {
+                ...options,
+                methods: [],
+                tags: 'testEndpoint',
+            }),
+        ).rejects.toThrowError("You haven't selected any method to generate.");
+    });
+
+    it('should throw a TypeError if version is not a nunber', async () => {
+        await expect(
+            generator(tree, {
+                ...options,
+                endpointVersion: Number('test'),
+                tags: 'testEndpoint',
+            }),
+        ).rejects.toThrowError('The endpoint version needs to be a number.');
+    });
 });

@@ -42,7 +42,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
         path.join(
             options.directory,
             options.name,
-            `V${options.endpointVersion.toString()}`,
+            `V${options.endpointVersion}`,
         ),
         templateOptions,
     );
@@ -56,6 +56,10 @@ export default async function clientEndpoint(
 
     if (Array.isArray(options.methods) && options.methods.length === 0) {
         throw new Error("You haven't selected any method to generate.");
+    }
+
+    if (Number.isNaN(Number(options.endpointVersion))) {
+        throw new TypeError('The endpoint version needs to be a number.');
     }
 
     addFiles(tree, normalizedOptions);

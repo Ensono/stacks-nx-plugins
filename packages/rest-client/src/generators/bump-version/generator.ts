@@ -36,10 +36,7 @@ function copyFilesAndBumpVersion(
     generateFiles(
         tree,
         path.join(absoluteEndpointPath, currentVersion),
-        path.join(
-            absoluteEndpointPath,
-            `V${options.endpointVersion.toString()}`,
-        ),
+        path.join(absoluteEndpointPath, `V${options.endpointVersion}`),
         templateOptions,
     );
 }
@@ -48,6 +45,10 @@ export default async function bumpVersion(
     tree: Tree,
     options: BumpVersionGeneratorSchema,
 ) {
+    if (Number.isNaN(Number(options.endpointVersion))) {
+        throw new TypeError('The endpoint version needs to be a number.');
+    }
+
     copyFilesAndBumpVersion(tree, options);
 
     await formatFiles(tree);
