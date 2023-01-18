@@ -13,7 +13,7 @@ const stacksRequiredPlugins = [
 
 export function getGeneratorsToRun(argv: yargs.Arguments) {
     const generators: string[] = [];
-    generators.push(`@ensono-stacks/workspace:install`);
+    generators.push(`@ensono-stacks/workspace:init`);
     return generators;
 }
 
