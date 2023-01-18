@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
+import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
 import path from 'path';
@@ -133,11 +134,9 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
     }
 
     Object.assign(argv, {
-        name,
+        name: paramCase(name),
         preset,
-        appName,
-        nxVersion: '',
-        packageManager: '',
+        appName: paramCase(appName),
     });
 }
 
