@@ -9,7 +9,6 @@ import {
 import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
 
-console.log(detectPackageManager, getCommandVersion);
 beforeEach(() => {
     jest.clearAllMocks();
 });
@@ -46,7 +45,7 @@ it('runs generators correctly', async () => {
 
     expect(execAsync).toBeCalledTimes(1);
     expect(execAsync).toHaveBeenCalledWith(
-        'npx nx g @ensono-stacks/workspace:install',
+        'npx nx g @ensono-stacks/workspace:init',
         'folder/path',
     );
 });
@@ -60,11 +59,11 @@ it('skips running generators if there are no generators defined', async () => {
 it('runs generators with preferred package manager', async () => {
     (getCommandVersion as jest.Mock).mockImplementation(() => '7.0.0');
     (detectPackageManager as jest.Mock).mockImplementation(() => 'pnpm');
-    await runGenerators(['@ensono-stacks/workspace:install'], 'folder/path');
+    await runGenerators(['@ensono-stacks/workspace:init'], 'folder/path');
 
     expect(execAsync).toBeCalledTimes(1);
     expect(execAsync).toHaveBeenCalledWith(
-        'pnpm exec nx g @ensono-stacks/workspace:install',
+        'pnpm exec nx g @ensono-stacks/workspace:init',
         'folder/path',
     );
 });
