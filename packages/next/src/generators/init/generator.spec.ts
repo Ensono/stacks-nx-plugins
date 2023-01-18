@@ -26,7 +26,7 @@ describe('next install generator', () => {
             const packageJson = readJson(appTree, 'package.json');
 
             expect(Object.keys(packageJson.devDependencies)).toEqual(
-                expect.arrayContaining(['testing-library/react']),
+                expect.arrayContaining(['eslint-plugin-testing-library']),
             );
         });
 

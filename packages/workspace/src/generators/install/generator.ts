@@ -1,4 +1,3 @@
-import { formatFilesWithEslint } from '@ensono-stacks/core';
 import { Tree, GeneratorCallback, formatFiles } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
@@ -30,11 +29,7 @@ export default async function install(
     // Create tsconfig.base if it doesn't exist
     createTsConfigBase(tree);
 
-    if (!options.skipFormat) {
-        await (options.eslint
-            ? formatFilesWithEslint(tree)
-            : formatFiles(tree));
-    }
+    await formatFiles(tree);
 
     return runTasksInSerial(...tasks);
 }
