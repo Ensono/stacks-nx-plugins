@@ -70,6 +70,7 @@ it('runs generators correctly', async () => {
 it('runs generators for next.js', async () => {
     const generators = getGeneratorsToRun({
         preset: 'next',
+        appName: 'test-app',
     } as yargs.Arguments<CreateStacksArguments>);
     await runGenerators(generators, 'folder/path');
 
@@ -79,7 +80,7 @@ it('runs generators for next.js', async () => {
         'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(
-        'npx nx g @ensono-stacks/next:init',
+        'npx nx g @ensono-stacks/next:init --project=test-app',
         'folder/path',
     );
 });

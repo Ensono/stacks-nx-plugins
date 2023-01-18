@@ -16,7 +16,7 @@ export function getGeneratorsToRun(
     generators.push(`@ensono-stacks/workspace:init`);
 
     if (argv.preset === Preset.NextJs) {
-        generators.push('@ensono-stacks/next:init');
+        generators.push(`@ensono-stacks/next:init --project=${argv.appName}`);
     }
 
     return generators;
