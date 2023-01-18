@@ -49,11 +49,6 @@
             "type": "boolean",
             "description": "Install & configure eslint",
             "default": true
-        },
-        "skipFormat": {
-            "description": "Skip formatting files",
-            "type": "boolean",
-            "default": false
         }
     },
     "required": []

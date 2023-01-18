@@ -16,7 +16,7 @@ describe('workspace', () => {
 
     it('runs the install generator', async () => {
         await runNxCommandAsync(
-            `generate @ensono-stacks/workspace:install --no-interactive`,
+            `generate @ensono-stacks/workspace:init --no-interactive`,
             {
                 env: {
                     // Nx create will not create a git context for e2e,

@@ -1,3 +1,4 @@
+import { formatFilesWithEslint } from '@ensono-stacks/core';
 import { formatFiles, getProjects, Tree } from '@nrwl/devkit';
 
 import { NextGeneratorSchema } from './schema';
@@ -18,4 +19,8 @@ export default async function initGenerator(
     addEslint(tree, project.sourceRoot);
 
     await formatFiles(tree);
+
+    return () => {
+        formatFilesWithEslint(options.project);
+    };
 }

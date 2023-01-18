@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "NextAuth",
+    "title": "Add NextAuth to a project",
+    "description": "Add NextAuth to a project",
+    "type": "object",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "alias": "p",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-prompt": "What is the name of the project?",
+            "x-priority": "important"
+        },
+        "provider": {
+            "type": "string",
+            "description": "The provider to be installed.",
+            "default": "none",
+            "x-prompt": {
+                "message": "Which provider do you want to add?",
+                "type": "list",
+                "items": [
+                    { "value": "none", "label": "None" },
+                    { "value": "azureAd", "label": "Azure AD" },
+                    { "value": "azureAdB2C", "label": "Azure AD B2C" }
+                ]
+            }
+        },
+        "skipPackageJson": {
+            "type": "boolean",
+            "default": false,
+            "description": "Do not add dependencies to `package.json`."
+        }
+    },
+    "required": ["project"]
+}
