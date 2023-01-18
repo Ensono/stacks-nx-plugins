@@ -1,6 +1,6 @@
 import { addDependenciesToPackageJson, updateJson, Tree } from '@nrwl/devkit';
 
-import { InstallGeneratorSchema } from '../schema.d';
+import { InstallGeneratorSchema } from '../schema';
 import { HUSKY_VERSION, PACKAGE_JSON } from './constants';
 import { PackageJson } from './types';
 

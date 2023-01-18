@@ -1,1 +1,1 @@
-export { default as installGenerator } from './generators/install/generator';
+export { default as installGenerator } from './generators/init/generator';

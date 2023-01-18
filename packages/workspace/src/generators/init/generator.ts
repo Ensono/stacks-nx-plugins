@@ -1,7 +1,7 @@
 import { Tree, GeneratorCallback, formatFiles } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
-import { InstallGeneratorSchema } from './schema.d';
+import { InstallGeneratorSchema } from './schema';
 import { addCommitizen } from './utils/commitizen';
 import { addCommitlint } from './utils/commitlint';
 import { addEslint } from './utils/eslint';
