@@ -1,38 +1,43 @@
 import { readJsonInJS } from '@ensono-stacks/core';
 import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { applicationGenerator } from '@nrwl/next';
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
 
-jest.mock('@nrwl/devkit', () => ({
-    ...jest.requireActual('@nrwl/devkit'),
-    getProjects: () => ({
-        get: jest.fn(() => ({
-            name: 'test',
-            sourceRoot: 'test',
-        })),
-    }),
-}));
-
 describe('next install generator', () => {
     let appTree: Tree;
-    const options: NextGeneratorSchema = { project: 'test' };
+    const options: NextGeneratorSchema = { project: 'next-app' };
 
     beforeEach(async () => {
         appTree = createTreeWithEmptyWorkspace();
+        await applicationGenerator(appTree, {
+            name: 'next-app',
+            style: 'css',
+            standaloneConfig: false,
+        });
     });
 
     describe('eslint', () => {
         it('should install and configure react specific eslint', async () => {
-            await generator(appTree, {
-                ...options,
-            });
+            await generator(appTree, options);
 
             const packageJson = readJson(appTree, 'package.json');
 
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining(['testing-library/react']),
+            );
+        });
+
+        it('should throw if project is not defined', async () => {
+            await expect(
+                generator(appTree, {
+                    ...options,
+                    project: 'unknown',
+                }),
+            ).rejects.toThrowError(
+                'Cannot find the unknown project. Please double check the project name.',
             );
         });
 
@@ -51,13 +56,14 @@ describe('next install generator', () => {
                 ],
             };
 
-            appTree.write('test/.eslintrc.json', JSON.stringify(defaultConfig));
+            appTree.write(
+                'next-app/.eslintrc.json',
+                JSON.stringify(defaultConfig),
+            );
 
-            await generator(appTree, {
-                ...options,
-            });
+            await generator(appTree, options);
 
-            const rootConfig = readJson(appTree, 'test/.eslintrc.json');
+            const rootConfig = readJson(appTree, 'next-app/.eslintrc.json');
 
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
@@ -92,21 +98,25 @@ describe('next install generator', () => {
             );
         });
 
+        // todo(gareth): Move eslint management to a utility and test there
+        // and remove these tests.
         it('should merge defaults with an existing eslintrc.js file', async () => {
+            appTree.delete('next-app/.eslintrc.json');
+
             const defaultConfig = {
                 plugins: ['@nrwl/nx'],
             };
 
             appTree.write(
-                'test/.eslintrc.js',
+                'next-app/.eslintrc.js',
                 `module.exports = ${JSON.stringify(defaultConfig)};`,
             );
 
-            await generator(appTree, { ...options });
+            await generator(appTree, options);
 
             const rootConfig = readJsonInJS(
                 appTree,
-                'test/.eslintrc.js',
+                'next-app/.eslintrc.js',
                 'BinaryExpression > ObjectLiteralExpression',
             );
             expect(rootConfig).toMatchObject(

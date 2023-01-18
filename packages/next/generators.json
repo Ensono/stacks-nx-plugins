@@ -7,6 +7,11 @@
             "factory": "./src/generators/init/generator",
             "schema": "./src/generators/init/schema.json",
             "description": "next init generator"
+        },
+        "next-auth": {
+            "factory": "./src/generators/next-auth/generator",
+            "schema": "./src/generators/next-auth/schema.json",
+            "description": "Add NextAuth to a project"
         }
     }
 }
