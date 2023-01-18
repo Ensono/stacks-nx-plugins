@@ -5,7 +5,7 @@ import {
     updateJson,
 } from '@nrwl/devkit';
 
-import { InstallGeneratorSchema } from '../schema.d';
+import { InstallGeneratorSchema } from '../schema';
 import {
     COMMITIZEN_VERSION,
     COMMITLINT_CZ_COMMITLINT_VERSION,
