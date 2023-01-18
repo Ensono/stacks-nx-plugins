@@ -174,33 +174,6 @@ export default async function runEnd2EndExecutor(
                     );
             },
         );
-        // const publishPromises = publishableLibraries.map(library => {
-        //     // We need to patch the version higher than whats on npm
-        //     // as verdaccio will validate versions via it's proxies
-        //     const distOutput = readTargetOptions(
-        //         { project: library.name, target: 'build' },
-        //         context,
-        //     ).outputPath;
-        //     const packageJson = readJsonFile(
-        //         joinPathFragments(context.root, distOutput, 'package.json'),
-        //     );
-        //     const currentVersion = getNpmPackageVersion(packageJson.name);
-
-        //     const version = semver.inc(currentVersion, 'patch');
-        //     return async () =>
-        //         runExecutor(
-        //             { project: library.name, target: 'publish' },
-        //             {
-        //                 ...readTargetOptions(
-        //                     { project: library.name, target: 'publish' },
-        //                     context,
-        //                 ),
-        //                 noBuild: true,
-        //                 packageVersion: version,
-        //             },
-        //             context,
-        //         );
-        // });
 
         await chain(publishPromises);
 
