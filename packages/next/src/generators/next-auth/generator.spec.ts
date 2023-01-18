@@ -4,6 +4,12 @@ import { applicationGenerator } from '@nrwl/next';
 
 import generator from './generator';
 import { NextAuthGeneratorSchema } from './schema';
+import {
+    nextAppWithProviders,
+    nextAppWithDestructuredProperties,
+    nextAuthEmpty,
+    nextAuthWithGithub,
+} from './test/fixtures';
 
 describe('next-auth generator', () => {
     let appTree: Tree;
@@ -37,73 +43,28 @@ describe('next-auth generator', () => {
 
         const appTs = appTree.read('next-app/pages/_app.tsx');
 
-        expect(appTs.toString()).toContain(
-            '<SessionProvider session={session}>',
-        );
-        expect(appTs.toString()).toContain('</SessionProvider>');
+        expect(appTs.toString()).toMatchSnapshot();
     });
 
     it('should configure app if there are already wrapping react providers', async () => {
-        const app = `function SomeProvider({ children }: PropsWithChildren) {
-  return <>{children}</>;
-}
-function CustomApp({
-  Component,
-  pageProps,
-}: AppProps) {
-  return (
-      <SomeProvider>
-          <Component {...pageProps} />
-      </SomeProvider>
-  );
-}
-export default CustomApp;
-`;
-
-        appTree.write('next-app/pages/_app.tsx', app);
+        appTree.write('next-app/pages/_app.tsx', nextAppWithProviders);
         await generator(appTree, options);
 
         const AppTsx = appTree.read('next-app/pages/_app.tsx');
 
-        expect(AppTsx.toString()).toContain(`function CustomApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
-  return (
-      <SessionProvider session={session}>
-      <SomeProvider>`);
+        expect(AppTsx.toString()).toMatchSnapshot();
     });
 
     it('should configure app if pageProps is already destructured', async () => {
-        const app = `function SomeProvider({ children }: PropsWithChildren) {
-return <>{children}</>;
-}
-function CustomApp({
-Component,
-pageProps: { something, ...pageProperties },
-}: AppProps) {
-return (
-    <SomeProvider>
-        <Component {...pageProperties} />
-    </SomeProvider>
-);
-}
-export default CustomApp;
-`;
-
-        appTree.write('next-app/pages/_app.tsx', app);
+        appTree.write(
+            'next-app/pages/_app.tsx',
+            nextAppWithDestructuredProperties,
+        );
         await generator(appTree, options);
 
         const AppTsx = appTree.read('next-app/pages/_app.tsx');
 
-        expect(AppTsx.toString()).toContain(`function CustomApp({
-Component,
-pageProps: { session, something, ...pageProperties },
-}: AppProps) {
-return (
-    <SessionProvider session={session}>
-    <SomeProvider>
-            <Component {...pageProperties} />`);
+        expect(AppTsx.toString()).toMatchSnapshot();
     });
 
     it('should install NextAuth with a provider', async () => {
@@ -111,13 +72,7 @@ return (
 
         const nextAuthTs = appTree.read('next-app/pages/api/[...nextauth].ts');
 
-        expect(nextAuthTs.toString()).toContain(
-            `import AzureADProvider from "next-auth/providers/azure-ad"`,
-        );
-
-        expect(
-            (nextAuthTs.toString().match(/AzureADProvider/g) || []).length,
-        ).toBe(2);
+        expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should safely run on an existing NextAuth install', async () => {
@@ -126,13 +81,7 @@ return (
 
         const nextAuthTs = appTree.read('next-app/pages/api/[...nextauth].ts');
 
-        expect(nextAuthTs.toString()).toContain(
-            `import AzureADProvider from "next-auth/providers/azure-ad"`,
-        );
-
-        expect(
-            (nextAuthTs.toString().match(/AzureADProvider/g) || []).length,
-        ).toBe(2);
+        expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should error if an existing NextAuth install is not valid', async () => {
@@ -143,39 +92,24 @@ return (
     });
 
     it('should run on an existing NextAuth install with no providers', async () => {
-        const config = `import NextAuth from 'next-auth';
-const nextAuth = NextAuth({});
-default export nextAuth;
-`;
-        appTree.write('next-app/pages/api/[...nextauth].ts', config);
+        appTree.write('next-app/pages/api/[...nextauth].ts', nextAuthEmpty);
         await generator(appTree, options);
 
         const nextAuthTs = appTree.read('next-app/pages/api/[...nextauth].ts');
 
-        expect(nextAuthTs.toString()).toContain(
-            'providers: [AzureADProvider({',
-        );
+        expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should appendto an existing list of providers', async () => {
-        const config = `import NextAuth from 'next-auth';
-const nextAuth = NextAuth({
-  providers: [
-    GithubProvider({})
-  ]
-});
-default export nextAuth;
-`;
-        appTree.write('next-app/pages/api/[...nextauth].ts', config);
+        appTree.write(
+            'next-app/pages/api/[...nextauth].ts',
+            nextAuthWithGithub,
+        );
         await generator(appTree, options);
 
         const nextAuthTs = appTree.read('next-app/pages/api/[...nextauth].ts');
 
-        expect(nextAuthTs.toString()).toContain(
-            `  providers: [
-    GithubProvider({}),
-        AzureADProvider({`,
-        );
+        expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should append to an existing .env.local', async () => {
