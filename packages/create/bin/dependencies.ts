@@ -5,20 +5,31 @@ import {
     detectPackageManager,
     getPackageManagerCommand,
 } from './package-manager';
+import { CreateStacksArguments, Preset } from './types';
 
-const stacksRequiredPlugins = [
-    '@ensono-stacks/workspace',
-    // '@ensono-stacks/rest-client',
-];
+const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
-export function getGeneratorsToRun(argv: yargs.Arguments) {
+export function getGeneratorsToRun(
+    argv: yargs.Arguments<CreateStacksArguments>,
+) {
     const generators: string[] = [];
     generators.push(`@ensono-stacks/workspace:init`);
+
+    if (argv.preset === Preset.NextJs) {
+        generators.push('@ensono-stacks/next:init');
+    }
+
     return generators;
 }
 
-export function getStacksPlugins(argv: yargs.Arguments) {
-    return stacksRequiredPlugins;
+export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
+    const plugins = [...stacksRequiredPlugins];
+
+    if (argv.preset === Preset.NextJs) {
+        plugins.push('@ensono-stacks/next');
+    }
+
+    return plugins;
 }
 
 export async function installPackages(packages: string[], cwd: string) {
