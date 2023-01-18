@@ -18,6 +18,7 @@
         "@nrwl/jest": "15.3.0",
         "@nrwl/js": "15.3.0",
         "@nrwl/linter": "15.3.0",
+        "@nrwl/next": "^15.3.0",
         "@nrwl/nx-cloud": "^15.0.2",
         "@nrwl/nx-plugin": "15.3.0",
         "@nrwl/workspace": "15.3.0",

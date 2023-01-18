@@ -107,33 +107,73 @@ export default async function runEnd2EndExecutor(
     let success = false;
 
     try {
-        const publishPromises = publishableLibraries.map(library => {
+        const versionUpdates = publishableLibraries.reduce((accum, library) => {
             // We need to patch the version higher than whats on npm
             // as verdaccio will validate versions via it's proxies
             const distOutput = readTargetOptions(
                 { project: library.name, target: 'build' },
                 context,
-            ).outputPath;
+            ).outputPath as string;
             const packageJson = readJsonFile(
                 joinPathFragments(context.root, distOutput, 'package.json'),
             );
             const currentVersion = getNpmPackageVersion(packageJson.name);
-
             const version = semver.inc(currentVersion, 'patch');
-            return async () =>
-                runExecutor(
-                    { project: library.name, target: 'publish' },
-                    {
-                        ...readTargetOptions(
-                            { project: library.name, target: 'publish' },
-                            context,
-                        ),
-                        noBuild: true,
-                        packageVersion: version,
-                    },
-                    context,
+
+            return {
+                ...accum,
+                [packageJson.name]: {
+                    libName: library.name,
+                    distOutput,
+                    version,
+                },
+            };
+        }, {} as Record<string, { libName: string; distOutput: string; version: string }>);
+
+        const changedPackages = Object.keys(versionUpdates);
+        const publishPromises = Object.entries(versionUpdates).map(
+            ([name, { distOutput, libName, version }]) => {
+                const packageJson = readJsonFile(
+                    joinPathFragments(distOutput, 'package.json'),
                 );
-        });
+
+                packageJson.version = version;
+
+                const updateDependencies = (depType: string) => {
+                    if (packageJson[depType]) {
+                        Object.keys(packageJson[depType]).forEach(key => {
+                            if (changedPackages.includes(key)) {
+                                packageJson[depType][key] =
+                                    versionUpdates[key].version;
+                            }
+                        });
+                    }
+                };
+
+                updateDependencies('dependencies');
+                updateDependencies('devDependencies');
+                updateDependencies('peerDependencies');
+
+                writeJsonFile(
+                    joinPathFragments(distOutput, 'package.json'),
+                    packageJson,
+                );
+
+                return async () =>
+                    runExecutor(
+                        { project: libName, target: 'publish' },
+                        {
+                            ...readTargetOptions(
+                                { project: libName, target: 'publish' },
+                                context,
+                            ),
+                            noBuild: true,
+                            packageVersion: version,
+                        },
+                        context,
+                    );
+            },
+        );
 
         await chain(publishPromises);
 

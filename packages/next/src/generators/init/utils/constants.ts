@@ -1,2 +1,2 @@
 export const PACKAGE_JSON = 'package.json';
-export const TESTING_LIBRARY_REACT_VERSION = '13.4.0';
+export const ESLINT_PLUGIN_TESTING_LIBRARY_VERSION = '5.9.1';

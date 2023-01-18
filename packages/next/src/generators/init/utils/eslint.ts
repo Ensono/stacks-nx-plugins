@@ -8,7 +8,7 @@ import {
 import { tsquery } from '@phenomnomnominal/tsquery';
 import { Linter } from 'eslint';
 
-import { TESTING_LIBRARY_REACT_VERSION } from './constants';
+import { ESLINT_PLUGIN_TESTING_LIBRARY_VERSION } from './constants';
 
 function stacksEslintConfig(tree: Tree): Linter.Config {
     return {
@@ -179,7 +179,8 @@ function addEslintDependencies(tree: Tree) {
         tree,
         {},
         {
-            'testing-library/react': TESTING_LIBRARY_REACT_VERSION || 'latest',
+            'eslint-plugin-testing-library':
+                ESLINT_PLUGIN_TESTING_LIBRARY_VERSION || 'latest',
         },
     );
 }
