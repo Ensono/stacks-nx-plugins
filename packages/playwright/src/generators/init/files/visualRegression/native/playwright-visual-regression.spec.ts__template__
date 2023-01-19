@@ -1,0 +1,23 @@
+import { test, expect } from '@playwright/test';
+
+test.describe('Native @visual-regression', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('main page to have no visual regressions', async ({ page }) => {
+    //body to capture full page screenshot
+    await expect(page.locator('body')).toHaveScreenshot();
+  });
+
+  test('Expanded information blocks have no visual regressions', async ({
+    page,
+  }) => {
+    for (const information of await page
+      .locator('#commands >> details')
+      .elementHandles()) {
+      await information.click();
+    }
+    await expect(page.locator('#commands')).toHaveScreenshot();
+  });
+});
