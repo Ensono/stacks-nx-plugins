@@ -1,8 +1,5 @@
 {
     "name": "@ensono-stacks/core",
     "version": "0.1.0",
-    "type": "commonjs",
-    "peerDependencies": {
-        "eslint": "8"
-    }
+    "type": "commonjs"
 }
