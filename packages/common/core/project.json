@@ -5,6 +5,7 @@
     "projectType": "library",
     "targets": {
         "build": {
+            "buildableProjectDepsInPackageJsonType": "dependencies",
             "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {

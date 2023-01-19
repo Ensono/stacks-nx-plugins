@@ -7,6 +7,7 @@ import path from 'path';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
 
+import packageJson from '../package.json';
 import {
     getGeneratorsToRun,
     getStacksPlugins,
@@ -16,6 +17,7 @@ import {
 import { packageManagerList } from './package-manager';
 import { CreateStacksArguments, Preset } from './types';
 
+const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
     {
         name: Preset.Apps,
@@ -213,4 +215,6 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
             return main(argv).catch(console.log);
         },
         [getConfiguration as yargs.MiddlewareFunction],
-    );
+    )
+    .help('help', chalk.dim`Show help`)
+    .version('version', chalk.dim`Show version`, stacksVersion);
