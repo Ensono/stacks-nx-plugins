@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "Playwright",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "alias": "p",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-prompt": "What is the name of the project for this component?"
+        },
+        "accessibility": {
+            "type": "boolean",
+            "description": "Scaffolding for accessibility testing.",
+            "x-prompt": "Would you like to install the scaffolding for accessibility testing?"
+        },
+        "visualRegression": {
+            "type": "string",
+            "default": "none",
+            "enum": ["none", "native", "applitools"],
+            "x-prompt": {
+                "message": "What type of visual regression tests would you like to use?",
+                "type": "list",
+                "items": [
+                    {
+                        "value": "none",
+                        "label": "None"
+                    },
+                    {
+                        "value": "native",
+                        "label": "Native"
+                    },
+                    {
+                        "value": "applitools",
+                        "label": "Applitools"
+                    }
+                ]
+            }
+        }
+    },
+    "required": ["project", "accessibility", "visualRegression"]
+}

@@ -1,0 +1,93 @@
+{
+    "name": "playwright",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/playwright/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/packages/playwright",
+                "main": "packages/playwright/src/index.ts",
+                "tsConfig": "packages/playwright/tsconfig.lib.json",
+                "assets": [
+                    "packages/playwright/*.md",
+                    {
+                        "input": "./packages/playwright/src",
+                        "glob": "**/!(*.ts)",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/playwright/src",
+                        "glob": "**/*.d.ts",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/playwright",
+                        "glob": "generators.json",
+                        "output": "."
+                    },
+                    {
+                        "input": "./packages/playwright",
+                        "glob": "executors.json",
+                        "output": "."
+                    }
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/playwright/**/*.ts",
+                    "packages/playwright/generators.json",
+                    "packages/playwright/executors.json",
+                    "packages/playwright/package.json"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/playwright/jest.config.ts",
+                "passWithNoTests": true
+            }
+        },
+        "version": {
+            "executor": "@jscutlery/semver:version",
+            "options": {
+                "preset": "conventional",
+                "trackDeps": true,
+                "skipCommit": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true
+            },
+            "configurations": {
+                "ci": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["next:publish", "next:github"]
+                }
+            }
+        },
+        "publish": {
+            "executor": "ngx-deploy-npm:deploy",
+            "options": {
+                "access": "public"
+            }
+        },
+        "github": {
+            "executor": "@jscutlery/semver:github",
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
+        }
+    },
+    "tags": ["plugin"]
+}
