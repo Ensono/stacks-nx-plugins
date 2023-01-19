@@ -1,5 +1,5 @@
-import { joinPathFragments, Tree, workspaceRoot } from '@nrwl/devkit';
-import { Project, ScriptTarget, SourceFile, FileSystemHost } from 'ts-morph';
+import { Tree } from '@nrwl/devkit';
+import { Project, ScriptTarget, FileSystemHost } from 'ts-morph';
 
 class TreeFileSystem implements FileSystemHost {
     tree: Tree;
