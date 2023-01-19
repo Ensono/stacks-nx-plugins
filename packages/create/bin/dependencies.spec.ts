@@ -8,17 +8,32 @@ import {
 } from './dependencies';
 import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
+import type { CreateStacksArguments } from './types';
 
 beforeEach(() => {
     jest.clearAllMocks();
 });
 
 it('installs dependencies correctly', async () => {
-    const packages = getStacksPlugins({} as yargs.Arguments);
+    const packages = getStacksPlugins(
+        {} as yargs.Arguments<CreateStacksArguments>,
+    );
     await installPackages(packages, 'folder/path');
 
     expect(execAsync).toHaveBeenCalledWith(
         'npm install -D @ensono-stacks/workspace',
+        'folder/path',
+    );
+});
+
+it('installs dependencies for next.js', async () => {
+    const packages = getStacksPlugins({
+        preset: 'next',
+    } as yargs.Arguments<CreateStacksArguments>);
+    await installPackages(packages, 'folder/path');
+
+    expect(execAsync).toHaveBeenCalledWith(
+        'npm install -D @ensono-stacks/workspace @ensono-stacks/next',
         'folder/path',
     );
 });
@@ -40,12 +55,32 @@ it('installs dependencies with preferred package manager', async () => {
 });
 
 it('runs generators correctly', async () => {
-    const generators = getGeneratorsToRun({} as yargs.Arguments);
+    const generators = getGeneratorsToRun(
+        {} as yargs.Arguments<CreateStacksArguments>,
+    );
     await runGenerators(generators, 'folder/path');
 
     expect(execAsync).toBeCalledTimes(1);
     expect(execAsync).toHaveBeenCalledWith(
         'npx nx g @ensono-stacks/workspace:init',
+        'folder/path',
+    );
+});
+
+it('runs generators for next.js', async () => {
+    const generators = getGeneratorsToRun({
+        preset: 'next',
+        appName: 'test-app',
+    } as yargs.Arguments<CreateStacksArguments>);
+    await runGenerators(generators, 'folder/path');
+
+    expect(execAsync).toBeCalledTimes(2);
+    expect(execAsync).toHaveBeenCalledWith(
+        'npx nx g @ensono-stacks/workspace:init',
+        'folder/path',
+    );
+    expect(execAsync).toHaveBeenCalledWith(
+        'npx nx g @ensono-stacks/next:init --project=test-app',
         'folder/path',
     );
 });
