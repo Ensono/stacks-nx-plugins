@@ -22,7 +22,6 @@
         "@nrwl/nx-cloud": "^15.0.2",
         "@nrwl/nx-plugin": "15.3.0",
         "@nrwl/workspace": "15.3.0",
-        "@phenomnomnominal/tsquery": "^5.0.0",
         "@swc-node/register": "1.4.2",
         "@swc/cli": "~0.1.55",
         "@swc/core": "1.2.173",
@@ -50,7 +49,6 @@
         "nx": "15.3.0",
         "prettier": "^2.6.2",
         "ts-jest": "28.0.5",
-        "ts-morph": "^17.0.1",
         "ts-node": "^10.9.1",
         "verdaccio": "^5.18.0"
     },
@@ -60,12 +58,14 @@
         }
     },
     "dependencies": {
+        "@phenomnomnominal/tsquery": "^5.0.0",
         "@swc/helpers": "~0.4.11",
         "chalk": "4.1.0",
         "change-case": "^4.1.2",
         "enquirer": "^2.3.6",
         "semver": "^7.3.8",
         "tslib": "^2.3.0",
+        "ts-morph": "^17.0.1",
         "yargs": "^17.6.2",
         "yargs-unparser": "^2.0.0"
     }
