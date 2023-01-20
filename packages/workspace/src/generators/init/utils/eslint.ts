@@ -1,13 +1,11 @@
-import { ensureArray } from '@ensono-stacks/core';
+import { mergeEslintConfigs, updateEslintConfig } from '@ensono-stacks/core';
 import {
     Tree,
     addDependenciesToPackageJson,
     getWorkspaceLayout,
-    updateJson,
     readRootPackageJson,
     GeneratorCallback,
 } from '@nrwl/devkit';
-import { tsquery } from '@phenomnomnominal/tsquery';
 import { Linter } from 'eslint';
 
 import {
@@ -151,121 +149,10 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
     };
 }
 
-function formatConfig(config: Linter.Config) {
-    const {
-        extends: extensions,
-        plugins,
-        settings,
-        rules,
-        overrides,
-        ...rest
-    } = config;
-
-    const formattedConfig: Linter.Config = {
-        ...rest,
-        extends: extensions,
-        plugins,
-        settings,
-        rules,
-        overrides,
-    };
-
-    return formattedConfig;
-}
-
-function mergeConfig(tree: Tree, current: Linter.Config) {
-    const base = { ...current };
-    const stacksConfig = stacksEslintConfig(tree);
-
-    // Merge top-level properties with user preference
-    base.plugins = [
-        ...new Set([...(base.plugins || []), ...(stacksConfig.plugins || [])]),
-    ];
-    base.extends = [
-        ...new Set([...(base.extends || []), ...(stacksConfig.extends || [])]),
-    ];
-
-    if (base.overrides) {
-        stacksConfig.overrides?.forEach(override => {
-            const indexOfOverride = base.overrides?.findIndex(({ files }) => {
-                // Clone to preserve original config
-                const filesClone = [...ensureArray(files)];
-                const overrideFilesClone = [...ensureArray(override.files)];
-                return (
-                    filesClone.sort().toString() ===
-                    overrideFilesClone.sort().toString()
-                );
-            });
-
-            if (indexOfOverride === undefined) {
-                return;
-            }
-
-            if (base.overrides && indexOfOverride >= 0) {
-                const baseOverride = base.overrides[indexOfOverride];
-                if (baseOverride.plugins || override.plugins) {
-                    baseOverride.plugins = [
-                        ...new Set([
-                            ...(baseOverride.plugins || []),
-                            ...(override.plugins || []),
-                        ]),
-                    ];
-                }
-                if (baseOverride.extends || override.extends) {
-                    baseOverride.extends = [
-                        ...new Set([
-                            ...(baseOverride.extends || []),
-                            ...(override.extends || []),
-                        ]),
-                    ];
-                }
-                baseOverride.rules = {
-                    ...baseOverride.rules,
-                    ...override.rules,
-                };
-            } else {
-                base.overrides?.push(override);
-            }
-        });
-    } else {
-        base.overrides = stacksConfig.overrides;
-    }
-
-    return formatConfig(base);
-}
-
 function addRules(tree: Tree) {
-    const rootConfigPath: false | string =
-        (tree.exists('.eslintrc.json') && '.eslintrc.json') ||
-        (tree.exists('.eslintrc.js') && '.eslintrc.js');
-
-    if (rootConfigPath) {
-        if (rootConfigPath.endsWith('.json')) {
-            updateJson(tree, rootConfigPath, eslintConfig =>
-                mergeConfig(tree, eslintConfig),
-            );
-        }
-        if (rootConfigPath.endsWith('.js')) {
-            const rootConfigJs = tree.read(rootConfigPath)?.toString();
-
-            if (rootConfigJs) {
-                // expect module.export = {}
-                const updatedConfigContents = tsquery.replace(
-                    rootConfigJs,
-                    'BinaryExpression > ObjectLiteralExpression',
-                    node => {
-                        const rootConfig = JSON.parse(
-                            rootConfigJs.slice(node.pos, node.end),
-                        );
-                        return JSON.stringify(mergeConfig(tree, rootConfig));
-                    },
-                );
-                tree.write(rootConfigPath, updatedConfigContents);
-            }
-        }
-    } else {
-        tree.write('.eslintrc.json', JSON.stringify(stacksEslintConfig(tree)));
-    }
+    updateEslintConfig(tree, '', baseConfig => {
+        return mergeEslintConfigs(baseConfig, stacksEslintConfig(tree));
+    });
 }
 
 function addEslintDependencies(tree: Tree) {
@@ -298,6 +185,5 @@ function addEslintDependencies(tree: Tree) {
 
 export function addEslint(tree: Tree): GeneratorCallback {
     addRules(tree);
-
     return addEslintDependencies(tree);
 }

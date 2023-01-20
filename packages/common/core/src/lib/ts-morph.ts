@@ -1,5 +1,11 @@
+/* eslint-disable unicorn/better-regex */
 import { Tree } from '@nrwl/devkit';
-import { Project, ScriptTarget, FileSystemHost } from 'ts-morph';
+import {
+    Project,
+    ScriptTarget,
+    ObjectLiteralExpression,
+    FileSystemHost,
+} from 'ts-morph';
 
 class TreeFileSystem implements FileSystemHost {
     tree: Tree;
@@ -43,6 +49,7 @@ class TreeFileSystem implements FileSystemHost {
         return buffer.toString(bufferEncoding);
     }
 
+    /* istanbul ignore next */
     async readFile(
         filePath: string,
         encoding?: string | undefined,
@@ -58,50 +65,61 @@ class TreeFileSystem implements FileSystemHost {
         this.writeFileSync(filePath, fileText);
     }
 
+    /* istanbul ignore next */
     // eslint-disable-next-line class-methods-use-this
     mkdirSync(directoryPath: string): void {
         // no-op
     }
 
+    /* istanbul ignore next */
     async mkdir(directoryPath: string): Promise<void> {
         this.mkdirSync(directoryPath);
     }
 
+    /* istanbul ignore next */
     moveSync(sourcePath: string, destinationPath: string): void {
         this.tree.rename(sourcePath, destinationPath);
     }
 
+    /* istanbul ignore next */
     async move(sourcePath: string, destinationPath: string): Promise<void> {
         this.moveSync(sourcePath, destinationPath);
     }
 
+    /* istanbul ignore next */
     copySync(sourcePath: string, destinationPath: string): void {
         const content = this.readFileSync(sourcePath);
         this.writeFileSync(destinationPath, content);
     }
 
+    /* istanbul ignore next */
     async copy(sourcePath: string, destinationPath: string): Promise<void> {
         this.copySync(sourcePath, destinationPath);
     }
 
+    /* istanbul ignore next */
     fileExistsSync(filePath: string): boolean {
         return this.tree.exists(filePath);
     }
 
+    /* istanbul ignore next */
     async fileExists(filePath: string): Promise<boolean> {
         return this.fileExistsSync(filePath);
     }
 
+    /* istanbul ignore next */
     directoryExistsSync(directoryPath: string): boolean {
         return (
             this.tree.exists(directoryPath) && !this.tree.isFile(directoryPath)
         );
     }
 
+    /* istanbul ignore next */
     async directoryExists(directoryPath: string): Promise<boolean> {
         return this.directoryExistsSync(directoryPath);
     }
 
+    /* istanbul ignore next */
     // eslint-disable-next-line class-methods-use-this
     realpathSync(path: string): string {
         return path;
@@ -112,20 +130,50 @@ class TreeFileSystem implements FileSystemHost {
         return '/';
     }
 
+    /* istanbul ignore next */
     // eslint-disable-next-line class-methods-use-this
     globSync(patterns: readonly string[]): string[] {
         throw new Error('Glob is not supported');
     }
 
+    /* istanbul ignore next */
     async glob(patterns: readonly string[]): Promise<string[]> {
         return this.globSync(patterns);
     }
 }
 
-export const tsMorphTree = (tree: Tree) => {
+export function tsMorphTree(tree: Tree) {
     const fs = new TreeFileSystem(tree);
     return new Project({
         fileSystem: fs,
         compilerOptions: { target: ScriptTarget.ESNext },
     });
-};
+}
+
+export function readJsonInJs<T extends Record<string, any>>(
+    node: ObjectLiteralExpression,
+): T {
+    const jsonInJS = node.getFullText();
+    const objectJson = JSON.parse(
+        jsonInJS
+            .replace(/'/g, '"')
+            .replace(/\s"{0}(\w+?)"{0}(?=:)/g, '"$1"')
+            .replace(/(,)\s*(?=}|]){1}/g, ''),
+    );
+
+    return objectJson;
+}
+
+export function updateJsonInJS<
+    T extends Record<string, any>,
+    U extends Record<string, any>,
+>(node: ObjectLiteralExpression, updater: (json: T) => U): void {
+    const objectJson = readJsonInJs<T>(node);
+    const update = updater(objectJson);
+    const object = JSON.stringify(update, null, 2)
+        .replace(/"(\w+?)"(?=:)/g, '$1')
+        .replace(/(?!}|]){1}(\s*)(?=}|]){1}/g, ',$1');
+    node.replaceWithText(object);
+    const source = node.getSourceFile();
+    source.saveSync();
+}

@@ -40,7 +40,7 @@ describe('next e2e', () => {
 
         expect(() =>
             checkFilesExist(
-                `apps/${project}/pages/api/[...nextauth].ts`,
+                `apps/${project}/pages/api/auth/[...nextauth].ts`,
                 `apps/${project}/.env.local`,
             ),
         ).not.toThrow();

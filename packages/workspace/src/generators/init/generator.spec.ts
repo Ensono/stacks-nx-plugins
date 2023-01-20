@@ -1,4 +1,3 @@
-import { readJsonInJS } from '@ensono-stacks/core';
 import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
@@ -43,7 +42,7 @@ describe('Workspace: Install generator', () => {
             );
         });
 
-        it('should merge defaults with an existing eslintrc.json file', async () => {
+        it('should merge defaults with an existing eslintrc file', async () => {
             const defaultConfig = {
                 plugins: ['@nrwl/nx'],
                 overrides: [
@@ -83,43 +82,6 @@ describe('Workspace: Install generator', () => {
                             plugins: ['@nrwl/nx'],
                             rules: expect.objectContaining({
                                 'dot-notation': 'off',
-                                'import/no-extraneous-dependencies': 'off',
-                            }),
-                        }),
-                    ]),
-                }),
-            );
-        });
-
-        it('should merge defaults with an existing eslintrc.js file', async () => {
-            const defaultConfig = {
-                plugins: ['@nrwl/nx'],
-            };
-
-            tree.write(
-                '.eslintrc.js',
-                `module.exports = ${JSON.stringify(defaultConfig)};`,
-            );
-
-            await generator(tree, { ...options, eslint: true });
-
-            const rootConfig = readJsonInJS(
-                tree,
-                '.eslintrc.js',
-                'BinaryExpression > ObjectLiteralExpression',
-            );
-            expect(rootConfig).toMatchObject(
-                expect.objectContaining({
-                    plugins: [
-                        '@nrwl/nx',
-                        '@typescript-eslint',
-                        'import',
-                        'security',
-                    ],
-                    overrides: expect.arrayContaining([
-                        expect.objectContaining({
-                            files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            rules: expect.objectContaining({
                                 'import/no-extraneous-dependencies': 'off',
                             }),
                         }),

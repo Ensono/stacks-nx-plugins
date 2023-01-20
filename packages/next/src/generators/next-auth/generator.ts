@@ -25,7 +25,13 @@ export default async function nextAuthGenerator(
 
     if (
         !tree.exists(
-            joinPathFragments(project.root, 'pages', 'api', '[...nextauth].ts'),
+            joinPathFragments(
+                project.root,
+                'pages',
+                'api',
+                'auth',
+                '[...nextauth].ts',
+            ),
         )
     ) {
         generateFiles(tree, path.join(__dirname, 'files'), project.root, {

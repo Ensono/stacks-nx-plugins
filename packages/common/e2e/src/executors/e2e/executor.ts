@@ -177,6 +177,11 @@ export default async function runEnd2EndExecutor(
 
         await chain(publishPromises);
 
+        // Wait for registry to sync
+        await new Promise(r => {
+            setTimeout(r, 2000);
+        });
+
         logger.log(`[${context.projectName}] Executing jest tests`);
 
         const result = await jestExecutor(
