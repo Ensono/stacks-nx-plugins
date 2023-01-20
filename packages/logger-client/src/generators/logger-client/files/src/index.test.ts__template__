@@ -1,0 +1,31 @@
+import logger from "./";
+
+describe('logger', () => {
+    it('should be a winston logger instance', () => {
+        expect(logger).toBeDefined();
+        <% if(logLevelType === 'npm' || typeof logLevelType === 'undefined') { %>
+        expect(logger).toHaveProperty('error');
+        expect(logger).toHaveProperty('warn');
+        expect(logger).toHaveProperty('info');
+        expect(logger).toHaveProperty('verbose');
+        expect(logger).toHaveProperty('debug');
+        expect(logger).toHaveProperty('silly');
+        <% } %>
+        <% if(logLevelType === 'syslog') { %>
+        expect(logger).toHaveProperty('emerg');
+        expect(logger).toHaveProperty('alert');
+        expect(logger).toHaveProperty('crit');
+        expect(logger).toHaveProperty('error');
+        expect(logger).toHaveProperty('warning');
+        expect(logger).toHaveProperty('notice');
+        expect(logger).toHaveProperty('info');
+        expect(logger).toHaveProperty('debug');
+        <% } %>
+        <% if(logLevelType === 'cli') { %>
+        expect(logger).toHaveProperty('error');
+        expect(logger).toHaveProperty('warn');
+        expect(logger).toHaveProperty('info');
+        expect(logger).toHaveProperty('debug');
+        <% } %>
+    });
+});

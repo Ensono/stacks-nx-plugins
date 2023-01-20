@@ -1,0 +1,74 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "LoggerClient",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What name would you like to use?"
+        },
+        "tags": {
+            "type": "string",
+            "description": "Add tags to the project (used for linting)",
+            "alias": "t"
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the project is placed"
+        },
+        "skipFormat": {
+            "description": "Skip fomatting files.",
+            "type": "boolean",
+            "default": false
+        },
+        "logLevelType": {
+            "description": "Add the type of log levels that will be used.",
+            "enum": ["cli", "syslog", "npm"],
+            "default": "npm",
+            "x-prompt": "What type of logging levels would you like to use?"
+        },
+        "consoleLogs": {
+            "description": "Output logs to the console.",
+            "type": "boolean",
+            "default": false
+        },
+        "fileTransportPath": {
+            "description": "Add a filepath to transport logs to",
+            "type": "string"
+        },
+        "httpTransport": {
+            "description": "Add a http transport",
+            "type": "boolean",
+            "default": false
+        },
+        "httpTransportHost": {
+            "description": "Remote host of the HTTP logging endpoint",
+            "type": "string"
+        },
+        "httpTransportPort": {
+            "description": "Remote port of the HTTP logging endpoint",
+            "type": "number"
+        },
+        "httpTransportPath": {
+            "description": "Remote URI of the HTTP logging endpoint",
+            "type": "string"
+        },
+        "httpTransportSSL": {
+            "description": "Value indicating if we should use HTTPS",
+            "type": "boolean",
+            "default": false
+        },
+        "streamPath": {
+            "description": "Stream transport path",
+            "type": "string"
+        }
+    },
+    "required": ["name"]
+}

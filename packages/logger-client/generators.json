@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "name": "logger-client",
+    "version": "0.0.1",
+    "generators": {
+        "logger-client": {
+            "factory": "./src/generators/logger-client/generator",
+            "schema": "./src/generators/logger-client/schema.json",
+            "description": "logger-client generator"
+        }
+    }
+}
