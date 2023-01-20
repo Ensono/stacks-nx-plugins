@@ -30,9 +30,9 @@ describe('create', () => {
         cleanup();
     });
 
-    it('configures an npm package nx workspace', async () => {
+    it('configures an empty apps stacks workspace', async () => {
         execSync(
-            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=npm --no-nxCloud --skipGit --no-interactive --verbose',
+            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
