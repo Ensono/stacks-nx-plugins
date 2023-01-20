@@ -1,5 +1,5 @@
-import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
-import { SyntaxKind, Project, PropertyAssignment } from 'ts-morph';
+import { joinPathFragments, ProjectConfiguration } from '@nrwl/devkit';
+import { SyntaxKind, Project } from 'ts-morph';
 
 const azureAdProvider = `AzureADProvider({
     clientId: process.env.AZURE_AD_CLIENT_ID,
@@ -12,7 +12,13 @@ export function addAzureAdProvider(
     morphTree: Project,
 ) {
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'pages', 'api', '[...nextauth].ts'),
+        joinPathFragments(
+            project.root,
+            'pages',
+            'api',
+            'auth',
+            '[...nextauth].ts',
+        ),
     );
 
     // Check if the Provider already exists

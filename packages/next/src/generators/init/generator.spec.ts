@@ -1,4 +1,3 @@
-import { readJsonInJS } from '@ensono-stacks/core';
 import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -73,61 +72,6 @@ describe('next install generator', () => {
                         'plugin:testing-library/react',
                         'plugin:@next/next/recommended',
                         'next/core-web-vitals',
-                        '../../.eslintrc.js',
-                    ]),
-                    overrides: expect.arrayContaining([
-                        expect.objectContaining({
-                            files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            rules: expect.objectContaining({
-                                'testing-library/await-async-utils': 'error',
-                                'testing-library/await-async-query': 'error',
-                                'testing-library/no-wait-for-side-effects':
-                                    'error',
-                                'testing-library/no-manual-cleanup': 'error',
-                                'testing-library/prefer-explicit-assert':
-                                    'warn',
-                                'testing-library/prefer-presence-queries':
-                                    'warn',
-                                'testing-library/prefer-wait-for': 'error',
-                                'testing-library/prefer-user-event': 'warn',
-                                'testing-library/no-debug': 'off',
-                            }),
-                        }),
-                    ]),
-                }),
-            );
-        });
-
-        // todo(gareth): Move eslint management to a utility and test there
-        // and remove these tests.
-        it('should merge defaults with an existing eslintrc.js file', async () => {
-            appTree.delete('next-app/.eslintrc.json');
-
-            const defaultConfig = {
-                plugins: ['@nrwl/nx'],
-            };
-
-            appTree.write(
-                'next-app/.eslintrc.js',
-                `module.exports = ${JSON.stringify(defaultConfig)};`,
-            );
-
-            await generator(appTree, options);
-
-            const rootConfig = readJsonInJS(
-                appTree,
-                'next-app/.eslintrc.js',
-                'BinaryExpression > ObjectLiteralExpression',
-            );
-            expect(rootConfig).toMatchObject(
-                expect.objectContaining({
-                    plugins: ['@nrwl/nx'],
-                    extends: expect.arrayContaining([
-                        'plugin:@nrwl/nx/react-typescript',
-                        'plugin:testing-library/react',
-                        'plugin:@next/next/recommended',
-                        'next/core-web-vitals',
-                        '../../.eslintrc.js',
                     ]),
                     overrides: expect.arrayContaining([
                         expect.objectContaining({
