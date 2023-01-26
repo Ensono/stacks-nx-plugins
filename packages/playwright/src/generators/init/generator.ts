@@ -59,6 +59,11 @@ export default async function initGenerator(
     options: PlaywrightGeneratorSchema,
 ) {
     const project = getProjects(tree).get(options.project);
+
+    if (!project) {
+        throw new Error(`${options.project} project does not exist`);
+    }
+
     const normalizedOptions = normalizeOptions(tree, options);
 
     const morphTree = tsMorphTree(tree);
@@ -66,7 +71,7 @@ export default async function initGenerator(
     // playwright.config.base.ts
     updatePlaywrightConfigBase(morphTree);
 
-    // add extra to playwright.config.ts in project
+    // add extra config to playwright.config.ts in project
     updatePlaywrightConfigWithDefault(project, morphTree);
 
     // example.spec.ts

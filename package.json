@@ -12,6 +12,7 @@
         "@commitlint/config-nx-scopes": "^17.2.0",
         "@commitlint/cz-commitlint": "^17.3.0",
         "@jscutlery/semver": "^2.29.0",
+        "@mands/nx-playwright": "^0.1.27",
         "@nrwl/cli": "15.3.0",
         "@nrwl/devkit": "15.3.0",
         "@nrwl/eslint-plugin-nx": "15.3.0",
@@ -64,8 +65,8 @@
         "change-case": "^4.1.2",
         "enquirer": "^2.3.6",
         "semver": "^7.3.8",
-        "tslib": "^2.3.0",
         "ts-morph": "^17.0.1",
+        "tslib": "^2.3.0",
         "yargs": "^17.6.2",
         "yargs-unparser": "^2.0.0"
     }

@@ -25,7 +25,7 @@ export function updatePlaywrightConfigWithDefault(
         .getVariableDeclaration('config')
         .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
-    config.getProperty('projets').remove();
+    config.getProperty('projects')?.remove();
 
     config.addPropertyAssignments([
         {
@@ -94,7 +94,7 @@ export function updatePlaywrightConfigWithNativeVisualRegression(
     config.addPropertyAssignments([
         {
             name: 'updateSnapshots',
-            initializer: 'missing',
+            initializer: `'missing'`,
         },
         {
             name: 'expect',
@@ -145,8 +145,6 @@ export function updatePlaywrightConfigWithApplitoolsVisualRegression(
           retries: 0,
         }`,
         );
-
-    console.log(appNode.getText());
 
     appNode.saveSync();
 }

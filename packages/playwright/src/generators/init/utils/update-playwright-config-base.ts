@@ -1,4 +1,3 @@
-import { ProjectConfiguration } from '@nrwl/devkit';
 import { Project, SyntaxKind } from 'ts-morph';
 
 export function updatePlaywrightConfigBase(morphTree: Project) {
@@ -8,16 +7,19 @@ export function updatePlaywrightConfigBase(morphTree: Project) {
         .getVariableDeclaration('baseURL')
         .getDescendantsOfKind(SyntaxKind.Identifier)
         .find(identifier => identifier.getText() === 'E2E_BASE_URL')
-        .replaceWithText('BASE_URL');
+        ?.replaceWithText('BASE_URL');
 
     const baseConfig = appNode
         .getVariableDeclaration('baseConfig')
         .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
-    baseConfig.getProperty('retries').remove();
-    baseConfig.getProperty('maxFailures').remove();
-    baseConfig.getProperty('timeout').remove();
-    baseConfig.getProperty('use').remove();
+    baseConfig.getProperty('retries')?.remove();
+    baseConfig.getProperty('maxFailures')?.remove();
+    baseConfig.getProperty('timeout')?.remove();
+    baseConfig.getProperty('use')?.remove();
+    baseConfig.getProperty('fullyParallel')?.remove();
+    baseConfig.getProperty('forbidOnly')?.remove();
+    baseConfig.getProperty('reporter')?.remove();
 
     baseConfig.addPropertyAssignments([
         {
@@ -52,7 +54,7 @@ export function updatePlaywrightConfigBase(morphTree: Project) {
         },
         {
             name: 'use',
-            initializer: '{ baseUrl }',
+            initializer: '{ baseURL }',
         },
     ]);
 
