@@ -17,7 +17,8 @@
         "accessibility": {
             "type": "boolean",
             "description": "Scaffolding for accessibility testing.",
-            "x-prompt": "Would you like to install the scaffolding for accessibility testing?"
+            "x-prompt": "Would you like to install the scaffolding for accessibility testing?",
+            "default": false
         },
         "visualRegression": {
             "type": "string",
