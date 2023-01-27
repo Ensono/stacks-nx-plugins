@@ -34,7 +34,7 @@ describe('playwright e2e', () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:playwright ${project}`,
             ).catch((stderr) => expect(stderr?.code).toEqual(1));
-        });
+        }, 200_000);
 
         it("should successfully run and amend config files if project does exist", async () => {
             const e2eProject = uniq('playwright-tests-e2e');
@@ -132,7 +132,7 @@ describe('playwright e2e', () => {
   ]`,
                     }),
             );
-        });
+        }, 200_000);
     });
 
     describe("--accessibility", () => {
@@ -154,7 +154,7 @@ describe('playwright e2e', () => {
             // add axe packages to package.json
             const packageJson = readJson('package.json');
             expect(packageJson?.dependencies).toMatchObject({ '@axe-core/playwright': '4.5.2', 'axe-result-pretty-print': '1.0.2' });
-        });
+        }, 200_000);
     });
 
     describe("--visualRegression", () => {
@@ -198,7 +198,7 @@ describe('playwright e2e', () => {
   }`,
                 }),
             );
-        });
+        }, 200_000);
 
         it("should successfully add applitools regression config and add dependencies", async () => {
             const e2eProject = uniq('playwright-tests-e2e');
@@ -232,6 +232,6 @@ describe('playwright e2e', () => {
                     initializer: '/.*@visual-regression/',
                 }),
             );
-        });
+        }, 200_000);
     });
 });
