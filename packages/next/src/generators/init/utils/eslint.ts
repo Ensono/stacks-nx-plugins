@@ -20,6 +20,7 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
                     project: [`${projectRootPath}/tsconfig(.*)?.json`],
                 },
                 rules: {
+                    '@typescript-eslint/no-floating-promises': 'error',
                     'testing-library/await-async-utils': 'error',
                     'testing-library/await-async-query': 'error',
                     'testing-library/no-wait-for-side-effects': 'error',
