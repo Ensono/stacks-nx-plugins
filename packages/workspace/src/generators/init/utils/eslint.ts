@@ -133,7 +133,6 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                     '@typescript-eslint/no-unsafe-member-access': 'off',
                     '@typescript-eslint/explicit-function-return-type': 'off',
                     '@typescript-eslint/interface-name-prefix': 'off',
-                    '@typescript-eslint/no-floating-promises': 'error',
                     '@typescript-eslint/no-use-before-define': ['error'],
                     '@typescript-eslint/no-unused-vars': 'off',
                     '@typescript-eslint/no-shadow': 'error',
