@@ -11,6 +11,7 @@ import path from 'path';
 
 import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
+import createCustomTestConfig from './utils/createCustomTestConfig';
 import { addEslint } from './utils/eslint';
 import updateTsConfig from './utils/tsconfig';
 
@@ -28,6 +29,12 @@ export default async function initGenerator(
             await infrastructureGenerator(tree, { project: options.project }),
         );
     }
+
+    tasks.push(addEslint(tree, project.sourceRoot));
+
+    await createCustomTestConfig(tree, project.sourceRoot);
+
+    await formatFiles(tree);
 
     tasks.push(formatFilesWithEslint(options.project));
 
