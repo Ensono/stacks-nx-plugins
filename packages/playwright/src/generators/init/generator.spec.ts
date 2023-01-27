@@ -14,7 +14,7 @@ describe('playwright generator', () => {
     let appTree: Tree;
     const projectName = 'test-e2e';
 
-    beforeEach(async () => {
+    beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
     });
 
