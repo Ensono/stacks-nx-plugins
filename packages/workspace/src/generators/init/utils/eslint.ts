@@ -27,7 +27,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
         plugins: ['@typescript-eslint', '@nrwl/nx', 'import', 'security'],
         parser: '@typescript-eslint/parser',
         extends: [
-            'airbnb-base',
+            'airbnb/base',
             'plugin:prettier/recommended',
             'plugin:unicorn/recommended',
             'plugin:compat/recommended',
