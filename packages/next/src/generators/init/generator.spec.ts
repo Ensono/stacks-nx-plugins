@@ -50,6 +50,51 @@ describe('next install generator', () => {
         }));
     }
 
+    describe('Project config', () => {
+        it('should update the test command in the project.json', async () => {
+            appTree.write(
+                'next-app/project.json',
+                JSON.stringify({
+                    targets: { test: {} },
+                    name: 'next-app',
+                    sourceRoot: '/next-app',
+                }),
+            );
+
+            await generator(appTree, options);
+
+            const projectConfig = readJson(appTree, 'next-app/project.json');
+
+            expect(projectConfig).toMatchObject(
+                expect.objectContaining({
+                    targets: {
+                        test: {
+                            executor: '@nrwl/jest:jest',
+                            outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
+                            options: {
+                                jestConfig: 'apps/next-project/jest.config.ts',
+                                passWithNoTests: true,
+                                collectCoverage: true,
+                                coverageReporters: ['text', 'html'],
+                                collectCoverageFrom: [
+                                    './**/*.{js,jsx,ts,tsx}',
+                                    './!**/.next/**',
+                                    './!**/*.d.ts',
+                                    './!**/*.config.*',
+                                ],
+                                codeCoverage: true,
+                                ci: true,
+                            },
+                            configurations: {
+                                ci: {},
+                            },
+                        },
+                    },
+                }),
+            );
+        });
+    });
+
     describe('eslint', () => {
         beforeEach(async () => {
             await createNextApp();
