@@ -46,7 +46,7 @@ describe('next install generator', () => {
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                        extends: ['airbnb-base'],
+                        extends: ['airbnb/base'],
                         plugins: ['@nrwl/nx'],
                         rules: {
                             'dot-notation': 'off',
