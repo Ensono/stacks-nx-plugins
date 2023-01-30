@@ -48,7 +48,7 @@ describe('Workspace: Install generator', () => {
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                        extends: ['airbnb-base'],
+                        extends: ['airbnb/base'],
                         plugins: ['@nrwl/nx'],
                         rules: {
                             'dot-notation': 'off',
@@ -78,7 +78,7 @@ describe('Workspace: Install generator', () => {
                     overrides: expect.arrayContaining([
                         expect.objectContaining({
                             files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            extends: ['airbnb-base'],
+                            extends: ['airbnb/base'],
                             plugins: ['@nrwl/nx'],
                             rules: expect.objectContaining({
                                 'dot-notation': 'off',
