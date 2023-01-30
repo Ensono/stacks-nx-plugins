@@ -1,26 +1,30 @@
 import { joinPathFragments, Tree, updateJson } from '@nrwl/devkit';
 
-const testConfig = {
-    executor: '@nrwl/jest:jest',
-    outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
-    options: {
-        jestConfig: 'apps/next-project/jest.config.ts',
-        passWithNoTests: true,
-        collectCoverage: true,
-        coverageReporters: ['text', 'html'],
-        collectCoverageFrom: [
-            './**/*.{js,jsx,ts,tsx}',
-            './!**/.next/**',
-            './!**/*.d.ts',
-            './!**/*.config.*',
-        ],
-        codeCoverage: true,
-        ci: true,
-    },
-    configurations: {
-        ci: {},
-    },
-};
+function getTestConfig(projectSourceRoot: string) {
+    return {
+        executor: '@nrwl/jest:jest',
+        outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
+        options: {
+            jestConfig: `${projectSourceRoot}/jest.config.ts`,
+            passWithNoTests: true,
+            collectCoverage: true,
+            coverageReporters: ['text', 'html'],
+            collectCoverageFrom: [
+                './**/*.{js,jsx,ts,tsx}',
+                './!**/.next/**',
+                './!**/*.d.ts',
+                './!**/*.config.*',
+                './!**/_app.*',
+            ],
+            codeCoverage: true,
+        },
+        configurations: {
+            ci: {
+                ci: true,
+            },
+        },
+    };
+}
 
 export default async function addCustomTestConfig(
     tree: Tree,
@@ -32,7 +36,7 @@ export default async function addCustomTestConfig(
         json => {
             const updatedJson = json;
             updatedJson.targets = updatedJson.targets ?? {};
-            updatedJson.targets.test = testConfig;
+            updatedJson.targets.test = getTestConfig(projectSourceRoot);
             return updatedJson;
         },
     );

@@ -72,7 +72,7 @@ describe('next install generator', () => {
                             executor: '@nrwl/jest:jest',
                             outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
                             options: {
-                                jestConfig: 'apps/next-project/jest.config.ts',
+                                jestConfig: '/next-app/jest.config.ts',
                                 passWithNoTests: true,
                                 collectCoverage: true,
                                 coverageReporters: ['text', 'html'],
@@ -81,12 +81,14 @@ describe('next install generator', () => {
                                     './!**/.next/**',
                                     './!**/*.d.ts',
                                     './!**/*.config.*',
+                                    './!**/_app.*',
                                 ],
                                 codeCoverage: true,
-                                ci: true,
                             },
                             configurations: {
-                                ci: {},
+                                ci: {
+                                    ci: true,
+                                },
                             },
                         },
                     },
