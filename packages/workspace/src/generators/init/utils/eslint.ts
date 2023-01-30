@@ -27,7 +27,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
         plugins: ['@typescript-eslint', '@nrwl/nx', 'import', 'security'],
         parser: '@typescript-eslint/parser',
         extends: [
-            'airbnb-base',
+            'airbnb/base',
             'plugin:prettier/recommended',
             'plugin:unicorn/recommended',
             'plugin:compat/recommended',
@@ -133,7 +133,6 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                     '@typescript-eslint/no-unsafe-member-access': 'off',
                     '@typescript-eslint/explicit-function-return-type': 'off',
                     '@typescript-eslint/interface-name-prefix': 'off',
-                    '@typescript-eslint/no-floating-promises': 'error',
                     '@typescript-eslint/no-use-before-define': ['error'],
                     '@typescript-eslint/no-unused-vars': 'off',
                     '@typescript-eslint/no-shadow': 'error',
