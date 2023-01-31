@@ -71,7 +71,7 @@
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["next:publish", "next:github"]
+                    "postTargets": ["playwright:publish", "playwright:github"]
                 }
             }
         },
