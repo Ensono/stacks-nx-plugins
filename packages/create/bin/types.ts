@@ -6,6 +6,31 @@ export type CreateStacksArguments = {
     appName: string;
     nxVersion: string;
     packageManager: PackageManager;
+    interactive: boolean;
+    terraform: {
+        group: string;
+        container: string;
+        storage: string;
+    };
+    business: {
+        company: string;
+        domain: string;
+        component: string;
+    };
+    domain: {
+        internal: string;
+        external: string;
+    };
+    cloud: {
+        platform: 'azure';
+        region: string;
+        group: string;
+    };
+    pipeline: 'azdo';
+    vcs: {
+        type: 'github' | 'azdo';
+        url: string;
+    };
 };
 
 export enum Preset {
