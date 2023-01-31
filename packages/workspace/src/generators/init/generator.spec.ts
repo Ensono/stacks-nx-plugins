@@ -6,10 +6,7 @@ import { InstallGeneratorSchema } from './schema';
 
 describe('Workspace: Install generator', () => {
     let tree: Tree;
-    const options: InstallGeneratorSchema = {
-        cloudProvider: 'azure',
-        pipelineProvider: 'azdo',
-    };
+    const options: InstallGeneratorSchema = {};
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
