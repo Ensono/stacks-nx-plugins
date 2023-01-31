@@ -1,9 +1,8 @@
 import httpClient from '<%= httpClient %>';
-import { <%= className %> } from '<%= httpClient %>;'
 
 import { <%= className %> } from './index.types';
 
-const API_ENDPOINT = process.env.<%= envVar %>/<%= name %>/<%= endpointVersion %>;
+const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= name %>/<%= endpointVersion %>`;
 
 <% if (methods.includes('get')) { %>
 export const get<%= className %> = async (config): Response<<%= className %>> => 
