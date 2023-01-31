@@ -1,7 +1,7 @@
 import { formatFilesWithEslint } from '@ensono-stacks/core';
 import {
     formatFiles,
-    getProjects,
+    readProjectConfiguration,
     GeneratorCallback,
     Tree,
 } from '@nrwl/devkit';
@@ -9,25 +9,24 @@ import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-ser
 
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
+import { addInfrastructure } from './utils/infrastructure/add-infrastructure';
 
 export default async function initGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
     const tasks: GeneratorCallback[] = [];
-    const project = getProjects(tree).get(options.project);
-
-    if (!project) {
-        throw new Error(
-            `Cannot find the ${options.project} project. Please double check the project name.`,
-        );
-    }
+    const project = readProjectConfiguration(tree, options.project);
 
     tasks.push(addEslint(tree, project.sourceRoot));
 
     await formatFiles(tree);
 
     tasks.push(formatFilesWithEslint(options.project));
+
+    if (options.infra) {
+        tasks.push(...addInfrastructure(tree, project));
+    }
 
     return runTasksInSerial(...tasks);
 }
