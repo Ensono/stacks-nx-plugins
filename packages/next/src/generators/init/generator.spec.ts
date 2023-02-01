@@ -51,7 +51,7 @@ describe('next install generator', () => {
     }
 
     describe('Project config', () => {
-        it('should update the test command in the project.json', async () => {
+        it('should add the ci config in the test command in the project.json', async () => {
             appTree.write(
                 'next-app/project.json',
                 JSON.stringify({
@@ -65,8 +65,31 @@ describe('next install generator', () => {
 
             const projectConfig = readJson(appTree, 'next-app/project.json');
 
-            expect(projectConfig).toMatchObject(
+            expect(projectConfig.targets.test).toMatchObject(
                 expect.objectContaining({
+                    configurations: {
+                        ci: {
+                            ci: true,
+                            collectCoverage: true,
+                            coverageReporters: ['text', 'html'],
+                            collectCoverageFrom: [
+                                './**/*.{js,jsx,ts,tsx}',
+                                './!**/.next/**',
+                                './!**/*.d.ts',
+                                './!**/*.config.*',
+                                './!**/_app.*',
+                            ],
+                            codeCoverage: true,
+                        },
+                    },
+                }),
+            );
+        });
+
+        it('should update the ci config in the test command in the project.json if there is an existing custom test config', async () => {
+            appTree.write(
+                'next-app/project.json',
+                JSON.stringify({
                     targets: {
                         test: {
                             executor: '@nrwl/jest:jest',
@@ -74,22 +97,44 @@ describe('next install generator', () => {
                             options: {
                                 jestConfig: '/next-app/jest.config.ts',
                                 passWithNoTests: true,
-                                collectCoverage: true,
-                                coverageReporters: ['text', 'html'],
-                                collectCoverageFrom: [
-                                    './**/*.{js,jsx,ts,tsx}',
-                                    './!**/.next/**',
-                                    './!**/*.d.ts',
-                                    './!**/*.config.*',
-                                    './!**/_app.*',
-                                ],
-                                codeCoverage: true,
                             },
                             configurations: {
                                 ci: {
                                     ci: true,
                                 },
                             },
+                        },
+                    },
+                    name: 'next-app',
+                    sourceRoot: '/next-app',
+                }),
+            );
+
+            await generator(appTree, options);
+
+            const projectConfig = readJson(appTree, 'next-app/project.json');
+
+            expect(projectConfig.targets.test).toMatchObject(
+                expect.objectContaining({
+                    executor: '@nrwl/jest:jest',
+                    outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
+                    options: {
+                        jestConfig: '/next-app/jest.config.ts',
+                        passWithNoTests: true,
+                    },
+                    configurations: {
+                        ci: {
+                            ci: true,
+                            collectCoverage: true,
+                            coverageReporters: ['text', 'html'],
+                            collectCoverageFrom: [
+                                './**/*.{js,jsx,ts,tsx}',
+                                './!**/.next/**',
+                                './!**/*.d.ts',
+                                './!**/*.config.*',
+                                './!**/_app.*',
+                            ],
+                            codeCoverage: true,
                         },
                     },
                 }),
