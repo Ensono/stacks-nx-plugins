@@ -6,11 +6,11 @@ import {
 } from '@nrwl/nx-plugin/testing';
 
 describe('next e2e', () => {
+    jest.setTimeout(300_000);
+    process.env.HUSKY = '0';
+
     beforeAll(async () => {
-        await newProject(
-            ['@ensono-stacks/next', '@ensono-stacks/core'],
-            ['@nrwl/next'],
-        );
+        await newProject(['@ensono-stacks/next'], ['@nrwl/next']);
     });
 
     afterAll(() => {

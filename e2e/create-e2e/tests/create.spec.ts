@@ -22,17 +22,31 @@ describe('create', () => {
         }
     });
 
+    beforeEach(() => {
+        if (!fs.existsSync(temporaryDirectory)) {
+            fs.mkdirSync(temporaryDirectory, {
+                recursive: true,
+            });
+        }
+
+        if (fs.existsSync(path.join(temporaryDirectory, 'proj'))) {
+            fs.rmSync(path.join(temporaryDirectory, 'proj'), {
+                recursive: true,
+                force: true,
+            });
+        }
+    });
+
     afterAll(async () => {
         if (fs.existsSync(cacheDirectory)) {
             fs.rmSync(cacheDirectory, { recursive: true, force: true });
         }
-        await runNxCommandAsync('reset');
         cleanup();
     });
 
     it('configures an empty apps stacks workspace', async () => {
         execSync(
-            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
+            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
@@ -43,6 +57,7 @@ describe('create', () => {
                 },
             },
         );
+
         expect(() =>
             checkFilesExist(
                 '.eslintrc.json',
@@ -60,6 +75,23 @@ describe('create', () => {
                     commitizen: {
                         path: '@commitlint/cz-commitlint',
                     },
+                },
+            }),
+        );
+
+        const nxJson = readJson('nx.json');
+
+        expect(nxJson).toMatchObject(
+            expect.objectContaining({
+                stacks: {
+                    business: {
+                        company: 'Ensono',
+                    },
+                    cloud: {
+                        platform: 'azure',
+                        region: 'euw',
+                    },
+                    pipeline: 'azdo',
                 },
             }),
         );
