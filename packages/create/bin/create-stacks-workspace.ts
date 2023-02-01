@@ -90,7 +90,7 @@ ${Object.values(Preset)}`);
             {
                 name: 'Preset',
                 message: `What to create in the new workspace  `,
-                initial: 'empty' as any,
+                initial: 0,
                 type: 'autocomplete',
                 choices: presetOptions,
             },
@@ -152,9 +152,15 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
-    const argumentsToForward = unparse(forwardArgv as unparse.Arguments);
+    const argumentsToForward = unparse(forwardArgv as unparse.Arguments, {
+        alias: {
+            packageManager: ['pm'],
+            interactive: ['i'],
+        },
+    });
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
+
     spawnSync(
         'npx',
         [
@@ -233,15 +239,20 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 })
                 .option('cloud.platform', {
                     describe: chalk.dim`Name of the cloud provider`,
-                    choices: ['azdo'],
-                    type: 'string',
-                    default: 'azdo',
-                })
-                .option('pipeline', {
-                    describe: chalk.dim`Name of the pipeline provider`,
                     choices: ['azure'],
                     type: 'string',
                     default: 'azure',
+                })
+                .option('cloud.region', {
+                    describe: chalk.dim`Region name where resources should be created`,
+                    type: 'string',
+                    default: 'euw',
+                })
+                .option('pipeline', {
+                    describe: chalk.dim`Name of the pipeline provider`,
+                    choices: ['azdo'],
+                    type: 'string',
+                    default: 'azdo',
                 })
                 .option('business.company', {
                     describe: chalk.dim`Company Name`,

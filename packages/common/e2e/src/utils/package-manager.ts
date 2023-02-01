@@ -1,6 +1,5 @@
 import { getPackageManagerCommand, logger } from '@nrwl/devkit';
-import { runCommandAsync, tmpProjPath } from '@nrwl/nx-plugin/testing';
-import { execSync } from 'child_process';
+import { runCommandAsync } from '@nrwl/nx-plugin/testing';
 
 import { SupportedPackageManager } from './types';
 import { getNxVersion } from './versions';
@@ -11,11 +10,11 @@ export function getPackageManagerNxCreateCommand(
     const nxVersion = getNxVersion();
     switch (packageManager) {
         case 'npm':
-            return `npx create-nx-workspace@${nxVersion}`;
+            return `npx --yes @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
         case 'yarn':
-            return `yarn global add create-nx-workspace@${nxVersion} && create-nx-workspace`;
+            return `yarn global add @ensono-stacks/create-stacks-workspace@latest && create-nx-workspace --nxVersion=${nxVersion}`;
         case 'pnpm':
-            return `pnpm dlx create-nx-workspace@${nxVersion}`;
+            return `pnpm dlx @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
         default:
             throw new Error(
                 `Unsupported package manager used: ${packageManager}`,
