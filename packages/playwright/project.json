@@ -8,6 +8,7 @@
             "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
+                "buildableProjectDepsInPackageJsonType": "dependencies",
                 "outputPath": "dist/packages/playwright",
                 "main": "packages/playwright/src/index.ts",
                 "tsConfig": "packages/playwright/tsconfig.lib.json",
