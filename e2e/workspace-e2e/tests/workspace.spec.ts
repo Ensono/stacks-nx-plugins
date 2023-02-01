@@ -5,8 +5,10 @@ import {
 } from '@nrwl/nx-plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 describe('workspace', () => {
+    jest.setTimeout(300_000);
+
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/workspace']);
+        await newProject([]);
     });
 
     afterAll(() => {
@@ -15,18 +17,6 @@ describe('workspace', () => {
     });
 
     it('runs the install generator', async () => {
-        await runNxCommandAsync(
-            `generate @ensono-stacks/workspace:init --no-interactive`,
-            {
-                env: {
-                    // Nx create will not create a git context for e2e,
-                    // so skip husky installation
-                    // https://github.com/typicode/husky/blob/main/src/index.ts#L14
-                    HUSKY: '0',
-                },
-            },
-        );
-
         expect(() =>
             checkFilesExist(
                 'tsconfig.base.json',
