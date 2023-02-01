@@ -16,5 +16,5 @@
         }
     },
     "tags": ["e2e"],
-    "implicitDependencies": ["workspace"]
+    "implicitDependencies": ["workspace", "create"]
 }
