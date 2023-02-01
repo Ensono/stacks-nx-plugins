@@ -10,6 +10,7 @@
         "setup-test.ts",
         "**/*.test.ts",
         "**/*.spec.ts",
-        "**/*.d.ts"
+        "**/*.d.ts",
+        "../../tools/nx.d.ts"
     ]
 }
