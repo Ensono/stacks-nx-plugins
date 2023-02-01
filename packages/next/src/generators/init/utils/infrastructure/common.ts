@@ -274,6 +274,8 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
             ]),
         ];
 
+        updateNxJson.namedInputs = updateNxJson.namedInputs || {};
+
         if (!nxJson.targetDefaults.container) {
             updateNxJson.targetDefaults.container = {
                 dependsOn: ['build'],
@@ -305,7 +307,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
 
         updateNxJson.namedInputs.default = [
             ...new Set([
-                ...nxJson.namedInputs.default,
+                ...(nxJson.namedInputs?.default || []),
                 '!{projectRoot}/Dockerfile',
                 '!{projectRoot}/Chart.yaml',
                 '!{projectRoot}/values.yaml',

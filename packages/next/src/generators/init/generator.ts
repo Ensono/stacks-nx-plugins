@@ -18,15 +18,15 @@ export default async function initGenerator(
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);
 
-    tasks.push(addEslint(tree, project.sourceRoot));
-
-    await formatFiles(tree);
-
-    tasks.push(formatFilesWithEslint(options.project));
+    tasks.push(addEslint(tree, project.root));
 
     if (options.infra) {
         tasks.push(...addInfrastructure(tree, project));
     }
+
+    tasks.push(formatFilesWithEslint(options.project));
+
+    await formatFiles(tree);
 
     return runTasksInSerial(...tasks);
 }

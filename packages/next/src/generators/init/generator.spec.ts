@@ -1,20 +1,23 @@
 import { Tree, readJson, readNxJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
+import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
 
 describe('next install generator', () => {
     let tree: Tree;
+    let nextOptions;
     const options: NextGeneratorSchema = { project: 'next-app', infra: false };
 
-    beforeEach(async () => {
+    async function createNextApp(schema?: Partial<NextSchema>) {
         tree = createTreeWithEmptyWorkspace();
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
             standaloneConfig: false,
+            ...schema,
         });
 
         updateJson(tree, 'nx.json', nxJson => ({
@@ -45,11 +48,13 @@ describe('next install generator', () => {
                 },
             },
         }));
-
-        // console.log(tree.read('nx.json').toString());
-    });
+    }
 
     describe('eslint', () => {
+        beforeEach(async () => {
+            await createNextApp();
+        });
+
         it('should install and configure react specific eslint', async () => {
             await generator(tree, options);
 
@@ -128,21 +133,49 @@ describe('next install generator', () => {
 
     describe('infrastructure', () => {
         it('should scaffold with infrastructure', async () => {
+            await createNextApp();
             await generator(tree, { ...options, infra: true });
 
-            expect(tree.exists('apps/next-app/Dockerfile')).toBeTruthy();
+            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
+            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
             expect(
-                tree.exists('apps/next-app/build/helm/Chart.yaml'),
+                tree.exists('next-app/build/helm/values-prod.yaml'),
             ).toBeTruthy();
             expect(
-                tree.exists('apps/next-app/build/helm/values-prod.yaml'),
+                tree.exists('next-app/build/terraform/main.tf'),
             ).toBeTruthy();
             expect(
-                tree.exists('apps/next-app/build/terraform/main.tf'),
+                tree.exists('next-app/build/terraform/variables.tf'),
+            ).toBeTruthy();
+
+            const docker = tree.read('next-app/Dockerfile')?.toString();
+
+            expect(docker).toContain(
+                'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
+            );
+        });
+
+        it('should scaffold with infrastructure on a custom server', async () => {
+            await createNextApp({ customServer: true });
+            await generator(tree, { ...options, infra: true });
+
+            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
+            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/helm/values-prod.yaml'),
             ).toBeTruthy();
             expect(
-                tree.exists('apps/next-app/build/terraform/variables.tf'),
+                tree.exists('next-app/build/terraform/main.tf'),
             ).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/variables.tf'),
+            ).toBeTruthy();
+
+            const docker = tree.read('next-app/Dockerfile')?.toString();
+
+            expect(docker).toContain(
+                'CMD ["dumb-init", "node", "/server/main.js"]',
+            );
         });
     });
 });
