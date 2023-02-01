@@ -153,5 +153,39 @@ describe('Core: Project-Config', () => {
                 },
             });
         });
+
+        it('should overwrite a property if it already exists in a target', () => {
+            const result = mergeProjectConfigTarget(
+                {
+                    root: '',
+                    targets: {
+                        export: {
+                            executor: '@nrwl/next:export',
+                            options: {
+                                buildTarget: 'next-project:build:production',
+                            },
+                        },
+                    },
+                },
+                {
+                    options: {
+                        buildTarget: 'next-project:build:development',
+                    },
+                },
+                'export',
+            );
+
+            expect(result).toMatchObject({
+                root: '',
+                targets: {
+                    export: {
+                        executor: '@nrwl/next:export',
+                        options: {
+                            buildTarget: 'next-project:build:development',
+                        },
+                    },
+                },
+            });
+        });
     });
 });
