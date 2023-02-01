@@ -4,29 +4,33 @@ function isObject(a: unknown) {
     return typeof a === 'object' && !Array.isArray(a);
 }
 
-function coalesceByKey(source: any) {
-    // eslint-disable-next-line no-return-assign
-    return (accumulator: Record<string, any>, key: string) =>
-        (accumulator[key] && source[key]
-            ? // eslint-disable-next-line @typescript-eslint/no-use-before-define
-              (accumulator[key] = merge(accumulator[key], source[key]))
-            : (accumulator[key] = source[key])) && accumulator;
+function coalesceByKey(source: Record<string, unknown>) {
+    return (accumulator: Record<string, unknown>, key: string) => {
+        if (accumulator[key] && source[key]) {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            accumulator[key] = merge(accumulator[key], source[key]);
+        } else {
+            accumulator[key] = source[key];
+        }
+
+        return accumulator;
+    };
 }
 
-function deepMerge(target: any, ...sources: any[]) {
+function deepMerge(
+    target: Record<string, any>,
+    ...sources: Record<string, any>[]
+) {
     return sources.reduce(
         (accumulator, source) =>
-            Object.keys(source as object).reduce(
-                coalesceByKey(source),
-                accumulator,
-            ),
+            Object.keys(source).reduce(coalesceByKey(source), accumulator),
         target,
     );
 }
 
-function merge(a: any, b: any): unknown {
+function merge(a: unknown, b: unknown): unknown {
     return isObject(a) && isObject(b)
-        ? deepMerge(a, b)
+        ? deepMerge(a as Record<string, unknown>, b as Record<string, unknown>)
         : isObject(a) && !isObject(b)
         ? a
         : b;
