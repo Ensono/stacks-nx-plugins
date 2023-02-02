@@ -203,21 +203,3 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
 
     return () => {};
 }
-
-// namedInputs: {
-//     default: [
-//         ...new Set([
-//             ...nxJson.namedInputs.default,
-//             '!{projectRoot}/Dockerfile',
-//             '!{projectRoot}/Chart.yaml',
-//             '!{projectRoot}/values.yaml',
-//             '!{projectRoot}/charts/**/*',
-//             '!{projectRoot}/templates/**/*',
-//         ]),
-//     ],
-//     terraform: [
-//         '{projectRoot}/build/terraform/*.tf',
-//         '{projectRoot}/build/terraform/*.tfvars',
-//         '{projectRoot}/build/terraform/.terraform.lock.hcl',
-//     ],
-// },
