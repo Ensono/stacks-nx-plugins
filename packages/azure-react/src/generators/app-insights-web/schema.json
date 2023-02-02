@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "AppInsightsWeb",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Library name",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What name would you like to use for the library?",
+            "pattern": "^[a-zA-Z].*$"
+        },
+        "connectionString": {
+            "type": "string",
+            "description": "The env variable for the connection string."
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the lib is placed.",
+            "alias": "dir"
+        },
+        "importPath": {
+            "type": "string",
+            "description": "What import path would you like to use for the library?"
+        },
+        "tags": {
+            "type": "string",
+            "description": "Add tags to the library (used for linting).",
+            "alias": "t"
+        }
+    },
+    "required": ["name", "connectionString"]
+}
