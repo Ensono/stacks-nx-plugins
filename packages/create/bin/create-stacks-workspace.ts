@@ -14,6 +14,7 @@ import {
     installPackages,
     runGenerators,
 } from './dependencies';
+import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
 import { CreateStacksArguments, Preset } from './types';
 
@@ -23,11 +24,6 @@ const presetOptions: { name: Preset; message: string }[] = [
         name: Preset.Apps,
         message:
             'apps              [an empty monorepo with no plugins with a layout that works best for building apps]',
-    },
-    {
-        name: Preset.TS,
-        message:
-            'ts                [an empty monorepo with the JS/TS plugin preinstalled]',
     },
     {
         name: Preset.ReactMonorepo,
@@ -69,15 +65,23 @@ async function determineRepoName(
         });
 }
 
-async function determinePreset(parsedArguments: any): Promise<Preset> {
+async function determinePreset(
+    parsedArguments: yargs.Arguments<CreateStacksArguments>,
+): Promise<Preset> {
+    if (!parsedArguments.preset && !parsedArguments.interactive) {
+        return Promise.resolve(Preset.Apps);
+    }
+
     if (parsedArguments.preset) {
-        if (Object.values(Preset).includes(parsedArguments.preset)) {
+        if (
+            (Object.values(Preset) as string[]).includes(parsedArguments.preset)
+        ) {
             console.error(chalk.red`Invalid preset: It must be one of the following:
 ${Object.values(Preset)}`);
 
             process.exit(1);
         } else {
-            return Promise.resolve(parsedArguments.preset);
+            return Promise.resolve(parsedArguments.preset as Preset);
         }
     }
 
@@ -86,7 +90,7 @@ ${Object.values(Preset)}`);
             {
                 name: 'Preset',
                 message: `What to create in the new workspace  `,
-                initial: 'empty' as any,
+                initial: 0,
                 type: 'autocomplete',
                 choices: presetOptions,
             },
@@ -98,12 +102,16 @@ async function determineAppName(
     preset: Preset,
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
-    if (preset === Preset.Apps || preset === Preset.TS) {
+    if (preset === Preset.Apps) {
         return Promise.resolve('');
     }
 
     if (parsedArguments.appName) {
         return Promise.resolve(parsedArguments.appName);
+    }
+
+    if (!parsedArguments.interactive) {
+        return Promise.resolve(`stacks-app`);
     }
 
     return enquirer
@@ -144,12 +152,23 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
-    const argumentsToForward = unparse(forwardArgv as unparse.Arguments);
+    const argumentsToForward = unparse(forwardArgv as unparse.Arguments, {
+        alias: {
+            packageManager: ['pm'],
+            interactive: ['i'],
+        },
+    });
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
+
     spawnSync(
         'npx',
-        [`create-nx-workspace@${nxVersion}`, ...argumentsToForward],
+        [
+            `create-nx-workspace@${nxVersion}`,
+            '--yes',
+            '--no-interactive',
+            ...argumentsToForward,
+        ],
         {
             env: process.env,
             shell: true,
@@ -168,9 +187,10 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         chalk.magenta`Successfully installed: ${packagesToInstall.join(' ')}`,
     );
 
+    console.log(chalk.magenta`Configuring Stacks`);
+    configureNx(parsedArgv, cwd);
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
 
-    console.log(chalk.magenta`Configuring Stacks`);
     await runGenerators(generatorsToRun, cwd);
     console.log(chalk.magenta`Stacks is ready`);
 }
@@ -209,6 +229,70 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     describe: chalk.dim`Package manager to use`,
                     choices: [...packageManagerList].sort(),
                     defaultDescription: 'npm',
+                    type: 'string',
+                })
+                .option('interactive', {
+                    describe: chalk.dim`Enable interactive mode`,
+                    alias: 'i',
+                    type: 'boolean',
+                    default: true,
+                })
+                .option('cloud.platform', {
+                    describe: chalk.dim`Name of the cloud provider`,
+                    choices: ['azure'],
+                    type: 'string',
+                    default: 'azure',
+                })
+                .option('cloud.region', {
+                    describe: chalk.dim`Region name where resources should be created`,
+                    type: 'string',
+                    default: 'euw',
+                })
+                .option('pipeline', {
+                    describe: chalk.dim`Name of the pipeline provider`,
+                    choices: ['azdo'],
+                    type: 'string',
+                    default: 'azdo',
+                })
+                .option('business.company', {
+                    describe: chalk.dim`Company Name`,
+                    type: 'string',
+                })
+                .option('business.domain', {
+                    describe: chalk.dim`Company Scope or area`,
+                    type: 'string',
+                })
+                .option('business.component', {
+                    describe: chalk.dim`Company component being worked on`,
+                    type: 'string',
+                })
+                .option('domain.internal', {
+                    describe: chalk.dim`Internal domain for nonprod resources`,
+                    type: 'string',
+                })
+                .option('domain.external', {
+                    describe: chalk.dim`External domain for prod resources`,
+                    type: 'string',
+                })
+                .option('terraform.group', {
+                    describe: chalk.dim`Terraform state group name`,
+                    type: 'string',
+                })
+                .option('terraform.container', {
+                    describe: chalk.dim`Terraform storage container name`,
+                    type: 'string',
+                })
+                .option('terraform.storage', {
+                    describe: chalk.dim`Terraform storage name`,
+                    type: 'string',
+                })
+                .option('vcs.type', {
+                    describe: chalk.dim`Version control provider`,
+                    choices: ['azdo', 'github'],
+                    type: 'string',
+                })
+                .option('vcs.url', {
+                    describe: chalk.dim`Version control remote url`,
                     type: 'string',
                 }),
         async (argv: yargs.ArgumentsCamelCase<CreateStacksArguments>) => {

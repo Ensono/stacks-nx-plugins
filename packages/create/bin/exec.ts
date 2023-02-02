@@ -8,7 +8,11 @@ export function execAsync(
     return new Promise((response, reject) => {
         exec(
             command,
-            { ...options, cwd, env: { ...process.env, NX_DAEMON: 'false' } },
+            {
+                ...options,
+                cwd,
+                env: { ...process.env, NX_DAEMON: 'false' },
+            },
             (error, stdout, stderr) => {
                 if (error) {
                     console.log(error);

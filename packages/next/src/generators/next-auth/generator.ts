@@ -2,8 +2,8 @@ import { tsMorphTree, formatFilesWithEslint } from '@ensono-stacks/core';
 import {
     generateFiles,
     joinPathFragments,
+    readProjectConfiguration,
     Tree,
-    getProjects,
     logger,
     formatFiles,
 } from '@nrwl/devkit';
@@ -20,8 +20,7 @@ export default async function nextAuthGenerator(
     tree: Tree,
     options: NextAuthGeneratorSchema,
 ) {
-    const workspace = getProjects(tree);
-    const project = workspace.get(options.project);
+    const project = readProjectConfiguration(tree, options.project);
 
     if (
         !tree.exists(
