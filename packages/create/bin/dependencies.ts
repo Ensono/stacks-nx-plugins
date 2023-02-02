@@ -57,3 +57,9 @@ export async function runGenerators(commands: string[], cwd: string) {
 
     return Promise.allSettled(promises);
 }
+
+export async function commitGeneratedFiles(cwd: string, message: string) {
+    await execAsync(`cd ${cwd}`, cwd);
+    await execAsync('git add .', cwd);
+    await execAsync(`HUSKY=0 git commit -m "${message}"`, cwd);
+}
