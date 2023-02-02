@@ -10,7 +10,10 @@ describe('next infrastructure generator', () => {
     let tree: Tree;
     const options: NextGeneratorSchema = { project: 'next-app' };
 
-    async function createNextApp(schema?: Partial<NextSchema>) {
+    async function createNextApp(
+        schema?: Partial<NextSchema>,
+        skipStacksConfig = false,
+    ) {
         tree = createTreeWithEmptyWorkspace();
         await applicationGenerator(tree, {
             name: 'next-app',
@@ -19,34 +22,36 @@ describe('next infrastructure generator', () => {
             ...schema,
         });
 
-        updateJson(tree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
+        if (!skipStacksConfig) {
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    business: {
+                        company: 'Amido',
+                        domain: 'stacks',
+                        component: 'nx',
+                    },
+                    domain: {
+                        internal: 'test.com',
+                        external: 'test.dev',
+                    },
+                    cloud: {
+                        region: 'euw',
+                        platform: 'azure',
+                    },
+                    pipeline: 'azdo',
+                    terraform: {
+                        group: 'terraform-group',
+                        storage: 'terraform-storage',
+                        container: 'terraform-container',
+                    },
+                    vcs: {
+                        type: 'github',
+                        url: 'remote.git',
+                    },
                 },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
-                },
-            },
-        }));
+            }));
+        }
     }
 
     describe('infrastructure', () => {
@@ -58,6 +63,25 @@ describe('next infrastructure generator', () => {
                     project: 'unknown',
                 }),
             ).rejects.toThrowError("Cannot find configuration for 'unknown'");
+        });
+
+        it('should not apply if stacks config is missing', async () => {
+            await createNextApp({}, true);
+            await generator(tree, { ...options });
+
+            expect(tree.exists('next-app/Dockerfile')).not.toBeTruthy();
+            expect(
+                tree.exists('next-app/build/helm/Chart.yaml'),
+            ).not.toBeTruthy();
+            expect(
+                tree.exists('next-app/build/helm/values-prod.yaml'),
+            ).not.toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/main.tf'),
+            ).not.toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/variables.tf'),
+            ).not.toBeTruthy();
         });
 
         it('should scaffold with infrastructure', async () => {
