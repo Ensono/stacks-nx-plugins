@@ -9,6 +9,7 @@ import unparse from 'yargs-unparser';
 
 import packageJson from '../package.json';
 import {
+    commitGeneratedFiles,
     getGeneratorsToRun,
     getStacksPlugins,
     installPackages,
@@ -172,6 +173,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Configuring Stacks`);
     await runGenerators(generatorsToRun, cwd);
+    await commitGeneratedFiles(cwd, 'stacks init');
     console.log(chalk.magenta`Stacks is ready`);
 }
 
