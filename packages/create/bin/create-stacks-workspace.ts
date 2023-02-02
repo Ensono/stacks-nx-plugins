@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
+import fs from 'fs';
 import path from 'path';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
@@ -153,6 +154,7 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
+    const { name } = forwardArgv;
     const argumentsToForward = unparse(forwardArgv as unparse.Arguments, {
         alias: {
             packageManager: ['pm'],
@@ -160,9 +162,16 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         },
     });
 
+    const cwd = path.join(process.cwd(), name);
+
+    if (fs.existsSync(path.join(cwd, 'nx.json'))) {
+        console.error(chalk.red`Workspace ${name} already exists!`);
+        process.exit(1);
+    }
+
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
 
-    spawnSync(
+    const nxResult = spawnSync(
         'npx',
         [
             `create-nx-workspace@${nxVersion}`,
@@ -177,10 +186,14 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             stdio: 'inherit',
         },
     );
+    if (nxResult.status !== 0) {
+        console.error(
+            chalk.red`Failed to create nx workspace. See error above.`,
+        );
+        process.exit(1);
+    }
 
     const packagesToInstall = getStacksPlugins(parsedArgv);
-
-    const cwd = path.join(process.cwd(), forwardArgv.name);
 
     console.log(chalk.magenta`Installing Stacks dependencies`);
     await installPackages(packagesToInstall, cwd);
