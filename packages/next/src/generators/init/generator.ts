@@ -30,11 +30,7 @@ export default async function initGenerator(
         );
     }
 
-    tasks.push(addEslint(tree, project.sourceRoot));
-
     await addCustomTestConfig(tree, project);
-
-    await formatFiles(tree);
 
     tasks.push(formatFilesWithEslint(options.project));
 
