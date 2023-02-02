@@ -16,5 +16,5 @@
         }
     },
     "tags": ["e2e"],
-    "implicitDependencies": ["rest-client"]
+    "implicitDependencies": ["rest-client", "create"]
 }

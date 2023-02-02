@@ -25,9 +25,20 @@ export function runCreateWorkspace(options: CreateWorkspaceOptions) {
         options.packageManager,
     );
 
-    let command = `${createCommand} proj --preset=${options.preset} --package-manager=${options.packageManager}`;
-
+    let command = `${createCommand} proj --preset=${
+        options.preset || 'apps'
+    } --packageManager=${options.packageManager}`;
+    command +=
+        ' --business.company=Amido --business.domain=Stacks --business.component=Nx';
+    command += ' --cloud.platform=azure --cloud.region=euw';
+    command +=
+        ' --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com';
+    command += ' --pipeline=azdo';
+    command +=
+        ' --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container';
+    command += ' --vcs.type=github --vcs.url=amidostacks.git';
     command += ' --cli=nx --no-nxCloud --no-interactive';
+
     if (options.args) {
         command += ` ${options.args}`;
     }
@@ -38,7 +49,10 @@ export function runCreateWorkspace(options: CreateWorkspaceOptions) {
 
     const create = execSync(command, {
         cwd: temporaryDirectory,
-        env: process.env,
+        env: {
+            ...process.env,
+            HUSKY: '0',
+        },
         stdio: 'pipe',
     });
 
@@ -50,10 +64,11 @@ export async function newProject(
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
 ) {
+    process.env.HUSKY = '0';
     const packageManager = getSelectedPackageManager();
 
     const config = {
-        preset: 'empty' as SupportedNxPreset,
+        preset: 'apps' as SupportedNxPreset,
         packageManager,
         ...options,
     };

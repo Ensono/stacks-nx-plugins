@@ -1,28 +1,64 @@
-import { Tree, readJson } from '@nrwl/devkit';
+import { Tree, readJson, readNxJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
+import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
 
 describe('next install generator', () => {
-    let appTree: Tree;
-    const options: NextGeneratorSchema = { project: 'next-app' };
+    let tree: Tree;
+    let nextOptions;
+    const options: NextGeneratorSchema = { project: 'next-app', infra: false };
 
-    beforeEach(async () => {
-        appTree = createTreeWithEmptyWorkspace();
-        await applicationGenerator(appTree, {
+    async function createNextApp(schema?: Partial<NextSchema>) {
+        tree = createTreeWithEmptyWorkspace();
+        await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
             standaloneConfig: false,
+            ...schema,
         });
-    });
+
+        updateJson(tree, 'nx.json', nxJson => ({
+            ...nxJson,
+            stacks: {
+                business: {
+                    company: 'Amido',
+                    domain: 'stacks',
+                    component: 'nx',
+                },
+                domain: {
+                    internal: 'test.com',
+                    external: 'test.dev',
+                },
+                cloud: {
+                    region: 'euw',
+                    platform: 'azure',
+                },
+                pipeline: 'azdo',
+                terraform: {
+                    group: 'terraform-group',
+                    storage: 'terraform-storage',
+                    container: 'terraform-container',
+                },
+                vcs: {
+                    type: 'github',
+                    url: 'remote.git',
+                },
+            },
+        }));
+    }
 
     describe('eslint', () => {
-        it('should install and configure react specific eslint', async () => {
-            await generator(appTree, options);
+        beforeEach(async () => {
+            await createNextApp();
+        });
 
-            const packageJson = readJson(appTree, 'package.json');
+        it('should install and configure react specific eslint', async () => {
+            await generator(tree, options);
+
+            const packageJson = readJson(tree, 'package.json');
 
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining(['eslint-plugin-testing-library']),
@@ -31,13 +67,11 @@ describe('next install generator', () => {
 
         it('should throw if project is not defined', async () => {
             await expect(
-                generator(appTree, {
+                generator(tree, {
                     ...options,
                     project: 'unknown',
                 }),
-            ).rejects.toThrowError(
-                'Cannot find the unknown project. Please double check the project name.',
-            );
+            ).rejects.toThrowError("Cannot find configuration for 'unknown'");
         });
 
         it('should merge defaults with an existing eslintrc.json file', async () => {
@@ -55,14 +89,14 @@ describe('next install generator', () => {
                 ],
             };
 
-            appTree.write(
+            tree.write(
                 'next-app/.eslintrc.json',
                 JSON.stringify(defaultConfig),
             );
 
-            await generator(appTree, options);
+            await generator(tree, options);
 
-            const rootConfig = readJson(appTree, 'next-app/.eslintrc.json');
+            const rootConfig = readJson(tree, 'next-app/.eslintrc.json');
 
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
@@ -93,6 +127,54 @@ describe('next install generator', () => {
                         }),
                     ]),
                 }),
+            );
+        });
+    });
+
+    describe('infrastructure', () => {
+        it('should scaffold with infrastructure', async () => {
+            await createNextApp();
+            await generator(tree, { ...options, infra: true });
+
+            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
+            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/helm/values-prod.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/main.tf'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/variables.tf'),
+            ).toBeTruthy();
+
+            const docker = tree.read('next-app/Dockerfile')?.toString();
+
+            expect(docker).toContain(
+                'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
+            );
+        });
+
+        it('should scaffold with infrastructure on a custom server', async () => {
+            await createNextApp({ customServer: true });
+            await generator(tree, { ...options, infra: true });
+
+            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
+            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/helm/values-prod.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/main.tf'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/build/terraform/variables.tf'),
+            ).toBeTruthy();
+
+            const docker = tree.read('next-app/Dockerfile')?.toString();
+
+            expect(docker).toContain(
+                'CMD ["dumb-init", "node", "/server/main.js"]',
             );
         });
     });
