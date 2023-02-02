@@ -205,8 +205,13 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     configureNx(parsedArgv, cwd);
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
 
-    await runGenerators(generatorsToRun, cwd);
-    await commitGeneratedFiles(cwd, 'stacks init');
+    try {
+        await runGenerators(generatorsToRun, cwd);
+        await commitGeneratedFiles(cwd, 'stacks init');
+    } catch {
+        console.error(chalk.red`Failed to run Stacks generators.`);
+        process.exit(1);
+    }
     console.log(chalk.magenta`Stacks is ready`);
 }
 
