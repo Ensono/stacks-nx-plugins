@@ -10,5 +10,8 @@
     },
     "peerDependencies": {
         "@nrwl/devkit": ">=15.2.1"
+    },
+    "dependencies": {
+        "@ensono-stacks/core": "^0.3.0"
     }
 }
