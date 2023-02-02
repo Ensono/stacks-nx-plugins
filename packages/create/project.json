@@ -43,6 +43,7 @@
             },
             "configurations": {
                 "ci": {
+                    "skipCommit": false,
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
