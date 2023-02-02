@@ -41,7 +41,7 @@ jobs:
       run: npx nx affected --target=version --base=last-release --configuration=ci --parallel=1
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: Tag last-release
@@ -51,7 +51,7 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.BOT_TOKEN }}
         branch: ${{ github.ref }}
         force: true
         tags: true
