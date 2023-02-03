@@ -169,7 +169,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
         options: {
             commands: [
                 {
-                    command: `helm upgrade --devel --install ${project.name} oci://${registryPaths.nonprod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.nonprod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                    command: `helm upgrade --devel --create-namespace --install ${project.name} oci://${registryPaths.nonprod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.nonprod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                     forwardAllArgs: false,
                 },
             ],
@@ -178,7 +178,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
             prod: {
                 commands: [
                     {
-                        command: `helm upgrade --install --values values-prod.yaml ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.prod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                        command: `helm upgrade --create-namespace --install --values values-prod.yaml ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.prod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                         forwardAllArgs: false,
                     },
                 ],
