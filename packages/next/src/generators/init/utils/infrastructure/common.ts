@@ -220,7 +220,8 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
                 command:
                     // eslint-disable-next-line prefer-template
                     'helm package . --version ${version} --app-version ${version} -u -d ' +
-                    offsetFromRoot(`dist/${project.root}/build/helm`),
+                    offsetFromRoot(`${project.root}/build/helm`) +
+                    `dist/${project.root}/build/helm`,
                 forwardAllArgs: false,
                 cwd: `${project.root}/build/helm`,
             },
