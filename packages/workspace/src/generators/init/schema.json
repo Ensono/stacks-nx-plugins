@@ -23,7 +23,7 @@
         "pipelineRunner": {
             "type": "string",
             "description": "Add pipeline runner config",
-            "default": "none",
+            "default": "taskctl",
             "x-prompt": {
                 "message": "Which pipeline runner would you like to generate?",
                 "type": "list",
