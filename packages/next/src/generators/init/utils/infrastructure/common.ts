@@ -154,10 +154,8 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
                 noVerify: true,
                 push: true,
                 postTargets: [
-                    `${project.name}:container:nonprod`,
                     `${project.name}:container:prod`,
                     `${project.name}:helm-package`,
-                    `${project.name}:helm-push`,
                     `${project.name}:helm-push:prod`,
                 ],
             },
