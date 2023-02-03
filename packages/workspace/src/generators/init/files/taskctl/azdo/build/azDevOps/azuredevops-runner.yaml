@@ -16,6 +16,10 @@ variables:
     - group: <%= commonVariableGroup %>
     - name: DebugPreference
       value: 'Continue'
+    - ${{ if ne(variables[‘Build.SourceBranch’], ‘refs/heads/main’) }}:
+          - group: <%= nonprodVariableGroup %>
+    - ${{ if eq(variables[‘Build.SourceBranch’], ‘refs/heads/main’) }}:
+          - group: <%= prodVariableGroup %>
 
 # Configure the stages
 stages:

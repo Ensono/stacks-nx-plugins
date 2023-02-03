@@ -39,6 +39,8 @@ export function addPipeline(tree: Tree, options: InstallGeneratorSchema) {
     if (pipeline === 'azdo') {
         const azureOptions = {
             commonVariableGroup: paramCase(`${prefix}-${component}-common`),
+            nonprodVariableGroup: paramCase(`${prefix}-${component}-nonprod`),
+            prodVariableGroup: paramCase(`${prefix}-${component}-prod`),
             nonprodAKSResource: paramCase(`${prefix}-prod-${region}-core`),
             prodAKSResource: paramCase(`${prefix}-prod-${region}-core`),
             nonprodRegistry: getRegistryUrl(stacksConfig, 'nonprod'),
