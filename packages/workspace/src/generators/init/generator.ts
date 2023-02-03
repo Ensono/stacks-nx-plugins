@@ -6,6 +6,8 @@ import { addCommitizen } from './utils/commitizen';
 import { addCommitlint } from './utils/commitlint';
 import { addEslint } from './utils/eslint';
 import { addHusky } from './utils/husky';
+import { addPipeline } from './utils/pipeline';
+import { setDefaults } from './utils/set-defaults';
 import { createTsConfigBase } from './utils/tsconfig';
 
 export default async function install(
@@ -26,6 +28,11 @@ export default async function install(
         tasks.push(addEslint(tree));
     }
 
+    if (options.pipelineRunner !== 'none') {
+        tasks.push(addPipeline(tree, options));
+    }
+
+    setDefaults(tree, options);
     // Create tsconfig.base if it doesn't exist
     createTsConfigBase(tree);
 

@@ -1,4 +1,4 @@
-import { readStacksConfig } from '@ensono-stacks/core';
+import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
 import {
     generateFiles,
     updateProjectConfiguration,
@@ -8,8 +8,6 @@ import {
 } from '@nrwl/devkit';
 import { paramCase } from 'change-case';
 import path from 'path';
-
-import { getRegistryUrl } from './registry';
 
 export function addTerraform(tree: Tree, project: ProjectConfiguration) {
     const stacksConfig = readStacksConfig(tree);

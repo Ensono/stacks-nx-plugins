@@ -19,6 +19,25 @@
             "type": "boolean",
             "description": "Install & configure eslint",
             "default": true
+        },
+        "pipelineRunner": {
+            "type": "string",
+            "description": "Add pipeline runner config",
+            "default": "none",
+            "x-prompt": {
+                "message": "Which pipeline runner would you like to generate?",
+                "type": "list",
+                "items": [
+                    {
+                        "value": "taskctl",
+                        "label": "TaskCtl"
+                    },
+                    {
+                        "value": "none",
+                        "label": "None"
+                    }
+                ]
+            }
         }
     },
     "required": []
