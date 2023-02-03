@@ -13,7 +13,7 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
     const stacksConfig = readStacksConfig(tree);
     const {
         business: { component },
-        cloud: { platform, group },
+        cloud: { platform },
         domain: { internal: internalDomain, external: externalDomain },
         terraform: {
             group: tfGroup,
@@ -43,7 +43,6 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
             )}/${namespace}/${project.name}`,
             devProjectName: paramCase(`nonprod-${project.name}`),
             prodProjectName: paramCase(`prod-${project.name}`),
-            cloudGroup: paramCase(group),
             internalDomain,
             externalDomain,
             snakeCase,
