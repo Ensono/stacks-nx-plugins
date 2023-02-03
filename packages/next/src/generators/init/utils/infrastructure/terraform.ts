@@ -6,27 +6,29 @@ import {
     Tree,
     updateJson,
 } from '@nrwl/devkit';
-import { paramCase } from 'change-case';
+import { paramCase, snakeCase } from 'change-case';
 import path from 'path';
 
 export function addTerraform(tree: Tree, project: ProjectConfiguration) {
     const stacksConfig = readStacksConfig(tree);
-    const namespace = paramCase(
-        `${stacksConfig.business.domain}-${stacksConfig.business.component}`,
-    );
+    const {
+        business: { component },
+        cloud: { platform },
+        domain: { internal: internalDomain, external: externalDomain },
+        terraform: {
+            group: tfGroup,
+            storage: tfStorage,
+            container: tfContainer,
+        },
+    } = stacksConfig;
+
+    const namespace = paramCase(component);
 
     const update = { ...project };
 
     generateFiles(
         tree,
-        path.join(
-            __dirname,
-            '..',
-            '..',
-            'files',
-            'infrastructure',
-            stacksConfig.cloud.platform,
-        ),
+        path.join(__dirname, '..', '..', 'files', 'infrastructure', platform),
         project.root,
         {
             projectName: project.name,
@@ -41,9 +43,9 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
             )}/${namespace}/${project.name}`,
             devProjectName: paramCase(`nonprod-${project.name}`),
             prodProjectName: paramCase(`prod-${project.name}`),
-            cloudGroup: stacksConfig.cloud.group,
-            internalDomain: stacksConfig.domain.internal,
-            externalDomain: stacksConfig.domain.external,
+            internalDomain,
+            externalDomain,
+            snakeCase,
         },
     );
 
@@ -71,13 +73,13 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
                     forwardAllArgs: false,
                 },
             ],
-            args: `--rg=${stacksConfig.cloud.group} --sa=${stacksConfig.terraform.storage} --container=${stacksConfig.terraform.container} --key=${project.name}:nonprod`,
+            args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${project.name}:nonprod`,
             cwd: `${project.root}/build/terraform`,
             parallel: false,
         },
         configurations: {
             prod: {
-                args: `--rg=${stacksConfig.cloud.group} --sa=${stacksConfig.terraform.storage} --container=${stacksConfig.terraform.container} --key=${project.name}:prod`,
+                args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${project.name}:prod`,
             },
         },
     };
