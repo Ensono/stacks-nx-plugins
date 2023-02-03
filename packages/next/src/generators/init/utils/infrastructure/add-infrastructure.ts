@@ -1,5 +1,10 @@
 import { addGitIgnoreEntry } from '@ensono-stacks/core';
-import { ProjectConfiguration, Tree, GeneratorCallback } from '@nrwl/devkit';
+import {
+    logger,
+    ProjectConfiguration,
+    Tree,
+    GeneratorCallback,
+} from '@nrwl/devkit';
 
 import { addCommon } from './common';
 import { addTerraform } from './terraform';
@@ -23,6 +28,12 @@ export function addInfrastructure(tree: Tree, project: ProjectConfiguration) {
         '.terraformrc',
         'terraform.rc',
     ]);
+
+    tasks.push(() => {
+        logger.warn(
+            `Review the infrastructure files in ${project.root}/build/. Search for "%REPLACE% and make any necessary changes.`,
+        );
+    });
 
     return tasks;
 }
