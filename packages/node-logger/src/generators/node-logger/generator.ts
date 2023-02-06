@@ -1,6 +1,5 @@
 import {
     addDependenciesToPackageJson,
-    addProjectConfiguration,
     formatFiles,
     generateFiles,
     getWorkspaceLayout,
