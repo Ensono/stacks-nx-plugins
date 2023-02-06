@@ -1,4 +1,4 @@
-import winston from 'winston';
+import * as winston from 'winston';
 <% if(typeof streamPath != 'undefined') { %>import fs from "fs";<% } %>
 
 const logConfiguration: winston.LoggerOptions = {
