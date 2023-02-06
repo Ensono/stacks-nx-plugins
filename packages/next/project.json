@@ -58,7 +58,15 @@
             }
         },
         "version": {
-            "executor": "@jscutlery/semver:version"
+            "executor": "@jscutlery/semver:version",
+            "configurations": {
+                "prerelease": {
+                    "postTargets": ["next:publish:prerelease"]
+                },
+                "release": {
+                    "postTargets": ["next:publish", "next:github"]
+                }
+            }
         },
         "publish": {
             "executor": "ngx-deploy-npm:deploy"
