@@ -9,6 +9,13 @@ import { CreateStacksArguments, Preset } from './types';
 
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
+async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
+    if (promise) {
+        await promise();
+        await chain(promises);
+    }
+}
+
 export function getGeneratorsToRun(
     argv: yargs.Arguments<CreateStacksArguments>,
 ) {
@@ -51,9 +58,9 @@ export async function runGenerators(commands: string[], cwd: string) {
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
 
-    const promises = commands.map(command =>
-        execAsync(`${pm.exec} nx g ${command}`, cwd),
+    const promises = commands.map(
+        command => () => execAsync(`${pm.exec} nx g ${command}`, cwd),
     );
 
-    return Promise.allSettled(promises);
+    return chain(promises);
 }
