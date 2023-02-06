@@ -7,12 +7,12 @@ import {
     uniq,
 } from '@nrwl/nx-plugin/testing';
 
-describe('logger-client e2e', () => {
+describe('node-logger e2e', () => {
 
     beforeAll(() => {
         ensureNxProject(
-            '@ensono-stacks/logger-client',
-            'dist/packages/logger-client',
+            '@ensono-stacks/node-logger',
+            'dist/packages/node-logger',
         );
     });
 
@@ -21,10 +21,10 @@ describe('logger-client e2e', () => {
         cleanup();
     });
 
-    it('should create logger-client', async () => {
-        const project = uniq('logger-client');
+    it('should create node-logger', async () => {
+        const project = uniq('node-logger');
         await runNxCommandAsync(
-            `generate @ensono-stacks/logger-client:logger-client ${project}`,
+            `generate @ensono-stacks/node-logger:node-logger ${project}`,
         );
         expect(() =>
         checkFilesExist(
@@ -36,9 +36,9 @@ describe('logger-client e2e', () => {
 
     describe('--directory', () => {
         it('should create src in the specified directory', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --directory subdir`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --directory subdir`,
             );
             expect(() =>
                 checkFilesExist(
@@ -51,13 +51,13 @@ describe('logger-client e2e', () => {
 
     describe('--tags', () => {
         it('should add tags to the project', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             ensureNxProject(
-                '@ensono-stacks/logger-client',
-                'dist/packages/logger-client',
+                '@ensono-stacks/node-logger',
+                'dist/packages/node-logger',
             );
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --tags e2etag,e2ePackage`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --tags e2etag,e2ePackage`,
             );
             const projectJson = readJson(`libs/${project}/project.json`);
             expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
@@ -67,15 +67,15 @@ describe('logger-client e2e', () => {
     describe('--logLevelType', () => {
         beforeAll(() => {
             ensureNxProject(
-                '@ensono-stacks/logger-client',
-                'dist/packages/logger-client',
+                '@ensono-stacks/node-logger',
+                'dist/packages/node-logger',
             );
         });
 
         it('should create src with "cli" log level type', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --logLevelType cli`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --logLevelType cli`,
             );
             expect(() =>
                 checkFilesExist(
@@ -86,9 +86,9 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should create src with "npm" log level type', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --logLevelType npm`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --logLevelType npm`,
             );
             expect(() =>
                 checkFilesExist(
@@ -99,9 +99,9 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should create src with "syslog" log level type', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --logLevelType syslog`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --logLevelType syslog`,
             );
             expect(() =>
                 checkFilesExist(
@@ -112,18 +112,18 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should error with invalid log level type', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --logLevelType errorLog`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --logLevelType errorLog`,
             ).catch((stderr) => expect(stderr?.code).toEqual(1));
         }, 120000);
     });
 
     describe('--consoleLog', () => {
         it('should create src with console log transport being set to true', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --consoleLog`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --consoleLog`,
             );
             expect(() =>
                 checkFilesExist(
@@ -136,9 +136,9 @@ describe('logger-client e2e', () => {
 
     describe('--fileTransportPath', () => {
         it('should create src with file transport path', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --fileTransportPath=/logs/log.log`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --fileTransportPath=/logs/log.log`,
             );
             expect(() =>
                 checkFilesExist(
@@ -152,15 +152,15 @@ describe('logger-client e2e', () => {
     describe('--httpTransport', () => {
         beforeEach(() => {
             ensureNxProject(
-                '@ensono-stacks/logger-client',
-                'dist/packages/logger-client',
+                '@ensono-stacks/node-logger',
+                'dist/packages/node-logger',
             );
         });
         
         it('should create src with http transport being set to true', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --httpTransport`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport`,
             );
             expect(() =>
                 checkFilesExist(
@@ -171,9 +171,9 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should create src with http transport being set to true and httpTransportHost being set', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --httpTransport --httpTransportHost=localhost`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportHost=localhost`,
             );
             expect(() =>
                 checkFilesExist(
@@ -184,9 +184,9 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should create src with http transport being set to true and httpTransportPort being set', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --httpTransport --httpTransportPort=3000`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportPort=3000`,
             );
             expect(() =>
                 checkFilesExist(
@@ -197,9 +197,9 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should create src with http transport being set to true and httpTransportPath being set', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --httpTransport --httpTransportPath=somePath`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportPath=somePath`,
             );
             expect(() =>
                 checkFilesExist(
@@ -210,9 +210,9 @@ describe('logger-client e2e', () => {
         }, 120000);
 
         it('should create src with http transport being set to true and httpTransportSSL being set to true', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --httpTransport --httpTransportSSL`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportSSL`,
             );
             expect(() =>
                 checkFilesExist(
@@ -225,9 +225,9 @@ describe('logger-client e2e', () => {
 
     describe('--streamPath', () => {
         it('should create src with stream path being set', async () => {
-            const project = uniq('logger-client');
+            const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/logger-client:logger-client ${project} --streamPath=/somePath`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --streamPath=/somePath`,
             );
             expect(() =>
                 checkFilesExist(

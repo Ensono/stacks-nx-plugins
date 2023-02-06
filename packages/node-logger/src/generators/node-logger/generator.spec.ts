@@ -4,11 +4,11 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import exp from 'constants';
 
 import generator from './generator';
-import { LoggerClientGeneratorSchema } from './schema';
+import { NodeLoggerGeneratorSchema } from './schema';
 
-describe('logger-client generator', () => {
+describe('node-logger generator', () => {
     let tree: Tree;
-    const options: LoggerClientGeneratorSchema = {
+    const options: NodeLoggerGeneratorSchema = {
         name: 'testClient',
         logLevelType: 'npm',
         consoleLogs: false,
@@ -25,7 +25,7 @@ describe('logger-client generator', () => {
         tree = createTreeWithEmptyWorkspace();
     });
 
-    it('should generate the logger-client', async () => {
+    it('should generate the node-logger', async () => {
         await generator(tree, {
             ...options,
             directory: 'custom',

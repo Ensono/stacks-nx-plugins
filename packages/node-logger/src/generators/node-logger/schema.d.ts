@@ -1,4 +1,4 @@
-export interface LoggerClientGeneratorSchema {
+export interface NodeLoggerGeneratorSchema {
     name: string;
     tags?: string;
     directory?: string;
