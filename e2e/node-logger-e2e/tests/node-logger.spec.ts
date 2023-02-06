@@ -156,63 +156,11 @@ describe('node-logger e2e', () => {
                 'dist/packages/node-logger',
             );
         });
-        
-        it('should create src with http transport being set to true', async () => {
-            const project = uniq('node-logger');
-            await runNxCommandAsync(
-                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport`,
-            );
-            expect(() =>
-                checkFilesExist(
-                    `libs/${project}/src/index.ts`,
-                    `libs/${project}/src/index.test.ts`
-                    ),
-            ).not.toThrow();
-        }, 120000);
 
-        it('should create src with http transport being set to true and httpTransportHost being set', async () => {
+        it('should create src with http transport being set', async () => {
             const project = uniq('node-logger');
             await runNxCommandAsync(
-                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportHost=localhost`,
-            );
-            expect(() =>
-                checkFilesExist(
-                    `libs/${project}/src/index.ts`,
-                    `libs/${project}/src/index.test.ts`
-                    ),
-            ).not.toThrow();
-        }, 120000);
-
-        it('should create src with http transport being set to true and httpTransportPort being set', async () => {
-            const project = uniq('node-logger');
-            await runNxCommandAsync(
-                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportPort=3000`,
-            );
-            expect(() =>
-                checkFilesExist(
-                    `libs/${project}/src/index.ts`,
-                    `libs/${project}/src/index.test.ts`
-                    ),
-            ).not.toThrow();
-        }, 120000);
-
-        it('should create src with http transport being set to true and httpTransportPath being set', async () => {
-            const project = uniq('node-logger');
-            await runNxCommandAsync(
-                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportPath=somePath`,
-            );
-            expect(() =>
-                checkFilesExist(
-                    `libs/${project}/src/index.ts`,
-                    `libs/${project}/src/index.test.ts`
-                    ),
-            ).not.toThrow();
-        }, 120000);
-
-        it('should create src with http transport being set to true and httpTransportSSL being set to true', async () => {
-            const project = uniq('node-logger');
-            await runNxCommandAsync(
-                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportSSL`,
+                `generate @ensono-stacks/node-logger:node-logger ${project} --httpTransport --httpTransportHost=localhost --httpTransportPort=3000 --httpTransportPath=somePath --httpTransportSSL`,
             );
             expect(() =>
                 checkFilesExist(
