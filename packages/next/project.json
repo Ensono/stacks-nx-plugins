@@ -58,37 +58,13 @@
             }
         },
         "version": {
-            "executor": "@jscutlery/semver:version",
-            "options": {
-                "preset": "conventional",
-                "trackDeps": true,
-                "skipCommit": true,
-                "dryRun": true,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true
-            },
-            "configurations": {
-                "ci": {
-                    "skipCommit": false,
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["next:publish", "next:github"]
-                }
-            }
+            "executor": "@jscutlery/semver:version"
         },
         "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public"
-            }
+            "executor": "ngx-deploy-npm:deploy"
         },
         "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
-            }
+            "executor": "@jscutlery/semver:github"
         }
     },
     "tags": ["plugin"]
