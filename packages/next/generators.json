@@ -8,6 +8,11 @@
             "schema": "./src/generators/init/schema.json",
             "description": "next init generator"
         },
+        "infrastructure": {
+            "factory": "./src/generators/infrastructure/generator",
+            "schema": "./src/generators/infrastructure/schema.json",
+            "description": "next infrastructure generator"
+        },
         "next-auth": {
             "factory": "./src/generators/next-auth/generator",
             "schema": "./src/generators/next-auth/schema.json",

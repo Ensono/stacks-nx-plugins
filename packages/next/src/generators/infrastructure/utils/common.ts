@@ -16,7 +16,7 @@ import {
     JSCUTLERY_SEMVER_VERSION,
     NXTOOLS_NX_CONTAINER_VERSION,
     NXTOOLS_NX_METADATA_VERSION,
-} from '../constants';
+} from '../../../utils/constants';
 
 function addCommonInfrastructureDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -67,7 +67,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
 
     generateFiles(
         tree,
-        path.join(__dirname, '..', '..', 'files', 'infrastructure', 'common'),
+        path.join(__dirname, '..', 'files', 'common'),
         project.root,
         {
             distFolderPath,
