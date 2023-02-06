@@ -56,8 +56,47 @@
                 }
             ]
         },
+        "publish": {
+            "options": {
+                "access": "public"
+            },
+            "configurations": {
+                "prerelease": {
+                    "tag": "dev"
+                }
+            }
+        },
+        "github": {
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
+        },
         "version": {
-            "dependsOn": ["build"]
+            "dependsOn": ["build"],
+            "options": {
+                "preset": "conventional",
+                "trackDeps": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true
+            },
+            "configurations": {
+                "prerelease": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "preid": "alpha",
+                    "postTargets": ["next:publish:prerelease"]
+                },
+                "release": {
+                    "dryRun": false,
+                    "skipProjectChangelog": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["next:publish", "next:github"]
+                }
+            }
         }
     },
     "targetDependencies": {
