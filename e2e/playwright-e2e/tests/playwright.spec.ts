@@ -10,6 +10,8 @@ import {
 import { Project, SyntaxKind } from 'ts-morph';
 
 describe('playwright e2e', () => {
+    process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = 'true';
+
     beforeAll(async () => {
         await newProject(
             ['@ensono-stacks/playwright'],
