@@ -17,12 +17,14 @@
         "appInsightsKey": {
             "type": "string",
             "description": "The env variable that stores the app insights key.",
-            "alias": "e"
+            "alias": "e",
+            "x-prompt": "What is your application insights key?"
         },
         "server": {
             "type": "string",
             "description": "The name of your custom server file",
-            "alias": "s"
+            "alias": "s",
+            "x-prompt": "What is the path within your app to the server?"
         }
     },
     "required": ["project", "appInsightsKey", "server"]
