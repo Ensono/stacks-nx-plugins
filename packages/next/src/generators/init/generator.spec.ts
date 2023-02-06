@@ -124,6 +124,9 @@ describe('next install generator', () => {
                                 'testing-library/prefer-user-event': 'warn',
                                 'testing-library/no-debug': 'off',
                             }),
+                            parserOptions: {
+                                project: ['./tsconfig(.*)?.json'],
+                            },
                         }),
                     ]),
                 }),

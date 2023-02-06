@@ -99,7 +99,13 @@ describe('Core: Array', () => {
                     },
                 },
                 {
-                    overrides: [{ files: '*.ts', rules: { rule: 'off' } }],
+                    overrides: [
+                        {
+                            files: '*.ts',
+                            rules: { rule: 'off' },
+                            parserOptions: { project: ['./tsconfig.json'] },
+                        },
+                    ],
                 },
             );
 
@@ -110,7 +116,13 @@ describe('Core: Array', () => {
                 rules: {
                     rule: 'off',
                 },
-                overrides: [{ files: '*.ts', rules: { rule: 'off' } }],
+                overrides: [
+                    {
+                        files: '*.ts',
+                        rules: { rule: 'off' },
+                        parserOptions: { project: ['./tsconfig.json'] },
+                    },
+                ],
             });
         });
 
@@ -152,6 +164,9 @@ describe('Core: Array', () => {
                             files: ['test/*.tsx', '*.ts', 'test/*.ts'],
                             plugins: ['plugin'],
                             rules: { rule: 'off' },
+                            parserOptions: {
+                                project: ['./tsconfig.json'],
+                            },
                         },
                     ],
                 },
@@ -162,6 +177,9 @@ describe('Core: Array', () => {
                             extends: ['test'],
                             plugins: ['test'],
                             rules: { another: 'off' },
+                            parserOptions: {
+                                programs: ['./someOtherConfig.json'],
+                            },
                         },
                     ],
                 },
@@ -174,6 +192,10 @@ describe('Core: Array', () => {
                         extends: ['test'],
                         plugins: ['plugin', 'test'],
                         rules: { another: 'off', rule: 'off' },
+                        parserOptions: {
+                            project: ['./tsconfig.json'],
+                            programs: ['./someOtherConfig.json'],
+                        },
                     },
                 ],
             });
