@@ -207,11 +207,14 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     try {
         await runGenerators(generatorsToRun, cwd);
-        await commitGeneratedFiles(cwd, 'stacks init');
-    } catch {
+    } catch (error: any) {
         console.error(chalk.red`Failed to run Stacks generators.`);
+        console.error(error.message);
         process.exit(1);
     }
+
+    await commitGeneratedFiles(cwd, 'stacks init');
+
     console.log(chalk.magenta`Stacks is ready`);
 }
 
