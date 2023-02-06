@@ -83,9 +83,6 @@ export default async function appInsightsGenerator(
         }
     });
 
-    // Add dependencies
-    updateDependencies(tree);
-
     // Write changes back to the tree
     tree.write(
         customServerPath,
@@ -94,4 +91,7 @@ export default async function appInsightsGenerator(
 
     // Format files
     await formatFiles(tree);
+
+    // Add dependencies and install
+    return updateDependencies(tree);
 }
