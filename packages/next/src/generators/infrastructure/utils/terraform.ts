@@ -28,7 +28,7 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
 
     generateFiles(
         tree,
-        path.join(__dirname, '..', '..', 'files', 'infrastructure', platform),
+        path.join(__dirname, '..', 'files', platform),
         project.root,
         {
             projectName: project.name,
