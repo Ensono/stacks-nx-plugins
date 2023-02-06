@@ -123,6 +123,10 @@ export function mergeEslintConfigs(...configs: Linter.Config[]): Linter.Config {
                         ]),
                     ];
                 }
+                baseOverride.parserOptions = {
+                    ...baseOverride.parserOptions,
+                    ...override.parserOptions,
+                };
                 baseOverride.rules = {
                     ...baseOverride.rules,
                     ...override.rules,
