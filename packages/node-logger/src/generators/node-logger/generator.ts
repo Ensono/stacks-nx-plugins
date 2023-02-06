@@ -12,9 +12,9 @@ import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
 import { winstonVersion } from '../../../utils/version';
-import { LoggerClientGeneratorSchema } from './schema';
+import { NodeLoggerGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends LoggerClientGeneratorSchema {
+interface NormalizedSchema extends NodeLoggerGeneratorSchema {
     projectName: string;
     projectRoot: string;
     projectDirectory: string;
@@ -23,7 +23,7 @@ interface NormalizedSchema extends LoggerClientGeneratorSchema {
 
 function normalizeOptions(
     tree: Tree,
-    options: LoggerClientGeneratorSchema,
+    options: NodeLoggerGeneratorSchema,
 ): NormalizedSchema {
     const name = names(options.name).fileName;
     const projectDirectory = options.directory
@@ -74,7 +74,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function generate(
     tree: Tree,
-    options: LoggerClientGeneratorSchema,
+    options: NodeLoggerGeneratorSchema,
 ) {
     const normalizedOptions = normalizeOptions(tree, options);
     await libraryGenerator(tree, options);

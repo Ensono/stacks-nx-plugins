@@ -1,6 +1,5 @@
-/* eslint-disable */
 export default {
-    displayName: 'logger-client-e2e',
+    displayName: 'node-logger',
     preset: '../../jest.preset.js',
     globals: {
         'ts-jest': {
@@ -11,5 +10,5 @@ export default {
         '^.+\\.[tj]s$': 'ts-jest',
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
-    coverageDirectory: '../../coverage/e2e/logger-client-e2e',
+    coverageDirectory: '../../coverage/packages/node-logger',
 };

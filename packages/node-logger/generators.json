@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "name": "node-logger",
+    "version": "0.0.1",
+    "generators": {
+        "node-logger": {
+            "factory": "./src/generators/node-logger/generator",
+            "schema": "./src/generators/node-logger/schema.json",
+            "description": "node-logger generator"
+        }
+    }
+}
