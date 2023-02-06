@@ -2,6 +2,7 @@
     "extends": "nx/presets/npm.json",
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "npmScope": "ensono-stacks",
+    "defaultProject": "workspace",
     "pluginsConfig": {
         "@nrwl/js": {
             "analyzeSourceFiles": true
@@ -73,9 +74,8 @@
             }
         },
         "version": {
-            "dependsOn": ["build"],
+            "dependsOn": ["^build", "build"],
             "options": {
-                "preset": "conventional",
                 "trackDeps": true,
                 "dryRun": true,
                 "skipRootChangelog": true,
@@ -85,26 +85,16 @@
                 "prerelease": {
                     "dryRun": false,
                     "noVerify": true,
-                    "push": true,
+                    "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "postTargets": ["next:publish:prerelease"]
+                    "push": true
                 },
                 "release": {
                     "dryRun": false,
-                    "skipProjectChangelog": false,
                     "noVerify": true,
-                    "push": true,
-                    "postTargets": ["next:publish", "next:github"]
+                    "push": true
                 }
             }
         }
-    },
-    "targetDependencies": {
-        "version": [
-            {
-                "target": "version",
-                "projects": "dependencies"
-            }
-        ]
     }
 }
