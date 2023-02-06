@@ -1,7 +1,5 @@
-import { tsMorphTree } from '@ensono-stacks/core';
 import { readJson, readProjectConfiguration, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import exp from 'constants';
 
 import generator from './generator';
 import { NodeLoggerGeneratorSchema } from './schema';
