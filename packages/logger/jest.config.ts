@@ -1,5 +1,5 @@
 export default {
-    displayName: 'node-logger',
+    displayName: 'logger',
     preset: '../../jest.preset.js',
     globals: {
         'ts-jest': {
@@ -10,5 +10,5 @@ export default {
         '^.+\\.[tj]s$': 'ts-jest',
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
-    coverageDirectory: '../../coverage/packages/node-logger',
+    coverageDirectory: '../../coverage/packages/logger',
 };

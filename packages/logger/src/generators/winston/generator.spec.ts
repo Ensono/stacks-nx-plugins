@@ -2,11 +2,11 @@ import { readJson, readProjectConfiguration, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
-import { NodeLoggerGeneratorSchema } from './schema';
+import { WinstonLoggerGeneratorSchema } from './schema';
 
-describe('node-logger generator', () => {
+describe('logger generator', () => {
     let tree: Tree;
-    const options: NodeLoggerGeneratorSchema = {
+    const options: WinstonLoggerGeneratorSchema = {
         name: 'testClient',
         logLevelType: 'npm',
         consoleLogs: false,
@@ -23,7 +23,7 @@ describe('node-logger generator', () => {
         tree = createTreeWithEmptyWorkspace();
     });
 
-    it('should generate the node-logger', async () => {
+    it('should generate the logger', async () => {
         await generator(tree, {
             ...options,
             directory: 'custom',

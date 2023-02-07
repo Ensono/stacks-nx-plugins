@@ -1,4 +1,4 @@
-export interface NodeLoggerGeneratorSchema {
+export interface WinstonLoggerGeneratorSchema {
     name: string;
     tags?: string;
     directory?: string;
