@@ -5,6 +5,7 @@ import {
     readProjectConfiguration,
     updateJson,
     Tree,
+    updateProjectConfiguration,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
@@ -20,6 +21,17 @@ export default async function initGenerator(
 ) {
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);
+
+    const update = { ...project };
+
+    if (
+        project.sourceRoot ===
+        update.targets.build.configurations.development.outputPath
+    ) {
+        update.targets.build.configurations.development = {};
+    }
+
+    updateProjectConfiguration(tree, project.name, update);
 
     tasks.push(addEslint(tree, project.root));
 
