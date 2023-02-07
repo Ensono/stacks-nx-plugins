@@ -1,3 +1,4 @@
+import { verify } from 'crypto';
 import yargs from 'yargs';
 
 import {
@@ -6,6 +7,7 @@ import {
     getGeneratorsToRun,
     runGenerators,
     commitGeneratedFiles,
+    replaceNextPreset,
 } from './dependencies';
 import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
@@ -81,8 +83,8 @@ it('runs generators for next.js', async () => {
         'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(
-      'npx nx g @nrwl/next:app test-app --e2eTestRunner=none',
-      'folder/path',
+        'npx nx g @nrwl/next:app test-app --e2eTestRunner=none',
+        'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(
         'npx nx g @ensono-stacks/next:init --project=test-app',
@@ -122,4 +124,21 @@ it('commits additional generator files', async () => {
         'HUSKY=0 git commit -m "test commit message"',
         'folder/path',
     );
+});
+
+it('replaces the Next preset with Apps', () => {
+    expect(
+        replaceNextPreset(['--preset', 'next', '--appName', 'test-app']),
+    ).toMatchObject(['--preset', 'apps', '--appName', 'test-app']);
+});
+it('does not replace a preset other than Next', () => {
+    expect(
+        replaceNextPreset(['--preset', 'remix', '--appName', 'test-app']),
+    ).toMatchObject(['--preset', 'remix', '--appName', 'test-app']);
+});
+it('does not replace a Next argument anywhere else', () => {
+    expect(replaceNextPreset(['--appName', 'next'])).toMatchObject([
+        '--appName',
+        'next',
+    ]);
 });
