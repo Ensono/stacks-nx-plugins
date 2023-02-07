@@ -9,6 +9,12 @@ import { CreateStacksArguments, Preset } from './types';
 
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
+/**
+ * When `--preset=next` is passed into the CLI, we want to use the `apps` preset under the hood so that we can customise certain aspects.
+ *
+ * Replaces the `next` preset with `apps` if it exists and returns the new array of flags.
+ * @param args array of flags in the form ['--flag1', 'val1', '--flag2', 'val2']
+ */
 export function replaceNextPreset(args: string[]) {
     return args.reduce((accumulator, value) => {
         if (accumulator.length === 0) {
