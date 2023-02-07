@@ -220,18 +220,11 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         .map(p => `"${p}"`)
                         .join(', ')}]`,
                     type: 'string',
-                    coerce: preset => {
-                        if (preset === 'next') {
-                            // return 'apps';
-                            return preset;
-                        }
-                        return preset;
-                    },
                 })
                 .option('appName', {
                     describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
                     type: 'string',
-                    default: 'myapp', // Keep this?
+                    default: 'myapp',
                 })
                 .option('nxVersion', {
                     describe: chalk.dim`Set the version of Nx you want installed`,
