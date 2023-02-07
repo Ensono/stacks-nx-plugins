@@ -32,6 +32,12 @@ export default async function appInsightsGenerator(
     const { appInsightsKey, server } = options;
     const project = getProjects(tree).get(options.project);
 
+    if (!project) {
+        throw new Error(
+            `No application was found with the name '${options.project}'`,
+        );
+    }
+
     const customServerPath = path.join(project.sourceRoot, server);
 
     // Check if custom server exist
