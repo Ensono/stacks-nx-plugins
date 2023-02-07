@@ -12,6 +12,7 @@ import path from 'path';
 import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
+import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
     tree: Tree,
@@ -30,22 +31,19 @@ export default async function initGenerator(
 
     tasks.push(formatFilesWithEslint(options.project));
 
-    updateJson(
+    // update tsconfig.json
+    updateTsConfig(
         tree,
+        project,
         path.join(project.sourceRoot, 'tsconfig.json'),
-        tsconfig => {
-            const update = tsconfig;
-            update.include = [
-                ...new Set([
-                    ...(update.include || []),
-                    '**/*.ts',
-                    '**/*.tsx',
-                    '**/*.spec.tsx',
-                    'next.config.js',
-                ]),
-            ];
-            return update;
-        },
+        ['next.config.js'],
+    );
+
+    // update tsconfig.spec.json
+    updateTsConfig(
+        tree,
+        project,
+        path.join(project.sourceRoot, 'tsconfig.spec.json'),
     );
 
     await formatFiles(tree);
