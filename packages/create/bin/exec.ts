@@ -25,6 +25,27 @@ export function execAsync(
     });
 }
 
+export function execSync2(
+  command: string,
+  cwd: string,
+  options: Omit<ExecOptions, 'env'> = {},
+) {
+  console.log('Executing: ', command)
+    try {
+        execSync(
+          command,
+          {
+              ...options,
+              cwd,
+              env: { ...process.env, NX_DAEMON: 'false' },
+          },
+        );
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 export function getCommandVersion(command: string) {
     return execSync(`${command} --version`).toString('utf-8').trim();
 }
