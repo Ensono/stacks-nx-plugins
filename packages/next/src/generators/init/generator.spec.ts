@@ -74,7 +74,72 @@ describe('next install generator', () => {
             ).rejects.toThrowError("Cannot find configuration for 'unknown'");
         });
 
-        it('should merge default files with an existing tsconfig.json file', async () => {
+        it('should merge default files with an existing tsconfig file', async () => {
+            const defaultConfig = {
+                extends: '../../tsconfig.base.json',
+                compilerOptions: {
+                    jsx: 'preserve',
+                    allowJs: true,
+                    esModuleInterop: true,
+                    allowSyntheticDefaultImports: true,
+                    strict: false,
+                    forceConsistentCasingInFileNames: true,
+                    noEmit: true,
+                    resolveJsonModule: true,
+                    isolatedModules: true,
+                    incremental: true,
+                    types: ['jest', 'node'],
+                },
+                include: [
+                    'src/**/*.ts',
+                    'src/**/*.tsx',
+                    'src/**/*.js',
+                    'src/**/*.jsx',
+                    'next-env.d.ts',
+                ],
+                exclude: ['node_modules', 'jest.config.ts'],
+            };
+            const defaultSpecConfig = {
+                extends: './tsconfig.json',
+                compilerOptions: {
+                    outDir: '../../dist/out-tsc',
+                    module: 'commonjs',
+                    types: ['jest', 'node'],
+                    jsx: 'react',
+                },
+                include: [
+                    'jest.config.ts',
+                    'src/**/*.test.ts',
+                    'src/**/*.spec.ts',
+                    'src/**/*.test.tsx',
+                    'src/**/*.spec.tsx',
+                    'src/**/*.test.js',
+                    'src/**/*.spec.js',
+                    'src/**/*.test.jsx',
+                    'src/**/*.spec.jsx',
+                    'src/**/*.d.ts',
+                ],
+            };
+
+            tree.write('next-app/tsconfig.json', JSON.stringify(defaultConfig));
+            tree.write(
+                'next-app/tsconfig.spec.json',
+                JSON.stringify(defaultSpecConfig),
+            );
+
+            await generator(tree, options);
+
+            const tsconfig = readJson(tree, 'next-app/tsconfig.json');
+            expect(tsconfig?.include).toContain('next.config.js');
+            expect(tsconfig?.include).toContain('**/*.js');
+            expect(tsconfig?.include).toContain('next-env.d.ts');
+
+            const tsconfigSpec = readJson(tree, 'next-app/tsconfig.spec.json');
+            expect(tsconfigSpec?.include).toContain('jest.config.ts');
+            expect(tsconfigSpec?.include).toContain('**/*.spec.js');
+        });
+
+        it('should merge default files with an existing tsconfig file and a src folder', async () => {
             const defaultConfig = {
                 extends: '../../tsconfig.base.json',
                 compilerOptions: {
@@ -101,13 +166,20 @@ describe('next install generator', () => {
             };
 
             tree.write('next-app/tsconfig.json', JSON.stringify(defaultConfig));
+            tree.write(
+                'next-app/tsconfig.spec.json',
+                JSON.stringify(defaultConfig),
+            );
+            tree.write('next-app/src/data.json', '{}');
 
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
-            expect(tsconfig?.include).toContain('**/*.ts');
-            expect(tsconfig?.include).toContain('**/*.tsx');
-            expect(tsconfig?.include).toContain('**/*.spec.tsx');
+            expect(tsconfig?.include).toContain('src/**/*.ts');
+            expect(tsconfig?.include).toContain('src/**/*.tsx');
+            expect(tsconfig?.include).toContain('src/**/*.js');
+            expect(tsconfig?.include).toContain('src/**/*.jsx');
+            expect(tsconfig?.include).toContain('next-env.d.ts');
             expect(tsconfig?.include).toContain('next.config.js');
         });
 
