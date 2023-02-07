@@ -1,4 +1,4 @@
-import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
+import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator as nextGenerator } from '@nrwl/next/src/generators/application/application';
 
