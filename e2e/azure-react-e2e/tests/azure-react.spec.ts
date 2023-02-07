@@ -19,10 +19,8 @@ describe('azure-react e2e', () => {
         const project = uniq('app-insights');
 
         beforeAll(async () => {
-            console.log(
-                await runNxCommandAsync(
-                    `generate @ensono-stacks/azure-react:app-insights-web ${project} --connectionString=testString --no-interactive`,
-                ),
+            await runNxCommandAsync(
+                `generate @ensono-stacks/azure-react:app-insights-web ${project} --connectionString=testString --no-interactive`,
             );
         });
 
