@@ -316,10 +316,12 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     describe: chalk.dim`Version control provider`,
                     choices: ['azdo', 'github'],
                     type: 'string',
+                    default: 'github',
                 })
                 .option('vcs.url', {
                     describe: chalk.dim`Version control remote url`,
                     type: 'string',
+                    default: 'remote.git',
                 }),
         async (argv: yargs.ArgumentsCamelCase<CreateStacksArguments>) => {
             return main(argv).catch(console.log);
