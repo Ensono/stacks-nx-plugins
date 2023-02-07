@@ -54,6 +54,17 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
+function updateDependencies(tree: Tree) {
+    return addDependenciesToPackageJson(
+        tree,
+        {
+            '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
+            'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
+        },
+        {},
+    );
+}
+
 export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
@@ -85,16 +96,6 @@ export default async function initGenerator(
     ]);
 
     if (options.accessibility) {
-        // add dependencies
-        addDependenciesToPackageJson(
-            tree,
-            {
-                '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
-                'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
-            },
-            {},
-        );
-
         // generate acessiblity files
         addFiles(tree, 'files/accessibility', normalizedOptions);
     }
@@ -111,16 +112,6 @@ export default async function initGenerator(
             addFiles(tree, 'files/visualRegression/native', normalizedOptions);
             break;
         case 'applitools':
-            // add dependencies
-            addDependenciesToPackageJson(
-                tree,
-                {
-                    '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
-                    'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
-                },
-                {},
-            );
-
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithApplitoolsVisualRegression(
                 project,
@@ -138,4 +129,6 @@ export default async function initGenerator(
     }
 
     await formatFiles(tree);
+
+    return updateDependencies(tree);
 }
