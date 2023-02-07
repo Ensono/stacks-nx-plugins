@@ -10,8 +10,8 @@ import {
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
-import { winstonVersion } from '../../../utils/version';
 import { WinstonLoggerGeneratorSchema } from './schema';
+import { winstonVersion } from './utils/version';
 
 interface NormalizedSchema extends WinstonLoggerGeneratorSchema {
     projectName: string;
