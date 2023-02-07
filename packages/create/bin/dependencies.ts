@@ -10,11 +10,7 @@ import { CreateStacksArguments, Preset } from './types';
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
 export function verifyPreset(args: string[]) {
-    console.log('This has happened');
-    console.log('Wheeeee');
-    console.log('args:', args);
     return args.map(argument => (argument === 'next' ? 'apps' : argument));
-    // return args;
 }
 
 async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
@@ -27,12 +23,10 @@ async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
 export function getGeneratorsToRun(
     argv: yargs.Arguments<CreateStacksArguments>,
 ) {
-    console.log('appname', argv.appName);
     const generators: string[] = [];
     generators.push(`@ensono-stacks/workspace:init`);
 
     if (argv.preset === Preset.NextJs) {
-        // add @nrwl/next generator
         generators.push(
             `@nrwl/next:app ${argv.appName} --e2eTestRunner=none`,
             `@ensono-stacks/next:init --project=${argv.appName}`,
@@ -42,7 +36,6 @@ export function getGeneratorsToRun(
     return generators;
 }
 
-// TODO: Rename this function if we install nrwl packages as well?
 export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
     const plugins = [...stacksRequiredPlugins];
 
@@ -65,7 +58,6 @@ export async function installPackages(packages: string[], cwd: string) {
 }
 
 export async function runGenerators(commands: string[], cwd: string) {
-    console.log('Run generators, commands:', commands.join(' ; '));
     if (commands.length === 0) {
         return Promise.resolve();
     }
@@ -74,7 +66,6 @@ export async function runGenerators(commands: string[], cwd: string) {
     const pm = getPackageManagerCommand(packageManager);
 
     const promises = commands.map(command => () => {
-        console.log('In promises, command:', `${pm.exec} nx g ${command}`);
         return execAsync(`${pm.exec} nx g ${command}`, cwd);
     });
 
