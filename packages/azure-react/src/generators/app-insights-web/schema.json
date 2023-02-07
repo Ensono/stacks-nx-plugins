@@ -18,7 +18,7 @@
         "connectionString": {
             "type": "string",
             "description": "The env variable for the connection string.",
-            "x-prompt": "What is the connection string for your app insights instance?"
+            "x-prompt": "What is the env variable for the app insights connection string?"
         },
         "directory": {
             "type": "string",

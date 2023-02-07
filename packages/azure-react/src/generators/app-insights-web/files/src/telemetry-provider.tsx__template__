@@ -8,7 +8,7 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import appInsightConfig from './app-insights-config';
 
 const reactPlugin = new ReactPlugin();
-const connectionString = process.env.testConnectionString;
+const connectionString = process.env.<%= connectionString %>;
 
 export const appInsights = new ApplicationInsights({
   config: {
