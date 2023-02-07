@@ -1,4 +1,3 @@
-import { verify } from 'crypto';
 import yargs from 'yargs';
 
 import {
