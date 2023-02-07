@@ -19,7 +19,7 @@ describe('client-endpoint generator', () => {
         tree = createTreeWithEmptyWorkspace();
     });
 
-    it('should generate the endpiont', async () => {
+    it('should generate the endpoint', async () => {
         await generator(tree, {
             ...options,
             tags: 'testEndpoint',
