@@ -1,0 +1,25 @@
+# independent-runner
+contexts:
+    powershell:
+        executable:
+            bin: docker
+            args:
+                - run
+                - --platform linux/amd64
+                - --env-file
+                - envfile
+                - --rm
+                - -v
+                - ${PWD}:/app
+                - -v
+                - /var/run/docker.sock:/var/run/docker.sock
+                - -e
+                - PSModulePath=/modules
+                - -w
+                - /app
+                - amidostacks/runner-pwsh:0.3.151-stable
+                - pwsh
+                - -NoProfile
+                - -Command
+        quote: "'"
+        before: envfile -e home,path

@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { readStacksConfig } from '@ensono-stacks/core';
+import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     generateFiles,
@@ -16,8 +16,7 @@ import {
     JSCUTLERY_SEMVER_VERSION,
     NXTOOLS_NX_CONTAINER_VERSION,
     NXTOOLS_NX_METADATA_VERSION,
-} from '../constants';
-import { getRegistryUrl } from './registry';
+} from '../../../utils/constants';
 
 function addCommonInfrastructureDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -33,9 +32,6 @@ function addCommonInfrastructureDependencies(tree: Tree) {
 
 export function addCommon(tree: Tree, project: ProjectConfiguration) {
     const stacksConfig = readStacksConfig(tree);
-    const namespace = paramCase(
-        `${stacksConfig.business.domain}-${stacksConfig.business.component}`,
-    );
 
     const customServer =
         project.targets?.['build-custom-server']?.options?.main;
@@ -52,6 +48,18 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
             .replace('.ts', '.js');
     }
 
+    const {
+        business: { company, domain, component },
+        cloud: { region },
+        vcs: { type: vcsType },
+    } = stacksConfig;
+
+    const domainPrefix = paramCase(`${company}-${domain}`);
+    const namespace = paramCase(component);
+    const domainEnv = {
+        nonprod: paramCase(`${domainPrefix}-nonprod-${region}-core`),
+        prod: paramCase(`${domainPrefix}-prod-${region}-core`),
+    };
     const registryPaths = {
         nonprod: getRegistryUrl(stacksConfig, 'nonprod'),
         prod: getRegistryUrl(stacksConfig, 'prod'),
@@ -59,7 +67,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
 
     generateFiles(
         tree,
-        path.join(__dirname, '..', '..', 'files', 'infrastructure', 'common'),
+        path.join(__dirname, '..', 'files', 'common'),
         project.root,
         {
             distFolderPath,
@@ -154,12 +162,12 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
         },
     };
 
-    update.targets['helm-install'] = {
+    update.targets['helm-upgrade'] = {
         executor: 'nx:run-commands',
         options: {
             commands: [
                 {
-                    command: `helm install ${project.name} oci://${registryPaths.nonprod}/helm/${project.name} -n ${namespace} --atomic --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                    command: `helm upgrade --devel --create-namespace --install ${project.name} oci://${registryPaths.nonprod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.nonprod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                     forwardAllArgs: false,
                 },
             ],
@@ -168,7 +176,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
             prod: {
                 commands: [
                     {
-                        command: `helm install ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                        command: `helm upgrade --create-namespace --install --values values-prod.yaml ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.prod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                         forwardAllArgs: false,
                     },
                 ],
@@ -204,18 +212,13 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
     update.targets['helm-package'] = {
         executor: 'nx:run-commands',
         options: {
-            command: 'echo Runs in CI only',
+            command:
+                // eslint-disable-next-line prefer-template
+                'helm package . --version ${version} --app-version ${version} -u -d ' +
+                offsetFromRoot(`${project.root}/build/helm`) +
+                `dist/${project.root}/build/helm`,
             forwardAllArgs: false,
-        },
-        configurations: {
-            ci: {
-                command:
-                    // eslint-disable-next-line prefer-template
-                    'helm package . --version ${version} --app-version ${version} -u -d ' +
-                    offsetFromRoot(`dist/${project.root}/build/helm`),
-                forwardAllArgs: false,
-                cwd: `${project.root}/build/helm`,
-            },
+            cwd: `${project.root}/build/helm`,
         },
     };
 
@@ -242,7 +245,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
         },
     };
 
-    if (stacksConfig.vcs.type === 'github') {
+    if (vcsType === 'github') {
         update.targets.github = {
             executor: '@jscutlery/semver:github',
             options: {
@@ -275,6 +278,12 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
         ];
 
         updateNxJson.namedInputs = updateNxJson.namedInputs || {};
+
+        if (!nxJson.targetDefaults.version) {
+            updateNxJson.targetDefaults.version = {
+                dependsOn: ['build'],
+            };
+        }
 
         if (!nxJson.targetDefaults.container) {
             updateNxJson.targetDefaults.container = {

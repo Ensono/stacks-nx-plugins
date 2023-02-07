@@ -46,7 +46,7 @@ describe('create', () => {
 
     it('configures an empty apps stacks workspace', async () => {
         execSync(
-            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
+            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
@@ -86,12 +86,26 @@ describe('create', () => {
                 stacks: {
                     business: {
                         company: 'Ensono',
+                        component: 'Nx',
+                        domain: 'Stacks',
                     },
                     cloud: {
                         platform: 'azure',
                         region: 'euw',
                     },
+                    domain: {
+                        external: 'prod.amidostacks.com',
+                        internal: 'nonprod.amidostacks.com',
+                    },
                     pipeline: 'azdo',
+                    terraform: {
+                        container: 'tf-container',
+                        group: 'tf-group',
+                        storage: 'tf-storage',
+                    },
+                    vcs: {
+                        type: 'github',
+                    },
                 },
             }),
         );

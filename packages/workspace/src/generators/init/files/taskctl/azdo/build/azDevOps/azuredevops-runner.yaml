@@ -1,0 +1,34 @@
+name: '$(Build.SourceBranchName)-init'
+
+pr:
+    - main
+
+trigger:
+    branches:
+        include:
+            - 'main'
+    paths:
+        include:
+            - '*'
+
+variables:
+    - template: azuredevops-vars.yaml
+    - group: <%= commonVariableGroup %>
+    - name: DebugPreference
+      value: 'Continue'
+    - ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+          - group: <%= nonprodVariableGroup %>
+    - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+          - group: <%= prodVariableGroup %>
+
+# Configure the stages
+stages:
+    - ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+          - template: azuredevops-stages.yaml
+    - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+          - template: azuredevops-stages.yaml
+            parameters:
+                aksResourceGroup: <%= prodAKSResource %>
+                aksName: <%= prodAKSResource %>
+                containerRegistry: <%= prodRegistry %>
+                environment: prod

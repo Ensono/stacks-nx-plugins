@@ -1,0 +1,33 @@
+# This file holds the variables that will be consumed
+# by the build
+variables:
+    # Dependency versions
+    - name: TaskctlVersion
+      value: 1.4.2
+    - name: StacksEnvfileVersion
+      value: 0.0.13
+    - name: AmidoBuild
+      value: v0.0.113
+
+    # DEFAULT IMAGE RUNNER
+    - name: pool_vm_image
+      value: ubuntu-22.04
+
+    - name: CI
+      value: 'true'
+    - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+          - name: NX_BRANCH
+            value: $(System.PullRequest.PullRequestNumber)
+          - name: TARGET_BRANCH
+            value:
+                $[replace(variables['System.PullRequest.TargetBranch'],variables['System.PullRequest.TargetBranch'],format('origin/{0}',
+                variables['System.PullRequest.TargetBranch']))]
+          - name: BASE_SHA
+            value: $(git merge-base $(TARGET_BRANCH) HEAD)
+    - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+          - name: NX_BRANCH
+            value: $(Build.SourceBranchName)
+          - name: BASE_SHA
+            value: $(git rev-parse HEAD~1)
+    - name: HEAD_SHA
+      value: $(git rev-parse HEAD)
