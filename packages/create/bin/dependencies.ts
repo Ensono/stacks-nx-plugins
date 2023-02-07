@@ -9,8 +9,20 @@ import { CreateStacksArguments, Preset } from './types';
 
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
-export function verifyPreset(args: string[]) {
-    return args.map(argument => (argument === 'next' ? 'apps' : argument));
+export function replaceNextPreset(args: string[]) {
+    return args.reduce((accumulator, value) => {
+        if (accumulator.length === 0) {
+            return [value];
+        }
+
+        const isPresetFlag = accumulator[accumulator.length - 1] === '--preset';
+
+        if (!isPresetFlag) {
+            return [...accumulator, value];
+        }
+
+        return [...accumulator, value === 'next' ? 'apps' : value];
+    }, [] as string[]);
 }
 
 async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
