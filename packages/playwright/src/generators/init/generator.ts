@@ -7,6 +7,7 @@ import {
     offsetFromRoot,
     Tree,
 } from '@nrwl/devkit';
+import chalk from 'chalk';
 import path from 'path';
 
 import {
@@ -123,6 +124,10 @@ export default async function initGenerator(
                 tree,
                 'files/visualRegression/applitools',
                 normalizedOptions,
+            );
+
+            console.warn(
+                chalk.yellow`Don't forget to set your 'APPLITOOLS_API_KEY'.`,
             );
             break;
         default: // Default case
