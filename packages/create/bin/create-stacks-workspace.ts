@@ -156,12 +156,14 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
     const { name } = forwardArgv;
-    const argumentsToForward = unparse(forwardArgv as unparse.Arguments, {
-        alias: {
-            packageManager: ['pm'],
-            interactive: ['i'],
-        },
-    });
+    const argumentsToForward = replaceNextPreset(
+        unparse(forwardArgv as unparse.Arguments, {
+            alias: {
+                packageManager: ['pm'],
+                interactive: ['i'],
+            },
+        }),
+    );
 
     const cwd = path.join(process.cwd(), name);
 
@@ -172,15 +174,13 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
 
-    const argumentsWithVerifiedPreset = replaceNextPreset(argumentsToForward);
-
     const nxResult = spawnSync(
         'npx',
         [
             `create-nx-workspace@${nxVersion}`,
             '--yes',
             '--no-interactive',
-            ...argumentsWithVerifiedPreset,
+            ...argumentsToForward,
         ],
         {
             env: process.env,
