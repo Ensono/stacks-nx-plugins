@@ -104,6 +104,7 @@ describe('Core: Array', () => {
                             files: '*.ts',
                             rules: { rule: 'off' },
                             parserOptions: { project: ['./tsconfig.json'] },
+                            excludedFiles: ['excluded.js'],
                         },
                     ],
                 },
@@ -121,6 +122,7 @@ describe('Core: Array', () => {
                         files: '*.ts',
                         rules: { rule: 'off' },
                         parserOptions: { project: ['./tsconfig.json'] },
+                        excludedFiles: ['excluded.js'],
                     },
                 ],
             });
@@ -180,6 +182,7 @@ describe('Core: Array', () => {
                             parserOptions: {
                                 programs: ['./someOtherConfig.json'],
                             },
+                            excludedFiles: ['excluded.js'],
                         },
                     ],
                 },
@@ -196,6 +199,7 @@ describe('Core: Array', () => {
                             project: ['./tsconfig.json'],
                             programs: ['./someOtherConfig.json'],
                         },
+                        excludedFiles: ['excluded.js'],
                     },
                 ],
             });

@@ -74,6 +74,43 @@ describe('next install generator', () => {
             ).rejects.toThrowError("Cannot find configuration for 'unknown'");
         });
 
+        it('should merge default files with an existing tsconfig.json file', async () => {
+            const defaultConfig = {
+                extends: '../../tsconfig.base.json',
+                compilerOptions: {
+                    jsx: 'preserve',
+                    allowJs: true,
+                    esModuleInterop: true,
+                    allowSyntheticDefaultImports: true,
+                    strict: false,
+                    forceConsistentCasingInFileNames: true,
+                    noEmit: true,
+                    resolveJsonModule: true,
+                    isolatedModules: true,
+                    incremental: true,
+                    types: ['jest', 'node'],
+                },
+                include: [
+                    'src/**/*.ts',
+                    'src/**/*.tsx',
+                    'src/**/*.js',
+                    'src/**/*.jsx',
+                    'next-env.d.ts',
+                ],
+                exclude: ['node_modules', 'jest.config.ts'],
+            };
+
+            tree.write('next-app/tsconfig.json', JSON.stringify(defaultConfig));
+
+            await generator(tree, options);
+
+            const tsconfig = readJson(tree, 'next-app/tsconfig.json');
+            expect(tsconfig?.include).toContain('**/*.ts');
+            expect(tsconfig?.include).toContain('**/*.tsx');
+            expect(tsconfig?.include).toContain('**/*.spec.tsx');
+            expect(tsconfig?.include).toContain('next.config.js');
+        });
+
         it('should merge defaults with an existing eslintrc.json file', async () => {
             const defaultConfig = {
                 plugins: ['@nrwl/nx'],
@@ -110,6 +147,7 @@ describe('next install generator', () => {
                     overrides: expect.arrayContaining([
                         expect.objectContaining({
                             files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+                            excludedFiles: ['jest.config.ts'],
                             rules: expect.objectContaining({
                                 'testing-library/await-async-utils': 'error',
                                 'testing-library/await-async-query': 'error',
@@ -125,7 +163,7 @@ describe('next install generator', () => {
                                 'testing-library/no-debug': 'off',
                             }),
                             parserOptions: {
-                                project: ['./tsconfig(.*)?.json'],
+                                project: ['next-app/tsconfig(.*)?.json'],
                             },
                         }),
                     ]),
