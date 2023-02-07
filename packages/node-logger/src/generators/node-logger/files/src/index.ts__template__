@@ -1,0 +1,44 @@
+import * as winston from 'winston';
+<% if(typeof streamPath != 'undefined') { %>import fs from "fs";<% } %>
+
+const logConfiguration: winston.LoggerOptions = {
+    level: 'debug',
+    <% if(logLevelType === 'syslog') { %>
+    levels: winston.config.syslog.levels,
+    <% } %>
+    <% if(logLevelType === 'cli') { %>
+    levels: winston.config.cli.levels,
+    <% } %>
+    <% if(logLevelType === 'npm') { %>
+    levels: winston.config.npm.levels,
+    <% } %>
+};
+
+if(process.env.NODE_ENV === 'production') {
+    logConfiguration.level = 'info';
+}
+
+// Reusable winston logging instance
+const logger = winston.createLogger(logConfiguration);
+<% if(consoleLogs) { %>
+logger.add(new winston.transports.Console());
+<% } %>
+<% if(typeof fileTransportPath != 'undefined') { %>
+logger.add(new winston.transports.File({filename: "<%= fileTransportPath %>"}))
+<% } %>
+<% if(httpTransport) { %>
+const httpTransportConfiguration: winston.transports.HttpTransportOptions = {};
+<% if(typeof httpTransportHost != 'undefined') {%>httpTransportConfiguration.host = '<%= httpTransportHost%>';<% } %>
+<% if(typeof httpTransportPort != 'undefined') {%>httpTransportConfiguration.port = <%= httpTransportPort%>;<% } %>
+<% if(typeof httpTransportPath != 'undefined') {%>httpTransportConfiguration.path = '<%= httpTransportPath%>';<% } %>
+<% if(httpTransportSSL) {%>httpTransportConfiguration.ssl = <%= httpTransportSSL%>;<% } %>
+logger.add(new winston.transports.Http(httpTransportConfiguration));
+<% } %>
+<% if(typeof streamPath != 'undefined') { %>
+const streamTransportConfiguration: winston.transports.StreamTransportOptions = {
+    stream: fs.createWriteStream('<%= streamPath %>')
+};
+logger.add(new winston.transports.Stream(streamTransportConfiguration));
+<% } %>
+
+export default logger;

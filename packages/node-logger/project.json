@@ -1,0 +1,98 @@
+{
+    "name": "node-logger",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/node-logger/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "buildableProjectDepsInPackageJsonType": "dependencies",
+                "outputPath": "dist/packages/node-logger",
+                "main": "packages/node-logger/src/index.ts",
+                "tsConfig": "packages/node-logger/tsconfig.lib.json",
+                "assets": [
+                    "packages/node-logger/*.md",
+                    {
+                        "input": "./packages/node-logger/src",
+                        "glob": "**/!(*.ts)",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/node-logger/src",
+                        "glob": "**/*.d.ts",
+                        "output": "./src"
+                    },
+                    {
+                        "input": "./packages/node-logger",
+                        "glob": "generators.json",
+                        "output": "."
+                    },
+                    {
+                        "input": "./packages/node-logger",
+                        "glob": "executors.json",
+                        "output": "."
+                    }
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/node-logger/**/*.ts",
+                    "packages/node-logger/generators.json",
+                    "packages/node-logger/executors.json",
+                    "packages/node-logger/package.json"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/node-logger/jest.config.ts",
+                "passWithNoTests": true
+            }
+        },
+
+        "version": {
+            "executor": "@jscutlery/semver:version",
+            "options": {
+                "preset": "conventional",
+                "trackDeps": true,
+                "skipCommit": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true
+            },
+            "configurations": {
+                "ci": {
+                    "skipCommit": false,
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["node-logger:publish", "node-logger:github"]
+                }
+            }
+        },
+
+        "publish": {
+            "executor": "ngx-deploy-npm:deploy",
+            "options": {
+                "access": "public"
+            }
+        },
+
+        "github": {
+            "executor": "@jscutlery/semver:github",
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
+        }
+    },
+    "tags": ["plugin"]
+}
