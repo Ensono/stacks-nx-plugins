@@ -45,7 +45,7 @@ describe('create', () => {
     });
 
     it('configures an empty apps stacks workspace', async () => {
-        execSync(
+        const run = () => execSync(
             'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
             {
                 cwd: temporaryDirectory,
@@ -57,6 +57,8 @@ describe('create', () => {
                 },
             },
         );
+
+        expect(() => run()).not.toThrow();
 
         expect(() =>
             checkFilesExist(
@@ -109,5 +111,7 @@ describe('create', () => {
                 },
             }),
         );
+        // rerunning should throw because the workspace exists
+        expect(() => run()).toThrow();
     });
 });
