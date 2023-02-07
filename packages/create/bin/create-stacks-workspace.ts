@@ -13,6 +13,7 @@ import {
     getStacksPlugins,
     installPackages,
     runGenerators,
+    verifyPreset
 } from './dependencies';
 import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
@@ -161,13 +162,16 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
 
+    const argumentsWithVerifiedPreset = verifyPreset(argumentsToForward)
+    console.log('ver. args', argumentsWithVerifiedPreset)
+
     spawnSync(
         'npx',
         [
             `create-nx-workspace@${nxVersion}`,
             '--yes',
             '--no-interactive',
-            ...argumentsToForward,
+            ...argumentsWithVerifiedPreset,
         ],
         {
             env: process.env,
@@ -214,10 +218,18 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         .map(p => `"${p}"`)
                         .join(', ')}]`,
                     type: 'string',
+                    coerce: preset => {
+                        if (preset === 'next') {
+                            return 'apps';
+                            // return preset;
+                        }
+                        return preset;
+                    },
                 })
                 .option('appName', {
                     describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
                     type: 'string',
+                    default: 'myapp', // Keep this?
                 })
                 .option('nxVersion', {
                     describe: chalk.dim`Set the version of Nx you want installed`,
@@ -257,26 +269,32 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('business.company', {
                     describe: chalk.dim`Company Name`,
                     type: 'string',
+                    default: 'Amido',
                 })
                 .option('business.domain', {
                     describe: chalk.dim`Company Scope or area`,
                     type: 'string',
+                    default: 'stacks',
                 })
                 .option('business.component', {
                     describe: chalk.dim`Company component being worked on`,
                     type: 'string',
+                    default: 'nx',
                 })
                 .option('domain.internal', {
                     describe: chalk.dim`Internal domain for nonprod resources`,
                     type: 'string',
+                    default: 'test.com',
                 })
                 .option('domain.external', {
                     describe: chalk.dim`External domain for prod resources`,
                     type: 'string',
+                    default: 'test.dev',
                 })
                 .option('terraform.group', {
                     describe: chalk.dim`Terraform state group name`,
                     type: 'string',
+                    default: 'terraform-group',
                 })
                 .option('terraform.container', {
                     describe: chalk.dim`Terraform storage container name`,
@@ -285,6 +303,12 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('terraform.storage', {
                     describe: chalk.dim`Terraform storage name`,
                     type: 'string',
+                    default: 'terraform-storage',
+                })
+                .option('terraform.container', {
+                    describe: chalk.dim`Terraform container name`,
+                    type: 'string',
+                    default: 'terraform-container',
                 })
                 .option('vcs.type', {
                     describe: chalk.dim`Version control provider`,
