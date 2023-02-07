@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "name": "logger",
+    "version": "0.0.1",
+    "generators": {
+        "winston": {
+            "factory": "./src/generators/winston/generator",
+            "schema": "./src/generators/winston/schema.json",
+            "description": "winston logger generator"
+        }
+    }
+}
