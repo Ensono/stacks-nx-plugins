@@ -14,7 +14,7 @@ import {
     getStacksPlugins,
     installPackages,
     runGenerators,
-    verifyPreset
+    verifyPreset,
 } from './dependencies';
 import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
@@ -163,8 +163,8 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
 
-    const argumentsWithVerifiedPreset = verifyPreset(argumentsToForward)
-    console.log('ver. args', argumentsWithVerifiedPreset)
+    const argumentsWithVerifiedPreset = verifyPreset(argumentsToForward);
+    console.log('ver. args', argumentsWithVerifiedPreset);
 
     spawnSync(
         'npx',
@@ -222,8 +222,8 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     type: 'string',
                     coerce: preset => {
                         if (preset === 'next') {
-                            return 'apps';
-                            // return preset;
+                            // return 'apps';
+                            return preset;
                         }
                         return preset;
                     },

@@ -9,13 +9,11 @@ import { CreateStacksArguments, Preset } from './types';
 
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
-export function verifyPreset(
-  args: string[]
-) {
-    console.log('This has happened')
-    console.log('Wheeeee')
-    console.log('args: ', args)
-    return args.map(arg => arg === 'next' ? 'apps' : arg)
+export function verifyPreset(args: string[]) {
+    console.log('This has happened');
+    console.log('Wheeeee');
+    console.log('args:', args);
+    return args.map(argument => (argument === 'next' ? 'apps' : argument));
     // return args;
 }
 
@@ -29,14 +27,16 @@ async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
 export function getGeneratorsToRun(
     argv: yargs.Arguments<CreateStacksArguments>,
 ) {
-    console.log('appname', argv.appName)
+    console.log('appname', argv.appName);
     const generators: string[] = [];
     generators.push(`@ensono-stacks/workspace:init --verbose`);
 
     if (argv.preset === Preset.NextJs) {
         // add @nrwl/next generator
-        generators.push(`@nrwl/next:app ${argv.appName} --e2eProvider=none --verbose`);
-        generators.push(`@ensono-stacks/next:init --project=${argv.appName} --verbose`);
+        generators.push(
+            `@nrwl/next:app ${argv.appName} --e2eTestRunner=none --verbose`,
+            `@ensono-stacks/next:init --project=${argv.appName} --verbose`,
+        );
     }
 
     return generators;
@@ -65,6 +65,7 @@ export async function installPackages(packages: string[], cwd: string) {
 }
 
 export async function runGenerators(commands: string[], cwd: string) {
+    console.log('Run generators, commands:', commands.join(' ; '));
     if (commands.length === 0) {
         return Promise.resolve();
     }
@@ -72,9 +73,10 @@ export async function runGenerators(commands: string[], cwd: string) {
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
 
-    const promises = commands.map(
-        command => () => execAsync(`${pm.exec} nx g ${command}`, cwd),
-    );
+    const promises = commands.map(command => () => {
+        console.log('In promises, command:', `${pm.exec} nx g ${command}`);
+        return execAsync(`${pm.exec} nx g ${command}`, cwd);
+    });
 
     return chain(promises);
 }
@@ -87,15 +89,13 @@ export async function commitGeneratedFiles(cwd: string, message: string) {
 
 export function runGeneratorsSync(commands: string[], cwd: string) {
     if (commands.length === 0) {
-        return
+        return;
     }
 
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
 
-    commands.forEach(command =>
-      execSync2(`${pm.exec} nx g ${command}`, cwd)
-    );
+    commands.forEach(command => execSync2(`${pm.exec} nx g ${command}`, cwd));
 
     // return Promise.allSettled(promises);
 }

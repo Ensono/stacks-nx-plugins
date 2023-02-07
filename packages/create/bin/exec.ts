@@ -26,23 +26,20 @@ export function execAsync(
 }
 
 export function execSync2(
-  command: string,
-  cwd: string,
-  options: Omit<ExecOptions, 'env'> = {},
+    command: string,
+    cwd: string,
+    options: Omit<ExecOptions, 'env'> = {},
 ) {
-  console.log('Executing: ', command)
+    console.log('Executing:', command);
     try {
-        execSync(
-          command,
-          {
-              ...options,
-              cwd,
-              env: { ...process.env, NX_DAEMON: 'false' },
-          },
-        );
+        execSync(command, {
+            ...options,
+            cwd,
+            env: { ...process.env, NX_DAEMON: 'false' },
+        });
     } catch (error) {
-        console.log(error)
-        throw error
+        console.log(error);
+        throw error;
     }
 }
 
