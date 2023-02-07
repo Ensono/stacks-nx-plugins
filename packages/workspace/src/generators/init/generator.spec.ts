@@ -1,4 +1,4 @@
-import { Tree, readJson } from '@nrwl/devkit';
+import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
@@ -6,7 +6,9 @@ import { InstallGeneratorSchema } from './schema';
 
 describe('Workspace: Install generator', () => {
     let tree: Tree;
-    const options: InstallGeneratorSchema = {};
+    const options: InstallGeneratorSchema = {
+        pipelineRunner: 'none',
+    };
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
@@ -222,6 +224,36 @@ npx nx affected:lint --uncommitted`,
             });
 
             expect(tree.exists('tsconfig.base.json')).toBeTruthy();
+        });
+    });
+
+    describe('--pipelineRunner', () => {
+        it('should generate with a taskctl pipeline', async () => {
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    business: {
+                        company: 'Ensono',
+                        domain: 'Stacks',
+                        component: 'Test',
+                    },
+                    cloud: { platform: 'azure', region: 'euw' },
+                    domain: { external: 'ensono.com' },
+                    pipeline: 'azdo',
+                    vcs: {
+                        type: 'github',
+                    },
+                },
+            }));
+            await generator(tree, {
+                pipelineRunner: 'taskctl',
+                eslint: false,
+                commitizen: false,
+                husky: false,
+            });
+
+            expect(tree.exists('build/taskctl')).toBeTruthy();
+            expect(tree.exists('build/azDevOps')).toBeTruthy();
         });
     });
 });

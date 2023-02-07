@@ -19,6 +19,13 @@ export function verifyPreset(
     // return args;
 }
 
+async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
+    if (promise) {
+        await promise();
+        await chain(promises);
+    }
+}
+
 export function getGeneratorsToRun(
     argv: yargs.Arguments<CreateStacksArguments>,
 ) {
@@ -65,11 +72,17 @@ export async function runGenerators(commands: string[], cwd: string) {
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
 
-    const promises = commands.map(command =>
-        execAsync(`${pm.exec} nx g ${command}`, cwd),
+    const promises = commands.map(
+        command => () => execAsync(`${pm.exec} nx g ${command}`, cwd),
     );
 
-    return Promise.allSettled(promises);
+    return chain(promises);
+}
+
+export async function commitGeneratedFiles(cwd: string, message: string) {
+    await execAsync(`cd ${cwd}`, cwd);
+    await execAsync('git add .', cwd);
+    await execAsync(`HUSKY=0 git commit -m "${message}"`, cwd);
 }
 
 export function runGeneratorsSync(commands: string[], cwd: string) {

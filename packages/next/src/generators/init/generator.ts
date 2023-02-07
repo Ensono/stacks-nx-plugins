@@ -7,9 +7,9 @@ import {
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
+import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
-import { addInfrastructure } from './utils/infrastructure/add-infrastructure';
 
 export default async function initGenerator(
     tree: Tree,
@@ -21,7 +21,9 @@ export default async function initGenerator(
     tasks.push(addEslint(tree, project.root));
 
     if (options.infra) {
-        tasks.push(...addInfrastructure(tree, project));
+        tasks.push(
+            await infrastructureGenerator(tree, { project: options.project }),
+        );
     }
 
     tasks.push(formatFilesWithEslint(options.project));

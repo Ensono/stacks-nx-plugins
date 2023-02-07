@@ -5,6 +5,7 @@ import {
     installPackages,
     getGeneratorsToRun,
     runGenerators,
+    commitGeneratedFiles,
 } from './dependencies';
 import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
@@ -99,6 +100,22 @@ it('runs generators with preferred package manager', async () => {
     expect(execAsync).toBeCalledTimes(1);
     expect(execAsync).toHaveBeenCalledWith(
         'pnpm exec nx g @ensono-stacks/workspace:init',
+        'folder/path',
+    );
+});
+
+it('commits additional generator files', async () => {
+    await commitGeneratedFiles('folder/path', 'test commit message');
+    expect(execAsync).toBeCalledTimes(3);
+    expect(execAsync).toHaveBeenNthCalledWith(
+        1,
+        'cd folder/path',
+        'folder/path',
+    );
+    expect(execAsync).toHaveBeenNthCalledWith(2, 'git add .', 'folder/path');
+    expect(execAsync).toHaveBeenNthCalledWith(
+        3,
+        'HUSKY=0 git commit -m "test commit message"',
         'folder/path',
     );
 });
