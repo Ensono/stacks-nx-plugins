@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 
-import { execAsync, execSync2 } from './exec';
+import { execAsync } from './exec';
 import {
     detectPackageManager,
     getPackageManagerCommand,
@@ -29,13 +29,13 @@ export function getGeneratorsToRun(
 ) {
     console.log('appname', argv.appName);
     const generators: string[] = [];
-    generators.push(`@ensono-stacks/workspace:init --verbose`);
+    generators.push(`@ensono-stacks/workspace:init`);
 
     if (argv.preset === Preset.NextJs) {
         // add @nrwl/next generator
         generators.push(
-            `@nrwl/next:app ${argv.appName} --e2eTestRunner=none --verbose`,
-            `@ensono-stacks/next:init --project=${argv.appName} --verbose`,
+            `@nrwl/next:app ${argv.appName} --e2eTestRunner=none`,
+            `@ensono-stacks/next:init --project=${argv.appName}`,
         );
     }
 
@@ -85,17 +85,4 @@ export async function commitGeneratedFiles(cwd: string, message: string) {
     await execAsync(`cd ${cwd}`, cwd);
     await execAsync('git add .', cwd);
     await execAsync(`HUSKY=0 git commit -m "${message}"`, cwd);
-}
-
-export function runGeneratorsSync(commands: string[], cwd: string) {
-    if (commands.length === 0) {
-        return;
-    }
-
-    const packageManager = detectPackageManager(cwd);
-    const pm = getPackageManagerCommand(packageManager);
-
-    commands.forEach(command => execSync2(`${pm.exec} nx g ${command}`, cwd));
-
-    // return Promise.allSettled(promises);
 }
