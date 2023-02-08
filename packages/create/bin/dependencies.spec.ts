@@ -115,7 +115,7 @@ it('commits additional generator files', async () => {
     expect(execAsync).toHaveBeenNthCalledWith(2, 'git add .', 'folder/path');
     expect(execAsync).toHaveBeenNthCalledWith(
         3,
-        'HUSKY=0 git commit -m "test commit message"',
+        'git commit -m "test commit message"',
         'folder/path',
     );
 });
