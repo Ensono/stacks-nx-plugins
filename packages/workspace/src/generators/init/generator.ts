@@ -1,5 +1,7 @@
+import { readStacksConfig } from '@ensono-stacks/core';
 import { Tree, GeneratorCallback, formatFiles } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import chalk from 'chalk';
 
 import { InstallGeneratorSchema } from './schema';
 import { addCommitizen } from './utils/commitizen';
@@ -15,20 +17,34 @@ export default async function install(
     options: InstallGeneratorSchema,
 ) {
     const tasks: GeneratorCallback[] = [];
+    const { commitizen, husky, eslint } = options;
+    let { pipelineRunner } = options;
 
-    if (options.commitizen) {
+    // check if stacks have been configured in nx.json
+    try {
+        readStacksConfig(tree);
+    } catch {
+        if (pipelineRunner !== 'none') {
+            console.log(
+                chalk.yellow`Skipping --pipelineRunner=${pipelineRunner} because Stacks config is missing in nx.json. Have you configured using stacks-cli?`,
+            );
+            pipelineRunner = 'none';
+        }
+    }
+
+    if (commitizen) {
         tasks.push(addCommitlint(tree), addCommitizen(tree, options));
     }
 
-    if (options.husky) {
+    if (husky) {
         tasks.push(addHusky(tree, options));
     }
 
-    if (options.eslint) {
+    if (eslint) {
         tasks.push(addEslint(tree));
     }
 
-    if (options.pipelineRunner !== 'none') {
+    if (pipelineRunner !== 'none') {
         tasks.push(addPipeline(tree, options));
     }
 

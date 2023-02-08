@@ -255,5 +255,17 @@ npx nx affected:lint --uncommitted`,
             expect(tree.exists('build/taskctl')).toBeTruthy();
             expect(tree.exists('build/azDevOps')).toBeTruthy();
         });
+
+        it('should skip pipeline if stacks config missing', async () => {
+            await generator(tree, {
+                pipelineRunner: 'taskctl',
+                eslint: false,
+                commitizen: false,
+                husky: false,
+            });
+
+            expect(tree.exists('build/taskctl')).not.toBeTruthy();
+            expect(tree.exists('build/azDevOps')).not.toBeTruthy();
+        });
     });
 });
