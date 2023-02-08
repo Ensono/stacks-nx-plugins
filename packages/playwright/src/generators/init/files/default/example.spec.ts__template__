@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-//An example test using Playwright
-//Configuration such as the applications BASE URL is automatically configured / declared in the playwright.config.ts file
+// An example test using Playwright
+// Configuration such as the applications BASE URL is automatically configured / declared in the playwright.config.ts file
 
 test.describe('Playwright example tests @example-playwright', () => {
   test.beforeEach(async ({ page }) => {
@@ -21,13 +21,15 @@ test.describe('Playwright example tests @example-playwright', () => {
   });
 
   test('App should have 5 learning materials', async ({ page }) => {
-    expect((await page.locator('#learning-materials').count()) == 5);
+    expect((await page.locator('#learning-materials').count()) === 5);
   });
 
   test('Clicking next steps should display information', async ({ page }) => {
+    // eslint-disable-next-line no-restricted-syntax
     for (const information of await page
       .locator('#commands >> details')
       .elementHandles()) {
+      /* eslint-disable no-await-in-loop */
       let open = await information.getAttribute('open');
       expect(open).toBeNull();
       await information.click();
