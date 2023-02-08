@@ -1,0 +1,19 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  DistributedTracingModes,
+  IConfig,
+} from '@microsoft/applicationinsights-common';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import type { IConfiguration } from '@microsoft/applicationinsights-core-js';
+
+const appInsightConfig: IConfiguration & IConfig = {
+  enableAutoRouteTracking: false,
+  enableCorsCorrelation: true,
+  enableRequestHeaderTracking: true,
+  enableResponseHeaderTracking: true,
+  disableFetchTracking: false,
+  distributedTracingMode: DistributedTracingModes.AI_AND_W3C,
+  enableAjaxPerfTracking: true
+};
+
+export default appInsightConfig;

@@ -1,0 +1,21 @@
+import { render } from '@testing-library/react';
+
+import { TelemetryProvider, appInsights } from './telemetry-provider';
+
+jest.mock('@microsoft/applicationinsights-web', () => ({
+  ...jest.requireActual('@microsoft/applicationinsights-web'),
+  ApplicationInsights: jest.fn(() => ({
+    appInsights: {
+      isInitialized: jest.fn(() => false),
+    },
+    loadAppInsights: jest.fn(),
+  })),
+}));
+
+describe('TelemetryProvider', () => {
+  it('should initialize app insights', () => {
+    render(<TelemetryProvider>Test</TelemetryProvider>);
+
+    expect(appInsights.loadAppInsights).toHaveBeenCalled();
+  });
+});
