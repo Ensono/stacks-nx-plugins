@@ -17,14 +17,22 @@ export function updatePlaywrightConfigWithDefault(
                 '@playwright/test',
         );
     playwrightImport.setIsTypeOnly(false);
-    playwrightImport.insertNamedImport(0, {
-        name: 'devices',
-    });
+
+    if (
+        !playwrightImport
+            .getNamedImports()
+            ?.some(modules => modules.getName() === 'devices')
+    ) {
+        playwrightImport.insertNamedImport(0, {
+            name: 'devices',
+        });
+    }
 
     const config = appNode
         .getVariableDeclaration('config')
         .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
+    config.getProperty('use')?.remove();
     config.getProperty('projects')?.remove();
 
     config.addPropertyAssignments([
