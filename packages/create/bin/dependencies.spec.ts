@@ -6,7 +6,7 @@ import {
     getGeneratorsToRun,
     runGenerators,
     commitGeneratedFiles,
-    replaceNextPreset,
+    normaliseForwardedArgv,
 } from './dependencies';
 import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
@@ -127,16 +127,16 @@ it('commits additional generator files', async () => {
 
 it('replaces the Next preset with Apps', () => {
     expect(
-        replaceNextPreset(['--preset', 'next', '--appName', 'test-app']),
+        normaliseForwardedArgv(['--preset', 'next', '--appName', 'test-app']),
     ).toMatchObject(['--preset', 'apps', '--appName', 'test-app']);
 });
 it('does not replace a preset other than Next', () => {
     expect(
-        replaceNextPreset(['--preset', 'remix', '--appName', 'test-app']),
+        normaliseForwardedArgv(['--preset', 'remix', '--appName', 'test-app']),
     ).toMatchObject(['--preset', 'remix', '--appName', 'test-app']);
 });
 it('does not replace a Next argument anywhere else', () => {
-    expect(replaceNextPreset(['--appName', 'next'])).toMatchObject([
+    expect(normaliseForwardedArgv(['--appName', 'next'])).toMatchObject([
         '--appName',
         'next',
     ]);

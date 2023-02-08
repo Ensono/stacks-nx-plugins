@@ -15,7 +15,7 @@ import {
     getStacksPlugins,
     installPackages,
     runGenerators,
-    replaceNextPreset,
+    normaliseForwardedArgv,
 } from './dependencies';
 import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
@@ -156,7 +156,7 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
     const { name } = forwardArgv;
-    const argumentsToForward = replaceNextPreset(
+    const argumentsToForward = normaliseForwardedArgv(
         unparse(forwardArgv as unparse.Arguments, {
             alias: {
                 packageManager: ['pm'],

@@ -15,7 +15,7 @@ const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
  * Replaces the `next` preset with `apps` if it exists and returns the new array of flags.
  * @param args array of flags in the form ['--flag1', 'val1', '--flag2', 'val2']
  */
-export function replaceNextPreset(args: string[]) {
+export function normaliseForwardedArgv(args: string[]) {
     return args.reduce((accumulator, value) => {
         if (accumulator.length === 0) {
             return [value];
