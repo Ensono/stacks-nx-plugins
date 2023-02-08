@@ -2,11 +2,13 @@ import { PackageManager } from './package-manager';
 
 export type CreateStacksArguments = {
     name: string;
+    dir: string;
     preset: string;
     appName: string;
     nxVersion: string;
     packageManager: PackageManager;
     interactive: boolean;
+    overwrite: boolean;
     terraform: {
         group: string;
         container: string;

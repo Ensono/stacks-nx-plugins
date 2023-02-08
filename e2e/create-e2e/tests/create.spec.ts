@@ -41,22 +41,26 @@ describe('create', () => {
         if (fs.existsSync(cacheDirectory)) {
             fs.rmSync(cacheDirectory, { recursive: true, force: true });
         }
+    });
+
+    afterEach(() => {
         cleanup();
     });
 
     it('configures an empty apps stacks workspace', async () => {
-        const run = () => execSync(
-            'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
-            {
-                cwd: temporaryDirectory,
-                stdio: 'inherit',
-                env: {
-                    ...process.env,
-                    npm_config_cache: cacheDirectory,
-                    HUSKY: '0',
+        const run = () =>
+            execSync(
+                'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
+                {
+                    cwd: temporaryDirectory,
+                    stdio: 'inherit',
+                    env: {
+                        ...process.env,
+                        npm_config_cache: cacheDirectory,
+                        HUSKY: '0',
+                    },
                 },
-            },
-        );
+            );
 
         expect(() => run()).not.toThrow();
 
@@ -113,5 +117,29 @@ describe('create', () => {
         );
         // rerunning should throw because the workspace exists
         expect(() => run()).toThrow();
+    });
+
+    it('can install to a specific directory', async () => {
+        execSync(
+            'npx --yes @ensono-stacks/create-stacks-workspace@latest test --dir=./proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose',
+            {
+                cwd: temporaryDirectory,
+                stdio: 'inherit',
+                env: {
+                    ...process.env,
+                    npm_config_cache: cacheDirectory,
+                    HUSKY: '0',
+                },
+            },
+        );
+
+        expect(() =>
+            checkFilesExist(
+                'test/.eslintrc.json',
+                'test/.husky/commit-msg',
+                'test/.husky/pre-commit',
+                'test/.husky/prepare-commit-msg',
+            ),
+        ).not.toThrow();
     });
 });
