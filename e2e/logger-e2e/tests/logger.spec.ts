@@ -1,7 +1,7 @@
+import { newProject } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     cleanup,
-    ensureNxProject,
     readJson,
     runNxCommandAsync,
     uniq,
@@ -9,15 +9,12 @@ import {
 
 describe('logger e2e', () => {
 
-    beforeAll(() => {
-        ensureNxProject(
-            '@ensono-stacks/logger',
-            'dist/packages/logger',
-        );
+    beforeAll(async () => {
+        await newProject(['@ensono-stacks/logger']);
     });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
         cleanup();
     });
 
@@ -53,10 +50,6 @@ describe('logger e2e', () => {
         describe('--tags', () => {
             it('should add tags to the project', async () => {
                 const project = uniq('logger');
-                ensureNxProject(
-                    '@ensono-stacks/logger',
-                    'dist/packages/logger',
-                );
                 await runNxCommandAsync(
                     `generate @ensono-stacks/logger:winston ${project} --tags e2etag,e2ePackage`,
                 );
@@ -66,13 +59,6 @@ describe('logger e2e', () => {
         });
 
         describe('--logLevelType', () => {
-            beforeAll(() => {
-                ensureNxProject(
-                    '@ensono-stacks/logger',
-                    'dist/packages/logger',
-                );
-            });
-
             it('should create src with "cli" log level type', async () => {
                 const project = uniq('logger');
                 await runNxCommandAsync(
@@ -151,13 +137,6 @@ describe('logger e2e', () => {
         });
 
         describe('--httpTransport', () => {
-            beforeEach(() => {
-                ensureNxProject(
-                    '@ensono-stacks/logger',
-                    'dist/packages/logger',
-                );
-            });
-
             it('should create src with http transport being set', async () => {
                 const project = uniq('logger');
                 await runNxCommandAsync(
