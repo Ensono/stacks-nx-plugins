@@ -15,6 +15,7 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
         ignorePatterns: ['!**/*'],
         overrides: [
             {
+                excludedFiles: ['jest.config.ts'],
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                 parserOptions: {
                     project: [`${projectRootPath}/tsconfig(.*)?.json`],
