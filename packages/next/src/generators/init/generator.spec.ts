@@ -51,8 +51,12 @@ describe('next install generator', () => {
     }
 
     describe('Project config', () => {
+        beforeEach(async () => {
+            await createNextApp();
+        });
+
         it('should add the ci config in the test command in the project.json', async () => {
-            appTree.write(
+            tree.write(
                 'next-app/project.json',
                 JSON.stringify({
                     targets: { test: {} },
@@ -61,9 +65,9 @@ describe('next install generator', () => {
                 }),
             );
 
-            await generator(appTree, options);
+            await generator(tree, options);
 
-            const projectConfig = readJson(appTree, 'next-app/project.json');
+            const projectConfig = readJson(tree, 'next-app/project.json');
 
             expect(projectConfig.targets.test).toMatchObject(
                 expect.objectContaining({
@@ -87,7 +91,7 @@ describe('next install generator', () => {
         });
 
         it('should update the ci config in the test command in the project.json if there is an existing custom test config', async () => {
-            appTree.write(
+            tree.write(
                 'next-app/project.json',
                 JSON.stringify({
                     targets: {
@@ -110,9 +114,9 @@ describe('next install generator', () => {
                 }),
             );
 
-            await generator(appTree, options);
+            await generator(tree, options);
 
-            const projectConfig = readJson(appTree, 'next-app/project.json');
+            const projectConfig = readJson(tree, 'next-app/project.json');
 
             expect(projectConfig.targets.test).toMatchObject(
                 expect.objectContaining({

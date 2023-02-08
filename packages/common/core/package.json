@@ -4,7 +4,8 @@
     "type": "commonjs",
     "dependencies": {
         "ts-morph": "17.0.1",
-        "tslib": "2.4.1"
+        "tslib": "2.4.1",
+        "deepmerge": "^4.3.0"
     },
     "peerDependencies": {
         "@nrwl/devkit": ">=15.2.1"

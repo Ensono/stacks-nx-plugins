@@ -1,40 +1,7 @@
 import { ProjectConfiguration, TargetConfiguration } from '@nrwl/devkit';
+import deepMerge from 'deepmerge';
 
-function isObject(a: unknown) {
-    return typeof a === 'object' && !Array.isArray(a);
-}
-
-function coalesceByKey(source: Record<string, unknown>) {
-    return (accumulator: Record<string, unknown>, key: string) => {
-        if (accumulator[key] && source[key]) {
-            // eslint-disable-next-line @typescript-eslint/no-use-before-define
-            accumulator[key] = merge(accumulator[key], source[key]);
-        } else {
-            accumulator[key] = source[key];
-        }
-
-        return accumulator;
-    };
-}
-
-function deepMerge(
-    target: Record<string, any>,
-    ...sources: Record<string, any>[]
-) {
-    return sources.reduce(
-        (accumulator, source) =>
-            Object.keys(source).reduce(coalesceByKey(source), accumulator),
-        target,
-    );
-}
-
-function merge(a: unknown, b: unknown): unknown {
-    return isObject(a) && isObject(b)
-        ? deepMerge(a as Record<string, unknown>, b as Record<string, unknown>)
-        : isObject(a) && !isObject(b)
-        ? a
-        : b;
-}
+import combineMerge from './merge';
 
 export function mergeProjectConfigTarget(
     config: ProjectConfiguration,
@@ -57,6 +24,7 @@ export function mergeProjectConfigTarget(
     newConfig.targets[targetName] = deepMerge(
         newConfig.targets[targetName],
         target,
+        { arrayMerge: combineMerge },
     );
 
     return newConfig;

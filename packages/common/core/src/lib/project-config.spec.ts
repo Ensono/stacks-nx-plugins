@@ -187,5 +187,127 @@ describe('Core: Project-Config', () => {
                 },
             });
         });
+
+        it('should merge a nested array', () => {
+            const result = mergeProjectConfigTarget(
+                {
+                    root: '',
+                    targets: {
+                        test: {
+                            configurations: {
+                                ci: {
+                                    collectCoverage: true,
+                                    coverageReporters: ['text', 'html'],
+                                    collectCoverageFrom: [
+                                        './**/*.{js,jsx,ts,tsx}',
+                                    ],
+                                    codeCoverage: true,
+                                    ci: true,
+                                },
+                            },
+                        },
+                    },
+                },
+                {
+                    configurations: {
+                        ci: {
+                            collectCoverage: true,
+                            coverageReporters: ['text', 'html'],
+                            collectCoverageFrom: [
+                                './!**/.next/**',
+                                './!**/*.d.ts',
+                                './!**/*.config.*',
+                                './!**/_app.*',
+                            ],
+                            codeCoverage: true,
+                            ci: true,
+                        },
+                    },
+                },
+                'test',
+            );
+
+            expect(result).toMatchObject({
+                root: '',
+                targets: {
+                    test: {
+                        configurations: {
+                            ci: {
+                                collectCoverage: true,
+                                coverageReporters: ['text', 'html'],
+                                collectCoverageFrom: [
+                                    './**/*.{js,jsx,ts,tsx}',
+                                    './!**/.next/**',
+                                    './!**/*.d.ts',
+                                    './!**/*.config.*',
+                                    './!**/_app.*',
+                                ],
+                                codeCoverage: true,
+                                ci: true,
+                            },
+                        },
+                    },
+                },
+            });
+        });
+
+        it('should merge a nested array if it doesnt exist in source', () => {
+            const result = mergeProjectConfigTarget(
+                {
+                    root: '',
+                    targets: {
+                        test: {
+                            configurations: {
+                                ci: {
+                                    collectCoverage: true,
+                                    coverageReporters: ['text', 'html'],
+                                    codeCoverage: true,
+                                    ci: true,
+                                },
+                            },
+                        },
+                    },
+                },
+                {
+                    configurations: {
+                        ci: {
+                            collectCoverage: true,
+                            coverageReporters: ['text', 'html'],
+                            collectCoverageFrom: [
+                                './!**/.next/**',
+                                './!**/*.d.ts',
+                                './!**/*.config.*',
+                                './!**/_app.*',
+                            ],
+                            codeCoverage: true,
+                            ci: true,
+                        },
+                    },
+                },
+                'test',
+            );
+
+            expect(result).toMatchObject({
+                root: '',
+                targets: {
+                    test: {
+                        configurations: {
+                            ci: {
+                                collectCoverage: true,
+                                coverageReporters: ['text', 'html'],
+                                collectCoverageFrom: [
+                                    './!**/.next/**',
+                                    './!**/*.d.ts',
+                                    './!**/*.config.*',
+                                    './!**/_app.*',
+                                ],
+                                codeCoverage: true,
+                                ci: true,
+                            },
+                        },
+                    },
+                },
+            });
+        });
     });
 });
