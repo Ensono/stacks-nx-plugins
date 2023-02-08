@@ -17,11 +17,14 @@
         "accessibility": {
             "type": "boolean",
             "description": "Scaffolding for accessibility testing.",
+            "alias": "a",
             "x-prompt": "Would you like to install the scaffolding for accessibility testing?",
             "default": false
         },
         "visualRegression": {
             "type": "string",
+            "description": "Method used to conduct visual regression testing",
+            "alias": "v",
             "default": "none",
             "enum": ["none", "native", "applitools"],
             "x-prompt": {
