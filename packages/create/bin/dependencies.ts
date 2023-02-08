@@ -90,7 +90,8 @@ export async function runGenerators(commands: string[], cwd: string) {
 }
 
 export async function commitGeneratedFiles(cwd: string, message: string) {
+    process.env['HUSKY'] = '0';
     await execAsync(`cd ${cwd}`, cwd);
     await execAsync('git add .', cwd);
-    await execAsync(`HUSKY=0 git commit -m "${message}"`, cwd);
+    await execAsync(`git commit -m "${message}"`, cwd);
 }
