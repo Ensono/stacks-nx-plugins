@@ -1,10 +1,10 @@
-import { FC, ReactNode } from 'react';
-
 import {
   ReactPlugin,
   AppInsightsContext,
 } from '@microsoft/applicationinsights-react-js';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { FC, ReactNode } from 'react';
+
 import appInsightConfig from './app-insights-config';
 
 const reactPlugin = new ReactPlugin();

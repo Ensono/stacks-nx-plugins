@@ -93,9 +93,10 @@ export default async function appInsightsWebGenerator(
 
     // Generate files
     addFiles(tree, normalizedOptions);
-    // Update package.json
-    updateDependencies(tree);
 
     // Format files
     await formatFiles(tree);
+
+    // Update package.json and install dependencies
+    return updateDependencies(tree);
 }
