@@ -165,7 +165,7 @@ describe('playwright e2e', () => {
 
             // add axe packages to package.json
             const packageJson = readJson('package.json');
-            expect(packageJson?.dependencies).toMatchObject({
+            expect(packageJson?.devDependencies).toMatchObject({
                 '@axe-core/playwright': '4.5.2',
                 'axe-result-pretty-print': '1.0.2',
             });
@@ -244,13 +244,6 @@ describe('playwright e2e', () => {
                     `apps/${e2eProject}/src/applitools-eyes-grid.spec.ts`,
                 ),
             ).not.toThrow();
-
-            // add axe packages to package.json
-            const packageJson = readJson('package.json');
-            expect(packageJson?.dependencies).toMatchObject({
-                '@axe-core/playwright': '4.5.2',
-                'axe-result-pretty-print': '1.0.2',
-            });
 
             // expect playwright.config.ts to be ameneded with native regression config
             const projectConfig = readFile(
