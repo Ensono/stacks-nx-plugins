@@ -140,6 +140,54 @@ describe('playwright generator', () => {
         expect(gitIgnoreFile).toContain('**/playwright/.cache');
     });
 
+    it('should prevent configuration being duplicated in playwright.config.ts', async () => {
+        const packageRunner: PackageRunner = 'npx';
+        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
+            name: projectName,
+            linter: Linter.EsLint,
+            packageRunner,
+        };
+        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
+
+        const options: PlaywrightGeneratorSchema = {
+            project: projectName,
+            accessibility: false,
+            visualRegression: 'none',
+        };
+
+        // run the generator twice to cause config to be re-updated
+        await generator(appTree, options);
+        await generator(appTree, options);
+
+        const project = tsMorphTree(appTree);
+        const projectConfigFile = project.addSourceFileAtPath(
+            `${projectName}/playwright.config.ts`,
+        );
+
+        const projectConfigObject = projectConfigFile
+            ?.getVariableDeclaration('config')
+            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
+
+        // remove the first property of 'use' and it's expected that no other 'use' properties exist
+        projectConfigObject.getProperty('use')?.remove();
+        expect(projectConfigObject.getProperty('use')).toBeUndefined();
+
+        const playwrightImport = projectConfigFile
+            .getImportDeclarations()
+            .find(
+                importDeclaration =>
+                    importDeclaration.getModuleSpecifier().getLiteralValue() ===
+                    '@playwright/test',
+            );
+        let deviceImportsCount = 0;
+        playwrightImport.getNamedImports().forEach(module => {
+            if (module.getName() === 'devices') {
+                deviceImportsCount += 1;
+            }
+        });
+        expect(deviceImportsCount).toEqual(1);
+    });
+
     it('should run successfully with accessibility enabled', async () => {
         const packageRunner: PackageRunner = 'npx';
         const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {

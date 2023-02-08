@@ -6,10 +6,11 @@ import {
     Tree,
 } from '@nrwl/devkit';
 import { spawnSync } from 'child_process';
+import deepMerge from 'deepmerge';
 import { Linter } from 'eslint';
 import { SyntaxKind } from 'ts-morph';
 
-import { ensureArray } from './array';
+import { combineMerge } from './merge';
 import { tsMorphTree, updateJsonInJS } from './ts-morph';
 
 export function formatFilesWithEslint(project: string) {
@@ -72,99 +73,15 @@ export function mergeEslintConfigs(...configs: Linter.Config[]): Linter.Config {
     }
 
     const [a, b, ...base] = configs;
-    const aConfig = { ...a };
-    const bConfig = { ...b };
-
-    // Merge top-level properties with user preference
-    aConfig.plugins = [
-        ...new Set([...(aConfig.plugins || []), ...(bConfig.plugins || [])]),
-    ];
-    aConfig.extends = [
-        ...new Set([...(aConfig.extends || []), ...(bConfig.extends || [])]),
-    ];
-
-    if (bConfig.overrides) {
-        bConfig.overrides.forEach(override => {
-            // Find matching file override in a
-            const indexOfOverride = aConfig.overrides?.findIndex(
-                ({ files }) => {
-                    // Clone to preserve original config
-                    const filesClone = [...ensureArray(files)];
-                    const overrideFilesClone = [...ensureArray(override.files)];
-                    return (
-                        filesClone.sort().toString() ===
-                        overrideFilesClone.sort().toString()
-                    );
-                },
-            );
-
-            // a does not have an override, so set it
-            if (indexOfOverride === undefined) {
-                aConfig.overrides = [override];
-                return;
-            }
-
-            // Matching override exists
-            if (aConfig.overrides && indexOfOverride >= 0) {
-                const baseOverride = aConfig.overrides[indexOfOverride];
-                if (baseOverride.plugins || override.plugins) {
-                    baseOverride.plugins = [
-                        ...new Set([
-                            ...(baseOverride.plugins || []),
-                            ...(override.plugins || []),
-                        ]),
-                    ];
-                }
-                if (baseOverride.extends || override.extends) {
-                    baseOverride.extends = [
-                        ...new Set([
-                            ...(baseOverride.extends || []),
-                            ...(override.extends || []),
-                        ]),
-                    ];
-                }
-                if (baseOverride.excludedFiles || override.excludedFiles) {
-                    baseOverride.excludedFiles = [
-                        ...new Set([
-                            ...(baseOverride.excludedFiles || []),
-                            ...(override.excludedFiles || []),
-                        ]),
-                    ];
-                }
-                baseOverride.parserOptions = {
-                    ...baseOverride.parserOptions,
-                    ...override.parserOptions,
-                };
-                baseOverride.rules = {
-                    ...baseOverride.rules,
-                    ...override.rules,
-                };
-                // No matching override exists
-            } else {
-                aConfig.overrides?.push(override);
-            }
-        });
-    }
-
-    if (bConfig.rules) {
-        aConfig.rules = {
-            ...aConfig.rules,
-            ...bConfig.rules,
-        };
-    }
-
-    if (bConfig.settings) {
-        aConfig.settings = {
-            ...aConfig.settings,
-            ...bConfig.settings,
-        };
-    }
+    const result = deepMerge(a, b, {
+        arrayMerge: (target, source, options) =>
+            combineMerge(target, source, options, 'files'),
+    });
 
     if (base.length > 0) {
-        return mergeEslintConfigs(aConfig, ...base);
+        return mergeEslintConfigs(result, ...base);
     }
-
-    return formatConfig(aConfig);
+    return formatConfig(result);
 }
 
 export function updateEslintConfig(
