@@ -123,6 +123,18 @@ export function mergeEslintConfigs(...configs: Linter.Config[]): Linter.Config {
                         ]),
                     ];
                 }
+                if (baseOverride.excludedFiles || override.excludedFiles) {
+                    baseOverride.excludedFiles = [
+                        ...new Set([
+                            ...(baseOverride.excludedFiles || []),
+                            ...(override.excludedFiles || []),
+                        ]),
+                    ];
+                }
+                baseOverride.parserOptions = {
+                    ...baseOverride.parserOptions,
+                    ...override.parserOptions,
+                };
                 baseOverride.rules = {
                     ...baseOverride.rules,
                     ...override.rules,

@@ -1,15 +1,18 @@
 import { formatFilesWithEslint } from '@ensono-stacks/core';
 import {
     formatFiles,
-    readProjectConfiguration,
     GeneratorCallback,
+    readProjectConfiguration,
+    updateJson,
     Tree,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import path from 'path';
 
 import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
+import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
     tree: Tree,
@@ -27,6 +30,21 @@ export default async function initGenerator(
     }
 
     tasks.push(formatFilesWithEslint(options.project));
+
+    // update tsconfig.json
+    updateTsConfig(
+        tree,
+        project,
+        path.join(project.sourceRoot, 'tsconfig.json'),
+        ['next.config.js'],
+    );
+
+    // update tsconfig.spec.json
+    updateTsConfig(
+        tree,
+        project,
+        path.join(project.sourceRoot, 'tsconfig.spec.json'),
+    );
 
     await formatFiles(tree);
 
