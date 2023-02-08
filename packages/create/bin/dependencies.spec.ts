@@ -63,7 +63,7 @@ it('runs generators correctly', async () => {
 
     expect(execAsync).toBeCalledTimes(1);
     expect(execAsync).toHaveBeenCalledWith(
-        'npx nx g @ensono-stacks/workspace:init',
+        'npx nx g @ensono-stacks/workspace:init --pipelineRunner=none',
         'folder/path',
     );
 });
@@ -77,7 +77,7 @@ it('runs generators for next.js', async () => {
 
     expect(execAsync).toBeCalledTimes(2);
     expect(execAsync).toHaveBeenCalledWith(
-        'npx nx g @ensono-stacks/workspace:init',
+        'npx nx g @ensono-stacks/workspace:init --pipelineRunner=none',
         'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(
