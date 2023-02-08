@@ -26,8 +26,9 @@ export default async function initGenerator(
     const update = { ...project };
 
     if (
+        project.sourceRoot &&
         project.sourceRoot ===
-        update.targets.build.configurations.development.outputPath
+            update.targets?.build?.configurations?.development?.outputPath
     ) {
         update.targets.build.configurations.development = {};
     }
