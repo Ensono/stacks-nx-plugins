@@ -1,0 +1,29 @@
+import {
+  ReactPlugin,
+  AppInsightsContext,
+} from '@microsoft/applicationinsights-react-js';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { FC, ReactNode } from 'react';
+
+import appInsightConfig from './app-insights-config';
+
+const reactPlugin = new ReactPlugin();
+const connectionString = process.env.<%= connectionString %>;
+
+export const appInsights = new ApplicationInsights({
+  config: {
+    connectionString,
+    ...appInsightConfig,
+    extensions: [reactPlugin],
+  },
+});
+
+if (!appInsights.appInsights.isInitialized()) {
+  appInsights.loadAppInsights();
+}
+
+export const TelemetryProvider: FC<{ children?: ReactNode }> = ({ children }) => (
+  <AppInsightsContext.Provider value={reactPlugin}>
+    {children}
+  </AppInsightsContext.Provider>
+);
