@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import yargs from 'yargs';
 
 import { execAsync } from './exec';
@@ -16,11 +17,34 @@ async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
     }
 }
 
+function checkRequiredArguments(
+    argv: yargs.Arguments<CreateStacksArguments>,
+    required: (keyof CreateStacksArguments)[],
+): boolean {
+    return required.every(key => Boolean(argv[key]));
+}
+
 export function getGeneratorsToRun(
     argv: yargs.Arguments<CreateStacksArguments>,
 ) {
     const generators: string[] = [];
-    generators.push(`@ensono-stacks/workspace:init`);
+
+    let pipelineRunnerOption = '';
+    if (
+        !checkRequiredArguments(argv, [
+            'business',
+            'domain',
+            'cloud',
+            'pipeline',
+        ])
+    ) {
+        pipelineRunnerOption = ' --pipelineRunner=none';
+        console.log(
+            chalk.yellow`Setting --pipelineRunner=none because Stacks config is missing. Did you start using stacks-cli?`,
+        );
+    }
+
+    generators.push(`@ensono-stacks/workspace:init${pipelineRunnerOption}`);
 
     if (argv.preset === Preset.NextJs) {
         generators.push(`@ensono-stacks/next:init --project=${argv.appName}`);
