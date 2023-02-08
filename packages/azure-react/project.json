@@ -71,7 +71,7 @@
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["azure-node:publish", "azure-node:github"]
+                    "postTargets": ["azure-react:publish", "azure-react:github"]
                 }
             }
         },
