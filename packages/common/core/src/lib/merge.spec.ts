@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge';
 
-import combineMerge from './merge';
+import { combineMerge } from './merge';
 
 describe('merge', () => {
     describe('combineMerge', () => {
@@ -237,6 +237,5 @@ describe('merge', () => {
                 ],
             });
         });
-
     });
 });

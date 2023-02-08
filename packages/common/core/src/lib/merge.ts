@@ -44,7 +44,7 @@ function processUniqueKeyForObject(
     return result;
 }
 
-function combineMerge(
+export function combineMerge(
     target: any[],
     source: any[],
     options?: deepMerge.Options,
@@ -77,5 +77,3 @@ function combineMerge(
     });
     return destination;
 }
-
-export default combineMerge;
