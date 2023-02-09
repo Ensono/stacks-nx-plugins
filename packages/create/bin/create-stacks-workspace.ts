@@ -153,7 +153,7 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 }
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
-    const { nxVersion, ...forwardArgv } = parsedArgv;
+    const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
     const { name } = forwardArgv;
     const argumentsToForward = unparse(forwardArgv as unparse.Arguments, {
         alias: {
@@ -162,11 +162,23 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         },
     });
 
+    const root = path.resolve(dir);
+
+    if (!fs.existsSync(root)) {
+        fs.mkdirSync(root, { recursive: true });
+    }
+
+    process.chdir(root);
+
     const cwd = path.join(process.cwd(), name);
 
-    if (fs.existsSync(path.join(cwd, 'nx.json'))) {
-        console.error(chalk.red`Workspace ${name} already exists!`);
-        process.exit(1);
+    if (fs.existsSync(cwd)) {
+        if (overwrite) {
+            fs.rmSync(cwd, { recursive: true, force: true });
+        } else {
+            console.error(chalk.red`Directory ${cwd} already exists!`);
+            process.exit(1);
+        }
     }
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
@@ -238,6 +250,11 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         .join(', ')}]`,
                     type: 'string',
                 })
+                .option('dir', {
+                    describe: chalk.dim`The directory to install to`,
+                    type: 'string',
+                    default: '.',
+                })
                 .option('appName', {
                     describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
                     type: 'string',
@@ -259,6 +276,12 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     alias: 'i',
                     type: 'boolean',
                     default: true,
+                })
+                .option('overwrite', {
+                    describe: chalk.dim`Overwrite the target directory on install`,
+                    alias: 'o',
+                    type: 'boolean',
+                    default: false,
                 })
                 .option('cloud.platform', {
                     describe: chalk.dim`Name of the cloud provider`,
