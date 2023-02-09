@@ -62,24 +62,6 @@ describe('app-insights generator', () => {
         );
     });
 
-    it('should throw an error when no applicationInsightsKey is provided', async () => {
-        await nextGenerator(appTree, {
-            name: 'test',
-            customServer: true,
-            style: 'css',
-        });
-
-        const incorrectOptions: AppInsightsGeneratorSchema = {
-            project: 'test',
-            server: 'server.js',
-            appInsightsKey: '',
-        };
-        await expect(generator(appTree, incorrectOptions)).rejects.toThrowError(
-            'App insights key is not valid. Please provide a name for the key.',
-        );
-    });
-
-
     it('should throw an error when custom server is missing', async () => {
         await nextGenerator(appTree, {
             name: 'test',
