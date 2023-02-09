@@ -8,6 +8,7 @@
             "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
+                "buildableProjectDepsInPackageJsonType": "dependencies",
                 "outputPath": "dist/packages/azure-react",
                 "main": "packages/azure-react/src/index.ts",
                 "tsConfig": "packages/azure-react/tsconfig.lib.json",
