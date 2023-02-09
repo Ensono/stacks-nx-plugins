@@ -158,7 +158,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { name } = forwardArgv;
 
     const argumentsToForward = unparse(
-        normaliseForwardedArgv(forwardArgv as unparse.Arguments),
+        normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
         { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
 
