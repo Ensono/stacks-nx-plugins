@@ -55,14 +55,17 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
-function updateDependencies(tree: Tree) {
-    return addDependenciesToPackageJson(
-        tree,
-        {
-            '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
-            'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
-        },
-        {},
+function updateDependencies(tree: Tree, shouldExecute = false) {
+    return (
+        shouldExecute &&
+        addDependenciesToPackageJson(
+            tree,
+            {},
+            {
+                '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
+                'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
+            },
+        )
     );
 }
 
@@ -135,5 +138,5 @@ export default async function initGenerator(
 
     await formatFiles(tree);
 
-    return updateDependencies(tree);
+    return updateDependencies(tree, options.accessibility);
 }
