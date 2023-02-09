@@ -18,7 +18,10 @@
             "type": "string",
             "description": "The env variable that stores the app insights key.",
             "alias": "e",
-            "x-prompt": "What is your application insights environment variable key?"
+            "x-prompt": "What is your application insights environment variable key?",
+            "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
+            "minLength": 5,
+            "maxLength": 100
         },
         "server": {
             "type": "string",
