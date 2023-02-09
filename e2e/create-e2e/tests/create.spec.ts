@@ -2,13 +2,10 @@ import {
     tmpProjPath,
     checkFilesExist,
     readJson,
-    runNxCommandAsync,
 } from '@nrwl/nx-plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-
-import { cleanup } from '@ensono-stacks/e2e';
 
 describe('create', () => {
     const temporaryDirectory = path.dirname(tmpProjPath());
@@ -20,19 +17,20 @@ describe('create', () => {
                 recursive: true,
             });
         }
+
+        if (fs.existsSync(path.join(temporaryDirectory))) {
+            fs.rmSync(path.join(temporaryDirectory), {
+                recursive: true,
+                force: true,
+            });
+        }
     });
 
     beforeEach(() => {
         if (!fs.existsSync(temporaryDirectory)) {
+            console.log('creating ' + temporaryDirectory);
             fs.mkdirSync(temporaryDirectory, {
                 recursive: true,
-            });
-        }
-
-        if (fs.existsSync(path.join(temporaryDirectory, 'proj'))) {
-            fs.rmSync(path.join(temporaryDirectory, 'proj'), {
-                recursive: true,
-                force: true,
             });
         }
     });
@@ -44,7 +42,13 @@ describe('create', () => {
     });
 
     afterEach(() => {
-        cleanup();
+        if (fs.existsSync(temporaryDirectory)) {
+            console.log('removing ' + temporaryDirectory);
+            fs.rmSync(temporaryDirectory, {
+                recursive: true,
+                force: true,
+            });
+        }
     });
 
     it('configures an empty apps stacks workspace', async () => {

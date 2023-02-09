@@ -155,14 +155,26 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
-    const { name } = forwardArgv;
+    const { name, skipGit } = forwardArgv;
 
     const argumentsToForward = unparse(
         normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
         { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
 
-    const root = path.resolve(dir);
+    let root = path.resolve(dir);
+
+    // Stacks-cli gives us the working directory + project name via --dir
+    // We need to strip out the project name as create-nx-workspace will create it
+    if (overwrite) {
+        const directoryName = path.basename(dir);
+        if (paramCase(directoryName) === name) {
+            if (fs.existsSync(root)) {
+                fs.rmSync(root, { recursive: true, force: true });
+            }
+            root = path.dirname(root);
+        }
+    }
 
     if (!fs.existsSync(root)) {
         fs.mkdirSync(root, { recursive: true });
@@ -173,12 +185,8 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const cwd = path.join(process.cwd(), name);
 
     if (fs.existsSync(cwd)) {
-        if (overwrite) {
-            fs.rmSync(cwd, { recursive: true, force: true });
-        } else {
-            console.error(chalk.red`Directory ${cwd} already exists!`);
-            process.exit(1);
-        }
+        console.error(chalk.red`Directory ${cwd} already exists!`);
+        process.exit(1);
     }
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
@@ -225,7 +233,9 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         process.exit(1);
     }
 
-    await commitGeneratedFiles(cwd, 'stacks init');
+    if (!skipGit) {
+        await commitGeneratedFiles(cwd, 'stacks init');
+    }
 
     console.log(chalk.magenta`Stacks is ready`);
 }
@@ -281,6 +291,11 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('overwrite', {
                     describe: chalk.dim`Overwrite the target directory on install`,
                     alias: 'o',
+                    type: 'boolean',
+                    default: false,
+                })
+                .option('skipGit', {
+                    describe: chalk.dim`Skip git init`,
                     type: 'boolean',
                     default: false,
                 })
