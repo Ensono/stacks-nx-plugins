@@ -33,20 +33,47 @@
 
         "version": {
             "executor": "@jscutlery/semver:version",
+            "options": {
+                "trackDeps": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true,
+                "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+            },
             "configurations": {
                 "prerelease": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "releaseAs": "prerelease",
+                    "preid": "alpha",
+                    "push": true,
                     "postTargets": ["create:publish:prerelease"]
                 },
                 "release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
                     "postTargets": ["create:publish", "create:github"]
                 }
             }
         },
         "publish": {
-            "executor": "ngx-deploy-npm:deploy"
+            "executor": "ngx-deploy-npm:deploy",
+            "options": {
+                "access": "public"
+            },
+            "configurations": {
+                "prerelease": {
+                    "tag": "dev"
+                }
+            }
         },
         "github": {
-            "executor": "@jscutlery/semver:github"
+            "executor": "@jscutlery/semver:github",
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
         }
     },
     "tags": []
