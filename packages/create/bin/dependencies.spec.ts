@@ -1,4 +1,5 @@
 import yargs from 'yargs';
+import unparse from 'yargs-unparser';
 
 import {
     getStacksPlugins,
@@ -126,18 +127,36 @@ it('commits additional generator files', async () => {
 });
 
 it('replaces the Next preset with Apps', () => {
-    expect(
-        normaliseForwardedArgv(['--preset', 'next', '--appName', 'test-app']),
-    ).toMatchObject(['--preset', 'apps', '--appName', 'test-app']);
+    const unparsedArguments: unparse.Arguments = {
+        _: [],
+        preset: 'next',
+        appName: 'test-app',
+    };
+    expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        _: [],
+        appName: 'test-app',
+        preset: 'apps',
+    });
 });
 it('does not replace a preset other than Next', () => {
-    expect(
-        normaliseForwardedArgv(['--preset', 'remix', '--appName', 'test-app']),
-    ).toMatchObject(['--preset', 'remix', '--appName', 'test-app']);
+    const unparsedArguments: unparse.Arguments = {
+        _: [],
+        appName: 'test-app',
+        preset: 'remix',
+    };
+    expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        _: [],
+        appName: 'test-app',
+        preset: 'remix',
+    });
 });
 it('does not replace a Next argument anywhere else', () => {
-    expect(normaliseForwardedArgv(['--appName', 'next'])).toMatchObject([
-        '--appName',
-        'next',
-    ]);
+    const unparsedArguments: unparse.Arguments = {
+        _: [],
+        appName: 'next',
+    };
+    expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        _: [],
+        appName: 'next',
+    });
 });

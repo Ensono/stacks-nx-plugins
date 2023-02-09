@@ -71,7 +71,7 @@ async function determineRepoName(
 async function determinePreset(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
-    if (!parsedArguments.preset && !parsedArguments.interactive) {
+    if (!(parsedArguments.preset || parsedArguments.interactive)) {
         return Promise.resolve(Preset.Apps);
     }
 
@@ -156,13 +156,10 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, ...forwardArgv } = parsedArgv;
     const { name } = forwardArgv;
-    const argumentsToForward = normaliseForwardedArgv(
-        unparse(forwardArgv as unparse.Arguments, {
-            alias: {
-                packageManager: ['pm'],
-                interactive: ['i'],
-            },
-        }),
+
+    const argumentsToForward = unparse(
+        normaliseForwardedArgv(forwardArgv as unparse.Arguments),
+        { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
 
     const cwd = path.join(process.cwd(), name);

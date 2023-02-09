@@ -1,4 +1,5 @@
 import yargs from 'yargs';
+import unparse from 'yargs-unparser';
 
 import { execAsync } from './exec';
 import {
@@ -12,23 +13,14 @@ const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 /**
  * When `--preset=next` is passed into the CLI, we want to use the `apps` preset under the hood so that we can customise certain aspects.
  *
- * Replaces the `next` preset with `apps` if it exists and returns the new array of flags.
- * @param args array of flags in the form ['--flag1', 'val1', '--flag2', 'val2']
+ * Replaces the `next` preset with `apps` if it exists and returns the new object containing flags.
+ * @param forwardArgv Arguments of flags in the form {_: string[], [argName: string]: any}: yargs-unparser.Arguments
  */
-export function normaliseForwardedArgv(args: string[]) {
-    return args.reduce((accumulator, value) => {
-        if (accumulator.length === 0) {
-            return [value];
-        }
-
-        const isPresetFlag = accumulator[accumulator.length - 1] === '--preset';
-
-        if (!isPresetFlag) {
-            return [...accumulator, value];
-        }
-
-        return [...accumulator, value === 'next' ? 'apps' : value];
-    }, [] as string[]);
+export function normaliseForwardedArgv(forwardArgv: unparse.Arguments) {
+    const updatedForwardArgv = forwardArgv;
+    updatedForwardArgv['preset'] =
+        forwardArgv['preset'] === 'next' ? 'apps' : forwardArgv['preset'];
+    return updatedForwardArgv;
 }
 
 async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
