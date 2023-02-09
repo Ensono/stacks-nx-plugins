@@ -77,6 +77,12 @@ export default async function appInsightsGenerator(
 
     const mainFunction = customServer.getFunction('main');
 
+    if (appInsightsKey.length === 0) {
+        throw new Error(
+            'App insights key is not valid. Please provide a name for the key.',
+        );
+    }
+
     // Add appInisghts statements
     mainFunction.insertStatements(0, initAppInsights(appInsightsKey));
     mainFunction.insertStatements(1, configureAppInsights(project.name));
