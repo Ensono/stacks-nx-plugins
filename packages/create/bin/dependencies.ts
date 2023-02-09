@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import yargs from 'yargs';
+import unparse from 'yargs-unparser';
 
 import { execAsync } from './exec';
 import {
@@ -9,6 +10,21 @@ import {
 import { CreateStacksArguments, Preset } from './types';
 
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
+
+/**
+ * When `--preset=next` is passed into the CLI, we want to use the `apps` preset under the hood so that we can customise certain aspects.
+ *
+ * Replaces the `next` preset with `apps` if it exists and returns the new object containing flags.
+ * @param forwardArgv Arguments of flags in the form {$0: string, _: string[], [argName: string]: any}: yargs.Arguments
+ */
+export function normaliseForwardedArgv(
+    forwardArgv: yargs.Arguments<Partial<CreateStacksArguments>>,
+) {
+    const updatedForwardArgv = forwardArgv;
+    updatedForwardArgv['preset'] =
+        forwardArgv['preset'] === 'next' ? 'apps' : forwardArgv['preset'];
+    return updatedForwardArgv;
+}
 
 async function chain([promise, ...promises]: (() => Promise<unknown>)[]) {
     if (promise) {
@@ -47,7 +63,10 @@ export function getGeneratorsToRun(
     generators.push(`@ensono-stacks/workspace:init${pipelineRunnerOption}`);
 
     if (argv.preset === Preset.NextJs) {
-        generators.push(`@ensono-stacks/next:init --project=${argv.appName}`);
+        generators.push(
+            `@nrwl/next:app ${argv.appName} --e2eTestRunner=none`,
+            `@ensono-stacks/next:init --project=${argv.appName}`,
+        );
     }
 
     return generators;
@@ -57,7 +76,7 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
     const plugins = [...stacksRequiredPlugins];
 
     if (argv.preset === Preset.NextJs) {
-        plugins.push('@ensono-stacks/next');
+        plugins.push('@nrwl/next', '@ensono-stacks/next');
     }
 
     return plugins;
@@ -82,9 +101,9 @@ export async function runGenerators(commands: string[], cwd: string) {
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
 
-    const promises = commands.map(
-        command => () => execAsync(`${pm.exec} nx g ${command}`, cwd),
-    );
+    const promises = commands.map(command => () => {
+        return execAsync(`${pm.exec} nx g ${command}`, cwd);
+    });
 
     return chain(promises);
 }

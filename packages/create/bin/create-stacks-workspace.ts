@@ -15,6 +15,7 @@ import {
     getStacksPlugins,
     installPackages,
     runGenerators,
+    normaliseForwardedArgv,
 } from './dependencies';
 import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
@@ -70,7 +71,7 @@ async function determineRepoName(
 async function determinePreset(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
-    if (!parsedArguments.preset && !parsedArguments.interactive) {
+    if (!(parsedArguments.preset || parsedArguments.interactive)) {
         return Promise.resolve(Preset.Apps);
     }
 
@@ -155,12 +156,11 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
     const { name } = forwardArgv;
-    const argumentsToForward = unparse(forwardArgv as unparse.Arguments, {
-        alias: {
-            packageManager: ['pm'],
-            interactive: ['i'],
-        },
-    });
+
+    const argumentsToForward = unparse(
+        normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
+        { alias: { packageManager: ['pm'], interactive: ['i'] } },
+    );
 
     const root = path.resolve(dir);
 
@@ -258,6 +258,7 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('appName', {
                     describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
                     type: 'string',
+                    default: 'myapp',
                 })
                 .option('nxVersion', {
                     describe: chalk.dim`Set the version of Nx you want installed`,
@@ -303,26 +304,32 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('business.company', {
                     describe: chalk.dim`Company Name`,
                     type: 'string',
+                    default: 'Amido',
                 })
                 .option('business.domain', {
                     describe: chalk.dim`Company Scope or area`,
                     type: 'string',
+                    default: 'stacks',
                 })
                 .option('business.component', {
                     describe: chalk.dim`Company component being worked on`,
                     type: 'string',
+                    default: 'nx',
                 })
                 .option('domain.internal', {
                     describe: chalk.dim`Internal domain for nonprod resources`,
                     type: 'string',
+                    default: 'test.com',
                 })
                 .option('domain.external', {
                     describe: chalk.dim`External domain for prod resources`,
                     type: 'string',
+                    default: 'test.dev',
                 })
                 .option('terraform.group', {
                     describe: chalk.dim`Terraform state group name`,
                     type: 'string',
+                    default: 'terraform-group',
                 })
                 .option('terraform.container', {
                     describe: chalk.dim`Terraform storage container name`,
@@ -331,15 +338,23 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('terraform.storage', {
                     describe: chalk.dim`Terraform storage name`,
                     type: 'string',
+                    default: 'terraform-storage',
+                })
+                .option('terraform.container', {
+                    describe: chalk.dim`Terraform container name`,
+                    type: 'string',
+                    default: 'terraform-container',
                 })
                 .option('vcs.type', {
                     describe: chalk.dim`Version control provider`,
                     choices: ['azdo', 'github'],
                     type: 'string',
+                    default: 'github',
                 })
                 .option('vcs.url', {
                     describe: chalk.dim`Version control remote url`,
                     type: 'string',
+                    default: 'remote.git',
                 }),
         async (argv: yargs.ArgumentsCamelCase<CreateStacksArguments>) => {
             return main(argv).catch(console.log);
