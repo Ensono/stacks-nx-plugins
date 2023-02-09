@@ -157,7 +157,10 @@ describe('next install generator', () => {
             const packageJson = readJson(tree, 'package.json');
 
             expect(Object.keys(packageJson.devDependencies)).toEqual(
-                expect.arrayContaining(['eslint-plugin-testing-library']),
+                expect.arrayContaining([
+                    'eslint-plugin-testing-library',
+                    '@typescript-eslint/eslint-plugin',
+                ]),
             );
         });
 
