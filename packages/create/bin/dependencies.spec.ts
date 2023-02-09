@@ -1,5 +1,4 @@
 import yargs from 'yargs';
-import unparse from 'yargs-unparser';
 
 import {
     getStacksPlugins,
@@ -127,31 +126,36 @@ it('commits additional generator files', async () => {
 });
 
 it('replaces the Next preset with Apps', () => {
-    const unparsedArguments: unparse.Arguments = {
+    const unparsedArguments: yargs.Arguments<Partial<CreateStacksArguments>> = {
+        $0: '',
         _: [],
         preset: 'next',
         appName: 'test-app',
     };
     expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        $0: '',
         _: [],
         appName: 'test-app',
         preset: 'apps',
     });
 });
 it('does not replace a preset other than Next', () => {
-    const unparsedArguments: unparse.Arguments = {
+    const unparsedArguments: yargs.Arguments<Partial<CreateStacksArguments>> = {
+        $0: '',
         _: [],
         appName: 'test-app',
         preset: 'remix',
     };
     expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        $0: '',
         _: [],
         appName: 'test-app',
         preset: 'remix',
     });
 });
 it('does not replace a Next argument anywhere else', () => {
-    const unparsedArguments: unparse.Arguments = {
+    const unparsedArguments: yargs.Arguments<Partial<CreateStacksArguments>> = {
+        $0: '',
         _: [],
         appName: 'next',
     };

@@ -14,9 +14,11 @@ const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
  * When `--preset=next` is passed into the CLI, we want to use the `apps` preset under the hood so that we can customise certain aspects.
  *
  * Replaces the `next` preset with `apps` if it exists and returns the new object containing flags.
- * @param forwardArgv Arguments of flags in the form {_: string[], [argName: string]: any}: yargs-unparser.Arguments
+ * @param forwardArgv Arguments of flags in the form {$0: string, _: string[], [argName: string]: any}: yargs.Arguments
  */
-export function normaliseForwardedArgv(forwardArgv: unparse.Arguments) {
+export function normaliseForwardedArgv(
+    forwardArgv: yargs.Arguments<Partial<CreateStacksArguments>>,
+) {
     const updatedForwardArgv = forwardArgv;
     updatedForwardArgv['preset'] =
         forwardArgv['preset'] === 'next' ? 'apps' : forwardArgv['preset'];
