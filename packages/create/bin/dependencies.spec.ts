@@ -6,6 +6,7 @@ import {
     getGeneratorsToRun,
     runGenerators,
     commitGeneratedFiles,
+    normaliseForwardedArgv,
 } from './dependencies';
 import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
@@ -34,7 +35,7 @@ it('installs dependencies for next.js', async () => {
     await installPackages(packages, 'folder/path');
 
     expect(execAsync).toHaveBeenCalledWith(
-        'npm install -D @ensono-stacks/workspace @ensono-stacks/next',
+        'npm install -D @ensono-stacks/workspace @nrwl/next @ensono-stacks/next',
         'folder/path',
     );
 });
@@ -75,9 +76,13 @@ it('runs generators for next.js', async () => {
     } as yargs.Arguments<CreateStacksArguments>);
     await runGenerators(generators, 'folder/path');
 
-    expect(execAsync).toBeCalledTimes(2);
+    expect(execAsync).toBeCalledTimes(3);
     expect(execAsync).toHaveBeenCalledWith(
         'npx nx g @ensono-stacks/workspace:init --pipelineRunner=none',
+        'folder/path',
+    );
+    expect(execAsync).toHaveBeenCalledWith(
+        'npx nx g @nrwl/next:app test-app --e2eTestRunner=none',
         'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(
@@ -118,4 +123,44 @@ it('commits additional generator files', async () => {
         'git commit -m "test commit message"',
         'folder/path',
     );
+});
+
+it('replaces the Next preset with Apps', () => {
+    const unparsedArguments: yargs.Arguments<Partial<CreateStacksArguments>> = {
+        $0: '',
+        _: [],
+        preset: 'next',
+        appName: 'test-app',
+    };
+    expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        $0: '',
+        _: [],
+        appName: 'test-app',
+        preset: 'apps',
+    });
+});
+it('does not replace a preset other than Next', () => {
+    const unparsedArguments: yargs.Arguments<Partial<CreateStacksArguments>> = {
+        $0: '',
+        _: [],
+        appName: 'test-app',
+        preset: 'remix',
+    };
+    expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        $0: '',
+        _: [],
+        appName: 'test-app',
+        preset: 'remix',
+    });
+});
+it('does not replace a Next argument anywhere else', () => {
+    const unparsedArguments: yargs.Arguments<Partial<CreateStacksArguments>> = {
+        $0: '',
+        _: [],
+        appName: 'next',
+    };
+    expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
+        _: [],
+        appName: 'next',
+    });
 });
