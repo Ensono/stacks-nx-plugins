@@ -1,7 +1,6 @@
 // Applitools requires an API key (APPLITOOLS_API_KEY) to function
 // See: https://applitools.com/tutorials/guides/getting-started/registering-an-account#retrieving-your-api-key
 
-import { test } from '@playwright/test';
 import {
   BatchInfo,
   Configuration,
@@ -12,10 +11,10 @@ import {
   Eyes,
   Target,
 } from '@applitools/eyes-playwright';
+import { test } from '@playwright/test';
 
-export let Batch: BatchInfo;
-export let Config: Configuration;
-export let Runner: VisualGridRunner;
+let Config: Configuration;
+let Runner: VisualGridRunner;
 
 // This method sets up the configuration for running visual tests in the Ultrafast Grid.
 // The configuration is shared by all tests in a test suite, so it belongs in a `beforeAll` method.
@@ -28,7 +27,7 @@ test.beforeAll(async () => {
   // Create a new batch for tests.
   // A batch is the collection of visual checkpoints for a test suite.
   // Batches are displayed in the dashboard, so use meaningful names.
-  Batch = new BatchInfo({
+  const Batch = new BatchInfo({
     name: 'Example: Playwright TypeScript with the Ultrafast Grid',
   });
 
@@ -58,7 +57,7 @@ test.describe('Applitools-eyes - ultrafast grid - @visual-regression', () => {
 
   // This method sets up each test with its own Applitools Eyes object.
   test.beforeEach(async ({ page }) => {
-    //Navigate to the base page of the NextJs app
+    // Navigate to the base page of the NextJs app
     await page.goto('/');
     // Create the Applitools Eyes object connected to the VisualGridRunner and set its configuration.
     eyes = new Eyes(Runner, Config);
@@ -66,6 +65,7 @@ test.describe('Applitools-eyes - ultrafast grid - @visual-regression', () => {
     // Open Eyes to start visual testing.
     // Each test should open its own Eyes for its own snapshots.
     // It is a recommended practice to set all four inputs below:
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     await eyes.open(
       page, // The Playwright page object to "watch"
       'next-js-app', // The name of the app under test

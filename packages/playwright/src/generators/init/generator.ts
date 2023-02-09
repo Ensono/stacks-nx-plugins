@@ -11,6 +11,7 @@ import chalk from 'chalk';
 import path from 'path';
 
 import {
+    APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
     AXE_CORE_PLAYWRIGHT_VERSION,
     AXE_RESULTS_PRETTY_PRINT_VERSION,
 } from '../../utils/versions';
@@ -26,6 +27,11 @@ interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
     projectRoot: string;
 }
+
+const visualRegressionTypes = {
+    NATIVE: 'native',
+    APPLITOOLS: 'applitools',
+};
 
 function normalizeOptions(
     tree: Tree,
@@ -55,18 +61,26 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
-function updateDependencies(tree: Tree, shouldExecute = false) {
-    return (
-        shouldExecute &&
-        addDependenciesToPackageJson(
-            tree,
-            {},
-            {
-                '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
-                'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
-            },
-        )
-    );
+async function updateDependencies(
+    tree: Tree,
+    fileOptions: { accessibility: boolean; visualRegression: string },
+) {
+    let devDependencies = {};
+    const { accessibility, visualRegression } = fileOptions;
+
+    const accessibilityDeps = {
+        '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
+        'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
+    };
+    const applitoolsDeps = {
+        '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
+    };
+
+    if (accessibility) devDependencies = accessibilityDeps;
+    if (visualRegression === visualRegressionTypes.APPLITOOLS)
+        devDependencies = { ...devDependencies, ...applitoolsDeps };
+
+    return addDependenciesToPackageJson(tree, {}, devDependencies);
 }
 
 export default async function initGenerator(
@@ -82,6 +96,11 @@ export default async function initGenerator(
     const normalizedOptions = normalizeOptions(tree, options);
 
     const morphTree = tsMorphTree(tree);
+
+    const fileOptions = {
+        accessibility: options.accessibility,
+        visualRegression: options.visualRegression,
+    };
 
     // playwright.config.base.ts
     updatePlaywrightConfigBase(morphTree);
@@ -105,7 +124,7 @@ export default async function initGenerator(
     }
 
     switch (options.visualRegression) {
-        case 'native':
+        case visualRegressionTypes.NATIVE:
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithNativeVisualRegression(
                 project,
@@ -115,7 +134,7 @@ export default async function initGenerator(
             // example.spec.ts
             addFiles(tree, 'files/visualRegression/native', normalizedOptions);
             break;
-        case 'applitools':
+        case visualRegressionTypes.APPLITOOLS:
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithApplitoolsVisualRegression(
                 project,
@@ -138,5 +157,5 @@ export default async function initGenerator(
 
     await formatFiles(tree);
 
-    return updateDependencies(tree, options.accessibility);
+    return updateDependencies(tree, fileOptions);
 }

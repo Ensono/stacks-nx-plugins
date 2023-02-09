@@ -304,5 +304,63 @@ describe('playwright generator', () => {
                 initializer: '/.*@visual-regression/',
             }),
         );
+
+        // expect package.json updated
+        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
+        expect(packageJson?.devDependencies).toMatchObject({
+            '@applitools/eyes-playwright': '1.13.0',
+        });
+    });
+
+    it('should run successfully with accessibility and applitools regression', async () => {
+        const packageRunner: PackageRunner = 'npx';
+        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
+            name: projectName,
+            linter: Linter.EsLint,
+            packageRunner,
+        };
+        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
+        const options: PlaywrightGeneratorSchema = {
+            project: projectName,
+            accessibility: true,
+            visualRegression: 'applitools',
+        };
+        await generator(appTree, options);
+
+        // playwright-visual-regression.spec.ts to be added
+        expect(appTree.children(`${projectName}/src`)).toContain(
+            'applitools-eyes-grid.spec.ts',
+        );
+
+        // axe-accessibility.spec.ts to be added
+        expect(appTree.children(`${projectName}/src`)).toContain(
+            'axe-accessibility.spec.ts',
+        );
+
+        const project = tsMorphTree(appTree);
+
+        // expect playwright.config.ts to be updated
+        const projectConfigFile = project.addSourceFileAtPath(
+            `${projectName}/playwright.config.ts`,
+        );
+        const projectConfigObject = projectConfigFile
+            ?.getVariableDeclaration('config')
+            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
+
+        expect(
+            projectConfigObject?.getProperty('grepInvert')?.getStructure(),
+        ).toEqual(
+            expect.objectContaining({
+                initializer: '/.*@visual-regression/',
+            }),
+        );
+
+        // expect package.json updated
+        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
+        expect(packageJson?.devDependencies).toMatchObject({
+            '@applitools/eyes-playwright': '1.13.0',
+            '@axe-core/playwright': '4.5.2',
+            'axe-result-pretty-print': '1.0.2',
+        });
     });
 });
