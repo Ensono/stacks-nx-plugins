@@ -79,7 +79,8 @@
                 "trackDeps": true,
                 "dryRun": true,
                 "skipRootChangelog": true,
-                "skipProjectChangelog": true
+                "skipProjectChangelog": true,
+                "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
