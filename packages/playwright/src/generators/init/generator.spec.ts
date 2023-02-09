@@ -210,7 +210,7 @@ describe('playwright generator', () => {
 
         // expect package.json updated
         const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
-        expect(packageJson?.dependencies).toMatchObject({
+        expect(packageJson?.devDependencies).toMatchObject({
             '@axe-core/playwright': '4.5.2',
             'axe-result-pretty-print': '1.0.2',
         });
@@ -281,13 +281,6 @@ describe('playwright generator', () => {
             visualRegression: 'applitools',
         };
         await generator(appTree, options);
-
-        // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
-        expect(packageJson?.dependencies).toMatchObject({
-            '@axe-core/playwright': '4.5.2',
-            'axe-result-pretty-print': '1.0.2',
-        });
 
         // playwright-visual-regression.spec.ts to be added
         expect(appTree.children(`${projectName}/src`)).toContain(

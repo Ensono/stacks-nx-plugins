@@ -6,16 +6,18 @@ test.describe('Native @visual-regression', () => {
   });
 
   test('main page to have no visual regressions', async ({ page }) => {
-    //body to capture full page screenshot
+    // body to capture full page screenshot
     await expect(page.locator('body')).toHaveScreenshot();
   });
 
   test('Expanded information blocks have no visual regressions', async ({
     page,
   }) => {
+    // eslint-disable-next-line no-restricted-syntax
     for (const information of await page
       .locator('#commands >> details')
       .elementHandles()) {
+      /* eslint-disable no-await-in-loop */
       await information.click();
     }
     await expect(page.locator('#commands')).toHaveScreenshot();
