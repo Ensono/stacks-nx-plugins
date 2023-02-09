@@ -2,7 +2,10 @@ import { updateEslintConfig, mergeEslintConfigs } from '@ensono-stacks/core';
 import { Tree, addDependenciesToPackageJson } from '@nrwl/devkit';
 import { Linter } from 'eslint';
 
-import { ESLINT_PLUGIN_TESTING_LIBRARY_VERSION } from './constants';
+import {
+    ESLINT_PLUGIN_TESTING_LIBRARY_VERSION,
+    TYPESCRIPT_ESLINT_PLUGING_VERSION,
+} from './constants';
 
 function stacksEslintConfig(projectRootPath: string): Linter.Config {
     return {
@@ -56,6 +59,8 @@ function addEslintDependencies(tree: Tree) {
         {
             'eslint-plugin-testing-library':
                 ESLINT_PLUGIN_TESTING_LIBRARY_VERSION || 'latest',
+            '@typescript-eslint/eslint-plugin':
+                TYPESCRIPT_ESLINT_PLUGING_VERSION || 'latest',
         },
     );
 }
