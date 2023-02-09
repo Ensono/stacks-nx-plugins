@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "NextAuth",
-    "title": "Add NextAuth to a project",
-    "description": "Add NextAuth to a project",
+    "title": "Ensono Stacks Next Auth Generator",
+    "description": "The @ensono-stacks/next:next-auth generator will install and configure NextAuth.js into an existing Next application",
     "type": "object",
     "properties": {
         "project": {

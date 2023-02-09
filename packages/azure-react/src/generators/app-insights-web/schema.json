@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "AppInsightsWeb",
-    "title": "",
+    "title": "Ensono Stacks Azure React App Insights Web Generator",
+    "description": "The @ensono-stacks/azure-react:app-insights-web generator will install and configures a ReactJs app using the NX/React plugin then install and configures App Insights.",
     "type": "object",
     "properties": {
         "name": {
