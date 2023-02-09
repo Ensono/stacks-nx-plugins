@@ -83,9 +83,8 @@ describe('create', () => {
 
         const nxJson = readJson('nx.json');
 
-        expect(nxJson).toMatchObject(
+        expect(nxJson.stacks).toMatchObject(
             expect.objectContaining({
-                stacks: {
                     business: {
                         company: 'Ensono',
                         component: 'Nx',
@@ -107,9 +106,10 @@ describe('create', () => {
                     },
                     vcs: {
                         type: 'github',
+                        url: 'remote.git',
                     },
                 },
-            }),
+            ),
         );
         // rerunning should throw because the workspace exists
         expect(() => run()).toThrow();
