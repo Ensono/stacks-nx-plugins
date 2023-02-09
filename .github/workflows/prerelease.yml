@@ -41,11 +41,15 @@ jobs:
 
     - name: Version
       shell: bash
-      run: npx nx affected --target=version --base=last-release --configuration=prerelease --parallel=1
+      run: npx nx affected --target=version --base=last-prerelease --configuration=prerelease --parallel=1
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Tag last-prerelease
+      shell: bash
+      run: git tag -f last-prerelease
 
     - name: Push changes
       uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
