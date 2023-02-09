@@ -58,35 +58,20 @@
         },
         "version": {
             "executor": "@jscutlery/semver:version",
-            "options": {
-                "preset": "conventional",
-                "trackDeps": true,
-                "skipCommit": true,
-                "dryRun": true,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true
-            },
             "configurations": {
-                "ci": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
+                "prerelease": {
+                    "postTargets": ["azure-react:publish:prerelease"]
+                },
+                "release": {
                     "postTargets": ["azure-react:publish", "azure-react:github"]
                 }
             }
         },
         "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public"
-            }
+            "executor": "ngx-deploy-npm:deploy"
         },
         "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
-            }
+            "executor": "@jscutlery/semver:github"
         }
     },
     "tags": ["plugin"]
