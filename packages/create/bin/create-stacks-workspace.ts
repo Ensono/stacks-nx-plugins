@@ -164,7 +164,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     const targetDirectory = path.resolve(dir);
     const isTargetDirectoryCurrent = targetDirectory === process.cwd();
-    console.log({ isTargetDirectoryCurrent, targetDirectory });
+
     if (!isTargetDirectoryCurrent && fs.existsSync(targetDirectory)) {
         if (overwrite) {
             fs.rmSync(targetDirectory, { recursive: true, force: true });
@@ -200,8 +200,6 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             stdio: 'inherit',
         },
     );
-
-    console.log(nxResult);
 
     if (nxResult.status !== 0) {
         console.error(
