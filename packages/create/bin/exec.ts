@@ -15,7 +15,6 @@ export function execAsync(
             },
             (error, stdout, stderr) => {
                 if (error) {
-                    console.log(error);
                     reject(stderr);
                 } else {
                     response(stdout);
