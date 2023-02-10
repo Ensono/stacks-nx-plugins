@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "AppInsights",
-    "title": "",
+    "title": "Ensono Stacks Azure Node AppInsights Generator",
+    "description": "The @ensono-stacks/azure-node:app-insights generator will add and configure App Insights into a azure/node project",
     "type": "object",
     "properties": {
         "project": {
