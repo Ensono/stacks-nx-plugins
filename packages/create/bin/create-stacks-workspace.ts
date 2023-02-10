@@ -155,30 +155,32 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
-    const { name } = forwardArgv;
+    const { name, skipGit } = forwardArgv;
 
     const argumentsToForward = unparse(
         normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
         { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
 
-    const root = path.resolve(dir);
+    const targetDirectory = path.resolve(dir);
+    const isTargetDirectoryCurrent = targetDirectory === process.cwd();
 
-    if (!fs.existsSync(root)) {
-        fs.mkdirSync(root, { recursive: true });
-    }
-
-    process.chdir(root);
-
-    const cwd = path.join(process.cwd(), name);
-
-    if (fs.existsSync(cwd)) {
+    if (!isTargetDirectoryCurrent && fs.existsSync(targetDirectory)) {
         if (overwrite) {
-            fs.rmSync(cwd, { recursive: true, force: true });
+            fs.rmSync(targetDirectory, { recursive: true, force: true });
         } else {
-            console.error(chalk.red`Directory ${cwd} already exists!`);
+            console.error(
+                chalk.red`Target directory ${targetDirectory} already exists! use --overwrite to force using this folder.`,
+            );
             process.exit(1);
         }
+    }
+
+    let cwd = path.join(process.cwd(), name);
+
+    if (fs.existsSync(cwd)) {
+        console.error(chalk.red`Directory ${cwd} already exists!`);
+        process.exit(1);
     }
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
@@ -198,6 +200,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             stdio: 'inherit',
         },
     );
+
     if (nxResult.status !== 0) {
         console.error(
             chalk.red`Failed to create nx workspace. See error above.`,
@@ -225,7 +228,16 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         process.exit(1);
     }
 
-    await commitGeneratedFiles(cwd, 'stacks init');
+    if (!skipGit) {
+        await commitGeneratedFiles(cwd, 'stacks init');
+    }
+
+    // Move the workspace folder to desired if necessary
+    if (!isTargetDirectoryCurrent && targetDirectory !== cwd) {
+        fs.cpSync(cwd, targetDirectory, { recursive: true, force: true });
+        fs.rmSync(cwd, { recursive: true, force: true });
+        cwd = targetDirectory;
+    }
 
     console.log(chalk.magenta`Stacks is ready`);
 }
@@ -281,6 +293,11 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 .option('overwrite', {
                     describe: chalk.dim`Overwrite the target directory on install`,
                     alias: 'o',
+                    type: 'boolean',
+                    default: false,
+                })
+                .option('skipGit', {
+                    describe: chalk.dim`Skip git init`,
                     type: 'boolean',
                     default: false,
                 })
