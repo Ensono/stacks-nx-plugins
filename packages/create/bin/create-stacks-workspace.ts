@@ -162,27 +162,21 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
 
-    let root = path.resolve(dir);
-
-    // Stacks-cli gives us the working directory + project name via --dir
-    // We need to strip out the project name as create-nx-workspace will create it
-    if (overwrite) {
-        const directoryName = path.basename(dir);
-        if (paramCase(directoryName) === name) {
-            if (fs.existsSync(root)) {
-                fs.rmSync(root, { recursive: true, force: true });
-            }
-            root = path.dirname(root);
+    const targetDirectory = path.resolve(dir);
+    const isTargetDirectoryCurrent = targetDirectory === process.cwd();
+    console.log({ isTargetDirectoryCurrent, targetDirectory });
+    if (!isTargetDirectoryCurrent && fs.existsSync(targetDirectory)) {
+        if (overwrite) {
+            fs.rmSync(targetDirectory, { recursive: true, force: true });
+        } else {
+            console.error(
+                chalk.red`Target directory ${targetDirectory} already exists! use --overwrite to force using this folder.`,
+            );
+            process.exit(1);
         }
     }
 
-    if (!fs.existsSync(root)) {
-        fs.mkdirSync(root, { recursive: true });
-    }
-
-    process.chdir(root);
-
-    const cwd = path.join(process.cwd(), name);
+    let cwd = path.join(process.cwd(), name);
 
     if (fs.existsSync(cwd)) {
         console.error(chalk.red`Directory ${cwd} already exists!`);
@@ -206,6 +200,9 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             stdio: 'inherit',
         },
     );
+
+    console.log(nxResult);
+
     if (nxResult.status !== 0) {
         console.error(
             chalk.red`Failed to create nx workspace. See error above.`,
@@ -235,6 +232,13 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     if (!skipGit) {
         await commitGeneratedFiles(cwd, 'stacks init');
+    }
+
+    // Move the workspace folder to desired if necessary
+    if (!isTargetDirectoryCurrent && targetDirectory !== cwd) {
+        fs.cpSync(cwd, targetDirectory, { recursive: true, force: true });
+        fs.rmSync(cwd, { recursive: true, force: true });
+        cwd = targetDirectory;
     }
 
     console.log(chalk.magenta`Stacks is ready`);
