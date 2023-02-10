@@ -15,8 +15,6 @@ View a list of the plugin executors/generators through the following command:
 nx list @ensono-stacks/azure-node
 ```
 
-```
-
 ## Development
 
 ### Building
