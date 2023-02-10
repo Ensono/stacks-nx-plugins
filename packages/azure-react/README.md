@@ -1,4 +1,4 @@
-# Plugin Name
+# Azure React
 
 This library is a NX plugin. Please see further documentation on NX plugins
 [here](https://nx.dev/plugin-features/create-your-own-plugin)
@@ -9,10 +9,12 @@ What benefits does it give you?
 
 ## Generators and Executors
 
-`plugin-name` contains the following generators and executors
+View a list of the plugin executors/generators through the following command:
 
 ```bash
-nx g @ensono-stacks/[plugin-name]:[generator-executor-name]
+nx list @ensono-stacks/azure-node
+```
+
 ```
 
 ## Development
@@ -22,7 +24,7 @@ nx g @ensono-stacks/[plugin-name]:[generator-executor-name]
 Run the following command to build the plugin
 
 ```bash
-nx build plugin-name
+nx build azure-react
 ```
 
 ### Tests
@@ -30,7 +32,7 @@ nx build plugin-name
 Run the following to execute the unit tests via [jest](https://jestjs.io/).
 
 ```bash
-nx test plugin-name
+nx test azure-react
 ```
 
 ### Linting
@@ -38,7 +40,7 @@ nx test plugin-name
 Run the following to lint the code using [ESLint](https://eslint.org/).
 
 ```bash
-nx lint plugin-name
+nx lint azure-react
 ```
 
 ### Publish
@@ -46,10 +48,10 @@ nx lint plugin-name
 Run the following to publish the NPM package
 
 ```bash
-nx publish plugin-name
+nx publish azure-react
 ```
 
 ## Full documentation
 
-Please visit the stacks documentation page for `plugin-name`
-[here](http://add-link-here-to-documentation) for more information
+Please visit the stacks documentation page for `azure-react`
+[here](https://stacks.amido.com/docs) for more information
