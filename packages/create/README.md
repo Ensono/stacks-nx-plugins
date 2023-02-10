@@ -1,4 +1,4 @@
-# Create
+# Create Stacks Workspace
 
 This library is a NX plugin. Please see further documentation on NX plugins
 [here](https://nx.dev/plugin-features/create-your-own-plugin)
