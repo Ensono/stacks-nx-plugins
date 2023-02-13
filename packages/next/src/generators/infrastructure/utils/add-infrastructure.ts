@@ -1,9 +1,10 @@
-import { addGitIgnoreEntry } from '@ensono-stacks/core';
+import { addIgnoreEntry } from '@ensono-stacks/core';
 import {
     logger,
     ProjectConfiguration,
     Tree,
     GeneratorCallback,
+    joinPathFragments,
 } from '@nrwl/devkit';
 
 import { addCommon } from './common';
@@ -15,7 +16,7 @@ export function addInfrastructure(tree: Tree, project: ProjectConfiguration) {
         addTerraform(tree, project),
     ];
 
-    addGitIgnoreEntry(tree, 'Terraform', [
+    addIgnoreEntry(tree, '.gitignore', 'Terraform', [
         '**/.terraform/*',
         '*.tfstate',
         '*.tfstate.*',
@@ -27,6 +28,11 @@ export function addInfrastructure(tree: Tree, project: ProjectConfiguration) {
         '*_override.tf.json',
         '.terraformrc',
         'terraform.rc',
+    ]);
+
+    // add helm yaml files to prettierignore
+    addIgnoreEntry(tree, '.prettierignore', 'helm yaml', [
+        `${joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml')}`,
     ]);
 
     tasks.push(() => {

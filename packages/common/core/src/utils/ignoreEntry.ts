@@ -1,26 +1,27 @@
 import ignore from 'ignore';
 import { Tree } from 'nx/src/generators/tree';
 
-export function addGitIgnoreEntry(
+export function addIgnoreEntry(
     tree: Tree,
+    fileName: string,
     comment: string,
     entries: string[],
 ) {
-    if (!tree.exists('.gitignore')) {
+    if (!tree.exists(fileName)) {
         return;
     }
 
-    let content = tree.read('.gitignore', 'utf-8')?.trimEnd() || '';
+    let content = tree.read(fileName, 'utf-8')?.trimEnd() || '';
 
     const ig = ignore();
     ig.add(content);
 
-    // add comment section to the bottom of gitignore if it doesn't exist
+    // add comment section to the bottom of file if it doesn't exist
     if (!content.includes(`# ${comment}`)) {
         content = `${content}\n\n# ${comment}`;
     }
 
-    // split the gitignore to subsets based on empty lines
+    // split the file to subsets based on empty lines
     const subsets = content.split('\n\n');
 
     entries.forEach(entry => {
@@ -36,5 +37,5 @@ export function addGitIgnoreEntry(
     content = subsets.join('\n\n');
 
     // write the content to the file tree
-    tree.write('.gitignore', content);
+    tree.write(fileName, content);
 }

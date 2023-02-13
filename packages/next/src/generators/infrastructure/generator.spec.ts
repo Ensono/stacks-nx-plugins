@@ -86,6 +86,7 @@ describe('next infrastructure generator', () => {
 
         it('should scaffold with infrastructure', async () => {
             await createNextApp();
+            tree.write('.prettierignore', '');
             await generator(tree, { ...options });
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
@@ -104,6 +105,11 @@ describe('next infrastructure generator', () => {
 
             expect(docker).toContain(
                 'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
+            );
+
+            const prettierIgnoreFile = tree.read('/.prettierignore', 'utf-8');
+            expect(prettierIgnoreFile).toContain(
+                'next-app/build/helm/**/*.yaml',
             );
         });
 
