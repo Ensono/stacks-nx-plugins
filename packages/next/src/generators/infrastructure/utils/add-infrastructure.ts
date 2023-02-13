@@ -7,13 +7,18 @@ import {
     joinPathFragments,
 } from '@nrwl/devkit';
 
+import { NextGeneratorSchema } from '../schema';
 import { addCommon } from './common';
 import { addTerraform } from './terraform';
 
-export function addInfrastructure(tree: Tree, project: ProjectConfiguration) {
+export function addInfrastructure(
+    tree: Tree,
+    project: ProjectConfiguration,
+    options: NextGeneratorSchema,
+) {
     const tasks: GeneratorCallback[] = [
         addCommon(tree, project),
-        addTerraform(tree, project),
+        addTerraform(tree, project, options),
     ];
 
     addIgnoreEntry(tree, '.gitignore', 'Terraform', [
