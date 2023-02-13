@@ -49,4 +49,24 @@ describe('next e2e', () => {
 
         expect(stdout).toContain('Compiled successfully');
     }, 200_000);
+
+    it('configures NextAuth with Redis adapter', async () => {
+        await runNxCommandAsync(
+            `generate @nrwl/next:application ${project} --e2eTestRunner=none`,
+        );
+        await runNxCommandAsync(
+            `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
+        );
+        const res = await runNxCommandAsync(
+            `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --redisAdapter --no-interactive`,
+        );
+        expect(() =>
+            checkFilesExist(
+                `apps/${project}/pages/api/auth/[...nextauth].ts`,
+                `apps/${project}/.env.local`,
+                `libs/next-auth-redis/src/index.test.ts`,
+                `libs/next-auth-redis/src/index.ts`,
+            ),
+        ).not.toThrow();
+    }, 200_000);
 });

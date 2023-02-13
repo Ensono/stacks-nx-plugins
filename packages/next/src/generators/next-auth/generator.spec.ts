@@ -135,6 +135,75 @@ describe('next-auth generator', () => {
         );
     });
 
+    it('should generate redis adapter lib', async () => {
+        await generator(appTree, {
+            ...options,
+            redisAdapter: true,
+            redisEnvVar: 'REDIS_URL',
+        });
+
+        const nextAuthTs = appTree.read(
+            'next-app/pages/api/auth/[...nextauth].ts',
+        );
+        expect(nextAuthTs.toString()).toMatchSnapshot();
+
+        expect(appTree.exists('next-auth-redis/src/index.ts')).toBeTruthy();
+
+        const localEnv = appTree.read('next-app/.env.local');
+        expect(localEnv.toString()).toContain('REDIS_URL=localhost:6379');
+
+        const packageJson = readJson(appTree, 'package.json');
+        expect(Object.keys(packageJson.dependencies)).toEqual(
+            expect.arrayContaining(['ioredis', 'uuid']),
+        );
+        expect(Object.keys(packageJson.devDependencies)).toEqual(
+            expect.arrayContaining(['@types/uuid']),
+        );
+    });
+
+    it('should generate redis adapter lib with custom env var name', async () => {
+        await generator(appTree, {
+            ...options,
+            redisAdapter: true,
+            redisEnvVar: 'REDIS_CONNECTION_STRING',
+        });
+
+        const nextAuthTs = appTree.read(
+            'next-app/pages/api/auth/[...nextauth].ts',
+        );
+        expect(nextAuthTs.toString()).toMatchSnapshot();
+
+        const localEnv = appTree.read('next-app/.env.local');
+        expect(localEnv.toString()).toContain(
+            'REDIS_CONNECTION_STRING=localhost:6379',
+        );
+
+        const redisAdapterTest = appTree.read(
+            'next-auth-redis/src/index.test.ts',
+        );
+        expect(redisAdapterTest.toString()).toContain(
+            'new Redis(process.env.REDIS_CONNECTION_STRING)',
+        );
+    });
+
+    it('should generate redis adapter lib with custom name', async () => {
+        await generator(appTree, {
+            ...options,
+            redisAdapter: true,
+            redisEnvVar: 'REDIS_URL',
+            redisAdapterName: 'redis-adapter-for-next-auth',
+        });
+
+        const nextAuthTs = appTree.read(
+            'next-app/pages/api/auth/[...nextauth].ts',
+        );
+        expect(nextAuthTs.toString()).toMatchSnapshot();
+
+        expect(
+            appTree.exists('redis-adapter-for-next-auth/src/index.ts'),
+        ).toBeTruthy();
+    });
+
     it('should skip installing depndencies', async () => {
         await generator(appTree, { ...options, skipPackageJson: true });
 
