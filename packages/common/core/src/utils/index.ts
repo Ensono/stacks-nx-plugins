@@ -1,1 +1,1 @@
-export * from './gitignore';
+export * from './ignoreEntry';

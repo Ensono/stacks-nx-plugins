@@ -1,4 +1,4 @@
-import { addGitIgnoreEntry, tsMorphTree } from '@ensono-stacks/core';
+import { addIgnoreEntry, tsMorphTree } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     formatFiles,
@@ -112,7 +112,7 @@ export default async function initGenerator(
     addFiles(tree, 'files/default', normalizedOptions);
 
     // add records to gitignore
-    addGitIgnoreEntry(tree, 'Playwright', [
+    addIgnoreEntry(tree, '.gitignore', 'Playwright', [
         '/test-results/',
         '/playwright-report/',
         '/playwright/.cache/',
