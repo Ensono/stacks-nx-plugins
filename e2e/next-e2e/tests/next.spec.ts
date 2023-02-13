@@ -52,12 +52,6 @@ describe('next e2e', () => {
 
     it('configures NextAuth with Redis adapter', async () => {
         await runNxCommandAsync(
-            `generate @nrwl/next:application ${project} --e2eTestRunner=none`,
-        );
-        await runNxCommandAsync(
-            `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
-        );
-        const res = await runNxCommandAsync(
             `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --redisAdapter --no-interactive`,
         );
         expect(() =>
