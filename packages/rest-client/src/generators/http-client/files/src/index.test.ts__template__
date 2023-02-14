@@ -1,4 +1,4 @@
-import httpClient from './';
+import httpClient from '.';
 
 describe('axios', () => {
   it('should be an axios instance', () => {
