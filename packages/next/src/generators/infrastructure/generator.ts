@@ -1,6 +1,6 @@
 import { StacksConfigError } from '@ensono-stacks/core';
 import {
-    formatFiles,
+    joinPathFragments,
     readProjectConfiguration,
     GeneratorCallback,
     Tree,
@@ -10,6 +10,7 @@ import chalk from 'chalk';
 
 import { NextGeneratorSchema } from './schema';
 import { addInfrastructure } from './utils/add-infrastructure';
+import { formatFiles } from './utils/format-files';
 
 export default async function infrastructureGenerator(
     tree: Tree,
@@ -35,7 +36,10 @@ export default async function infrastructureGenerator(
         throw error;
     }
 
-    await formatFiles(tree);
+    // exclude helm yaml files from initial format when generating the files
+    await formatFiles(tree, [
+        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
+    ]);
 
     return runTasksInSerial(...tasks);
 }
