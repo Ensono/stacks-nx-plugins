@@ -1,4 +1,4 @@
-import { StacksConfigError } from '@ensono-stacks/core';
+import { formatFiles, StacksConfigError } from '@ensono-stacks/core';
 import {
     joinPathFragments,
     readProjectConfiguration,
@@ -10,7 +10,6 @@ import chalk from 'chalk';
 
 import { NextGeneratorSchema } from './schema';
 import { addInfrastructure } from './utils/add-infrastructure';
-import { formatFiles } from './utils/format-files';
 
 export default async function infrastructureGenerator(
     tree: Tree,
