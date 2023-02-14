@@ -112,7 +112,6 @@ describe('create', () => {
                 },
                 vcs: {
                     type: 'github',
-                    url: 'remote.git',
                 },
             }),
         );
