@@ -19,7 +19,7 @@ export default async function infrastructureGenerator(
     const project = readProjectConfiguration(tree, options.project);
 
     try {
-        tasks.push(...addInfrastructure(tree, project));
+        tasks.push(...addInfrastructure(tree, project, options));
     } catch (error) {
         if (error instanceof StacksConfigError) {
             console.warn(chalk.yellow`Missing Stacks configuration in nx.json`);
