@@ -1,6 +1,6 @@
-import { StacksConfigError } from '@ensono-stacks/core';
+import { formatFiles, StacksConfigError } from '@ensono-stacks/core';
 import {
-    formatFiles,
+    joinPathFragments,
     readProjectConfiguration,
     GeneratorCallback,
     Tree,
@@ -35,7 +35,10 @@ export default async function infrastructureGenerator(
         throw error;
     }
 
-    await formatFiles(tree);
+    // exclude helm yaml files from initial format when generating the files
+    await formatFiles(tree, [
+        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
+    ]);
 
     return runTasksInSerial(...tasks);
 }
