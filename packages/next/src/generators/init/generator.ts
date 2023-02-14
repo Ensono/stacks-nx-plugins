@@ -14,6 +14,7 @@ import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
 import addCustomTestConfig from './utils/add-custom-test-config';
 import { addEslint } from './utils/eslint';
+import { eslintFix } from './utils/eslint-fix';
 import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
@@ -61,6 +62,8 @@ export default async function initGenerator(
         project,
         path.join(project.sourceRoot, 'tsconfig.spec.json'),
     );
+
+    eslintFix(project, tree);
 
     await formatFiles(tree);
 
