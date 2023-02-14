@@ -144,6 +144,12 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                 parser: 'jsonc-eslint-parser',
                 rules: {},
             },
+            {
+                files: 'jest.config.ts',
+                rules: {
+                    'unicorn/no-abusive-eslint-disable': 'off',
+                },
+            },
         ],
     };
 }
