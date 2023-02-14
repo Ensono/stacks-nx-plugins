@@ -44,7 +44,7 @@ export async function formatFiles(
     tree: Tree,
     excludedFiles?: string[],
 ): Promise<void> {
-    let prettier: typeof Prettier;
+    let prettier: typeof Prettier | undefined;
     try {
         prettier = await import('prettier');
     } catch {
@@ -71,7 +71,7 @@ export async function formatFiles(
                 filepath: systemPath,
             };
 
-            const resolvedOptions = await prettier.resolveConfig(systemPath, {
+            const resolvedOptions = await prettier?.resolveConfig(systemPath, {
                 editorconfig: true,
             });
             if (!resolvedOptions) {
@@ -82,22 +82,29 @@ export async function formatFiles(
                 ...resolvedOptions,
             };
 
-            const support = await prettier.getFileInfo(
+            const support = await prettier?.getFileInfo(
                 systemPath,
                 options as Prettier.FileInfoOptions,
             );
-            if (support.ignored || !support.inferredParser) {
+            if (support?.ignored || !support?.inferredParser) {
                 return;
             }
 
             try {
-                tree.write(
-                    file.path,
-                    prettier.format(file.content.toString('utf-8'), options),
-                );
+                if (file.content?.toString('utf-8') && prettier) {
+                    tree.write(
+                        file.path,
+                        prettier.format(
+                            file.content.toString('utf-8'),
+                            options,
+                        ),
+                    );
+                }
             } catch (error) {
                 console.warn(
-                    `Could not format ${file.path}. Error: "${error.message}"`,
+                    `Could not format ${file.path}. Error: "${
+                        (error as Error).message
+                    }"`,
                 );
             }
         }),
