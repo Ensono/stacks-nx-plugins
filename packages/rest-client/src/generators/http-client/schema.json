@@ -21,6 +21,10 @@
             "description": "A directory where the lib is placed.",
             "alias": "dir"
         },
+        "importPath": {
+            "type": "string",
+            "description": "What import path would you like to use for the library?"
+        },
         "tags": {
             "type": "string",
             "description": "Add tags to the library (used for linting).",
