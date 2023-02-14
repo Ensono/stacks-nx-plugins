@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "<%= projectName %>.fullname" . }}
-  namespace: {{ .Values.namespace }}
-  labels: {{- include "<%= projectName %>.labels" . | nindent 4 }}
+    name: { { include "<%= projectName %>.fullname" . } }
+    namespace: { { .Values.namespace } }
+    labels: { { - include "<%= projectName %>.labels" . | nindent 4 } }
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "<%= projectName %>.selectorLabels" . | nindent 4 }}
+    type: { { .Values.service.type } }
+    ports:
+        - port: { { .Values.service.port } }
+          targetPort: http
+          protocol: TCP
+          name: http
+    selector:
+        { { - include "<%= projectName %>.selectorLabels" . | nindent 4 } }
