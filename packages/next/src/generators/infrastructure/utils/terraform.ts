@@ -9,7 +9,13 @@ import {
 import { paramCase, snakeCase } from 'change-case';
 import path from 'path';
 
-export function addTerraform(tree: Tree, project: ProjectConfiguration) {
+import { NextGeneratorSchema } from '../schema';
+
+export function addTerraform(
+    tree: Tree,
+    project: ProjectConfiguration,
+    { openTelemetry }: NextGeneratorSchema,
+) {
     const stacksConfig = readStacksConfig(tree);
     const {
         business: { component },
@@ -46,6 +52,7 @@ export function addTerraform(tree: Tree, project: ProjectConfiguration) {
             internalDomain,
             externalDomain,
             snakeCase,
+            openTelemetry,
         },
     );
 

@@ -26,12 +26,13 @@ serviceAccount:
         azure.workload.identity/client-id: ''
         azure.workload.identity/tenant-id: ''
     labels:
-        azure.workload.identity/use: 'true'
+        azure.workload.identity/use: 'false'
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
     name: ''
 
-podAnnotations: {}
+podAnnotations:
+    instrumentation.opentelemetry.io/inject-nodejs: '<%= openTelemetry %>'
 
 podSecurityContext:
     {}

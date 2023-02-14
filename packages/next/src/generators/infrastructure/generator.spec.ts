@@ -135,5 +135,25 @@ describe('next infrastructure generator', () => {
                 'CMD ["dumb-init", "node", "/server/main.js"]',
             );
         });
+
+        describe('--openTelemetry', () => {
+            it('should add auto-instrumentation for OpenTelemetry if true', async () => {
+                await createNextApp();
+                tree.write('.prettierignore', '');
+                await generator(tree, { ...options, openTelemetry: true });
+
+                expect(
+                    tree.exists('next-app/build/helm/values-prod.yaml'),
+                ).toBeTruthy();
+
+                const helmValues = tree.read(
+                    'next-app/build/helm/values-prod.yaml',
+                    'utf-8',
+                );
+                expect(helmValues).toContain(
+                    "instrumentation.opentelemetry.io/inject-nodejs: 'true'",
+                );
+            });
+        });
     });
 });

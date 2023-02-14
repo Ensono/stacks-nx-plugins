@@ -14,6 +14,13 @@
                 "$source": "projectName"
             },
             "x-prompt": "What is the name of the project for this component?"
+        },
+        "openTelemetry": {
+            "type": "boolean",
+            "description": "Auto-instrumentation for opentelemetry",
+            "alias": "o",
+            "$default": "false",
+            "x-prompt": "Would you like auto-instrumentation for OpenTelemetry?"
         }
     },
     "required": ["project"]
