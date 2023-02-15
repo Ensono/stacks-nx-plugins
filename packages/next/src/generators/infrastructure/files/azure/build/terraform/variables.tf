@@ -1,9 +1,9 @@
 variable "dns_a_record_name" {
-  type    = string
+  type = string
 }
 
 variable "dns_a_record_records" {
-  type    = list(string)
+  type = list(string)
 }
 
 variable "dns_a_record_ttl" {
@@ -12,9 +12,9 @@ variable "dns_a_record_ttl" {
 }
 
 variable "dns_zone" {
-  type    = string
+  type = string
 }
 
 variable "dns_zone_rg" {
-  type    = string
+  type = string
 }
