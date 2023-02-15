@@ -1,4 +1,7 @@
-import { formatFilesWithEslint } from '@ensono-stacks/core';
+import {
+    formatFilesWithEslint,
+    addCustomTestConfig,
+} from '@ensono-stacks/core';
 import {
     formatFiles,
     GeneratorCallback,
@@ -12,7 +15,6 @@ import path from 'path';
 
 import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
-import addCustomTestConfig from './utils/add-custom-test-config';
 import { addEslint } from './utils/eslint';
 import { eslintFix } from './utils/eslint-fix';
 import updateTsConfig from './utils/tsconfig';
@@ -44,7 +46,23 @@ export default async function initGenerator(
         );
     }
 
-    await addCustomTestConfig(tree, project);
+    const ciCoverageConfig = {
+        ci: {
+            collectCoverage: true,
+            coverageReporters: ['text', 'html'],
+            collectCoverageFrom: [
+                './**/*.{js,jsx,ts,tsx}',
+                './!**/.next/**',
+                './!**/*.d.ts',
+                './!**/*.config.*',
+                './!**/_app.*',
+            ],
+            codeCoverage: true,
+            ci: true,
+        },
+    };
+
+    await addCustomTestConfig(tree, project, project.name, ciCoverageConfig);
 
     tasks.push(formatFilesWithEslint(options.project));
 

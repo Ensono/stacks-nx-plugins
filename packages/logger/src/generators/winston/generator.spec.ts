@@ -7,11 +7,10 @@ import { WinstonLoggerGeneratorSchema } from './schema';
 describe('logger generator', () => {
     let tree: Tree;
     const options: WinstonLoggerGeneratorSchema = {
-        name: 'testClient',
+        name: 'test-client',
         logLevelType: 'npm',
         consoleLogs: false,
         fileTransportPath: undefined,
-        httpTransport: undefined,
         httpTransportPath: undefined,
         httpTransportHost: undefined,
         httpTransportPort: undefined,
@@ -69,22 +68,17 @@ describe('logger generator', () => {
     it('should add http transport', async () => {
         await generator(tree, {
             ...options,
-            httpTransport: true,
             httpTransportPath: '/testPath',
             httpTransportPort: 300,
             httpTransportHost: 'www.testsite.co.uk',
         });
         const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
         expect(indexFile).toContain(
-            'const httpTransportConfiguration: winston.transports.HttpTransportOptions = {};',
+            'const httpTransportConfiguration: winston.transports.HttpTransportOptions = {',
         );
-        expect(indexFile).toContain(
-            `httpTransportConfiguration.host = 'www.testsite.co.uk'`,
-        );
-        expect(indexFile).toContain('httpTransportConfiguration.port = 300');
-        expect(indexFile).toContain(
-            `httpTransportConfiguration.path = '/testPath'`,
-        );
+        expect(indexFile).toContain(`host: 'www.testsite.co.uk'`);
+        expect(indexFile).toContain('port: 300');
+        expect(indexFile).toContain(`path: '/testPath'`);
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Http(httpTransportConfiguration));',
         );
@@ -97,6 +91,52 @@ describe('logger generator', () => {
         const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Stream(streamTransportConfiguration));',
+        );
+    });
+
+    it('should add the ci config in the test command in the project.json', async () => {
+        await generator(tree, options);
+
+        const projectConfig = readJson(tree, 'test-client/project.json');
+
+        expect(projectConfig.targets.test).toMatchObject(
+            expect.objectContaining({
+                configurations: {
+                    ci: {
+                        ci: true,
+                        collectCoverage: true,
+                        coverageReporters: ['text', 'html'],
+                        collectCoverageFrom: [
+                            './**/*.{js,jsx,ts,tsx}',
+                            './!**/*.config.*',
+                        ],
+                        codeCoverage: true,
+                    },
+                },
+            }),
+        );
+    });
+
+    it('should add the ci config in the test command in the project.json with a custom directory', async () => {
+        await generator(tree, { ...options, directory: 'custom' });
+
+        const projectConfig = readJson(tree, 'custom/test-client/project.json');
+
+        expect(projectConfig.targets.test).toMatchObject(
+            expect.objectContaining({
+                configurations: {
+                    ci: {
+                        ci: true,
+                        collectCoverage: true,
+                        coverageReporters: ['text', 'html'],
+                        collectCoverageFrom: [
+                            './**/*.{js,jsx,ts,tsx}',
+                            './!**/*.config.*',
+                        ],
+                        codeCoverage: true,
+                    },
+                },
+            }),
         );
     });
 });
