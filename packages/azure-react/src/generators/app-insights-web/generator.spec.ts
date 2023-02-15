@@ -42,7 +42,7 @@ describe('azure-react generator', () => {
             telemetryProvider
                 .getVariableDeclaration('connectionString')
                 .getText(),
-        ).toContain('process.env.testConnectionString');
+        ).toContain('process.env.TEST_CONNECTION_STRING');
     });
 
     it('should install dependencies', async () => {
