@@ -84,7 +84,7 @@ function configureAdapter(
     nextAuthNode.saveSync();
 }
 
-export default async function addRedisAdapter(
+export async function addRedisAdapter(
     tree: Tree,
     project: ProjectConfiguration,
     morphTree: Project,
