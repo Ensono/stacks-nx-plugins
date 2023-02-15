@@ -1,17 +1,25 @@
 import {
+    formatFilesWithEslint,
+    addCustomTestConfig,
+} from '@ensono-stacks/core';
+import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
+    GeneratorCallback,
     getWorkspaceLayout,
     names,
     offsetFromRoot,
+    readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { WinstonLoggerGeneratorSchema } from './schema';
-import { winstonVersion } from './utils/version';
+import { addEslint } from './utils/eslint';
+import { WINSTON_VERSION } from './utils/version';
 
 interface NormalizedSchema extends WinstonLoggerGeneratorSchema {
     projectName: string;
@@ -49,7 +57,7 @@ function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
         tree,
         {
-            winston: winstonVersion,
+            winston: WINSTON_VERSION,
         },
         {},
     );
@@ -75,7 +83,9 @@ export default async function generate(
     tree: Tree,
     options: WinstonLoggerGeneratorSchema,
 ) {
+    const tasks: GeneratorCallback[] = [];
     const normalizedOptions = normalizeOptions(tree, options);
+
     await libraryGenerator(tree, options);
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
@@ -83,11 +93,41 @@ export default async function generate(
     // Generate files
     addFiles(tree, normalizedOptions);
 
-    // Update package.json
-    updateDependencies(tree);
+    const project = readProjectConfiguration(
+        tree,
+        normalizedOptions.projectName,
+    );
+
+    tasks.push(
+        updateDependencies(tree),
+        addEslint(tree, project.root),
+        formatFilesWithEslint(options.name),
+    );
+
+    const ciCoverageConfig = {
+        ci: {
+            collectCoverage: true,
+            coverageReporters: ['text', 'html'],
+            collectCoverageFrom: ['./**/*.{js,jsx,ts,tsx}', './!**/*.config.*'],
+            codeCoverage: true,
+            ci: true,
+        },
+    };
+
+    if (project.name) {
+        await addCustomTestConfig(
+            tree,
+            project,
+            project.name,
+            ciCoverageConfig,
+        );
+    }
 
     // Format files
     if (!options.skipFormat) {
         await formatFiles(tree);
     }
+
+    // Update package.json
+    return runTasksInSerial(...tasks);
 }
