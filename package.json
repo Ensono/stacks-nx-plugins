@@ -66,6 +66,7 @@
         "semver": "^7.3.8",
         "ts-morph": "^17.0.1",
         "tslib": "^2.3.0",
+        "yaml": "^2.2.1",
         "yargs": "^17.6.2",
         "yargs-unparser": "^2.0.0"
     }
