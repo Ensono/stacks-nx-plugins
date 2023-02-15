@@ -14,6 +14,7 @@ import { NextAuthGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependencies';
 import { createOrUpdateLocalEnv } from './utils/local-env';
 import { addAzureAdProvider } from './utils/next-auth-provider';
+import { addRedisAdapter } from './utils/redis-adapter';
 import { addSessionProviderToApp } from './utils/session-provider';
 
 export default async function nextAuthGenerator(
@@ -46,12 +47,24 @@ export default async function nextAuthGenerator(
         addAzureAdProvider(project, morphTree);
     }
 
-    createOrUpdateLocalEnv(project, tree, options.provider);
+    if (options.redisAdapter) {
+        await addRedisAdapter(tree, project, morphTree, {
+            envVar: options.redisEnvVar,
+            name: options.redisAdapterName,
+        });
+    }
+
+    createOrUpdateLocalEnv(project, tree, {
+        provider: options.provider,
+        redisEnvVar: options.redisAdapter ? options.redisEnvVar : undefined,
+    });
 
     await formatFiles(tree);
 
     return runTasksInSerial(
-        !options.skipPackageJson ? installDependencies(tree) : () => {},
+        !options.skipPackageJson
+            ? installDependencies(tree, { addRedis: options.redisAdapter })
+            : () => {},
         formatFilesWithEslint(options.project),
         () => {
             logger.warn(`Do not forget to update your .env.local environment variables with values.

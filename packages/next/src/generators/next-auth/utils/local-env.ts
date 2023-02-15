@@ -2,6 +2,7 @@ import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
 import crypto from 'crypto';
 
 import { NextAuthGeneratorSchema } from '../schema';
+import { DEFAULT_REDIS_URL } from './constants';
 
 const commonEnv = [
     `NEXTAUTH_URL=http://localhost:4200`,
@@ -25,10 +26,21 @@ const providerEnv: Record<NextAuthGeneratorSchema['provider'], string[]> = {
 export function createOrUpdateLocalEnv(
     project: ProjectConfiguration,
     tree: Tree,
-    provider: NextAuthGeneratorSchema['provider'],
+    {
+        provider,
+        redisEnvVar,
+    }: {
+        provider: NextAuthGeneratorSchema['provider'];
+        redisEnvVar?: NextAuthGeneratorSchema['redisEnvVar'];
+    },
 ) {
     const localEnvPath = joinPathFragments(project.root, '.env.local');
     const envValues = [...commonEnv, ...providerEnv[provider]];
+
+    if (redisEnvVar) {
+        envValues.push(`${redisEnvVar}=${DEFAULT_REDIS_URL}`);
+    }
+
     if (!tree.exists(localEnvPath)) {
         tree.write(localEnvPath, envValues.map(env => `${env}\n`).join(''));
     } else {
