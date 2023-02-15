@@ -2,10 +2,11 @@ import { tsMorphTree } from '@ensono-stacks/core';
 import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
 import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
 import { PackageRunner } from '@mands/nx-playwright/src/types';
-import { Tree } from '@nrwl/devkit';
+import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { SyntaxKind } from 'ts-morph';
+import YAML from 'yaml';
 
 import generator from './generator';
 import { PlaywrightGeneratorSchema } from './schema';
@@ -16,6 +17,19 @@ describe('playwright generator', () => {
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
+
+        appTree.write(
+            'taskctl.yaml',
+            YAML.stringify({
+                pipelines: { dev: [], fe: [], nonprod: [], prod: [] },
+            }),
+        );
+        appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
+    });
+
+    afterEach(() => {
+        appTree.delete('taskctl.yaml');
+        appTree.delete('build/tasks.yaml');
     });
 
     it('should error if the project does not exist', async () => {
@@ -138,6 +152,29 @@ describe('playwright generator', () => {
         expect(gitIgnoreFile).toContain('**/test-results');
         expect(gitIgnoreFile).toContain('**/playwright-report');
         expect(gitIgnoreFile).toContain('**/playwright/.cache');
+
+        // Add infra tasks
+        const projectJson = readJson(
+            appTree,
+            joinPathFragments(projectName, 'project.json'),
+        );
+        expect(projectJson.targets.e2e).toBeTruthy();
+
+        const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
+        expect(tasksYAML.tasks.e2e).toEqual({
+            description: 'Run e2e tests',
+            command: [
+                'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
+            ],
+        });
+
+        const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
+        expect(taskctlYAML.pipelines.dev).toContainEqual({ task: 'e2e' });
+        expect(taskctlYAML.pipelines.fe).toContainEqual({ task: 'e2e' });
+        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
+            task: 'e2e',
+        });
+        expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e' });
     });
 
     it('should prevent configuration being duplicated in playwright.config.ts', async () => {
@@ -265,6 +302,36 @@ describe('playwright generator', () => {
                       }`,
             }),
         );
+
+        // Add infra tasks
+        const projectJson = readJson(
+            appTree,
+            joinPathFragments(projectName, 'project.json'),
+        );
+        expect(projectJson.targets.e2e).toBeTruthy();
+        expect(projectJson.targets['e2e-docker']).toBeTruthy();
+
+        const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
+        expect(tasksYAML.tasks['e2e:local']).toEqual({
+            description: 'Run e2e tests locally',
+            command: [
+                'npx nx affected --base="$BASE_SHA" --target=e2e-docker --parallel=1',
+            ],
+        });
+        expect(tasksYAML.tasks['e2e:ci']).toEqual({
+            description: 'Run e2e tests in ci',
+            command: [
+                'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
+            ],
+        });
+
+        const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
+        expect(taskctlYAML.pipelines.dev).toContainEqual({ task: 'e2e:local' });
+        expect(taskctlYAML.pipelines.fe).toContainEqual({ task: 'e2e:local' });
+        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
+            task: 'e2e:ci',
+        });
+        expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e:ci' });
     });
 
     it('should run successfully with applitools regression', async () => {
