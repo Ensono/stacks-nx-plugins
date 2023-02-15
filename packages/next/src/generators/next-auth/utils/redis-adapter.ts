@@ -42,7 +42,7 @@ function configureAdapter(
 
     nextAuthNode.addImportDeclaration({
         namedImports: ['IORedisAdapter'],
-        moduleSpecifier: `${npmScope}/${libraryName}`,
+        moduleSpecifier: `@${npmScope}/${libraryName}`,
     });
     nextAuthNode.addImportDeclaration({
         namedImports: ['Redis'],
