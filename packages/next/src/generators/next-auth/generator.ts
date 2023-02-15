@@ -14,7 +14,7 @@ import { NextAuthGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependencies';
 import { createOrUpdateLocalEnv } from './utils/local-env';
 import { addAzureAdProvider } from './utils/next-auth-provider';
-import addRedisAdapter from './utils/redis-adapter';
+import { addRedisAdapter } from './utils/redis-adapter';
 import { addSessionProviderToApp } from './utils/session-provider';
 
 export default async function nextAuthGenerator(
