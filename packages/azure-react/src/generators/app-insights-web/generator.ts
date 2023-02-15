@@ -64,6 +64,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
         ...options,
         ...names(options.name),
+        connectionString: names(options.connectionString).constantName,
         offsetFromRoot: offsetFromRoot(options.projectRoot),
         template: '',
     };
