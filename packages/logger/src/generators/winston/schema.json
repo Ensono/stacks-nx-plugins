@@ -13,7 +13,8 @@
                 "$source": "argv",
                 "index": 0
             },
-            "x-prompt": "What name would you like to use?"
+            "x-prompt": "What name would you like to use?",
+            "pattern": "[a-z0-9]+(?:-[a-z0-9]+)*"
         },
         "tags": {
             "type": "string",
@@ -31,6 +32,7 @@
         },
         "logLevelType": {
             "description": "Add the type of log levels that will be used.",
+            "type": "string",
             "enum": ["cli", "syslog", "npm"],
             "default": "npm",
             "x-prompt": "What type of logging levels would you like to use?"
@@ -43,11 +45,6 @@
         "fileTransportPath": {
             "description": "Add a filepath to transport logs to",
             "type": "string"
-        },
-        "httpTransport": {
-            "description": "Add a http transport",
-            "type": "boolean",
-            "default": false
         },
         "httpTransportHost": {
             "description": "Remote host of the HTTP logging endpoint",
