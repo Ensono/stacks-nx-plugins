@@ -6,7 +6,7 @@ export function updateTasksYaml(
     { visualRegression }: { visualRegression: boolean },
 ) {
     if (!tree.exists('build/tasks.yaml')) {
-        throw new Error('tasks.yaml is missing from the build folder');
+        return;
     }
 
     const tasks = YAML.parse(tree.read('build/tasks.yaml', 'utf-8'));
@@ -47,7 +47,7 @@ export function updateTaskctlYaml(
     { visualRegression }: { visualRegression: boolean },
 ) {
     if (!tree.exists('taskctl.yaml')) {
-        throw new Error('taskctl.yaml is missing from root');
+        return;
     }
 
     const taskctl = YAML.parse(tree.read('taskctl.yaml', 'utf8'));
