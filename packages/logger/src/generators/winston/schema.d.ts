@@ -6,7 +6,6 @@ export interface WinstonLoggerGeneratorSchema {
     logLevelType?: 'cli' | 'syslog' | 'npm';
     consoleLogs?: boolean;
     fileTransportPath?: string;
-    httpTransport?: boolean;
     httpTransportHost?: string;
     httpTransportPort?: number;
     httpTransportPath?: string;

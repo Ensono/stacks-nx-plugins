@@ -140,7 +140,7 @@ describe('logger e2e', () => {
             it('should create src with http transport being set', async () => {
                 const project = uniq('logger');
                 await runNxCommandAsync(
-                    `generate @ensono-stacks/logger:winston ${project} --httpTransport --httpTransportHost=localhost --httpTransportPort=3000 --httpTransportPath=somePath --httpTransportSSL`,
+                    `generate @ensono-stacks/logger:winston ${project} --httpTransportHost=localhost --httpTransportPort=3000 --httpTransportPath=somePath --httpTransportSSL`,
                 );
                 expect(() =>
                     checkFilesExist(
