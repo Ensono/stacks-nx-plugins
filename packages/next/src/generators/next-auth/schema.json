@@ -19,16 +19,9 @@
         "provider": {
             "type": "string",
             "description": "The provider to be installed.",
+            "enum": ["none", "azureAd", "azureAdB2C"],
             "default": "none",
-            "x-prompt": {
-                "message": "Which provider do you want to add?",
-                "type": "list",
-                "items": [
-                    { "value": "none", "label": "None" },
-                    { "value": "azureAd", "label": "Azure AD" },
-                    { "value": "azureAdB2C", "label": "Azure AD B2C" }
-                ]
-            }
+            "x-prompt": "Which provider do you want to add?"
         },
         "redisAdapter": {
             "type": "boolean",
