@@ -12,39 +12,13 @@ import chalk from 'chalk';
 import path from 'path';
 
 import { axiosVersion } from '../../../utils/versions';
+import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '../../utils/normalize-options';
 import { HttpClientGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends HttpClientGeneratorSchema {
-    projectName: string;
-    projectRoot: string;
-    projectDirectory: string;
-    parsedTags: string[];
-}
-
-function normalizeOptions(
-    tree: Tree,
-    options: HttpClientGeneratorSchema,
-): NormalizedSchema {
-    const name = names(options.name).fileName;
-    const projectDirectory = options.directory
-        ? `${names(options.directory).fileName}/${name}`
-        : name;
-    const projectName = projectDirectory.replace(/\//g, '-');
-    const projectRoot = `${
-        getWorkspaceLayout(tree).libsDir
-    }/${projectDirectory}`;
-    const parsedTags = options.tags
-        ? options.tags.split(',').map(s => s.trim())
-        : [];
-
-    return {
-        ...options,
-        projectName,
-        projectRoot,
-        projectDirectory,
-        parsedTags,
-    };
-}
+type NormalizedSchema = BaseNormalizedSchema<HttpClientGeneratorSchema>;
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
