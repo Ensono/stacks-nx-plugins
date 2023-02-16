@@ -33,6 +33,7 @@ export default async function clientEndpoint(
         ...optionsParameter,
         // include endpoint version in library name
         name: `${optionsParameter.name}/v${optionsParameter.endpointVersion}`,
+        endpointName: optionsParameter.name,
     };
     const normalizedOptions = normalizeOptions(tree, options);
 
