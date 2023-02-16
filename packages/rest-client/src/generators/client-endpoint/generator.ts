@@ -1,33 +1,14 @@
 import { formatFiles, generateFiles, names, Tree } from '@nrwl/devkit';
+import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
+import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '../../utils/normalize-options';
 import { ClientEndpointGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends ClientEndpointGeneratorSchema {
-    endpointName: string;
-    endpointDirectory: string;
-    parsedTags: string[];
-}
-
-function normalizeOptions(
-    options: ClientEndpointGeneratorSchema,
-): NormalizedSchema {
-    const name = names(options.name).fileName;
-    const endpointDirectory = options.directory
-        ? `${names(options.directory).fileName}/${name}`
-        : name;
-    const endpointName = endpointDirectory.replace(/\//g, '-');
-    const parsedTags = options.tags
-        ? options.tags.split(',').map(s => s.trim())
-        : [];
-
-    return {
-        ...options,
-        endpointName,
-        endpointDirectory,
-        parsedTags,
-    };
-}
+type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema>;
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
@@ -52,7 +33,7 @@ export default async function clientEndpoint(
     tree: Tree,
     options: ClientEndpointGeneratorSchema,
 ) {
-    const normalizedOptions = normalizeOptions(options);
+    const normalizedOptions = normalizeOptions(tree, options);
 
     if (Array.isArray(options.methods) && options.methods.length === 0) {
         throw new Error("You haven't selected any method to generate.");
