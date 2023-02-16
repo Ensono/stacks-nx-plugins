@@ -5,3 +5,4 @@ export * from './stacks';
 export * from './ts-morph';
 export * from './project-config';
 export * from './merge';
+export * from './normalize-options';
