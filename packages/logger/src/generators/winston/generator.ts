@@ -1,13 +1,14 @@
 import {
     formatFilesWithEslint,
     addCustomTestConfig,
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
     GeneratorCallback,
-    getWorkspaceLayout,
     names,
     offsetFromRoot,
     readProjectConfiguration,
@@ -21,37 +22,7 @@ import { WinstonLoggerGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
 import { WINSTON_VERSION } from './utils/version';
 
-interface NormalizedSchema extends WinstonLoggerGeneratorSchema {
-    projectName: string;
-    projectRoot: string;
-    projectDirectory: string;
-    parsedTags: string[];
-}
-
-function normalizeOptions(
-    tree: Tree,
-    options: WinstonLoggerGeneratorSchema,
-): NormalizedSchema {
-    const name = names(options.name).fileName;
-    const projectDirectory = options.directory
-        ? `${names(options.directory).fileName}/${name}`
-        : name;
-    const projectName = projectDirectory.replace(/\//g, '-');
-    const projectRoot = `${
-        getWorkspaceLayout(tree).libsDir
-    }/${projectDirectory}`;
-    const parsedTags = options.tags
-        ? options.tags.split(',').map(s => s.trim())
-        : [];
-
-    return {
-        ...options,
-        projectName,
-        projectRoot,
-        projectDirectory,
-        parsedTags,
-    };
-}
+type NormalizedSchema = BaseNormalizedSchema<WinstonLoggerGeneratorSchema>;
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
