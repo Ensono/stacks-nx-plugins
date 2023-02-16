@@ -8,6 +8,7 @@ import {
     Tree,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
+import chalk from 'chalk';
 import path from 'path';
 
 import { axiosVersion } from '../../../utils/versions';
@@ -91,5 +92,14 @@ export default async function generate(
     // Format files
     if (!options.skipFormat) {
         await formatFiles(tree);
+    }
+
+    if (options.directory) {
+        console.log(
+            chalk.yellow`NOTE: you generated the http client inside ${options.directory} directory, which means that the library is now called ${normalizedOptions.projectName}`,
+        );
+        console.log(
+            chalk.yellow`      Remember this when running nx commands like "nx test ${normalizedOptions.projectName}"`,
+        );
     }
 }
