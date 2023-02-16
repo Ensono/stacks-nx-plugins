@@ -1,8 +1,11 @@
 import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '@ensono-stacks/core';
+import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
-    getWorkspaceLayout,
     names,
     offsetFromRoot,
     Tree,
@@ -12,10 +15,6 @@ import chalk from 'chalk';
 import path from 'path';
 
 import { axiosVersion } from '../../../utils/versions';
-import {
-    NormalizedSchema as BaseNormalizedSchema,
-    normalizeOptions,
-} from '../../utils/normalize-options';
 import { HttpClientGeneratorSchema } from './schema';
 
 type NormalizedSchema = BaseNormalizedSchema<HttpClientGeneratorSchema>;
@@ -50,7 +49,6 @@ export default async function generate(
     tree: Tree,
     options: HttpClientGeneratorSchema,
 ) {
-    // Normalize options
     const normalizedOptions = normalizeOptions(tree, options);
 
     // Use the existing library generator
