@@ -1,11 +1,11 @@
+import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '@ensono-stacks/core';
 import { formatFiles, generateFiles, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
-import {
-    NormalizedSchema as BaseNormalizedSchema,
-    normalizeOptions,
-} from '../../utils/normalize-options';
 import { ClientEndpointGeneratorSchema } from './schema';
 
 type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema>;
@@ -42,6 +42,10 @@ export default async function clientEndpoint(
     if (Number.isNaN(Number(options.endpointVersion))) {
         throw new TypeError('The endpoint version needs to be a number.');
     }
+
+    await libraryGenerator(tree, options);
+    // Delete the default generated lib folder
+    tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
     addFiles(tree, normalizedOptions);
 
