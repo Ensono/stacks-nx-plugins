@@ -19,7 +19,7 @@ function updateNxJson(tree) {
             );
         }
 
-        return updateNxJson;
+        return nxJson;
     });
 }
 
