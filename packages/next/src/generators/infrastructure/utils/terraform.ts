@@ -61,7 +61,7 @@ export function addTerraform(
         options: {
             commands: [
                 {
-                    command: 'terraform fmt -diff',
+                    command: 'terraform fmt -check -diff',
                     forwardAllArgs: false,
                 },
             ],
