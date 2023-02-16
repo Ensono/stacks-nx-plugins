@@ -1,4 +1,4 @@
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
@@ -25,12 +25,14 @@ describe('client-endpoint generator', () => {
             tags: 'testEndpoint',
         });
 
-        expect(tree.exists('endpoints/testEndpoint/V1/index.ts')).toBeTruthy();
         expect(
-            tree.exists('endpoints/testEndpoint/V1/index.test.ts'),
+            tree.exists('endpoints/test-endpoint/v1/src/index.ts'),
         ).toBeTruthy();
         expect(
-            tree.exists('endpoints/testEndpoint/V1/index.types.ts'),
+            tree.exists('endpoints/test-endpoint/v1/src/index.test.ts'),
+        ).toBeTruthy();
+        expect(
+            tree.exists('endpoints/test-endpoint/v1/src/index.types.ts'),
         ).toBeTruthy();
     });
 
@@ -53,7 +55,7 @@ describe('client-endpoint generator', () => {
         ).rejects.toThrowError("You haven't selected any method to generate.");
     });
 
-    it('should throw a TypeError if version is not a nunber', async () => {
+    it('should throw a TypeError if version is not a number', async () => {
         await expect(
             generator(tree, {
                 ...options,

@@ -20,19 +20,20 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     generateFiles(
         tree,
         path.join(__dirname, 'files'),
-        path.join(
-            options.directory,
-            options.name,
-            `V${options.endpointVersion}`,
-        ),
+        options.projectRoot,
         templateOptions,
     );
 }
 
 export default async function clientEndpoint(
     tree: Tree,
-    options: ClientEndpointGeneratorSchema,
+    optionsParameter: ClientEndpointGeneratorSchema,
 ) {
+    const options = {
+        ...optionsParameter,
+        // include endpoint version in library name
+        name: `${optionsParameter.name}/v${optionsParameter.endpointVersion}`,
+    };
     const normalizedOptions = normalizeOptions(tree, options);
 
     if (Array.isArray(options.methods) && options.methods.length === 0) {
