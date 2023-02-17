@@ -25,7 +25,7 @@ COPY <%= distFolderPath %>/server ./server
 COPY <%= distFolderPath %>/.next ./.next
 RUN chown -R node:node .
 USER node
-EXPOSE 3000
+EXPOSE <%= port %>
 # COPY --chown=node:node ./tools/scripts/entrypoints/api.sh /usr/local/bin/docker-entrypoint.sh
 # ENTRYPOINT [ "docker-entrypoint.sh" ]
 # Next.js collects completely anonymous telemetry data about general usage.
