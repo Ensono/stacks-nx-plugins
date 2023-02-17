@@ -35,6 +35,7 @@
         },
         "methods": {
             "type": "array",
+            "description": "List of HTTP methods to be generated.",
             "x-prompt": {
                 "message": "Which methods should be generated?",
                 "type": "list",
@@ -55,7 +56,7 @@
             "type": "string",
             "description": "A directory where the endpoint is placed",
             "default": "",
-            "x-prompt": "What is the directory where you want the endpiont to be generated?",
+            "x-prompt": "What is the directory where you want the endpoint to be generated?",
             "alias": "dir"
         },
         "tags": {
