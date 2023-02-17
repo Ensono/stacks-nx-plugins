@@ -3,7 +3,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { <%= className %>, <%= className %>Data } from './index.types';
 
-const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= endpointName %>/<%= endpointVersion %>`;
+const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= endpointName %>/v<%= endpointVersion %>`;
 
 <% if (methods.includes('get')) { %>
 export const get<%= className %> = async (config: AxiosRequestConfig) => 
