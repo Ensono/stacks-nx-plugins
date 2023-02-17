@@ -65,6 +65,12 @@ describe('rest-client e2e', () => {
             const tsConfig = readJson('tsconfig.base.json');
             expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportName, [`libs/endpoints/${endpoint}/v1/src/index.ts`]);
         }, 120000);
+
+        it('should run the generated tests without failure', async () => {
+            const result = await runNxCommandAsync(`test endpoints-${endpoint}-v1`);
+
+            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+        });
     });
 
     describe('bump-version', () => {
@@ -108,5 +114,11 @@ describe('rest-client e2e', () => {
             expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportNameV1, [`libs/endpoints/${endpoint}/v1/src/index.ts`]);
             expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportNameV3, [`libs/endpoints/${endpoint}/v3/src/index.ts`]);
         }, 120000);
+
+        it('should run the generated tests without failure', async () => {
+            const result = await runNxCommandAsync(`test endpoints-${endpoint}-v3`);
+
+            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+        });
     });
 });
