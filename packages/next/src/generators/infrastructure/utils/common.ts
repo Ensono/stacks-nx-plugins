@@ -212,12 +212,16 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
     update.targets['helm-package'] = {
         executor: 'nx:run-commands',
         options: {
-            command:
-                // eslint-disable-next-line prefer-template
-                'helm package . --version ${version} --app-version ${version} -u -d ' +
-                offsetFromRoot(`${project.root}/build/helm`) +
-                `dist/${project.root}/build/helm`,
-            forwardAllArgs: false,
+            commands: [
+                {
+                    command:
+                        // eslint-disable-next-line prefer-template
+                        'helm package . --version ${version} --app-version ${version} -u -d ' +
+                        offsetFromRoot(`${project.root}/build/helm`) +
+                        `dist/${project.root}/build/helm`,
+                    forwardAllArgs: false,
+                },
+            ],
             cwd: `${project.root}/build/helm`,
         },
     };
