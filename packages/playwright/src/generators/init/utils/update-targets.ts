@@ -1,6 +1,7 @@
 import {
     joinPathFragments,
     ProjectConfiguration,
+    readJson,
     Tree,
     updateJson,
 } from '@nrwl/devkit';
@@ -27,6 +28,10 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
     project: ProjectConfiguration,
     tree: Tree,
 ) {
+    const packageJson = readJson(tree, 'package.json');
+    const playwrightVersion =
+        `v${packageJson.dependencies.playwright?.replace('^', '')}` || 'next';
+
     updateJson(
         tree,
         joinPathFragments(project.root, 'project.json'),
@@ -39,21 +44,19 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                     options: {
                         commands: [
                             {
-                                command:
-                                    'docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:v1.30.0-jammy npx nx run next-custom-server-e2e:e2e',
+                                command: `docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:${playwrightVersion}-jammy npx nx run ${project.name}:e2e {args.extra}`,
                                 forwardAllArgs: false,
                             },
                         ],
                     },
                     configurations: {
                         updatesnapshots: {
-                            args: '--extra=--update-snapshots',
+                            args: '--extra="--update-snapshots --grep @visual-regression"',
                         },
                         compilearm64: {
                             commands: [
                                 {
-                                    command:
-                                        'docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:v1.30.0-jammy /bin/bash -c "apt update && apt install -y make gcc g++ && rm -rf node_modules/@parcel && npm install" && npm install',
+                                    command: `docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:${playwrightVersion}-jammy /bin/bash -c "apt update && apt install -y make gcc g++ && rm -rf node_modules/@parcel && npm install" && npm install`,
                                     forwardAllArgs: false,
                                 },
                             ],
