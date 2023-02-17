@@ -1,5 +1,7 @@
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import fs from 'fs';
+import path from 'path';
 
 import generator from './generator';
 import { BumpVersionGeneratorSchema } from './schema';
@@ -96,6 +98,67 @@ describe('bump-version generator', () => {
     });
 
     it('should update types and names in code of the new version', async () => {
-        // TODO
+        const fixturesPath = path.resolve(
+            __dirname,
+            path.join('test', 'fixtures'),
+        );
+
+        tree.write(
+            'fixtures/endpoints/test/v1/src/index.ts',
+            fs.readFileSync(path.join(fixturesPath, 'index.ts.fixture')),
+        );
+        tree.write(
+            'fixtures/endpoints/test/v1/src/index.test.ts',
+            fs.readFileSync(path.join(fixturesPath, 'index.test.ts.fixture')),
+        );
+        tree.write(
+            'fixtures/endpoints/test/v1/src/index.types.ts',
+            fs.readFileSync(path.join(fixturesPath, 'index.types.ts.fixture')),
+        );
+
+        await generator(tree, {
+            ...options,
+            directory: 'fixtures/endpoints',
+            endpointVersion: 3,
+        });
+
+        const indexTs = tree
+            .read('fixtures/endpoints/test/v3/src/index.ts')
+            ?.toString();
+        const indexTestTs = tree
+            .read('fixtures/endpoints/test/v3/src/index.test.ts')
+            ?.toString();
+        const indexTypesTs = tree
+            .read('fixtures/endpoints/test/v3/src/index.types.ts')
+            ?.toString();
+
+        expect(indexTs).not.toContain(
+            "import { TestV1, TestV1Data } from './index.types';",
+        );
+        expect(indexTs).toContain(
+            "import { TestV3, TestV3Data } from './index.types';",
+        );
+        expect(indexTs).not.toContain(
+            // eslint-disable-next-line no-template-curly-in-string
+            'const API_ENDPOINT = `${process.env.API_URL}/test/v1`;',
+        );
+        expect(indexTs).toContain(
+            // eslint-disable-next-line no-template-curly-in-string
+            'const API_ENDPOINT = `${process.env.API_URL}/test/v3`;',
+        );
+
+        expect(indexTestTs).not.toContain(
+            "describe('TestV1 endpoint', () => {",
+        );
+        expect(indexTestTs).toContain("describe('TestV3 endpoint', () => {");
+
+        expect(indexTypesTs).not.toContain('export interface TestV1 {}');
+        expect(indexTypesTs).not.toContain('export interface TestV1Data {}');
+        expect(indexTypesTs).toContain('export interface TestV3 {}');
+        expect(indexTypesTs).toContain('export interface TestV3Data {}');
+
+        expect(indexTs).toMatchSnapshot();
+        expect(indexTestTs).toMatchSnapshot();
+        expect(indexTypesTs).toMatchSnapshot();
     });
 });
