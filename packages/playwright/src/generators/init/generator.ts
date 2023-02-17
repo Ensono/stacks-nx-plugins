@@ -22,6 +22,8 @@ import {
     updatePlaywrightConfigWithNativeVisualRegression,
 } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
+import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
+import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
@@ -131,6 +133,15 @@ export default async function initGenerator(
                 morphTree,
             );
 
+            // update project.json with new visual target
+            updateProjectJsonWithNativeVisualRegressionTargets(project, tree);
+
+            // update tasks.yaml
+            updateTasksYaml(tree, { visualRegression: true });
+
+            // update taskctl.yaml
+            updateTaskctlYaml(tree, { visualRegression: true });
+
             // example.spec.ts
             addFiles(tree, 'files/visualRegression/native', normalizedOptions);
             break;
@@ -152,7 +163,11 @@ export default async function initGenerator(
                 chalk.yellow`Don't forget to set your 'APPLITOOLS_API_KEY'.`,
             );
             break;
-        default: // Default case
+        default:
+            // update tasks.yaml
+            updateTasksYaml(tree, { visualRegression: false });
+            // update taskctl.yaml
+            updateTaskctlYaml(tree, { visualRegression: false });
     }
 
     await formatFiles(tree);
