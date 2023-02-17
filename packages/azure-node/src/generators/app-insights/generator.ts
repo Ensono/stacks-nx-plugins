@@ -105,9 +105,9 @@ export default async function appInsightsGenerator(
 
     const serverPath = joinPathFragments(project.root, server);
     // add nrwl/next custom server to prettier ignore
-    addIgnoreEntry(tree, '.prettierignore', 'next server', [`${serverPath}`]);
+    addIgnoreEntry(tree, '.prettierignore', 'next server', [serverPath]);
     // Format files excluding the server file
-    await formatFiles(tree, [`${serverPath}`]);
+    await formatFiles(tree, [serverPath]);
 
     console.warn(
         chalk.yellow`${serverPath} has been added to .prettierignore; Amend this file and resolve linting issues.`,
