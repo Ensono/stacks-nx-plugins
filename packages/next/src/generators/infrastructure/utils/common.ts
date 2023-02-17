@@ -143,6 +143,8 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
                 dryRun: false,
                 noVerify: true,
                 push: true,
+                preid: 'nonprod',
+                releaseAs: 'prerelease',
                 postTargets: [
                     `${project.name}:container:nonprod`,
                     `${project.name}:helm-package`,
