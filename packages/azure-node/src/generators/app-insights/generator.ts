@@ -1,9 +1,15 @@
 import {
-    addDependenciesToPackageJson,
+    addIgnoreEntry,
     formatFiles,
+    thirdPartyDependancyWarning,
+} from '@ensono-stacks/core';
+import {
+    addDependenciesToPackageJson,
     getProjects,
+    joinPathFragments,
     Tree,
 } from '@nrwl/devkit';
+import chalk from 'chalk';
 import path from 'path';
 import { Project, ScriptTarget } from 'ts-morph';
 
@@ -70,6 +76,8 @@ export default async function appInsightsGenerator(
         throw new Error('AppInsights SDK is already in use.');
     }
 
+    thirdPartyDependancyWarning(['@nrwl/next:custom-server']);
+
     customServer.addImportDeclaration({
         namespaceImport: 'appInsights',
         moduleSpecifier: 'applicationinsights',
@@ -95,8 +103,15 @@ export default async function appInsightsGenerator(
         tsMorphProject.getSourceFile(customServerPath).getText(),
     );
 
-    // Format files
-    await formatFiles(tree);
+    const serverPath = joinPathFragments(project.root, server);
+    // add nrwl/next custom server to prettier ignore
+    addIgnoreEntry(tree, '.prettierignore', 'next server', [`${serverPath}`]);
+    // Format files excluding the server file
+    await formatFiles(tree, [`${serverPath}`]);
+
+    console.warn(
+        chalk.yellow`${serverPath} has been added to .prettierignore; Amend this file and resolve linting issues.`,
+    );
 
     // Add dependencies and install
     return updateDependencies(tree);
