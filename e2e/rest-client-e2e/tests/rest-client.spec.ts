@@ -60,10 +60,10 @@ describe('rest-client e2e', () => {
                 ),
             ).not.toThrow();
 
-            const expectedImportName = '@proj/api/customers/v1';
+            const expectedImportName = `@proj/endpoints/${endpoint}/v1`;
 
             const tsConfig = readJson('tsconfig.base.json');
-            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportName, 'libs/endpoints/${endpoint}/v1/src/index.ts');
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportName, [`libs/endpoints/${endpoint}/v1/src/index.ts`]);
         }, 120000);
     });
 
