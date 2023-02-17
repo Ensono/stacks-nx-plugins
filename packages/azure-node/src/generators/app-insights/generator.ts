@@ -1,7 +1,7 @@
 import {
     addIgnoreEntry,
     formatFiles,
-    thirdPartyDependancyWarning,
+    thirdPartyDependencyWarning,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -76,7 +76,7 @@ export default async function appInsightsGenerator(
         throw new Error('AppInsights SDK is already in use.');
     }
 
-    thirdPartyDependancyWarning(['@nrwl/next:custom-server']);
+    thirdPartyDependencyWarning(['@nrwl/next:custom-server']);
 
     customServer.addImportDeclaration({
         namespaceImport: 'appInsights',
