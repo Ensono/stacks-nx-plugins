@@ -56,7 +56,7 @@
             "description": "A directory where the endpoint is placed",
             "default": "",
             "x-prompt": "What is the directory where you want the endpoint to be generated?",
-            "alias": "dir"
+            "alias": "d"
         },
         "tags": {
             "type": "string",
