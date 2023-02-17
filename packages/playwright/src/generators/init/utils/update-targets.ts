@@ -44,7 +44,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                     options: {
                         commands: [
                             {
-                                command: `docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:${playwrightVersion}-jammy npx nx run ${project.name}:e2e`,
+                                command: `docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:${playwrightVersion}-jammy npx nx run ${project.name}:e2e {args.extra}`,
                                 forwardAllArgs: false,
                             },
                         ],
