@@ -24,7 +24,7 @@
         "directory": {
             "type": "string",
             "description": "A directory where the lib is placed.",
-            "alias": "d"
+            "alias": "dir"
         },
         "importPath": {
             "type": "string",
