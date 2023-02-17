@@ -1,5 +1,5 @@
 import { normalizeOptions, copyFiles } from '@ensono-stacks/core';
-import { formatFiles, getWorkspaceLayout, Tree } from '@nrwl/devkit';
+import { formatFiles, getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
@@ -52,6 +52,38 @@ function determineNewVersion(
     return newVersion;
 }
 
+function updateVersionInCode(
+    tree: Tree,
+    filePaths: string[],
+    latestVersionName: string,
+    newVersionName: string,
+) {
+    const latestVersionNames = names(latestVersionName);
+    const newVersionNames = names(newVersionName);
+
+    filePaths.forEach(filePath => {
+        const fileContent = tree.read(filePath)?.toString();
+        if (!fileContent) {
+            return;
+        }
+
+        tree.write(
+            filePath,
+            fileContent
+                .replace(
+                    // eslint-disable-next-line security/detect-non-literal-regexp
+                    new RegExp(latestVersionNames.className, 'g'),
+                    newVersionNames.className,
+                )
+                .replace(
+                    // eslint-disable-next-line security/detect-non-literal-regexp
+                    new RegExp(latestVersionNames.name, 'g'),
+                    newVersionNames.name,
+                ),
+        );
+    });
+}
+
 export default async function bumpVersion(
     tree: Tree,
     optionsParameter: BumpVersionGeneratorSchema,
@@ -86,12 +118,31 @@ export default async function bumpVersion(
     tree.delete(path.join(newVersionOptions.projectRoot, 'src', 'lib'));
 
     // copy src files from latestVersion to newVersion
-    copyFiles(
-        tree,
-        path.join(latestVersionOptions.projectRoot, 'src'),
-        path.join(newVersionOptions.projectRoot, 'src'),
+    const latestVersionSourcePath = path.join(
+        latestVersionOptions.projectRoot,
+        'src',
     );
+    const newVersionSourcePath = path.join(
+        newVersionOptions.projectRoot,
+        'src',
+    );
+    copyFiles(tree, latestVersionSourcePath, newVersionSourcePath);
 
+    // update version numbers in class names etc in the newly created files
+    const filesToChange = tree
+        .listChanges()
+        .filter(
+            change =>
+                change.type === 'CREATE' &&
+                change.path.startsWith(newVersionSourcePath),
+        )
+        .map(change => change.path);
+    updateVersionInCode(
+        tree,
+        filesToChange,
+        latestVersionOptions.name,
+        newVersionOptions.name,
+    );
 
     await formatFiles(tree);
 }

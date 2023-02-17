@@ -1,0 +1,48 @@
+import httpClient from '@next-auth/restapi/api-client';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import { TestV1, TestV1Data } from './index.types';
+
+const API_ENDPOINT = `${process.env.API_URL}/test/v1`;
+
+export const getTestV1 = async (config: AxiosRequestConfig) =>
+  httpClient.get<TestV1>(API_ENDPOINT, config);
+
+export const deleteTestV1 = async (config: AxiosRequestConfig) =>
+  httpClient.delete<TestV1>(API_ENDPOINT, config);
+
+export const headTestV1 = async (config: AxiosRequestConfig) =>
+  httpClient.head<TestV1>(API_ENDPOINT, config);
+
+export const optionsTestV1 = async (config: AxiosRequestConfig) =>
+  httpClient.options<TestV1>(API_ENDPOINT, config);
+
+export const postTestV1 = async (
+  data: TestV1Data,
+  config: AxiosRequestConfig
+) =>
+  httpClient.post<TestV1, AxiosResponse<TestV1>, TestV1Data>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+
+export const putTestV1 = async (
+  data: TestV1Data,
+  config: AxiosRequestConfig
+) =>
+  httpClient.put<TestV1, AxiosResponse<TestV1>, TestV1Data>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+
+export const patchTestV1 = async (
+  data: Partial<TestV1Data>,
+  config: AxiosRequestConfig
+) =>
+  httpClient.patch<TestV1, AxiosResponse<TestV1>, TestV1Data>(
+    API_ENDPOINT,
+    data,
+    config
+  );
