@@ -68,33 +68,45 @@ describe('rest-client e2e', () => {
     });
 
     describe('bump-version', () => {
-        const endpoint = uniq('testEndpoint');
+        const endpoint = uniq('test-endpoint');
 
-        beforeAll(() => {
-            runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --endpointVersion=1 --no-interactive`,
-            );
-            runNxCommand(
-                `generate @ensono-stacks/rest-client:bump-version --endpointPath=endpoints --endpoint=${endpoint} --endpointVersion=2 --no-interactive`,
+        beforeAll(async () => {
+            await runNxCommand(
+                `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --httpClient="@proj/http-client" --no-interactive`,
             );
         });
 
         it('should copy the existing endpoint and bump the version', async () => {
+            await runNxCommand(
+                `generate @ensono-stacks/rest-client:bump-version ${endpoint} --directory=endpoints --endpointVersion=3 --no-interactive`,
+            );
+
             expect(() =>
                 checkFilesExist(
-                    `endpoints/${endpoint}/V1/index.ts`,
-                    `endpoints/${endpoint}/V1/index.test.ts`,
-                    `endpoints/${endpoint}/V1/index.types.ts`,
+                    `libs/endpoints/${endpoint}/v1/src/index.ts`,
+                    `libs/endpoints/${endpoint}/v1/src/index.test.ts`,
+                    `libs/endpoints/${endpoint}/v1/src/index.types.ts`,
+                    `libs/endpoints/${endpoint}/v1/project.json`,
+                    `libs/endpoints/${endpoint}/v1/tsconfig.json`,
                 ),
             ).not.toThrow();
 
             expect(() =>
                 checkFilesExist(
-                    `endpoints/${endpoint}/V2/index.ts`,
-                    `endpoints/${endpoint}/V2/index.test.ts`,
-                    `endpoints/${endpoint}/V2/index.types.ts`,
+                    `libs/endpoints/${endpoint}/v3/src/index.ts`,
+                    `libs/endpoints/${endpoint}/v3/src/index.test.ts`,
+                    `libs/endpoints/${endpoint}/v3/src/index.types.ts`,
+                    `libs/endpoints/${endpoint}/v3/project.json`,
+                    `libs/endpoints/${endpoint}/v3/tsconfig.json`,
                 ),
             ).not.toThrow();
+
+            const expectedImportNameV1 = `@proj/endpoints/${endpoint}/v1`;
+            const expectedImportNameV3 = `@proj/endpoints/${endpoint}/v3`;
+
+            const tsConfig = readJson('tsconfig.base.json');
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportNameV1, [`libs/endpoints/${endpoint}/v1/src/index.ts`]);
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportNameV3, [`libs/endpoints/${endpoint}/v3/src/index.ts`]);
         }, 120000);
     });
 });
