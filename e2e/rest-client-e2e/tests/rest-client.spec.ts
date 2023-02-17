@@ -1,5 +1,6 @@
 import {
     checkFilesExist,
+    readJson,
     runNxCommand,
     runNxCommandAsync,
     uniq,
@@ -34,8 +35,7 @@ describe('rest-client e2e', () => {
             ).not.toThrow();
         }, 120000);
 
-        // TODO enable after refactor
-        it.skip('should run the generated tests without failure', async () => {
+        it('should run the generated tests without failure', async () => {
             const result = await runNxCommandAsync(`test ${project}`);
 
             expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
@@ -43,23 +43,27 @@ describe('rest-client e2e', () => {
     });
 
     describe('client-endpoint', () => {
-        const endpoint = uniq('testEndpoint');
+        const endpoint = uniq('test-endpoint');
 
-        beforeAll(async () => {});
-
-        it('should create src in the specified directory', () => {
-            runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --no-interactive`,
+        it('should create lib in the specified directory', async () => {
+            await runNxCommand(
+                `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --httpClient="@proj/http-client" --no-interactive`,
             );
 
             expect(() =>
                 checkFilesExist(
-                    `endpoints/${endpoint}/V1/index.ts`,
-                    `endpoints/${endpoint}/V1/index.test.ts`,
-                    `endpoints/${endpoint}/V1/index.types.ts`,
-                    `.env`,
+                    `libs/endpoints/${endpoint}/v1/src/index.ts`,
+                    `libs/endpoints/${endpoint}/v1/src/index.test.ts`,
+                    `libs/endpoints/${endpoint}/v1/src/index.types.ts`,
+                    `libs/endpoints/${endpoint}/v1/project.json`,
+                    `libs/endpoints/${endpoint}/v1/tsconfig.json`,
                 ),
             ).not.toThrow();
+
+            const expectedImportName = '@proj/api/customers/v1';
+
+            const tsConfig = readJson('tsconfig.base.json');
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportName, 'libs/endpoints/${endpoint}/v1/src/index.ts');
         }, 120000);
     });
 
