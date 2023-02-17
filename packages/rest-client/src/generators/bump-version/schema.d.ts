@@ -1,5 +1,5 @@
 export interface BumpVersionGeneratorSchema {
-    endpointVersion: number;
-    endpointPath: string;
-    endpoint: string;
+    name: string;
+    directory: string;
+    endpointVersion?: number;
 }
