@@ -6,21 +6,26 @@
     "description": "The @ensono-stacks/rest-client:bump-version generator will bump the version of any generated endpoints",
     "type": "object",
     "properties": {
-        "endpointPath": {
+        "name": {
             "type": "string",
-            "description": "The path to your endpoint.",
-            "x-prompt": "What is the path of your endpoint?"
+            "description": "The endpoint name you want to bump to the specified version.",
+            "x-prompt": "What is the endpoint you want to bump to the specified version?",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            }
         },
-        "endpoint": {
+        "directory": {
             "type": "string",
-            "description": "The endpoint you want to bump to the specified version.",
-            "x-prompt": "What is the endpoint you want to bump to the specified version?"
+            "description": "The directory where the endpoint lib is placed.",
+            "alias": "d"
         },
         "endpointVersion": {
             "type": "number",
-            "description": "The version you want to bump your endpoint.",
-            "x-prompt": "What version you want to bump your endpoint to?"
+            "description": "The version you want to bump your endpoint. Omitting this value will bump latest version + 1.",
+            "x-prompt": "What version you want to bump your endpoint to? Skipping will bump +1.",
+            "pattern": "^\\d+$"
         }
     },
-    "required": ["endpointVersion", "endpoint", "endpointPath"]
+    "required": ["name"]
 }
