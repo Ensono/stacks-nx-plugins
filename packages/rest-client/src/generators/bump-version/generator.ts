@@ -34,11 +34,14 @@ function determineNewVersion(
     latestVersion: number,
     newVersionParameter?: number | string,
 ): number {
-    const newVersion = Number(newVersionParameter ?? latestVersion + 1);
-
-    if (Number.isNaN(newVersion)) {
-        throw new TypeError('The endpoint version needs to be a number.');
+    if (newVersionParameter !== undefined) {
+        const newVersionNumber = Number(newVersionParameter);
+        if (Number.isNaN(newVersionNumber)) {
+            throw new TypeError('The endpoint version needs to be a number.');
+        }
     }
+
+    const newVersion = Number(newVersionParameter || latestVersion + 1);
 
     if (newVersion <= latestVersion) {
         throw new Error(
