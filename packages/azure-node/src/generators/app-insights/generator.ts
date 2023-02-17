@@ -110,7 +110,7 @@ export default async function appInsightsGenerator(
     await formatFiles(tree, [serverPath]);
 
     console.warn(
-        chalk.yellow`${serverPath} has been added to .prettierignore; Amend this file and resolve linting issues.`,
+        chalk.yellow`${serverPath} has been added to .prettierignore; Amend this file to resolve linting issues.`,
     );
 
     // Add dependencies and install
