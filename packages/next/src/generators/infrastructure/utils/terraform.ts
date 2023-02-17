@@ -10,6 +10,7 @@ import { paramCase, snakeCase } from 'change-case';
 import path from 'path';
 
 import { NextGeneratorSchema } from '../schema';
+import { setPort } from './common';
 
 export function addTerraform(
     tree: Tree,
@@ -32,6 +33,8 @@ export function addTerraform(
 
     const update = { ...project };
 
+    const port = setPort(project);
+
     generateFiles(
         tree,
         path.join(__dirname, '..', 'files', platform),
@@ -39,6 +42,7 @@ export function addTerraform(
         {
             projectName: project.name,
             namespace,
+            port,
             nonprodRegistryPath: `${getRegistryUrl(
                 stacksConfig,
                 'nonprod',
