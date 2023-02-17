@@ -80,6 +80,10 @@ export default async function appInsightsWebGenerator(
     tree: Tree,
     options: AppInsightsWebGeneratorSchema,
 ) {
+    if (!options.connectionString) {
+        throw new Error('connectionString cannot be empty.');
+    }
+
     // Normalize options
     const normalizedOptions = normalizeOptions(tree, options);
 
