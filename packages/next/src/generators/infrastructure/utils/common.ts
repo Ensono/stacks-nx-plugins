@@ -30,6 +30,10 @@ function addCommonInfrastructureDependencies(tree: Tree) {
     );
 }
 
+export function setPort(project) {
+    return project.targets?.serve.options.port || 4200;
+}
+
 export function addCommon(tree: Tree, project: ProjectConfiguration) {
     const stacksConfig = readStacksConfig(tree);
 
@@ -38,7 +42,8 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
 
     const distFolderPath = project.targets?.build?.options?.outputPath;
     const rootFolderPath = project.targets?.build?.options?.root;
-    const port = project.targets?.serve.options.port || 4200;
+
+    const port = setPort(project);
 
     let customServerRelativePath: string;
 
