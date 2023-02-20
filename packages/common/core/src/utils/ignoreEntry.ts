@@ -30,8 +30,8 @@ export function addIgnoreEntry(
             const subsetIndex = subsets.findIndex(subset =>
                 subset.includes(`# ${comment}`),
             );
-            const duplicate = fileEntries.includes(entry);
-            subsets[subsetIndex] = duplicate
+
+            subsets[subsetIndex] = fileEntries.includes(entry)
                 ? subsets[subsetIndex]
                 : `${subsets[subsetIndex]}\n${entry}`;
         }
