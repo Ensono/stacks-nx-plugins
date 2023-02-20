@@ -56,4 +56,13 @@ describe('azure-react generator', () => {
             ]),
         );
     });
+
+    it('should throw an error if connection string is empty', async () => {
+        await expect(() =>
+            generator(tree, {
+                ...options,
+                connectionString: '',
+            }),
+        ).rejects.toThrowError('connectionString cannot be empty.');
+    });
 });
