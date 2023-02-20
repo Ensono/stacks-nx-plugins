@@ -1,8 +1,11 @@
 import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '@ensono-stacks/core';
+import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
-    getWorkspaceLayout,
     names,
     offsetFromRoot,
     Tree,
@@ -17,37 +20,7 @@ import {
 } from '../../../utils/versions';
 import { AppInsightsWebGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends AppInsightsWebGeneratorSchema {
-    projectName: string;
-    projectRoot: string;
-    projectDirectory: string;
-    parsedTags: string[];
-}
-
-function normalizeOptions(
-    tree: Tree,
-    options: AppInsightsWebGeneratorSchema,
-): NormalizedSchema {
-    const name = names(options.name).fileName;
-    const projectDirectory = options.directory
-        ? `${names(options.directory).fileName}/${name}`
-        : name;
-    const projectName = projectDirectory.replace(/\//g, '-');
-    const projectRoot = `${
-        getWorkspaceLayout(tree).libsDir
-    }/${projectDirectory}`;
-    const parsedTags = options.tags
-        ? options.tags.split(',').map(s => s.trim())
-        : [];
-
-    return {
-        ...options,
-        projectName,
-        projectRoot,
-        projectDirectory,
-        parsedTags,
-    };
-}
+type NormalizedSchema = BaseNormalizedSchema<AppInsightsWebGeneratorSchema>;
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

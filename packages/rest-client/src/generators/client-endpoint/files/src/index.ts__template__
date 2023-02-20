@@ -1,0 +1,62 @@
+import httpClient from '<%= httpClient %>';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import { <%= className %>, <%= className %>Data } from './index.types';
+
+const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= endpointName %>/v<%= endpointVersion %>`;
+
+<% if (methods.includes('get')) { %>
+export const get<%= className %> = async (config: AxiosRequestConfig) => 
+    httpClient.get<<%= className %>>(API_ENDPOINT, config)
+<% } %>
+
+<% if (methods.includes('delete')) { %>
+export const delete<%= className %> = async (config: AxiosRequestConfig) => 
+    httpClient.delete<<%= className %>>(API_ENDPOINT, config)
+<% } %>
+
+<% if (methods.includes('head')) { %>
+export const head<%= className %> = async (config: AxiosRequestConfig) => 
+    httpClient.head<<%= className %>>(API_ENDPOINT, config)
+<% } %>
+
+<% if (methods.includes('options')) { %>
+export const options<%= className %> = async (config: AxiosRequestConfig) => 
+    httpClient.options<<%= className %>>(API_ENDPOINT, config)
+<% } %>
+
+<% if (methods.includes('post')) { %>
+export const post<%= className %> = async (
+    data: <%= className %>Data,
+    config: AxiosRequestConfig
+) => 
+    httpClient.post<<%= className %>, AxiosResponse<<%= className %>>, <%= className %>Data>(
+        API_ENDPOINT,
+        data,
+        config
+    );
+<% } %>
+
+<% if (methods.includes('put')) { %>
+export const put<%= className %> = async (
+    data: <%= className %>Data,
+    config: AxiosRequestConfig
+) => 
+    httpClient.put<<%= className %>, AxiosResponse<<%= className %>>, <%= className %>Data>(
+        API_ENDPOINT,
+        data,
+        config
+    );
+<% } %>
+
+<% if (methods.includes('patch')) { %>
+export const patch<%= className %> = async (
+    data: Partial<<%= className %>Data>,
+    config: AxiosRequestConfig
+) => 
+    httpClient.patch<<%= className %>, AxiosResponse<<%= className %>>, <%= className %>Data>(
+        API_ENDPOINT,
+        data,
+        config
+    );
+<% } %>
