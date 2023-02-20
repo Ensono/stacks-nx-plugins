@@ -45,7 +45,7 @@ function determineNewVersion(
 
     if (newVersion <= latestVersion) {
         throw new Error(
-            `Cannot decrease a version. Please use --endpointVersion higher than ${newVersion}`,
+            `Cannot decrease a version. Please use --endpointVersion higher than ${latestVersion}`,
         );
     }
 
