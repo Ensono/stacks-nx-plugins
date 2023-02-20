@@ -1,0 +1,7 @@
+// TODO: Write generated tests
+
+describe('TestV1 endpoint', () => {
+  it('should generate the right methods', () => {
+    expect(true).toBeTruthy();
+  });
+});

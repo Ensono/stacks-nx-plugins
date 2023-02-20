@@ -1,8 +1,11 @@
 import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '@ensono-stacks/core';
+import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
-    getWorkspaceLayout,
     names,
     offsetFromRoot,
     Tree,
@@ -14,37 +17,7 @@ import path from 'path';
 import { axiosVersion } from '../../../utils/versions';
 import { HttpClientGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends HttpClientGeneratorSchema {
-    projectName: string;
-    projectRoot: string;
-    projectDirectory: string;
-    parsedTags: string[];
-}
-
-function normalizeOptions(
-    tree: Tree,
-    options: HttpClientGeneratorSchema,
-): NormalizedSchema {
-    const name = names(options.name).fileName;
-    const projectDirectory = options.directory
-        ? `${names(options.directory).fileName}/${name}`
-        : name;
-    const projectName = projectDirectory.replace(/\//g, '-');
-    const projectRoot = `${
-        getWorkspaceLayout(tree).libsDir
-    }/${projectDirectory}`;
-    const parsedTags = options.tags
-        ? options.tags.split(',').map(s => s.trim())
-        : [];
-
-    return {
-        ...options,
-        projectName,
-        projectRoot,
-        projectDirectory,
-        parsedTags,
-    };
-}
+type NormalizedSchema = BaseNormalizedSchema<HttpClientGeneratorSchema>;
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -76,7 +49,6 @@ export default async function generate(
     tree: Tree,
     options: HttpClientGeneratorSchema,
 ) {
-    // Normalize options
     const normalizedOptions = normalizeOptions(tree, options);
 
     // Use the existing library generator

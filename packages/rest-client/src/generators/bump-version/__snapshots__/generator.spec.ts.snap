@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bump-version generator should update types and names in code of the new version 1`] = `
+"import httpClient from '@next-auth/restapi/api-client';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import { TestV3, TestV3Data } from './index.types';
+
+const API_ENDPOINT = \`\${process.env.API_URL}/test/v3\`;
+
+export const getTestV3 = async (config: AxiosRequestConfig) =>
+  httpClient.get<TestV3>(API_ENDPOINT, config);
+
+export const deleteTestV3 = async (config: AxiosRequestConfig) =>
+  httpClient.delete<TestV3>(API_ENDPOINT, config);
+
+export const headTestV3 = async (config: AxiosRequestConfig) =>
+  httpClient.head<TestV3>(API_ENDPOINT, config);
+
+export const optionsTestV3 = async (config: AxiosRequestConfig) =>
+  httpClient.options<TestV3>(API_ENDPOINT, config);
+
+export const postTestV3 = async (
+  data: TestV3Data,
+  config: AxiosRequestConfig
+) =>
+  httpClient.post<TestV3, AxiosResponse<TestV3>, TestV3Data>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+
+export const putTestV3 = async (
+  data: TestV3Data,
+  config: AxiosRequestConfig
+) =>
+  httpClient.put<TestV3, AxiosResponse<TestV3>, TestV3Data>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+
+export const patchTestV3 = async (
+  data: Partial<TestV3Data>,
+  config: AxiosRequestConfig
+) =>
+  httpClient.patch<TestV3, AxiosResponse<TestV3>, TestV3Data>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+"
+`;
+
+exports[`bump-version generator should update types and names in code of the new version 2`] = `
+"// TODO: Write generated tests
+
+describe('TestV3 endpoint', () => {
+  it('should generate the right methods', () => {
+    expect(true).toBeTruthy();
+  });
+});
+"
+`;
+
+exports[`bump-version generator should update types and names in code of the new version 3`] = `
+"/* eslint-disable @typescript-eslint/no-empty-interface */
+
+export interface TestV3 {}
+
+export interface TestV3Data {}
+"
+`;

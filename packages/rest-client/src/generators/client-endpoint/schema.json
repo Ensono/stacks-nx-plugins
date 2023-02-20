@@ -17,9 +17,8 @@
         },
         "httpClient": {
             "type": "string",
-            "description": "The import path of the http-client used in the application",
-            "default": "@ensono-stacks/http-client",
-            "x-prompt": "What is the import path of your http-client library?"
+            "description": "The import path of the previously generated http-client used in the application",
+            "x-prompt": "What is the import path of your previously generated http-client library? [e.g. @projectName/http-client]"
         },
         "envVar": {
             "type": "string",

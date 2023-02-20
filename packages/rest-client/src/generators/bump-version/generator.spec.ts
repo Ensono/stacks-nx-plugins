@@ -1,49 +1,24 @@
-import { Tree, generateFiles } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import fs from 'fs';
+import path from 'path';
 
 import generator from './generator';
 import { BumpVersionGeneratorSchema } from './schema';
 
-jest.mock('@nrwl/devkit', () => ({
-    __esModule: true,
-    ...jest.requireActual('@nrwl/devkit'),
-    generateFiles: jest.fn(),
-}));
-
 describe('bump-version generator', () => {
     let tree: Tree;
     const options: BumpVersionGeneratorSchema = {
-        endpointPath: 'endpoints',
-        endpoint: 'test',
-        endpointVersion: 2,
+        directory: 'endpoints',
+        name: 'test',
     };
 
     beforeEach(async () => {
         tree = createTreeWithEmptyWorkspace();
-        tree.write('endpoints/test/V1/index.ts', 'test');
+        tree.write('endpoints/test/v1/src/index.ts', 'test');
     });
 
-    it('should generate the new version of the endpoint', async () => {
-        tree.write('fixtures/endpoints/test/V1/index.ts', 'test');
-        await generator(tree, {
-            ...options,
-            endpointPath: 'fixtures/endpoints',
-        });
-
-        expect(generateFiles).toHaveBeenCalledWith(
-            tree,
-            'fixtures/endpoints/test/V1',
-            'fixtures/endpoints/test/V2',
-            {
-                endpoint: 'test',
-                endpointPath: 'fixtures/endpoints',
-                endpointVersion: 2,
-                template: '',
-            },
-        );
-    });
-
-    it('should throw a TypeError if version is not a nunber', async () => {
+    it('should throw a TypeError if version is not a number', async () => {
         await expect(
             generator(tree, {
                 ...options,
@@ -56,9 +31,11 @@ describe('bump-version generator', () => {
         await expect(() =>
             generator(tree, {
                 ...options,
-                endpoint: 'nonexistent',
+                name: 'nonexistent',
             }),
-        ).rejects.toThrowError('No version could be found for endpoint');
+        ).rejects.toThrowError(
+            "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
+        );
     });
 
     it('should throw an error if the new version is not higher', async () => {
@@ -67,6 +44,121 @@ describe('bump-version generator', () => {
                 ...options,
                 endpointVersion: 1,
             }),
-        ).rejects.toThrowError('Cannot bump to previous or current version');
+        ).rejects.toThrowError(
+            'Cannot decrease a version. Please use --endpointVersion higher than 1',
+        );
+    });
+
+    it('should generate the new version of the endpoint', async () => {
+        tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
+        await generator(tree, {
+            ...options,
+            directory: 'fixtures/endpoints',
+        });
+
+        expect(() =>
+            tree.exists('fixtures/endpoints/test/v1/src/index.ts'),
+        ).not.toThrow();
+        expect(() =>
+            tree.exists('fixtures/endpoints/test/v2/src/index.ts'),
+        ).not.toThrow();
+    });
+
+    it('should determine new version based on existing versions if --endpointVersion is omitted', async () => {
+        // intentionally in random order
+        tree.write('fixtures/endpoints/test/v1/index.ts', 'test');
+        tree.write('fixtures/endpoints/test/v6/index.ts', 'test');
+        tree.write('fixtures/endpoints/test/v5/index.ts', 'test');
+        tree.write('fixtures/endpoints/test/v3/index.ts', 'test');
+
+        await generator(tree, {
+            ...options,
+            directory: 'fixtures/endpoints',
+        });
+
+        expect(() =>
+            tree.exists('fixtures/endpoints/test/v7/src/index.ts'),
+        ).not.toThrow();
+    });
+
+    it('should respect --endpointVersion', async () => {
+        tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
+        await generator(tree, {
+            ...options,
+            directory: 'fixtures/endpoints',
+            endpointVersion: 3,
+        });
+
+        expect(() =>
+            tree.exists('fixtures/endpoints/test/v1/src/index.ts'),
+        ).not.toThrow();
+        expect(() =>
+            tree.exists('fixtures/endpoints/test/v3/src/index.ts'),
+        ).not.toThrow();
+    });
+
+    it('should update types and names in code of the new version', async () => {
+        const fixturesPath = path.resolve(
+            __dirname,
+            path.join('test', 'fixtures'),
+        );
+
+        tree.write(
+            'fixtures/endpoints/test/v1/src/index.ts',
+            fs.readFileSync(path.join(fixturesPath, 'index.ts.fixture')),
+        );
+        tree.write(
+            'fixtures/endpoints/test/v1/src/index.test.ts',
+            fs.readFileSync(path.join(fixturesPath, 'index.test.ts.fixture')),
+        );
+        tree.write(
+            'fixtures/endpoints/test/v1/src/index.types.ts',
+            fs.readFileSync(path.join(fixturesPath, 'index.types.ts.fixture')),
+        );
+
+        await generator(tree, {
+            ...options,
+            directory: 'fixtures/endpoints',
+            endpointVersion: 3,
+        });
+
+        const indexTs = tree
+            .read('fixtures/endpoints/test/v3/src/index.ts')
+            ?.toString();
+        const indexTestTs = tree
+            .read('fixtures/endpoints/test/v3/src/index.test.ts')
+            ?.toString();
+        const indexTypesTs = tree
+            .read('fixtures/endpoints/test/v3/src/index.types.ts')
+            ?.toString();
+
+        expect(indexTs).not.toContain(
+            "import { TestV1, TestV1Data } from './index.types';",
+        );
+        expect(indexTs).toContain(
+            "import { TestV3, TestV3Data } from './index.types';",
+        );
+        expect(indexTs).not.toContain(
+            // eslint-disable-next-line no-template-curly-in-string
+            'const API_ENDPOINT = `${process.env.API_URL}/test/v1`;',
+        );
+        expect(indexTs).toContain(
+            // eslint-disable-next-line no-template-curly-in-string
+            'const API_ENDPOINT = `${process.env.API_URL}/test/v3`;',
+        );
+
+        expect(indexTestTs).not.toContain(
+            "describe('TestV1 endpoint', () => {",
+        );
+        expect(indexTestTs).toContain("describe('TestV3 endpoint', () => {");
+
+        expect(indexTypesTs).not.toContain('export interface TestV1 {}');
+        expect(indexTypesTs).not.toContain('export interface TestV1Data {}');
+        expect(indexTypesTs).toContain('export interface TestV3 {}');
+        expect(indexTypesTs).toContain('export interface TestV3Data {}');
+
+        expect(indexTs).toMatchSnapshot();
+        expect(indexTestTs).toMatchSnapshot();
+        expect(indexTypesTs).toMatchSnapshot();
     });
 });

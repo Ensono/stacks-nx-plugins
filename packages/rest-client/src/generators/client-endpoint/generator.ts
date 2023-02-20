@@ -1,33 +1,14 @@
+import {
+    NormalizedSchema as BaseNormalizedSchema,
+    normalizeOptions,
+} from '@ensono-stacks/core';
 import { formatFiles, generateFiles, names, Tree } from '@nrwl/devkit';
+import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
 import { ClientEndpointGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends ClientEndpointGeneratorSchema {
-    endpointName: string;
-    endpointDirectory: string;
-    parsedTags: string[];
-}
-
-function normalizeOptions(
-    options: ClientEndpointGeneratorSchema,
-): NormalizedSchema {
-    const name = names(options.name).fileName;
-    const endpointDirectory = options.directory
-        ? `${names(options.directory).fileName}/${name}`
-        : name;
-    const endpointName = endpointDirectory.replace(/\//g, '-');
-    const parsedTags = options.tags
-        ? options.tags.split(',').map(s => s.trim())
-        : [];
-
-    return {
-        ...options,
-        endpointName,
-        endpointDirectory,
-        parsedTags,
-    };
-}
+type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema>;
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
@@ -39,20 +20,22 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     generateFiles(
         tree,
         path.join(__dirname, 'files'),
-        path.join(
-            options.directory,
-            options.name,
-            `V${options.endpointVersion}`,
-        ),
+        options.projectRoot,
         templateOptions,
     );
 }
 
 export default async function clientEndpoint(
     tree: Tree,
-    options: ClientEndpointGeneratorSchema,
+    optionsParameter: ClientEndpointGeneratorSchema,
 ) {
-    const normalizedOptions = normalizeOptions(options);
+    const options = {
+        ...optionsParameter,
+        // include endpoint version in library name
+        name: `${optionsParameter.name}/v${optionsParameter.endpointVersion}`,
+        endpointName: optionsParameter.name,
+    };
+    const normalizedOptions = normalizeOptions(tree, options);
 
     if (Array.isArray(options.methods) && options.methods.length === 0) {
         throw new Error("You haven't selected any method to generate.");
@@ -61,6 +44,10 @@ export default async function clientEndpoint(
     if (Number.isNaN(Number(options.endpointVersion))) {
         throw new TypeError('The endpoint version needs to be a number.');
     }
+
+    await libraryGenerator(tree, options);
+    // Delete the default generated lib folder
+    tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
     addFiles(tree, normalizedOptions);
 
