@@ -62,7 +62,12 @@ export default async function initGenerator(
         },
     };
 
-    await addCustomTestConfig(tree, project, project.name, ciCoverageConfig);
+    await addCustomTestConfig(
+        tree,
+        readProjectConfiguration(tree, options.project),
+        project.name,
+        ciCoverageConfig,
+    );
 
     tasks.push(formatFilesWithEslint(options.project));
 

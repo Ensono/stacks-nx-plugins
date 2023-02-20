@@ -144,6 +144,23 @@ describe('next install generator', () => {
                 }),
             );
         });
+
+        it('should add infrastucture configurations to project.json when infrastructure option is set to true', async () => {
+            await generator(tree, { ...options, infra: true });
+
+            const projectConfig = readJson(tree, 'next-app/project.json');
+            expect(projectConfig.targets).toHaveProperty('terraform-apply');
+            expect(projectConfig.targets).toHaveProperty('terraform-plan');
+            expect(projectConfig.targets).toHaveProperty('terraform-validate');
+            expect(projectConfig.targets).toHaveProperty('terraform-init');
+            expect(projectConfig.targets).toHaveProperty('terraform-fmt');
+            expect(projectConfig.targets).toHaveProperty('github');
+            expect(projectConfig.targets).toHaveProperty('helm-push');
+            expect(projectConfig.targets).toHaveProperty('helm-package');
+            expect(projectConfig.targets).toHaveProperty('helm-test');
+            expect(projectConfig.targets).toHaveProperty('helm-lint');
+            expect(projectConfig.targets).toHaveProperty('helm-upgrade');
+        });
     });
 
     describe('eslint', () => {

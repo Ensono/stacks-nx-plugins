@@ -6,7 +6,7 @@ import {
     offsetFromRoot,
     updateJson,
     updateProjectConfiguration,
-    ProjectConfiguration,
+    readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
 import { paramCase } from 'change-case';
@@ -17,6 +17,7 @@ import {
     NXTOOLS_NX_CONTAINER_VERSION,
     NXTOOLS_NX_METADATA_VERSION,
 } from '../../../utils/constants';
+import { NextGeneratorSchema } from '../schema';
 
 function addCommonInfrastructureDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -34,8 +35,9 @@ export function setPort(project) {
     return project.targets?.serve.options.port || 4200;
 }
 
-export function addCommon(tree: Tree, project: ProjectConfiguration) {
+export function addCommon(tree: Tree, options: NextGeneratorSchema) {
     const stacksConfig = readStacksConfig(tree);
+    const project = readProjectConfiguration(tree, options.project);
 
     const customServer =
         project.targets?.['build-custom-server']?.options?.main;

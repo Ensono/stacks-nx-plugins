@@ -17,8 +17,8 @@ export function addInfrastructure(
     options: NextGeneratorSchema,
 ) {
     const tasks: GeneratorCallback[] = [
-        addCommon(tree, project),
-        addTerraform(tree, project, options),
+        addCommon(tree, options),
+        addTerraform(tree, options),
     ];
 
     addIgnoreEntry(tree, '.gitignore', 'Terraform', [
