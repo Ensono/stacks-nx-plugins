@@ -22,6 +22,7 @@ export function addIgnoreEntry(
     }
 
     // split the file to subsets based on empty lines
+    const fileEntries = content.split('\n');
     const subsets = content.split('\n\n');
 
     entries.forEach(entry => {
@@ -29,7 +30,10 @@ export function addIgnoreEntry(
             const subsetIndex = subsets.findIndex(subset =>
                 subset.includes(`# ${comment}`),
             );
-            subsets[subsetIndex] = `${subsets[subsetIndex]}\n${entry}`;
+            const duplicate = fileEntries.includes(entry);
+            subsets[subsetIndex] = duplicate
+                ? subsets[subsetIndex]
+                : `${subsets[subsetIndex]}\n${entry}`;
         }
     });
 
