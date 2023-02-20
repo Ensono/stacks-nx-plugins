@@ -2,6 +2,7 @@ import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
 import {
     generateFiles,
     updateProjectConfiguration,
+    readProjectConfiguration,
     ProjectConfiguration,
     Tree,
     updateJson,
@@ -14,9 +15,9 @@ import { setPort } from './common';
 
 export function addTerraform(
     tree: Tree,
-    project: ProjectConfiguration,
-    { openTelemetry }: NextGeneratorSchema,
+    { openTelemetry, project }: NextGeneratorSchema,
 ) {
+    const projectConfig = readProjectConfiguration(tree, project);
     const stacksConfig = readStacksConfig(tree);
     const {
         business: { component },
@@ -31,28 +32,28 @@ export function addTerraform(
 
     const namespace = paramCase(component);
 
-    const update = { ...project };
+    const update = { ...projectConfig };
 
-    const port = setPort(project);
+    const port = setPort(update);
 
     generateFiles(
         tree,
         path.join(__dirname, '..', 'files', platform),
-        project.root,
+        projectConfig.root,
         {
-            projectName: project.name,
+            projectName: projectConfig.name,
             namespace,
             port,
             nonprodRegistryPath: `${getRegistryUrl(
                 stacksConfig,
                 'nonprod',
-            )}/${namespace}/${project.name}`,
+            )}/${namespace}/${projectConfig.name}`,
             prodRegistryPath: `${getRegistryUrl(
                 stacksConfig,
                 'prod',
-            )}/${namespace}/${project.name}`,
-            devProjectName: paramCase(project.name),
-            prodProjectName: paramCase(project.name),
+            )}/${namespace}/${projectConfig.name}`,
+            devProjectName: paramCase(projectConfig.name),
+            prodProjectName: paramCase(projectConfig.name),
             internalDomain,
             externalDomain,
             snakeCase,
@@ -69,7 +70,7 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${project.root}/build/terraform`,
+            cwd: `${projectConfig.root}/build/terraform`,
             parallel: false,
         },
     };
@@ -84,13 +85,13 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${project.name}:nonprod`,
-            cwd: `${project.root}/build/terraform`,
+            args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${projectConfig.name}:nonprod`,
+            cwd: `${projectConfig.root}/build/terraform`,
             parallel: false,
         },
         configurations: {
             prod: {
-                args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${project.name}:prod`,
+                args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${projectConfig.name}:prod`,
             },
         },
     };
@@ -104,7 +105,7 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${project.root}/build/terraform`,
+            cwd: `${projectConfig.root}/build/terraform`,
             parallel: false,
         },
     };
@@ -118,12 +119,12 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
                 {
-                    command: `terraform plan -input=false -lock-timeout=60s {args.terraform} -out=${project.name}.tfplan`,
+                    command: `terraform plan -input=false -lock-timeout=60s {args.terraform} -out=${projectConfig.name}.tfplan`,
                     forwardAllArgs: false,
                 },
             ],
             args: '--terraform=-var-file=nonprod.tfvars',
-            cwd: `${project.root}/build/terraform`,
+            cwd: `${projectConfig.root}/build/terraform`,
             parallel: false,
         },
         configurations: {
@@ -138,15 +139,15 @@ export function addTerraform(
         options: {
             commands: [
                 {
-                    command: `terraform apply -auto-approve -input=false ${project.name}.tfplan`,
+                    command: `terraform apply -auto-approve -input=false ${projectConfig.name}.tfplan`,
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${project.root}/build/terraform`,
+            cwd: `${projectConfig.root}/build/terraform`,
         },
     };
 
-    updateProjectConfiguration(tree, project.name, update);
+    updateProjectConfiguration(tree, projectConfig.name, update);
 
     updateJson(tree, 'nx.json', nxJson => {
         const updateNxJson = { ...nxJson };
