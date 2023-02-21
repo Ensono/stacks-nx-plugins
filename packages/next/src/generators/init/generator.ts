@@ -42,7 +42,10 @@ export default async function initGenerator(
 
     if (options.infra) {
         tasks.push(
-            await infrastructureGenerator(tree, { project: options.project }),
+            await infrastructureGenerator(tree, {
+                project: options.project,
+                openTelemetry: false,
+            }),
         );
     }
 

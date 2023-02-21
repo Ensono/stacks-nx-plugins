@@ -382,6 +382,22 @@ describe('next install generator', () => {
             expect(docker).toContain(
                 'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
             );
+
+            const prodHelmYaml = tree.read(
+                '/next-app/build/helm/values-prod.yaml',
+                'utf-8',
+            );
+            expect(prodHelmYaml).toContain(
+                "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
+            );
+
+            const nonProdHelmYaml = tree.read(
+                '/next-app/build/helm/values.yaml',
+                'utf-8',
+            );
+            expect(nonProdHelmYaml).toContain(
+                "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
+            );
         });
 
         it('should scaffold with infrastructure on a custom server', async () => {
