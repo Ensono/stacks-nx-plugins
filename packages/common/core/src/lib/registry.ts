@@ -24,3 +24,19 @@ export function getRegistryUrl(
 
     throw new Error(`${platform} is not a supported cloud platform yet.`);
 }
+
+export function getResourceGroup(
+    options: NxJsonConfiguration['stacks'],
+    envType: string,
+) {
+    const {
+        business: { company, domain },
+        cloud: { region, platform },
+    } = options;
+
+    const resourceGroup = lowerCaseCharactersOnly(
+        `${company}-${domain}-${envType}-${region}-core`,
+    );
+
+    return resourceGroup;
+}

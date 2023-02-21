@@ -180,6 +180,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
                     forwardAllArgs: false,
                 },
             ],
+            cwd: `${project.root}/build/terraform`,
         },
         configurations: {
             prod: {

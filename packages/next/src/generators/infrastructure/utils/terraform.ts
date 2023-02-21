@@ -1,4 +1,8 @@
-import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
+import {
+    readStacksConfig,
+    getRegistryUrl,
+    getResourceGroup,
+} from '@ensono-stacks/core';
 import {
     generateFiles,
     updateProjectConfiguration,
@@ -20,8 +24,8 @@ export function addTerraform(
     const projectConfig = readProjectConfiguration(tree, project);
     const stacksConfig = readStacksConfig(tree);
     const {
-        business: { component },
-        cloud: { platform },
+        business: { company, component, domain },
+        cloud: { region, platform },
         domain: { internal: internalDomain, external: externalDomain },
         terraform: {
             group: tfGroup,
@@ -58,6 +62,8 @@ export function addTerraform(
             externalDomain,
             snakeCase,
             openTelemetry,
+            nonProdResourceGroup: getResourceGroup(stacksConfig, 'nonprod'),
+            prodResourceGroup: getResourceGroup(stacksConfig, 'prod'),
         },
     );
 
