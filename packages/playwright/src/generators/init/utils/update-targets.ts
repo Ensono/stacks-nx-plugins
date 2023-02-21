@@ -13,6 +13,9 @@ function updateNxJson(tree) {
         if (
             Array.isArray(
                 nxJson.taskRunnerOptions?.default?.options?.cacheableOperation,
+            ) &&
+            !nxJson.taskRunnerOptions?.default?.options?.cacheableOperation.includes(
+                'e2e-docker',
             )
         ) {
             updatedNxJson.taskRunnerOptions.default.options.cacheableOperations.push(
