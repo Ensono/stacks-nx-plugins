@@ -64,13 +64,6 @@ describe('next-auth-redis generator', () => {
         expect(localEnv.toString()).toContain(
             'REDIS_CONNECTION_STRING=localhost:6379',
         );
-
-        const redisAdapterTest = appTree.read(
-            'next-auth-redis/src/index.test.ts',
-        );
-        expect(redisAdapterTest.toString()).toContain(
-            'new Redis(process.env.REDIS_CONNECTION_STRING)',
-        );
     });
 
     it('should generate redis adapter lib with custom name', async () => {

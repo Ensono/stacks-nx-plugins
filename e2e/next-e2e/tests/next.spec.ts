@@ -65,5 +65,8 @@ describe('next e2e', () => {
                 `libs/next-auth-redis/src/index.ts`,
             ),
         ).not.toThrow();
+
+        const result = await runNxCommandAsync('test next-auth-redis');
+        expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
     }, 200_000);
 });
