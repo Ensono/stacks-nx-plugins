@@ -23,7 +23,6 @@ describe('next-auth generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
-            standaloneConfig: false,
         });
     });
 
