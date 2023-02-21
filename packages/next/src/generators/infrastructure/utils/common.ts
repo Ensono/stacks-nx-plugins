@@ -178,6 +178,7 @@ export function addCommon(tree: Tree, project: ProjectConfiguration) {
                     forwardAllArgs: false,
                 },
             ],
+            cwd: `${project.root}/build/terraform`,
         },
         configurations: {
             prod: {

@@ -3,5 +3,5 @@ resource "azurerm_dns_a_record" "<%= snakeCase(projectName) %>" {
   zone_name           = data.azurerm_dns_zone.this.name
   resource_group_name = data.azurerm_dns_zone.this.resource_group_name
   ttl                 = var.dns_a_record_ttl
-  records             = var.dns_a_record_records
+  records             = [data.azurerm_public_ip.application_gateway.ip_address]
 }
