@@ -55,7 +55,7 @@ export default async function nextAuthRedisGenerator(
     }
 
     const { npmScope } = readWorkspaceConfiguration(tree);
-    const name = options.adapterName || 'next-auth-redis';
+    const name = options.adapterName;
 
     const libraryName = names(name).fileName;
     const projectDirectory = libraryName;
