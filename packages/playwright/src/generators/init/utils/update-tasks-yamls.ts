@@ -5,11 +5,11 @@ export function updateTasksYaml(
     tree: Tree,
     { visualRegression }: { visualRegression: boolean },
 ) {
-    if (!tree.exists('build/tasks.yaml')) {
+    if (!tree.exists('build/taskctl/tasks.yaml')) {
         return;
     }
 
-    const tasks = YAML.parse(tree.read('build/tasks.yaml', 'utf-8'));
+    const tasks = YAML.parse(tree.read('build/taskctl/tasks.yaml', 'utf-8'));
     if (tasks.tasks) {
         // Add e2e tasks
         tasks.tasks = visualRegression
@@ -39,7 +39,7 @@ export function updateTasksYaml(
               };
     }
 
-    tree.write('build/tasks.yaml', YAML.stringify(tasks));
+    tree.write('build/taskctl/tasks.yaml', YAML.stringify(tasks));
 }
 
 export function updateTaskctlYaml(
