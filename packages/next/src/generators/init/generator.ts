@@ -1,12 +1,12 @@
 import {
+    formatFiles,
     formatFilesWithEslint,
     addCustomTestConfig,
 } from '@ensono-stacks/core';
 import {
-    formatFiles,
     GeneratorCallback,
+    joinPathFragments,
     readProjectConfiguration,
-    updateJson,
     Tree,
     updateProjectConfiguration,
 } from '@nrwl/devkit';
@@ -62,7 +62,12 @@ export default async function initGenerator(
         },
     };
 
-    await addCustomTestConfig(tree, project, project.name, ciCoverageConfig);
+    await addCustomTestConfig(
+        tree,
+        readProjectConfiguration(tree, options.project),
+        project.name,
+        ciCoverageConfig,
+    );
 
     tasks.push(formatFilesWithEslint(options.project));
 
@@ -83,7 +88,10 @@ export default async function initGenerator(
 
     eslintFix(project, tree);
 
-    await formatFiles(tree);
+    // exclude helm yaml files from initial format when generating the files
+    await formatFiles(tree, [
+        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
+    ]);
 
     return runTasksInSerial(...tasks);
 }
