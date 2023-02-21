@@ -1,9 +1,13 @@
-variable "dns_a_record_name" {
+variable "app_gateway_frontend_ip_name" {
   type = string
 }
 
-variable "dns_a_record_records" {
-  type = list(string)
+variable "core_resource_group" {
+  type = string
+}
+
+variable "dns_a_record_name" {
+  type = string
 }
 
 variable "dns_a_record_ttl" {
