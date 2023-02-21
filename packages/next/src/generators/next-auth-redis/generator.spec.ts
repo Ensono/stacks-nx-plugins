@@ -11,6 +11,7 @@ describe('next-auth-redis generator', () => {
     const options: NextAuthRedisGeneratorSchema = {
         project: 'next-app',
         envVar: 'REDIS_URL',
+        adapterName: 'next-auth-redis',
     };
 
     beforeEach(async () => {
