@@ -7,3 +7,4 @@ export * from './project-config';
 export * from './merge';
 export * from './normalize-options';
 export * from './copy-files';
+export * from './local-env';
