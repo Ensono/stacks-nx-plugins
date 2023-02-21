@@ -24,12 +24,15 @@ describe('playwright generator', () => {
                 pipelines: { dev: [], fe: [], nonprod: [], prod: [] },
             }),
         );
-        appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
+        appTree.write(
+            'build/taskctl/tasks.yaml',
+            YAML.stringify({ tasks: {} }),
+        );
     });
 
     afterEach(() => {
         appTree.delete('taskctl.yaml');
-        appTree.delete('build/tasks.yaml');
+        appTree.delete('build/taskctl/tasks.yaml');
     });
 
     it('should error if the project does not exist', async () => {
@@ -160,7 +163,9 @@ describe('playwright generator', () => {
         );
         expect(projectJson.targets.e2e).toBeTruthy();
 
-        const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
+        const tasksYAML = YAML.parse(
+            appTree.read('build/taskctl/tasks.yaml', 'utf-8'),
+        );
         expect(tasksYAML.tasks.e2e).toEqual({
             description: 'Run e2e tests',
             command: [
@@ -311,7 +316,9 @@ describe('playwright generator', () => {
         expect(projectJson.targets.e2e).toBeTruthy();
         expect(projectJson.targets['e2e-docker']).toBeTruthy();
 
-        const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
+        const tasksYAML = YAML.parse(
+            appTree.read('build/taskctl/tasks.yaml', 'utf-8'),
+        );
         expect(tasksYAML.tasks['e2e:local']).toEqual({
             description: 'Run e2e tests locally',
             command: [
