@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "NextAuth",
+    "title": "Ensono Stacks Next Auth Redis Generator",
+    "description": "The @ensono-stacks/next:next-auth-redis generator will add Redis for session management in a Next-Auth app.",
+    "type": "object",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "alias": "p",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-prompt": "What is the name of the project?",
+            "x-priority": "important"
+        },
+        "envVar": {
+            "type": "string",
+            "default": "REDIS_URL",
+            "description": "Name of the env var that stores connection string for Redis",
+            "x-prompt": "What is the name of the env var that stores connection string for Redis?",
+            "pattern": "^[a-zA-Z_]+$"
+        },
+        "adapterName": {
+            "type": "string",
+            "default": "next-auth-redis",
+            "description": "Name of the generated Redis adapter library"
+        }
+    },
+    "required": ["project"]
+}
