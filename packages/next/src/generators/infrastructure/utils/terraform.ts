@@ -151,6 +151,9 @@ export function addTerraform(
             ],
             cwd: `${projectConfig.root}/build/terraform`,
         },
+        configurations: {
+            prod: {},
+        },
     };
 
     updateProjectConfiguration(tree, projectConfig.name, update);
@@ -195,7 +198,6 @@ export function addTerraform(
 
         if (!nxJson.targetDefaults['terraform-plan']) {
             updateNxJson.targetDefaults['terraform-plan'] = {
-                dependsOn: ['terraform-init'],
                 inputs: ['terraform'],
                 outputs: ['{projectRoot}/build/terraform/*.tfplan'],
             };
@@ -203,7 +205,6 @@ export function addTerraform(
 
         if (!nxJson.targetDefaults['terraform-apply']) {
             updateNxJson.targetDefaults['terraform-apply'] = {
-                dependsOn: ['terraform-plan'],
                 inputs: ['terraform'],
             };
         }
