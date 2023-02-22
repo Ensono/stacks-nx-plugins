@@ -7,12 +7,13 @@ type BaseSchema = {
     tags?: string;
 };
 
-export type NormalizedSchema<TSchema extends BaseSchema> = TSchema & {
-    projectName: string;
-    projectRoot: string;
-    projectDirectory: string;
-    parsedTags: string[];
-};
+export type NormalizedSchema<TSchema extends BaseSchema = BaseSchema> =
+    TSchema & {
+        projectName: string;
+        projectRoot: string;
+        projectDirectory: string;
+        parsedTags: string[];
+    };
 
 export function normalizeOptions<TSchema extends BaseSchema>(
     tree: Tree,
