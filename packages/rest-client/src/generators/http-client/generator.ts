@@ -2,6 +2,7 @@ import {
     addCustomTestConfig,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
+    warnDirectoryProjectName,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -96,12 +97,5 @@ export default async function generate(
         await formatFiles(tree);
     }
 
-    if (normalizedOptions.directory) {
-        console.log(
-            chalk.yellow`NOTE: you generated the http client inside ${normalizedOptions.directory} directory, which means that the library is now called ${normalizedOptions.projectName}`,
-        );
-        console.log(
-            chalk.yellow`      Remember this when running nx commands like "nx test ${normalizedOptions.projectName}"`,
-        );
-    }
+    warnDirectoryProjectName(normalizedOptions);
 }

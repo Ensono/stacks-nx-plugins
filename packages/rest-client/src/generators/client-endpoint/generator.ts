@@ -1,6 +1,7 @@
 import {
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
+    warnDirectoryProjectName,
 } from '@ensono-stacks/core';
 import { formatFiles, generateFiles, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
@@ -37,15 +38,18 @@ export default async function clientEndpoint(
     };
     const normalizedOptions = normalizeOptions(tree, options);
 
-    if (Array.isArray(options.methods) && options.methods.length === 0) {
+    if (
+        Array.isArray(normalizedOptions.methods) &&
+        normalizedOptions.methods.length === 0
+    ) {
         throw new Error("You haven't selected any method to generate.");
     }
 
-    if (Number.isNaN(Number(options.endpointVersion))) {
+    if (Number.isNaN(Number(normalizedOptions.endpointVersion))) {
         throw new TypeError('The endpoint version needs to be a number.');
     }
 
-    await libraryGenerator(tree, options);
+    await libraryGenerator(tree, normalizedOptions);
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
@@ -62,4 +66,6 @@ export default async function clientEndpoint(
     }
 
     await formatFiles(tree);
+
+    warnDirectoryProjectName(normalizedOptions);
 }
