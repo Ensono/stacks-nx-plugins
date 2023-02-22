@@ -16,7 +16,6 @@ describe('next install generator', () => {
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
-            standaloneConfig: false,
             ...schema,
         });
 
