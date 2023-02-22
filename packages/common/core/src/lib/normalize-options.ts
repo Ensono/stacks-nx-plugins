@@ -20,8 +20,18 @@ export function normalizeOptions<TSchema extends BaseSchema>(
 ): NormalizedSchema<TSchema> {
     const name = names(options.name).fileName;
 
-    const projectDirectory = options.directory
-        ? path.join(names(options.directory).fileName, name)
+    // nx removes special dir names when generating a project
+    // which prevents `--dir libs` resulting in `libs/libs/projectname` path
+    // we should follow this approach too
+    // @see https://github.com/nrwl/nx/blob/master/packages/devkit/src/utils/get-workspace-layout.ts#L45
+    const directory =
+        options.directory &&
+        !['apps', 'libs', 'packages'].includes(options.directory)
+            ? options.directory
+            : null;
+
+    const projectDirectory = directory
+        ? path.join(names(directory).fileName, name)
         : name;
     const projectRoot = path.join(
         getWorkspaceLayout(tree).libsDir,
@@ -35,6 +45,7 @@ export function normalizeOptions<TSchema extends BaseSchema>(
 
     return {
         ...options,
+        directory,
         projectName,
         projectRoot,
         projectDirectory,
