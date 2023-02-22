@@ -18,12 +18,13 @@
         },
         "directory": {
             "type": "string",
-            "description": "A directory where the lib is placed.",
+            "description": "Subdirectory inside libs/ where the generated library placed.",
             "alias": "dir"
         },
         "importPath": {
             "type": "string",
-            "description": "What import path would you like to use for the library?"
+            "description": "What import path would you like to use for the library?",
+            "pattern": "^@[a-z0-9_/-]"
         },
         "tags": {
             "type": "string",
