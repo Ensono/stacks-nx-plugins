@@ -9,11 +9,12 @@
         "name": {
             "type": "string",
             "description": "The endpoint name you want to bump.",
-            "x-prompt": "What is the endpoint you want to bump?",
+            "x-prompt": "What is the name of the endpoint you want to bump?",
             "$default": {
                 "$source": "argv",
                 "index": 0
-            }
+            },
+            "pattern": "^@[a-z0-9_/-]+"
         },
         "directory": {
             "type": "string",
