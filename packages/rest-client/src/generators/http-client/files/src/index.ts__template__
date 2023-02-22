@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 // Reusable instance
 const httpClient = axios.create();
 
-export type RequestConfig = AxiosRequestConfig;
-export type Response = AxiosResponse;
+export type RequestConfig<T> = AxiosRequestConfig<T>;
+export type Response<T> = AxiosResponse<T>;
 
 export default httpClient;
