@@ -6,27 +6,27 @@ import { <%= className %>, <%= className %>Data } from './index.types';
 const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= endpointName %>/v<%= endpointVersion %>`;
 
 <% if (methods.includes('get')) { %>
-export const get<%= className %> = async (config: AxiosRequestConfig) => 
+export const get<%= fnSuffix %> = async (config: AxiosRequestConfig) => 
     httpClient.get<<%= className %>>(API_ENDPOINT, config)
 <% } %>
 
 <% if (methods.includes('delete')) { %>
-export const delete<%= className %> = async (config: AxiosRequestConfig) => 
+export const delete<%= fnSuffix %> = async (config: AxiosRequestConfig) => 
     httpClient.delete<<%= className %>>(API_ENDPOINT, config)
 <% } %>
 
 <% if (methods.includes('head')) { %>
-export const head<%= className %> = async (config: AxiosRequestConfig) => 
+export const head<%= fnSuffix %> = async (config: AxiosRequestConfig) => 
     httpClient.head<<%= className %>>(API_ENDPOINT, config)
 <% } %>
 
 <% if (methods.includes('options')) { %>
-export const options<%= className %> = async (config: AxiosRequestConfig) => 
+export const options<%= fnSuffix %> = async (config: AxiosRequestConfig) => 
     httpClient.options<<%= className %>>(API_ENDPOINT, config)
 <% } %>
 
 <% if (methods.includes('post')) { %>
-export const post<%= className %> = async (
+export const post<%= fnSuffix %> = async (
     data: <%= className %>Data,
     config: AxiosRequestConfig
 ) => 
@@ -38,7 +38,7 @@ export const post<%= className %> = async (
 <% } %>
 
 <% if (methods.includes('put')) { %>
-export const put<%= className %> = async (
+export const put<%= fnSuffix %> = async (
     data: <%= className %>Data,
     config: AxiosRequestConfig
 ) => 
@@ -50,7 +50,7 @@ export const put<%= className %> = async (
 <% } %>
 
 <% if (methods.includes('patch')) { %>
-export const patch<%= className %> = async (
+export const patch<%= fnSuffix %> = async (
     data: Partial<<%= className %>Data>,
     config: AxiosRequestConfig
 ) => 
