@@ -97,7 +97,7 @@ describe('bump-version generator', () => {
         ).not.toThrow();
     });
 
-    it('should update types and names in code of the new version', async () => {
+    it('should update any version numbers in the code', async () => {
         const fixturesPath = path.resolve(
             __dirname,
             path.join('test', 'fixtures'),
