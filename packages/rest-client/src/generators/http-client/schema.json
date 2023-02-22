@@ -14,7 +14,7 @@
                 "index": 0
             },
             "x-prompt": "What name would you like to use for the library?",
-            "pattern": "^[a-zA-Z].*$"
+            "pattern": "^[a-zA-Z-]+$"
         },
         "directory": {
             "type": "string",
@@ -24,7 +24,7 @@
         "importPath": {
             "type": "string",
             "description": "What import path would you like to use for the library?",
-            "pattern": "^@[a-z0-9_/-]"
+            "pattern": "^@[a-z0-9_/-]+$"
         },
         "tags": {
             "type": "string",
