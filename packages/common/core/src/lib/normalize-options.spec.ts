@@ -17,6 +17,7 @@ describe('normalizeOptions', () => {
             }),
         ).toEqual({
             name: 'some-lib',
+            directory: null,
             projectName: 'some-lib',
             projectRoot: 'some-lib',
             projectDirectory: 'some-lib',
@@ -39,4 +40,36 @@ describe('normalizeOptions', () => {
             parsedTags: [],
         });
     });
+
+    it.each([
+        ['libs', { directory: null, name: 'some-lib', root: 'some-lib' }],
+        ['apps', { directory: null, name: 'some-lib', root: 'some-lib' }],
+        ['packages', { directory: null, name: 'some-lib', root: 'some-lib' }],
+        ['', { directory: null, name: 'some-lib', root: 'some-lib' }],
+        [
+            'subdir',
+            {
+                directory: 'subdir',
+                name: 'subdir-some-lib',
+                root: 'subdir/some-lib',
+            },
+        ],
+    ])(
+        'should remove special names from directory to follow nx approach',
+        (directory, expected) => {
+            expect(
+                normalizeOptions(appTree, {
+                    name: 'some-lib',
+                    directory,
+                }),
+            ).toEqual({
+                name: 'some-lib',
+                directory: expected.directory,
+                projectName: expected.name,
+                projectRoot: expected.root,
+                projectDirectory: expected.root,
+                parsedTags: [],
+            });
+        },
+    );
 });
