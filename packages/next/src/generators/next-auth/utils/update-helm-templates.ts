@@ -19,8 +19,8 @@ export function updateDeploymentYaml(
     );
     const deployment = tree.read(filePath, 'utf-8');
 
-    // Skip if it's already there
-    if (deployment.search(update) !== -1) {
+    // Skip if it's already there, or file doesn't exist
+    if (!tree.exists(filePath) || deployment.includes(update)) {
         return;
     }
 
@@ -44,6 +44,10 @@ export function updateValuesYaml(
         project.root,
         '/build/helm/values.yaml',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(valuesFilePath)) return;
+
     const valuesYAML: YAML.Document = YAML.parseDocument(
         tree.read(valuesFilePath, 'utf-8'),
     );
@@ -72,6 +76,10 @@ export function updateValuesYaml(
         project.root,
         '/build/helm/values-prod.yaml',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(valuesProdFilePath)) return;
+
     const valuesProdYAML = YAML.parseDocument(
         tree.read(valuesProdFilePath, 'utf-8'),
     );
