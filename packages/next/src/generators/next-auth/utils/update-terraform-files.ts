@@ -18,6 +18,10 @@ resource "azurerm_redis_cache" "default_primary" {
         project.root,
         '/build/terraform/main.tf',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(filePath)) return;
+
     const mainTF = tree.read(filePath, 'utf-8');
 
     if (!mainTF.includes(update)) tree.write(filePath, `${mainTF}${update}\n`);
@@ -39,6 +43,10 @@ redis_resource_group_name     = "${nonprodResourceGroup}"
         project.root,
         '/build/terraform/nonprod.tfvars',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(nonprodFilePath)) return;
+
     const nonprodFile = tree.read(nonprodFilePath, 'utf-8');
 
     if (!nonprodFile.includes(nonprodUpdate))
@@ -55,6 +63,10 @@ redis_resource_group_name     = "${prodResourceGroup}"
         project.root,
         '/build/terraform/prod.tfvars',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(prodFilePath)) return;
+
     const prodFile = tree.read(prodFilePath, 'utf-8');
 
     if (!prodFile.includes(prodUpdate))
@@ -100,6 +112,10 @@ variable "redis_sku_name" {
         project.root,
         '/build/terraform/variables.tf',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(filePath)) return;
+
     const variablesTF = tree.read(filePath, 'utf-8');
 
     if (!filePath.includes(update))
@@ -118,6 +134,10 @@ output "redis_connection_string" {
         project.root,
         '/build/terraform/outputs.tf',
     );
+
+    // Skip if file doesn't exist
+    if (!tree.exists(filePath)) return;
+
     const outputsTF = tree.read(filePath, 'utf-8');
 
     if (!filePath.includes(update))
