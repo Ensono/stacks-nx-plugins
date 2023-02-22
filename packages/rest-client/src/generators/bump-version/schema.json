@@ -14,7 +14,7 @@
                 "$source": "argv",
                 "index": 0
             },
-            "pattern": "^@[a-z0-9_/-]+"
+            "pattern": "^[a-z0-9_/-]+"
         },
         "directory": {
             "type": "string",
