@@ -14,7 +14,7 @@
                 "index": 0
             },
             "x-prompt": "What name would you like to use?",
-            "pattern": "^@[a-z0-9_/-]+"
+            "pattern": "^[a-z0-9_/-]+"
         },
         "httpClient": {
             "type": "string",
