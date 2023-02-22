@@ -9,12 +9,15 @@ import path from 'path';
 
 import { ClientEndpointGeneratorSchema } from './schema';
 
-type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema>;
+type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema> & {
+    endpointName: string;
+};
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
         ...options,
         ...names(options.name),
+        fnSuffix: names(options.endpointName).className,
         template: '',
     };
 
