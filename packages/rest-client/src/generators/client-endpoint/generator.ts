@@ -13,6 +13,16 @@ type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema> & {
     endpointName: string;
 };
 
+const VALID_METHODS = [
+    'get',
+    'post',
+    'patch',
+    'put',
+    'delete',
+    'head',
+    'options',
+];
+
 function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
         ...options,
@@ -38,6 +48,7 @@ export default async function clientEndpoint(
         // include endpoint version in library name
         name: `${optionsParameter.name}/v${optionsParameter.endpointVersion}`,
         endpointName: optionsParameter.name,
+        methods: optionsParameter.methods.map(method => method.toLowerCase()),
     };
     const normalizedOptions = normalizeOptions(tree, options);
 
@@ -46,6 +57,17 @@ export default async function clientEndpoint(
         normalizedOptions.methods.length === 0
     ) {
         throw new Error("You haven't selected any method to generate.");
+    }
+
+    const hasInvalidMethod = normalizedOptions.methods.some(
+        method => !VALID_METHODS.includes(method),
+    );
+    if (hasInvalidMethod) {
+        throw new Error(
+            `Invalid HTTP method passed to --methods. Please choose from ${VALID_METHODS.join(
+                ',',
+            )}`,
+        );
     }
 
     if (Number.isNaN(Number(normalizedOptions.endpointVersion))) {

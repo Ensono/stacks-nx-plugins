@@ -36,7 +36,7 @@
         },
         "methods": {
             "type": "array",
-            "description": "List of HTTP methods to be generated.",
+            "description": "List of HTTP methods to be generated. Choose from get, post, patch, put, delete, head, options.",
             "x-prompt": {
                 "message": "Which methods should be generated?",
                 "type": "list",
