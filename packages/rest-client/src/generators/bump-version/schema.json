@@ -8,8 +8,8 @@
     "properties": {
         "name": {
             "type": "string",
-            "description": "The endpoint name you want to bump to the specified version.",
-            "x-prompt": "What is the endpoint you want to bump to the specified version?",
+            "description": "The endpoint name you want to bump.",
+            "x-prompt": "What is the endpoint you want to bump?",
             "$default": {
                 "$source": "argv",
                 "index": 0
@@ -17,13 +17,12 @@
         },
         "directory": {
             "type": "string",
-            "description": "The directory where the endpoint lib is placed.",
+            "description": "Subdirectory inside libs/ where the generated endpoint placed.",
             "alias": "dir"
         },
         "endpointVersion": {
             "type": "number",
             "description": "The version you want to bump your endpoint. Omitting this value will bump latest version + 1.",
-            "x-prompt": "What version you want to bump your endpoint to? Skipping will bump +1.",
             "pattern": "^\\d+$"
         }
     },
