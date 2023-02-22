@@ -10,7 +10,7 @@ describe('client-endpoint generator', () => {
         name: 'testEndpoint',
         httpClient: '@ensono-stacks/http-client',
         envVar: 'API_URL',
-        methods: ['get, post'],
+        methods: ['get', 'post'],
         endpointVersion: 1,
         directory: 'endpoints',
     };
