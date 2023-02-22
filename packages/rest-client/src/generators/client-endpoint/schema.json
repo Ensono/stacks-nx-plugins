@@ -53,9 +53,8 @@
         },
         "directory": {
             "type": "string",
-            "description": "A directory where the endpoint is placed",
-            "default": "",
-            "x-prompt": "What is the directory where you want the endpoint to be generated?",
+            "description": "Subdirectory inside libs/ where the generated library placed.",
+            "x-prompt": "Where in libs/ directory do you want to generate this endpoint?",
             "alias": "dir"
         },
         "tags": {
