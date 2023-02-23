@@ -11,8 +11,8 @@ export async function playwrightInit(
 ) {
     await execAsync(`npm i -D @mands/nx-playwright`, cwd);
     await execAsync('npx playwright install --with-deps', cwd);
-    await execAsync('npm i -D @ensono-stacks/playwright', cwd);
     await initPlaywrightGenerator(appTree, options);
+    await execAsync('npm i -D @ensono-stacks/playwright', cwd);
     await execAsync('npm i -D playwright', cwd);
     await execAsync('npm i -D @playwright/test', cwd);
 }

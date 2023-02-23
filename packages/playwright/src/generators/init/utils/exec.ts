@@ -14,6 +14,10 @@ export function execAsync(
                 env: { ...process.env, NX_DAEMON: 'false' },
             },
             (error, stdout, stderr) => {
+                console.log(stdout);
+                console.log(stderr);
+                console.log(error);
+
                 if (error) {
                     reject(stderr);
                 } else {
