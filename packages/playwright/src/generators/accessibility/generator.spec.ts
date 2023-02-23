@@ -1,10 +1,10 @@
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+
 import {
     AXE_CORE_PLAYWRIGHT_VERSION,
     AXE_RESULTS_PRETTY_PRINT_VERSION,
 } from '../../utils/versions';
-
 import initGenerator from '../init/generator';
 import generator from './generator';
 import { AccessibilityGeneratorSchema } from './schema';

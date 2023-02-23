@@ -3,8 +3,8 @@ import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 import YAML from 'yaml';
-import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 
+import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import initGenerator from '../init/generator';
 import generator from './generator';
 import { VisualRegressionGeneratorSchema } from './schema';
