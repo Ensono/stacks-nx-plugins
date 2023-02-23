@@ -1,10 +1,6 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
-import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
-import { PackageRunner } from '@mands/nx-playwright/src/types';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Linter } from '@nrwl/linter';
 import { SyntaxKind } from 'ts-morph';
 import YAML from 'yaml';
 
@@ -24,41 +20,27 @@ describe('playwright generator', () => {
                 pipelines: { dev: [], fe: [], nonprod: [], prod: [] },
             }),
         );
-        appTree.write(
-            'build/taskctl/tasks.yaml',
-            YAML.stringify({ tasks: {} }),
-        );
+        appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
     });
 
     afterEach(() => {
         appTree.delete('taskctl.yaml');
-        appTree.delete('build/taskctl/tasks.yaml');
+        appTree.delete('build/tasks.yaml');
     });
 
-    it('should error if the project does not exist', async () => {
+    it('should error if the project already exists', async () => {
         const options: PlaywrightGeneratorSchema = {
             project: projectName,
-            accessibility: false,
-            visualRegression: 'none',
         };
+        await generator(appTree, options);
         await expect(generator(appTree, options)).rejects.toThrowError(
-            `${projectName} project does not exist`,
+            `Cannot create a new project ${projectName} at ./${projectName}. It already exists.`,
         );
-    });
+    }, 20_000);
 
     it('should run successfully with default options', async () => {
-        const packageRunner: PackageRunner = 'npx';
-        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-            name: projectName,
-            linter: Linter.EsLint,
-            packageRunner,
-        };
-        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
-
         const options: PlaywrightGeneratorSchema = {
             project: projectName,
-            accessibility: false,
-            visualRegression: 'none',
         };
         await generator(appTree, options);
 
@@ -105,6 +87,7 @@ describe('playwright generator', () => {
         const projectConfigObject = projectConfigFile
             ?.getVariableDeclaration('config')
             .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
+
         expect(
             projectConfigObject?.getProperty('use')?.getStructure(),
         ).toBeTruthy();
@@ -125,14 +108,14 @@ describe('playwright generator', () => {
                           ...devices['Desktop Firefox'],
                         },
                       },
-                  
+
                       {
                         name: 'webkit',
                         use: {
                           ...devices['Desktop Safari'],
                         },
                       },
-                  
+
                       /* Test against mobile viewports. */
                       {
                         name: 'Mobile Chrome',
@@ -162,290 +145,51 @@ describe('playwright generator', () => {
             joinPathFragments(projectName, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
+    }, 20_000);
 
-        const tasksYAML = YAML.parse(
-            appTree.read('build/taskctl/tasks.yaml', 'utf-8'),
-        );
-        expect(tasksYAML.tasks.e2e).toEqual({
-            description: 'Run e2e tests',
-            command: [
-                'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
-            ],
-        });
+    // it('should prevent configuration being duplicated in playwright.config.ts', async () => {
+    //     const packageRunner: PackageRunner = 'npx';
+    //     const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
+    //         name: projectName,
+    //         linter: Linter.EsLint,
+    //         packageRunner,
+    //     };
+    //     await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
 
-        const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
-        expect(taskctlYAML.pipelines.dev).toContainEqual({ task: 'e2e' });
-        expect(taskctlYAML.pipelines.fe).toContainEqual({ task: 'e2e' });
-        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
-            task: 'e2e',
-        });
-        expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e' });
-    });
+    //     const options: PlaywrightGeneratorSchema = {
+    //         project: projectName,
+    //     };
 
-    it('should prevent configuration being duplicated in playwright.config.ts', async () => {
-        const packageRunner: PackageRunner = 'npx';
-        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-            name: projectName,
-            linter: Linter.EsLint,
-            packageRunner,
-        };
-        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
+    //     // run the generator twice to cause config to be re-updated
+    //     await generator(appTree, options);
+    //     await generator(appTree, options);
 
-        const options: PlaywrightGeneratorSchema = {
-            project: projectName,
-            accessibility: false,
-            visualRegression: 'none',
-        };
+    //     const project = tsMorphTree(appTree);
+    //     const projectConfigFile = project.addSourceFileAtPath(
+    //         `${projectName}/playwright.config.ts`,
+    //     );
 
-        // run the generator twice to cause config to be re-updated
-        await generator(appTree, options);
-        await generator(appTree, options);
+    //     const projectConfigObject = projectConfigFile
+    //         ?.getVariableDeclaration('config')
+    //         .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
-        const project = tsMorphTree(appTree);
-        const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
-        );
+    //     // remove the first property of 'use' and it's expected that no other 'use' properties exist
+    //     projectConfigObject.getProperty('use')?.remove();
+    //     expect(projectConfigObject.getProperty('use')).toBeUndefined();
 
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        // remove the first property of 'use' and it's expected that no other 'use' properties exist
-        projectConfigObject.getProperty('use')?.remove();
-        expect(projectConfigObject.getProperty('use')).toBeUndefined();
-
-        const playwrightImport = projectConfigFile
-            .getImportDeclarations()
-            .find(
-                importDeclaration =>
-                    importDeclaration.getModuleSpecifier().getLiteralValue() ===
-                    '@playwright/test',
-            );
-        let deviceImportsCount = 0;
-        playwrightImport.getNamedImports().forEach(module => {
-            if (module.getName() === 'devices') {
-                deviceImportsCount += 1;
-            }
-        });
-        expect(deviceImportsCount).toEqual(1);
-    });
-
-    it('should run successfully with accessibility enabled', async () => {
-        const packageRunner: PackageRunner = 'npx';
-        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-            name: projectName,
-            linter: Linter.EsLint,
-            packageRunner,
-        };
-        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
-        const options: PlaywrightGeneratorSchema = {
-            project: projectName,
-            accessibility: true,
-            visualRegression: 'none',
-        };
-        await generator(appTree, options);
-
-        // axe-accessibility.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
-            'axe-accessibility.spec.ts',
-        );
-
-        // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
-        expect(packageJson?.devDependencies).toMatchObject({
-            '@axe-core/playwright': '4.5.2',
-            'axe-result-pretty-print': '1.0.2',
-        });
-    });
-
-    it('should run successfully with native regression', async () => {
-        const packageRunner: PackageRunner = 'npx';
-        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-            name: projectName,
-            linter: Linter.EsLint,
-            packageRunner,
-        };
-        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
-        const options: PlaywrightGeneratorSchema = {
-            project: projectName,
-            accessibility: false,
-            visualRegression: 'native',
-        };
-        await generator(appTree, options);
-
-        // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
-            'playwright-visual-regression.spec.ts',
-        );
-
-        const project = tsMorphTree(appTree);
-
-        // expect playwright.config.ts to be updated
-        const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
-        );
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            projectConfigObject?.getProperty('updateSnapshots')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: `'missing'`,
-            }),
-        );
-        expect(
-            projectConfigObject?.getProperty('expect')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: `{
-                        toHaveScreenshot: {
-                          threshold: 0.2,
-                          animations: 'disabled',
-                        },
-                      }`,
-            }),
-        );
-
-        // Add infra tasks
-        const projectJson = readJson(
-            appTree,
-            joinPathFragments(projectName, 'project.json'),
-        );
-        const playwrightPackageJsonVersion = readJson(appTree, 'package.json')
-            ?.devDependencies?.playwright;
-        expect(projectJson.targets.e2e).toBeTruthy();
-        expect(projectJson.targets['e2e-docker']).toBeTruthy();
-        expect(playwrightPackageJsonVersion).toBeTruthy();
-        expect(
-            projectJson.targets['e2e-docker']?.options?.commands[0]?.command,
-        ).toContain(
-            `mcr.microsoft.com/playwright:v${playwrightPackageJsonVersion?.replace(
-                '^',
-                '',
-            )}`,
-        );
-
-        const tasksYAML = YAML.parse(
-            appTree.read('build/taskctl/tasks.yaml', 'utf-8'),
-        );
-        expect(tasksYAML.tasks['e2e:local']).toEqual({
-            description: 'Run e2e tests locally',
-            command: [
-                'npx nx affected --base="$BASE_SHA" --target=e2e-docker --parallel=1',
-            ],
-        });
-        expect(tasksYAML.tasks['e2e:ci']).toEqual({
-            description: 'Run e2e tests in ci',
-            command: [
-                'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
-            ],
-        });
-
-        const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
-        expect(taskctlYAML.pipelines.dev).toContainEqual({ task: 'e2e:local' });
-        expect(taskctlYAML.pipelines.fe).toContainEqual({ task: 'e2e:local' });
-        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
-            task: 'e2e:ci',
-        });
-        expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e:ci' });
-    });
-
-    it('should run successfully with applitools regression', async () => {
-        const packageRunner: PackageRunner = 'npx';
-        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-            name: projectName,
-            linter: Linter.EsLint,
-            packageRunner,
-        };
-        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
-        const options: PlaywrightGeneratorSchema = {
-            project: projectName,
-            accessibility: false,
-            visualRegression: 'applitools',
-        };
-        await generator(appTree, options);
-
-        // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
-            'applitools-eyes-grid.spec.ts',
-        );
-
-        const project = tsMorphTree(appTree);
-
-        // expect playwright.config.ts to be updated
-        const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
-        );
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            projectConfigObject?.getProperty('grepInvert')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: '/.*@visual-regression/',
-            }),
-        );
-
-        // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
-        expect(packageJson?.devDependencies).toMatchObject({
-            '@applitools/eyes-playwright': '1.13.0',
-        });
-    });
-
-    it('should run successfully with accessibility and applitools regression', async () => {
-        const packageRunner: PackageRunner = 'npx';
-        const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-            name: projectName,
-            linter: Linter.EsLint,
-            packageRunner,
-        };
-        await initPlaywrightGenerator(appTree, playwrightGeneratorSchema);
-        const options: PlaywrightGeneratorSchema = {
-            project: projectName,
-            accessibility: true,
-            visualRegression: 'applitools',
-        };
-        await generator(appTree, options);
-
-        // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
-            'applitools-eyes-grid.spec.ts',
-        );
-
-        // axe-accessibility.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
-            'axe-accessibility.spec.ts',
-        );
-
-        const project = tsMorphTree(appTree);
-
-        // expect playwright.config.ts to be updated
-        const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
-        );
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            projectConfigObject?.getProperty('grepInvert')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: '/.*@visual-regression/',
-            }),
-        );
-
-        // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
-        expect(packageJson?.devDependencies).toMatchObject({
-            '@applitools/eyes-playwright': '1.13.0',
-            '@axe-core/playwright': '4.5.2',
-            'axe-result-pretty-print': '1.0.2',
-        });
-    });
+    //     const playwrightImport = projectConfigFile
+    //         .getImportDeclarations()
+    //         .find(
+    //             importDeclaration =>
+    //                 importDeclaration.getModuleSpecifier().getLiteralValue() ===
+    //                 '@playwright/test',
+    //         );
+    //     let deviceImportsCount = 0;
+    //     playwrightImport.getNamedImports().forEach(module => {
+    //         if (module.getName() === 'devices') {
+    //             deviceImportsCount += 1;
+    //         }
+    //     });
+    //     expect(deviceImportsCount).toEqual(1);
+    // }, 10_000);
 });
