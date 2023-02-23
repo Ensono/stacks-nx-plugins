@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/azure-node",
-    "version": "0.1.23",
+    "version": "0.1.24-alpha.0",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
