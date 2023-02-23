@@ -7,6 +7,16 @@
             "factory": "./src/generators/init/generator",
             "schema": "./src/generators/init/schema.json",
             "description": "init generator"
+        },
+        "accessibility": {
+            "factory": "./src/generators/accessibility/generator",
+            "schema": "./src/generators/accessibility/schema.json",
+            "description": "accessibility generator"
+        },
+        "visualRegression": {
+            "factory": "./src/generators/visualRegression/generator",
+            "schema": "./src/generators/visualRegression/schema.json",
+            "description": "visual regression generator"
         }
     }
 }
