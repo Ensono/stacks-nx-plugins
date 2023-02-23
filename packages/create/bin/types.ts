@@ -5,6 +5,7 @@ export type CreateStacksArguments = {
     dir: string;
     preset: string;
     appName: string;
+    e2eTestRunner: string;
     nxVersion: string;
     packageManager: PackageManager;
     interactive: boolean;
@@ -41,4 +42,10 @@ export enum Preset {
     TS = 'ts',
     NextJs = 'next',
     ReactMonorepo = 'react-monorepo',
+}
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export enum E2eTestRunner {
+    None = 'none',
+    Playwright = 'playwright',
 }
