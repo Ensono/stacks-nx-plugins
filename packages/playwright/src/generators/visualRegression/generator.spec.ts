@@ -3,6 +3,7 @@ import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 import YAML from 'yaml';
+import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 import initGenerator from '../init/generator';
 import generator from './generator';
@@ -159,7 +160,7 @@ describe('playwright generator', () => {
         // expect package.json updated
         const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
         expect(packageJson?.devDependencies).toMatchObject({
-            '@applitools/eyes-playwright': '1.13.0',
+            '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
         });
     }, 100_000);
 });
