@@ -5,6 +5,7 @@ import {
     generateFiles,
     getProjects,
     offsetFromRoot,
+    readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
 import chalk from 'chalk';
@@ -86,12 +87,15 @@ export default async function visualRegressionGenerator(
         case visualRegressionTypes.NATIVE:
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithNativeVisualRegression(
-                project,
+                readProjectConfiguration(tree, options.project),
                 morphTree,
             );
 
             // update project.json with new visual target
-            updateProjectJsonWithNativeVisualRegressionTargets(project, tree);
+            updateProjectJsonWithNativeVisualRegressionTargets(
+                readProjectConfiguration(tree, options.project),
+                tree,
+            );
 
             // update tasks.yaml
             updateTasksYaml(tree, { visualRegression: true });
@@ -105,7 +109,7 @@ export default async function visualRegressionGenerator(
         case visualRegressionTypes.APPLITOOLS:
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithApplitoolsVisualRegression(
-                project,
+                readProjectConfiguration(tree, options.project),
                 morphTree,
             );
 
