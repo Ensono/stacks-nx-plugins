@@ -1,5 +1,6 @@
 import {
     tsMorphTree,
+    formatFiles,
     formatFilesWithEslint,
     readStacksConfig,
 } from '@ensono-stacks/core';
@@ -9,7 +10,6 @@ import {
     readProjectConfiguration,
     Tree,
     logger,
-    formatFiles,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
@@ -69,9 +69,6 @@ export default async function nextAuthGenerator(
             name: options.redisAdapterName,
         });
 
-        // Update project.json
-        updateProjectJsonHelmUpgradeTarget(project, tree);
-
         // Update helm yamls
         updateDeploymentYaml(project, tree);
         updateValuesYaml(project, tree, stacksConfig);
@@ -81,6 +78,9 @@ export default async function nextAuthGenerator(
         updateTfVariables(project, tree, stacksConfig);
         updateVariablesTf(project, tree);
         updateOutputsTf(project, tree);
+
+        // Update project.json
+        updateProjectJsonHelmUpgradeTarget(project, tree);
     }
 
     createOrUpdateLocalEnv(project, tree, {
@@ -88,7 +88,10 @@ export default async function nextAuthGenerator(
         redisEnvVar: options.redisAdapter ? options.redisEnvVar : undefined,
     });
 
-    await formatFiles(tree);
+    // exclude helm yaml files from initial format when generating the files
+    await formatFiles(tree, [
+        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
+    ]);
 
     return runTasksInSerial(
         !options.skipPackageJson
