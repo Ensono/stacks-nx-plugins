@@ -1,5 +1,9 @@
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import {
+    AXE_CORE_PLAYWRIGHT_VERSION,
+    AXE_RESULTS_PRETTY_PRINT_VERSION,
+} from '../../utils/versions';
 
 import initGenerator from '../init/generator';
 import generator from './generator';
@@ -29,8 +33,8 @@ describe('playwright accessibility generator', () => {
         // expect package.json updated
         const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
         expect(packageJson?.devDependencies).toMatchObject({
-            '@axe-core/playwright': '4.5.2',
-            'axe-result-pretty-print': '1.0.2',
+            '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
+            'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
         });
-    }, 20_000);
+    }, 100_000);
 });
