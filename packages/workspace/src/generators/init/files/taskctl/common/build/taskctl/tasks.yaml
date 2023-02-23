@@ -66,5 +66,6 @@ tasks:
   terraform:prod:
     description: Terraform apply
     command:
+    - npx nx affected --base="$BASE_SHA" --target=terraform-init --configuration=prod
     - npx nx affected --base="$BASE_SHA" --target=terraform-plan  --configuration=prod
     - npx nx affected --base="$BASE_SHA" --target=terraform-apply --configuration=prod
