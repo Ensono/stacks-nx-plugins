@@ -79,24 +79,6 @@ export function updateProjectJsonHelmUpgradeTarget(
                         command: `${prodCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
                     };
                 }
-
-                // Check if dependsOn already defined for helm upgrade
-                if (!helmUpgradeTarget.dependsOn) {
-                    updatedProjectJson.targets['helm-upgrade'].dependsOn = [];
-                }
-
-                if (
-                    !updatedProjectJson.targets[
-                        'helm-upgrade'
-                    ].dependsOn.includes('terraform-init')
-                ) {
-                    updatedProjectJson.targets['helm-upgrade'].dependsOn = [
-                        ...new Set([
-                            ...helmUpgradeTarget.dependsOn,
-                            'terraform-init',
-                        ]),
-                    ];
-                }
             }
 
             return updatedProjectJson;
