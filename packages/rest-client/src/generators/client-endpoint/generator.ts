@@ -1,4 +1,5 @@
 import {
+    createOrUpdateLocalEnv,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
     warnDirectoryProjectName,
@@ -80,15 +81,9 @@ export default async function clientEndpoint(
 
     addFiles(tree, normalizedOptions);
 
-    // Add env variable
-    let source = tree.exists('.env')
-        ? (tree.read('.env') as Buffer).toString()
-        : '';
-    if (!source.includes(normalizedOptions.envVar)) {
-        source = source !== '' ? `${source}\n` : '';
-        source += `${normalizedOptions.envVar}=`;
-        tree.write('.env', source);
-    }
+    createOrUpdateLocalEnv(undefined, tree, {
+        [normalizedOptions.envVar]: '',
+    });
 
     await formatFiles(tree);
 
