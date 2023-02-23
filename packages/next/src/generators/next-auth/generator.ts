@@ -1,11 +1,15 @@
-import { tsMorphTree, formatFilesWithEslint } from '@ensono-stacks/core';
+import {
+    tsMorphTree,
+    formatFiles,
+    formatFilesWithEslint,
+    readStacksConfig,
+} from '@ensono-stacks/core';
 import {
     generateFiles,
     joinPathFragments,
     readProjectConfiguration,
     Tree,
     logger,
-    formatFiles,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
@@ -16,12 +20,24 @@ import { createOrUpdateLocalEnv } from './utils/local-env';
 import { addAzureAdProvider } from './utils/next-auth-provider';
 import { addRedisAdapter } from './utils/redis-adapter';
 import { addSessionProviderToApp } from './utils/session-provider';
+import {
+    updateDeploymentYaml,
+    updateValuesYaml,
+} from './utils/update-helm-templates';
+import { updateProjectJsonHelmUpgradeTarget } from './utils/update-targets';
+import {
+    updateMainTf,
+    updateOutputsTf,
+    updateTfVariables,
+    updateVariablesTf,
+} from './utils/update-terraform-files';
 
 export default async function nextAuthGenerator(
     tree: Tree,
     options: NextAuthGeneratorSchema,
 ) {
     const project = readProjectConfiguration(tree, options.project);
+    const stacksConfig = readStacksConfig(tree);
 
     if (
         !tree.exists(
@@ -52,6 +68,19 @@ export default async function nextAuthGenerator(
             envVar: options.redisEnvVar,
             name: options.redisAdapterName,
         });
+
+        // Update helm yamls
+        updateDeploymentYaml(project, tree);
+        updateValuesYaml(project, tree, stacksConfig);
+
+        // Update terraform files
+        updateMainTf(project, tree);
+        updateTfVariables(project, tree, stacksConfig);
+        updateVariablesTf(project, tree);
+        updateOutputsTf(project, tree);
+
+        // Update project.json
+        updateProjectJsonHelmUpgradeTarget(project, tree);
     }
 
     createOrUpdateLocalEnv(project, tree, {
@@ -59,7 +88,10 @@ export default async function nextAuthGenerator(
         redisEnvVar: options.redisAdapter ? options.redisEnvVar : undefined,
     });
 
-    await formatFiles(tree);
+    // exclude helm yaml files from initial format when generating the files
+    await formatFiles(tree, [
+        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
+    ]);
 
     return runTasksInSerial(
         !options.skipPackageJson
