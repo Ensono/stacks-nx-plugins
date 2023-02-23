@@ -34,11 +34,7 @@ describe('playwright e2e', () => {
 
         it('should successfully run and amend config files if project does exist', async () => {
             const e2eProject = uniq('playwright-tests-e2e');
-            // generate initial playwright project
-            runNxCommand(
-                `generate @mands/nx-playwright:project ${e2eProject} --packageRunner=npx --no-interactive`,
-            );
-            // amend playwright config files
+            // generate initial playwright project and amend playwright config files
             runNxCommand(
                 `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
             );
@@ -148,11 +144,11 @@ describe('playwright e2e', () => {
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project
             runNxCommand(
-                `generate @mands/nx-playwright:project ${e2eProject} --packageRunner=npx --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --accessibility --no-interactive`,
+                `generate @ensono-stacks/playwright:accessibility --project=${e2eProject} --no-interactive`,
             );
 
             expect(() =>
@@ -177,11 +173,11 @@ describe('playwright e2e', () => {
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project
             runNxCommand(
-                `generate @mands/nx-playwright:project ${e2eProject} --packageRunner=npx --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --visualRegression=native --no-interactive`,
+                `generate @ensono-stacks/playwright:visualRegression --project=${e2eProject} --visualRegression=native --no-interactive`,
             );
 
             expect(() =>
@@ -230,11 +226,11 @@ describe('playwright e2e', () => {
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project
             runNxCommand(
-                `generate @mands/nx-playwright:project ${e2eProject} --packageRunner=npx --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --visualRegression=applitools --no-interactive`,
+                `generate @ensono-stacks/playwright:visualRegression --project=${e2eProject} --visualRegression=applitools --no-interactive`,
             );
 
             expect(() =>
