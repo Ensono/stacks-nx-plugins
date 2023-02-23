@@ -4,6 +4,10 @@ function lowerCaseCharactersOnly(value: string) {
     return value.replace(/([^A-Za-z])/g, '').toLowerCase();
 }
 
+function hyphenatedLowerCaseCharactersOnly(value: string) {
+    return value.replace(/([^A-Za-z-])/g, '').toLowerCase();
+}
+
 export function getRegistryUrl(
     options: NxJsonConfiguration['stacks'],
     envType: string,
@@ -31,10 +35,10 @@ export function getResourceGroup(
 ) {
     const {
         business: { company, domain },
-        cloud: { region, platform },
+        cloud: { region },
     } = options;
 
-    const resourceGroup = lowerCaseCharactersOnly(
+    const resourceGroup = hyphenatedLowerCaseCharactersOnly(
         `${company}-${domain}-${envType}-${region}-core`,
     );
 
