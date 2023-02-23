@@ -1,25 +1,10 @@
-import {
-    formatFiles,
-    generateFiles,
-    getWorkspaceLayout,
-    joinPathFragments,
-    names,
-    ProjectConfiguration,
-    readWorkspaceConfiguration,
-    Tree,
-} from '@nrwl/devkit';
-import { libraryGenerator } from '@nrwl/js';
-import path from 'path';
-import { Project, SyntaxKind } from 'ts-morph';
+import { tsMorphTree } from '@ensono-stacks/core';
+import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { SyntaxKind } from 'ts-morph';
 
-export interface RedisAdapterOptions {
-    envVar: string;
-    name?: string;
-}
-
-function configureAdapter(
+export function configureAdapter(
     project: ProjectConfiguration,
-    morphTree: Project,
+    tree: Tree,
     {
         npmScope,
         libraryName,
@@ -30,6 +15,7 @@ function configureAdapter(
         envVar: string;
     },
 ) {
+    const morphTree = tsMorphTree(tree);
     const nextAuthNode = morphTree.addSourceFileAtPath(
         joinPathFragments(
             project.root,
@@ -82,48 +68,4 @@ function configureAdapter(
     });
 
     nextAuthNode.saveSync();
-}
-
-export async function addRedisAdapter(
-    tree: Tree,
-    project: ProjectConfiguration,
-    morphTree: Project,
-    { envVar, name: nameParameter }: RedisAdapterOptions,
-) {
-    const { npmScope } = readWorkspaceConfiguration(tree);
-    const name = nameParameter || 'next-auth-redis';
-
-    const libraryName = names(name).fileName;
-    const projectDirectory = libraryName;
-    const projectRoot = `${
-        getWorkspaceLayout(tree).libsDir
-    }/${projectDirectory}`;
-
-    // generate the lib package
-    await libraryGenerator(tree, {
-        name: libraryName,
-    });
-    // delete the default generated lib folder
-    const libraryDirectory = path.join(projectRoot, 'src');
-    tree.delete(path.join(libraryDirectory, 'lib'));
-    tree.delete(path.join(libraryDirectory, 'index.ts'));
-
-    // add files
-    generateFiles(
-        tree,
-        path.join(__dirname, '..', 'files-redis'),
-        projectRoot,
-        {
-            envVar,
-            template: '',
-        },
-    );
-
-    configureAdapter(project, morphTree, {
-        npmScope,
-        libraryName,
-        envVar,
-    });
-
-    await formatFiles(tree);
 }

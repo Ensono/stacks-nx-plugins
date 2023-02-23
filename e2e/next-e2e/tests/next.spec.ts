@@ -52,8 +52,11 @@ describe('next e2e', () => {
 
     it('configures NextAuth with Redis adapter', async () => {
         await runNxCommandAsync(
-            `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --redisAdapter --no-interactive`,
+            `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
         );
+        await runNxCommandAsync(
+            `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
+        )
         expect(() =>
             checkFilesExist(
                 `apps/${project}/pages/api/auth/[...nextauth].ts`,
@@ -62,5 +65,8 @@ describe('next e2e', () => {
                 `libs/next-auth-redis/src/index.ts`,
             ),
         ).not.toThrow();
+
+        const result = await runNxCommandAsync('test next-auth-redis');
+        expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
     }, 200_000);
 });
