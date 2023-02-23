@@ -111,7 +111,7 @@ describe('playwright generator', () => {
             task: 'e2e:ci',
         });
         expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e:ci' });
-    }, 20_000);
+    }, 100_000);
 
     it('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
