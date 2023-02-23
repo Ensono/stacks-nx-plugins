@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/azure-react",
-    "version": "0.1.21-alpha.0",
+    "version": "0.1.21",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
