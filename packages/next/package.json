@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/next",
-    "version": "1.6.4",
+    "version": "1.6.5-alpha.0",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
