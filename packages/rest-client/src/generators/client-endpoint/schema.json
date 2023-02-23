@@ -13,18 +13,21 @@
                 "$source": "argv",
                 "index": 0
             },
-            "x-prompt": "What name would you like to use?"
+            "x-prompt": "What name would you like to use?",
+            "pattern": "^[a-z0-9_/-]+"
         },
         "httpClient": {
             "type": "string",
             "description": "The import path of the previously generated http-client used in the application",
-            "x-prompt": "What is the import path of your previously generated http-client library? [e.g. @projectName/http-client]"
+            "x-prompt": "What is the import path of your previously generated http-client library? [e.g. @projectName/http-client]",
+            "pattern": "^@[a-z0-9_/-]+"
         },
         "envVar": {
             "type": "string",
             "description": "The name of the API url environment variable",
             "default": "API_URL",
-            "x-prompt": "What is the environment variable for the API URL?"
+            "x-prompt": "What is the environment variable for the API URL?",
+            "pattern": "^[A-Z_]+[A-Z0-9_]+$"
         },
         "endpointVersion": {
             "type": "number",
@@ -34,7 +37,7 @@
         },
         "methods": {
             "type": "array",
-            "description": "List of HTTP methods to be generated.",
+            "description": "List of HTTP methods to be generated. Choose from get, post, patch, put, delete, head, options.",
             "x-prompt": {
                 "message": "Which methods should be generated?",
                 "type": "list",
@@ -53,9 +56,8 @@
         },
         "directory": {
             "type": "string",
-            "description": "A directory where the endpoint is placed",
-            "default": "",
-            "x-prompt": "What is the directory where you want the endpoint to be generated?",
+            "description": "Subdirectory inside libs/ where the generated library placed.",
+            "x-prompt": "Where in libs/ directory do you want to generate this endpoint?",
             "alias": "dir"
         },
         "tags": {

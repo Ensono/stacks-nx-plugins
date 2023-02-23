@@ -1,6 +1,8 @@
 import {
+    addCustomTestConfig,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
+    warnDirectoryProjectName,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -8,6 +10,7 @@ import {
     generateFiles,
     names,
     offsetFromRoot,
+    readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
@@ -52,7 +55,7 @@ export default async function generate(
     const normalizedOptions = normalizeOptions(tree, options);
 
     // Use the existing library generator
-    await libraryGenerator(tree, options);
+    await libraryGenerator(tree, normalizedOptions);
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
@@ -61,17 +64,38 @@ export default async function generate(
     // Update package.json
     updateDependencies(tree);
 
+    const project = readProjectConfiguration(
+        tree,
+        normalizedOptions.projectName,
+    );
+
+    const ciCoverageConfig = {
+        ci: {
+            collectCoverage: true,
+            coverageReporters: ['text', 'html'],
+            collectCoverageFrom: [
+                './**/*.{js,jsx,ts,tsx}',
+                './!**/.next/**',
+                './!**/*.d.ts',
+                './!**/*.config.*',
+                './!**/_app.*',
+            ],
+            codeCoverage: true,
+            ci: true,
+        },
+    };
+
+    await addCustomTestConfig(
+        tree,
+        project,
+        normalizedOptions.projectName,
+        ciCoverageConfig,
+    );
+
     // Format files
-    if (!options.skipFormat) {
+    if (!normalizedOptions.skipFormat) {
         await formatFiles(tree);
     }
 
-    if (options.directory) {
-        console.log(
-            chalk.yellow`NOTE: you generated the http client inside ${options.directory} directory, which means that the library is now called ${normalizedOptions.projectName}`,
-        );
-        console.log(
-            chalk.yellow`      Remember this when running nx commands like "nx test ${normalizedOptions.projectName}"`,
-        );
-    }
+    warnDirectoryProjectName(normalizedOptions);
 }

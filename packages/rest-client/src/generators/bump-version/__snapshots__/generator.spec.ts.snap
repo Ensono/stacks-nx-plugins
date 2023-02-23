@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bump-version generator should update types and names in code of the new version 1`] = `
+exports[`bump-version generator should update any version numbers in the code 1`] = `
 "import httpClient from '@next-auth/restapi/api-client';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -52,7 +52,7 @@ export const patchTestV3 = async (
 "
 `;
 
-exports[`bump-version generator should update types and names in code of the new version 2`] = `
+exports[`bump-version generator should update any version numbers in the code 2`] = `
 "// TODO: Write generated tests
 
 describe('TestV3 endpoint', () => {
@@ -63,7 +63,7 @@ describe('TestV3 endpoint', () => {
 "
 `;
 
-exports[`bump-version generator should update types and names in code of the new version 3`] = `
+exports[`bump-version generator should update any version numbers in the code 3`] = `
 "/* eslint-disable @typescript-eslint/no-empty-interface */
 
 export interface TestV3 {}
