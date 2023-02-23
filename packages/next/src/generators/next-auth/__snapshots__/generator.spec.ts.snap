@@ -59,63 +59,6 @@ export default CustomApp;
 "
 `;
 
-exports[`next-auth generator should generate redis adapter lib 1`] = `
-"import NextAuth from 'next-auth';
-import AzureADProvider from \\"next-auth/providers/azure-ad\\";
-import { IORedisAdapter } from \\"@proj/next-auth-redis\\";
-import { Redis } from \\"ioredis\\";
-
-const nextAuth = NextAuth({
-    providers: [AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.AZURE_AD_TENANT_ID,
-        })],
-    adapter: IORedisAdapter(new Redis(process.env.REDIS_URL))
-})
-
-export default nextAuth;
-"
-`;
-
-exports[`next-auth generator should generate redis adapter lib with custom env var name 1`] = `
-"import NextAuth from 'next-auth';
-import AzureADProvider from \\"next-auth/providers/azure-ad\\";
-import { IORedisAdapter } from \\"@proj/next-auth-redis\\";
-import { Redis } from \\"ioredis\\";
-
-const nextAuth = NextAuth({
-    providers: [AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.AZURE_AD_TENANT_ID,
-        })],
-    adapter: IORedisAdapter(new Redis(process.env.REDIS_CONNECTION_STRING))
-})
-
-export default nextAuth;
-"
-`;
-
-exports[`next-auth generator should generate redis adapter lib with custom name 1`] = `
-"import NextAuth from 'next-auth';
-import AzureADProvider from \\"next-auth/providers/azure-ad\\";
-import { IORedisAdapter } from \\"@proj/redis-adapter-for-next-auth\\";
-import { Redis } from \\"ioredis\\";
-
-const nextAuth = NextAuth({
-    providers: [AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.AZURE_AD_TENANT_ID,
-        })],
-    adapter: IORedisAdapter(new Redis(process.env.REDIS_URL))
-})
-
-export default nextAuth;
-"
-`;
-
 exports[`next-auth generator should install NextAuth with a provider 1`] = `
 "import NextAuth from 'next-auth';
 import AzureADProvider from \\"next-auth/providers/azure-ad\\";

@@ -8,17 +8,9 @@
 
 /* eslint-disable unicorn/prevent-abbreviations */
 import { createHash, randomUUID } from 'crypto';
-import { Redis } from 'ioredis';
+import Redis from 'ioredis-mock';
 
 import { hydrateDates, IORedisAdapter } from '.';
-
-if (!process.env.<%= envVar %>) {
-  test("Skipping IORedisAdapter tests, since required environment variable <%= envVar %> isn't available", () => {
-    expect(true).toBe(true);
-  });
-  // eslint-disable-next-line unicorn/no-process-exit
-  process.exit(0);
-}
 
 const ONE_WEEK_FROM_NOW = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
 const FIFTEEN_MINUTES_FROM_NOW = new Date(Date.now() + 15 * 60 * 1000);
@@ -30,7 +22,7 @@ function hashToken(token: string) {
 }
 
 describe('Next Auth Redis Adapter', () => {
-  const client = new Redis(process.env.<%= envVar %>);
+  const client = new Redis();
   const adapter = IORedisAdapter(client, { baseKeyPrefix: 'testApp:' });
   const db = {
     async user(id: string) {

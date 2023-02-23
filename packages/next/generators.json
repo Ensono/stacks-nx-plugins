@@ -17,6 +17,11 @@
             "factory": "./src/generators/next-auth/generator",
             "schema": "./src/generators/next-auth/schema.json",
             "description": "Add NextAuth to a project"
+        },
+        "next-auth-redis": {
+            "factory": "./src/generators/next-auth-redis/generator",
+            "schema": "./src/generators/next-auth-redis/schema.json",
+            "description": "Add Redis for session management to NextAuth app"
         }
     }
 }

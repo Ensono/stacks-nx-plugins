@@ -2,7 +2,6 @@ import {
     tsMorphTree,
     formatFiles,
     formatFilesWithEslint,
-    readStacksConfig,
 } from '@ensono-stacks/core';
 import {
     generateFiles,
@@ -16,28 +15,15 @@ import path from 'path';
 
 import { NextAuthGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependencies';
-import { createOrUpdateLocalEnv } from './utils/local-env';
+import { addToLocalEnv } from './utils/local-env';
 import { addAzureAdProvider } from './utils/next-auth-provider';
-import { addRedisAdapter } from './utils/redis-adapter';
 import { addSessionProviderToApp } from './utils/session-provider';
-import {
-    updateDeploymentYaml,
-    updateValuesYaml,
-} from './utils/update-helm-templates';
-import { updateProjectJsonHelmUpgradeTarget } from './utils/update-targets';
-import {
-    updateMainTf,
-    updateOutputsTf,
-    updateTfVariables,
-    updateVariablesTf,
-} from './utils/update-terraform-files';
 
 export default async function nextAuthGenerator(
     tree: Tree,
     options: NextAuthGeneratorSchema,
 ) {
     const project = readProjectConfiguration(tree, options.project);
-    const stacksConfig = readStacksConfig(tree);
 
     if (
         !tree.exists(
@@ -63,30 +49,7 @@ export default async function nextAuthGenerator(
         addAzureAdProvider(project, morphTree);
     }
 
-    if (options.redisAdapter) {
-        await addRedisAdapter(tree, project, morphTree, {
-            envVar: options.redisEnvVar,
-            name: options.redisAdapterName,
-        });
-
-        // Update helm yamls
-        updateDeploymentYaml(project, tree);
-        updateValuesYaml(project, tree, stacksConfig);
-
-        // Update terraform files
-        updateMainTf(project, tree);
-        updateTfVariables(project, tree, stacksConfig);
-        updateVariablesTf(project, tree);
-        updateOutputsTf(project, tree);
-
-        // Update project.json
-        updateProjectJsonHelmUpgradeTarget(project, tree);
-    }
-
-    createOrUpdateLocalEnv(project, tree, {
-        provider: options.provider,
-        redisEnvVar: options.redisAdapter ? options.redisEnvVar : undefined,
-    });
+    addToLocalEnv(project, tree, options.provider);
 
     // exclude helm yaml files from initial format when generating the files
     await formatFiles(tree, [
@@ -94,9 +57,7 @@ export default async function nextAuthGenerator(
     ]);
 
     return runTasksInSerial(
-        !options.skipPackageJson
-            ? installDependencies(tree, { addRedis: options.redisAdapter })
-            : () => {},
+        !options.skipPackageJson ? installDependencies(tree) : () => {},
         formatFilesWithEslint(options.project),
         () => {
             logger.warn(`Do not forget to update your .env.local environment variables with values.
