@@ -62,8 +62,6 @@ export default async function initGenerator(
     };
     await playwrightInit(process.cwd(), tree, playwrightGeneratorSchema);
 
-    const project = getProjects(tree).get(options.project);
-
     const normalizedOptions = normalizeOptions(tree, options);
 
     const morphTree = tsMorphTree(tree);
