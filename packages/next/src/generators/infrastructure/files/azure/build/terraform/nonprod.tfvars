@@ -1,5 +1,5 @@
 app_gateway_frontend_ip_name  = "<%= nonProdResourceGroup %>"
 core_resource_group           = "<%= nonProdResourceGroup %>"
-dns_a_record_name    = "<%= devProjectName %>"
-dns_zone             = "<%= internalDomain %>"
-dns_zone_rg          = "%REPLACE%"
+dns_a_record_name             = "<%= devProjectName %>"
+dns_zone                      = "<%= internalDomain %>"
+dns_zone_rg                   = "%REPLACE%"
