@@ -5,12 +5,21 @@ import {
     Tree,
 } from '@nrwl/devkit';
 
+/**
+ * Write variables into .env.local file either for specific project
+ * or at the root of the workspace.
+ *
+ * @param project Passing undefined will add .env.local in workspace root.
+ * @param tree Workspace tree.
+ * @param parameters Key value pairs to be written into .env.local. If key already
+ *                   exists then it won't be overwritten.
+ */
 export function createOrUpdateLocalEnv(
-    project: ProjectConfiguration,
+    project: ProjectConfiguration | undefined,
     tree: Tree,
     parameters: Record<string, string>,
 ) {
-    const localEnvPath = joinPathFragments(project.root, '.env.local');
+    const localEnvPath = joinPathFragments(project?.root ?? '', '.env.local');
 
     const env = Object.entries(parameters).map(([key, value]) => [
         key.toLocaleUpperCase() !== key ? names(key).constantName : key,

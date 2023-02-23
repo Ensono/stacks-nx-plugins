@@ -55,7 +55,9 @@ function determineNewVersion(
 function updateVersionInCode(
     tree: Tree,
     filePaths: string[],
+    latestVersion: number,
     latestVersionName: string,
+    newVersion: number,
     newVersionName: string,
 ) {
     const latestVersionNames = names(latestVersionName);
@@ -79,6 +81,16 @@ function updateVersionInCode(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(latestVersionNames.name, 'g'),
                     newVersionNames.name,
+                )
+                .replace(
+                    // eslint-disable-next-line security/detect-non-literal-regexp
+                    new RegExp(`v${latestVersion}`, 'g'),
+                    `v${newVersion}`,
+                )
+                .replace(
+                    // eslint-disable-next-line security/detect-non-literal-regexp
+                    new RegExp(`V${latestVersion}`, 'g'),
+                    `V${newVersion}`,
                 ),
         );
     });
@@ -117,30 +129,24 @@ export default async function bumpVersion(
     // Delete the default generated lib folder
     tree.delete(path.join(newVersionOptions.projectRoot, 'src', 'lib'));
 
-    // copy src files from latestVersion to newVersion
-    const latestVersionSourcePath = path.join(
+    // copy files from latestVersion to newVersion
+    copyFiles(
+        tree,
         latestVersionOptions.projectRoot,
-        'src',
-    );
-    const newVersionSourcePath = path.join(
         newVersionOptions.projectRoot,
-        'src',
     );
-    copyFiles(tree, latestVersionSourcePath, newVersionSourcePath);
 
-    // update version numbers in class names etc in the newly created files
+    // update version numbers in the newly created files
     const filesToChange = tree
         .listChanges()
-        .filter(
-            change =>
-                change.type === 'CREATE' &&
-                change.path.startsWith(newVersionSourcePath),
-        )
+        .filter(change => change.path.startsWith(newVersionOptions.projectRoot))
         .map(change => change.path);
     updateVersionInCode(
         tree,
         filesToChange,
+        latestVersion,
         latestVersionOptions.name,
+        newVersion,
         newVersionOptions.name,
     );
 

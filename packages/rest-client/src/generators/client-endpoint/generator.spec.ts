@@ -10,7 +10,7 @@ describe('client-endpoint generator', () => {
         name: 'testEndpoint',
         httpClient: '@ensono-stacks/http-client',
         envVar: 'API_URL',
-        methods: ['get, post'],
+        methods: ['get', 'post'],
         endpointVersion: 1,
         directory: 'endpoints',
     };
@@ -36,13 +36,13 @@ describe('client-endpoint generator', () => {
         ).toBeTruthy();
     });
 
-    it("should generate an .env file to the root if it doesn't exist", async () => {
+    it("should generate an .env.local file to the root if it doesn't exist", async () => {
         await generator(tree, {
             ...options,
             tags: 'testEndpoint',
         });
 
-        expect(tree.exists('.env')).toBeTruthy();
+        expect(tree.exists('.env.local')).toBeTruthy();
     });
 
     it('should throw an error if method is not selected', async () => {
