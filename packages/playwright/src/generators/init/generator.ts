@@ -17,6 +17,7 @@ import {
     AXE_RESULTS_PRETTY_PRINT_VERSION,
 } from '../../utils/versions';
 import { PlaywrightGeneratorSchema } from './schema';
+import { playwrightInit } from './utils/init';
 import {
     updatePlaywrightConfigWithApplitoolsVisualRegression,
     updatePlaywrightConfigWithDefault,
@@ -90,11 +91,11 @@ export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
-    const project = getProjects(tree).get(options.project);
+    await playwrightInit(process.cwd(), options.project);
 
-    if (!project) {
-        throw new Error(`${options.project} project does not exist`);
-    }
+    // console.log('exists: ', tree.exists('e2e/test-e2e/project.json'));
+
+    const project = getProjects(tree).get(options.project);
 
     const normalizedOptions = normalizeOptions(tree, options);
 

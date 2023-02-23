@@ -7,7 +7,8 @@ import {
     detectPackageManager,
     getPackageManagerCommand,
 } from './package-manager';
-import { CreateStacksArguments, Preset } from './types';
+// eslint-disable-next-line unicorn/prevent-abbreviations
+import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
 
 const stacksRequiredPlugins = ['@ensono-stacks/workspace'];
 
@@ -66,6 +67,21 @@ export function getGeneratorsToRun(
         generators.push(
             `@nrwl/next:app ${argv.appName} --e2eTestRunner=none`,
             `@ensono-stacks/next:init --project=${argv.appName}`,
+        );
+    }
+
+    if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
+        generators.push(
+            `@ensono-stacks/playwright:init --project=${argv.appName}-e2e`,
+        );
+
+        console.log('\n');
+        console.log(
+            chalk.yellow`For accessibility support, you can run nx g @ensono-stacks/playwright:accessibility --project ${argv.appName}`,
+        );
+        console.log('\n');
+        console.log(
+            chalk.yellow`For visual regression support, you can run nx g @ensono-stacks/playwright:visualRegression --project ${argv.appName}`,
         );
     }
 

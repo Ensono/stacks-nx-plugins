@@ -19,7 +19,8 @@ import {
 } from './dependencies';
 import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
-import { CreateStacksArguments, Preset } from './types';
+// eslint-disable-next-line unicorn/prevent-abbreviations
+import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
 
 const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
@@ -37,6 +38,18 @@ const presetOptions: { name: Preset; message: string }[] = [
         name: Preset.NextJs,
         message:
             'next.js           [a monorepo with a single Next.js application]',
+    },
+];
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
+    {
+        name: E2eTestRunner.None,
+        message: 'none              [no test runner config created]',
+    },
+    {
+        name: E2eTestRunner.Playwright,
+        message: 'playwright        [a testing library]',
     },
 ];
 
@@ -134,9 +147,49 @@ async function determineAppName(
         });
 }
 
+// eslint-disable-next-line unicorn/prevent-abbreviations
+async function determineE2eTestRunner(
+    parsedArguments: yargs.Arguments<CreateStacksArguments>,
+) {
+    if (!(parsedArguments.e2eTestRunner || parsedArguments.interactive)) {
+        return Promise.resolve(E2eTestRunner.None);
+    }
+
+    if (parsedArguments.e2eTestRunner) {
+        if (
+            (Object.values(E2eTestRunner) as string[]).includes(
+                parsedArguments.e2eTestRunner,
+            )
+        ) {
+            console.error(chalk.red`Invalid test runner: It must be one of the following:
+${Object.values(E2eTestRunner)}`);
+
+            process.exit(1);
+        } else {
+            return Promise.resolve(
+                parsedArguments.e2eTestRunner as E2eTestRunner,
+            );
+        }
+    }
+
+    return enquirer
+        .prompt<{ E2eTestRunner: E2eTestRunner }>([
+            {
+                name: 'E2eTestRunner',
+                message: `What test runner to include  `,
+                initial: 0,
+                type: 'autocomplete',
+                choices: e2eTestRunnerOptions,
+            },
+        ])
+        .then(a => {
+            return a.E2eTestRunner;
+        });
+}
+
 async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
     const name = await determineRepoName(argv);
-    let { preset, appName } = argv;
+    let { preset, appName, e2eTestRunner } = argv;
 
     if (!preset) {
         preset = await determinePreset(argv);
@@ -146,10 +199,15 @@ async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
         appName = await determineAppName(preset as Preset, argv);
     }
 
+    if (preset && appName && !e2eTestRunner) {
+        e2eTestRunner = await determineE2eTestRunner(argv);
+    }
+
     Object.assign(argv, {
         name: paramCase(name),
         preset,
         appName: paramCase(appName),
+        e2eTestRunner,
     });
 }
 
@@ -269,6 +327,10 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                 })
                 .option('appName', {
                     describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
+                    type: 'string',
+                })
+                .option('e2eTestRunner', {
+                    describe: chalk.dim`The name of the e2e test runner library to install when selected`,
                     type: 'string',
                 })
                 .option('nxVersion', {
