@@ -19,10 +19,7 @@ export function createOrUpdateLocalEnv(
     tree: Tree,
     parameters: Record<string, string>,
 ) {
-    const localEnvPath = joinPathFragments(
-        project?.root ?? tree.root,
-        '.env.local',
-    );
+    const localEnvPath = joinPathFragments(project?.root ?? '', '.env.local');
 
     const env = Object.entries(parameters).map(([key, value]) => [
         key.toLocaleUpperCase() !== key ? names(key).constantName : key,
