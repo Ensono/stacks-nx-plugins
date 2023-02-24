@@ -25,15 +25,45 @@ export function configureAdapter(
             '[...nextauth].ts',
         ),
     );
+    const IORedisAdapterImport = nextAuthNode
+        .getImportDeclarations()
+        .find(
+            importDeclaration =>
+                importDeclaration.getModuleSpecifier().getLiteralValue() ===
+                `@${npmScope}/${libraryName}`,
+        );
+    IORedisAdapterImport?.setIsTypeOnly(false);
 
-    nextAuthNode.addImportDeclaration({
-        namedImports: ['IORedisAdapter'],
-        moduleSpecifier: `@${npmScope}/${libraryName}`,
-    });
-    nextAuthNode.addImportDeclaration({
-        namedImports: ['Redis'],
-        moduleSpecifier: 'ioredis',
-    });
+    if (
+        !IORedisAdapterImport?.getNamedImports()?.some(
+            modules => modules.getName() === 'IORedisAdapter',
+        )
+    ) {
+        nextAuthNode.addImportDeclaration({
+            namedImports: ['IORedisAdapter'],
+            moduleSpecifier: `@${npmScope}/${libraryName}`,
+        });
+    }
+
+    const RedisImport = nextAuthNode
+        .getImportDeclarations()
+        .find(
+            importDeclaration =>
+                importDeclaration.getModuleSpecifier().getLiteralValue() ===
+                'ioredis',
+        );
+    RedisImport?.setIsTypeOnly(false);
+
+    if (
+        !RedisImport?.getNamedImports()?.some(
+            modules => modules.getName() === 'Redis',
+        )
+    ) {
+        nextAuthNode.addImportDeclaration({
+            namedImports: ['Redis'],
+            moduleSpecifier: 'ioredis',
+        });
+    }
 
     const callExpression = nextAuthNode
         .getDescendantsOfKind(SyntaxKind.CallExpression)
