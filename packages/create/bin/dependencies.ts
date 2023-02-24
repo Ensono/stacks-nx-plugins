@@ -95,6 +95,10 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
         plugins.push('@nrwl/next', '@ensono-stacks/next');
     }
 
+    if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
+        plugins.push('@ensono-stacks/playwright');
+    }
+
     return plugins;
 }
 
