@@ -6,6 +6,7 @@ import { addCommitizen } from './utils/commitizen';
 import { addCommitlint } from './utils/commitlint';
 import { addEslint } from './utils/eslint';
 import { addHusky } from './utils/husky';
+import { addLintStaged } from './utils/lint-staged';
 import { addPipeline } from './utils/pipeline';
 import { setDefaults } from './utils/set-defaults';
 import { createTsConfigBase } from './utils/tsconfig';
@@ -21,7 +22,7 @@ export default async function install(
     }
 
     if (options.husky) {
-        tasks.push(addHusky(tree, options));
+        tasks.push(addLintStaged(tree), addHusky(tree, options));
     }
 
     if (options.eslint) {
