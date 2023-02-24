@@ -149,7 +149,7 @@ describe('Workspace: Install generator', () => {
     });
 
     describe('--husky', () => {
-        it('should install and configure husky', async () => {
+        it('should install and configure husky and lint-staged', async () => {
             await generator(tree, {
                 ...options,
                 eslint: false,
@@ -160,8 +160,9 @@ describe('Workspace: Install generator', () => {
             const preCommit = tree.read('.husky/pre-commit');
 
             expect(preCommit?.toString()).toEqual(
-                expect.stringContaining('npx nx affected:lint --uncommitted'),
+                expect.stringContaining('npx lint-staged'),
             );
+            expect(tree.exists('lint-staged.config.js')).toBeTruthy();
 
             expect(tree.exists('.husky/commit-msg')).toBeFalsy();
         });
@@ -180,10 +181,7 @@ describe('Workspace: Install generator', () => {
             const preCommit = tree.read('.husky/pre-commit');
 
             expect(preCommit?.toString()).toEqual(
-                expect.stringContaining(
-                    `npx do-something
-npx nx affected:lint --uncommitted`,
-                ),
+                expect.stringContaining(`npx do-something\nnpx lint-staged`),
             );
 
             expect(tree.exists('.husky/commit-msg')).toBeFalsy();
