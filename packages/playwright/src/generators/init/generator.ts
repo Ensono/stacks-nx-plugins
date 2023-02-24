@@ -1,4 +1,5 @@
 import { addIgnoreEntry, tsMorphTree } from '@ensono-stacks/core';
+import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
 import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
 import { PackageRunner } from '@mands/nx-playwright/src/types';
 import {
@@ -8,12 +9,12 @@ import {
     offsetFromRoot,
     Tree,
     readProjectConfiguration,
+    addDependenciesToPackageJson,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
-import { playwrightInit } from './utils/init';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
 
@@ -50,6 +51,17 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
+function updateDependencies(tree) {
+    return addDependenciesToPackageJson(
+        tree,
+        {},
+        {
+            playwright: '*',
+            '@playwright/test': '*',
+        },
+    );
+}
+
 export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
@@ -60,7 +72,7 @@ export default async function initGenerator(
         linter: Linter.EsLint,
         packageRunner,
     };
-    await playwrightInit(process.cwd(), tree, playwrightGeneratorSchema);
+    await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
 
     const normalizedOptions = normalizeOptions(tree, options);
 
@@ -86,4 +98,6 @@ export default async function initGenerator(
     ]);
 
     await formatFiles(tree);
+
+    return updateDependencies(tree);
 }
