@@ -8,6 +8,7 @@ import {
     generateFiles,
     names,
     offsetFromRoot,
+    readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
@@ -19,6 +20,7 @@ import {
     appInsightsWebVersion,
 } from '../../../utils/versions';
 import { AppInsightsWebGeneratorSchema } from './schema';
+import updateTsConfig from './utils/tsconfig';
 
 type NormalizedSchema = BaseNormalizedSchema<AppInsightsWebGeneratorSchema>;
 
@@ -71,6 +73,9 @@ export default async function appInsightsWebGenerator(
 
     // Generate files
     addFiles(tree, normalizedOptions);
+
+    const project = readProjectConfiguration(tree, options.name);
+    updateTsConfig(tree, path.join(project.root, 'tsconfig.json'));
 
     // Format files
     await formatFiles(tree);
