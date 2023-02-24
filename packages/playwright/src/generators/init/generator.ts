@@ -9,12 +9,12 @@ import {
     offsetFromRoot,
     Tree,
     readProjectConfiguration,
+    addDependenciesToPackageJson,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
-import { execAsync } from './utils/exec';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
 
@@ -51,6 +51,17 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
+function updateDependencies(tree) {
+    return addDependenciesToPackageJson(
+        tree,
+        {},
+        {
+            playwright: '*',
+            '@playwright/test': '*',
+        },
+    );
+}
+
 export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
@@ -61,11 +72,7 @@ export default async function initGenerator(
         linter: Linter.EsLint,
         packageRunner,
     };
-
-    await execAsync('npx playwright install --with-deps', tree.root);
     await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
-    await execAsync('npm i -D playwright', tree.root);
-    await execAsync('npm i -D @playwright/test', tree.root);
 
     const normalizedOptions = normalizeOptions(tree, options);
 
@@ -91,4 +98,6 @@ export default async function initGenerator(
     ]);
 
     await formatFiles(tree);
+
+    return updateDependencies(tree);
 }
