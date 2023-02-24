@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "0.8.5-alpha.0",
+    "version": "0.8.6",
     "type": "commonjs",
     "dependencies": {
         "ts-morph": "17.0.1",
