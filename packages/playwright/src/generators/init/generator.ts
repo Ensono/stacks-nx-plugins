@@ -66,15 +66,24 @@ export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
+    const project = `${options.project}-e2e`;
+
+    const updatedOptions = {
+        ...options,
+        project,
+    };
+
     const packageRunner: PackageRunner = 'npx';
     const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-        name: options.project,
+        name: project,
         linter: Linter.EsLint,
         packageRunner,
+        project: options.project,
     };
+
     await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
 
-    const normalizedOptions = normalizeOptions(tree, options);
+    const normalizedOptions = normalizeOptions(tree, updatedOptions);
 
     const morphTree = tsMorphTree(tree);
 
@@ -83,7 +92,7 @@ export default async function initGenerator(
 
     // add extra config to playwright.config.ts in project
     updatePlaywrightConfigWithDefault(
-        readProjectConfiguration(tree, options.project),
+        readProjectConfiguration(tree, project),
         morphTree,
     );
 
