@@ -10,5 +10,8 @@
     },
     "peerDependencies": {
         "@nrwl/devkit": ">=15.2.1"
+    },
+    "dependencies": {
+        "@mands/nx-playwright": "*"
     }
 }

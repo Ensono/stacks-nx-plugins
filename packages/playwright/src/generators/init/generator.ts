@@ -1,4 +1,5 @@
 import { addIgnoreEntry, tsMorphTree } from '@ensono-stacks/core';
+import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
 import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
 import { PackageRunner } from '@mands/nx-playwright/src/types';
 import {
@@ -13,7 +14,7 @@ import { Linter } from '@nrwl/linter';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
-import { playwrightInit } from './utils/init';
+import { execAsync } from './utils/exec';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
 
@@ -60,7 +61,11 @@ export default async function initGenerator(
         linter: Linter.EsLint,
         packageRunner,
     };
-    await playwrightInit(process.cwd(), tree, playwrightGeneratorSchema);
+
+    await execAsync('npx playwright install --with-deps', tree.root);
+    await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
+    await execAsync('npm i -D playwright', tree.root);
+    await execAsync('npm i -D @playwright/test', tree.root);
 
     const normalizedOptions = normalizeOptions(tree, options);
 
