@@ -21,6 +21,7 @@ describe('workspace', () => {
             checkFilesExist(
                 'tsconfig.base.json',
                 '.eslintrc.json',
+                'lint-staged.config.js',
                 '.husky/commit-msg',
                 '.husky/pre-commit',
                 '.husky/prepare-commit-msg',

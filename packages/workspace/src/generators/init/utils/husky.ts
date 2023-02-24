@@ -1,7 +1,7 @@
 import { addDependenciesToPackageJson, updateJson, Tree } from '@nrwl/devkit';
 
 import { InstallGeneratorSchema } from '../schema';
-import { HUSKY_VERSION, PACKAGE_JSON } from './constants';
+import { HUSKY_VERSION, LINT_STAGED_VERSION, PACKAGE_JSON } from './constants';
 import { PackageJson } from './types';
 
 const HOOK_PREAMBLE = `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\n`;
@@ -34,13 +34,17 @@ function getOrCreateHook(tree: Tree, path: string) {
 
 function addPreCommit(tree: Tree) {
     const path = '.husky/pre-commit';
-    const preCommit = 'npx nx affected:lint --uncommitted';
+    const lintStaged = 'npx lint-staged';
 
     const contents = getOrCreateHook(tree, path);
 
-    if (!contents?.includes('lint')) {
-        tree.write(path, `${contents}\n${preCommit}`, { mode: '775' });
+    const updatedPreCommit = [contents];
+
+    if (!contents?.includes(lintStaged)) {
+        updatedPreCommit.push(lintStaged);
     }
+
+    tree.write(path, updatedPreCommit.join('\n'), { mode: '775' });
 }
 
 function addCommitMessage(tree: Tree) {
