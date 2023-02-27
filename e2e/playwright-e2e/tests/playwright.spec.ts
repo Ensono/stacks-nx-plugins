@@ -12,12 +12,21 @@ import { Project, SyntaxKind } from 'ts-morph';
 describe('playwright e2e', () => {
     process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = 'true';
 
+    function setupBaseProject() {
+        const baseProject = uniq('playwright');
+        const e2eProject = `${baseProject}-e2e`;
+        runNxCommand(
+            `generate @nrwl/next:application ${baseProject} --e2eTestRunner=none`,
+        );
+        return { baseProject, e2eProject };
+    }
+
     beforeAll(async () => {
         await newProject(
             ['@ensono-stacks/playwright'],
-            ['@mands/nx-playwright'],
+            ['@mands/nx-playwright', '@nrwl/next'],
         );
-    });
+    }, 200_000);
 
     afterAll(() => {
         runNxCommandAsync('reset');
@@ -28,38 +37,16 @@ describe('playwright e2e', () => {
         it('errors when the project does not exist', async () => {
             const project = uniq('imaginaryProjectThatDoesNotExist');
             await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:playwright ${project}`,
+                `generate @ensono-stacks/playwright:init ${project}`,
             ).catch(stderr => expect(stderr?.code).toEqual(1));
         }, 200_000);
 
         it('should successfully run and amend config files if project does exist', async () => {
-            const project = uniq('playwright-tests');
-            const e2eProject = `${project}-e2e`;
-
-            jest.mock('@nrwl/devkit', () => {
-                const actual = jest.requireActual('@nrwl/devkit');
-
-                return {
-                    ...actual,
-                    getProjects: jest.fn(
-                        () =>
-                            new Map([
-                                [
-                                    project,
-                                    {
-                                        root: '',
-                                        sourceRoot: `${e2eProject}/src`,
-                                        name: project,
-                                    },
-                                ],
-                            ]),
-                    ),
-                };
-            });
+            const { baseProject, e2eProject } = setupBaseProject();
 
             // generate initial playwright project and amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
             );
             expect(() =>
                 checkFilesExist(
@@ -164,33 +151,11 @@ describe('playwright e2e', () => {
 
     describe('--accessibility', () => {
         it('should successfully add accessibility test files and add dependencies', async () => {
-            const project = uniq('playwright-tests');
-            const e2eProject = `${project}-e2e`;
-
-            jest.mock('@nrwl/devkit', () => {
-                const actual = jest.requireActual('@nrwl/devkit');
-
-                return {
-                    ...actual,
-                    getProjects: jest.fn(
-                        () =>
-                            new Map([
-                                [
-                                    project,
-                                    {
-                                        root: '',
-                                        sourceRoot: `${e2eProject}/src`,
-                                        name: project,
-                                    },
-                                ],
-                            ]),
-                    ),
-                };
-            });
+            const { baseProject, e2eProject } = setupBaseProject();
 
             // generate initial playwright project
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
@@ -216,33 +181,11 @@ describe('playwright e2e', () => {
 
     describe('--visualRegression', () => {
         it('should successfully add native regression config', async () => {
-            const project = uniq('playwright-tests');
-            const e2eProject = `${project}-e2e`;
-
-            jest.mock('@nrwl/devkit', () => {
-                const actual = jest.requireActual('@nrwl/devkit');
-
-                return {
-                    ...actual,
-                    getProjects: jest.fn(
-                        () =>
-                            new Map([
-                                [
-                                    project,
-                                    {
-                                        root: '',
-                                        sourceRoot: `${e2eProject}/src`,
-                                        name: project,
-                                    },
-                                ],
-                            ]),
-                    ),
-                };
-            });
+            const { baseProject, e2eProject } = setupBaseProject();
 
             // generate initial playwright project
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
@@ -292,33 +235,11 @@ describe('playwright e2e', () => {
         }, 200_000);
 
         it('should successfully add applitools regression config and add dependencies', async () => {
-            const project = uniq('playwright-tests');
-            const e2eProject = `${project}-e2e`;
-
-            jest.mock('@nrwl/devkit', () => {
-                const actual = jest.requireActual('@nrwl/devkit');
-
-                return {
-                    ...actual,
-                    getProjects: jest.fn(
-                        () =>
-                            new Map([
-                                [
-                                    project,
-                                    {
-                                        root: '',
-                                        sourceRoot: `${e2eProject}/src`,
-                                        name: project,
-                                    },
-                                ],
-                            ]),
-                    ),
-                };
-            });
+            const { baseProject, e2eProject } = setupBaseProject();
 
             // generate initial playwright project
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
