@@ -47,7 +47,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                     },
                     configurations: {
                         updatesnapshots: {
-                            args: '--extra="--update-snapshots --grep @visual-regression"',
+                            args: "--extra='--update-snapshots --grep @visual-regression'",
                         },
                         compilearm64: {
                             commands: [
