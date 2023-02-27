@@ -7,9 +7,32 @@ import YAML from 'yaml';
 import generator from './generator';
 import { PlaywrightGeneratorSchema } from './schema';
 
+const projectName = 'test';
+const projectNameE2E = `${projectName}-e2e`;
+
+jest.mock('@nrwl/devkit', () => {
+    const actual = jest.requireActual('@nrwl/devkit');
+
+    return {
+        ...actual,
+        getProjects: jest.fn(
+            () =>
+                new Map([
+                    [
+                        'test',
+                        {
+                            root: '',
+                            sourceRoot: `${projectNameE2E}/src`,
+                            name: 'test',
+                        },
+                    ],
+                ]),
+        ),
+    };
+});
+
 describe('playwright generator', () => {
     let appTree: Tree;
-    const projectName = 'test-e2e';
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
@@ -30,11 +53,12 @@ describe('playwright generator', () => {
 
     it('should error if the project already exists', async () => {
         const options: PlaywrightGeneratorSchema = {
-            project: projectName,
+            project: `${projectName}`,
         };
+
         await generator(appTree, options);
         await expect(generator(appTree, options)).rejects.toThrowError(
-            `Cannot create a new project ${projectName} at ./${projectName}. It already exists.`,
+            `Cannot create a new project ${projectNameE2E} at ./${projectNameE2E}. It already exists.`,
         );
     }, 100_000);
 
@@ -45,7 +69,7 @@ describe('playwright generator', () => {
         await generator(appTree, options);
 
         // example.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
+        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
             'example.spec.ts',
         );
 
@@ -82,7 +106,7 @@ describe('playwright generator', () => {
 
         // expect playwright.config.ts to be updated
         const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
+            `${projectNameE2E}/playwright.config.ts`,
         );
         const projectConfigObject = projectConfigFile
             ?.getVariableDeclaration('config')
@@ -142,7 +166,7 @@ describe('playwright generator', () => {
         // Add infra tasks
         const projectJson = readJson(
             appTree,
-            joinPathFragments(projectName, 'project.json'),
+            joinPathFragments(projectNameE2E, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
     }, 100_000);
