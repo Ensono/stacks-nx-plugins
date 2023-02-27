@@ -2,6 +2,7 @@ import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 
+import nextInitGenerator from '../init/generator';
 import nextAuthGenerator from '../next-auth/generator';
 import generator from './generator';
 import { NextAuthRedisGeneratorSchema } from './schema';
@@ -49,6 +50,7 @@ describe('next-auth-redis generator', () => {
                 },
             },
         }));
+        await nextInitGenerator(appTree, { project: 'next-app', infra: true });
         await nextAuthGenerator(appTree, {
             project: 'next-app',
             provider: 'none',
