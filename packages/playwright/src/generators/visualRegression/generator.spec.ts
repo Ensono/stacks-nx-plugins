@@ -89,19 +89,14 @@ describe('playwright generator', () => {
             joinPathFragments(projectName, 'project.json'),
         );
 
-        const playwrightPackageJsonVersion = readJson(appTree, 'package.json')
-            ?.devDependencies?.playwright;
         expect(projectJson.targets.e2e).toBeTruthy();
         expect(projectJson.targets['e2e-docker']).toBeTruthy();
+        const playwrightPackageJsonVersion = readJson(appTree, 'package.json')
+            ?.devDependencies?.playwright;
         expect(playwrightPackageJsonVersion).toBeTruthy();
         expect(
             projectJson.targets['e2e-docker']?.options?.commands[0]?.command,
-        ).toContain(
-            `mcr.microsoft.com/playwright:v${playwrightPackageJsonVersion?.replace(
-                '^',
-                '',
-            )}`,
-        );
+        ).toContain('mcr.microsoft.com/playwright:jammy');
 
         const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
         expect(tasksYAML.tasks['e2e:local']).toEqual({
