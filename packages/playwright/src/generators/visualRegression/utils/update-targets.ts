@@ -40,7 +40,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                     options: {
                         commands: [
                             {
-                                command: `docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:jammy npx nx run ${project.name}:e2e {args.extra}`,
+                                command: `docker run -v $(pwd):/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:jammy npx nx run ${project.name}:e2e {args.extra}`,
                                 forwardAllArgs: false,
                             },
                         ],
@@ -52,7 +52,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                         compilearm64: {
                             commands: [
                                 {
-                                    command: `docker run -v $PWD:/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:jammy /bin/bash -c "apt update && apt install -y make gcc g++ && rm -rf node_modules/@parcel && npm install" && npm install`,
+                                    command: `docker run -v $(pwd):/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:jammy /bin/bash -c "apt update && apt install -y make gcc g++ && rm -rf node_modules/@parcel && npm install" && npm install`,
                                     forwardAllArgs: false,
                                 },
                             ],
