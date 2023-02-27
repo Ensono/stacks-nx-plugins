@@ -101,5 +101,5 @@ export function updateValuesYaml(
         );
     }
 
-    tree.write(valuesProdFilePath, YAML.stringify(valuesProdYAML));
+    tree.write(valuesProdFilePath, valuesProdYAML.toString());
 }
