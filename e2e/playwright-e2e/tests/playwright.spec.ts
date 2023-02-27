@@ -33,10 +33,11 @@ describe('playwright e2e', () => {
         }, 200_000);
 
         it('should successfully run and amend config files if project does exist', async () => {
+            const project = uniq('playwright-tests');
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project and amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
             );
             expect(() =>
                 checkFilesExist(
@@ -141,10 +142,11 @@ describe('playwright e2e', () => {
 
     describe('--accessibility', () => {
         it('should successfully add accessibility test files and add dependencies', async () => {
+            const project = uniq('playwright-tests');
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
@@ -170,10 +172,11 @@ describe('playwright e2e', () => {
 
     describe('--visualRegression', () => {
         it('should successfully add native regression config', async () => {
+            const project = uniq('playwright-tests');
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
@@ -223,10 +226,11 @@ describe('playwright e2e', () => {
         }, 200_000);
 
         it('should successfully add applitools regression config and add dependencies', async () => {
+            const project = uniq('playwright-tests');
             const e2eProject = uniq('playwright-tests-e2e');
             // generate initial playwright project
             runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${e2eProject} --no-interactive`,
+                `generate @ensono-stacks/playwright:init --project=${project} --no-interactive`,
             );
             // amend playwright config files
             runNxCommand(
