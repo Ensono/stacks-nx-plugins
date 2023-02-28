@@ -66,15 +66,22 @@ export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
-    const packageRunner: PackageRunner = 'npx';
-    const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-        name: options.project,
-        linter: Linter.EsLint,
-        packageRunner,
-    };
-    await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
+    const projectE2E = `${options.project}-e2e`;
 
-    const normalizedOptions = normalizeOptions(tree, options);
+    const optionsE2E = {
+        ...options,
+        projectE2E,
+    };
+    const normalizedOptionsForE2E = normalizeOptions(tree, optionsE2E);
+
+    const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
+        name: projectE2E,
+        linter: Linter.EsLint,
+        packageRunner: 'npx',
+        project: options.project,
+    };
+
+    await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
 
     const morphTree = tsMorphTree(tree);
 
@@ -83,12 +90,12 @@ export default async function initGenerator(
 
     // add extra config to playwright.config.ts in project
     updatePlaywrightConfigWithDefault(
-        readProjectConfiguration(tree, options.project),
+        readProjectConfiguration(tree, projectE2E),
         morphTree,
     );
 
     // example.spec.ts
-    addFiles(tree, 'files', normalizedOptions);
+    addFiles(tree, 'files', normalizedOptionsForE2E);
 
     // add records to gitignore
     addIgnoreEntry(tree, '.gitignore', 'Playwright', [
