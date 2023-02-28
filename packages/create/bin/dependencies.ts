@@ -72,7 +72,7 @@ export function getGeneratorsToRun(
 
     if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
         generators.push(
-            `@ensono-stacks/playwright:init --project=${argv.appName}-e2e`,
+            `@ensono-stacks/playwright:init --project=${argv.appName}`,
         );
 
         console.log('\n');
