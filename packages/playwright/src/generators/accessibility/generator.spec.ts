@@ -9,9 +9,32 @@ import initGenerator from '../init/generator';
 import generator from './generator';
 import { AccessibilityGeneratorSchema } from './schema';
 
+const projectName = 'test';
+const projectNameE2E = `${projectName}-e2e`;
+
+jest.mock('@nrwl/devkit', () => {
+    const actual = jest.requireActual('@nrwl/devkit');
+
+    return {
+        ...actual,
+        getProjects: jest.fn(
+            () =>
+                new Map([
+                    [
+                        'test',
+                        {
+                            root: '',
+                            sourceRoot: `${projectNameE2E}/src`,
+                            name: 'test',
+                        },
+                    ],
+                ]),
+        ),
+    };
+});
+
 describe('playwright accessibility generator', () => {
     let appTree: Tree;
-    const projectName = 'test-e2e';
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
@@ -26,7 +49,7 @@ describe('playwright accessibility generator', () => {
         await generator(appTree, options);
 
         // axe-accessibility.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
+        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
             'axe-accessibility.spec.ts',
         );
 

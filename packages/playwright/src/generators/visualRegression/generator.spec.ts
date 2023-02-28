@@ -9,9 +9,40 @@ import initGenerator from '../init/generator';
 import generator from './generator';
 import { VisualRegressionGeneratorSchema } from './schema';
 
+const projectName = 'test';
+const projectNameE2E = `${projectName}-e2e`;
+
+jest.mock('@nrwl/devkit', () => {
+    const actual = jest.requireActual('@nrwl/devkit');
+
+    return {
+        ...actual,
+        getProjects: jest.fn(
+            () =>
+                new Map([
+                    [
+                        'test',
+                        {
+                            root: '',
+                            sourceRoot: `${projectNameE2E}/src`,
+                            name: 'test',
+                        },
+                    ],
+                    [
+                        'test-e2e',
+                        {
+                            root: '',
+                            sourceRoot: `${projectNameE2E}/src`,
+                            name: 'test-e2e',
+                        },
+                    ],
+                ]),
+        ),
+    };
+});
+
 describe('playwright generator', () => {
     let appTree: Tree;
-    const projectName = 'test-e2e';
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
@@ -32,24 +63,24 @@ describe('playwright generator', () => {
 
     it('should error if the project does not exist', async () => {
         const options: VisualRegressionGeneratorSchema = {
-            project: projectName,
+            project: 'non-existent-project',
             visualRegression: 'none',
         };
         await expect(generator(appTree, options)).rejects.toThrowError(
-            `${projectName} does not exist`,
+            `non-existent-project does not exist`,
         );
     });
 
     it('should run successfully with native regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
-            project: projectName,
+            project: projectNameE2E,
             visualRegression: 'native',
         };
-        await initGenerator(appTree, options);
+        await initGenerator(appTree, { project: projectName });
         await generator(appTree, options);
 
         // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
+        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
             'playwright-visual-regression.spec.ts',
         );
 
@@ -57,7 +88,7 @@ describe('playwright generator', () => {
 
         // expect playwright.config.ts to be updated
         const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
+            `${projectNameE2E}/playwright.config.ts`,
         );
         const projectConfigObject = projectConfigFile
             ?.getVariableDeclaration('config')
@@ -86,7 +117,7 @@ describe('playwright generator', () => {
         // Add infra tasks
         const projectJson = readJson(
             appTree,
-            joinPathFragments(projectName, 'project.json'),
+            joinPathFragments(projectNameE2E, 'project.json'),
         );
 
         expect(projectJson.targets.e2e).toBeTruthy();
@@ -123,14 +154,14 @@ describe('playwright generator', () => {
 
     it('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
-            project: projectName,
+            project: projectNameE2E,
             visualRegression: 'applitools',
         };
-        await initGenerator(appTree, options);
+        await initGenerator(appTree, { project: projectName });
         await generator(appTree, options);
 
         // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectName}/src`)).toContain(
+        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
             'applitools-eyes-grid.spec.ts',
         );
 
@@ -138,7 +169,7 @@ describe('playwright generator', () => {
 
         // expect playwright.config.ts to be updated
         const projectConfigFile = project.addSourceFileAtPath(
-            `${projectName}/playwright.config.ts`,
+            `${projectNameE2E}/playwright.config.ts`,
         );
         const projectConfigObject = projectConfigFile
             ?.getVariableDeclaration('config')
