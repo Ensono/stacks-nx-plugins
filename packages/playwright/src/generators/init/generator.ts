@@ -1,7 +1,6 @@
 import { addIgnoreEntry, tsMorphTree } from '@ensono-stacks/core';
 import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
 import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
-import { PackageRunner } from '@mands/nx-playwright/src/types';
 import {
     formatFiles,
     generateFiles,
@@ -43,10 +42,12 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
         template: '',
     };
 
+    const projectRootE2E = `${options.projectRoot}-e2e/src`;
+
     generateFiles(
         tree,
         path.join(__dirname, source),
-        options.projectRoot,
+        projectRootE2E,
         templateOptions,
     );
 }
