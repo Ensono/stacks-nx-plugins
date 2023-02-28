@@ -22,7 +22,7 @@ jest.mock('@nrwl/devkit', () => {
                         'test',
                         {
                             root: '',
-                            sourceRoot: `${projectNameE2E}/src`,
+                            sourceRoot: `${projectName}`,
                             name: 'test',
                         },
                     ],
