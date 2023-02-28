@@ -59,6 +59,7 @@ function updateDependencies(tree) {
         {
             playwright: '*',
             '@playwright/test': '*',
+            '@mands/nx-playwright': '*',
         },
     );
 }
