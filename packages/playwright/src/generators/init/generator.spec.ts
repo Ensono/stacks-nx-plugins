@@ -202,8 +202,23 @@ describe('playwright generator', () => {
         expect(gitIgnoreFile).toContain('**/playwright-report');
         expect(gitIgnoreFile).toContain('**/playwright/.cache');
 
-        const taskctlYAML = appTree.read('taskctl.yaml', 'utf-8');
-        expect(YAML.parse(taskctlYAML)?.pipelines.updatesnapshots).toBeTruthy();
+        const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
+        expect(taskctlYAML.pipelines.dev).toContainEqual({
+            task: 'e2e:ci',
+            depends_on: 'build',
+        });
+        expect(taskctlYAML.pipelines.fe).toContainEqual({
+            task: 'e2e:ci',
+            depends_on: 'build',
+        });
+        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
+            task: 'e2e:ci',
+            depends_on: 'test:ci',
+        });
+        expect(taskctlYAML.pipelines.prod).toContainEqual({
+            task: 'e2e:ci',
+            depends_on: 'test:ci',
+        });
 
         // Add infra tasks
         const projectJson = readJson(
