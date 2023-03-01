@@ -24,37 +24,21 @@ test.describe('Playwright example tests @example-playwright', () => {
     expect((await page.locator('#learning-materials').count()) === 5);
   });
 
-  test('Clicking next steps should display information', async ({ page }) => {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const information of await page
-      .locator('#commands >> details')
-      .elementHandles()) {
-      /* eslint-disable no-await-in-loop */
-      let open = await information.getAttribute('open');
-      expect(open).toBeNull();
-      await information.click();
-      open = await information.getAttribute('open');
-      expect(open).toBe('');
-    }
-  });
-
   test('NX logo should be hidden on mobile', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'Test only required for mobile');
-    const display = await page
-      .locator('.logo-container')
-      .evaluate((element) => {
-        return window.getComputedStyle(element).getPropertyValue('display');
-      });
+    const container = page.locator('.logo-container');
+    const display = await container.evaluate((element) => {
+      return window.getComputedStyle(element).getPropertyValue('display');
+    });
     expect(display).toBe('none');
   });
 
   test('NX logo should be visible on desktop', async ({ page, isMobile }) => {
     test.skip(isMobile, 'Test only required for desktop');
-    const display = await page
-      .locator('.logo-container')
-      .evaluate((element) => {
-        return window.getComputedStyle(element).getPropertyValue('display');
-      });
+    const container = page.locator('.logo-container');
+    const display = await container.evaluate((element) => {
+      return window.getComputedStyle(element).getPropertyValue('display');
+    });
     expect(display).toBe('flex');
   });
 });
