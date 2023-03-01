@@ -50,7 +50,41 @@ describe('playwright generator', () => {
         appTree.write(
             'taskctl.yaml',
             YAML.stringify({
-                pipelines: { dev: [], fe: [], nonprod: [], prod: [] },
+                pipelines: {
+                    dev: [
+                        { task: 'lint' },
+                        { task: 'build', depends_on: 'lint' },
+                        { task: 'version', depends_on: 'build' },
+                        { task: 'terraform', depends_on: 'version' },
+                        { task: 'helm', depends_on: 'terraform' },
+                    ],
+                    fe: [
+                        { task: 'lint' },
+                        { task: 'build', depends_on: 'lint' },
+                        { task: 'version', depends_on: 'build' },
+                    ],
+                    nonprod: [
+                        { task: 'lint:ci' },
+                        { task: 'build:ci', depends_on: 'lint:ci' },
+                        { task: 'test:ci', depends_on: 'build:ci' },
+                        { task: 'version:nonprod', depends_on: 'test:ci' },
+                        {
+                            task: 'terraform:nonprod',
+                            depends_on: 'version:nonprod',
+                        },
+                        {
+                            task: 'helm:nonprod',
+                            depends_on: 'terraform:nonprod',
+                        },
+                    ],
+                    prod: [
+                        { task: 'build:ci' },
+                        { task: 'test:ci', depends_on: 'build:ci' },
+                        { task: 'version:prod', depends_on: 'test:ci' },
+                        { task: 'terraform:prod', depends_on: 'version:prod' },
+                        { task: 'helm:prod', depends_on: 'terraform:prod' },
+                    ],
+                },
             }),
         );
         appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
