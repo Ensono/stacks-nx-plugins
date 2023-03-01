@@ -12,7 +12,7 @@
         "@commitlint/config-nx-scopes": "^17.2.0",
         "@commitlint/cz-commitlint": "^17.3.0",
         "@jscutlery/semver": "^2.29.3",
-        "@mands/nx-playwright": "^0.1.27",
+        "@mands/nx-playwright": "~0.2.3",
         "@nrwl/cli": "15.7.2",
         "@nrwl/devkit": "15.7.2",
         "@nrwl/eslint-plugin-nx": "15.7.2",

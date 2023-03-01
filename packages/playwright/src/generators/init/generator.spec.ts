@@ -73,6 +73,11 @@ describe('playwright generator', () => {
             'example.spec.ts',
         );
 
+        // app.spec.ts to be removed
+        expect(appTree.children(`${projectNameE2E}/src`)).not.toContain(
+            'app.spec.ts',
+        );
+
         const project = tsMorphTree(appTree);
 
         // expect playwright.config.base.ts to be updated
