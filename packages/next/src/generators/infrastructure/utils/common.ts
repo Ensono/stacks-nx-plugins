@@ -51,7 +51,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
 
     if (customServer) {
         customServerRelativePath = customServer
-            .replace(rootFolderPath, '')
+            .replace(`${rootFolderPath}/`, '')
             .replace('.ts', '.js');
     }
 
