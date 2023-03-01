@@ -91,7 +91,7 @@ export default async function initGenerator(
     updateTaskctlYaml(tree);
 
     // playwright.config.base.ts
-    updatePlaywrightConfigBase(morphTree);
+    updatePlaywrightConfigBase(morphTree, options.project);
 
     // add extra config to playwright.config.ts in project
     updatePlaywrightConfigWithDefault(
