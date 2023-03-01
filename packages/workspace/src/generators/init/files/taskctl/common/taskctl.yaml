@@ -23,16 +23,20 @@ pipelines:
         - task: lint:ci
         - task: build:ci
           depends_on: lint:ci
-        - task: version:nonprod
+        - task: test:ci
           depends_on: build:ci
+        - task: version:nonprod
+          depends_on: test:ci
         - task: terraform:nonprod
           depends_on: version:nonprod
         - task: helm:nonprod
           depends_on: terraform:nonprod
     prod:
         - task: build:ci
-        - task: version:prod
+        - task: test:ci
           depends_on: build:ci
+        - task: version:prod
+          depends_on: test:ci
         - task: terraform:prod
           depends_on: version:prod
         - task: helm:prod
