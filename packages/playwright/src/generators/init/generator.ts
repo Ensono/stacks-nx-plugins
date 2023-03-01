@@ -16,6 +16,7 @@ import path from 'path';
 import { PlaywrightGeneratorSchema } from './schema';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
+import { updateTaskctlYaml } from './utils/update-tasks-yamls';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
@@ -86,6 +87,8 @@ export default async function initGenerator(
     await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
 
     const morphTree = tsMorphTree(tree);
+
+    updateTaskctlYaml(tree);
 
     // playwright.config.base.ts
     updatePlaywrightConfigBase(morphTree);
