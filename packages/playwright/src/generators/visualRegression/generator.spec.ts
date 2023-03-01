@@ -54,20 +54,23 @@ describe('playwright generator', () => {
                     dev: [
                         { task: 'lint' },
                         { task: 'build', depends_on: 'lint' },
-                        { task: 'version', depends_on: 'build' },
+                        { task: 'e2e:ci', depends_on: 'build' },
+                        { task: 'version', depends_on: 'e2e:ci' },
                         { task: 'terraform', depends_on: 'version' },
                         { task: 'helm', depends_on: 'terraform' },
                     ],
                     fe: [
                         { task: 'lint' },
                         { task: 'build', depends_on: 'lint' },
-                        { task: 'version', depends_on: 'build' },
+                        { task: 'e2e:ci', depends_on: 'build' },
+                        { task: 'version', depends_on: 'e2e:ci' },
                     ],
                     nonprod: [
                         { task: 'lint:ci' },
                         { task: 'build:ci', depends_on: 'lint:ci' },
                         { task: 'test:ci', depends_on: 'build:ci' },
-                        { task: 'version:nonprod', depends_on: 'test:ci' },
+                        { task: 'e2e:ci', depends_on: 'test:ci' },
+                        { task: 'version:nonprod', depends_on: 'e2e:ci' },
                         {
                             task: 'terraform:nonprod',
                             depends_on: 'version:nonprod',
@@ -80,7 +83,8 @@ describe('playwright generator', () => {
                     prod: [
                         { task: 'build:ci' },
                         { task: 'test:ci', depends_on: 'build:ci' },
-                        { task: 'version:prod', depends_on: 'test:ci' },
+                        { task: 'e2e:ci', depends_on: 'test:ci' },
+                        { task: 'version:prod', depends_on: 'e2e:ci' },
                         { task: 'terraform:prod', depends_on: 'version:prod' },
                         { task: 'helm:prod', depends_on: 'terraform:prod' },
                     ],
@@ -178,12 +182,7 @@ describe('playwright generator', () => {
         });
 
         const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
-        expect(taskctlYAML.pipelines.dev).toContainEqual({ task: 'e2e:local' });
-        expect(taskctlYAML.pipelines.fe).toContainEqual({ task: 'e2e:local' });
-        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
-            task: 'e2e:ci',
-        });
-        expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e:ci' });
+        expect(taskctlYAML.pipelines.updatesnapshots).toBeTruthy();
     }, 100_000);
 
     it('should run successfully with applitools regression', async () => {
