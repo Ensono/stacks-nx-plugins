@@ -128,29 +128,6 @@ describe('playwright generator', () => {
         const projectConfigFile = project.addSourceFileAtPath(
             `${projectNameE2E}/playwright.config.ts`,
         );
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            projectConfigObject?.getProperty('updateSnapshots')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: `'missing'`,
-            }),
-        );
-        expect(
-            projectConfigObject?.getProperty('expect')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: `{
-                        toHaveScreenshot: {
-                          threshold: 0.2,
-                          animations: 'disabled',
-                        },
-                      }`,
-            }),
-        );
 
         // Add infra tasks
         const projectJson = readJson(
