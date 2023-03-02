@@ -70,7 +70,6 @@ export default async function nextAuthRedisGenerator(
     // delete the default generated lib folder
     const libraryDirectory = path.join(projectRoot, 'src');
     tree.delete(path.join(libraryDirectory, 'lib'));
-    tree.delete(path.join(libraryDirectory, 'index.ts'));
 
     // add files
     generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {

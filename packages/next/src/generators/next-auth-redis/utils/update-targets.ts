@@ -23,18 +23,22 @@ export function updateProjectJsonHelmUpgradeTarget(
                         (command: any) =>
                             command.command.includes('helm upgrade'),
                     );
-                const defaultCommand =
-                    helmUpgradeTarget.options.commands[defaultCommandIndex];
-
                 const prodCommandIndex =
                     helmUpgradeTarget.configurations.prod.commands.findIndex(
                         (command: any) =>
                             command.command.includes('helm upgrade'),
                     );
-                const prodCommand =
+
+                // Read latest update each time
+                const getUpdatedDefaultCommand = () =>
+                    helmUpgradeTarget.options.commands[defaultCommandIndex];
+                const getUpdatedProdCommand = () =>
                     helmUpgradeTarget.configurations.prod.commands[
                         prodCommandIndex
                     ];
+
+                const defaultCommand = getUpdatedDefaultCommand();
+                const prodCommand = getUpdatedProdCommand();
 
                 // Check if command doesn't have redisURL already
                 if (!defaultCommand.command.includes('redisURL')) {
@@ -49,12 +53,13 @@ export function updateProjectJsonHelmUpgradeTarget(
 
                 // Check if command doesn't have nextAuthSecret already
                 if (!defaultCommand.command.includes('nextAuthSecret')) {
+                    const updatedCommand = getUpdatedDefaultCommand();
                     // Update command
                     updatedProjectJson.targets['helm-upgrade'].options.commands[
                         defaultCommandIndex
                     ] = {
-                        ...defaultCommand,
-                        command: `${defaultCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
+                        ...updatedCommand,
+                        command: `${updatedCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
                     };
                 }
 
@@ -71,12 +76,13 @@ export function updateProjectJsonHelmUpgradeTarget(
 
                 // Check if command doesn't have nextAuthSecret already
                 if (!prodCommand.command.includes('nextAuthSecret')) {
+                    const updatedCommand = getUpdatedProdCommand();
                     // Update command
                     updatedProjectJson.targets[
                         'helm-upgrade'
                     ].configurations.prod.commands[prodCommandIndex] = {
-                        ...prodCommand,
-                        command: `${prodCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
+                        ...updatedCommand,
+                        command: `${updatedCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
                     };
                 }
             }
