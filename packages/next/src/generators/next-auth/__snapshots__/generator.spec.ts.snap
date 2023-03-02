@@ -76,10 +76,10 @@ export default nextAuth;
 `;
 
 exports[`next-auth generator should install NextAuth without a provider 1`] = `
-"import { AppProps } from 'next/app';
+"import { SessionProvider } from \\"next-auth/react\\";
+import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import { SessionProvider } from \\"next-auth/react\\";
 
 function CustomApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
