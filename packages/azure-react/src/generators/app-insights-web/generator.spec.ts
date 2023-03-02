@@ -10,7 +10,7 @@ describe('azure-react generator', () => {
     const projectName = 'app-insights-web';
     const options: AppInsightsWebGeneratorSchema = {
         name: projectName,
-        connectionString: 'testConnectionString',
+        applicationinsightsConnectionString: 'TEST_CONNECTION_STRING',
     };
 
     beforeEach(() => {
@@ -61,8 +61,10 @@ describe('azure-react generator', () => {
         await expect(() =>
             generator(tree, {
                 ...options,
-                connectionString: '',
+                applicationinsightsConnectionString: '',
             }),
-        ).rejects.toThrowError('connectionString cannot be empty.');
+        ).rejects.toThrowError(
+            'applicationinsightsConnectionString cannot be empty.',
+        );
     });
 });

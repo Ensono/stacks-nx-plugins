@@ -8,7 +8,7 @@ import { FC, ReactNode } from 'react';
 import appInsightConfig from './app-insights-config';
 
 const reactPlugin = new ReactPlugin();
-const connectionString = process.env.<%= connectionString %>;
+const connectionString = process.env.<%= applicationinsightsConnectionString %>;
 
 export const appInsights = new ApplicationInsights({
   config: {

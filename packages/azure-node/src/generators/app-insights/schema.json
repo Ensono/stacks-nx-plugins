@@ -15,11 +15,12 @@
             },
             "x-prompt": "What is the name of the project for this component?"
         },
-        "appInsightsKey": {
+        "applicationinsightsConnectionString": {
             "type": "string",
-            "description": "The env variable that stores the app insights key.",
+            "description": "The env variable that stores the app insights connection string.",
             "alias": "e",
-            "x-prompt": "What is your application insights environment variable key?",
+            "default": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+            "x-prompt": "What is the env variable for the application insights connection string?",
             "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
             "minLength": 5,
             "maxLength": 100
@@ -31,5 +32,5 @@
             "x-prompt": "What is the path within your app to the server?"
         }
     },
-    "required": ["project", "appInsightsKey", "server"]
+    "required": ["project", "applicationinsightsConnectionString", "server"]
 }

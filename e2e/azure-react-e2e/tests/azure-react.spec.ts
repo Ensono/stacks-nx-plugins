@@ -20,7 +20,7 @@ describe('azure-react e2e', () => {
 
         beforeAll(async () => {
             await runNxCommandAsync(
-                `generate @ensono-stacks/azure-react:app-insights-web ${project} --connectionString=testString --no-interactive`,
+                `generate @ensono-stacks/azure-react:app-insights-web ${project} --applicationinsightsConnectionString=TEST_CONNECTION_STRING_ENV --no-interactive`,
             );
         });
 
