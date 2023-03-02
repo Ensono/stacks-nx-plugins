@@ -170,7 +170,12 @@ describe('playwright generator', () => {
         expect(playwrightPackageJsonVersion).toBeTruthy();
         expect(
             projectJson.targets['e2e-docker']?.options?.commands[0]?.command,
-        ).toContain('mcr.microsoft.com/playwright:jammy');
+        ).toContain(
+            `mcr.microsoft.com/playwright:v${playwrightPackageJsonVersion?.replace(
+                '^',
+                '',
+            )}`,
+        );
 
         const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
         expect(tasksYAML.tasks['e2e:local']).toEqual({
@@ -190,7 +195,7 @@ describe('playwright generator', () => {
         expect(taskctlYAML.pipelines.updatesnapshots).toBeTruthy();
     }, 100_000);
 
-    it.only('should run successfully with native regeression and azure builds have been generated', async () => {
+    it('should run successfully with native regeression and azure builds have been generated', async () => {
         appTree.write('build/azDevOps/azuredevops-stages.yaml', '');
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,

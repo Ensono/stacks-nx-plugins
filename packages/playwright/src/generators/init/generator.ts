@@ -59,7 +59,7 @@ function updateDependencies(tree) {
         tree,
         {},
         {
-            playwright: '*',
+            playwright: '^1.31.1',
             '@playwright/test': '*',
             '@mands/nx-playwright': '*',
         },

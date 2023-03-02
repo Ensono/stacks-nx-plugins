@@ -28,6 +28,11 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
     project: ProjectConfiguration,
     tree: Tree,
 ) {
+    const packageJson = readJson(tree, 'package.json');
+    const playwrightVersion =
+        `v${packageJson.devDependencies.playwright?.replace('^', '')}` ||
+        'next';
+
     updateJson(
         tree,
         joinPathFragments(project.root, 'project.json'),
@@ -40,7 +45,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                     options: {
                         commands: [
                             {
-                                command: `docker run -v $(pwd):/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:jammy npx nx run ${project.name}:e2e {args.extra}`,
+                                command: `docker run -v $(pwd):/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:${playwrightVersion}-jammy npx nx run ${project.name}:e2e {args.extra}`,
                                 forwardAllArgs: false,
                             },
                         ],
@@ -52,7 +57,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
                         compilearm64: {
                             commands: [
                                 {
-                                    command: `docker run -v $(pwd):/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:jammy /bin/bash -c "apt update && apt install -y make gcc g++ && rm -rf node_modules/@parcel && npm install" && npm install`,
+                                    command: `docker run -v $(pwd):/project -w /project --rm --ipc=host mcr.microsoft.com/playwright:${playwrightVersion}-jammy /bin/bash -c "apt update && apt install -y make gcc g++ && npm install -g prebuildify && cd node_modules/@parcel/watcher && npm run prebuild --openssl_fips=''"`,
                                     forwardAllArgs: false,
                                 },
                             ],
