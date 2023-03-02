@@ -39,7 +39,8 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
         ...options,
         ...names(options.name),
-        connectionString: names(options.connectionString).constantName,
+        applicationinsightsConnectionString:
+            options.applicationinsightsConnectionString,
         offsetFromRoot: offsetFromRoot(options.projectRoot),
         template: '',
     };
@@ -55,8 +56,8 @@ export default async function appInsightsWebGenerator(
     tree: Tree,
     options: AppInsightsWebGeneratorSchema,
 ) {
-    if (!options.connectionString) {
-        throw new Error('connectionString cannot be empty.');
+    if (!options.applicationinsightsConnectionString) {
+        throw new Error('applicationinsightsConnectionString cannot be empty.');
     }
 
     // Normalize options
