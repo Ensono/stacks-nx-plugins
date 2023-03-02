@@ -16,10 +16,14 @@
             "x-prompt": "What name would you like to use for the library?",
             "pattern": "^[a-zA-Z].*$"
         },
-        "connectionString": {
+        "applicationinsightsConnectionString": {
             "type": "string",
-            "description": "The env variable for the connection string.",
-            "x-prompt": "What is the env variable for the app insights connection string?"
+            "description": "The env variable that stores the app insights connection string.",
+            "default": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+            "x-prompt": "What is the env variable for the application insights connection string?",
+            "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
+            "minLength": 5,
+            "maxLength": 100
         },
         "directory": {
             "type": "string",
@@ -36,5 +40,5 @@
             "alias": "t"
         }
     },
-    "required": ["name", "connectionString"]
+    "required": ["name", "applicationinsightsConnectionString"]
 }

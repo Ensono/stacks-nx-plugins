@@ -35,7 +35,7 @@ export default async function appInsightsGenerator(
     tree: Tree,
     options: AppInsightsGeneratorSchema,
 ) {
-    const { appInsightsKey, server } = options;
+    const { applicationinsightsConnectionString, server } = options;
     const project = getProjects(tree).get(options.project);
 
     if (!project) {
@@ -86,7 +86,10 @@ export default async function appInsightsGenerator(
     const mainFunction = customServer.getFunction('main');
 
     // Add appInisghts statements
-    mainFunction.insertStatements(0, initAppInsights(appInsightsKey));
+    mainFunction.insertStatements(
+        0,
+        initAppInsights(applicationinsightsConnectionString),
+    );
     mainFunction.insertStatements(1, configureAppInsights(project.name));
     mainFunction.insertStatements(2, startAppInsights());
 

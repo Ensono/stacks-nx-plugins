@@ -29,7 +29,7 @@ describe('azure-node e2e', () => {
             )
             // Add appInsights to custom server
             await runNxCommandAsync(
-                `generate @ensono-stacks/azure-node:app-insights --project=${project} --appInsightsKey=TEST_KEY --server=server/main.ts --no-interactive --verbose`
+                `generate @ensono-stacks/azure-node:app-insights --project=${project} --applicationinsightsConnectionString=TEST_CONNECTION_STRING_ENV --server=server/main.ts --no-interactive --verbose`
             );
     
             expect(() =>
@@ -40,7 +40,7 @@ describe('azure-node e2e', () => {
             
             const fileContent = readFile(`apps/${project}/server/main.ts`);
             expect(fileContent).toMatch(/import \* as appInsights/g);
-            expect(fileContent).toMatch(/setup\(process\.env\.TEST_KEY\)/g);
+            expect(fileContent).toMatch(/setup\(process\.env\.TEST_CONNECTION_STRING_ENV\)/g);
             expect(fileContent).toMatch(/cloudRole(.|\n)*\'nextjs\d*\'/g);
             expect(fileContent).toMatch(/appInsights\.start/g);
         }, 120000);
