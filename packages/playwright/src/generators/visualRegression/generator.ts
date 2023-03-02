@@ -13,6 +13,7 @@ import path from 'path';
 
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { VisualRegressionGeneratorSchema } from './schema';
+import { updateAzureDevopsSnapshotsYaml } from './utils/update-azure-devops-updatesnapshots';
 import { updatePlaywrightConfigWithApplitoolsVisualRegression } from './utils/update-playwright-config';
 import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
 import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
@@ -94,17 +95,7 @@ export default async function visualRegressionGenerator(
             // update taskctl.yaml
             updateTaskctlYaml(tree, { visualRegression: true });
 
-            if (
-                tree.exists('build/azDevOps/azuredevops-stages.yaml') &&
-                !tree.exists('build/azDevOps/azuredevops-updatesnapshots.yaml')
-            ) {
-                generateFiles(
-                    tree,
-                    path.join(__dirname, 'files', 'native-build'),
-                    path.join('build', 'azDevOps'),
-                    {},
-                );
-            }
+            updateAzureDevopsSnapshotsYaml(tree);
 
             // example.spec.ts
             addFiles(tree, 'files/native', normalizedOptions);
