@@ -2,12 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Native @visual-regression', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    // Wait for network and body to be visible to ensure app is loaded
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.waitForSelector('body', { state: 'visible' });
   });
 
   test('main page to have no visual regressions', async ({ page }) => {
-    // body to capture full page screenshot
-    await expect(page.locator('body')).toHaveScreenshot();
+    const screenshot = await page.screenshot({ fullPage: true });
+    await expect(screenshot).toMatchSnapshot('main-page.png');
   });
 
   test('Expanded information blocks have no visual regressions', async ({
@@ -20,6 +22,6 @@ test.describe('Native @visual-regression', () => {
       /* eslint-disable no-await-in-loop */
       await information.click();
     }
-    await expect(page.locator('#commands')).toHaveScreenshot();
+    await expect(page.locator('#commands')).toHaveScreenshot('info-blocks.png');
   });
 });
