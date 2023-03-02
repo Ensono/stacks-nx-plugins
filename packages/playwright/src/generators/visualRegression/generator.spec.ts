@@ -1,5 +1,5 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
+import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 import YAML from 'yaml';
@@ -91,6 +91,34 @@ describe('playwright generator', () => {
                 },
             }),
         );
+        updateJson(appTree, 'nx.json', nxJson => ({
+            ...nxJson,
+            stacks: {
+                business: {
+                    company: 'Amido',
+                    domain: 'stacks',
+                    component: 'nx',
+                },
+                domain: {
+                    internal: 'test.com',
+                    external: 'test.dev',
+                },
+                cloud: {
+                    region: 'euw',
+                    platform: 'azure',
+                },
+                pipeline: 'azdo',
+                terraform: {
+                    group: 'terraform-group',
+                    storage: 'terraform-storage',
+                    container: 'terraform-container',
+                },
+                vcs: {
+                    type: 'github',
+                    url: 'remote.git',
+                },
+            },
+        }));
         appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
     });
 
@@ -176,7 +204,13 @@ describe('playwright generator', () => {
                 'utf8',
             ),
         );
-        expect(azureUpdateSnapshots).toBeTruthy();
+        expect(azureUpdateSnapshots.variables).toBeTruthy();
+        expect(azureUpdateSnapshots.variables).toEqual([
+            { template: 'azuredevops-vars.yaml' },
+            { group: 'Amido-stacks-nx-common' },
+            { name: 'DebugPreference', value: 'Continue' },
+            { group: 'Amido-stacks-nx-nonprod' },
+        ]);
     });
 
     it('should run successfully with applitools regression', async () => {
