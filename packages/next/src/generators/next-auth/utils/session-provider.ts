@@ -19,7 +19,7 @@ export function addSessionProviderToApp(
         );
 
     if (!isNextAuthImport) {
-        appNode.addImportDeclaration({
+        appNode.getSourceFile().insertImportDeclaration(0, {
             namedImports: ['SessionProvider'],
             moduleSpecifier: 'next-auth/react',
         });
