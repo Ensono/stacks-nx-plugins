@@ -94,6 +94,18 @@ export default async function visualRegressionGenerator(
             // update taskctl.yaml
             updateTaskctlYaml(tree, { visualRegression: true });
 
+            if (
+                tree.exists('build/azDevOps/azuredevops-stages.yaml') &&
+                !tree.exists('build/azDevOps/azuredevops-updatesnapshots.yaml')
+            ) {
+                generateFiles(
+                    tree,
+                    path.join(__dirname, 'files', 'native-build'),
+                    path.join('build', 'azDevOps'),
+                    {},
+                );
+            }
+
             // example.spec.ts
             addFiles(tree, 'files/native', normalizedOptions);
             break;

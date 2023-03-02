@@ -1,0 +1,59 @@
+name: '$(Build.SourceBranchName)-updatesnapshots'
+
+pr: none
+trigger: none
+
+variables:
+  - template: azuredevops-vars.yaml
+  - group: amido-stacks-core-common
+  - name: DebugPreference
+    value: 'Continue'
+  - group: amido-stacks-core-nonprod
+
+# Configure the stages
+stages:
+  - stage: UpdateSnapshots
+    jobs:
+      - job: UpdateSnapshots
+        steps:
+          # Install Taskctl for the build to run
+          - checkout: 'self'
+            fetchDepth: '0'
+            persistCredentials: 'true'
+          - task: Bash@3
+            displayName: Install Taskctl
+            inputs:
+              targetType: inline
+              script: |
+                wget https://github.com/taskctl/taskctl/releases/download/$(TaskctlVersion)/taskctl_$(TaskctlVersion)_linux_amd64.tar.gz -O /tmp/taskctl.tar.gz
+                tar zxf /tmp/taskctl.tar.gz -C /usr/local/bin taskctl
+          # Install the stacks envfile
+          - task: Bash@3
+            displayName: Install Envfile
+            inputs:
+              targetType: inline
+              script: |
+                wget https://github.com/amido/stacks-envfile/releases/download/v$(StacksEnvfileVersion)/stacks-envfile-linux-amd64-$(StacksEnvfileVersion) -O /usr/local/bin/envfile
+                chmod +x /usr/local/bin/envfile
+          - script: |
+              npm ci
+              git config --global user.email "pipelines@prod.amidostacks.com"
+              git config --global user.name "amido Pipelines"
+              git fetch --all
+              git switch $(System.PullRequest.SourceBranch)
+              npx playwright install --with-deps
+              taskctl updatesnapshots
+              git add "**/*.png"
+              HUSKY=0 git commit -m "[CI] Update Snapshots"
+              HUSKY=0 git push
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: 'test-results/**/*.xml'
+          - task: PublishPipelineArtifact@1
+            condition: succeededOrFailed()
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/test-results'
+              artifact: 'testresults'
+              publishLocation: 'pipeline'
