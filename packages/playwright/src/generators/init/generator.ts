@@ -14,6 +14,7 @@ import { Linter } from '@nrwl/linter';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
+import { updateAzureDevopsStages } from './utils/update-azdevops-build';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
 import { updateTaskctlYaml } from './utils/update-tasks-yamls';
@@ -98,6 +99,9 @@ export default async function initGenerator(
         readProjectConfiguration(tree, projectE2E),
         morphTree,
     );
+
+    // update ci build files
+    updateAzureDevopsStages(tree);
 
     // example.spec.ts
     addFiles(tree, 'files', normalizedOptionsForE2E);
