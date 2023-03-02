@@ -33,15 +33,12 @@ export function updateAzureDevopsSnapshotsYaml(tree: Tree) {
             ),
         );
         const nxJson = readJson(tree, 'nx.json') as NxJsonConfiguration;
-        console.log(updateSnapshotsYAML);
-        console.log(updateSnapshotsYAML.variables);
         updateSnapshotsYAML.variables[1] = {
             group: `${nxJson.stacks.business.company}-${nxJson.stacks.business.domain}-${nxJson.stacks.business.component}-common`,
         };
         updateSnapshotsYAML.variables[3] = {
             group: `${nxJson.stacks.business.company}-${nxJson.stacks.business.domain}-${nxJson.stacks.business.component}-nonprod`,
         };
-        console.log(updateSnapshotsYAML.variables);
         tree.write(
             'build/azDevOps/azuredevops-updatesnapshots.yaml',
             YAML.stringify(updateSnapshotsYAML),
