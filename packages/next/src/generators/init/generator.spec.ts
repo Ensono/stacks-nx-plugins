@@ -418,7 +418,7 @@ describe('next install generator', () => {
             const docker = tree.read('next-app/Dockerfile')?.toString();
 
             expect(docker).toContain(
-                'CMD ["dumb-init", "node", "/server/main.js"]',
+                'CMD ["dumb-init", "node", "server/main.js"]',
             );
         });
     });

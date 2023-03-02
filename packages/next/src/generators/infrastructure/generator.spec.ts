@@ -131,7 +131,7 @@ describe('next infrastructure generator', () => {
             const docker = tree.read('next-app/Dockerfile')?.toString();
 
             expect(docker).toContain(
-                'CMD ["dumb-init", "node", "/server/main.js"]',
+                'CMD ["dumb-init", "node", "server/main.js"]',
             );
         });
 
