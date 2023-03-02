@@ -14,7 +14,10 @@ import path from 'path';
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { VisualRegressionGeneratorSchema } from './schema';
 import { updateAzureDevopsSnapshotsYaml } from './utils/update-azure-devops-updatesnapshots';
-import { updatePlaywrightConfigWithApplitoolsVisualRegression } from './utils/update-playwright-config';
+import {
+    updatePlaywrightConfigWithApplitoolsVisualRegression,
+    updatePlaywrightConfigWithNativeVisualRegression,
+} from './utils/update-playwright-config';
 import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
 import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
 
@@ -88,6 +91,7 @@ export default async function visualRegressionGenerator(
                 readProjectConfiguration(tree, options.project),
                 tree,
             );
+            updatePlaywrightConfigWithNativeVisualRegression(morphTree);
 
             // update tasks.yaml
             updateTasksYaml(tree, { visualRegression: true });
