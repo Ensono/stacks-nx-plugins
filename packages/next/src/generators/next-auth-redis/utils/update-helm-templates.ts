@@ -15,7 +15,7 @@ export function updateDeploymentYaml(
               value: {{ .Values.nextAuthURL }}`;
     const filePath = joinPathFragments(
         project.root,
-        'build/helm/templates/deplyoment.yaml',
+        'build/helm/templates/deployment.yaml',
     );
     const deployment = tree.read(filePath, 'utf-8');
 
