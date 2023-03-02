@@ -11,7 +11,7 @@ describe('app-insights generator', () => {
     const options: AppInsightsGeneratorSchema = {
         project: 'test',
         server: 'server.js',
-        appInsightsKey: 'TEST_KEY',
+        applicationinsightsConnectionString: 'TEST_CONNECTION_STRING_ENV',
     };
 
     beforeEach(() => {
@@ -46,7 +46,9 @@ describe('app-insights generator', () => {
 
         await generator(appTree, options);
 
-        expect(initAppInsightsSpy).toHaveBeenCalledWith('TEST_KEY');
+        expect(initAppInsightsSpy).toHaveBeenCalledWith(
+            'TEST_CONNECTION_STRING_ENV',
+        );
         expect(configureAppInsightsSpy).toHaveBeenCalledWith('test');
         expect(startAppInsightsSpy).toHaveBeenCalled();
     });
@@ -55,7 +57,7 @@ describe('app-insights generator', () => {
         const incorrectOptions: AppInsightsGeneratorSchema = {
             project: 'unknown-project',
             server: 'server.js',
-            appInsightsKey: 'TEST_KEY',
+            applicationinsightsConnectionString: 'TEST_CONNECTION_STRING_ENV',
         };
         await expect(generator(appTree, incorrectOptions)).rejects.toThrowError(
             `No application was found with the name 'unknown-project'`,
