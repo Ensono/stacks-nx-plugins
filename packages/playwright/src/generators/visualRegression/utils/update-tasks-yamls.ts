@@ -27,6 +27,12 @@ export function updateTasksYaml(
                           'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
                       ],
                   },
+                  'e2e:updatesnapshots': {
+                      description: 'Run e2e snapshot updates in ci',
+                      command: [
+                          'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1 --skip-nx-cache --update-snapshots --grep @visual-regression',
+                      ],
+                  },
               }
             : {
                   ...tasks.tasks,

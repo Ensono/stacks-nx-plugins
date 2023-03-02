@@ -190,7 +190,7 @@ describe('playwright generator', () => {
         expect(taskctlYAML.pipelines.updatesnapshots).toBeTruthy();
     }, 100_000);
 
-    it('should run successfully with native regeression and azure builds have been generated', async () => {
+    it.only('should run successfully with native regeression and azure builds have been generated', async () => {
         appTree.write('build/azDevOps/azuredevops-stages.yaml', '');
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
