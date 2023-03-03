@@ -18,6 +18,7 @@ import { updateAzureDevopsStages } from './utils/update-azdevops-build';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
 import { updateTaskctlYaml } from './utils/update-tasks-yamls';
+import { PLAYWRIGHT_VERSION } from './utils/versions';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
@@ -59,7 +60,7 @@ function updateDependencies(tree) {
         tree,
         {},
         {
-            playwright: '^1.31.1',
+            playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': '*',
             '@mands/nx-playwright': '*',
         },
