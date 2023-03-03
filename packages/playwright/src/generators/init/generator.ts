@@ -17,7 +17,7 @@ import { PlaywrightGeneratorSchema } from './schema';
 import { updateAzureDevopsStages } from './utils/update-azdevops-build';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
-import { updateTaskctlYaml } from './utils/update-tasks-yamls';
+import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
 import { PLAYWRIGHT_VERSION } from './utils/versions';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
@@ -115,6 +115,8 @@ export default async function initGenerator(
 
     // update ci build files
     updateTaskctlYaml(tree);
+
+    updateTasksYaml(tree);
 
     updateAzureDevopsStages(tree);
 
