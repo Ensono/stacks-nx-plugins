@@ -88,15 +88,12 @@ export function updatePlaywrightConfigWithDefault(
 }
 
 export function updatePlaywrightConfigWithNativeVisualRegression(
-    project: ProjectConfiguration,
     morphTree: Project,
 ) {
-    const appNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'playwright.config.ts'),
-    );
+    const appNode = morphTree.addSourceFileAtPath('playwright.config.base.ts');
 
     const config = appNode
-        .getVariableDeclaration('config')
+        .getVariableDeclaration('baseConfig')
         .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
     config.addPropertyAssignments([
@@ -105,13 +102,22 @@ export function updatePlaywrightConfigWithNativeVisualRegression(
             initializer: `'missing'`,
         },
         {
+            name: 'ignoreSnapshots',
+            initializer: '!process.env.CI',
+        },
+        {
             name: 'expect',
             initializer: `{
-                toHaveScreenshot: {
-                  threshold: 0.2,
-                  animations: 'disabled',
-                },
-              }`,
+              toHaveScreenshot: {
+                maxDiffPixelRatio: 0.05,
+                threshold: 0.2,
+                animations: 'disabled',
+              },
+              toMatchSnapshot: {
+                maxDiffPixelRatio: 0.05,
+                threshold: 0.2,
+              },
+            }`,
         },
     ]);
 

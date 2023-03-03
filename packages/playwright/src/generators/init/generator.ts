@@ -14,8 +14,11 @@ import { Linter } from '@nrwl/linter';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
+import { updateAzureDevopsStages } from './utils/update-azdevops-build';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
+import { updateTaskctlYaml } from './utils/update-tasks-yamls';
+import { PLAYWRIGHT_VERSION } from './utils/versions';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
@@ -57,7 +60,7 @@ function updateDependencies(tree) {
         tree,
         {},
         {
-            playwright: '*',
+            playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': '*',
             '@mands/nx-playwright': '*',
         },
@@ -88,7 +91,7 @@ export default async function initGenerator(
     const morphTree = tsMorphTree(tree);
 
     // playwright.config.base.ts
-    updatePlaywrightConfigBase(morphTree);
+    updatePlaywrightConfigBase(morphTree, options.project);
 
     // add extra config to playwright.config.ts in project
     updatePlaywrightConfigWithDefault(
@@ -109,6 +112,11 @@ export default async function initGenerator(
         '/playwright-report/',
         '/playwright/.cache/',
     ]);
+
+    // update ci build files
+    updateTaskctlYaml(tree);
+
+    updateAzureDevopsStages(tree);
 
     await formatFiles(tree);
 

@@ -1,5 +1,5 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
+import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 import YAML from 'yaml';
@@ -50,9 +50,75 @@ describe('playwright generator', () => {
         appTree.write(
             'taskctl.yaml',
             YAML.stringify({
-                pipelines: { dev: [], fe: [], nonprod: [], prod: [] },
+                pipelines: {
+                    dev: [
+                        { task: 'lint' },
+                        { task: 'build', depends_on: 'lint' },
+                        { task: 'e2e:ci', depends_on: 'build' },
+                        { task: 'version', depends_on: 'e2e:ci' },
+                        { task: 'terraform', depends_on: 'version' },
+                        { task: 'helm', depends_on: 'terraform' },
+                    ],
+                    fe: [
+                        { task: 'lint' },
+                        { task: 'build', depends_on: 'lint' },
+                        { task: 'e2e:ci', depends_on: 'build' },
+                        { task: 'version', depends_on: 'e2e:ci' },
+                    ],
+                    nonprod: [
+                        { task: 'lint:ci' },
+                        { task: 'build:ci', depends_on: 'lint:ci' },
+                        { task: 'test:ci', depends_on: 'build:ci' },
+                        { task: 'e2e:ci', depends_on: 'test:ci' },
+                        { task: 'version:nonprod', depends_on: 'e2e:ci' },
+                        {
+                            task: 'terraform:nonprod',
+                            depends_on: 'version:nonprod',
+                        },
+                        {
+                            task: 'helm:nonprod',
+                            depends_on: 'terraform:nonprod',
+                        },
+                    ],
+                    prod: [
+                        { task: 'build:ci' },
+                        { task: 'test:ci', depends_on: 'build:ci' },
+                        { task: 'e2e:ci', depends_on: 'test:ci' },
+                        { task: 'version:prod', depends_on: 'e2e:ci' },
+                        { task: 'terraform:prod', depends_on: 'version:prod' },
+                        { task: 'helm:prod', depends_on: 'terraform:prod' },
+                    ],
+                },
             }),
         );
+        updateJson(appTree, 'nx.json', nxJson => ({
+            ...nxJson,
+            stacks: {
+                business: {
+                    company: 'Amido',
+                    domain: 'stacks',
+                    component: 'nx',
+                },
+                domain: {
+                    internal: 'test.com',
+                    external: 'test.dev',
+                },
+                cloud: {
+                    region: 'euw',
+                    platform: 'azure',
+                },
+                pipeline: 'azdo',
+                terraform: {
+                    group: 'terraform-group',
+                    storage: 'terraform-storage',
+                    container: 'terraform-container',
+                },
+                vcs: {
+                    type: 'github',
+                    url: 'remote.git',
+                },
+            },
+        }));
         appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
     });
 
@@ -90,29 +156,6 @@ describe('playwright generator', () => {
         const projectConfigFile = project.addSourceFileAtPath(
             `${projectNameE2E}/playwright.config.ts`,
         );
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            projectConfigObject?.getProperty('updateSnapshots')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: `'missing'`,
-            }),
-        );
-        expect(
-            projectConfigObject?.getProperty('expect')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: `{
-                        toHaveScreenshot: {
-                          threshold: 0.2,
-                          animations: 'disabled',
-                        },
-                      }`,
-            }),
-        );
 
         // Add infra tasks
         const projectJson = readJson(
@@ -127,7 +170,12 @@ describe('playwright generator', () => {
         expect(playwrightPackageJsonVersion).toBeTruthy();
         expect(
             projectJson.targets['e2e-docker']?.options?.commands[0]?.command,
-        ).toContain('mcr.microsoft.com/playwright:jammy');
+        ).toContain(
+            `mcr.microsoft.com/playwright:v${playwrightPackageJsonVersion?.replace(
+                '^',
+                '',
+            )}`,
+        );
 
         const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
         expect(tasksYAML.tasks['e2e:local']).toEqual({
@@ -144,13 +192,31 @@ describe('playwright generator', () => {
         });
 
         const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
-        expect(taskctlYAML.pipelines.dev).toContainEqual({ task: 'e2e:local' });
-        expect(taskctlYAML.pipelines.fe).toContainEqual({ task: 'e2e:local' });
-        expect(taskctlYAML.pipelines.nonprod).toContainEqual({
-            task: 'e2e:ci',
-        });
-        expect(taskctlYAML.pipelines.prod).toContainEqual({ task: 'e2e:ci' });
+        expect(taskctlYAML.pipelines.updatesnapshots).toBeTruthy();
     }, 100_000);
+
+    it('should run successfully with native regeression and azure builds have been generated', async () => {
+        appTree.write('build/azDevOps/azuredevops-stages.yaml', '');
+        const options: VisualRegressionGeneratorSchema = {
+            project: projectNameE2E,
+            visualRegression: 'native',
+        };
+        await initGenerator(appTree, { project: projectName });
+        await generator(appTree, options);
+        const azureUpdateSnapshots = YAML.parse(
+            appTree.read(
+                'build/azDevOps/azuredevops-updatesnapshots.yaml',
+                'utf8',
+            ),
+        );
+        expect(azureUpdateSnapshots.variables).toBeTruthy();
+        expect(azureUpdateSnapshots.variables).toEqual([
+            { template: 'azuredevops-vars.yaml' },
+            { group: 'Amido-stacks-nx-common' },
+            { name: 'DebugPreference', value: 'Continue' },
+            { group: 'Amido-stacks-nx-nonprod' },
+        ]);
+    });
 
     it('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {

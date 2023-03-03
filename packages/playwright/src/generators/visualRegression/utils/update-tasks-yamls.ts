@@ -27,6 +27,12 @@ export function updateTasksYaml(
                           'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
                       ],
                   },
+                  'e2e:updatesnapshots': {
+                      description: 'Run e2e snapshot updates in ci',
+                      command: [
+                          'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1 --skip-nx-cache --update-snapshots --grep @visual-regression',
+                      ],
+                  },
               }
             : {
                   ...tasks.tasks,
@@ -51,21 +57,8 @@ export function updateTaskctlYaml(
     }
 
     const taskctl = YAML.parse(tree.read('taskctl.yaml', 'utf8'));
-    if (taskctl.pipelines) {
-        if (visualRegression) {
-            // Add local tasks
-            taskctl.pipelines.dev.push({ task: 'e2e:local' });
-            taskctl.pipelines.fe.push({ task: 'e2e:local' });
-            // Add ci tasks
-            taskctl.pipelines.nonprod.push({ task: 'e2e:ci' });
-            taskctl.pipelines.prod.push({ task: 'e2e:ci' });
-        } else {
-            // Add tasks
-            taskctl.pipelines.dev.push({ task: 'e2e' });
-            taskctl.pipelines.fe.push({ task: 'e2e' });
-            taskctl.pipelines.nonprod.push({ task: 'e2e' });
-            taskctl.pipelines.prod.push({ task: 'e2e' });
-        }
+    if (taskctl.pipelines && visualRegression) {
+        taskctl.pipelines.updatesnapshots = [{ task: 'e2e:updatesnapshots' }];
     }
 
     tree.write('taskctl.yaml', YAML.stringify(taskctl));

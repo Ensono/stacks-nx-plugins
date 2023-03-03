@@ -13,6 +13,7 @@ import path from 'path';
 
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { VisualRegressionGeneratorSchema } from './schema';
+import { updateAzureDevopsSnapshotsYaml } from './utils/update-azure-devops-updatesnapshots';
 import {
     updatePlaywrightConfigWithApplitoolsVisualRegression,
     updatePlaywrightConfigWithNativeVisualRegression,
@@ -85,23 +86,20 @@ export default async function visualRegressionGenerator(
 
     switch (options.visualRegression) {
         case visualRegressionTypes.NATIVE:
-            // add extra to playwright.config.ts in project
-            updatePlaywrightConfigWithNativeVisualRegression(
-                readProjectConfiguration(tree, options.project),
-                morphTree,
-            );
-
             // update project.json with new visual target
             updateProjectJsonWithNativeVisualRegressionTargets(
                 readProjectConfiguration(tree, options.project),
                 tree,
             );
+            updatePlaywrightConfigWithNativeVisualRegression(morphTree);
 
             // update tasks.yaml
             updateTasksYaml(tree, { visualRegression: true });
 
             // update taskctl.yaml
             updateTaskctlYaml(tree, { visualRegression: true });
+
+            updateAzureDevopsSnapshotsYaml(tree);
 
             // example.spec.ts
             addFiles(tree, 'files/native', normalizedOptions);

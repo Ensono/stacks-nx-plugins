@@ -18,6 +18,16 @@ tasks:
     description: Build applications
     command:
     - npx nx affected --base="$BASE_SHA" --target=build
+  
+  test:
+    description: Test applications
+    command:
+      - npx nx affected --base="$BASE_SHA" --target=test
+
+  test:ci:
+    description: Test applications
+    command:
+    - npx nx affected --base="$BASE_SHA" --target=test
 
   helm:
     description: Lint Helm Charts
