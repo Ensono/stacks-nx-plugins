@@ -118,6 +118,7 @@ describe('playwright generator', () => {
         const baseConfigFile = project.addSourceFileAtPath(
             'playwright.config.base.ts',
         );
+
         const baseConfigObject = baseConfigFile
             ?.getVariableDeclaration('baseConfig')
             .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);

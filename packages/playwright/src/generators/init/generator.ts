@@ -89,8 +89,6 @@ export default async function initGenerator(
 
     const morphTree = tsMorphTree(tree);
 
-    updateTaskctlYaml(tree);
-
     // playwright.config.base.ts
     updatePlaywrightConfigBase(morphTree, options.project);
 
@@ -99,9 +97,6 @@ export default async function initGenerator(
         readProjectConfiguration(tree, projectE2E),
         morphTree,
     );
-
-    // update ci build files
-    updateAzureDevopsStages(tree);
 
     // example.spec.ts
     addFiles(tree, 'files', normalizedOptionsForE2E);
@@ -116,6 +111,11 @@ export default async function initGenerator(
         '/playwright-report/',
         '/playwright/.cache/',
     ]);
+
+    // update ci build files
+    updateTaskctlYaml(tree);
+
+    updateAzureDevopsStages(tree);
 
     await formatFiles(tree);
 
