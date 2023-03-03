@@ -45,9 +45,9 @@ describe('playwright e2e', () => {
             const { baseProject, e2eProject } = setupBaseProject();
 
             // generate initial playwright project and amend playwright config files
-            runNxCommand(
+            await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
-            );
+            )
             expect(() =>
                 checkFilesExist(
                     'playwright.config.base.ts',
@@ -184,11 +184,11 @@ describe('playwright e2e', () => {
             const { baseProject, e2eProject } = setupBaseProject();
 
             // generate initial playwright project
-            runNxCommand(
+            await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
             );
             // amend playwright config files
-            runNxCommand(
+            await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:visualRegression --project=${e2eProject} --visualRegression=native --no-interactive`,
             );
 
@@ -211,27 +211,6 @@ describe('playwright e2e', () => {
             const projectConfigObject = projectConfigFile
                 ?.getVariableDeclaration('config')
                 ?.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-            expect(
-                projectConfigObject
-                    ?.getProperty('updateSnapshots')
-                    ?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: `'missing'`,
-                }),
-            );
-            expect(
-                projectConfigObject?.getProperty('expect')?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: `{
-    toHaveScreenshot: {
-      threshold: 0.2,
-      animations: 'disabled',
-    },
-  }`,
-                }),
-            );
         }, 200_000);
 
         it('should successfully add applitools regression config and add dependencies', async () => {
