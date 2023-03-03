@@ -11,9 +11,9 @@ export function updateAzureDevopsStages(tree: Tree) {
         }
         const scriptIndex = stages?.stages[0]?.jobs[0]?.steps.findIndex(
             job =>
-                job?.script.includes('npm ci') &&
-                job?.script.includes('git config --global user.email') &&
-                job?.script.includes('git config --global user.name'),
+                job?.script?.includes('npm ci') &&
+                job?.script?.includes('git config --global user.email') &&
+                job?.script?.includes('git config --global user.name'),
         );
 
         if (scriptIndex && stages?.stages[0]?.jobs[0]?.steps[scriptIndex]) {
