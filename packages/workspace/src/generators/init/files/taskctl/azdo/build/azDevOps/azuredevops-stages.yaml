@@ -1,7 +1,7 @@
 parameters:
     - name: azureSubscription
       type: string
-      default: %REPLACE%
+      default: '%REPLACE%'
     - name: containerRegistry
       type: string
       default: <%= nonprodRegistry %>
