@@ -11,8 +11,7 @@ resource "azurerm_redis_cache" "default_primary" {
   family              = var.redis_family
   sku_name            = var.redis_sku_name
   minimum_tls_version = var.minimum_tls_version
-}
-  `;
+}`;
 
     const filePath = joinPathFragments(
         project.root,
@@ -123,12 +122,10 @@ variable "redis_sku_name" {
 }
 
 export function updateOutputsTf(project: ProjectConfiguration, tree: Tree) {
-    const update = `
-output "redis_connection_string" {
+    const update = `output "redis_connection_string" {
   sensitive = true
   value     = "rediss://:\${azurerm_redis_cache.default_primary.primary_access_key}@\${azurerm_redis_cache.default_primary.hostname}:\${azurerm_redis_cache.default_primary.ssl_port}"
-}
-    `;
+}`;
 
     const filePath = joinPathFragments(
         project.root,
