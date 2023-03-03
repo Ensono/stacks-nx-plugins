@@ -7,12 +7,12 @@ export function updateDeploymentYaml(
 ) {
     const update = `
           env:
-            - name: REDIS_URL
-              value: {{ .Values.redisURL }}
-            - name: NEXTAUTH_SECRET
-              value: {{ .Values.nextAuthSecret }}
-            - name: NEXTAUTH_URL
-              value: {{ .Values.nextAuthURL }}`;
+          - name: REDIS_URL
+            value: {{ .Values.redisURL }}
+          - name: NEXTAUTH_SECRET
+            value: {{ .Values.nextAuthSecret }}
+          - name: NEXTAUTH_URL
+            value: {{ .Values.nextAuthURL }}`;
     const filePath = joinPathFragments(
         project.root,
         'build/helm/templates/deployment.yaml',
