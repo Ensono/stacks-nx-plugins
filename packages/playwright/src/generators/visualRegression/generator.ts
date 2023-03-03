@@ -13,6 +13,7 @@ import path from 'path';
 
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { VisualRegressionGeneratorSchema } from './schema';
+import { updateAzureDevopsStagesApplitools } from './utils/update-azdevops-stage';
 import { updateAzureDevopsSnapshotsYaml } from './utils/update-azure-devops-updatesnapshots';
 import {
     updatePlaywrightConfigWithApplitoolsVisualRegression,
@@ -113,6 +114,8 @@ export default async function visualRegressionGenerator(
 
             // example.spec.ts
             addFiles(tree, 'files/applitools', normalizedOptions);
+
+            updateAzureDevopsStagesApplitools(tree);
 
             console.warn(
                 chalk.yellow`Don't forget to set your 'APPLITOOLS_API_KEY'.`,
