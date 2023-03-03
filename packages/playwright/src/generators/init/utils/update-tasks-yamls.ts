@@ -42,31 +42,43 @@ export function updateTasksYaml(
     tree.write('build/taskctl/tasks.yaml', YAML.stringify(tasks));
 }
 
-export function updateTaskctlYaml(
-    tree: Tree,
-    { visualRegression }: { visualRegression: boolean },
-) {
+export function updateTaskctlYaml(tree: Tree) {
     if (!tree.exists('taskctl.yaml')) {
         return;
     }
 
     const taskctl = YAML.parse(tree.read('taskctl.yaml', 'utf8'));
-    if (taskctl.pipelines) {
-        if (visualRegression) {
-            // Add local tasks
-            taskctl.pipelines.dev.push({ task: 'e2e:local' });
-            taskctl.pipelines.fe.push({ task: 'e2e:local' });
-            // Add ci tasks
-            taskctl.pipelines.nonprod.push({ task: 'e2e:ci' });
-            taskctl.pipelines.prod.push({ task: 'e2e:ci' });
-        } else {
-            // Add tasks
-            taskctl.pipelines.dev.push({ task: 'e2e' });
-            taskctl.pipelines.fe.push({ task: 'e2e' });
-            taskctl.pipelines.nonprod.push({ task: 'e2e' });
-            taskctl.pipelines.prod.push({ task: 'e2e' });
-        }
-    }
+    taskctl.pipelines.dev = [
+        { task: 'lint' },
+        { task: 'build', depends_on: 'lint' },
+        { task: 'e2e:ci', depends_on: 'build' },
+        { task: 'version', depends_on: 'e2e:ci' },
+        { task: 'terraform', depends_on: 'version' },
+        { task: 'helm', depends_on: 'terraform' },
+    ];
+    taskctl.pipelines.fe = [
+        { task: 'lint' },
+        { task: 'build', depends_on: 'lint' },
+        { task: 'e2e:ci', depends_on: 'build' },
+        { task: 'version', depends_on: 'e2e:ci' },
+    ];
+    taskctl.pipelines.nonprod = [
+        { task: 'lint:ci' },
+        { task: 'build:ci', depends_on: 'lint:ci' },
+        { task: 'test:ci', depends_on: 'build:ci' },
+        { task: 'e2e:ci', depends_on: 'test:ci' },
+        { task: 'version:nonprod', depends_on: 'e2e:ci' },
+        { task: 'terraform:nonprod', depends_on: 'version:nonprod' },
+        { task: 'helm:nonprod', depends_on: 'terraform:nonprod' },
+    ];
+    taskctl.pipelines.prod = [
+        { task: 'build:ci' },
+        { task: 'test:ci', depends_on: 'build:ci' },
+        { task: 'e2e:ci', depends_on: 'test:ci' },
+        { task: 'version:prod', depends_on: 'e2e:ci' },
+        { task: 'terraform:prod', depends_on: 'version:prod' },
+        { task: 'helm:prod', depends_on: 'terraform:prod' },
+    ];
 
     tree.write('taskctl.yaml', YAML.stringify(taskctl));
 }
