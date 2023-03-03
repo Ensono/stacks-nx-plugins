@@ -177,20 +177,6 @@ describe('playwright generator', () => {
             )}`,
         );
 
-        const tasksYAML = YAML.parse(appTree.read('build/tasks.yaml', 'utf-8'));
-        expect(tasksYAML.tasks['e2e:local']).toEqual({
-            description: 'Run e2e tests locally',
-            command: [
-                'npx nx affected --base="$BASE_SHA" --target=e2e-docker --parallel=1',
-            ],
-        });
-        expect(tasksYAML.tasks['e2e:ci']).toEqual({
-            description: 'Run e2e tests in ci',
-            command: [
-                'npx nx affected --base="$BASE_SHA" --target=e2e --parallel=1',
-            ],
-        });
-
         const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
         expect(taskctlYAML.pipelines.updatesnapshots).toBeTruthy();
     }, 100_000);

@@ -94,7 +94,7 @@ export default async function visualRegressionGenerator(
             updatePlaywrightConfigWithNativeVisualRegression(morphTree);
 
             // update tasks.yaml
-            updateTasksYaml(tree, { visualRegression: true });
+            updateTasksYaml(tree);
 
             // update taskctl.yaml
             updateTaskctlYaml(tree, { visualRegression: true });
