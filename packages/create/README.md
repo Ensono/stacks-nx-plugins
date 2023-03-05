@@ -23,14 +23,6 @@ npx @ensono-stacks/create-stacks-workspace@latest
 
 Visit the @ensono-stacks/create-stacks-workspace [docs](https://stacks.amido.com/docs/nx/create-stacks-workspace/ensono-stacks-create-stacks-workspace) for more information and setup instructions!
 
-## Generators and Executors
-
-View a list of the plugin executors/generators through the following command:
-
-```bash
-nx list @ensono-stacks/workspace
-```
-
 ### Presets
 On running the script you will be asked for a monorepo preset with the following options
 
