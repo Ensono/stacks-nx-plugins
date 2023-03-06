@@ -1,55 +1,141 @@
+
 # Logger
 
 This library is a NX plugin. Please see further documentation on NX plugins
+
 [here](https://nx.dev/plugin-features/create-your-own-plugin)
 
-What is its purpose?
+### What is its purpose?
+The  `@ensono-stacks/logger`  plugin allows you to add industry standard logging functionality to your Stacks apps.
 
-What benefits does it give you?
+Currently, the following logging libraries are supported:
+
+-   **[winston](https://github.com/winstonjs/winston)**
+
+## How to Get Started
+
+Install the @ensono-stacks/logger with the following command:
+
+### NPM
+```
+npm  install --save-dev @ensono-stacks/logger@latest
+```
+
+### Yarn
+```
+yarn  add  --dev @ensono-stacks/logger@latest
+```
 
 ## Generators and Executors
 
-View a list of the plugin executors/generators through the following command:
+To see a list of the plugin capabilities run the following command:
 
-```bash
+```
 nx list @ensono-stacks/logger
 ```
 
-## Development
+View additional information about a plugin capability through the following command:
 
-### Building
-
-Run the following command to build the plugin
-
-```bash
-nx build logger
+```
+nx g @ensono-stacks/logger:[generator-executor-name] --help
 ```
 
-### Tests
+### @ensono-stacks/logger:winston
 
-Run the following to execute the unit tests via [jest](https://jestjs.io/).
+Generates a new Nx library which contains a Winston logger instance and associated config.
 
-```bash
-nx test logger
-```
-
-### Linting
-
-Run the following to lint the code using [ESLint](https://eslint.org/).
+####  Usage
 
 ```bash
-nx lint logger
+nx g @ensono-stacks/logger:winston
 ```
 
-### Publish
+#### Command line arguments
 
-Run the following to publish the NPM package
+The following command line arguments are available:
 
-```bash
-nx publish logger
+| Option | Description | Type | Accepted Values | Default | Available in interactive prompt? |
+|---------------------|------------------------------------------------------------------|---------|-----------------|---------|----------------------------------|
+| --name | Name of the generated library | string | | N/A | Yes |
+| --tags | Add tags to the project (used for linting) | string | | N/A | |
+| --directory | Directory where the project is placed (within Nx libs directory) | string | | N/A | |
+| --skipFormat | Skip formatting files | boolean | true/false | false | |
+| --logLevelType | The type of log levels that will be used | enum | cli/syslog/npm | npm | Yes |
+| --consoleLogs | Output logs to the console | boolean | true/false | false | |
+| --fileTransportPath | File path used for logs transport | string | | N/A | |
+| --httpTransport | Add a http transport | boolean | true/false | false | |
+| --httpTransportHost | Remote host of the HTTP logging endpoint | string | | N/A | |
+| --httpTransportPort | Remote port of the HTTP logging endpoint | number | | N/A | |
+| --httpTransportPath | Remote URI of the HTTP logging endpoint | string | | N/A | |
+| --httpTransportSSL | Use SSL for the HTTP logging endpoint | boolean | true/false | false | |
+| --streamPath | Stream transport path | string | | N/A | |
+
+####  Generator Output
+
+The generator will create a new application within your libs folder with the following structure:
+
+```text
+.
+├── libs/[libname]
+│ ├── src
+│ ├── ├── index.ts // Contains the Winston configuration and creates the logger instance
+│ ├── ├── index.test.ts // Tests for the logger
+│ ├── .eslintrc.json // ESLint config - extends from workspace config
+│ ├── jest.config.ts // Jest config - extends from workspace config
+│ ├── project.json // Nx config file for the library
+│ ├── tsconfig.json // Main Typescript config for the library - extends workspace config & references the below two tsconfig files
+│ ├── tsconfig.lib.json // Typescript config for the library's source files (excluding tests)
+│ ├── tsconfig.spec.json // Typescript config for the library's test files
+│ ├── README.md // Information on the library and how to run scripts
+├── jest.config.ts // Workspace-level Jest config - created if this does not already exist
+└── jest.preset.ts // Workspace-leve Jest preset that extends `@nrwl/jest/preset` - created if this does not already exist.
 ```
+
+Additionally, the following files will be modified
+
+```text
+.
+├── nx.json // Adds configuration for Jest tests if this has not already been done by another generator
+├── package.json // Adds winston as a dependency
+└── tsconfig.base.json // Adds new library into `paths` field
+```
+
+####  Importing the logger into your app
+
+Having created a logger using the above [command](#usage), import the Winston logger instance from the newly created library (the import name can be found within the `tsconfig.base.json` files `paths` field) into your application:
+
+```typescript
+import logger from '@workspace-name/mynewlogger'
+
+logger.log({
+	level: 'info',
+	message: 'I love Ensono Stacks!',
+})
+
+```
+
+To change how Winston is configured, edit the created library:
+
+```typescript title=./libs/mynewlogger/src/index.ts
+
+const logger = winston.createLogger(logConfiguration);
+
+// Custom transport for non-production
+if (process.env.NODE_ENV !== 'production') {
+	logger.add(new winston.transports.Console({
+		format: winston.format.simple(),
+	}))
+}
+
+export default logger;
+```
+
+####  Other resources
+
+Documentation for Winston can be found [here](https://github.com/winstonjs/winston).
 
 ## Full documentation
 
 Please visit the stacks documentation page for `logger`
-[here](https://stacks.amido.com/docs) for more information
+
+[here](https://stacks.amido.com/docs/nx/logger/ensono-stacks-logger) for more information
