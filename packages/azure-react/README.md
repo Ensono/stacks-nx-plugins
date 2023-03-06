@@ -1,55 +1,201 @@
+
 # Azure React
 
+  
+
 This library is a NX plugin. Please see further documentation on NX plugins
+
 [here](https://nx.dev/plugin-features/create-your-own-plugin)
 
-What is its purpose?
+  
 
-What benefits does it give you?
+## What is its purpose?
+
+  Configures your ReactJS application to use various Azure services:
+
+-   [App Insights](https://www.npmjs.com/package/applicationinsights)
+-   ...more to come.
+
+## How to get started
+
+Install the `@ensono-stacks/azure-react` plugin with the following command:
+
+### NPM
+
+```bash
+npm install --save-dev @ensono-stacks/azure-react@latest
+```
+
+### Yarn
+
+```bash
+yarn add --dev @ensono-stacks/azure-react@latest
+```
 
 ## Generators and Executors
 
+  
+
 View a list of the plugin executors/generators through the following command:
+
+  
 
 ```bash
 nx list @ensono-stacks/azure-node
-```
+```  
 
-## Development
-
-### Building
-
-Run the following command to build the plugin
+View additional information about a plugin capability through the following commands:
 
 ```bash
-nx build azure-react
+nx g @ensono-stacks/azure-react:app-insights-web --help
 ```
 
-### Tests
+###  @ensono-stacks/azure-react:app-insights-web
 
-Run the following to execute the unit tests via [jest](https://jestjs.io/).
+Installs and configures a ReactJS Library with App Insights.
+
+This enables the following:
+- Tracking of router changes
+- React components usage statistics
+
+This generator will create a new ReactJS Library with [applicationinsights reactjs](https://www.npmjs.com/package/@microsoft/applicationinsights-react-js) and [applicationinsights web](https://www.npmjs.com/package/@microsoft/applicationinsights-web) npm packages installed and configured for you. This can then be imported an used in an existing ReactJS application.
+
+###  Usage
 
 ```bash
-nx test azure-react
+nx generate @ensono-stacks/azure-react:app-insights-web
 ```
 
-### Linting
+App insights requires the connection string environment variable to be set to the value set within Azure. The name of the connection string variable is set in the generator options `--connectionString`. Please see [documentation on connection strings](https://learn.microsoft.com/en-gb/azure/azure-monitor/app/sdk-connection-string?tabs=net) for more information
 
-Run the following to lint the code using [ESLint](https://eslint.org/).
+###  Command line arguments
 
-```bash
-nx lint azure-react
+The following command line arguments are available:
+
+| Option | Description | Type | Required |
+| --- | --------------------------------------------------------- | --- | --- |
+| --name | Library name | string | Required |
+| --connectionString | The env variable for the connection string. | string | Required |
+| --directory | A directory where the lib is placed. | string | Optional |
+| --importPath | What import path would you like to use for the library?. | string | Optional |
+| --tags | Add tags to the library (used for linting). | string | Optional |
+
+###  Generator Output
+
+- Adds an app insights config file
+
+```json
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+	DistributedTracingModes,
+	IConfig,
+} from '@microsoft/applicationinsights-common';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+
+import type { IConfiguration } from '@microsoft/applicationinsights-core-js';
+const appInsightConfig: IConfiguration & IConfig = {
+	enableAutoRouteTracking: false,
+	enableCorsCorrelation: true,
+	enableRequestHeaderTracking: true,
+	enableResponseHeaderTracking: true,
+	disableFetchTracking: false,
+	distributedTracingMode: DistributedTracingModes.AI_AND_W3C,
+	enableAjaxPerfTracking: true
+};
+
+export default appInsightConfig;
 ```
 
-### Publish
+- Adds a telemetry provider
 
-Run the following to publish the NPM package
+```json
 
-```bash
-nx publish azure-react
+import {
+	ReactPlugin,
+	AppInsightsContext,
+} from '@microsoft/applicationinsights-react-js';
+
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { FC, ReactNode } from 'react';
+import appInsightConfig from './app-insights-config';
+const reactPlugin = new ReactPlugin();
+const connectionString = process.env.<%= connectionString %>;
+
+export const appInsights = new ApplicationInsights({
+	config: {
+		connectionString,
+		...appInsightConfig,
+		extensions: [reactPlugin],
+		},
+});
+
+if (!appInsights.appInsights.isInitialized()) {
+	appInsights.loadAppInsights();
+}
+
+export const TelemetryProvider: FC<{ children?: ReactNode }> = ({ children }) => (
+	<AppInsightsContext.Provider value={reactPlugin}>
+		{children}
+	</AppInsightsContext.Provider>
+);
+
 ```
 
-## Full documentation
+- Installs and adds microsoft applicationinsights packages to package.json
 
-Please visit the stacks documentation page for `azure-react`
-[here](https://stacks.amido.com/docs) for more information
+```json
+"dependencies": {
+	...OtherDependencies
+	"@microsoft/applicationinsights-react-js": "3.4.0",
+	"@microsoft/applicationinsights-web": "2.8.9",
+}
+```
+
+###  Using Application Insights
+
+To use the Application Insights react hooks within your application please import the generated library and wrap your application in the TelemetryProvider installed by the generator for example
+
+```json
+import NxWelcome from './nx-welcome';
+import { TelemetryProvider } from 'packages/nameOfGeneratedAppInsightsLibrary/src';
+
+export function App() {
+	return (
+	<TelemetryProvider>
+		<NxWelcome title="welcome title" />
+		<div />
+	</TelemetryProvider>
+	);
+}
+
+export default App;
+```
+
+From here a `useAppInsightsContext` hook will be available to use anywhere within your ReactJS App. For example
+
+```json
+import React from "react";
+import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js";
+
+const MyComponent = () => {
+	const appInsights = useAppInsightsContext();
+	const metricData = {
+		average: engagementTime,
+		name: "React Component Engaged Time (seconds)",
+		sampleCount: 1
+	};
+
+	const additionalProperties = { "Component Name": 'MyComponent' };
+
+	appInsights.trackMetric(metricData, additionalProperties);
+
+	return (
+		<h1>My Component</h1>
+	);
+}
+
+export default MyComponent;
+```
+
+Full documentation and a getting started guide can be found at [React plug-in for Application Insights JavaScript SDK](https://learn.microsoft.com/en-gb/azure/azure-monitor/app/javascript-react-plugin)
