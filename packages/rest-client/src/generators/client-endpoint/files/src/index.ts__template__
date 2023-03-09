@@ -1,6 +1,5 @@
-import httpClient, { RequestConfig, Response } from '<%= httpClient %>';
-
 import { <%= className %>, <%= className %>Data } from './index.types';
+import httpClient, { RequestConfig, Response } from '<%= httpClient %>';
 
 const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= endpointName %>/v<%= endpointVersion %>`;
 
