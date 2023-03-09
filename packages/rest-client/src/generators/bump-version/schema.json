@@ -16,11 +16,6 @@
             },
             "pattern": "^[a-z0-9_/-]+"
         },
-        "directory": {
-            "type": "string",
-            "description": "Subdirectory inside libs/ where the generated endpoint placed.",
-            "alias": "dir"
-        },
         "endpointVersion": {
             "type": "number",
             "description": "The version you want to bump your endpoint. Omitting this value will bump latest version + 1.",
