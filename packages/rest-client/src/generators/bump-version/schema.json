@@ -8,8 +8,8 @@
     "properties": {
         "name": {
             "type": "string",
-            "description": "The endpoint name you want to bump.",
-            "x-prompt": "What is the name of the endpoint you want to bump?",
+            "description": "The endpoint you want to bump.",
+            "x-prompt": "Which endpoint you want to bump?",
             "$default": {
                 "$source": "argv",
                 "index": 0
@@ -27,5 +27,5 @@
             "pattern": "^\\d+$"
         }
     },
-    "required": ["name"]
+    "required": ["name", "directory"]
 }
