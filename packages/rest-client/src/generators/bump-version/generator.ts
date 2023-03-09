@@ -12,14 +12,21 @@ import { BumpVersionGeneratorSchema } from './schema';
 
 function findLatestVersion(
     tree: Tree,
-    { directory, endpointName }: { directory?: string; endpointName: string },
+    { endpointName }: { endpointName: string },
 ): number {
-    const versionsPath = readProjectConfiguration(
-        tree,
-        endpointName,
-    ).root.replace(/v(\d+)$/g, '');
+    let children;
+    try {
+        const versionsPath = readProjectConfiguration(
+            tree,
+            endpointName,
+        ).root.replace(/v(\d+)$/g, '');
 
-    const children = tree.children(versionsPath);
+        children = tree.children(versionsPath);
+    } catch {
+        throw new Error(
+            "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
+        );
+    }
 
     if (children.length === 0) {
         throw new Error(
@@ -105,7 +112,6 @@ export default async function bumpVersion(
     optionsParameter: BumpVersionGeneratorSchema,
 ) {
     const latestVersion = findLatestVersion(tree, {
-        directory: optionsParameter.directory,
         endpointName: optionsParameter.name,
     });
 
@@ -129,7 +135,6 @@ export default async function bumpVersion(
 
     const latestVersionOptions = normalizeOptions(tree, {
         name: `${endpointRoot}v${latestVersion}`,
-        directory: optionsParameter.directory,
         endpointName: endpointRoot,
         endpointVersion: latestVersion,
     });
