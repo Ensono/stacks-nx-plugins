@@ -104,6 +104,13 @@ export default async function bumpVersion(
         directory: optionsParameter.directory,
         endpointName: optionsParameter.name,
     });
+
+    if (Number.isNaN(latestVersion)) {
+        throw new TypeError(
+            `No version found. Please select your project with existing endpoints.`,
+        );
+    }
+
     const newVersion = determineNewVersion(
         latestVersion,
         optionsParameter.endpointVersion,
