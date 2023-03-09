@@ -1,5 +1,10 @@
 import { normalizeOptions, copyFiles } from '@ensono-stacks/core';
-import { formatFiles, getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
+import {
+    formatFiles,
+    names,
+    readProjectConfiguration,
+    Tree,
+} from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
@@ -9,12 +14,11 @@ function findLatestVersion(
     tree: Tree,
     { directory, endpointName }: { directory?: string; endpointName: string },
 ): number {
-    const pathElements = [
-        getWorkspaceLayout(tree).libsDir,
-        directory,
+    const versionsPath = readProjectConfiguration(
+        tree,
         endpointName,
-    ].filter(Boolean) as string[];
-    const versionsPath = path.join(...pathElements);
+    ).root.replace(/v(\d+)$/g, '');
+
     const children = tree.children(versionsPath);
 
     if (children.length === 0) {
@@ -116,18 +120,25 @@ export default async function bumpVersion(
         optionsParameter.endpointVersion,
     );
 
+    const libsEndpoint = readProjectConfiguration(
+        tree,
+        optionsParameter.name,
+    ).root.replace(/v(\d+)$/g, '');
+
+    const endpointRoot = libsEndpoint.replace('libs/', '');
+
     const latestVersionOptions = normalizeOptions(tree, {
-        name: `${optionsParameter.name}/v${latestVersion}`,
+        name: `${endpointRoot}v${latestVersion}`,
         directory: optionsParameter.directory,
-        endpointName: optionsParameter.name,
+        endpointName: endpointRoot,
         endpointVersion: latestVersion,
     });
 
     const newVersionOptions = normalizeOptions(tree, {
         ...optionsParameter,
         // include endpoint version in library name
-        name: `${optionsParameter.name}/v${newVersion}`,
-        endpointName: optionsParameter.name,
+        name: `${endpointRoot}v${newVersion}`,
+        endpointName: endpointRoot,
         endpointVersion: newVersion,
     });
 
