@@ -59,7 +59,7 @@ export function updateProjectJsonHelmUpgradeTarget(
                         defaultCommandIndex
                     ] = {
                         ...updatedCommand,
-                        command: `${updatedCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
+                        command: `${updatedCommand.command} --set nextAuthSecret="$NEXTAUTH_SECRET"`,
                     };
                 }
 
@@ -82,7 +82,7 @@ export function updateProjectJsonHelmUpgradeTarget(
                         'helm-upgrade'
                     ].configurations.prod.commands[prodCommandIndex] = {
                         ...updatedCommand,
-                        command: `${updatedCommand.command} --set nextAuthSecret=\\"$NEXTAUTH_SECRET\\"`,
+                        command: `${updatedCommand.command} --set nextAuthSecret="$NEXTAUTH_SECRET"`,
                     };
                 }
             }
