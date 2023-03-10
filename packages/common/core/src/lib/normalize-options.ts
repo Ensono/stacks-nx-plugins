@@ -39,10 +39,7 @@ export function normalizeOptions<TSchema extends BaseSchema>(
         projectDirectory,
     );
 
-    const projectName = projectDirectory
-        .replace(/\//g, '-')
-        .replace(/\\/g, '-');
-
+    const projectName = projectDirectory.replace(/\//g, '-');
     const parsedTags = options.tags
         ? options.tags.split(',').map(s => s.trim())
         : [];
