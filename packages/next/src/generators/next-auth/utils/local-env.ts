@@ -18,6 +18,11 @@ const providerEnv: Record<
         AZURE_AD_CLIENT_SECRET: '',
         AZURE_AD_TENANT_ID: '',
     },
+    azureAdB2C: {
+        AZURE_AD_CLIENT_ID: '',
+        AZURE_AD_CLIENT_SECRET: '',
+        AZURE_AD_TENANT_ID: '',
+    },
     none: {},
 };
 
