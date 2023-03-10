@@ -19,7 +19,7 @@
         "provider": {
             "type": "string",
             "description": "The provider to be installed.",
-            "enum": ["none", "azureAd", "azureAdB2C"],
+            "enum": ["none", "azureAd"],
             "default": "none",
             "x-prompt": "Which provider do you want to add?"
         },
