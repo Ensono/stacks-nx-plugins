@@ -8,8 +8,8 @@
     "properties": {
         "name": {
             "type": "string",
-            "description": "The endpoint you want to bump.",
-            "x-prompt": "Which endpoint do you want to bump?",
+            "description": "The endpoint name you want to bump.",
+            "x-prompt": "What is the name of the endpoint you want to bump?",
             "$default": {
                 "$source": "projectName"
             },

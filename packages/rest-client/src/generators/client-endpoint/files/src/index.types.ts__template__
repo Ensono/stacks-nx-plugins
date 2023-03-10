@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-export interface <%= endpointName %> {
+export interface <%= className %> {
 
 }
 
-export interface <%= endpointName %>Data {
+export interface <%= className %>Data {
 
 }

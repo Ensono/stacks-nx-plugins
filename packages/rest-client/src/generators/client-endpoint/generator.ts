@@ -27,7 +27,8 @@ const VALID_METHODS = [
 function addFiles(tree: Tree, options: NormalizedSchema) {
     const templateOptions = {
         ...options,
-        endpointName: names(options.endpointName).className,
+        ...names(options.name),
+        fnSuffix: names(options.endpointName).className,
         template: '',
     };
 
