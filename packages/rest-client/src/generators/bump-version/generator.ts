@@ -1,10 +1,5 @@
 import { normalizeOptions, copyFiles } from '@ensono-stacks/core';
-import {
-    formatFiles,
-    names,
-    readProjectConfiguration,
-    Tree,
-} from '@nrwl/devkit';
+import { formatFiles, getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 
@@ -12,21 +7,15 @@ import { BumpVersionGeneratorSchema } from './schema';
 
 function findLatestVersion(
     tree: Tree,
-    { endpointName }: { endpointName: string },
+    { directory, endpointName }: { directory?: string; endpointName: string },
 ): number {
-    let children;
-    try {
-        const versionsPath = readProjectConfiguration(
-            tree,
-            endpointName,
-        ).root.replace(/v(\d+)$/g, '');
-
-        children = tree.children(versionsPath);
-    } catch {
-        throw new Error(
-            "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
-        );
-    }
+    const pathElements = [
+        getWorkspaceLayout(tree).libsDir,
+        directory,
+        endpointName,
+    ].filter(Boolean) as string[];
+    const versionsPath = path.join(...pathElements);
+    const children = tree.children(versionsPath);
 
     if (children.length === 0) {
         throw new Error(
@@ -112,38 +101,26 @@ export default async function bumpVersion(
     optionsParameter: BumpVersionGeneratorSchema,
 ) {
     const latestVersion = findLatestVersion(tree, {
+        directory: optionsParameter.directory,
         endpointName: optionsParameter.name,
     });
-
-    if (Number.isNaN(latestVersion)) {
-        throw new TypeError(
-            `No version found. Please select your project with existing endpoints.`,
-        );
-    }
-
     const newVersion = determineNewVersion(
         latestVersion,
         optionsParameter.endpointVersion,
     );
 
-    const libsEndpoint = readProjectConfiguration(
-        tree,
-        optionsParameter.name,
-    ).root.replace(/v(\d+)$/g, '');
-
-    const endpointRoot = libsEndpoint.replace('libs/', '');
-
     const latestVersionOptions = normalizeOptions(tree, {
-        name: `${endpointRoot}v${latestVersion}`,
-        endpointName: endpointRoot,
+        name: `${optionsParameter.name}/v${latestVersion}`,
+        directory: optionsParameter.directory,
+        endpointName: optionsParameter.name,
         endpointVersion: latestVersion,
     });
 
     const newVersionOptions = normalizeOptions(tree, {
         ...optionsParameter,
         // include endpoint version in library name
-        name: `${endpointRoot}v${newVersion}`,
-        endpointName: endpointRoot,
+        name: `${optionsParameter.name}/v${newVersion}`,
+        endpointName: optionsParameter.name,
         endpointVersion: newVersion,
     });
 

@@ -11,9 +11,15 @@
             "description": "The endpoint you want to bump.",
             "x-prompt": "Which endpoint do you want to bump?",
             "$default": {
-                "$source": "projectName"
+                "$source": "argv",
+                "index": 0
             },
             "pattern": "^[a-z0-9_/-]+"
+        },
+        "directory": {
+            "type": "string",
+            "description": "Subdirectory inside libs/ where the generated endpoint placed.",
+            "alias": "dir"
         },
         "endpointVersion": {
             "type": "number",
@@ -21,5 +27,5 @@
             "pattern": "^\\d+$"
         }
     },
-    "required": ["name"]
+    "required": ["name", "directory"]
 }
