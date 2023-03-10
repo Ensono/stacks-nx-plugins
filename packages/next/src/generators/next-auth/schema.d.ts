@@ -1,5 +1,5 @@
 export interface NextAuthGeneratorSchema {
     project: string;
-    provider: 'none' | 'azureAd' | 'azureAdB2C';
+    provider: 'none' | 'azureAd';
     skipPackageJson?: boolean;
 }
