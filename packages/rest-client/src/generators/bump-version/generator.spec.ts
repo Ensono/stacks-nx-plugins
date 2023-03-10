@@ -9,13 +9,18 @@ import { BumpVersionGeneratorSchema } from './schema';
 describe('bump-version generator', () => {
     let tree: Tree;
     const options: BumpVersionGeneratorSchema = {
-        directory: 'endpoints',
         name: 'test',
     };
 
     beforeEach(async () => {
         tree = createTreeWithEmptyWorkspace();
         tree.write('endpoints/test/v1/src/index.ts', 'test');
+        tree.write(
+            'endpoints/test/v1/project.json',
+            `{
+                "name": "test"
+            }`,
+        );
     });
 
     it('should throw a TypeError if version is not a number', async () => {
@@ -53,7 +58,6 @@ describe('bump-version generator', () => {
         tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
         await generator(tree, {
             ...options,
-            directory: 'fixtures/endpoints',
         });
 
         expect(() =>
@@ -73,7 +77,6 @@ describe('bump-version generator', () => {
 
         await generator(tree, {
             ...options,
-            directory: 'fixtures/endpoints',
         });
 
         expect(() =>
@@ -85,7 +88,6 @@ describe('bump-version generator', () => {
         tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
         await generator(tree, {
             ...options,
-            directory: 'fixtures/endpoints',
             endpointVersion: 3,
         });
 
@@ -104,32 +106,29 @@ describe('bump-version generator', () => {
         );
 
         tree.write(
-            'fixtures/endpoints/test/v1/src/index.ts',
+            'endpoints/test/v1/src/index.ts',
             fs.readFileSync(path.join(fixturesPath, 'index.ts.fixture')),
         );
         tree.write(
-            'fixtures/endpoints/test/v1/src/index.test.ts',
+            'endpoints/test/v1/src/index.test.ts',
             fs.readFileSync(path.join(fixturesPath, 'index.test.ts.fixture')),
         );
         tree.write(
-            'fixtures/endpoints/test/v1/src/index.types.ts',
+            'endpoints/test/v1/src/index.types.ts',
             fs.readFileSync(path.join(fixturesPath, 'index.types.ts.fixture')),
         );
 
         await generator(tree, {
             ...options,
-            directory: 'fixtures/endpoints',
             endpointVersion: 3,
         });
 
-        const indexTs = tree
-            .read('fixtures/endpoints/test/v3/src/index.ts')
-            ?.toString();
+        const indexTs = tree.read('endpoints/test/v3/src/index.ts')?.toString();
         const indexTestTs = tree
-            .read('fixtures/endpoints/test/v3/src/index.test.ts')
+            .read('endpoints/test/v3/src/index.test.ts')
             ?.toString();
         const indexTypesTs = tree
-            .read('fixtures/endpoints/test/v3/src/index.types.ts')
+            .read('endpoints/test/v3/src/index.types.ts')
             ?.toString();
 
         expect(indexTs).not.toContain(
