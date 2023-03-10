@@ -63,11 +63,16 @@ describe('rest-client e2e', () => {
             const expectedImportName = `@proj/endpoints/${endpoint}/v1`;
 
             const tsConfig = readJson('tsconfig.base.json');
-            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportName, [`libs/endpoints/${endpoint}/v1/src/index.ts`]);
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(
+                expectedImportName,
+                [`libs/endpoints/${endpoint}/v1/src/index.ts`],
+            );
         }, 120000);
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(`test endpoints-${endpoint}-v1`);
+            const result = await runNxCommandAsync(
+                `test endpoints-${endpoint}-v1`,
+            );
 
             expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
         });
@@ -75,6 +80,7 @@ describe('rest-client e2e', () => {
 
     describe('bump-version', () => {
         const endpoint = uniq('test-endpoint');
+        const endpointWithDirectory = `endpoints/${endpoint}`;
 
         beforeAll(async () => {
             await runNxCommand(
@@ -84,39 +90,47 @@ describe('rest-client e2e', () => {
 
         it('should copy the existing endpoint and bump the version', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:bump-version ${endpoint} --directory=endpoints --endpointVersion=3 --no-interactive`,
+                `generate @ensono-stacks/rest-client:bump-version --name endpoints-${endpoint}-v1 --endpointVersion=3 --no-interactive`,
             );
 
             expect(() =>
                 checkFilesExist(
-                    `libs/endpoints/${endpoint}/v1/src/index.ts`,
-                    `libs/endpoints/${endpoint}/v1/src/index.test.ts`,
-                    `libs/endpoints/${endpoint}/v1/src/index.types.ts`,
-                    `libs/endpoints/${endpoint}/v1/project.json`,
-                    `libs/endpoints/${endpoint}/v1/tsconfig.json`,
+                    `libs/${endpointWithDirectory}/v1/src/index.ts`,
+                    `libs/${endpointWithDirectory}/v1/src/index.test.ts`,
+                    `libs/${endpointWithDirectory}/v1/src/index.types.ts`,
+                    `libs/${endpointWithDirectory}/v1/project.json`,
+                    `libs/${endpointWithDirectory}/v1/tsconfig.json`,
                 ),
             ).not.toThrow();
 
             expect(() =>
                 checkFilesExist(
-                    `libs/endpoints/${endpoint}/v3/src/index.ts`,
-                    `libs/endpoints/${endpoint}/v3/src/index.test.ts`,
-                    `libs/endpoints/${endpoint}/v3/src/index.types.ts`,
-                    `libs/endpoints/${endpoint}/v3/project.json`,
-                    `libs/endpoints/${endpoint}/v3/tsconfig.json`,
+                    `libs/${endpointWithDirectory}/v3/src/index.ts`,
+                    `libs/${endpointWithDirectory}/v3/src/index.test.ts`,
+                    `libs/${endpointWithDirectory}/v3/src/index.types.ts`,
+                    `libs/${endpointWithDirectory}/v3/project.json`,
+                    `libs/${endpointWithDirectory}/v3/tsconfig.json`,
                 ),
             ).not.toThrow();
 
-            const expectedImportNameV1 = `@proj/endpoints/${endpoint}/v1`;
-            const expectedImportNameV3 = `@proj/endpoints/${endpoint}/v3`;
+            const expectedImportNameV1 = `@proj/${endpointWithDirectory}/v1`;
+            const expectedImportNameV3 = `@proj/${endpointWithDirectory}/v3`;
 
             const tsConfig = readJson('tsconfig.base.json');
-            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportNameV1, [`libs/endpoints/${endpoint}/v1/src/index.ts`]);
-            expect(tsConfig.compilerOptions.paths).toHaveProperty(expectedImportNameV3, [`libs/endpoints/${endpoint}/v3/src/index.ts`]);
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(
+                expectedImportNameV1,
+                [`libs/${endpointWithDirectory}/v1/src/index.ts`],
+            );
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(
+                expectedImportNameV3,
+                [`libs/${endpointWithDirectory}/v3/src/index.ts`],
+            );
         }, 120000);
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(`test endpoints-${endpoint}-v3`);
+            const result = await runNxCommandAsync(
+                `test endpoints-${endpoint}-v3`,
+            );
 
             expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
         });
