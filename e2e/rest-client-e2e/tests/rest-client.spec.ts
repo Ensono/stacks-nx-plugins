@@ -90,7 +90,7 @@ describe('rest-client e2e', () => {
 
         it('should copy the existing endpoint and bump the version', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:bump-version endpoints-${endpoint}-v1 --endpointVersion=3 --no-interactive`,
+                `generate @ensono-stacks/rest-client:bump-version --name endpoints-${endpoint}-v1 --endpointVersion=3 --no-interactive`,
             );
 
             expect(() =>
@@ -129,7 +129,7 @@ describe('rest-client e2e', () => {
 
         it('should run the generated tests without failure', async () => {
             const result = await runNxCommandAsync(
-                `test endpoints-test-endpoint-v3`,
+                `test endpoints-${endpoint}-v3`,
             );
 
             expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
