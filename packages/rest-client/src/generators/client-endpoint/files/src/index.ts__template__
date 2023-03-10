@@ -1,59 +1,59 @@
 import httpClient, { RequestConfig, Response } from '<%= httpClient %>';
 
-import { <%= className %>, <%= className %>Data } from './index.types';
+import { <%= endpointName %>, <%= endpointName %>Data } from './index.types';
 
 const API_ENDPOINT = `${process.env.<%= envVar %>}/<%= endpointName %>/v<%= endpointVersion %>`;
-
 <% if (methods.includes('get')) { %>
-export const get<%= fnSuffix %> = async (config: RequestConfig) => 
-    httpClient.get<<%= className %>>(API_ENDPOINT, config)
-<% } %>
 
+export const get<%= endpointName %> = async (config: RequestConfig) => 
+    httpClient.get<<%= endpointName %>>(API_ENDPOINT, config)
+<% } %>
 <% if (methods.includes('delete')) { %>
-export const delete<%= fnSuffix %> = async (config: RequestConfig) => 
-    httpClient.delete<<%= className %>>(API_ENDPOINT, config)
-<% } %>
 
+export const delete<%= endpointName %> = async (config: RequestConfig) => 
+    httpClient.delete<<%= endpointName %>>(API_ENDPOINT, config)
+<% } %>
 <% if (methods.includes('head')) { %>
-export const head<%= fnSuffix %> = async (config: RequestConfig) => 
-    httpClient.head<<%= className %>>(API_ENDPOINT, config)
-<% } %>
 
+export const head<%= endpointName %> = async (config: RequestConfig) => 
+    httpClient.head<<%= endpointName %>>(API_ENDPOINT, config)
+<% } %>
 <% if (methods.includes('options')) { %>
-export const options<%= fnSuffix %> = async (config: RequestConfig) => 
-    httpClient.options<<%= className %>>(API_ENDPOINT, config)
-<% } %>
 
+export const options<%= endpointName %> = async (config: RequestConfig) => 
+    httpClient.options<<%= endpointName %>>(API_ENDPOINT, config)
+<% } %>
 <% if (methods.includes('post')) { %>
-export const post<%= fnSuffix %> = async (
-    data: <%= className %>Data,
+
+export const post<%= endpointName %> = async (
+    data: <%= endpointName %>Data,
     config: RequestConfig
 ) => 
-    httpClient.post<<%= className %>, Response<<%= className %>>, <%= className %>Data>(
+    httpClient.post<<%= endpointName %>, Response<<%= endpointName %>>, <%= endpointName %>Data>(
         API_ENDPOINT,
         data,
         config
     );
 <% } %>
-
 <% if (methods.includes('put')) { %>
-export const put<%= fnSuffix %> = async (
-    data: <%= className %>Data,
+
+export const put<%= endpointName %> = async (
+    data: <%= endpointName %>Data,
     config: RequestConfig
 ) => 
-    httpClient.put<<%= className %>, Response<<%= className %>>, <%= className %>Data>(
+    httpClient.put<<%= endpointName %>, Response<<%= endpointName %>>, <%= endpointName %>Data>(
         API_ENDPOINT,
         data,
         config
     );
 <% } %>
-
 <% if (methods.includes('patch')) { %>
-export const patch<%= fnSuffix %> = async (
-    data: Partial<<%= className %>Data>,
+
+export const patch<%= endpointName %> = async (
+    data: Partial<<%= endpointName %>Data>,
     config: RequestConfig
 ) => 
-    httpClient.patch<<%= className %>, Response<<%= className %>>, <%= className %>Data>(
+    httpClient.patch<<%= endpointName %>, Response<<%= endpointName %>>, <%= endpointName %>Data>(
         API_ENDPOINT,
         data,
         config
