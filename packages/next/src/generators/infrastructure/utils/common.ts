@@ -80,9 +80,18 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
             distFolderPath,
             customServerRelativePath,
             port,
+            nonprodRegistryPath: `${getRegistryUrl(
+                stacksConfig,
+                'nonprod',
+            )}/${namespace}/${project.name}`,
+            prodRegistryPath: `${getRegistryUrl(
+                stacksConfig,
+                'prod',
+            )}/${namespace}/${project.name}`,
             projectName: project.name,
             namespace,
             internalDomain: stacksConfig.domain.internal,
+            openTelemetry: options.openTelemetry,
         },
     );
 
