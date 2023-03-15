@@ -189,13 +189,13 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${project.root}/build/terraform`,
+            cwd: `${project.root}/deploy/helm`,
         },
         configurations: {
             prod: {
                 commands: [
                     {
-                        command: `helm upgrade --create-namespace --install --values ../helm/values-prod.yaml ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.prod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                        command: `helm upgrade --create-namespace --install --values values-prod.yaml ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.prod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                         forwardAllArgs: false,
                     },
                 ],
