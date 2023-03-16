@@ -190,12 +190,12 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
                 },
             ],
             cwd: `${project.root}/deploy/helm/nonprod`,
-            args: `--helm-args=--devel --chart=oci://${registryPaths.nonprod}/helm/${project.name} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`
+            args: `--helm-args=--devel --chart=oci://${registryPaths.nonprod}/helm/${project.name} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`,
         },
         configurations: {
             prod: {
                 cwd: `${project.root}/deploy/helm/prod`,
-                args: `--helm-args='' --chart=oci://${registryPaths.prod}/helm/${project.name} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`
+                args: `--helm-args='' --chart=oci://${registryPaths.prod}/helm/${project.name} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`,
             },
         },
     };

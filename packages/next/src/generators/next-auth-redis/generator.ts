@@ -73,7 +73,7 @@ export default async function nextAuthRedisGenerator(
         nonprodNextAuthUrl: `${project.name}.${stacksConfig.domain.internal}`,
         prodNextAuthUrl: `${project.name}.${stacksConfig.domain.external}`,
     });
-    
+
     // add library files
     generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
         envVar: options.envVar,

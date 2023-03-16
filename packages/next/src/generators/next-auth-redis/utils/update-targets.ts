@@ -27,14 +27,14 @@ export function updateProjectJsonHelmUpgradeTarget(
                 // Read latest update each time
                 const getUpdatedDefaultCommand = () =>
                     helmUpgradeTarget.options.commands[defaultCommandIndex];
-                const getUpdatedDefaultArgs = () =>
+                const getUpdatedDefaultArguments = () =>
                     helmUpgradeTarget.options.args;
-                const getUpdatedProdArgs = () =>
+                const getUpdatedProdArguments = () =>
                     helmUpgradeTarget.configurations.prod.args;
 
                 const defaultCommand = getUpdatedDefaultCommand();
-                const defaultArgs = getUpdatedDefaultArgs();
-                const prodArgs = getUpdatedProdArgs();
+                const defaultArguments = getUpdatedDefaultArguments();
+                const prodArguments = getUpdatedProdArguments();
 
                 // Check if command doesn't have env.REDIS_URL already
                 if (!defaultCommand.command.includes('env.REDIS_URL')) {
@@ -58,40 +58,52 @@ export function updateProjectJsonHelmUpgradeTarget(
                         command: `${updatedCommand.command} --set env.NEXTAUTH_SECRET="$NEXTAUTH_SECRET"`,
                     };
                 }
-                
+
                 // Check if args doesn't have terraform-dir already
-                if (!defaultArgs.includes('--terraform-dir')) {
-                    const updatedArgs = getUpdatedDefaultArgs();
+                if (!defaultArguments.includes('--terraform-dir')) {
+                    const updatedArguments = getUpdatedDefaultArguments();
                     // Update args
-                    updatedProjectJson.targets['helm-upgrade'].options.args = `${updatedArgs} --terraform-dir=-chdir=../../../build/terraform`;
+                    updatedProjectJson.targets[
+                        'helm-upgrade'
+                    ].options.args = `${updatedArguments} --terraform-dir=-chdir=../../../build/terraform`;
                 }
-               
+
                 // Check if args doesn't have terraform-dir already
-                if (!prodArgs.includes('--terraform-dir')) {
-                    const updatedArgs = getUpdatedProdArgs();
+                if (!prodArguments.includes('--terraform-dir')) {
+                    const updatedArguments = getUpdatedProdArguments();
                     // Update args
-                    updatedProjectJson.targets['helm-upgrade'].configurations.prod.args = `${updatedArgs} --terraform-dir=-chdir=../../../build/terraform`;
+                    updatedProjectJson.targets[
+                        'helm-upgrade'
+                    ].configurations.prod.args = `${updatedArguments} --terraform-dir=-chdir=../../../build/terraform`;
                 }
 
                 // Check if args doesn't have --values redis.yaml already
-                if (!defaultArgs.includes('--values redis.yaml')) {
-                    const updatedArgs = getUpdatedDefaultArgs();
-                    const currentValues = updatedArgs.match(/--values-files='([^']+)'/)[1];
-                    const newValues = `${currentValues} --values redis.yaml`
+                if (!defaultArguments.includes('--values redis.yaml')) {
+                    const updatedArguments = getUpdatedDefaultArguments();
+                    const currentValues = updatedArguments.match(
+                        /--values-files='([^']+)'/,
+                    )[1];
+                    const newValues = `${currentValues} --values redis.yaml`;
                     // Update args
-                    updatedProjectJson.targets['helm-upgrade'].options.args = updatedArgs.replace(currentValues, newValues);
-                }
-               
-                // Check if args doesn't have --values redis.yaml already
-                if (!prodArgs.includes('--values redis.yaml')) {
-                    const updatedArgs = getUpdatedProdArgs();
-                    const currentValues = updatedArgs.match(/--values-files='([^']+)'/)[1];
-                    const newValues = `${currentValues} --values redis.yaml`
-                    // Update args
-                    updatedProjectJson.targets['helm-upgrade'].configurations.prod.args = updatedArgs.replace(currentValues, newValues);
+                    updatedProjectJson.targets['helm-upgrade'].options.args =
+                        updatedArguments.replace(currentValues, newValues);
                 }
 
-            
+                // Check if args doesn't have --values redis.yaml already
+                if (!prodArguments.includes('--values redis.yaml')) {
+                    const updatedArguments = getUpdatedProdArguments();
+                    const currentValues = updatedArguments.match(
+                        /--values-files='([^']+)'/,
+                    )[1];
+                    const newValues = `${currentValues} --values redis.yaml`;
+                    // Update args
+                    updatedProjectJson.targets[
+                        'helm-upgrade'
+                    ].configurations.prod.args = updatedArguments.replace(
+                        currentValues,
+                        newValues,
+                    );
+                }
             }
 
             return updatedProjectJson;
