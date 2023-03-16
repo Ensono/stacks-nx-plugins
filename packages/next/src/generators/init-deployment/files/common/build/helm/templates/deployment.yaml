@@ -38,6 +38,13 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- if .Values.env }}
+          env:
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ quote $val }}
+            {{- end }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /

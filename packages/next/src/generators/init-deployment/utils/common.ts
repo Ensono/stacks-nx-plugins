@@ -80,9 +80,18 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
             distFolderPath,
             customServerRelativePath,
             port,
+            nonprodRegistryPath: `${getRegistryUrl(
+                stacksConfig,
+                'nonprod',
+            )}/${namespace}/${project.name}`,
+            prodRegistryPath: `${getRegistryUrl(
+                stacksConfig,
+                'prod',
+            )}/${namespace}/${project.name}`,
             projectName: project.name,
             namespace,
             internalDomain: stacksConfig.domain.internal,
+            openTelemetry: options.openTelemetry,
         },
     );
 
@@ -176,20 +185,17 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         options: {
             commands: [
                 {
-                    command: `helm upgrade --devel --create-namespace --install ${project.name} oci://${registryPaths.nonprod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.nonprod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                    command: `helm upgrade {args.helm-args} --create-namespace --install {args.values-files} ${project.name} {args.chart} -n ${namespace} --atomic --wait --kube-context {args.kube-context} --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${project.root}/build/terraform`,
+            cwd: `${project.root}/deploy/helm/nonprod`,
+            args: `--helm-args=--devel --chart=oci://${registryPaths.nonprod}/helm/${project.name} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`,
         },
         configurations: {
             prod: {
-                commands: [
-                    {
-                        command: `helm upgrade --create-namespace --install --values ../helm/values-prod.yaml ${project.name} oci://${registryPaths.prod}/helm/${project.name} -n ${namespace} --atomic --wait --kube-context ${domainEnv.prod}-admin --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
-                        forwardAllArgs: false,
-                    },
-                ],
+                cwd: `${project.root}/deploy/helm/prod`,
+                args: `--helm-args='' --chart=oci://${registryPaths.prod}/helm/${project.name} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`,
             },
         },
     };
