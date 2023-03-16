@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import { NextGeneratorSchema } from './schema';
 import { addInfrastructure } from './utils/add-infrastructure';
 
-export default async function infrastructureGenerator(
+export default async function initDeploymentGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
@@ -27,7 +27,7 @@ export default async function infrastructureGenerator(
                 '  Infrastructure code will not be applied now, but you can rerun this task when you update the configuration.',
             );
             console.log(
-                '    nx g @ensono-stacks/next:infrastructure --project [project_name]',
+                '    nx g @ensono-stacks/next:init-deployment --project [project_name]',
             );
             return () => {};
         }
