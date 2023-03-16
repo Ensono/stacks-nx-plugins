@@ -73,7 +73,10 @@ describe('next deployment generator', () => {
                 tree.exists('next-app/build/helm/Chart.yaml'),
             ).not.toBeTruthy();
             expect(
-                tree.exists('next-app/build/helm/values-prod.yaml'),
+                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+            ).not.toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).not.toBeTruthy();
             expect(
                 tree.exists('next-app/build/terraform/main.tf'),
@@ -91,7 +94,10 @@ describe('next deployment generator', () => {
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
             expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
             expect(
-                tree.exists('next-app/build/helm/values-prod.yaml'),
+                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).toBeTruthy();
             expect(
                 tree.exists('next-app/build/terraform/main.tf'),
@@ -119,7 +125,10 @@ describe('next deployment generator', () => {
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
             expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
             expect(
-                tree.exists('next-app/build/helm/values-prod.yaml'),
+                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).toBeTruthy();
             expect(
                 tree.exists('next-app/build/terraform/main.tf'),
@@ -142,14 +151,20 @@ describe('next deployment generator', () => {
                 await generator(tree, { ...options, openTelemetry: true });
 
                 expect(
-                    tree.exists('next-app/build/helm/values-prod.yaml'),
+                    tree.exists('next-app/build/helm/values.yaml'),
+                ).toBeTruthy();
+                expect(
+                    tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+                ).toBeTruthy();
+                expect(
+                    tree.exists('next-app/deploy/helm/prod/values.yaml'),
                 ).toBeTruthy();
 
-                const helmValues = tree.read(
-                    'next-app/build/helm/values-prod.yaml',
+                const defaultHelmValues = tree.read(
+                    'next-app/build/helm/values.yaml',
                     'utf-8',
                 );
-                expect(helmValues).toContain(
+                expect(defaultHelmValues).toContain(
                     "instrumentation.opentelemetry.io/inject-nodejs: 'true'",
                 );
             });
