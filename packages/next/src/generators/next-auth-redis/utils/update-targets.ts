@@ -23,68 +23,75 @@ export function updateProjectJsonHelmUpgradeTarget(
                         (command: any) =>
                             command.command.includes('helm upgrade'),
                     );
-                const prodCommandIndex =
-                    helmUpgradeTarget.configurations.prod.commands.findIndex(
-                        (command: any) =>
-                            command.command.includes('helm upgrade'),
-                    );
 
                 // Read latest update each time
                 const getUpdatedDefaultCommand = () =>
                     helmUpgradeTarget.options.commands[defaultCommandIndex];
-                const getUpdatedProdCommand = () =>
-                    helmUpgradeTarget.configurations.prod.commands[
-                        prodCommandIndex
-                    ];
+                const getUpdatedDefaultArgs = () =>
+                    helmUpgradeTarget.options.args;
+                const getUpdatedProdArgs = () =>
+                    helmUpgradeTarget.configurations.prod.args;
 
                 const defaultCommand = getUpdatedDefaultCommand();
-                const prodCommand = getUpdatedProdCommand();
+                const defaultArgs = getUpdatedDefaultArgs();
+                const prodArgs = getUpdatedProdArgs();
 
-                // Check if command doesn't have redisURL already
-                if (!defaultCommand.command.includes('redisURL')) {
+                // Check if command doesn't have env.REDIS_URL already
+                if (!defaultCommand.command.includes('env.REDIS_URL')) {
                     // Update command
                     updatedProjectJson.targets['helm-upgrade'].options.commands[
                         defaultCommandIndex
                     ] = {
                         ...defaultCommand,
-                        command: `${defaultCommand.command} --set redisURL=$(terraform output -raw redis_connection_string)`,
+                        command: `${defaultCommand.command} --set env.REDIS_URL=$(terraform {args.terraform-dir} output -raw redis_connection_string)`,
                     };
                 }
 
-                // Check if command doesn't have nextAuthSecret already
-                if (!defaultCommand.command.includes('nextAuthSecret')) {
+                // Check if command doesn't have env.NEXTAUTH_SECRET already
+                if (!defaultCommand.command.includes('env.NEXTAUTH_SECRET')) {
                     const updatedCommand = getUpdatedDefaultCommand();
                     // Update command
                     updatedProjectJson.targets['helm-upgrade'].options.commands[
                         defaultCommandIndex
                     ] = {
                         ...updatedCommand,
-                        command: `${updatedCommand.command} --set nextAuthSecret="$NEXTAUTH_SECRET"`,
+                        command: `${updatedCommand.command} --set env.NEXTAUTH_SECRET="$NEXTAUTH_SECRET"`,
                     };
+                }
+                
+                // Check if args doesn't have terraform-dir already
+                if (!defaultArgs.includes('--terraform-dir')) {
+                    const updatedArgs = getUpdatedDefaultArgs();
+                    // Update args
+                    updatedProjectJson.targets['helm-upgrade'].options.args = `${updatedArgs} --terraform-dir=-chdir=../../../build/terraform`;
+                }
+               
+                // Check if args doesn't have terraform-dir already
+                if (!prodArgs.includes('--terraform-dir')) {
+                    const updatedArgs = getUpdatedProdArgs();
+                    // Update args
+                    updatedProjectJson.targets['helm-upgrade'].configurations.prod.args = `${updatedArgs} --terraform-dir=-chdir=../../../build/terraform`;
                 }
 
-                // Check if command doesn't have redisURL already
-                if (!prodCommand.command.includes('redisURL')) {
-                    // Update command
-                    updatedProjectJson.targets[
-                        'helm-upgrade'
-                    ].configurations.prod.commands[prodCommandIndex] = {
-                        ...prodCommand,
-                        command: `${prodCommand.command} --set redisURL=$(terraform output -raw redis_connection_string)`,
-                    };
+                // Check if args doesn't have --values redis.yaml already
+                if (!defaultArgs.includes('--values redis.yaml')) {
+                    const updatedArgs = getUpdatedDefaultArgs();
+                    const currentValues = updatedArgs.match(/--values-files='([^']+)'/)[1];
+                    const newValues = `${currentValues} --values redis.yaml`
+                    // Update args
+                    updatedProjectJson.targets['helm-upgrade'].options.args = updatedArgs.replace(currentValues, newValues);
+                }
+               
+                // Check if args doesn't have --values redis.yaml already
+                if (!prodArgs.includes('--values redis.yaml')) {
+                    const updatedArgs = getUpdatedProdArgs();
+                    const currentValues = updatedArgs.match(/--values-files='([^']+)'/)[1];
+                    const newValues = `${currentValues} --values redis.yaml`
+                    // Update args
+                    updatedProjectJson.targets['helm-upgrade'].configurations.prod.args = updatedArgs.replace(currentValues, newValues);
                 }
 
-                // Check if command doesn't have nextAuthSecret already
-                if (!prodCommand.command.includes('nextAuthSecret')) {
-                    const updatedCommand = getUpdatedProdCommand();
-                    // Update command
-                    updatedProjectJson.targets[
-                        'helm-upgrade'
-                    ].configurations.prod.commands[prodCommandIndex] = {
-                        ...updatedCommand,
-                        command: `${updatedCommand.command} --set nextAuthSecret="$NEXTAUTH_SECRET"`,
-                    };
-                }
+            
             }
 
             return updatedProjectJson;
