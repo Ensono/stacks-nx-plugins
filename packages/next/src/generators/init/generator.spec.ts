@@ -366,8 +366,12 @@ describe('next install generator', () => {
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
             expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
+            expect(tree.exists('next-app/build/helm/values.yaml')).toBeTruthy();
             expect(
-                tree.exists('next-app/build/helm/values-prod.yaml'),
+                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).toBeTruthy();
             expect(
                 tree.exists('next-app/build/terraform/main.tf'),
@@ -382,19 +386,11 @@ describe('next install generator', () => {
                 'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
             );
 
-            const prodHelmYaml = tree.read(
-                '/next-app/build/helm/values-prod.yaml',
-                'utf-8',
-            );
-            expect(prodHelmYaml).toContain(
-                "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
-            );
-
-            const nonProdHelmYaml = tree.read(
+            const defaultHelmYaml = tree.read(
                 '/next-app/build/helm/values.yaml',
                 'utf-8',
             );
-            expect(nonProdHelmYaml).toContain(
+            expect(defaultHelmYaml).toContain(
                 "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
             );
         });
@@ -406,7 +402,10 @@ describe('next install generator', () => {
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
             expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
             expect(
-                tree.exists('next-app/build/helm/values-prod.yaml'),
+                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).toBeTruthy();
             expect(
                 tree.exists('next-app/build/terraform/main.tf'),
