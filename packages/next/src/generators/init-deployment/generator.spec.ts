@@ -1,4 +1,4 @@
-import { Tree, readJson, readNxJson, updateJson } from '@nrwl/devkit';
+import { Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
@@ -6,7 +6,7 @@ import { Schema as NextSchema } from '@nrwl/next/src/generators/application/sche
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
 
-describe('next infrastructure generator', () => {
+describe('next deployment generator', () => {
     let tree: Tree;
     const options: NextGeneratorSchema = { project: 'next-app' };
 

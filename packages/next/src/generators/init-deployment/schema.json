@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "Next",
-    "title": "Ensono Stacks Next Infrastructure Generator",
-    "description": "The @ensono-stacks/next:infrastructure will add deployment infrastructure to an existing next project. Including generating a docker file, Heml chart and Terraform config",
+    "title": "Ensono Stacks Next Init Deployment Generator",
+    "description": "The @ensono-stacks/next:init-deployment will add deployment infrastructure to an existing next project. Including generating a docker file, Heml chart and Terraform config",
     "type": "object",
     "properties": {
         "project": {
