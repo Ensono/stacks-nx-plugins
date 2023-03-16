@@ -22,10 +22,6 @@ import { NextAuthRedisGeneratorSchema } from './schema';
 import { DEFAULT_REDIS_URL } from './utils/constants';
 import { installDependencies } from './utils/dependencies';
 import { configureAdapter } from './utils/redis-adapter';
-import {
-    updateDeploymentYaml,
-    updateValuesYaml,
-} from './utils/update-helm-templates';
 import { updateProjectJsonHelmUpgradeTarget } from './utils/update-targets';
 import {
     updateMainTf,
@@ -71,7 +67,14 @@ export default async function nextAuthRedisGenerator(
     const libraryDirectory = path.join(projectRoot, 'src');
     tree.delete(path.join(libraryDirectory, 'lib'));
 
-    // add files
+    // add project files
+    generateFiles(tree, path.join(__dirname, 'project-files'), project.root, {
+        projectName: project.name,
+        nonprodNextAuthUrl: `${project.name}.${stacksConfig.domain.internal}`,
+        prodNextAuthUrl: `${project.name}.${stacksConfig.domain.external}`,
+    });
+
+    // add library files
     generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
         envVar: options.envVar,
         template: '',
@@ -82,10 +85,6 @@ export default async function nextAuthRedisGenerator(
         libraryName,
         envVar: options.envVar,
     });
-
-    // Update helm yamls
-    updateDeploymentYaml(project, tree);
-    updateValuesYaml(project, tree, stacksConfig);
 
     // Update terraform files
     updateMainTf(project, tree);

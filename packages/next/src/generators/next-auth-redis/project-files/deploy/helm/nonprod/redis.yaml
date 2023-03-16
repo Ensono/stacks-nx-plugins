@@ -1,0 +1,7 @@
+# Redis values for <%= projectName %>.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+env:
+  REDIS_URL: ""
+  NEXTAUTH_SECRET: ""
+  NEXTAUTH_URL: <%= nonprodNextAuthUrl %>
