@@ -7,6 +7,11 @@
             "factory": "./src/generators/init/generator",
             "schema": "./src/generators/init/schema.json",
             "description": "Configure Workspace for Stacks"
+        },
+        "init-deployment": {
+            "factory": "./src/generators/init-deployment/generator",
+            "schema": "./src/generators/init-deployment/schema.json",
+            "description": "The deployment generator contains all the pipeline and infrastructure code applicable for the workspace."
         }
     }
 }
