@@ -79,10 +79,10 @@ describe('next deployment generator', () => {
                 tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).not.toBeTruthy();
             expect(
-                tree.exists('next-app/build/terraform/main.tf'),
+                tree.exists('next-app/deploy/terraform/versions.tf'),
             ).not.toBeTruthy();
             expect(
-                tree.exists('next-app/build/terraform/variables.tf'),
+                tree.exists('next-app/deploy/terraform/data.tf'),
             ).not.toBeTruthy();
         });
 
@@ -100,10 +100,10 @@ describe('next deployment generator', () => {
                 tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).toBeTruthy();
             expect(
-                tree.exists('next-app/build/terraform/main.tf'),
+                tree.exists('next-app/deploy/terraform/versions.tf'),
             ).toBeTruthy();
             expect(
-                tree.exists('next-app/build/terraform/variables.tf'),
+                tree.exists('next-app/deploy/terraform/data.tf'),
             ).toBeTruthy();
 
             const docker = tree.read('next-app/Dockerfile')?.toString();
@@ -131,10 +131,10 @@ describe('next deployment generator', () => {
                 tree.exists('next-app/deploy/helm/prod/values.yaml'),
             ).toBeTruthy();
             expect(
-                tree.exists('next-app/build/terraform/main.tf'),
+                tree.exists('next-app/deploy/terraform/versions.tf'),
             ).toBeTruthy();
             expect(
-                tree.exists('next-app/build/terraform/variables.tf'),
+                tree.exists('next-app/deploy/terraform/data.tf'),
             ).toBeTruthy();
 
             const docker = tree.read('next-app/Dockerfile')?.toString();
