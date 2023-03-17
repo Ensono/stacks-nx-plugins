@@ -105,13 +105,13 @@ export function addTerraform(tree: Tree, { project }: NextGeneratorSchema) {
                     forwardAllArgs: false,
                 },
             ],
-            args: '--terraform=-var-file=variables/nonprod/dns.tfvars',
+            args: "--terraform='-var-file=variables/nonprod/dns.tfvars'",
             cwd: `${projectConfig.root}/deploy/terraform`,
             parallel: false,
         },
         configurations: {
             prod: {
-                args: '--terraform=-var-file=variables/prod/dns.tfvars',
+                args: "--terraform='-var-file=variables/prod/dns.tfvars'",
             },
         },
     };
