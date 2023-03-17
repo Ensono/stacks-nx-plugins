@@ -65,7 +65,7 @@ export function updateProjectJsonHelmUpgradeTarget(
                     // Update args
                     updatedProjectJson.targets[
                         'helm-upgrade'
-                    ].options.args = `${updatedArguments} --terraform-dir=-chdir=../../../build/terraform`;
+                    ].options.args = `${updatedArguments} --terraform-dir=-chdir=../../terraform`;
                 }
 
                 // Check if args doesn't have terraform-dir already
@@ -74,7 +74,7 @@ export function updateProjectJsonHelmUpgradeTarget(
                     // Update args
                     updatedProjectJson.targets[
                         'helm-upgrade'
-                    ].configurations.prod.args = `${updatedArguments} --terraform-dir=-chdir=../../../build/terraform`;
+                    ].configurations.prod.args = `${updatedArguments} --terraform-dir=-chdir=../../terraform`;
                 }
 
                 // Check if args doesn't have --values redis.yaml already
@@ -102,6 +102,73 @@ export function updateProjectJsonHelmUpgradeTarget(
                     ].configurations.prod.args = updatedArguments.replace(
                         currentValues,
                         newValues,
+                    );
+                }
+            }
+
+            return updatedProjectJson;
+        },
+    );
+}
+
+export function updateProjectJsonTerraformPlanTarget(
+    project: ProjectConfiguration,
+    tree: Tree,
+) {
+    updateJson(
+        tree,
+        joinPathFragments(project.root, 'project.json'),
+        projectJson => {
+            const updatedProjectJson = { ...projectJson };
+            const terraformPlanTarget = projectJson.targets['terraform-plan'];
+
+            // Check if target exist
+            if (terraformPlanTarget) {
+                // Read latest update each time
+                const getUpdatedDefaultArguments = () =>
+                    terraformPlanTarget.options.args;
+                const getUpdatedProdArguments = () =>
+                    terraformPlanTarget.configurations.prod.args;
+
+                const defaultArguments = getUpdatedDefaultArguments();
+                const prodArguments = getUpdatedProdArguments();
+
+                // Check if args doesn't have -var-file=variables/nonprod/redis.tfvars already
+                if (
+                    !defaultArguments.includes(
+                        '-var-file=variables/nonprod/redis.tfvars',
+                    )
+                ) {
+                    const updatedArguments = getUpdatedDefaultArguments();
+                    const currentVariables = updatedArguments.match(
+                        /--terraform='([^']+)'/,
+                    )[1];
+                    const newVariables = `${currentVariables} -var-file=variables/nonprod/redis.tfvars`;
+                    // Update args
+                    updatedProjectJson.targets['terraform-plan'].options.args =
+                        updatedArguments.replace(
+                            currentVariables,
+                            newVariables,
+                        );
+                }
+
+                // Check if args doesn't have -var-file=variables/prod/redis.tfvars already
+                if (
+                    !prodArguments.includes(
+                        '-var-file=variables/prod/redis.tfvars',
+                    )
+                ) {
+                    const updatedArguments = getUpdatedProdArguments();
+                    const currentVariables = updatedArguments.match(
+                        /--terraform='([^']+)'/,
+                    )[1];
+                    const newVariables = `${currentVariables} -var-file=variables/prod/redis.tfvars`;
+                    // Update args
+                    updatedProjectJson.targets[
+                        'terraform-plan'
+                    ].configurations.prod.args = updatedArguments.replace(
+                        currentVariables,
+                        newVariables,
                     );
                 }
             }
