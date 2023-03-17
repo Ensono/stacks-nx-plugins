@@ -50,7 +50,7 @@ describe('next-auth-redis generator', () => {
                 },
             },
         }));
-        await nextInitGenerator(appTree, { project: 'next-app', infra: true });
+        await nextInitGenerator(appTree, { project: 'next-app' });
         await nextAuthGenerator(appTree, {
             project: 'next-app',
             provider: 'none',
