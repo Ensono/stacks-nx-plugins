@@ -1,4 +1,4 @@
-import { Tree, readJson, readNxJson, updateJson } from '@nrwl/devkit';
+import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
@@ -8,8 +8,7 @@ import { NextGeneratorSchema } from './schema';
 
 describe('next install generator', () => {
     let tree: Tree;
-    let nextOptions;
-    const options: NextGeneratorSchema = { project: 'next-app', infra: false };
+    const options: NextGeneratorSchema = { project: 'next-app' };
 
     async function createNextApp(schema?: Partial<NextSchema>) {
         tree = createTreeWithEmptyWorkspace();
@@ -142,23 +141,6 @@ describe('next install generator', () => {
                     },
                 }),
             );
-        });
-
-        it('should add infrastucture configurations to project.json when infrastructure option is set to true', async () => {
-            await generator(tree, { ...options, infra: true });
-
-            const projectConfig = readJson(tree, 'next-app/project.json');
-            expect(projectConfig.targets).toHaveProperty('terraform-apply');
-            expect(projectConfig.targets).toHaveProperty('terraform-plan');
-            expect(projectConfig.targets).toHaveProperty('terraform-validate');
-            expect(projectConfig.targets).toHaveProperty('terraform-init');
-            expect(projectConfig.targets).toHaveProperty('terraform-fmt');
-            expect(projectConfig.targets).toHaveProperty('github');
-            expect(projectConfig.targets).toHaveProperty('helm-push');
-            expect(projectConfig.targets).toHaveProperty('helm-package');
-            expect(projectConfig.targets).toHaveProperty('helm-test');
-            expect(projectConfig.targets).toHaveProperty('helm-lint');
-            expect(projectConfig.targets).toHaveProperty('helm-upgrade');
         });
     });
 
@@ -355,69 +337,6 @@ describe('next install generator', () => {
                         }),
                     ]),
                 }),
-            );
-        });
-    });
-
-    describe('infrastructure', () => {
-        it('should scaffold with infrastructure', async () => {
-            await createNextApp();
-            await generator(tree, { ...options, infra: true });
-
-            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
-            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
-            expect(tree.exists('next-app/build/helm/values.yaml')).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/helm/prod/values.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/build/terraform/main.tf'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/build/terraform/variables.tf'),
-            ).toBeTruthy();
-
-            const docker = tree.read('next-app/Dockerfile')?.toString();
-
-            expect(docker).toContain(
-                'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
-            );
-
-            const defaultHelmYaml = tree.read(
-                '/next-app/build/helm/values.yaml',
-                'utf-8',
-            );
-            expect(defaultHelmYaml).toContain(
-                "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
-            );
-        });
-
-        it('should scaffold with infrastructure on a custom server', async () => {
-            await createNextApp({ customServer: true });
-            await generator(tree, { ...options, infra: true });
-
-            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
-            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/helm/prod/values.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/build/terraform/main.tf'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/build/terraform/variables.tf'),
-            ).toBeTruthy();
-
-            const docker = tree.read('next-app/Dockerfile')?.toString();
-
-            expect(docker).toContain(
-                'CMD ["dumb-init", "node", "server/main.js"]',
             );
         });
     });

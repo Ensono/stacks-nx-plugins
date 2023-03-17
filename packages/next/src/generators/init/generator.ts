@@ -2,6 +2,7 @@ import {
     formatFiles,
     formatFilesWithEslint,
     addCustomTestConfig,
+    deploymentGeneratorMessage,
 } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
@@ -13,7 +14,6 @@ import {
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
-import infrastructureGenerator from '../infrastructure/generator';
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
 import { eslintFix } from './utils/eslint-fix';
@@ -39,15 +39,6 @@ export default async function initGenerator(
     updateProjectConfiguration(tree, project.name, update);
 
     tasks.push(addEslint(tree, project.root));
-
-    if (options.infra) {
-        tasks.push(
-            await infrastructureGenerator(tree, {
-                project: options.project,
-                openTelemetry: false,
-            }),
-        );
-    }
 
     const ciCoverageConfig = {
         ci: {
@@ -95,6 +86,13 @@ export default async function initGenerator(
     await formatFiles(tree, [
         joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
     ]);
+
+    tasks.push(() => {
+        deploymentGeneratorMessage(
+            tree,
+            `nx g @ensono-stacks/next:init-deployment --project ${options.project}`,
+        );
+    });
 
     return runTasksInSerial(...tasks);
 }

@@ -14,11 +14,6 @@
                 "$source": "projectName"
             },
             "x-prompt": "What is the name of the project for this component?"
-        },
-        "infra": {
-            "type": "boolean",
-            "description": "Add build & deploy infrastructure to Next project",
-            "default": true
         }
     },
     "required": ["project"]
