@@ -1,13 +1,8 @@
-import {
-    readStacksConfig,
-    getRegistryUrl,
-    getResourceGroup,
-} from '@ensono-stacks/core';
+import { readStacksConfig, getResourceGroup } from '@ensono-stacks/core';
 import {
     generateFiles,
     updateProjectConfiguration,
     readProjectConfiguration,
-    ProjectConfiguration,
     Tree,
     updateJson,
 } from '@nrwl/devkit';
@@ -15,7 +10,6 @@ import { paramCase, snakeCase } from 'change-case';
 import path from 'path';
 
 import { NextGeneratorSchema } from '../schema';
-import { setPort } from './common';
 
 export function addTerraform(tree: Tree, { project }: NextGeneratorSchema) {
     const projectConfig = readProjectConfiguration(tree, project);
