@@ -1,12 +1,11 @@
 import { readJson, writeJson, Tree } from '@nrwl/devkit';
 
-import { InstallGeneratorSchema } from '../schema';
+import { InitDeploymentGeneratorSchema } from '../schema';
 
-export function setDefaults(tree: Tree, options: InstallGeneratorSchema) {
-    if (options.pipelineRunner === 'none') {
-        return;
-    }
-
+export function setDefaults(
+    tree: Tree,
+    options: InitDeploymentGeneratorSchema,
+) {
     const nxJson = readJson(tree, 'nx.json');
 
     nxJson.generators = nxJson.generators || {};
