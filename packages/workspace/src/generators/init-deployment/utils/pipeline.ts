@@ -3,9 +3,12 @@ import { logger, generateFiles, Tree } from '@nrwl/devkit';
 import { paramCase } from 'change-case';
 import path from 'path';
 
-import { InstallGeneratorSchema } from '../schema';
+import { InitDeploymentGeneratorSchema } from '../schema';
 
-export function addPipeline(tree: Tree, options: InstallGeneratorSchema) {
+export function addPipeline(
+    tree: Tree,
+    options: InitDeploymentGeneratorSchema,
+) {
     const stacksConfig = readStacksConfig(tree);
 
     if (!stacksConfig.pipeline) {
