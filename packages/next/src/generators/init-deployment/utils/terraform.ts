@@ -67,7 +67,7 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${projectConfig.root}/build/terraform`,
+            cwd: `${projectConfig.root}/deploy/terraform`,
             parallel: false,
         },
     };
@@ -83,7 +83,7 @@ export function addTerraform(
                 },
             ],
             args: `--rg=${tfGroup} --sa=${tfStorage} --container=${tfContainer} --key=${projectConfig.name}:nonprod`,
-            cwd: `${projectConfig.root}/build/terraform`,
+            cwd: `${projectConfig.root}/deploy/terraform`,
             parallel: false,
         },
         configurations: {
@@ -102,7 +102,7 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${projectConfig.root}/build/terraform`,
+            cwd: `${projectConfig.root}/deploy/terraform`,
             parallel: false,
         },
     };
@@ -120,13 +120,13 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            args: '--terraform=-var-file=nonprod.tfvars',
-            cwd: `${projectConfig.root}/build/terraform`,
+            args: '--terraform=-var-file=variables/nonprod/dns.tfvars',
+            cwd: `${projectConfig.root}/deploy/terraform`,
             parallel: false,
         },
         configurations: {
             prod: {
-                args: '--terraform=-var-file=prod.tfvars',
+                args: '--terraform=-var-file=variables/prod/dns.tfvars',
             },
         },
     };
@@ -140,7 +140,7 @@ export function addTerraform(
                     forwardAllArgs: false,
                 },
             ],
-            cwd: `${projectConfig.root}/build/terraform`,
+            cwd: `${projectConfig.root}/deploy/terraform`,
         },
         configurations: {
             prod: {},
@@ -174,8 +174,8 @@ export function addTerraform(
             updateNxJson.targetDefaults['terraform-init'] = {
                 inputs: ['terraform'],
                 outputs: [
-                    '{projectRoot}/build/terraform/.terraform',
-                    '{projectRoot}/build/terraform/.terraform.lock.hcl',
+                    '{projectRoot}/deploy/terraform/.terraform',
+                    '{projectRoot}/deploy/terraform/.terraform.lock.hcl',
                 ],
             };
         }
@@ -190,7 +190,7 @@ export function addTerraform(
         if (!nxJson.targetDefaults['terraform-plan']) {
             updateNxJson.targetDefaults['terraform-plan'] = {
                 inputs: ['terraform'],
-                outputs: ['{projectRoot}/build/terraform/*.tfplan'],
+                outputs: ['{projectRoot}/deploy/terraform/*.tfplan'],
             };
         }
 
@@ -202,9 +202,9 @@ export function addTerraform(
 
         if (!nxJson.namedInputs.terraform) {
             updateNxJson.namedInputs.terraform = [
-                '{projectRoot}/build/terraform/*.tf',
-                '{projectRoot}/build/terraform/*.tfvars',
-                '{projectRoot}/build/terraform/.terraform.lock.hcl',
+                '{projectRoot}/deploy/terraform/*.tf',
+                '{projectRoot}/deploy/terraform/*.tfvars',
+                '{projectRoot}/deploy/terraform/.terraform.lock.hcl',
             ];
         }
 
