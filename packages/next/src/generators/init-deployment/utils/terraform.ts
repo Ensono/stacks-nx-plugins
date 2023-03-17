@@ -17,15 +17,12 @@ import path from 'path';
 import { NextGeneratorSchema } from '../schema';
 import { setPort } from './common';
 
-export function addTerraform(
-    tree: Tree,
-    { openTelemetry, project }: NextGeneratorSchema,
-) {
+export function addTerraform(tree: Tree, { project }: NextGeneratorSchema) {
     const projectConfig = readProjectConfiguration(tree, project);
     const stacksConfig = readStacksConfig(tree);
     const {
-        business: { company, component, domain },
-        cloud: { region, platform },
+        business: { component },
+        cloud: { platform },
         domain: { internal: internalDomain, external: externalDomain },
         terraform: {
             group: tfGroup,
@@ -34,11 +31,7 @@ export function addTerraform(
         },
     } = stacksConfig;
 
-    const namespace = paramCase(component);
-
     const update = { ...projectConfig };
-
-    const port = setPort(update);
 
     generateFiles(
         tree,
@@ -46,8 +39,6 @@ export function addTerraform(
         projectConfig.root,
         {
             projectName: projectConfig.name,
-            namespace,
-            port,
             devProjectName: paramCase(projectConfig.name),
             prodProjectName: paramCase(projectConfig.name),
             internalDomain,
