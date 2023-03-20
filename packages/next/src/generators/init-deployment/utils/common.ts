@@ -91,6 +91,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
             projectName: project.name,
             namespace,
             internalDomain: stacksConfig.domain.internal,
+            externalDomain: stacksConfig.domain.external,
             openTelemetry: options.openTelemetry,
         },
     );
