@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "InitDeployment",
+    "title": "Ensono Stacks Workspace Init Deployment Generator",
+    "type": "object",
+    "properties": {
+        "pipelineRunner": {
+            "type": "string",
+            "description": "Add pipeline runner config",
+            "default": "taskctl",
+            "x-prompt": {
+                "message": "Which pipeline runner would you like to generate?",
+                "type": "list",
+                "items": [
+                    {
+                        "value": "taskctl",
+                        "label": "TaskCtl"
+                    }
+                ]
+            }
+        }
+    },
+    "required": ["pipelineRunner"]
+}
