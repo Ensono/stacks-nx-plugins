@@ -46,6 +46,7 @@ describe('next-auth-redis-deployment generator', () => {
                     type: 'github',
                     url: 'remote.git',
                 },
+                executedGenerators: [],
             },
         }));
         await nextInitGenerator(appTree, { project: 'next-app' });
@@ -78,11 +79,15 @@ describe('next-auth-redis-deployment generator', () => {
         const nxJson = readJson(appTree, 'nx.json');
 
         expect(
-            nxJson.stacks.generatorsExecuted.NextAuthRedisDeployment,
+            nxJson.stacks.executedGenerators.includes(
+                'NextAuthRedisDeployment',
+            ),
         ).toBeTruthy();
-        expect(nxJson.stacks.generatorsExecuted.NextAuthRedisDeployment).toBe(
-            true,
-        );
+        expect(
+            nxJson.stacks.executedGenerators.includes(
+                'NextAuthRedisDeployment',
+            ),
+        ).toBe(true);
     });
 
     it('should return false from method and exit generator if already executed', async () => {
@@ -90,9 +95,7 @@ describe('next-auth-redis-deployment generator', () => {
             ...nxJson,
             stacks: {
                 ...nxJson.stacks,
-                generatorsExecuted: {
-                    NextAuthRedisDeployment: true,
-                },
+                executedGenerators: ['NextAuthRedisDeployment'],
             },
         }));
 

@@ -2,7 +2,7 @@ import { readJson, Tree, NxJsonConfiguration } from '@nrwl/devkit';
 
 export class StacksConfigError extends Error {}
 
-export function readStacksConfig(tree: Tree) {
+function readStacksJson(tree: Tree) {
     const nxJson = readJson(tree, 'nx.json') as NxJsonConfiguration;
 
     if (!nxJson.stacks) {
@@ -11,16 +11,41 @@ export function readStacksConfig(tree: Tree) {
         );
     }
 
+    return nxJson.stacks;
+}
+
+export function readStacksConfig(tree: Tree) {
+    const stacksJson = readStacksJson(tree);
+
     if (
-        !nxJson.stacks.business ||
-        !nxJson.stacks.cloud ||
-        !nxJson.stacks.domain ||
-        !nxJson.stacks.vcs
+        !stacksJson.business ||
+        !stacksJson.cloud ||
+        !stacksJson.domain ||
+        !stacksJson.vcs
     ) {
         throw new StacksConfigError(
             'Incomplete Stacks configuration in nx.json.',
         );
     }
 
-    return nxJson.stacks;
+    return (({ business, cloud, domain, pipeline, terraform, vcs }) => ({
+        business,
+        cloud,
+        domain,
+        pipeline,
+        terraform,
+        vcs,
+    }))(stacksJson);
+}
+
+export function readStacksExecutedGenerators(tree: Tree) {
+    const stacksJson = readStacksJson(tree);
+
+    if (!stacksJson.executedGenerators) {
+        throw new StacksConfigError(
+            'Incomplete Stacks configuration in nx.json. Missing `executedGenerators` attribute.',
+        );
+    }
+
+    return stacksJson.executedGenerators;
 }

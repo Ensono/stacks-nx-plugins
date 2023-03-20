@@ -2,6 +2,7 @@ import {
     formatFilesWithEslint,
     createOrUpdateLocalEnv,
     hasGeneratorExecuted,
+    deploymentGeneratorMessage,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -79,6 +80,11 @@ export default async function nextAuthRedisGenerator(
     });
 
     await formatFiles(tree);
+
+    deploymentGeneratorMessage(
+        tree,
+        `nx g @ensono-stacks/next:next-auth-redis-deployment --project ${options.project}`,
+    );
 
     return runTasksInSerial(
         installDependencies(tree),
