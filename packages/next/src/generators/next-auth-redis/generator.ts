@@ -1,7 +1,6 @@
 import {
     formatFilesWithEslint,
     createOrUpdateLocalEnv,
-    readStacksConfig,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -22,20 +21,12 @@ import { NextAuthRedisGeneratorSchema } from './schema';
 import { DEFAULT_REDIS_URL } from './utils/constants';
 import { installDependencies } from './utils/dependencies';
 import { configureAdapter } from './utils/redis-adapter';
-import { updateProjectJsonHelmUpgradeTarget } from './utils/update-targets';
-import {
-    updateMainTf,
-    updateOutputsTf,
-    updateTfVariables,
-    updateVariablesTf,
-} from './utils/update-terraform-files';
 
 export default async function nextAuthRedisGenerator(
     tree: Tree,
     options: NextAuthRedisGeneratorSchema,
 ) {
     const project = readProjectConfiguration(tree, options.project);
-    const stacksConfig = readStacksConfig(tree);
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
@@ -67,13 +58,6 @@ export default async function nextAuthRedisGenerator(
     const libraryDirectory = path.join(projectRoot, 'src');
     tree.delete(path.join(libraryDirectory, 'lib'));
 
-    // add project files
-    generateFiles(tree, path.join(__dirname, 'project-files'), project.root, {
-        projectName: project.name,
-        nonprodNextAuthUrl: `${project.name}.${stacksConfig.domain.internal}`,
-        prodNextAuthUrl: `${project.name}.${stacksConfig.domain.external}`,
-    });
-
     // add library files
     generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
         envVar: options.envVar,
@@ -85,15 +69,6 @@ export default async function nextAuthRedisGenerator(
         libraryName,
         envVar: options.envVar,
     });
-
-    // Update terraform files
-    updateMainTf(project, tree);
-    updateTfVariables(project, tree, stacksConfig);
-    updateVariablesTf(project, tree);
-    updateOutputsTf(project, tree);
-
-    // Update project.json
-    updateProjectJsonHelmUpgradeTarget(project, tree);
 
     createOrUpdateLocalEnv(project, tree, {
         [options.envVar]: DEFAULT_REDIS_URL,
