@@ -108,7 +108,7 @@ export default async function visualRegressionGenerator(
 
     deploymentGeneratorMessage(
         tree,
-        '@ensono-stacks/playwright:visual-regression-deployment',
+        'nx g @ensono-stacks/playwright:visual-regression-deployment',
     );
 
     return updateDependencies(tree, options.type);
