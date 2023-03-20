@@ -1,4 +1,8 @@
-import { addIgnoreEntry, tsMorphTree } from '@ensono-stacks/core';
+import {
+    addIgnoreEntry,
+    deploymentGeneratorMessage,
+    tsMorphTree,
+} from '@ensono-stacks/core';
 import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
 import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
 import {
@@ -112,6 +116,11 @@ export default async function initGenerator(
     ]);
 
     await formatFiles(tree);
+
+    deploymentGeneratorMessage(
+        tree,
+        '@ensono-stacks/playwright:init-deployment',
+    );
 
     return updateDependencies(tree);
 }
