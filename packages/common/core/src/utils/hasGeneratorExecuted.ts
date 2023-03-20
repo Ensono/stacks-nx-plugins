@@ -1,6 +1,7 @@
-import { readJson, Tree } from '@nrwl/devkit';
+import { Tree } from '@nrwl/devkit';
 import chalk from 'chalk';
 
+import { readStacksExecutedGenerators } from '../lib/stacks';
 import { tagExecutedGenerator } from './tagExecutedGenerator';
 
 export function hasGeneratorExecuted(
@@ -8,10 +9,11 @@ export function hasGeneratorExecuted(
     projectName: string,
     generatorName: string,
 ) {
-    const nxJson = readJson(tree, 'nx.json');
-    let generatorExecuted = false;
+    const stacksExecutedGenerators = readStacksExecutedGenerators(tree);
 
-    if (!nxJson?.stacks?.generatorsExecuted?.[generatorName]) {
+    const generatorExecuted = stacksExecutedGenerators.includes(generatorName);
+
+    if (!generatorExecuted) {
         tagExecutedGenerator(tree, generatorName);
     } else {
         console.log(
@@ -21,7 +23,6 @@ export function hasGeneratorExecuted(
             chalk.yellow`No changes made.`,
             '\n',
         );
-        generatorExecuted = true;
     }
 
     return generatorExecuted;

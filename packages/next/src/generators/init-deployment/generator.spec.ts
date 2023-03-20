@@ -48,6 +48,7 @@ describe('next deployment generator', () => {
                         type: 'github',
                         url: 'remote.git',
                     },
+                    executedGenerators: [],
                 },
             }));
         }
@@ -55,7 +56,7 @@ describe('next deployment generator', () => {
 
     describe('infrastructure', () => {
         it('should throw if project is not defined', async () => {
-            await createNextApp();
+            await createNextApp({});
             await expect(
                 generator(tree, {
                     ...options,
@@ -66,7 +67,14 @@ describe('next deployment generator', () => {
 
         it('should not apply if stacks config is missing', async () => {
             await createNextApp({}, true);
-            await generator(tree, { ...options });
+            await expect(
+                generator(tree, {
+                    ...options,
+                    project: 'unknown',
+                }),
+            ).rejects.toThrowError(
+                'Stacks configuration is not set. Please update nx.json',
+            );
 
             expect(tree.exists('next-app/Dockerfile')).not.toBeTruthy();
             expect(
@@ -151,11 +159,11 @@ describe('next deployment generator', () => {
             const nxJson = readJson(tree, 'nx.json');
 
             expect(
-                nxJson.stacks.generatorsExecuted.NextInitDeployment,
+                nxJson.stacks.executedGenerators.includes('NextInitDeployment'),
             ).toBeTruthy();
-            expect(nxJson.stacks.generatorsExecuted.NextInitDeployment).toBe(
-                true,
-            );
+            expect(
+                nxJson.stacks.executedGenerators.includes('NextInitDeployment'),
+            ).toBe(true);
         });
 
         it('should return false from method and exit generator if already executed', async () => {
@@ -165,9 +173,7 @@ describe('next deployment generator', () => {
                 ...nxJson,
                 stacks: {
                     ...nxJson.stacks,
-                    generatorsExecuted: {
-                        NextInitDeployment: true,
-                    },
+                    executedGenerators: ['NextInitDeployment'],
                 },
             }));
 

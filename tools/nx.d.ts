@@ -27,6 +27,7 @@ declare module '@nrwl/devkit' {
                 type: 'github' | 'azdo';
                 url: string;
             };
+            executedGenerators: array;
         };
     }
 }

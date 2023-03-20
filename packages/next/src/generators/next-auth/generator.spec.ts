@@ -51,6 +51,7 @@ describe('next-auth generator', () => {
                     type: 'github',
                     url: 'remote.git',
                 },
+                executedGenerators: [],
             },
         }));
     });
@@ -79,8 +80,12 @@ describe('next-auth generator', () => {
 
         const nxJson = readJson(appTree, 'nx.json');
 
-        expect(nxJson.stacks.generatorsExecuted.NextAuth).toBeTruthy();
-        expect(nxJson.stacks.generatorsExecuted.NextAuth).toBe(true);
+        expect(
+            nxJson.stacks.executedGenerators.includes('NextAuth'),
+        ).toBeTruthy();
+        expect(nxJson.stacks.executedGenerators.includes('NextAuth')).toBe(
+            true,
+        );
     });
 
     it('should return false from method and exit generator if already executed', async () => {
@@ -88,9 +93,7 @@ describe('next-auth generator', () => {
             ...nxJson,
             stacks: {
                 ...nxJson.stacks,
-                generatorsExecuted: {
-                    NextAuth: true,
-                },
+                executedGenerators: ['NextAuth'],
             },
         }));
 

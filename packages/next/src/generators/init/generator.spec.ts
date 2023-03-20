@@ -44,6 +44,7 @@ describe('next install generator', () => {
                     type: 'github',
                     url: 'remote.git',
                 },
+                executedGenerators: [],
             },
         }));
     }
@@ -149,8 +150,12 @@ describe('next install generator', () => {
 
             const nxJson = readJson(tree, 'nx.json');
 
-            expect(nxJson.stacks.generatorsExecuted.NextInit).toBeTruthy();
-            expect(nxJson.stacks.generatorsExecuted.NextInit).toBe(true);
+            expect(
+                nxJson.stacks.executedGenerators.includes('NextInit'),
+            ).toBeTruthy();
+            expect(nxJson.stacks.executedGenerators.includes('NextInit')).toBe(
+                true,
+            );
         });
 
         it('should return false from method and exit generator if already executed', async () => {
@@ -160,9 +165,7 @@ describe('next install generator', () => {
                 ...nxJson,
                 stacks: {
                     ...nxJson.stacks,
-                    generatorsExecuted: {
-                        NextInit: true,
-                    },
+                    executedGenerators: ['NextInit'],
                 },
             }));
 
