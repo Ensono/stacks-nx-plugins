@@ -269,7 +269,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const packagesToInstall = getStacksPlugins(parsedArgv);
 
     console.log(chalk.magenta`Installing Stacks dependencies`);
-    await installPackages(packagesToInstall, cwd);
+    await installPackages(packagesToInstall, cwd, parsedArgv.useDev);
     console.log(
         chalk.magenta`Successfully installed: ${packagesToInstall.join(' ')}`,
     );
