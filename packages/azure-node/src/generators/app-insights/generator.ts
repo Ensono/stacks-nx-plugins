@@ -1,7 +1,9 @@
 import {
+    tsMorphTree,
     addIgnoreEntry,
     formatFiles,
     thirdPartyDependencyWarning,
+    deploymentGeneratorMessage,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -11,15 +13,14 @@ import {
 } from '@nrwl/devkit';
 import chalk from 'chalk';
 import path from 'path';
-import { Project, ScriptTarget } from 'ts-morph';
 
+import { appInsightsVersion } from '../../../utils/versions';
+import { AppInsightsGeneratorSchema } from './schema';
 import {
     initAppInsights,
     configureAppInsights,
     startAppInsights,
-} from '../../../templates/appInsights';
-import { appInsightsVersion } from '../../../utils/versions';
-import { AppInsightsGeneratorSchema } from './schema';
+} from './templates/appInsights';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -51,17 +52,10 @@ export default async function appInsightsGenerator(
         throw new Error('No custom server found.');
     }
 
-    const tsMorphProject = new Project({
-        useInMemoryFileSystem: true,
-        compilerOptions: { target: ScriptTarget.ESNext },
-    });
-
-    // Read the existing server file into tsMorphProject
-    const customServerContents = tree.read(customServerPath).toString();
-    tsMorphProject.createSourceFile(customServerPath, customServerContents);
+    const morphTree = tsMorphTree(tree);
 
     // Read the Node from the source file
-    const customServer = tsMorphProject.getSourceFile(customServerPath);
+    const customServer = morphTree.addSourceFileAtPath(customServerPath);
 
     const isAppInsightsImport = customServer
         .getImportDeclarations()
@@ -100,11 +94,8 @@ export default async function appInsightsGenerator(
         }
     });
 
-    // Write changes back to the tree
-    tree.write(
-        customServerPath,
-        tsMorphProject.getSourceFile(customServerPath).getText(),
-    );
+    // Save changes
+    customServer.saveSync();
 
     const serverPath = joinPathFragments(project.root, server);
     // add nrwl/next custom server to prettier ignore
@@ -114,6 +105,11 @@ export default async function appInsightsGenerator(
 
     console.warn(
         chalk.yellow`${serverPath} has been added to .prettierignore; Amend this file to resolve linting issues.`,
+    );
+
+    deploymentGeneratorMessage(
+        tree,
+        `nx g @ensono-stacks/azure-node:app-insights-deployment --project ${options.project} --applicationinsightsConnectionString ${applicationinsightsConnectionString}`,
     );
 
     // Add dependencies and install
