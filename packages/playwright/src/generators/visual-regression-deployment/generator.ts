@@ -11,7 +11,7 @@ export default async function visualRegressionDeploymentGenerator(
     tree: Tree,
     options: VisualRegressionDeploymentGeneratorSchema,
 ) {
-    switch (options.visualRegression) {
+    switch (options.type) {
         case visualRegressionTypes.NATIVE:
             // update tasks.yaml
             updateTasksYaml(tree);

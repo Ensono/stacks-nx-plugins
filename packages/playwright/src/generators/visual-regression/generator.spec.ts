@@ -50,7 +50,7 @@ describe('playwright generator', () => {
     it('should error if the project does not exist', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: 'non-existent-project',
-            visualRegression: 'none',
+            type: 'none',
         };
         await expect(generator(appTree, options)).rejects.toThrowError(
             `non-existent-project does not exist`,
@@ -60,7 +60,7 @@ describe('playwright generator', () => {
     it('should run successfully with native regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
-            visualRegression: 'native',
+            type: 'native',
         };
         await initGenerator(appTree, { project: projectName });
         await generator(appTree, options);
@@ -101,7 +101,7 @@ describe('playwright generator', () => {
     it('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
-            visualRegression: 'applitools',
+            type: 'applitools',
         };
         await initGenerator(appTree, { project: projectName });
         await generator(appTree, options);

@@ -1,3 +1,3 @@
 export interface VisualRegressionDeploymentGeneratorSchema {
-    visualRegression: string;
+    type: string;
 }
