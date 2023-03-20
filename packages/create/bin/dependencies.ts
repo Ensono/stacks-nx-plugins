@@ -46,22 +46,24 @@ export function getGeneratorsToRun(
 ) {
     const generators: string[] = [];
 
-    let pipelineRunnerOption = '';
+    // Run workspace init generator
+    generators.push(`@ensono-stacks/workspace:init`);
+
+    // Conditionally run workspace init deployment generator
     if (
-        !checkRequiredArguments(argv, [
+        checkRequiredArguments(argv, [
             'business',
             'domain',
             'cloud',
             'pipeline',
         ])
     ) {
-        pipelineRunnerOption = ' --pipelineRunner=none';
+        generators.push(`@ensono-stacks/workspace:init-deployment`);
+    } else {
         console.log(
-            chalk.yellow`Setting --pipelineRunner=none because Stacks config is missing. Did you start using stacks-cli?`,
+            chalk.yellow`Skipping @ensono-stacks/workspace:init-deployment generator because Stacks config is missing. Did you start using stacks-cli?`,
         );
     }
-
-    generators.push(`@ensono-stacks/workspace:init${pipelineRunnerOption}`);
 
     if (argv.preset === Preset.NextJs) {
         generators.push(
