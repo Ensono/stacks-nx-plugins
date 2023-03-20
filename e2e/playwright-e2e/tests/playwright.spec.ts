@@ -149,7 +149,7 @@ describe('playwright e2e', () => {
         }, 200_000);
     });
 
-    describe('--accessibility', () => {
+    describe('accessibility generator', () => {
         it('should successfully add accessibility test files and add dependencies', async () => {
             const { baseProject, e2eProject } = setupBaseProject();
 
@@ -179,7 +179,7 @@ describe('playwright e2e', () => {
         }, 200_000);
     });
 
-    describe('--visualRegression', () => {
+    describe('visual regression generator', () => {
         it('should successfully add native regression config', async () => {
             const { baseProject, e2eProject } = setupBaseProject();
 
@@ -189,7 +189,7 @@ describe('playwright e2e', () => {
             );
             // amend playwright config files
             await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:visualRegression --project=${e2eProject} --visualRegression=native --no-interactive`,
+                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --visualRegression=native --no-interactive`,
             );
 
             expect(() =>
@@ -222,7 +222,7 @@ describe('playwright e2e', () => {
             );
             // amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:visualRegression --project=${e2eProject} --visualRegression=applitools --no-interactive`,
+                `generate @ensono-stacks/playwright:visual-regresion --project=${e2eProject} --visualRegression=applitools --no-interactive`,
             );
 
             expect(() =>
