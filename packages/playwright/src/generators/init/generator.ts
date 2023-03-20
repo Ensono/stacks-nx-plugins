@@ -119,7 +119,7 @@ export default async function initGenerator(
 
     deploymentGeneratorMessage(
         tree,
-        '@ensono-stacks/playwright:init-deployment',
+        'nx g @ensono-stacks/playwright:init-deployment',
     );
 
     return updateDependencies(tree);
