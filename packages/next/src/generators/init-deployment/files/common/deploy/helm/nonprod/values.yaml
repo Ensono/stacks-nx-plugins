@@ -3,3 +3,13 @@
 # Declare variables to be passed into your templates.
 image:
     repository: <%= nonprodRegistryPath %>
+
+ingress:
+    hosts:
+        - host: <%= projectName %>.<%= internalDomain %>
+          paths:
+              - path: /
+                pathType: ImplementationSpecific
+    tls:
+        - hosts:
+              - <%= internalDomain %>
