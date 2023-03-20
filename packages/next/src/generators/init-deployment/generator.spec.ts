@@ -1,4 +1,4 @@
-import { Tree, updateJson } from '@nrwl/devkit';
+import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
@@ -142,6 +142,40 @@ describe('next deployment generator', () => {
             expect(docker).toContain(
                 'CMD ["dumb-init", "node", "server/main.js"]',
             );
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            await createNextApp({}, false);
+            await generator(tree, { ...options });
+
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(
+                nxJson.stacks.generatorsExecuted.NextInitDeployment,
+            ).toBeTruthy();
+            expect(nxJson.stacks.generatorsExecuted.NextInitDeployment).toBe(
+                true,
+            );
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await createNextApp({}, false);
+
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    generatorsExecuted: {
+                        NextInitDeployment: true,
+                    },
+                },
+            }));
+
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
         });
 
         describe('--openTelemetry', () => {
