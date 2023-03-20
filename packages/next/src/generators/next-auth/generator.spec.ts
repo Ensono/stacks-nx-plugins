@@ -74,6 +74,34 @@ describe('next-auth generator', () => {
         expect(appTs.toString()).toMatchSnapshot();
     });
 
+    it('should update nx.json and tag executed generator true', async () => {
+        await generator(appTree, { ...options, provider: 'none' });
+
+        const nxJson = readJson(appTree, 'nx.json');
+
+        expect(nxJson.stacks.generatorsExecuted.NextAuth).toBeTruthy();
+        expect(nxJson.stacks.generatorsExecuted.NextAuth).toBe(true);
+    });
+
+    it('should return false from method and exit generator if already executed', async () => {
+        updateJson(appTree, 'nx.json', nxJson => ({
+            ...nxJson,
+            stacks: {
+                ...nxJson.stacks,
+                generatorsExecuted: {
+                    NextAuth: true,
+                },
+            },
+        }));
+
+        const gen = await generator(appTree, {
+            ...options,
+            provider: 'none',
+        });
+
+        expect(gen).toBe(false);
+    });
+
     it('should configure app if there are already wrapping react providers', async () => {
         appTree.write('next-app/pages/_app.tsx', nextAppWithProviders);
         await generator(appTree, options);

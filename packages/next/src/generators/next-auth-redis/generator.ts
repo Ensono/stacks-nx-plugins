@@ -1,6 +1,7 @@
 import {
     formatFilesWithEslint,
     createOrUpdateLocalEnv,
+    hasGeneratorExecuted,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -26,6 +27,9 @@ export default async function nextAuthRedisGenerator(
     tree: Tree,
     options: NextAuthRedisGeneratorSchema,
 ) {
+    if (hasGeneratorExecuted(tree, options.project, 'NextAuthRedis'))
+        return false;
+
     const project = readProjectConfiguration(tree, options.project);
 
     const nextAuthApiFilePath = joinPathFragments(

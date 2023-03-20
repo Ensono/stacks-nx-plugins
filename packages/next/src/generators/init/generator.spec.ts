@@ -142,6 +142,36 @@ describe('next install generator', () => {
                 }),
             );
         });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            await createNextApp({});
+            await generator(tree, { ...options });
+
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(nxJson.stacks.generatorsExecuted.NextInit).toBeTruthy();
+            expect(nxJson.stacks.generatorsExecuted.NextInit).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await createNextApp({});
+
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    generatorsExecuted: {
+                        NextInit: true,
+                    },
+                },
+            }));
+
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 
     describe('eslint', () => {
