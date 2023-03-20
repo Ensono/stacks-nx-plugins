@@ -13,12 +13,10 @@ import {
 import { Linter } from '@nrwl/linter';
 import path from 'path';
 
+import { PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { PlaywrightGeneratorSchema } from './schema';
-import { updateAzureDevopsStages } from './utils/update-azdevops-build';
 import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
 import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
-import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
-import { PLAYWRIGHT_VERSION } from './utils/versions';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
@@ -112,13 +110,6 @@ export default async function initGenerator(
         '/playwright-report/',
         '/playwright/.cache/',
     ]);
-
-    // update ci build files
-    updateTaskctlYaml(tree);
-
-    updateTasksYaml(tree);
-
-    updateAzureDevopsStages(tree);
 
     await formatFiles(tree);
 
