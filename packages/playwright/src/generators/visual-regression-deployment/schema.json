@@ -1,0 +1,31 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "VisualRegressionDeployment",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "visualRegression": {
+            "type": "string",
+            "description": "Method used to conduct visual regression testing",
+            "alias": "v",
+            "default": "none",
+            "enum": ["native", "applitools"],
+            "x-prompt": {
+                "message": "What type of visual regression tests would you like to use?",
+                "type": "list",
+                "items": [
+                    {
+                        "value": "native",
+                        "label": "Native"
+                    },
+                    {
+                        "value": "applitools",
+                        "label": "Applitools"
+                    }
+                ]
+            }
+        }
+    },
+    "required": ["visualRegression"]
+}

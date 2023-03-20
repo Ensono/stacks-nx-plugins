@@ -19,9 +19,14 @@
             "description": "accessibility generator"
         },
         "visualRegression": {
-            "factory": "./src/generators/visualRegression/generator",
-            "schema": "./src/generators/visualRegression/schema.json",
+            "factory": "./src/generators/visual-regression/generator",
+            "schema": "./src/generators/visual-regression/schema.json",
             "description": "visual regression generator"
+        },
+        "visual-regression-deployment": {
+            "factory": "./src/generators/visual-regression-deployment/generator",
+            "schema": "./src/generators/visual-regression-deployment/schema.json",
+            "description": "visual-regression-deployment generator"
         }
     }
 }
