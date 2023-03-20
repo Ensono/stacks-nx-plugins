@@ -189,7 +189,7 @@ describe('playwright e2e', () => {
             );
             // amend playwright config files
             await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --visualRegression=native --no-interactive`,
+                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=native --no-interactive`,
             );
 
             expect(() =>
@@ -222,7 +222,7 @@ describe('playwright e2e', () => {
             );
             // amend playwright config files
             runNxCommand(
-                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --visualRegression=applitools --no-interactive`,
+                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=applitools --no-interactive`,
             );
 
             expect(() =>

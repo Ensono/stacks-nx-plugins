@@ -1,4 +1,4 @@
 export interface VisualRegressionGeneratorSchema {
     project: string;
-    visualRegression: string;
+    type: string;
 }

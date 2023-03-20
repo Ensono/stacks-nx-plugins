@@ -5,10 +5,10 @@
     "title": "",
     "type": "object",
     "properties": {
-        "visualRegression": {
+        "type": {
             "type": "string",
             "description": "Method used to conduct visual regression testing",
-            "alias": "v",
+            "alias": "t",
             "default": "none",
             "enum": ["native", "applitools"],
             "x-prompt": {
@@ -27,5 +27,5 @@
             }
         }
     },
-    "required": ["visualRegression"]
+    "required": ["type"]
 }

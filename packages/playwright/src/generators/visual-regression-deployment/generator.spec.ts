@@ -93,7 +93,7 @@ describe('visual-regression-deployment generator', () => {
 
     it('should run successfully with native regression', async () => {
         const options: VisualRegressionDeploymentGeneratorSchema = {
-            visualRegression: 'native',
+            type: 'native',
         };
         await generator(appTree, options);
 
@@ -105,7 +105,7 @@ describe('visual-regression-deployment generator', () => {
     it('should run successfully with native regeression and azure builds have been generated', async () => {
         appTree.write('build/azDevOps/azuredevops-stages.yaml', '');
         const options: VisualRegressionDeploymentGeneratorSchema = {
-            visualRegression: 'native',
+            type: 'native',
         };
         await generator(appTree, options);
         const azureUpdateSnapshots = YAML.parse(

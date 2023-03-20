@@ -52,12 +52,12 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
-async function updateDependencies(tree: Tree, visualRegression: string) {
+async function updateDependencies(tree: Tree, type: string) {
     const applitoolsDeps = {
         '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
     };
 
-    if (visualRegression === visualRegressionTypes.APPLITOOLS) {
+    if (type === visualRegressionTypes.APPLITOOLS) {
         return addDependenciesToPackageJson(tree, {}, applitoolsDeps);
     }
     return false;
@@ -77,7 +77,7 @@ export default async function visualRegressionGenerator(
 
     const morphTree = tsMorphTree(tree);
 
-    switch (options.visualRegression) {
+    switch (options.type) {
         case visualRegressionTypes.NATIVE:
             // update project.json with new visual target
             updateProjectJsonWithNativeVisualRegressionTargets(
@@ -111,5 +111,5 @@ export default async function visualRegressionGenerator(
         '@ensono-stacks/playwright:visual-regression-deployment',
     );
 
-    return updateDependencies(tree, options.visualRegression);
+    return updateDependencies(tree, options.type);
 }
