@@ -35,7 +35,7 @@ export default async function install(
 
     deploymentGeneratorMessage(
         tree,
-        '@ensono-stacks/workspace:init-deployment',
+        'nx g @ensono-stacks/workspace:init-deployment',
     );
 
     return runTasksInSerial(...tasks);
