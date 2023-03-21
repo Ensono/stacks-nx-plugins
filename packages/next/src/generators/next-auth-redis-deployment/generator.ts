@@ -2,7 +2,7 @@ import {
     formatFilesWithEslint,
     readStacksConfig,
     getResourceGroup,
-    hasGeneratorExecuted,
+    hasGeneratorExecutedForProject,
 } from '@ensono-stacks/core';
 import {
     readProjectConfiguration,
@@ -24,7 +24,13 @@ export default async function nextAuthRedisDeploymentGenerator(
     tree: Tree,
     options: NextAuthRedisDeploymentGeneratorSchema,
 ) {
-    if (hasGeneratorExecuted(tree, options.project, 'NextAuthRedisDeployment'))
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'NextAuthRedisDeployment',
+        )
+    )
         return false;
 
     const project = readProjectConfiguration(tree, options.project);
