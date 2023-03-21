@@ -35,6 +35,7 @@ export type CreateStacksArguments = {
         type: 'github' | 'azdo';
         url: string;
     };
+    useDev?: boolean;
 };
 
 export enum Preset {
