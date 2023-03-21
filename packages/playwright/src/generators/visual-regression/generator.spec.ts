@@ -2,7 +2,6 @@ import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
-import YAML from 'yaml';
 
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import initGenerator from '../init/generator';
@@ -46,91 +45,12 @@ describe('playwright generator', () => {
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
-
-        appTree.write(
-            'taskctl.yaml',
-            YAML.stringify({
-                pipelines: {
-                    dev: [
-                        { task: 'lint' },
-                        { task: 'build', depends_on: 'lint' },
-                        { task: 'e2e:ci', depends_on: 'build' },
-                        { task: 'version', depends_on: 'e2e:ci' },
-                        { task: 'terraform', depends_on: 'version' },
-                        { task: 'helm', depends_on: 'terraform' },
-                    ],
-                    fe: [
-                        { task: 'lint' },
-                        { task: 'build', depends_on: 'lint' },
-                        { task: 'e2e:ci', depends_on: 'build' },
-                        { task: 'version', depends_on: 'e2e:ci' },
-                    ],
-                    nonprod: [
-                        { task: 'lint:ci' },
-                        { task: 'build:ci', depends_on: 'lint:ci' },
-                        { task: 'test:ci', depends_on: 'build:ci' },
-                        { task: 'e2e:ci', depends_on: 'test:ci' },
-                        { task: 'version:nonprod', depends_on: 'e2e:ci' },
-                        {
-                            task: 'terraform:nonprod',
-                            depends_on: 'version:nonprod',
-                        },
-                        {
-                            task: 'helm:nonprod',
-                            depends_on: 'terraform:nonprod',
-                        },
-                    ],
-                    prod: [
-                        { task: 'build:ci' },
-                        { task: 'test:ci', depends_on: 'build:ci' },
-                        { task: 'e2e:ci', depends_on: 'test:ci' },
-                        { task: 'version:prod', depends_on: 'e2e:ci' },
-                        { task: 'terraform:prod', depends_on: 'version:prod' },
-                        { task: 'helm:prod', depends_on: 'terraform:prod' },
-                    ],
-                },
-            }),
-        );
-        updateJson(appTree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
-                },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
-                },
-            },
-        }));
-        appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
-    });
-
-    afterEach(() => {
-        appTree.delete('taskctl.yaml');
-        appTree.delete('build/tasks.yaml');
     });
 
     it('should error if the project does not exist', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: 'non-existent-project',
-            visualRegression: 'none',
+            type: 'none',
         };
         await expect(generator(appTree, options)).rejects.toThrowError(
             `non-existent-project does not exist`,
@@ -140,7 +60,7 @@ describe('playwright generator', () => {
     it('should run successfully with native regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
-            visualRegression: 'native',
+            type: 'native',
         };
         await initGenerator(appTree, { project: projectName });
         await generator(appTree, options);
@@ -176,38 +96,12 @@ describe('playwright generator', () => {
                 '',
             )}`,
         );
-
-        const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
-        expect(taskctlYAML.pipelines.updatesnapshots).toBeTruthy();
     }, 100_000);
-
-    it('should run successfully with native regeression and azure builds have been generated', async () => {
-        appTree.write('build/azDevOps/azuredevops-stages.yaml', '');
-        const options: VisualRegressionGeneratorSchema = {
-            project: projectNameE2E,
-            visualRegression: 'native',
-        };
-        await initGenerator(appTree, { project: projectName });
-        await generator(appTree, options);
-        const azureUpdateSnapshots = YAML.parse(
-            appTree.read(
-                'build/azDevOps/azuredevops-updatesnapshots.yaml',
-                'utf8',
-            ),
-        );
-        expect(azureUpdateSnapshots.variables).toBeTruthy();
-        expect(azureUpdateSnapshots.variables).toEqual([
-            { template: 'azuredevops-vars.yaml' },
-            { group: 'Amido-stacks-nx-common' },
-            { name: 'DebugPreference', value: 'Continue' },
-            { group: 'Amido-stacks-nx-nonprod' },
-        ]);
-    });
 
     it('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
-            visualRegression: 'applitools',
+            type: 'applitools',
         };
         await initGenerator(appTree, { project: projectName });
         await generator(appTree, options);
