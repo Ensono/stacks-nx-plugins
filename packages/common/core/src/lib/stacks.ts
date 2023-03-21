@@ -28,13 +28,22 @@ export function readStacksConfig(tree: Tree) {
         );
     }
 
-    return (({ business, cloud, domain, pipeline, terraform, vcs }) => ({
+    return (({
         business,
         cloud,
         domain,
         pipeline,
         terraform,
         vcs,
+        executedGenerators,
+    }) => ({
+        business,
+        cloud,
+        domain,
+        pipeline,
+        terraform,
+        vcs,
+        executedGenerators,
     }))(stacksJson);
 }
 
