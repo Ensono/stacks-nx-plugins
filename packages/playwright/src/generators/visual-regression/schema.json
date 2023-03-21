@@ -15,10 +15,10 @@
             },
             "x-prompt": "What is the name of the project for this component?"
         },
-        "visualRegression": {
+        "type": {
             "type": "string",
             "description": "Method used to conduct visual regression testing",
-            "alias": "v",
+            "alias": "t",
             "default": "none",
             "enum": ["native", "applitools"],
             "x-prompt": {
@@ -37,5 +37,5 @@
             }
         }
     },
-    "required": ["project", "visualRegression"]
+    "required": ["project", "type"]
 }

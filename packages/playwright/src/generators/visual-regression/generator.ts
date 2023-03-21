@@ -1,4 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
+import { deploymentGeneratorMessage, tsMorphTree } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     formatFiles,
@@ -8,29 +8,21 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
-import chalk from 'chalk';
 import path from 'path';
 
+import { visualRegressionTypes } from '../../utils/types';
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { VisualRegressionGeneratorSchema } from './schema';
-import { updateAzureDevopsStagesApplitools } from './utils/update-azdevops-stage';
-import { updateAzureDevopsSnapshotsYaml } from './utils/update-azure-devops-updatesnapshots';
 import {
     updatePlaywrightConfigWithApplitoolsVisualRegression,
     updatePlaywrightConfigWithNativeVisualRegression,
 } from './utils/update-playwright-config';
 import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
-import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
 
 interface NormalizedSchema extends VisualRegressionGeneratorSchema {
     projectName: string;
     projectRoot: string;
 }
-
-const visualRegressionTypes = {
-    NATIVE: 'native',
-    APPLITOOLS: 'applitools',
-};
 
 function normalizeOptions(
     tree: Tree,
@@ -60,12 +52,12 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
-async function updateDependencies(tree: Tree, visualRegression: string) {
+async function updateDependencies(tree: Tree, type: string) {
     const applitoolsDeps = {
         '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
     };
 
-    if (visualRegression === visualRegressionTypes.APPLITOOLS) {
+    if (type === visualRegressionTypes.APPLITOOLS) {
         return addDependenciesToPackageJson(tree, {}, applitoolsDeps);
     }
     return false;
@@ -85,22 +77,16 @@ export default async function visualRegressionGenerator(
 
     const morphTree = tsMorphTree(tree);
 
-    switch (options.visualRegression) {
+    switch (options.type) {
         case visualRegressionTypes.NATIVE:
             // update project.json with new visual target
             updateProjectJsonWithNativeVisualRegressionTargets(
                 readProjectConfiguration(tree, options.project),
                 tree,
             );
+
+            // update targets
             updatePlaywrightConfigWithNativeVisualRegression(morphTree);
-
-            // update tasks.yaml
-            updateTasksYaml(tree);
-
-            // update taskctl.yaml
-            updateTaskctlYaml(tree, { visualRegression: true });
-
-            updateAzureDevopsSnapshotsYaml(tree);
 
             // example.spec.ts
             addFiles(tree, 'files/native', normalizedOptions);
@@ -114,17 +100,16 @@ export default async function visualRegressionGenerator(
 
             // example.spec.ts
             addFiles(tree, 'files/applitools', normalizedOptions);
-
-            updateAzureDevopsStagesApplitools(tree);
-
-            console.warn(
-                chalk.yellow`Don't forget to set your 'APPLITOOLS_API_KEY'.`,
-            );
             break;
         default:
     }
 
     await formatFiles(tree);
 
-    return updateDependencies(tree, options.visualRegression);
+    deploymentGeneratorMessage(
+        tree,
+        'nx g @ensono-stacks/playwright:visual-regression-deployment',
+    );
+
+    return updateDependencies(tree, options.type);
 }
