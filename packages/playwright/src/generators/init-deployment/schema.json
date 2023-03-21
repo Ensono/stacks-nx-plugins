@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "InitDeployment",
+    "title": "Ensono Stacks Playwright init deployment generator",
+    "type": "object",
+    "properties": {},
+    "required": []
+}
