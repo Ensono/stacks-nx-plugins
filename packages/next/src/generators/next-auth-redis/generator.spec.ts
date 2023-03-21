@@ -1,3 +1,4 @@
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
 import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -22,35 +23,7 @@ describe('next-auth-redis generator', () => {
             style: 'css',
             standaloneConfig: false,
         });
-        updateJson(appTree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
-                },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
-                },
-                executedGenerators: [],
-            },
-        }));
+        testUpdateStacksConfig(appTree, options.project);
         await nextInitGenerator(appTree, { project: 'next-app' });
         await nextAuthGenerator(appTree, {
             project: 'next-app',
@@ -119,11 +92,15 @@ describe('next-auth-redis generator', () => {
         const nxJson = readJson(appTree, 'nx.json');
 
         expect(
-            nxJson.stacks.executedGenerators.includes('NextAuthRedis'),
+            nxJson.stacks.executedGenerators.project[options.project].includes(
+                'NextAuthRedis',
+            ),
         ).toBeTruthy();
-        expect(nxJson.stacks.executedGenerators.includes('NextAuthRedis')).toBe(
-            true,
-        );
+        expect(
+            nxJson.stacks.executedGenerators.project[options.project].includes(
+                'NextAuthRedis',
+            ),
+        ).toBe(true);
     });
 
     it('should return false from method and exit generator if already executed', async () => {
@@ -131,7 +108,11 @@ describe('next-auth-redis generator', () => {
             ...nxJson,
             stacks: {
                 ...nxJson.stacks,
-                executedGenerators: ['NextAuthRedis'],
+                executedGenerators: {
+                    project: {
+                        [options.project]: ['NextAuthRedis'],
+                    },
+                },
             },
         }));
 

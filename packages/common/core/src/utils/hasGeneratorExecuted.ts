@@ -14,7 +14,7 @@ export function hasGeneratorExecutedForProject(
 ) {
     const stacksExecutedGenerators = readStacksExecutedGenerators(tree);
 
-    if (stacksExecutedGenerators.project[projectName] === undefined)
+    if (!(projectName in stacksExecutedGenerators.project))
         updateJson(tree, 'nx.json', nxJson => ({
             ...nxJson,
             stacks: {

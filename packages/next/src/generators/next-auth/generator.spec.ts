@@ -1,3 +1,4 @@
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
 import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -25,35 +26,7 @@ describe('next-auth generator', () => {
             style: 'css',
         });
 
-        updateJson(appTree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
-                },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
-                },
-                executedGenerators: [],
-            },
-        }));
+        testUpdateStacksConfig(appTree, options.project);
     });
 
     it('should install NextAuth without a provider', async () => {
@@ -81,11 +54,15 @@ describe('next-auth generator', () => {
         const nxJson = readJson(appTree, 'nx.json');
 
         expect(
-            nxJson.stacks.executedGenerators.includes('NextAuth'),
+            nxJson.stacks.executedGenerators.project[options.project].includes(
+                'NextAuth',
+            ),
         ).toBeTruthy();
-        expect(nxJson.stacks.executedGenerators.includes('NextAuth')).toBe(
-            true,
-        );
+        expect(
+            nxJson.stacks.executedGenerators.project[options.project].includes(
+                'NextAuth',
+            ),
+        ).toBe(true);
     });
 
     it('should return false from method and exit generator if already executed', async () => {
@@ -93,7 +70,11 @@ describe('next-auth generator', () => {
             ...nxJson,
             stacks: {
                 ...nxJson.stacks,
-                executedGenerators: ['NextAuth'],
+                executedGenerators: {
+                    project: {
+                        [options.project]: ['NextAuth'],
+                    },
+                },
             },
         }));
 

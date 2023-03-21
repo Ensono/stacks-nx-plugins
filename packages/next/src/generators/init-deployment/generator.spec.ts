@@ -1,3 +1,4 @@
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
 import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -22,35 +23,7 @@ describe('next deployment generator', () => {
         });
 
         if (!skipStacksConfig) {
-            updateJson(tree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    business: {
-                        company: 'Amido',
-                        domain: 'stacks',
-                        component: 'nx',
-                    },
-                    domain: {
-                        internal: 'test.com',
-                        external: 'test.dev',
-                    },
-                    cloud: {
-                        region: 'euw',
-                        platform: 'azure',
-                    },
-                    pipeline: 'azdo',
-                    terraform: {
-                        group: 'terraform-group',
-                        storage: 'terraform-storage',
-                        container: 'terraform-container',
-                    },
-                    vcs: {
-                        type: 'github',
-                        url: 'remote.git',
-                    },
-                    executedGenerators: [],
-                },
-            }));
+            testUpdateStacksConfig(tree, options.project);
         }
     }
 
@@ -159,10 +132,14 @@ describe('next deployment generator', () => {
             const nxJson = readJson(tree, 'nx.json');
 
             expect(
-                nxJson.stacks.executedGenerators.includes('NextInitDeployment'),
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextInitDeployment'),
             ).toBeTruthy();
             expect(
-                nxJson.stacks.executedGenerators.includes('NextInitDeployment'),
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextInitDeployment'),
             ).toBe(true);
         });
 
@@ -173,7 +150,11 @@ describe('next deployment generator', () => {
                 ...nxJson,
                 stacks: {
                     ...nxJson.stacks,
-                    executedGenerators: ['NextInitDeployment'],
+                    executedGenerators: {
+                        project: {
+                            [options.project]: ['NextInitDeployment'],
+                        },
+                    },
                 },
             }));
 
