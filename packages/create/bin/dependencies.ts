@@ -114,7 +114,11 @@ export async function installPackages(
     }
 
     const versionedPackages = useDevelopment
-        ? packages.map(packageName => `${packageName}@dev`)
+        ? packages.map(packageName =>
+              packageName.includes('@ensono-stacks')
+                  ? `${packageName}@dev`
+                  : packageName,
+          )
         : packages;
 
     const packageManager = detectPackageManager(cwd);
