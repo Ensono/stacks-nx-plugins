@@ -3,7 +3,7 @@ import {
     formatFilesWithEslint,
     addCustomTestConfig,
     deploymentGeneratorMessage,
-    hasGeneratorExecuted,
+    hasGeneratorExecutedForProject,
 } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
@@ -24,7 +24,8 @@ export default async function initGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
-    if (hasGeneratorExecuted(tree, options.project, 'NextInit')) return false;
+    if (hasGeneratorExecutedForProject(tree, options.project, 'NextInit'))
+        return false;
 
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);

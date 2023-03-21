@@ -1,6 +1,6 @@
 import {
     formatFiles,
-    hasGeneratorExecuted,
+    hasGeneratorExecutedForProject,
     StacksConfigError,
 } from '@ensono-stacks/core';
 import {
@@ -19,7 +19,13 @@ export default async function initDeploymentGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
-    if (hasGeneratorExecuted(tree, options.project, 'NextInitDeployment'))
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'NextInitDeployment',
+        )
+    )
         return false;
 
     const tasks: GeneratorCallback[] = [];

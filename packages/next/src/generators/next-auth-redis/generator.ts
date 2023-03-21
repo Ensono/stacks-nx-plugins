@@ -1,7 +1,7 @@
 import {
     formatFilesWithEslint,
     createOrUpdateLocalEnv,
-    hasGeneratorExecuted,
+    hasGeneratorExecutedForProject,
     deploymentGeneratorMessage,
 } from '@ensono-stacks/core';
 import {
@@ -28,7 +28,7 @@ export default async function nextAuthRedisGenerator(
     tree: Tree,
     options: NextAuthRedisGeneratorSchema,
 ) {
-    if (hasGeneratorExecuted(tree, options.project, 'NextAuthRedis'))
+    if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuthRedis'))
         return false;
 
     const project = readProjectConfiguration(tree, options.project);
