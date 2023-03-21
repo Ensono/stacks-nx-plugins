@@ -1,4 +1,3 @@
-import { logger } from '@nrwl/devkit';
 import { tmpProjPath } from '@nrwl/nx-plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';

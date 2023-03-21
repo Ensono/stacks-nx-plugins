@@ -104,15 +104,23 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
     return plugins;
 }
 
-export async function installPackages(packages: string[], cwd: string) {
+export async function installPackages(
+    packages: string[],
+    cwd: string,
+    useDevelopment?: boolean,
+) {
     if (packages.length === 0) {
         return Promise.resolve();
     }
 
+    const versionedPackages = useDevelopment
+        ? packages.map(packageName => `${packageName}@dev`)
+        : packages;
+
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
 
-    return execAsync(`${pm.addDependency} ${packages.join(' ')}`, cwd);
+    return execAsync(`${pm.addDependency} ${versionedPackages.join(' ')}`, cwd);
 }
 
 export async function runGenerators(commands: string[], cwd: string) {
