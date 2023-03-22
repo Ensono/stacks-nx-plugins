@@ -1,7 +1,7 @@
-import { generateFiles, readProjectConfiguration, Tree } from '@nrwl/devkit';
-import path from 'path';
+import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 
 import { AppInsightsDeploymentGeneratorSchema } from './schema';
+import { updateProjectJsonHelmUpgradeTarget } from './utils/update-targets';
 
 export default async function appInsightsDeploymentGenerator(
     tree: Tree,
@@ -9,8 +9,6 @@ export default async function appInsightsDeploymentGenerator(
 ) {
     const project = readProjectConfiguration(tree, options.project);
 
-    // add common project files
-    generateFiles(tree, path.join(__dirname, 'files/common'), project.root, {
-        projectName: project.name,
-    });
+    // Update project.json
+    updateProjectJsonHelmUpgradeTarget(project, tree, options);
 }
