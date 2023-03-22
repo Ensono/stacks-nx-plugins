@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "VisualRegressionDeployment",
-    "title": "",
+    "title": "Ensono Stacks Playwright Visual Regression Deployment Generator",
+    "description": "The @ensono-stacks/playwright:visual-regression-deployment generator adds the relevant pipeline and infrastructure code to your workspace.",
     "type": "object",
     "properties": {
         "type": {
