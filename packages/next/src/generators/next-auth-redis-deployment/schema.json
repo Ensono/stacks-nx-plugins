@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
-    "$id": "NextAuthRedis",
+    "$id": "NextAuthRedisDeployment",
     "title": "Ensono Stacks Next Auth Redis Deployment Generator",
     "description": "The @ensono-stacks/next:next-auth-redis-deployment generator will add relevant infra for Redis in an existing Next-Auth app.",
     "type": "object",

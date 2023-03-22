@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
-    "$id": "Playwright",
+    "$id": "VisualRegression",
     "title": "Ensono Stacks Playwright Visual Regression Generator",
     "description": "The @ensono-stacks/playwright:visual-regression generator scaffolds example visual regression tests and config.",
     "type": "object",

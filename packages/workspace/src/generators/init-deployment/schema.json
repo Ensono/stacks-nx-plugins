@@ -3,6 +3,7 @@
     "cli": "nx",
     "$id": "InitDeployment",
     "title": "Ensono Stacks Workspace Init Deployment Generator",
+    "description": "The @ensono-stacks/workspace:init-deployment generator will add the necessary pipeline and infrastructure code to your workspace.",
     "type": "object",
     "properties": {
         "pipelineRunner": {
