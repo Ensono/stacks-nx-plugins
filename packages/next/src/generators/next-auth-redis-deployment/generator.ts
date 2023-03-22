@@ -39,6 +39,7 @@ export default async function nextAuthRedisDeploymentGenerator(
         path.join(__dirname, `files/${stacksConfig.cloud.platform}`),
         project.root,
         {
+            projectName: project.name,
             nonProdResourceGroup: getResourceGroup(stacksConfig, 'nonprod'),
             prodResourceGroup: getResourceGroup(stacksConfig, 'prod'),
         },
