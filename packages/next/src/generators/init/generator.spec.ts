@@ -1,3 +1,4 @@
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
 import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -18,34 +19,7 @@ describe('next install generator', () => {
             ...schema,
         });
 
-        updateJson(tree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
-                },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
-                },
-            },
-        }));
+        testUpdateStacksConfig(tree, options.project);
     }
 
     describe('Project config', () => {
@@ -141,6 +115,46 @@ describe('next install generator', () => {
                     },
                 }),
             );
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            await createNextApp({});
+            await generator(tree, { ...options });
+
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextInit'),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextInit'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await createNextApp({});
+
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        project: {
+                            [options.project]: ['NextInit'],
+                        },
+                    },
+                },
+            }));
+
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
         });
     });
 

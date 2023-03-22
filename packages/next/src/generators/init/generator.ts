@@ -3,6 +3,7 @@ import {
     formatFilesWithEslint,
     addCustomTestConfig,
     deploymentGeneratorMessage,
+    hasGeneratorExecutedForProject,
 } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
@@ -23,6 +24,9 @@ export default async function initGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
+    if (hasGeneratorExecutedForProject(tree, options.project, 'NextInit'))
+        return false;
+
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);
 
@@ -87,12 +91,10 @@ export default async function initGenerator(
         joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
     ]);
 
-    tasks.push(() => {
-        deploymentGeneratorMessage(
-            tree,
-            `nx g @ensono-stacks/next:init-deployment --project ${options.project}`,
-        );
-    });
+    deploymentGeneratorMessage(
+        tree,
+        `nx g @ensono-stacks/next:init-deployment --project ${options.project}`,
+    );
 
     return runTasksInSerial(...tasks);
 }
