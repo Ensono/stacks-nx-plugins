@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "ClientEndpoint",
-    "title": "Ensono Stacks Rest Client Endpoint Generator",
-    "description": "The @ensono-stacks/rest-client:endpoint generator will add an endpoint to an existing project",
+    "title": "Ensono Stacks Rest Client Client Endpoint Generator",
+    "description": "The @ensono-stacks/rest-client:client-endpoint generator will add an endpoint to an existing project",
     "type": "object",
     "properties": {
         "name": {
