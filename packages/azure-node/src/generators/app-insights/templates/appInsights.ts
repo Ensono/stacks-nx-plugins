@@ -1,5 +1,7 @@
-export const initAppInsights = (appInsightsKey: string) => `appInsights
-    .setup(process.env.${appInsightsKey})
+export const initAppInsights = (
+    applicationinsightsConnectionString: string,
+) => `appInsights
+    .setup(process.env.${applicationinsightsConnectionString})
     .setAutoCollectConsole(true, true)
     .setAutoCollectDependencies(true)
     .setAutoCollectExceptions(true)

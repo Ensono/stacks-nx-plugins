@@ -7,6 +7,11 @@
             "factory": "./src/generators/app-insights/generator",
             "schema": "./src/generators/app-insights/schema.json",
             "description": "app-insights generator"
+        },
+        "app-insights-deployment": {
+            "factory": "./src/generators/app-insights-deployment/generator",
+            "schema": "./src/generators/app-insights-deployment/schema.json",
+            "description": "app-insights-deployment generator"
         }
     }
 }
