@@ -126,12 +126,11 @@ export default async function bumpVersion(
         optionsParameter.endpointVersion,
     );
 
-    const libsEndpoint = readProjectConfiguration(
-        tree,
-        optionsParameter.name,
-    ).root.replace(/v(\d+)$/g, '');
+    const libsEndpoint = readProjectConfiguration(tree, optionsParameter.name)
+        .root.replace(/v(\d+)$/g, '')
+        .replace(/\v(\d+)$/g, '');
 
-    const endpointRoot = libsEndpoint.replace('libs/', '');
+    const endpointRoot = libsEndpoint.replace('libs/', '').replace('libs', '');
 
     const latestVersionOptions = normalizeOptions(tree, {
         name: `${endpointRoot}v${latestVersion}`,
