@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
-    "$id": "Next",
+    "$id": "Init",
     "type": "object",
     "title": "Ensono Stacks Next Init Generator",
     "description": "The @ensono-stacks/next:init generator will add a custom ESlint config to an existing NextJs application, install eslint-plugin-testing-library to the project. as well as update project.json with a custom test config to allow coverage collection from jest.",

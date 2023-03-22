@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
-    "$id": "Playwright",
+    "$id": "Init",
     "title": "Ensono Stacks Playwright Init Generator",
     "description": "The @ensono-stacks/playwright:init generator initialises your playwright project with additional stacks configuration.",
     "type": "object",

@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
-    "$id": "WinstonLogger",
+    "$id": "Winston",
     "title": "Ensono Stacks Logger Winston Generator",
     "description": "The @ensono-stacks/logger:winston generator will generate a new Nx library which contains a Winston logger instance and associated config.",
     "type": "object",
