@@ -21,6 +21,10 @@ export function configureNx(
             pipeline: options.pipeline,
             terraform: options.terraform,
             vcs: options.vcs,
+            executedGenerators: {
+                project: {},
+                workspace: [],
+            },
         };
 
         fs.writeFileSync(nxJsonPath, JSON.stringify(nxJson, null, 2), {

@@ -2,6 +2,7 @@ import {
     tsMorphTree,
     formatFiles,
     formatFilesWithEslint,
+    hasGeneratorExecutedForProject,
 } from '@ensono-stacks/core';
 import {
     generateFiles,
@@ -23,6 +24,9 @@ export default async function nextAuthGenerator(
     tree: Tree,
     options: NextAuthGeneratorSchema,
 ) {
+    if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuth'))
+        return false;
+
     const project = readProjectConfiguration(tree, options.project);
 
     if (

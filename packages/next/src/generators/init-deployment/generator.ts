@@ -1,4 +1,8 @@
-import { formatFiles, StacksConfigError } from '@ensono-stacks/core';
+import {
+    formatFiles,
+    hasGeneratorExecutedForProject,
+    StacksConfigError,
+} from '@ensono-stacks/core';
 import {
     joinPathFragments,
     readProjectConfiguration,
@@ -15,6 +19,15 @@ export default async function initDeploymentGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'NextInitDeployment',
+        )
+    )
+        return false;
+
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);
 

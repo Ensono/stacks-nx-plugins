@@ -1,5 +1,5 @@
 import { deploymentGeneratorMessage } from '@ensono-stacks/core';
-import { Tree, GeneratorCallback, formatFiles } from '@nrwl/devkit';
+import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
 import { InstallGeneratorSchema } from './schema';
@@ -30,6 +30,21 @@ export default async function install(
 
     // Create tsconfig.base if it doesn't exist
     createTsConfigBase(tree);
+
+    // create stacks attribute if it doesn't exist
+    updateJson(tree, 'nx.json', nxJson =>
+        nxJson.stacks
+            ? nxJson
+            : {
+                  ...nxJson,
+                  stacks: {
+                      executedGenerators: {
+                          project: {},
+                          workspace: [],
+                      },
+                  },
+              },
+    );
 
     await formatFiles(tree);
 

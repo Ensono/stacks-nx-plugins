@@ -1,4 +1,5 @@
-import { Tree, updateJson } from '@nrwl/devkit';
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
@@ -22,40 +23,13 @@ describe('next deployment generator', () => {
         });
 
         if (!skipStacksConfig) {
-            updateJson(tree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    business: {
-                        company: 'Amido',
-                        domain: 'stacks',
-                        component: 'nx',
-                    },
-                    domain: {
-                        internal: 'test.com',
-                        external: 'test.dev',
-                    },
-                    cloud: {
-                        region: 'euw',
-                        platform: 'azure',
-                    },
-                    pipeline: 'azdo',
-                    terraform: {
-                        group: 'terraform-group',
-                        storage: 'terraform-storage',
-                        container: 'terraform-container',
-                    },
-                    vcs: {
-                        type: 'github',
-                        url: 'remote.git',
-                    },
-                },
-            }));
+            testUpdateStacksConfig(tree, options.project);
         }
     }
 
     describe('infrastructure', () => {
         it('should throw if project is not defined', async () => {
-            await createNextApp();
+            await createNextApp({});
             await expect(
                 generator(tree, {
                     ...options,
@@ -66,7 +40,14 @@ describe('next deployment generator', () => {
 
         it('should not apply if stacks config is missing', async () => {
             await createNextApp({}, true);
-            await generator(tree, { ...options });
+            await expect(
+                generator(tree, {
+                    ...options,
+                    project: 'unknown',
+                }),
+            ).rejects.toThrowError(
+                'Stacks configuration is not set. Please update nx.json',
+            );
 
             expect(tree.exists('next-app/Dockerfile')).not.toBeTruthy();
             expect(
@@ -142,6 +123,46 @@ describe('next deployment generator', () => {
             expect(docker).toContain(
                 'CMD ["dumb-init", "node", "server/main.js"]',
             );
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            await createNextApp({}, false);
+            await generator(tree, { ...options });
+
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextInitDeployment'),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextInitDeployment'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await createNextApp({}, false);
+
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        project: {
+                            [options.project]: ['NextInitDeployment'],
+                        },
+                    },
+                },
+            }));
+
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
         });
 
         describe('--openTelemetry', () => {
