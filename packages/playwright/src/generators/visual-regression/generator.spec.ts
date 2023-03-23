@@ -1,4 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
+import { testUpdateStacksConfig, tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
@@ -45,6 +45,8 @@ describe('playwright generator', () => {
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
+
+        testUpdateStacksConfig(appTree, '');
     });
 
     it('should error if the project does not exist', async () => {
@@ -135,4 +137,51 @@ describe('playwright generator', () => {
             '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
         });
     }, 100_000);
+
+    describe('executedGenerators', () => {
+        const options: VisualRegressionGeneratorSchema = {
+            project: projectNameE2E,
+            type: 'applitools',
+        };
+
+        beforeEach(async () => {
+            await initGenerator(appTree, { project: projectName });
+            await generator(appTree, options);
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('PlaywrightVisualRegression'),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('PlaywrightVisualRegression'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            updateJson(appTree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        project: {
+                            [options.project]: ['PlaywrightVisualRegression'],
+                        },
+                    },
+                },
+            }));
+
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
+    });
 });

@@ -1,4 +1,5 @@
-import { Tree } from '@nrwl/devkit';
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
 
@@ -9,6 +10,8 @@ describe('playwright generator', () => {
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
+
+        testUpdateStacksConfig(appTree, '');
 
         appTree.write(
             'taskctl.yaml',
@@ -179,6 +182,43 @@ stages:
                 artifact: 'testresults',
                 publishLocation: 'pipeline',
             },
+        });
+    });
+
+    describe('executedGenerators', () => {
+        it('should update nx.json and tag executed generator true', async () => {
+            await generator(appTree);
+
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.workspace.includes(
+                    'PlaywrightInitDeployment',
+                ),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.workspace.includes(
+                    'PlaywrightInitDeployment',
+                ),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await generator(appTree);
+
+            updateJson(appTree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        workspace: ['PlaywrightInitDeployment'],
+                    },
+                },
+            }));
+
+            const gen = await generator(appTree);
+
+            expect(gen).toBe(false);
         });
     });
 });

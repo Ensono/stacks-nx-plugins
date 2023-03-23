@@ -1,6 +1,7 @@
 import {
     addIgnoreEntry,
     deploymentGeneratorMessage,
+    hasGeneratorExecutedForProject,
     tsMorphTree,
 } from '@ensono-stacks/core';
 import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
@@ -73,6 +74,9 @@ export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
+    if (hasGeneratorExecutedForProject(tree, options.project, 'PlaywrightInit'))
+        return false;
+
     const projectE2E = `${options.project}-e2e`;
 
     const optionsE2E = {
@@ -87,6 +91,8 @@ export default async function initGenerator(
         packageRunner: 'npx',
         project: options.project,
     };
+
+    console.log(123);
 
     await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
 
