@@ -1,6 +1,7 @@
 import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 
 import { AppInsightsDeploymentGeneratorSchema } from './schema';
+import { updatePipelineStagesYaml } from './utils/update-pipeline';
 import { updateProjectJsonHelmUpgradeTarget } from './utils/update-targets';
 
 export default async function appInsightsDeploymentGenerator(
@@ -11,4 +12,5 @@ export default async function appInsightsDeploymentGenerator(
 
     // Update project.json
     updateProjectJsonHelmUpgradeTarget(project, tree, options);
+    updatePipelineStagesYaml(tree, options);
 }
