@@ -24,10 +24,14 @@ variables:
                 variables['System.PullRequest.TargetBranch']))]
           - name: BASE_SHA
             value: $(git merge-base $(TARGET_BRANCH) HEAD)
+          - name: PRE_RELEASE_ID
+            value: PR$(System.PullRequest.PullRequestNumber)
     - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
           - name: NX_BRANCH
             value: $(Build.SourceBranchName)
           - name: BASE_SHA
             value: $(git rev-parse HEAD~1)
+          - name: PRE_RELEASE_ID
+            value: $(Build.SourceBranchName)
     - name: HEAD_SHA
       value: $(git rev-parse HEAD)
