@@ -1,27 +1,27 @@
-import { readJson, Tree, NxJsonConfiguration } from '@nrwl/devkit';
+import { readJson, Tree, NxJsonStacks } from '@nrwl/devkit';
 
 export class StacksConfigError extends Error {}
 
 function readStacksJson(tree: Tree) {
-    const nxJson = readJson(tree, 'nx.json') as NxJsonConfiguration;
+    const nxJsonStacks = readJson(tree, 'nx.json').stacks as NxJsonStacks;
 
-    if (!nxJson.stacks) {
+    if (!nxJsonStacks) {
         throw new StacksConfigError(
             'Stacks configuration is not set. Please update nx.json.',
         );
     }
 
-    return nxJson.stacks;
+    return nxJsonStacks;
 }
 
 export function readStacksConfig(tree: Tree) {
     const stacksJson = readStacksJson(tree);
 
     if (
-        !stacksJson.business ||
-        !stacksJson.cloud ||
-        !stacksJson.domain ||
-        !stacksJson.vcs
+        !stacksJson.config.business ||
+        !stacksJson.config.cloud ||
+        !stacksJson.config.domain ||
+        !stacksJson.config.vcs
     ) {
         throw new StacksConfigError(
             'Incomplete Stacks configuration in nx.json.',
@@ -29,12 +29,7 @@ export function readStacksConfig(tree: Tree) {
     }
 
     return (({
-        business,
-        cloud,
-        domain,
-        pipeline,
-        terraform,
-        vcs,
+        config: { business, cloud, domain, pipeline, terraform, vcs },
         executedGenerators,
     }) => ({
         business,
