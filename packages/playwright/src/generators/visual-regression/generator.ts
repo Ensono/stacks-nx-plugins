@@ -1,4 +1,8 @@
-import { deploymentGeneratorMessage, tsMorphTree } from '@ensono-stacks/core';
+import {
+    deploymentGeneratorMessage,
+    hasGeneratorExecutedForProject,
+    tsMorphTree,
+} from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     formatFiles,
@@ -67,6 +71,15 @@ export default async function visualRegressionGenerator(
     tree: Tree,
     options: VisualRegressionGeneratorSchema,
 ) {
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'PlaywrightVisualRegression',
+        )
+    )
+        return false;
+
     const project = getProjects(tree).get(options.project);
 
     if (!project) {

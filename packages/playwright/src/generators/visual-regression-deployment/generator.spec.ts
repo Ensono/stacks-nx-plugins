@@ -1,4 +1,5 @@
-import { Tree, updateJson } from '@nrwl/devkit';
+import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
 
@@ -55,34 +56,7 @@ describe('visual-regression-deployment generator', () => {
                 },
             }),
         );
-        updateJson(appTree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
-                },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
-                },
-            },
-        }));
+        testUpdateStacksConfig(appTree, '');
         appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
     });
 
@@ -121,5 +95,49 @@ describe('visual-regression-deployment generator', () => {
             { name: 'DebugPreference', value: 'Continue' },
             { group: 'Amido-stacks-nx-nonprod' },
         ]);
+    });
+
+    describe('executedGenerators', () => {
+        const options: VisualRegressionDeploymentGeneratorSchema = {
+            type: 'native',
+        };
+
+        beforeEach(async () => {
+            testUpdateStacksConfig(appTree, '');
+            await generator(appTree, options);
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.workspace.includes(
+                    'PlaywrightVisualRegressionDeployment',
+                ),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.workspace.includes(
+                    'PlaywrightVisualRegressionDeployment',
+                ),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            updateJson(appTree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        workspace: ['PlaywrightVisualRegressionDeployment'],
+                    },
+                },
+            }));
+
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 });

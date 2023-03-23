@@ -1,5 +1,5 @@
-import { tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
+import { testUpdateStacksConfig, tsMorphTree } from '@ensono-stacks/core';
+import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 import YAML from 'yaml';
@@ -33,26 +33,22 @@ jest.mock('@nrwl/devkit', () => {
 
 describe('playwright generator', () => {
     let appTree: Tree;
+    let options: PlaywrightGeneratorSchema;
 
     beforeEach(() => {
+        options = {
+            project: projectName,
+        };
         appTree = createTreeWithEmptyWorkspace();
+        testUpdateStacksConfig(appTree, options.project);
     });
 
-    it('should error if the project already exists', async () => {
-        const options: PlaywrightGeneratorSchema = {
-            project: `${projectName}`,
-        };
-
+    it('should resolve false if the project already exists', async () => {
         await generator(appTree, options);
-        await expect(generator(appTree, options)).rejects.toThrowError(
-            `Cannot create a new project ${projectNameE2E} at ./${projectNameE2E}. It already exists.`,
-        );
+        await expect(generator(appTree, options)).resolves.toBe(false);
     }, 100_000);
 
     it('should run successfully with default options', async () => {
-        const options: PlaywrightGeneratorSchema = {
-            project: projectName,
-        };
         await generator(appTree, options);
 
         // example.spec.ts to be added
@@ -163,4 +159,45 @@ describe('playwright generator', () => {
         );
         expect(projectJson.targets.e2e).toBeTruthy();
     }, 100_000);
+
+    describe('executedGenerators', () => {
+        it('should update nx.json and tag executed generator true', async () => {
+            await generator(appTree, options);
+
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('PlaywrightInit'),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('PlaywrightInit'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await generator(appTree, options);
+
+            updateJson(appTree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        project: {
+                            [options.project]: ['PlaywrightInit'],
+                        },
+                    },
+                },
+            }));
+
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
+    });
 });
