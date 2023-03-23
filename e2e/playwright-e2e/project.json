@@ -16,5 +16,5 @@
         }
     },
     "tags": ["e2e"],
-    "implicitDependencies": ["playwright"]
+    "implicitDependencies": ["playwright", "next", "workspace", "create"]
 }
