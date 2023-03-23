@@ -76,6 +76,7 @@ export default async function visualRegressionGenerator(
             tree,
             options.project,
             'PlaywrightVisualRegression',
+            true,
         )
     )
         return false;

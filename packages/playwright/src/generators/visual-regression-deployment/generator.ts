@@ -17,6 +17,7 @@ export default async function visualRegressionDeploymentGenerator(
         hasGeneratorExecutedForWorkspace(
             tree,
             'PlaywrightVisualRegressionDeployment',
+            true,
         )
     )
         return false;
