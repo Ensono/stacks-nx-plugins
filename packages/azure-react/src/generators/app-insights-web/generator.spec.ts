@@ -1,5 +1,10 @@
-import { tsMorphTree } from '@ensono-stacks/core';
-import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
+import { testUpdateStacksConfig, tsMorphTree } from '@ensono-stacks/core';
+import {
+    Tree,
+    readProjectConfiguration,
+    readJson,
+    updateJson,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
@@ -15,6 +20,7 @@ describe('azure-react generator', () => {
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
+        testUpdateStacksConfig(tree, options.name);
     });
 
     it('should generate the app insights web library', async () => {
@@ -66,5 +72,46 @@ describe('azure-react generator', () => {
         ).rejects.toThrowError(
             'applicationinsightsConnectionString cannot be empty.',
         );
+    });
+
+    describe('executedGenerators', () => {
+        it('should update nx.json and tag executed generator true', async () => {
+            await generator(tree, options);
+
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[options.name].includes(
+                    'AzureReactAppInsightsWeb',
+                ),
+            ).toBeTruthy();
+            expect(
+                nxJson.stacks.executedGenerators.project[options.name].includes(
+                    'AzureReactAppInsightsWeb',
+                ),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            await generator(tree, options);
+
+            updateJson(tree, 'nx.json', nxJson => ({
+                ...nxJson,
+                stacks: {
+                    ...nxJson.stacks,
+                    executedGenerators: {
+                        project: {
+                            [options.name]: ['AzureReactAppInsightsWeb'],
+                        },
+                    },
+                },
+            }));
+
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 });
