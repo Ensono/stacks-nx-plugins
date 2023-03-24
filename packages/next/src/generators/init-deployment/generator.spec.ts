@@ -1,4 +1,4 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { testInitStacksConfig } from '@ensono-stacks/core';
 import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -23,7 +23,7 @@ describe('next deployment generator', () => {
         });
 
         if (!skipStacksConfig) {
-            testUpdateStacksConfig(tree, options.project);
+            testInitStacksConfig(tree, options.project);
         }
     }
 
