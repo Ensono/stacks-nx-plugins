@@ -32,10 +32,8 @@ export function updateAzureDevopsSnapshotsYaml(tree: Tree) {
                 'utf-8',
             ),
         );
-        const nxJsonStacks = readJson(
-            tree,
-            'nx.json',
-        ) as NxJsonStacksConfiguration;
+        const nxJsonStacks = readJson(tree, 'nx.json')
+            .stacks as NxJsonStacksConfiguration;
         updateSnapshotsYAML.variables[1] = {
             group: `${nxJsonStacks.config.business.company}-${nxJsonStacks.config.business.domain}-${nxJsonStacks.config.business.component}-common`,
         };
