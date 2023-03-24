@@ -1,10 +1,5 @@
-import { testUpdateStacksConfig, tsMorphTree } from '@ensono-stacks/core';
-import {
-    Tree,
-    readProjectConfiguration,
-    readJson,
-    updateJson,
-} from '@nrwl/devkit';
+import { testInitStacksConfig, tsMorphTree } from '@ensono-stacks/core';
+import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
@@ -20,7 +15,7 @@ describe('azure-react generator', () => {
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
-        testUpdateStacksConfig(tree, options.name);
+        testInitStacksConfig(tree, options.name);
     });
 
     it('should generate the app insights web library', async () => {
@@ -75,16 +70,12 @@ describe('azure-react generator', () => {
     });
 
     describe('executedGenerators', () => {
-        it('should update nx.json and tag executed generator true', async () => {
+        beforeEach(async () => {
             await generator(tree, options);
-
+        });
+        it('should update nx.json and tag executed generator true', async () => {
             const nxJson = readJson(tree, 'nx.json');
 
-            expect(
-                nxJson.stacks.executedGenerators.project[options.name].includes(
-                    'AzureReactAppInsightsWeb',
-                ),
-            ).toBeTruthy();
             expect(
                 nxJson.stacks.executedGenerators.project[options.name].includes(
                     'AzureReactAppInsightsWeb',
@@ -93,20 +84,6 @@ describe('azure-react generator', () => {
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            await generator(tree, options);
-
-            updateJson(tree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        project: {
-                            [options.name]: ['AzureReactAppInsightsWeb'],
-                        },
-                    },
-                },
-            }));
-
             const gen = await generator(tree, {
                 ...options,
             });
