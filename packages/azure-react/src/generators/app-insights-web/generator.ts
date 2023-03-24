@@ -1,4 +1,5 @@
 import {
+    hasGeneratorExecutedForProject,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
 } from '@ensono-stacks/core';
@@ -56,6 +57,15 @@ export default async function appInsightsWebGenerator(
     tree: Tree,
     options: AppInsightsWebGeneratorSchema,
 ) {
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.name,
+            'AzureReactAppInsightsWeb',
+        )
+    )
+        return false;
+
     if (!options.applicationinsightsConnectionString) {
         throw new Error('applicationinsightsConnectionString cannot be empty.');
     }
