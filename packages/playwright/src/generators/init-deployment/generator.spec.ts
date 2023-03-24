@@ -1,5 +1,5 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
-import { readJson, Tree, updateJson } from '@nrwl/devkit';
+import { testInitStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
 
@@ -11,7 +11,7 @@ describe('playwright generator', () => {
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
 
-        testUpdateStacksConfig(appTree, '');
+        testInitStacksConfig(appTree, '');
 
         appTree.write(
             'taskctl.yaml',
@@ -186,9 +186,11 @@ stages:
     });
 
     describe('executedGenerators', () => {
-        it('should update nx.json and tag executed generator true', async () => {
+        beforeEach(async () => {
             await generator(appTree);
+        });
 
+        it('should update nx.json and tag executed generator true', async () => {
             const nxJson = readJson(appTree, 'nx.json');
 
             expect(
@@ -204,18 +206,6 @@ stages:
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            await generator(appTree);
-
-            updateJson(appTree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        workspace: ['PlaywrightInitDeployment'],
-                    },
-                },
-            }));
-
             const gen = await generator(appTree);
 
             expect(gen).toBe(false);

@@ -1,5 +1,5 @@
-import { testUpdateStacksConfig, tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
+import { testInitStacksConfig, tsMorphTree } from '@ensono-stacks/core';
+import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 
@@ -46,7 +46,7 @@ describe('playwright generator', () => {
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
 
-        testUpdateStacksConfig(appTree, '');
+        testInitStacksConfig(appTree, '');
     });
 
     it('should error if the project does not exist', async () => {
@@ -165,18 +165,6 @@ describe('playwright generator', () => {
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            updateJson(appTree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        project: {
-                            [options.project]: ['PlaywrightVisualRegression'],
-                        },
-                    },
-                },
-            }));
-
             const gen = await generator(appTree, {
                 ...options,
             });
