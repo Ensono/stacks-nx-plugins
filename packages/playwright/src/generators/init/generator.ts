@@ -92,8 +92,6 @@ export default async function initGenerator(
         project: options.project,
     };
 
-    console.log(123);
-
     await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
 
     const morphTree = tsMorphTree(tree);
