@@ -1,1 +1,1 @@
-export * from './testUpdateStacksConfig';
+export * from './testInitStacksConfig';

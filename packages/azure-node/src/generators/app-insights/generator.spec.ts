@@ -1,3 +1,4 @@
+import { testInitStacksConfig } from '@ensono-stacks/core';
 import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator as nextGenerator } from '@nrwl/next/src/generators/application/application';
@@ -22,6 +23,7 @@ describe('app-insights generator', () => {
                 //custom-server
             }`,
         );
+        testInitStacksConfig(appTree, options.project);
     });
 
     it('should run successfully', async () => {
@@ -106,5 +108,34 @@ describe('app-insights generator', () => {
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['applicationinsights']),
         );
+    });
+
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await nextGenerator(appTree, {
+                name: 'test',
+                customServer: true,
+                style: 'css',
+            });
+            await generator(appTree, options);
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('AzureNodeAppInsights'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 });
