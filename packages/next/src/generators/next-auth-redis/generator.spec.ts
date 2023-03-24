@@ -1,4 +1,4 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { testInitStacksConfig } from '@ensono-stacks/core';
 import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -23,7 +23,7 @@ describe('next-auth-redis generator', () => {
             style: 'css',
             standaloneConfig: false,
         });
-        testUpdateStacksConfig(appTree, options.project);
+        testInitStacksConfig(appTree, options.project);
         await nextInitGenerator(appTree, { project: 'next-app' });
         await nextAuthGenerator(appTree, {
             project: 'next-app',
@@ -86,40 +86,30 @@ describe('next-auth-redis generator', () => {
         ).toBeTruthy();
     });
 
-    it('should update nx.json and tag executed generator true', async () => {
-        await generator(appTree, { ...options });
-
-        const nxJson = readJson(appTree, 'nx.json');
-
-        expect(
-            nxJson.stacks.executedGenerators.project[options.project].includes(
-                'NextAuthRedis',
-            ),
-        ).toBeTruthy();
-        expect(
-            nxJson.stacks.executedGenerators.project[options.project].includes(
-                'NextAuthRedis',
-            ),
-        ).toBe(true);
-    });
-
-    it('should return false from method and exit generator if already executed', async () => {
-        updateJson(appTree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                ...nxJson.stacks,
-                executedGenerators: {
-                    project: {
-                        [options.project]: ['NextAuthRedis'],
-                    },
-                },
-            },
-        }));
-
-        const gen = await generator(appTree, {
-            ...options,
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await generator(appTree, {
+                ...options,
+                adapterName: 'redis-adapter-for-next-auth',
+            });
         });
 
-        expect(gen).toBe(false);
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextAuthRedis'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 });

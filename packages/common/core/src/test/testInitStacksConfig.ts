@@ -1,6 +1,6 @@
 import { Tree, updateJson } from '@nrwl/devkit';
 
-export function testUpdateStacksConfig(tree: Tree, project: string) {
+export function testInitStacksConfig(tree: Tree, project: string) {
     updateJson(tree, 'nx.json', nxJson => ({
         ...nxJson,
         stacks: {
