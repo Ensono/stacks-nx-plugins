@@ -1,5 +1,5 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
-import { readJson, Tree, updateJson } from '@nrwl/devkit';
+import { testInitStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import {
@@ -45,7 +45,7 @@ describe('playwright accessibility generator', () => {
         };
         appTree = createTreeWithEmptyWorkspace();
 
-        testUpdateStacksConfig(appTree, options.project);
+        testInitStacksConfig(appTree, options.project);
     });
 
     it('should run successfully', async () => {
@@ -66,10 +66,12 @@ describe('playwright accessibility generator', () => {
     }, 100_000);
 
     describe('executedGenerators', () => {
-        it('should update nx.json and tag executed generator true', async () => {
+        beforeEach(async () => {
             await initGenerator(appTree, options);
             await generator(appTree, options);
+        });
 
+        it('should update nx.json and tag executed generator true', async () => {
             const nxJson = readJson(appTree, 'nx.json');
 
             expect(
@@ -85,21 +87,6 @@ describe('playwright accessibility generator', () => {
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            await initGenerator(appTree, options);
-            await generator(appTree, options);
-
-            updateJson(appTree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        project: {
-                            [options.project]: ['PlaywrightAccessibility'],
-                        },
-                    },
-                },
-            }));
-
             const gen = await generator(appTree, {
                 ...options,
             });

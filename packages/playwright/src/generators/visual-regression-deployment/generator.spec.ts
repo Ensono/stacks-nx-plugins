@@ -1,5 +1,5 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
-import { readJson, Tree, updateJson } from '@nrwl/devkit';
+import { testInitStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
 
@@ -56,7 +56,7 @@ describe('visual-regression-deployment generator', () => {
                 },
             }),
         );
-        testUpdateStacksConfig(appTree, '');
+        testInitStacksConfig(appTree, '');
         appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
     });
 
@@ -103,7 +103,6 @@ describe('visual-regression-deployment generator', () => {
         };
 
         beforeEach(async () => {
-            testUpdateStacksConfig(appTree, '');
             await generator(appTree, options);
         });
 
@@ -123,16 +122,6 @@ describe('visual-regression-deployment generator', () => {
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            updateJson(appTree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        workspace: ['PlaywrightVisualRegressionDeployment'],
-                    },
-                },
-            }));
-
             const gen = await generator(appTree, {
                 ...options,
             });
