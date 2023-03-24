@@ -1,5 +1,5 @@
 import { testUpdateStacksConfig } from '@ensono-stacks/core';
-import { Tree, readJson, updateJson } from '@nrwl/devkit';
+import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator as nextGenerator } from '@nrwl/next/src/generators/application/application';
 
@@ -127,27 +127,10 @@ describe('app-insights generator', () => {
                 nxJson.stacks.executedGenerators.project[
                     options.project
                 ].includes('AzureNodeAppInsights'),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('AzureNodeAppInsights'),
             ).toBe(true);
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            updateJson(appTree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        project: {
-                            [options.project]: ['AzureNodeAppInsights'],
-                        },
-                    },
-                },
-            }));
-
             const gen = await generator(appTree, {
                 ...options,
             });
