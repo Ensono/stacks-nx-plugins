@@ -1,4 +1,4 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { testInitStacksConfig } from '@ensono-stacks/core';
 import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -20,7 +20,7 @@ describe('app-insights-deployment generator', () => {
             name: 'next-app',
             style: 'css',
         });
-        testUpdateStacksConfig(appTree, options.project);
+        testInitStacksConfig(appTree, options.project);
         updateJson(appTree, 'next-app/project.json', projectJson => ({
             ...projectJson,
             targets: {

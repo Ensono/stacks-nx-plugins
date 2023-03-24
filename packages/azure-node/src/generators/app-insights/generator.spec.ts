@@ -1,4 +1,4 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { testInitStacksConfig } from '@ensono-stacks/core';
 import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator as nextGenerator } from '@nrwl/next/src/generators/application/application';
@@ -23,7 +23,7 @@ describe('app-insights generator', () => {
                 //custom-server
             }`,
         );
-        testUpdateStacksConfig(appTree, options.project);
+        testInitStacksConfig(appTree, options.project);
     });
 
     it('should run successfully', async () => {
