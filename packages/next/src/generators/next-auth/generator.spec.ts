@@ -48,42 +48,29 @@ describe('next-auth generator', () => {
         expect(appTs.toString()).toMatchSnapshot();
     });
 
-    it('should update nx.json and tag executed generator true', async () => {
-        await generator(appTree, { ...options, provider: 'none' });
-
-        const nxJson = readJson(appTree, 'nx.json');
-
-        expect(
-            nxJson.stacks.executedGenerators.project[options.project].includes(
-                'NextAuth',
-            ),
-        ).toBeTruthy();
-        expect(
-            nxJson.stacks.executedGenerators.project[options.project].includes(
-                'NextAuth',
-            ),
-        ).toBe(true);
-    });
-
-    it('should return false from method and exit generator if already executed', async () => {
-        updateJson(appTree, 'nx.json', nxJson => ({
-            ...nxJson,
-            stacks: {
-                ...nxJson.stacks,
-                executedGenerators: {
-                    project: {
-                        [options.project]: ['NextAuth'],
-                    },
-                },
-            },
-        }));
-
-        const gen = await generator(appTree, {
-            ...options,
-            provider: 'none',
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await generator(appTree, { ...options, provider: 'none' });
         });
 
-        expect(gen).toBe(false);
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextAuth'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+                provider: 'none',
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 
     it('should configure app if there are already wrapping react providers', async () => {

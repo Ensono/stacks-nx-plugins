@@ -125,44 +125,29 @@ describe('next deployment generator', () => {
             );
         });
 
-        it('should update nx.json and tag executed generator true', async () => {
-            await createNextApp({}, false);
-            await generator(tree, { ...options });
-
-            const nxJson = readJson(tree, 'nx.json');
-
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('NextInitDeployment'),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('NextInitDeployment'),
-            ).toBe(true);
-        });
-
-        it('should return false from method and exit generator if already executed', async () => {
-            await createNextApp({}, false);
-
-            updateJson(tree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        project: {
-                            [options.project]: ['NextInitDeployment'],
-                        },
-                    },
-                },
-            }));
-
-            const gen = await generator(tree, {
-                ...options,
+        describe('executedGenerators', () => {
+            beforeEach(async () => {
+                await createNextApp({});
+                await generator(tree, options);
             });
 
-            expect(gen).toBe(false);
+            it('should update nx.json and tag executed generator true', async () => {
+                const nxJson = readJson(tree, 'nx.json');
+
+                expect(
+                    nxJson.stacks.executedGenerators.project[
+                        options.project
+                    ].includes('NextInitDeployment'),
+                ).toBe(true);
+            });
+
+            it('should return false from method and exit generator if already executed', async () => {
+                const gen = await generator(tree, {
+                    ...options,
+                });
+
+                expect(gen).toBe(false);
+            });
         });
 
         describe('--openTelemetry', () => {
