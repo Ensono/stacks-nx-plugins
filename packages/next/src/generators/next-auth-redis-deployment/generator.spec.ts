@@ -1,4 +1,4 @@
-import { testUpdateStacksConfig } from '@ensono-stacks/core';
+import { testInitStacksConfig } from '@ensono-stacks/core';
 import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -21,7 +21,7 @@ describe('next-auth-redis-deployment generator', () => {
             style: 'css',
             standaloneConfig: false,
         });
-        testUpdateStacksConfig(appTree, options.project);
+        testInitStacksConfig(appTree, options.project);
         await nextInitGenerator(appTree, { project: 'next-app' });
         await nextAuthGenerator(appTree, {
             project: 'next-app',
