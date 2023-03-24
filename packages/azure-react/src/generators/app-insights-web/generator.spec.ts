@@ -1,4 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
+import { testInitStacksConfig, tsMorphTree } from '@ensono-stacks/core';
 import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
@@ -15,6 +15,7 @@ describe('azure-react generator', () => {
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
+        testInitStacksConfig(tree, options.name);
     });
 
     it('should generate the app insights web library', async () => {
@@ -66,5 +67,28 @@ describe('azure-react generator', () => {
         ).rejects.toThrowError(
             'applicationinsightsConnectionString cannot be empty.',
         );
+    });
+
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await generator(tree, options);
+        });
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[options.name].includes(
+                    'AzureReactAppInsightsWeb',
+                ),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 });
