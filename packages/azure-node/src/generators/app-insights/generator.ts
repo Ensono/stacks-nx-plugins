@@ -4,6 +4,7 @@ import {
     formatFiles,
     thirdPartyDependencyWarning,
     deploymentGeneratorMessage,
+    hasGeneratorExecutedForProject,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -36,6 +37,15 @@ export default async function appInsightsGenerator(
     tree: Tree,
     options: AppInsightsGeneratorSchema,
 ) {
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'AzureNodeAppInsights',
+        )
+    )
+        return false;
+
     const { applicationinsightsConnectionString, server } = options;
     const project = getProjects(tree).get(options.project);
 
