@@ -11,6 +11,7 @@ export function hasGeneratorExecutedForProject(
     tree: Tree,
     projectName: string,
     generatorName: string,
+    notifyUser = false,
 ) {
     const stacksExecutedGenerators = readStacksExecutedGenerators(tree);
 
@@ -46,6 +47,20 @@ export function hasGeneratorExecutedForProject(
             chalk.yellow`No changes made.`,
             '\n',
         );
+        if (notifyUser)
+            console.log(
+                '\n',
+                chalk.yellow`If you wish to run this generator again, please delete the entry`,
+                chalk.magenta`'${generatorName}'`,
+                chalk.yellow`for`,
+                chalk.magenta`'${projectName}'`,
+                chalk.yellow`in`,
+                chalk.magenta`nx.json`,
+                chalk.yellow`under`,
+                chalk.magenta`stacks.executedGenerators.project`,
+                chalk.yellow`and verify the new output is as expected on re-run`,
+                '\n',
+            );
     }
 
     return generatorExecuted;
@@ -54,6 +69,7 @@ export function hasGeneratorExecutedForProject(
 export function hasGeneratorExecutedForWorkspace(
     tree: Tree,
     generatorName: string,
+    notifyUser = false,
 ) {
     const stacksExecutedGenerators = readStacksExecutedGenerators(tree);
 
@@ -72,6 +88,18 @@ export function hasGeneratorExecutedForWorkspace(
             chalk.yellow`No changes made.`,
             '\n',
         );
+        if (notifyUser)
+            console.log(
+                '\n',
+                chalk.yellow`If you wish to run this generator again, please delete the entry`,
+                chalk.magenta`'${generatorName}'`,
+                chalk.yellow`in`,
+                chalk.magenta`nx.json`,
+                chalk.yellow`under`,
+                chalk.magenta`stacks.executedGenerators.workspace`,
+                chalk.yellow`and verify the new output is as expected on re-run`,
+                '\n',
+            );
     }
 
     return generatorExecuted;

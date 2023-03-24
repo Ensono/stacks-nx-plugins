@@ -1,3 +1,4 @@
+import { hasGeneratorExecutedForProject } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     formatFiles,
@@ -60,6 +61,15 @@ export default async function accessibilityGenerator(
     tree: Tree,
     options: AccessibilityGeneratorSchema,
 ) {
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'PlaywrightAccessibility',
+        )
+    )
+        return false;
+
     const project = getProjects(tree).get(options.project);
 
     if (!project) {
