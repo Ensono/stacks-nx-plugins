@@ -171,11 +171,6 @@ describe('playwright generator', () => {
                 nxJson.stacks.executedGenerators.project[
                     options.project
                 ].includes('PlaywrightInit'),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('PlaywrightInit'),
             ).toBe(true);
         });
 

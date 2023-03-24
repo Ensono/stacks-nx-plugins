@@ -197,11 +197,6 @@ stages:
                 nxJson.stacks.executedGenerators.workspace.includes(
                     'PlaywrightInitDeployment',
                 ),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.workspace.includes(
-                    'PlaywrightInitDeployment',
-                ),
             ).toBe(true);
         });
 

@@ -78,11 +78,6 @@ describe('playwright accessibility generator', () => {
                 nxJson.stacks.executedGenerators.project[
                     options.project
                 ].includes('PlaywrightAccessibility'),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('PlaywrightAccessibility'),
             ).toBe(true);
         });
 
