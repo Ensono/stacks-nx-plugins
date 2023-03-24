@@ -58,28 +58,30 @@ describe('visual-regression-deployment generator', () => {
         updateJson(appTree, 'nx.json', nxJson => ({
             ...nxJson,
             stacks: {
-                business: {
-                    company: 'Amido',
-                    domain: 'stacks',
-                    component: 'nx',
-                },
-                domain: {
-                    internal: 'test.com',
-                    external: 'test.dev',
-                },
-                cloud: {
-                    region: 'euw',
-                    platform: 'azure',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
-                vcs: {
-                    type: 'github',
-                    url: 'remote.git',
+                config: {
+                    business: {
+                        company: 'Amido',
+                        domain: 'stacks',
+                        component: 'nx',
+                    },
+                    domain: {
+                        internal: 'test.com',
+                        external: 'test.dev',
+                    },
+                    cloud: {
+                        region: 'euw',
+                        platform: 'azure',
+                    },
+                    pipeline: 'azdo',
+                    terraform: {
+                        group: 'terraform-group',
+                        storage: 'terraform-storage',
+                        container: 'terraform-container',
+                    },
+                    vcs: {
+                        type: 'github',
+                        url: 'remote.git',
+                    },
                 },
             },
         }));
