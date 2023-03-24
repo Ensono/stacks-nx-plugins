@@ -156,11 +156,6 @@ describe('playwright generator', () => {
                 nxJson.stacks.executedGenerators.project[
                     options.project
                 ].includes('PlaywrightVisualRegression'),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('PlaywrightVisualRegression'),
             ).toBe(true);
         });
 

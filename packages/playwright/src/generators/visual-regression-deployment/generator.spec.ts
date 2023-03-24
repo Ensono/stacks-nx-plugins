@@ -113,11 +113,6 @@ describe('visual-regression-deployment generator', () => {
                 nxJson.stacks.executedGenerators.workspace.includes(
                     'PlaywrightVisualRegressionDeployment',
                 ),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.workspace.includes(
-                    'PlaywrightVisualRegressionDeployment',
-                ),
             ).toBe(true);
         });
 
