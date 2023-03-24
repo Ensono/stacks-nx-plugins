@@ -1,4 +1,5 @@
-import { Tree } from '@nrwl/devkit';
+import { testInitStacksConfig } from '@ensono-stacks/core';
+import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import {
@@ -35,16 +36,19 @@ jest.mock('@nrwl/devkit', () => {
 
 describe('playwright accessibility generator', () => {
     let appTree: Tree;
+    let options: AccessibilityGeneratorSchema;
 
     beforeEach(() => {
-        appTree = createTreeWithEmptyWorkspace();
-    });
-
-    it('should run successfully', async () => {
-        const options: AccessibilityGeneratorSchema = {
+        options = {
             project: projectName,
             accessibility: true,
         };
+        appTree = createTreeWithEmptyWorkspace();
+
+        testInitStacksConfig(appTree, options.project);
+    });
+
+    it('should run successfully', async () => {
         await initGenerator(appTree, options);
         await generator(appTree, options);
 
@@ -60,4 +64,29 @@ describe('playwright accessibility generator', () => {
             'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,
         });
     }, 100_000);
+
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await initGenerator(appTree, options);
+            await generator(appTree, options);
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('PlaywrightAccessibility'),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
+    });
 });
