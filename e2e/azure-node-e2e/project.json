@@ -16,5 +16,5 @@
         }
     },
     "tags": ["e2e"],
-    "implicitDependencies": ["azure-node"]
+    "implicitDependencies": ["azure-node", "create", "workspace"]
 }
