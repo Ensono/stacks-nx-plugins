@@ -62,29 +62,10 @@ describe('app-insights-deployment generator', () => {
                 nxJson.stacks.executedGenerators.project[
                     options.project
                 ].includes('AzureNodeAppInsightsDeployment'),
-            ).toBeTruthy();
-            expect(
-                nxJson.stacks.executedGenerators.project[
-                    options.project
-                ].includes('AzureNodeAppInsightsDeployment'),
             ).toBe(true);
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            updateJson(appTree, 'nx.json', nxJson => ({
-                ...nxJson,
-                stacks: {
-                    ...nxJson.stacks,
-                    executedGenerators: {
-                        project: {
-                            [options.project]: [
-                                'AzureNodeAppInsightsDeployment',
-                            ],
-                        },
-                    },
-                },
-            }));
-
             const gen = await generator(appTree, {
                 ...options,
             });
