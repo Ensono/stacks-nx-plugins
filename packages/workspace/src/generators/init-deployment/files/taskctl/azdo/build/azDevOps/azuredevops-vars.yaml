@@ -32,4 +32,4 @@ variables:
     - name: HEAD_SHA
       value: $(git rev-parse HEAD)
     - name: PRE_RELEASE_ID
-      value: $(Build.SourceBranchName)-$(Build.BuildNumber)
+      value: $(Build.SourceBranchName)-$(Build.BuildId)
