@@ -50,7 +50,7 @@ tasks:
   version:nonprod:
     description: Bundle applications
     command:
-    - npx nx affected --base="$BASE_SHA" --target=version --configuration=nonprod --baseBranch="origin/main" --parallel=1
+    - npx nx affected --base="$BASE_SHA" --target=version --configuration=nonprod --baseBranch="origin/main" --preid="$PRE_RELEASE_ID" --parallel=1
   version:prod:
     description: Bundle applications
     command:
