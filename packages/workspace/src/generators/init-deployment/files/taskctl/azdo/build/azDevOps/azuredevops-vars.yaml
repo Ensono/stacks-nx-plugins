@@ -31,3 +31,5 @@ variables:
             value: $(git rev-parse HEAD~1)
     - name: HEAD_SHA
       value: $(git rev-parse HEAD)
+    - name: PRE_RELEASE_ID
+      value: $(Build.SourceBranchName)-$(Build.BuildId)
