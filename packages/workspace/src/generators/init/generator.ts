@@ -38,6 +38,7 @@ export default async function install(
             : {
                   ...nxJson,
                   stacks: {
+                      ...nxJson.stacks,
                       executedGenerators: {
                           project: {},
                           workspace: [],

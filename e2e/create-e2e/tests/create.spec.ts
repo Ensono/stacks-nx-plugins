@@ -91,27 +91,29 @@ describe('create', () => {
 
         expect(nxJson.stacks).toMatchObject(
             expect.objectContaining({
-                business: {
-                    company: 'Ensono',
-                    component: 'Nx',
-                    domain: 'Stacks',
-                },
-                cloud: {
-                    platform: 'azure',
-                    region: 'euw',
-                },
-                domain: {
-                    external: 'prod.amidostacks.com',
-                    internal: 'nonprod.amidostacks.com',
-                },
-                pipeline: 'azdo',
-                terraform: {
-                    container: 'tf-container',
-                    group: 'tf-group',
-                    storage: 'tf-storage',
-                },
-                vcs: {
-                    type: 'github',
+                config: {
+                    business: {
+                        company: 'Ensono',
+                        component: 'Nx',
+                        domain: 'Stacks',
+                    },
+                    cloud: {
+                        platform: 'azure',
+                        region: 'euw',
+                    },
+                    domain: {
+                        external: 'prod.amidostacks.com',
+                        internal: 'nonprod.amidostacks.com',
+                    },
+                    pipeline: 'azdo',
+                    terraform: {
+                        container: 'tf-container',
+                        group: 'tf-group',
+                        storage: 'tf-storage',
+                    },
+                    vcs: {
+                        type: 'github',
+                    },
                 },
             }),
         );
