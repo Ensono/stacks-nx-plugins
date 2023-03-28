@@ -163,6 +163,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
                 preid: 'nonprod',
                 releaseAs: 'prerelease',
                 postTargets: [
+                    `${project.name}:version-env-var`,
                     `${project.name}:container:nonprod`,
                     `${project.name}:helm-package`,
                     `${project.name}:helm-push`,
@@ -173,6 +174,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
                 noVerify: true,
                 push: true,
                 postTargets: [
+                    `${project.name}:version-env-var`,
                     `${project.name}:container:prod`,
                     `${project.name}:helm-package`,
                     `${project.name}:helm-push:prod`,
@@ -181,22 +183,36 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         },
     };
 
+    update.targets['version-env-var'] = {
+        executor: 'nx:run-commands',
+        options: {
+            commands: [
+                {
+                    command:
+                        'echo HELM_CHART_VERSION=${version} > .env.helm-upgrade',
+                    forwardAllArgs: false,
+                },
+            ],
+            cwd: project.root,
+        },
+    };
+
     update.targets['helm-upgrade'] = {
         executor: 'nx:run-commands',
         options: {
             commands: [
                 {
-                    command: `helm upgrade {args.helm-args} --create-namespace --install {args.values-files} ${project.name} {args.chart} -n ${namespace} --atomic --wait --kube-context {args.kube-context} --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                    command: `helm upgrade --version $HELM_CHART_VERSION --create-namespace --install {args.values-files} ${project.name} {args.chart} -n ${namespace} --atomic --wait --kube-context {args.kube-context} --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                     forwardAllArgs: false,
                 },
             ],
             cwd: `${project.root}/deploy/helm/nonprod`,
-            args: `--helm-args=--devel --chart=oci://${registryPaths.nonprod}/helm/${project.name} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`,
+            args: `--chart=oci://${registryPaths.nonprod}/helm/${project.name} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`,
         },
         configurations: {
             prod: {
                 cwd: `${project.root}/deploy/helm/prod`,
-                args: `--helm-args='' --chart=oci://${registryPaths.prod}/helm/${project.name} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`,
+                args: `--chart=oci://${registryPaths.prod}/helm/${project.name} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`,
             },
         },
     };
