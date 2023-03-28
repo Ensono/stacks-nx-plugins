@@ -14,16 +14,18 @@ describe('init-deployment generator', () => {
         updateJson(tree, 'nx.json', nxJson => ({
             ...nxJson,
             stacks: {
-                business: {
-                    company: 'Ensono',
-                    domain: 'Stacks',
-                    component: 'Test',
-                },
-                cloud: { platform: 'azure', region: 'euw' },
-                domain: { external: 'ensono.com' },
-                pipeline: 'azdo',
-                vcs: {
-                    type: 'github',
+                config: {
+                    business: {
+                        company: 'Ensono',
+                        domain: 'Stacks',
+                        component: 'Test',
+                    },
+                    cloud: { platform: 'azure', region: 'euw' },
+                    domain: { external: 'ensono.com' },
+                    pipeline: 'azdo',
+                    vcs: {
+                        type: 'github',
+                    },
                 },
             },
         }));

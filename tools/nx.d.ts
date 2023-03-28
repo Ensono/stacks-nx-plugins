@@ -1,8 +1,17 @@
 import { NxJsonConfiguration } from '@nrwl/devkit';
 
 declare module '@nrwl/devkit' {
-    export interface NxJsonConfiguration {
-        stacks: {
+    interface NxJsonStacksExecutedGenerators {
+        executedGenerators: {
+            project: {
+                [key: string]: array;
+            };
+            workspace: array;
+        };
+    }
+
+    interface NxJsonStacksConfiguration {
+        config: {
             business: {
                 company: string;
                 domain: string;
@@ -27,12 +36,10 @@ declare module '@nrwl/devkit' {
                 type: 'github' | 'azdo';
                 url: string;
             };
-            executedGenerators: {
-                project: {
-                    [key: string]: array;
-                };
-                workspace: array;
-            };
         };
     }
+
+    export interface NxJsonStacks
+        extends NxJsonStacksConfiguration,
+            NxJsonStacksExecutedGenerators {}
 }

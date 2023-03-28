@@ -2,7 +2,7 @@ import {
     Tree,
     generateFiles,
     readJson,
-    NxJsonConfiguration,
+    NxJsonStacksConfiguration,
 } from '@nrwl/devkit';
 import path from 'path';
 import YAML from 'yaml';
@@ -32,12 +32,13 @@ export function updateAzureDevopsSnapshotsYaml(tree: Tree) {
                 'utf-8',
             ),
         );
-        const nxJson = readJson(tree, 'nx.json') as NxJsonConfiguration;
+        const nxJsonStacks = readJson(tree, 'nx.json')
+            .stacks as NxJsonStacksConfiguration;
         updateSnapshotsYAML.variables[1] = {
-            group: `${nxJson.stacks.business.company}-${nxJson.stacks.business.domain}-${nxJson.stacks.business.component}-common`,
+            group: `${nxJsonStacks.config.business.company}-${nxJsonStacks.config.business.domain}-${nxJsonStacks.config.business.component}-common`,
         };
         updateSnapshotsYAML.variables[3] = {
-            group: `${nxJson.stacks.business.company}-${nxJson.stacks.business.domain}-${nxJson.stacks.business.component}-nonprod`,
+            group: `${nxJsonStacks.config.business.company}-${nxJsonStacks.config.business.domain}-${nxJsonStacks.config.business.component}-nonprod`,
         };
         tree.write(
             'build/azDevOps/azuredevops-updatesnapshots.yaml',

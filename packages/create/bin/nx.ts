@@ -15,12 +15,14 @@ export function configureNx(
         const nxJson = JSON.parse(data);
 
         nxJson.stacks = {
-            business: options.business,
-            domain: options.domain,
-            cloud: options.cloud,
-            pipeline: options.pipeline,
-            terraform: options.terraform,
-            vcs: options.vcs,
+            config: {
+                business: options.business,
+                domain: options.domain,
+                cloud: options.cloud,
+                pipeline: options.pipeline,
+                terraform: options.terraform,
+                vcs: options.vcs,
+            },
             executedGenerators: {
                 project: {},
                 workspace: [],

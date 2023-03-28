@@ -1,4 +1,4 @@
-import { NxJsonConfiguration } from '@nrwl/devkit';
+import { NxJsonStacksConfiguration } from '@nrwl/devkit';
 
 function lowerCaseCharactersOnly(value: string) {
     return value.replace(/([^A-Za-z])/g, '').toLowerCase();
@@ -9,7 +9,7 @@ function hyphenatedLowerCaseCharactersOnly(value: string) {
 }
 
 export function getRegistryUrl(
-    options: NxJsonConfiguration['stacks'],
+    options: NxJsonStacksConfiguration['config'],
     envType: string,
 ) {
     const {
@@ -30,7 +30,7 @@ export function getRegistryUrl(
 }
 
 export function getResourceGroup(
-    options: NxJsonConfiguration['stacks'],
+    options: NxJsonStacksConfiguration['config'],
     envType: string,
 ) {
     const {
