@@ -1,4 +1,5 @@
-import { testInitStacksConfig, tsMorphTree } from '@ensono-stacks/core';
+import { tsMorphTree } from '@ensono-stacks/core';
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
@@ -15,7 +16,7 @@ describe('azure-react generator', () => {
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
-        testInitStacksConfig(tree, options.name);
+        addStacksAttributes(tree, options.name);
     });
 
     it('should generate the app insights web library', async () => {

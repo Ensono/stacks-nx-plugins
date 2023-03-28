@@ -1,8 +1,8 @@
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import { readStacksConfig, readStacksExecutedGenerators, StacksError } from '.';
-import { testInitStacksConfig } from '../test';
 
 describe('stacks', () => {
     let tree: Tree;
@@ -13,7 +13,7 @@ describe('stacks', () => {
 
     describe('readStacksConfig', () => {
         it('should read the stacks config from nx.json', () => {
-            const { stacksConfig } = testInitStacksConfig(tree, 'testProject');
+            const { stacksConfig } = addStacksAttributes(tree, 'testProject');
 
             const result = readStacksConfig(tree);
 
@@ -44,7 +44,7 @@ describe('stacks', () => {
 
     describe('readStacksExecutedGenerators', () => {
         it('should read the stacks executedGenerators from nx.json', () => {
-            const { stacksExecutedGenerators } = testInitStacksConfig(
+            const { stacksExecutedGenerators } = addStacksAttributes(
                 tree,
                 'testProject',
             );

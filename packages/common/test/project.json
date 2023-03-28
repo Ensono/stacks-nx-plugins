@@ -1,0 +1,85 @@
+{
+    "name": "common-test",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/common/test/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "buildableProjectDepsInPackageJsonType": "dependencies",
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/packages/common/test",
+                "main": "packages/common/test/src/index.ts",
+                "tsConfig": "packages/common/test/tsconfig.lib.json",
+                "assets": ["packages/common/test/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["packages/common/test/**/*.ts"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/common/test/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        },
+        "version": {
+            "executor": "@jscutlery/semver:version",
+            "options": {
+                "trackDeps": true,
+                "dryRun": true,
+                "skipRootChangelog": true,
+                "skipProjectChangelog": true,
+                "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+            },
+            "configurations": {
+                "prerelease": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "releaseAs": "prerelease",
+                    "preid": "alpha",
+                    "push": true,
+                    "postTargets": ["common-core:publish:prerelease"]
+                },
+                "release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["common-core:publish", "common-core:github"]
+                }
+            }
+        },
+        "publish": {
+            "executor": "ngx-deploy-npm:deploy",
+            "options": {
+                "access": "public"
+            },
+            "configurations": {
+                "prerelease": {
+                    "tag": "dev"
+                }
+            }
+        },
+        "github": {
+            "executor": "@jscutlery/semver:github",
+            "options": {
+                "tag": "${tag}",
+                "notes": "${notes}"
+            }
+        }
+    },
+    "tags": ["plugin"]
+}

@@ -1,4 +1,5 @@
-import { testInitStacksConfig, tsMorphTree } from '@ensono-stacks/core';
+import { tsMorphTree } from '@ensono-stacks/core';
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
@@ -46,7 +47,7 @@ describe('playwright generator', () => {
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace();
 
-        testInitStacksConfig(appTree, '');
+        addStacksAttributes(appTree, '');
     });
 
     it('should error if the project does not exist', async () => {

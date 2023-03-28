@@ -1,4 +1,4 @@
-import { testInitStacksConfig } from '@ensono-stacks/core';
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
@@ -56,7 +56,7 @@ describe('visual-regression-deployment generator', () => {
                 },
             }),
         );
-        testInitStacksConfig(appTree, '');
+        addStacksAttributes(appTree, '');
         appTree.write('build/tasks.yaml', YAML.stringify({ tasks: {} }));
     });
 
