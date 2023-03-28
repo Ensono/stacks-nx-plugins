@@ -1,6 +1,6 @@
-import { ensureArray } from './common-core';
+import { ensureArray } from '.';
 
-describe('Core: Array', () => {
+describe('array', () => {
     describe('ensureArray', () => {
         it('should retain the array if the input is an array', () => {
             expect(ensureArray([1, 2, 3, 4])).toEqual([1, 2, 3, 4]);

@@ -2,41 +2,41 @@ import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Project, SyntaxKind } from 'ts-morph';
 
-import { readJsonInJs, updateJsonInJS, tsMorphTree } from './common-core';
+import { readJsonInJs, updateJsonInJS, tsMorphTree } from '.';
 
 const helloWorld = `module.exports = {
   hello: "world",
 };`;
 
-describe('Core: TsMorph', () => {
-    let appTree: Tree;
+describe('ts morph', () => {
+    let tree: Tree;
     let project: Project;
 
     beforeEach(async () => {
-        appTree = createTreeWithEmptyWorkspace();
-        project = tsMorphTree(appTree);
+        tree = createTreeWithEmptyWorkspace();
+        project = tsMorphTree(tree);
     });
 
     describe('TreeFileSystem', () => {
         it('can create files to the tree', async () => {
             const content = 'export default "hello";';
-            appTree.write('test.ts', '');
+            tree.write('test.ts', '');
             const source = project.addSourceFileAtPath('test.ts');
             source.replaceWithText(content);
             await source.save();
 
-            expect(appTree.exists('test.ts')).toBeTruthy();
-            expect(appTree.read('test.ts')?.toString()).toEqual(content);
+            expect(tree.exists('test.ts')).toBeTruthy();
+            expect(tree.read('test.ts')?.toString()).toEqual(content);
         });
 
         it('can delete files from the tree', async () => {
             const content = 'export default "hello";';
-            appTree.write('test.ts', content);
+            tree.write('test.ts', content);
             const source = project.addSourceFileAtPath('test.ts');
             source.delete();
             await project.save();
 
-            expect(appTree.exists('test.ts')).toBeFalsy();
+            expect(tree.exists('test.ts')).toBeFalsy();
         });
 
         it('throws an error if file does not exist', () => {
@@ -50,7 +50,7 @@ describe('Core: TsMorph', () => {
         it('can return a JSON object from a literal expression', () => {
             const input =
                 'module.exports = { test: true, key: "value", number: 5 };';
-            appTree.write('test.js', input);
+            tree.write('test.js', input);
 
             const source = project.addSourceFileAtPath('test.js');
             const expression = source.getDescendantsOfKind(
@@ -71,7 +71,7 @@ describe('Core: TsMorph', () => {
         it('can update a JSON object from a literal expression', () => {
             const input =
                 'module.exports = { test: true, key: "value", number: 5 };';
-            appTree.write('test.js', input);
+            tree.write('test.js', input);
 
             const source = project.addSourceFileAtPath('test.js');
             const expression = source.getDescendantsOfKind(
@@ -80,7 +80,7 @@ describe('Core: TsMorph', () => {
 
             const update = { hello: 'world' };
             updateJsonInJS(expression, () => update);
-            expect(appTree.read('test.js')?.toString()).toEqual(helloWorld);
+            expect(tree.read('test.js')?.toString()).toEqual(helloWorld);
         });
     });
 });

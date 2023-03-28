@@ -1,4 +1,3 @@
-export * from './lib/common-core';
+export * from './lib/index';
 export * from './utils/index';
-export * from './utils/thirdPartyDependencyWarning';
-export * from './test/testInitStacksConfig';
+export * from './test/index';

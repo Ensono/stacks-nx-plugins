@@ -1,7 +1,7 @@
 import { Tree, readJson, writeJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
-import { updateEslintConfig, mergeEslintConfigs } from './common-core';
+import { updateEslintConfig, mergeEslintConfigs } from '.';
 
 const base = {
     extends: ['test'],
@@ -21,48 +21,48 @@ const replaceObject = `module.exports = {
   ],
 };`;
 
-describe('Core: Array', () => {
-    let appTree: Tree;
+describe('eslint', () => {
+    let tree: Tree;
 
     beforeEach(async () => {
-        appTree = createTreeWithEmptyWorkspace();
+        tree = createTreeWithEmptyWorkspace();
     });
     describe('updateEslintConfig', () => {
         it('should replace content of eslintrc.json file', () => {
-            writeJson(appTree, 'test/.eslintrc.json', base);
+            writeJson(tree, 'test/.eslintrc.json', base);
 
-            updateEslintConfig(appTree, 'test', () => replaceConfig);
+            updateEslintConfig(tree, 'test', () => replaceConfig);
 
-            expect(readJson(appTree, 'test/.eslintrc.json')).toMatchObject(
+            expect(readJson(tree, 'test/.eslintrc.json')).toMatchObject(
                 replaceConfig,
             );
         });
 
         it('should replace content of eslintrc.js file', () => {
-            appTree.write(
+            tree.write(
                 'test/.eslintrc.js',
                 `module.exports = ${JSON.stringify(base)};`,
             );
 
-            updateEslintConfig(appTree, 'test', () => replaceConfig);
+            updateEslintConfig(tree, 'test', () => replaceConfig);
 
-            expect(appTree.read('test/.eslintrc.js')?.toString()).toEqual(
+            expect(tree.read('test/.eslintrc.js')?.toString()).toEqual(
                 replaceObject,
             );
         });
 
         it('should write an eslint.json file if no eslintrc exists', () => {
-            updateEslintConfig(appTree, 'test', () => replaceConfig);
+            updateEslintConfig(tree, 'test', () => replaceConfig);
 
-            expect(readJson(appTree, 'test/.eslintrc.json')).toMatchObject(
+            expect(readJson(tree, 'test/.eslintrc.json')).toMatchObject(
                 replaceConfig,
             );
         });
 
         it('should create a valid blank config if nothing supplied', () => {
-            updateEslintConfig(appTree, 'test', () => ({}));
+            updateEslintConfig(tree, 'test', () => ({}));
 
-            expect(readJson(appTree, 'test/.eslintrc.json')).toMatchObject({});
+            expect(readJson(tree, 'test/.eslintrc.json')).toMatchObject({});
         });
     });
 
