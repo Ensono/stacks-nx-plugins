@@ -1,12 +1,12 @@
 import { readJson, Tree, NxJsonStacks } from '@nrwl/devkit';
 
-export class StacksConfigError extends Error {}
+export class StacksError extends Error {}
 
 function readStacksJson(tree: Tree) {
     const nxJsonStacks = readJson(tree, 'nx.json').stacks as NxJsonStacks;
 
     if (!nxJsonStacks) {
-        throw new StacksConfigError(
+        throw new StacksError(
             'Stacks configuration is not set. Please update nx.json.',
         );
     }
@@ -23,9 +23,7 @@ export function readStacksConfig(tree: Tree) {
         !stacksJson.config.domain ||
         !stacksJson.config.vcs
     ) {
-        throw new StacksConfigError(
-            'Incomplete Stacks configuration in nx.json.',
-        );
+        throw new StacksError('Incomplete Stacks configuration in nx.json.');
     }
 
     return (({
@@ -46,7 +44,7 @@ export function readStacksExecutedGenerators(tree: Tree) {
     const stacksJson = readStacksJson(tree);
 
     if (!stacksJson.executedGenerators) {
-        throw new StacksConfigError(
+        throw new StacksError(
             'Incomplete Stacks configuration in nx.json. Missing `executedGenerators` attribute.',
         );
     }
