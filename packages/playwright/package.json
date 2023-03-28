@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/playwright",
-    "version": "0.3.35-alpha.5",
+    "version": "0.3.35-alpha.6",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
