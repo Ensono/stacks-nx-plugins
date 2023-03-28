@@ -1,5 +1,3 @@
-import { NxJsonStacksConfiguration } from '@nrwl/devkit';
-
 import { getRegistryUrl, getResourceGroup } from '.';
 
 describe('registry', () => {

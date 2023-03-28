@@ -1,4 +1,4 @@
-import { testInitStacksConfig } from '@ensono-stacks/core';
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
@@ -45,7 +45,7 @@ describe('playwright accessibility generator', () => {
         };
         appTree = createTreeWithEmptyWorkspace();
 
-        testInitStacksConfig(appTree, options.project);
+        addStacksAttributes(appTree, options.project);
     });
 
     it('should run successfully', async () => {

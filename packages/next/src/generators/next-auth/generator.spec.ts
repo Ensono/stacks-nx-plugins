@@ -1,4 +1,4 @@
-import { testInitStacksConfig } from '@ensono-stacks/core';
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -26,7 +26,7 @@ describe('next-auth generator', () => {
             style: 'css',
         });
 
-        testInitStacksConfig(appTree, options.project);
+        addStacksAttributes(appTree, options.project);
     });
 
     it('should install NextAuth without a provider', async () => {
