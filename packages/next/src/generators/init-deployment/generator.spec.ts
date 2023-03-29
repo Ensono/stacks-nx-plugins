@@ -97,7 +97,7 @@ describe('next deployment generator', () => {
 
             const prettierIgnoreFile = tree.read('/.prettierignore', 'utf-8');
             expect(prettierIgnoreFile).toContain(
-                'next-app/build/helm/**/*.yaml',
+                'libs/next-helm-chart/build/helm/**/*.yaml',
             );
         });
 
