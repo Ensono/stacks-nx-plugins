@@ -3,7 +3,6 @@ import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     generateFiles,
-    offsetFromRoot,
     updateJson,
     updateProjectConfiguration,
     readProjectConfiguration,
@@ -18,6 +17,7 @@ import {
     NXTOOLS_NX_METADATA_VERSION,
 } from '../../../utils/constants';
 import { NextGeneratorSchema } from '../schema';
+import { addHelmProject } from './helm';
 
 function addCommonInfrastructureDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -96,19 +96,14 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
     );
 
     // Generate Helm chart lib
-    const helmChartPath = 'libs/next-helm-chart';
+    const { helmProjectName, helmProjectPath } = addHelmProject(tree, options);
     generateFiles(
         tree,
         path.join(__dirname, '..', 'files', 'libs', 'common'),
-        helmChartPath,
+        helmProjectPath,
         {
             port,
-            nonprodRegistryPath: `${getRegistryUrl(
-                stacksConfig,
-                'nonprod',
-            )}/helm`,
-            prodRegistryPath: `${getRegistryUrl(stacksConfig, 'prod')}/helm`,
-            projectName: project.name,
+            projectName: helmProjectName,
             namespace,
             internalDomain: stacksConfig.domain.internal,
             externalDomain: stacksConfig.domain.external,
@@ -223,12 +218,12 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
                 },
             ],
             cwd: `${project.root}/deploy/helm/nonprod`,
-            args: `--helm-args=--devel --chart=oci://${registryPaths.nonprod}/helm/${project.name} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`,
+            args: `--helm-args=--devel --chart=oci://${registryPaths.nonprod}/helm/${helmProjectName} --kube-context=${domainEnv.nonprod}-admin --values-files='--values values.yaml'`,
         },
         configurations: {
             prod: {
                 cwd: `${project.root}/deploy/helm/prod`,
-                args: `--helm-args='' --chart=oci://${registryPaths.prod}/helm/${project.name} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`,
+                args: `--helm-args='' --chart=oci://${registryPaths.prod}/helm/${helmProjectName} --kube-context=${domainEnv.prod}-admin --values-files='--values values.yaml'`,
             },
         },
     };
@@ -290,7 +285,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         if (!nxJson.targetDefaults['helm-package']) {
             updateNxJson.targetDefaults['helm-package'] = {
                 inputs: ['helm'],
-                outputs: ['{workspaceRoot}/libs/next-helm-chart/dist/*.tgz'],
+                outputs: [`{workspaceRoot}/${helmProjectPath}/dist/*.tgz`],
             };
         }
 
@@ -314,7 +309,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
 
         if (!updateNxJson.namedInputs.helm) {
             updateNxJson.namedInputs.helm = [
-                '{workspaceRoot}/libs/next-helm-chart/build/helm/**/*',
+                `{workspaceRoot}/${helmProjectPath}/build/helm/**/*`,
             ];
         }
 
