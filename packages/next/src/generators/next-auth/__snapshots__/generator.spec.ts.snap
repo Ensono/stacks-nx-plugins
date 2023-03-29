@@ -19,7 +19,7 @@ default export nextAuth;
 `;
 
 exports[`next-auth generator should configure app if pageProps is already destructured 1`] = `
-"import { SessionProvider } from \\"next-auth/react\\";
+"import { SessionProvider } from 'next-auth/react';
 
 function CustomApp({
     Component,
@@ -27,9 +27,9 @@ function CustomApp({
 }: AppProps) {
     return (
         <SessionProvider session={session}>
-        <SomeProvider>
-                    <Component {...pageProperties} />
-                </SomeProvider>
+            <SomeProvider>
+                <Component {...pageProperties} />
+            </SomeProvider>
         </SessionProvider>
     );
 }
@@ -38,7 +38,7 @@ export default CustomApp;
 `;
 
 exports[`next-auth generator should configure app if there are already wrapping react providers 1`] = `
-"import { SessionProvider } from \\"next-auth/react\\";
+"import { SessionProvider } from 'next-auth/react';
 
 function SomeProvider({ children }: PropsWithChildren) {
     return <>{children}</>;
@@ -49,9 +49,9 @@ function CustomApp({
 }: AppProps) {
     return (
         <SessionProvider session={session}>
-        <SomeProvider>
-                    <Component {...pageProps} />
-                </SomeProvider>
+            <SomeProvider>
+                <Component {...pageProps} />
+            </SomeProvider>
         </SessionProvider>
     );
 }
@@ -61,37 +61,43 @@ export default CustomApp;
 
 exports[`next-auth generator should install NextAuth with a provider 1`] = `
 "import NextAuth from 'next-auth';
-import AzureADProvider from \\"next-auth/providers/azure-ad\\";
+import AzureADProvider from 'next-auth/providers/azure-ad';
 
 const nextAuth = NextAuth({
-    providers: [AzureADProvider({
+    providers: [
+        AzureADProvider({
             clientId: process.env.AZURE_AD_CLIENT_ID,
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
             tenantId: process.env.AZURE_AD_TENANT_ID,
-        })]
-})
+        }),
+    ],
+});
 
 export default nextAuth;
 "
 `;
 
 exports[`next-auth generator should install NextAuth without a provider 1`] = `
-"import { SessionProvider } from \\"next-auth/react\\";
+"import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
 
-function CustomApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  return (
-    <SessionProvider session={session}>
-      <Head>
-              <title>Welcome to next-app!</title>
-            </Head><main className=\\"app\\">
-              <Component {...pageProps}/>
+function CustomApp({
+    Component,
+    pageProps: { session, ...pageProps },
+}: AppProps) {
+    return (
+        <SessionProvider session={session}>
+            <Head>
+                <title>Welcome to next-app!</title>
+            </Head>
+            <main className=\\"app\\">
+                <Component {...pageProps} />
             </main>
-      </SessionProvider>
-  );
-};
+        </SessionProvider>
+    );
+}
 
 export default CustomApp;
 "
@@ -114,15 +120,17 @@ default export nextAuth;
 
 exports[`next-auth generator should safely run on an existing NextAuth install 1`] = `
 "import NextAuth from 'next-auth';
-import AzureADProvider from \\"next-auth/providers/azure-ad\\";
+import AzureADProvider from 'next-auth/providers/azure-ad';
 
 const nextAuth = NextAuth({
-    providers: [AzureADProvider({
+    providers: [
+        AzureADProvider({
             clientId: process.env.AZURE_AD_CLIENT_ID,
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
             tenantId: process.env.AZURE_AD_TENANT_ID,
-        })]
-})
+        }),
+    ],
+});
 
 export default nextAuth;
 "
