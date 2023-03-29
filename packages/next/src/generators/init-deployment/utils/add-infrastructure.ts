@@ -37,7 +37,14 @@ export function addInfrastructure(
 
     // add helm yaml files to prettierignore
     addIgnoreEntry(tree, '.prettierignore', 'helm yaml', [
-        `${joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml')}`,
+        `${joinPathFragments(
+            'libs',
+            'next-helm-chart',
+            'build',
+            'helm',
+            '**',
+            '*.yaml',
+        )}`,
     ]);
 
     tasks.push(() => {
