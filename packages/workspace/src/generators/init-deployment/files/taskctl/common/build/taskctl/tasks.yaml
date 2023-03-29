@@ -30,13 +30,12 @@ tasks:
     - npx nx affected --base="$BASE_SHA" --target=test
 
   helm:
-    description: Lint Helm Charts
+    description: Deploy Helm Charts
     command:
-    - npx nx affected --base="$BASE_SHA" --target=helm-lint
+    - npx nx affected --base="$BASE_SHA" --target=helm-upgrade
   helm:nonprod:
     description: Deploy Helm Charts
     command:
-    - npx nx affected --base="$BASE_SHA" --target=helm-lint
     - npx nx affected --base="$BASE_SHA" --target=helm-upgrade
   helm:prod:
     description: Deploy Helm Charts
