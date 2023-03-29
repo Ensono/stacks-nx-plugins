@@ -218,7 +218,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         options: {
             commands: [
                 {
-                    command: `helm upgrade {args.helm-args} --create-namespace --install {args.values-files} ${project.name} {args.chart} -n ${namespace} --atomic --wait --kube-context {args.kube-context} --set image.tag=\"$APPLICATION_VERSION\" --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
+                    command: `helm upgrade {args.helm-args} --create-namespace --install {args.values-files} ${project.name} {args.chart} -n ${namespace} --atomic --wait --kube-context {args.kube-context} --set image.tag="$APPLICATION_VERSION" --set serviceAccount.annotations."azure\\.workload\\.identity/client-id"="{args.clientid}" --set serviceAccount.annotations."azure\\.workload\\.identity/tenant-id"="{args.tenantid}"`,
                     forwardAllArgs: false,
                 },
             ],
@@ -279,14 +279,12 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
             };
         }
 
-        if (
-            !nxJson.targetDefaults['lint']
-        ) {
+        if (!nxJson.targetDefaults['lint']) {
             updateNxJson.targetDefaults['lint'] = {
-                inputs: ['helm']
+                inputs: ['helm'],
             };
-        } else if (!nxJson.targetDefaults['lint'].inputs.contains('helm')) {
-            nxJson.targetDefaults['lint'].inputs.push('helm')
+        } else if (!nxJson.targetDefaults['lint'].inputs.includes('helm')) {
+            nxJson.targetDefaults['lint'].inputs.push('helm');
         }
 
         if (!nxJson.targetDefaults['helm-package']) {

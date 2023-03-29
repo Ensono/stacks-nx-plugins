@@ -51,7 +51,7 @@ describe('next deployment generator', () => {
 
             expect(tree.exists('next-app/Dockerfile')).not.toBeTruthy();
             expect(
-                tree.exists('next-app/build/helm/Chart.yaml'),
+                tree.exists('libs/next-helm-chart/build/helm/Chart.yaml'),
             ).not.toBeTruthy();
             expect(
                 tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
@@ -73,7 +73,9 @@ describe('next deployment generator', () => {
             await generator(tree, { ...options });
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
-            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
+            expect(
+                tree.exists('libs/next-helm-chart/build/helm/Chart.yaml'),
+            ).toBeTruthy();
             expect(
                 tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
             ).toBeTruthy();
@@ -104,7 +106,9 @@ describe('next deployment generator', () => {
             await generator(tree, { ...options });
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
-            expect(tree.exists('next-app/build/helm/Chart.yaml')).toBeTruthy();
+            expect(
+                tree.exists('libs/next-helm-chart/build/helm/Chart.yaml'),
+            ).toBeTruthy();
             expect(
                 tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
             ).toBeTruthy();
@@ -157,7 +161,7 @@ describe('next deployment generator', () => {
                 await generator(tree, { ...options, openTelemetry: true });
 
                 expect(
-                    tree.exists('next-app/build/helm/values.yaml'),
+                    tree.exists('libs/next-helm-chart/build/helm/values.yaml'),
                 ).toBeTruthy();
                 expect(
                     tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
@@ -167,7 +171,7 @@ describe('next deployment generator', () => {
                 ).toBeTruthy();
 
                 const defaultHelmValues = tree.read(
-                    'next-app/build/helm/values.yaml',
+                    'libs/next-helm-chart/build/helm/values.yaml',
                     'utf-8',
                 );
                 expect(defaultHelmValues).toContain(
