@@ -2,7 +2,7 @@ name: Prerelease
 on:
   push:
     branches:
-      - main
+      - fix/5616-versioning
 jobs:
   prerelease:
     permissions:
