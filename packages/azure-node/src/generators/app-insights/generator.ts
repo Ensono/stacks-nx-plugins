@@ -117,11 +117,13 @@ export default async function appInsightsGenerator(
         chalk.yellow`${serverPath} has been added to .prettierignore; Amend this file to resolve linting issues.`,
     );
 
-    deploymentGeneratorMessage(
-        tree,
-        `nx g @ensono-stacks/azure-node:app-insights-deployment --project ${options.project} --applicationinsightsConnectionString ${applicationinsightsConnectionString}`,
-    );
-
     // Add dependencies and install
-    return updateDependencies(tree);
+    return () => {
+        deploymentGeneratorMessage(
+            tree,
+            `nx g @ensono-stacks/azure-node:app-insights-deployment --project ${options.project} --applicationinsightsConnectionString ${applicationinsightsConnectionString}`,
+        );
+
+        return updateDependencies(tree);
+    };
 }
