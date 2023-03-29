@@ -49,10 +49,12 @@ export default async function install(
 
     await formatFiles(tree);
 
-    deploymentGeneratorMessage(
-        tree,
-        'nx g @ensono-stacks/workspace:init-deployment',
-    );
+    return () => {
+        deploymentGeneratorMessage(
+            tree,
+            'nx g @ensono-stacks/workspace:init-deployment',
+        );
 
-    return runTasksInSerial(...tasks);
+        return runTasksInSerial(...tasks);
+    };
 }

@@ -91,10 +91,12 @@ export default async function initGenerator(
         joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
     ]);
 
-    deploymentGeneratorMessage(
-        tree,
-        `nx g @ensono-stacks/next:init-deployment --project ${options.project}`,
-    );
+    return () => {
+        deploymentGeneratorMessage(
+            tree,
+            `nx g @ensono-stacks/next:init-deployment --project ${options.project}`,
+        );
 
-    return runTasksInSerial(...tasks);
+        return runTasksInSerial(...tasks);
+    };
 }

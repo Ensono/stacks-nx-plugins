@@ -121,10 +121,12 @@ export default async function initGenerator(
 
     await formatFiles(tree);
 
-    deploymentGeneratorMessage(
-        tree,
-        'nx g @ensono-stacks/playwright:init-deployment',
-    );
+    return () => {
+        deploymentGeneratorMessage(
+            tree,
+            'nx g @ensono-stacks/playwright:init-deployment',
+        );
 
-    return updateDependencies(tree);
+        return updateDependencies(tree);
+    };
 }

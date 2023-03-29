@@ -120,10 +120,12 @@ export default async function visualRegressionGenerator(
 
     await formatFiles(tree);
 
-    deploymentGeneratorMessage(
-        tree,
-        'nx g @ensono-stacks/playwright:visual-regression-deployment',
-    );
+    return () => {
+        deploymentGeneratorMessage(
+            tree,
+            `nx g @ensono-stacks/playwright:visual-regression-deployment --type ${options.type}`,
+        );
 
-    return updateDependencies(tree, options.type);
+        return updateDependencies(tree, options.type);
+    };
 }
