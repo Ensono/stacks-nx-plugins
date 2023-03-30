@@ -81,20 +81,18 @@ export default async function nextAuthRedisGenerator(
 
     await formatFiles(tree);
 
-    return () => {
-        deploymentGeneratorMessage(
-            tree,
-            `nx g @ensono-stacks/next:next-auth-redis-deployment --project ${options.project}`,
-        );
-
-        return runTasksInSerial(
-            installDependencies(tree),
-            formatFilesWithEslint(options.project),
-            () => {
-                logger.warn(
-                    `Do not forget to update your .env.local environment variables with values.`,
-                );
-            },
-        );
-    };
+    return runTasksInSerial(
+        installDependencies(tree),
+        formatFilesWithEslint(options.project),
+        () => {
+            logger.warn(
+                `Do not forget to update your .env.local environment variables with values.`,
+            );
+        },
+        () =>
+            deploymentGeneratorMessage(
+                tree,
+                `nx g @ensono-stacks/next:next-auth-redis-deployment --project ${options.project}`,
+            ),
+    );
 }
