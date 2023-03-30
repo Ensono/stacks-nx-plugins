@@ -95,21 +95,26 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         },
     );
 
-    // Generate Helm chart lib
-    const { helmProjectName, helmProjectPath } = addHelmProject(tree, options);
-    generateFiles(
-        tree,
-        path.join(__dirname, '..', 'files', 'libs', 'common'),
-        helmProjectPath,
-        {
-            port,
-            projectName: helmProjectName,
-            namespace,
-            internalDomain: stacksConfig.domain.internal,
-            externalDomain: stacksConfig.domain.external,
-            openTelemetry: options.openTelemetry,
-        },
-    );
+    const helmProjectName = 'next-helm-chart';
+    const helmProjectPath = `libs/${helmProjectName}`;
+
+    if (!tree.exists(`${helmProjectPath}/project.json`)) {
+        // Generate Helm chart lib
+        addHelmProject(tree, options, helmProjectName, helmProjectPath);
+        generateFiles(
+            tree,
+            path.join(__dirname, '..', 'files', 'libs', 'common'),
+            helmProjectPath,
+            {
+                port,
+                projectName: helmProjectName,
+                namespace,
+                internalDomain: stacksConfig.domain.internal,
+                externalDomain: stacksConfig.domain.external,
+                openTelemetry: options.openTelemetry,
+            },
+        );
+    }
 
     const update = { ...project };
 

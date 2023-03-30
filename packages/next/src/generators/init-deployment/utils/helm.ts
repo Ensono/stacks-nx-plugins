@@ -4,11 +4,14 @@ import { addProjectConfiguration, Tree } from '@nrwl/devkit';
 
 import { NextGeneratorSchema } from '../schema';
 
-export function addHelmProject(tree: Tree, options: NextGeneratorSchema) {
+export function addHelmProject(
+    tree: Tree,
+    options: NextGeneratorSchema,
+    helmProjectName: string,
+    helmProjectPath: string,
+) {
     const stacksConfig = readStacksConfig(tree);
 
-    const helmProjectName = 'next-helm-chart';
-    const helmProjectPath = `libs/${helmProjectName}`;
     const helmProjectTargets = {};
 
     const nonprodRegistryPath = `${getRegistryUrl(
