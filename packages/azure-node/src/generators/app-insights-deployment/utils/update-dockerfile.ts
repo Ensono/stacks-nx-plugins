@@ -12,8 +12,6 @@ export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
     const rootFolderPath = project.targets?.build?.options?.root;
     const distFolderPath = project.targets?.build?.options?.outputPath;
 
-    console.log(distFolderPath);
-
     let customServerRelativePath: string;
 
     if (customServer) {
