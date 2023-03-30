@@ -64,7 +64,7 @@ export function addHelmProject(tree: Tree, options: NextGeneratorSchema) {
         },
     };
 
-    helmProjectTargets['helm-upgrade'] = {
+    helmProjectTargets['helm-package'] = {
         executor: 'nx:run-commands',
         options: {
             commands: [
