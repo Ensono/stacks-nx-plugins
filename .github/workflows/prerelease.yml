@@ -41,7 +41,7 @@ jobs:
 
     - name: Version
       shell: bash
-      run: npx nx affected --target=version --base=last-prerelease --configuration=prerelease --parallel=1
+      run: npx nx affected --target=version --base=last-prerelease --configuration=prerelease --preid="alpha-${{ github.run_number }}" --parallel=1
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
