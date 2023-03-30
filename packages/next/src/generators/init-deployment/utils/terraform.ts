@@ -29,7 +29,7 @@ export function addTerraform(tree: Tree, { project }: NextGeneratorSchema) {
 
     generateFiles(
         tree,
-        path.join(__dirname, '..', 'files', platform),
+        path.join(__dirname, '..', 'files', 'apps', platform),
         projectConfig.root,
         {
             projectName: projectConfig.name,
