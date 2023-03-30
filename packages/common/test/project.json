@@ -52,13 +52,13 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "push": true,
-                    "postTargets": ["common-core:publish:prerelease"]
+                    "postTargets": ["common-test:publish:prerelease"]
                 },
                 "release": {
                     "dryRun": false,
                     "noVerify": true,
                     "push": true,
-                    "postTargets": ["common-core:publish", "common-core:github"]
+                    "postTargets": ["common-test:publish", "common-test:github"]
                 }
             }
         },
