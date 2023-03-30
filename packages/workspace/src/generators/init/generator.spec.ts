@@ -1,3 +1,4 @@
+import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
@@ -9,6 +10,7 @@ describe('init generator', () => {
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
+        addStacksAttributes(tree, '');
     });
 
     describe('--eslint', () => {
@@ -219,6 +221,35 @@ describe('init generator', () => {
             });
 
             expect(tree.exists('tsconfig.base.json')).toBeTruthy();
+        });
+    });
+
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await generator(tree, {
+                ...options,
+                eslint: false,
+                commitizen: false,
+                husky: false,
+            });
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(tree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.workspace.includes(
+                    'WorkspaceInit',
+                ),
+            ).toBe(true);
+        });
+
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(tree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
         });
     });
 });
