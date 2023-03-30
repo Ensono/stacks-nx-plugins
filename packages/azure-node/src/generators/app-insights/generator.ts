@@ -12,6 +12,7 @@ import {
     joinPathFragments,
     Tree,
 } from '@nrwl/devkit';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 import path from 'path';
 
@@ -118,12 +119,10 @@ export default async function appInsightsGenerator(
     );
 
     // Add dependencies and install
-    return () => {
+    return runTasksInSerial(updateDependencies(tree), () =>
         deploymentGeneratorMessage(
             tree,
             `nx g @ensono-stacks/azure-node:app-insights-deployment --project ${options.project} --applicationinsightsConnectionString ${applicationinsightsConnectionString}`,
-        );
-
-        return updateDependencies(tree);
-    };
+        ),
+    );
 }
