@@ -1,7 +1,7 @@
 import { addDependenciesToPackageJson, updateJson, Tree } from '@nrwl/devkit';
 
 import { InstallGeneratorSchema } from '../schema';
-import { HUSKY_VERSION, LINT_STAGED_VERSION, PACKAGE_JSON } from './constants';
+import { HUSKY_VERSION, PACKAGE_JSON } from './constants';
 import { PackageJson } from './types';
 
 const HOOK_PREAMBLE = `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\n`;

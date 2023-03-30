@@ -8,7 +8,7 @@ import { Redis } from \\"ioredis\\";
 const nextAuth = NextAuth({
     providers: [],
     adapter: IORedisAdapter(new Redis(process.env.REDIS_URL))
-})
+});
 
 export default nextAuth;
 "
@@ -22,7 +22,7 @@ import { Redis } from \\"ioredis\\";
 const nextAuth = NextAuth({
     providers: [],
     adapter: IORedisAdapter(new Redis(process.env.REDIS_CONNECTION_STRING))
-})
+});
 
 export default nextAuth;
 "
@@ -36,7 +36,7 @@ import { Redis } from \\"ioredis\\";
 const nextAuth = NextAuth({
     providers: [],
     adapter: IORedisAdapter(new Redis(process.env.REDIS_URL))
-})
+});
 
 export default nextAuth;
 "

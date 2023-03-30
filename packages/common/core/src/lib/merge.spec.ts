@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge';
 
-import { combineMerge } from './merge';
+import { combineMerge } from '.';
 
 describe('merge', () => {
     describe('combineMerge', () => {
