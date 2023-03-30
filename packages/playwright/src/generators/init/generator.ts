@@ -16,6 +16,7 @@ import {
     addDependenciesToPackageJson,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { PLAYWRIGHT_VERSION } from '../../utils/versions';
@@ -121,10 +122,10 @@ export default async function initGenerator(
 
     await formatFiles(tree);
 
-    deploymentGeneratorMessage(
-        tree,
-        'nx g @ensono-stacks/playwright:init-deployment',
+    return runTasksInSerial(updateDependencies(tree), () =>
+        deploymentGeneratorMessage(
+            tree,
+            'nx g @ensono-stacks/playwright:init-deployment',
+        ),
     );
-
-    return updateDependencies(tree);
 }

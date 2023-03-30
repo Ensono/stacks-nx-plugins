@@ -12,6 +12,7 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nrwl/devkit';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { visualRegressionTypes } from '../../utils/types';
@@ -56,15 +57,14 @@ function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     );
 }
 
-async function updateDependencies(tree: Tree, type: string) {
+function updateDependencies(tree: Tree, type: string) {
     const applitoolsDeps = {
         '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
     };
+    const dependencies =
+        type === visualRegressionTypes.APPLITOOLS ? applitoolsDeps : {};
 
-    if (type === visualRegressionTypes.APPLITOOLS) {
-        return addDependenciesToPackageJson(tree, {}, applitoolsDeps);
-    }
-    return false;
+    return addDependenciesToPackageJson(tree, {}, dependencies);
 }
 
 export default async function visualRegressionGenerator(
@@ -120,10 +120,10 @@ export default async function visualRegressionGenerator(
 
     await formatFiles(tree);
 
-    deploymentGeneratorMessage(
-        tree,
-        'nx g @ensono-stacks/playwright:visual-regression-deployment',
+    return runTasksInSerial(updateDependencies(tree, options.type), () =>
+        deploymentGeneratorMessage(
+            tree,
+            `nx g @ensono-stacks/playwright:visual-regression-deployment --type ${options.type}`,
+        ),
     );
-
-    return updateDependencies(tree, options.type);
 }
