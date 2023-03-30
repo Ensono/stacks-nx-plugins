@@ -71,9 +71,12 @@ export async function formatFiles(
                 filepath: systemPath,
             };
 
-            const resolvedOptions = await prettier?.resolveConfig(systemPath, {
-                editorconfig: true,
-            });
+            const resolvedOptions = await prettier?.resolveConfig(
+                process.cwd(),
+                {
+                    editorconfig: true,
+                },
+            );
             if (!resolvedOptions) {
                 return;
             }

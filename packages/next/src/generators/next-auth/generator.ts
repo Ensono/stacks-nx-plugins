@@ -24,7 +24,7 @@ export default async function nextAuthGenerator(
     tree: Tree,
     options: NextAuthGeneratorSchema,
 ) {
-    if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuth'))
+    if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuth', true))
         return false;
 
     const project = readProjectConfiguration(tree, options.project);

@@ -1,4 +1,4 @@
-import { mergeProjectConfigTarget } from './common-core';
+import { mergeProjectConfigTarget } from '.';
 
 const exampleTestCiConfig = {
     configurations: {
@@ -18,7 +18,7 @@ const exampleTestCiConfig = {
     },
 };
 
-describe('Core: Project-Config', () => {
+describe('project config', () => {
     describe('mergeProjectConfigTarget', () => {
         it('should merge a target into an existing project config with no existing target', () => {
             const result = mergeProjectConfigTarget(

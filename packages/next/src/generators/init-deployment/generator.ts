@@ -1,7 +1,7 @@
 import {
     formatFiles,
     hasGeneratorExecutedForProject,
-    StacksConfigError,
+    StacksError,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -24,6 +24,7 @@ export default async function initDeploymentGenerator(
             tree,
             options.project,
             'NextInitDeployment',
+            true,
         )
     )
         return false;
@@ -34,7 +35,7 @@ export default async function initDeploymentGenerator(
     try {
         tasks.push(...addInfrastructure(tree, project, options));
     } catch (error) {
-        if (error instanceof StacksConfigError) {
+        if (error instanceof StacksError) {
             console.warn(chalk.yellow`Missing Stacks configuration in nx.json`);
             console.log(
                 '  Infrastructure code will not be applied now, but you can rerun this task when you update the configuration.',

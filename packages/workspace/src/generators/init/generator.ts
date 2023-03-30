@@ -1,4 +1,7 @@
-import { deploymentGeneratorMessage } from '@ensono-stacks/core';
+import {
+    deploymentGeneratorMessage,
+    hasGeneratorExecutedForWorkspace,
+} from '@ensono-stacks/core';
 import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
@@ -14,6 +17,8 @@ export default async function install(
     tree: Tree,
     options: InstallGeneratorSchema,
 ) {
+    if (hasGeneratorExecutedForWorkspace(tree, 'WorkspaceInit')) return false;
+
     const tasks: GeneratorCallback[] = [];
 
     if (options.commitizen) {

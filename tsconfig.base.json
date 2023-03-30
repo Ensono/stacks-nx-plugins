@@ -25,6 +25,7 @@
             "@ensono-stacks/next": ["packages/next/src/index.ts"],
             "@ensono-stacks/playwright": ["packages/playwright/src/index.ts"],
             "@ensono-stacks/rest-client": ["packages/rest-client/src/index.ts"],
+            "@ensono-stacks/test": ["packages/common/test/src/index.ts"],
             "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"]
         }
     },
