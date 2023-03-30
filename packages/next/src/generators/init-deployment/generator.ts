@@ -24,6 +24,7 @@ export default async function initDeploymentGenerator(
             tree,
             options.project,
             'NextInitDeployment',
+            true,
         )
     )
         return false;
