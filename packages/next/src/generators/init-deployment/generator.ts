@@ -50,7 +50,14 @@ export default async function initDeploymentGenerator(
 
     // exclude helm yaml files from initial format when generating the files
     await formatFiles(tree, [
-        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
+        joinPathFragments(
+            'libs',
+            'next-helm-chart',
+            'build',
+            'helm',
+            '**',
+            '*.yaml',
+        ),
     ]);
 
     return runTasksInSerial(...tasks);
