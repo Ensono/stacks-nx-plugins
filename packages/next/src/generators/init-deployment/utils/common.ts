@@ -123,6 +123,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         options: {
             engine: 'docker',
             load: true,
+            'no-cache': true,
             platforms: ['linux/amd64'],
             metadata: {
                 images: [`${namespace}/${project.name}`],
