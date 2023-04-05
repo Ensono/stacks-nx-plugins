@@ -250,6 +250,8 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         );
     }
 
+    update.implicitDependencies = [helmProjectName];
+
     updateProjectConfiguration(tree, project.name, update);
 
     updateJson(tree, 'nx.json', nxJson => {
