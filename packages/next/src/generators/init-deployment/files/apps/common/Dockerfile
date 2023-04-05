@@ -17,7 +17,6 @@ WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=deps /usr/src/app/package.json ./package.json
 COPY <%= distFolderPath %>/next.config.js ./next.config.js
-COPY <%= distFolderPath %>/with-nx.js ./with-nx.js
 COPY <%= distFolderPath %>/public ./public
 <% if(customServerRelativePath) { %>
 COPY <%= distFolderPath %>/server ./server
