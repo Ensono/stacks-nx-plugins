@@ -1,9 +1,6 @@
 import { Project, SyntaxKind, VariableDeclarationKind } from 'ts-morph';
 
-export function updatePlaywrightConfigBase(
-    morphTree: Project,
-    targetProject: string,
-) {
+export function updatePlaywrightConfigBase(morphTree: Project) {
     const appNode = morphTree.addSourceFileAtPath('playwright.config.base.ts');
 
     appNode
@@ -12,32 +9,37 @@ export function updatePlaywrightConfigBase(
         .find(identifier => identifier.getText() === 'E2E_BASE_URL')
         ?.replaceWithText('BASE_URL');
 
-    appNode.insertVariableStatement(
-        appNode.getVariableDeclaration('baseURL').getChildIndex() + 1,
-        {
-            declarationKind: VariableDeclarationKind.Const,
-            declarations: [
-                {
-                    name: 'outputFolderForProject',
-                    initializer:
-                        // eslint-disable-next-line no-template-curly-in-string
-                        "process.env.CI ? `../../test-results/${appName}` : 'test-results'",
-                },
-            ],
-        },
-    );
-    appNode.insertVariableStatement(
-        appNode.getVariableDeclaration('baseURL').getChildIndex() + 1,
-        {
-            declarationKind: VariableDeclarationKind.Const,
-            declarations: [
-                {
-                    name: 'appName',
-                    initializer: `process.env.NX_TASK_TARGET_PROJECT || '${targetProject}'`,
-                },
-            ],
-        },
-    );
+    if (!appNode.getVariableDeclaration('outputFolderForProject')) {
+        appNode.insertVariableStatement(
+            appNode.getVariableDeclaration('baseURL').getChildIndex() + 1,
+            {
+                declarationKind: VariableDeclarationKind.Const,
+                declarations: [
+                    {
+                        name: 'outputFolderForProject',
+                        initializer:
+                            // eslint-disable-next-line no-template-curly-in-string
+                            "process.env.CI ? `../../test-results/${appName}` : 'test-results'",
+                    },
+                ],
+            },
+        );
+    }
+
+    if (!appNode.getVariableStatement('appName')) {
+        appNode.insertVariableStatement(
+            appNode.getVariableDeclaration('baseURL').getChildIndex() + 1,
+            {
+                declarationKind: VariableDeclarationKind.Const,
+                declarations: [
+                    {
+                        name: 'appName',
+                        initializer: `process.env.NX_TASK_TARGET_PROJECT as string`,
+                    },
+                ],
+            },
+        );
+    }
 
     const baseConfig = appNode
         .getVariableDeclaration('baseConfig')
@@ -50,6 +52,7 @@ export function updatePlaywrightConfigBase(
     baseConfig.getProperty('fullyParallel')?.remove();
     baseConfig.getProperty('forbidOnly')?.remove();
     baseConfig.getProperty('reporter')?.remove();
+    baseConfig.getProperty('outputDir')?.remove();
 
     baseConfig.addPropertyAssignments([
         {
