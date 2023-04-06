@@ -170,6 +170,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         executor: '@jscutlery/semver:version',
         options: {
             preset: 'conventional',
+            allowEmptyRelease: true,
             trackDeps: true,
             skipCommit: true,
             dryRun: true,
