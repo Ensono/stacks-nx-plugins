@@ -167,16 +167,30 @@ stages:
                 'npx playwright install --with-deps',
         });
         expect(stages.stages[0]?.jobs[0]?.steps[5]).toEqual({
-            task: 'PublishTestResults@2',
+            task: 'Bash@3',
+            displayName: 'Check test-results Folder',
             condition: 'succeededOrFailed()',
+            inputs: {
+                targetType: 'inline',
+                script:
+                    'if [ -d $SYSTEM_DEFAULTWORKINGDIRECTORY/test-results ]; then\n' +
+                    '  echo "##vso[task.setVariable variable=HASTESTRESULTS]true"\n' +
+                    'fi',
+            },
+        });
+        expect(stages.stages[0]?.jobs[0]?.steps[6]).toEqual({
+            task: 'PublishTestResults@2',
+            condition:
+                "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
             inputs: {
                 testResultsFormat: 'JUnit',
                 testResultsFiles: 'test-results/**/*.xml',
             },
         });
-        expect(stages.stages[0]?.jobs[0]?.steps[6]).toEqual({
+        expect(stages.stages[0]?.jobs[0]?.steps[7]).toEqual({
             task: 'PublishPipelineArtifact@1',
-            condition: 'succeededOrFailed()',
+            condition:
+                "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
             inputs: {
                 targetPath: '$(System.DefaultWorkingDirectory)/test-results',
                 artifact: 'testresults',
