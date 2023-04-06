@@ -98,7 +98,7 @@ export default async function initGenerator(
     const morphTree = tsMorphTree(tree);
 
     // playwright.config.base.ts
-    updatePlaywrightConfigBase(morphTree, options.project);
+    updatePlaywrightConfigBase(morphTree);
 
     // add extra config to playwright.config.ts in project
     updatePlaywrightConfigWithDefault(
