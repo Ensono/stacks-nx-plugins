@@ -159,23 +159,47 @@ describe('next deployment generator', () => {
                 await createNextApp();
                 tree.write('.prettierignore', '');
                 await generator(tree, { ...options, openTelemetry: true });
-
-                expect(
-                    tree.exists('libs/next-helm-chart/build/helm/values.yaml'),
-                ).toBeTruthy();
-                expect(
-                    tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
-                ).toBeTruthy();
-                expect(
-                    tree.exists('next-app/deploy/helm/prod/values.yaml'),
-                ).toBeTruthy();
-
-                const defaultHelmValues = tree.read(
-                    'libs/next-helm-chart/build/helm/values.yaml',
-                    'utf-8',
-                );
-                expect(defaultHelmValues).toContain(
+                const defaultValuesPath =
+                    'libs/next-helm-chart/build/helm/values.yaml';
+                const nonProdValuesPath =
+                    'next-app/deploy/helm/nonprod/values.yaml';
+                const prodValuesPath = 'next-app/deploy/helm/prod/values.yaml';
+                expect(tree.exists(defaultValuesPath)).toBeTruthy();
+                expect(tree.exists(nonProdValuesPath)).toBeTruthy();
+                expect(tree.exists(prodValuesPath)).toBeTruthy();
+                expect(tree.read(defaultValuesPath, 'utf-8')).not.toContain(
                     "instrumentation.opentelemetry.io/inject-nodejs: 'true'",
+                );
+                expect(tree.read(nonProdValuesPath, 'utf-8')).toContain(
+                    "instrumentation.opentelemetry.io/inject-nodejs: 'true'",
+                );
+                expect(tree.read(prodValuesPath, 'utf-8')).toContain(
+                    "instrumentation.opentelemetry.io/inject-nodejs: 'true'",
+                );
+            });
+        });
+
+        describe('--openTelemetry omitted', () => {
+            it('should not add auto-instrumentation for OpenTelemetry if false', async () => {
+                await createNextApp();
+                tree.write('.prettierignore', '');
+                await generator(tree, { ...options, openTelemetry: false });
+                const defaultValuesPath =
+                    'libs/next-helm-chart/build/helm/values.yaml';
+                const nonProdValuesPath =
+                    'next-app/deploy/helm/nonprod/values.yaml';
+                const prodValuesPath = 'next-app/deploy/helm/prod/values.yaml';
+                expect(tree.exists(defaultValuesPath)).toBeTruthy();
+                expect(tree.exists(nonProdValuesPath)).toBeTruthy();
+                expect(tree.exists(prodValuesPath)).toBeTruthy();
+                expect(tree.read(defaultValuesPath, 'utf-8')).not.toContain(
+                    "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
+                );
+                expect(tree.read(nonProdValuesPath, 'utf-8')).toContain(
+                    "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
+                );
+                expect(tree.read(prodValuesPath, 'utf-8')).toContain(
+                    "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
                 );
             });
         });
