@@ -1,4 +1,7 @@
-import { addStacksAttributes } from '@ensono-stacks/test';
+import {
+    addStacksAttributes,
+    resetStacksExecutedGeneratorsAttributes,
+} from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -127,6 +130,20 @@ describe('next deployment generator', () => {
             expect(docker).toContain(
                 'CMD ["dumb-init", "node", "server/main.js"]',
             );
+        });
+
+        describe('executedDependantGenerator', () => {
+            beforeEach(async () => {
+                resetStacksExecutedGeneratorsAttributes(tree);
+            });
+
+            it('returns false if no prerequisite present', async () => {
+                const gen = await generator(tree, {
+                    ...options,
+                });
+
+                expect(gen).toBe(false);
+            });
         });
 
         describe('executedGenerators', () => {
