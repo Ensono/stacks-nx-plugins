@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/workspace",
-    "version": "0.6.2",
+    "version": "0.6.3-alpha-136.0",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
