@@ -18,8 +18,8 @@ jobs:
       shell: bash
       run: |
         npm config set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
-        git config --global user.name '@ensono'
-        git config --global user.email 'git@ensono.com'
+        git config --global user.name 'amidostacks'
+        git config --global user.email 'stacks@amido.com'
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
