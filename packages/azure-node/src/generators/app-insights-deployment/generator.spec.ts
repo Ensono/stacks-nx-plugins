@@ -1,4 +1,7 @@
-import { addStacksAttributes } from '@ensono-stacks/test';
+import {
+    addStacksAttributes,
+    resetStacksExecutedGeneratorsAttributes,
+} from '@ensono-stacks/test';
 import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -48,6 +51,20 @@ describe('app-insights-deployment generator', () => {
         expect(projectFile.toString()).toContain(
             'env.APPLICATIONINSIGHTS_CONNECTIONS_STRING=$APPLICATIONINSIGHTS_CONNECTIONS_STRING',
         );
+    });
+
+    describe('executedDependantGenerator', () => {
+        beforeEach(async () => {
+            resetStacksExecutedGeneratorsAttributes(appTree);
+        });
+
+        it('returns false if no prerequisite present', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
     });
 
     describe('executedGenerators', () => {

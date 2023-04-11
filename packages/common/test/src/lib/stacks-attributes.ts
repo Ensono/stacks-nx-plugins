@@ -30,7 +30,7 @@ export function addStacksAttributes(tree: Tree, project: string) {
         project: {
             [project]: [],
         },
-        workspace: [],
+        workspace: ['WorkspaceInit'],
     };
 
     updateJson(tree, 'nx.json', nxJson => ({
@@ -42,4 +42,17 @@ export function addStacksAttributes(tree: Tree, project: string) {
     }));
 
     return { stacksConfig, stacksExecutedGenerators };
+}
+
+export function resetStacksExecutedGeneratorsAttributes(tree: Tree) {
+    updateJson(tree, 'nx.json', nxJson => ({
+        ...nxJson,
+        stacks: {
+            ...nxJson.stacks,
+            executedGenerators: {
+                project: {},
+                workspace: [],
+            },
+        },
+    }));
 }

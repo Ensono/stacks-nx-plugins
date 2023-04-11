@@ -1,4 +1,7 @@
-import { addStacksAttributes } from '@ensono-stacks/test';
+import {
+    addStacksAttributes,
+    resetStacksExecutedGeneratorsAttributes,
+} from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
@@ -196,6 +199,18 @@ stages:
                 artifact: 'testresults',
                 publishLocation: 'pipeline',
             },
+        });
+    });
+
+    describe('executedDependantGenerator', () => {
+        beforeEach(async () => {
+            resetStacksExecutedGeneratorsAttributes(appTree);
+        });
+
+        it('returns false if no prerequisite present', async () => {
+            const gen = await generator(appTree);
+
+            expect(gen).toBe(false);
         });
     });
 
