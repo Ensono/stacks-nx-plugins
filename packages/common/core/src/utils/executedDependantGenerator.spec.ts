@@ -30,7 +30,7 @@ describe('executedDependantGenerator', () => {
         expect(result).toBe(false);
     });
 
-    it('should return true if prerequisite present', async () => {
+    it('should return true if prerequisite present in workspace', async () => {
         updateJson(appTree, 'nx.json', nxJson => ({
             ...nxJson,
             stacks: {
@@ -45,5 +45,53 @@ describe('executedDependantGenerator', () => {
         const result = executedDependantGenerator(appTree, generatorName);
 
         expect(result).toBe(true);
+    });
+
+    it('should return true if prerequisite present in project', async () => {
+        updateJson(appTree, 'nx.json', nxJson => ({
+            ...nxJson,
+            stacks: {
+                ...nxJson.stacks,
+                executedGenerators: {
+                    ...nxJson.stacks.executedGenerators,
+                    workspace: [],
+                    project: {
+                        test: [generatorName],
+                    },
+                },
+            },
+        }));
+
+        const result = executedDependantGenerator(
+            appTree,
+            generatorName,
+            'test',
+        );
+
+        expect(result).toBe(true);
+    });
+
+    it('should return false if no prerequisite present for workspace and project', async () => {
+        updateJson(appTree, 'nx.json', nxJson => ({
+            ...nxJson,
+            stacks: {
+                ...nxJson.stacks,
+                executedGenerators: {
+                    ...nxJson.stacks.executedGenerators,
+                    workspace: [],
+                    project: {
+                        test: [],
+                    },
+                },
+            },
+        }));
+
+        const result = executedDependantGenerator(
+            appTree,
+            generatorName,
+            'test',
+        );
+
+        expect(result).toBe(false);
     });
 });

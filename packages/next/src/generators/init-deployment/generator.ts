@@ -20,7 +20,8 @@ export default async function initDeploymentGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
-    if (!executedDependantGenerator(tree, 'WorkspaceInit')) return false;
+    if (!executedDependantGenerator(tree, 'WorkspaceInit', options.project))
+        return false;
     if (
         hasGeneratorExecutedForProject(
             tree,
