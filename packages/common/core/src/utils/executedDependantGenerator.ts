@@ -15,7 +15,7 @@ export function executedDependantGenerator(
 
     if (projectName) {
         projectGenerator =
-            readStacksExecutedGenerators(tree).project[projectName].includes(
+            readStacksExecutedGenerators(tree).project[projectName]?.includes(
                 generatorName,
             );
     }
