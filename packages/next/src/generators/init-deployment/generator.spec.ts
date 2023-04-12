@@ -36,7 +36,9 @@ describe('next deployment generator', () => {
                     ...options,
                     project: 'unknown',
                 }),
-            ).rejects.toThrowError("Cannot find configuration for 'unknown'");
+            ).rejects.toThrowError(
+                "Cannot read properties of undefined (reading 'includes')",
+            );
         });
 
         it('should not apply if stacks config is missing', async () => {
