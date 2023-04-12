@@ -107,6 +107,11 @@ function updateVersionInCode(
     });
 }
 
+function isRelative(parent: string, directory: string) {
+    const relative = path.relative(parent, directory);
+    return relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+}
+
 export default async function bumpVersion(
     tree: Tree,
     optionsParameter: BumpVersionGeneratorSchema,
@@ -146,7 +151,6 @@ export default async function bumpVersion(
         endpointName: endpointRoot,
         endpointVersion: newVersion,
     });
-
     // create a new library for the new version
     await libraryGenerator(tree, newVersionOptions);
     // Delete the default generated lib folder
@@ -162,7 +166,9 @@ export default async function bumpVersion(
     // update version numbers in the newly created files
     const filesToChange = tree
         .listChanges()
-        .filter(change => change.path.startsWith(newVersionOptions.projectRoot))
+        .filter(change =>
+            isRelative(newVersionOptions.projectRoot, change.path),
+        )
         .map(change => change.path);
     updateVersionInCode(
         tree,
