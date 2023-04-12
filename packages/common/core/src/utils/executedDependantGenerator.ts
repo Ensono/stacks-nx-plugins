@@ -3,9 +3,24 @@ import chalk from 'chalk';
 
 import { readStacksExecutedGenerators } from '../lib/stacks';
 
-export function executedDependantGenerator(tree: Tree, generatorName: string) {
-    const generatorExecuted =
+export function executedDependantGenerator(
+    tree: Tree,
+    generatorName: string,
+    projectName?: string,
+) {
+    let projectGenerator = false;
+
+    const workspaceGenerator =
         readStacksExecutedGenerators(tree).workspace.includes(generatorName);
+
+    if (projectName) {
+        projectGenerator =
+            readStacksExecutedGenerators(tree).project[projectName].includes(
+                generatorName,
+            );
+    }
+
+    const generatorExecuted = workspaceGenerator || projectGenerator;
 
     if (!generatorExecuted) {
         console.log(
