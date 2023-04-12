@@ -1,5 +1,6 @@
 import {
     formatFiles,
+    executedDependantGenerator,
     hasGeneratorExecutedForProject,
     StacksError,
 } from '@ensono-stacks/core';
@@ -19,6 +20,8 @@ export default async function initDeploymentGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
+    if (!executedDependantGenerator(tree, 'WorkspaceInit', options.project))
+        return false;
     if (
         hasGeneratorExecutedForProject(
             tree,
