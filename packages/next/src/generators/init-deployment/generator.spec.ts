@@ -1,7 +1,4 @@
-import {
-    addStacksAttributes,
-    resetStacksExecutedGeneratorsAttributes,
-} from '@ensono-stacks/test';
+import { addStacksAttributes, executeWorkspaceInit } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -33,6 +30,7 @@ describe('next deployment generator', () => {
     describe('infrastructure', () => {
         it('should throw if project is not defined', async () => {
             await createNextApp({});
+            await executeWorkspaceInit(tree);
             await expect(
                 generator(tree, {
                     ...options,
@@ -73,6 +71,7 @@ describe('next deployment generator', () => {
         it('should scaffold with infrastructure', async () => {
             await createNextApp();
             tree.write('.prettierignore', '');
+            await executeWorkspaceInit(tree);
             await generator(tree, { ...options });
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
@@ -106,6 +105,7 @@ describe('next deployment generator', () => {
 
         it('should scaffold with infrastructure on a custom server', async () => {
             await createNextApp({ customServer: true });
+            await executeWorkspaceInit(tree);
             await generator(tree, { ...options });
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
@@ -133,10 +133,6 @@ describe('next deployment generator', () => {
         });
 
         describe('executedDependantGenerator', () => {
-            beforeEach(async () => {
-                resetStacksExecutedGeneratorsAttributes(tree);
-            });
-
             it('returns false if no prerequisite present', async () => {
                 const gen = await generator(tree, {
                     ...options,
@@ -149,6 +145,7 @@ describe('next deployment generator', () => {
         describe('executedGenerators', () => {
             beforeEach(async () => {
                 await createNextApp({});
+                await executeWorkspaceInit(tree);
                 await generator(tree, options);
             });
 
@@ -175,6 +172,7 @@ describe('next deployment generator', () => {
             it('should add auto-instrumentation for OpenTelemetry if true', async () => {
                 await createNextApp();
                 tree.write('.prettierignore', '');
+                await executeWorkspaceInit(tree);
                 await generator(tree, { ...options, openTelemetry: true });
                 const defaultValuesPath =
                     'libs/next-helm-chart/build/helm/values.yaml';
@@ -200,6 +198,7 @@ describe('next deployment generator', () => {
             it('should not add auto-instrumentation for OpenTelemetry if false', async () => {
                 await createNextApp();
                 tree.write('.prettierignore', '');
+                await executeWorkspaceInit(tree);
                 await generator(tree, { ...options, openTelemetry: false });
                 const defaultValuesPath =
                     'libs/next-helm-chart/build/helm/values.yaml';

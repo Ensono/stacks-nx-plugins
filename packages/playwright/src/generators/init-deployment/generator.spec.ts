@@ -1,7 +1,4 @@
-import {
-    addStacksAttributes,
-    resetStacksExecutedGeneratorsAttributes,
-} from '@ensono-stacks/test';
+import { addStacksAttributes, executeWorkspaceInit } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import YAML from 'yaml';
@@ -65,6 +62,7 @@ describe('playwright generator', () => {
     });
 
     it('should run successfully with default options', async () => {
+        await executeWorkspaceInit(appTree);
         await generator(appTree);
 
         const taskctlYAML = YAML.parse(appTree.read('taskctl.yaml', 'utf8'));
@@ -156,6 +154,7 @@ stages:
 
 `,
         );
+        await executeWorkspaceInit(appTree);
         await generator(appTree);
 
         const stages = YAML.parse(
@@ -203,10 +202,6 @@ stages:
     });
 
     describe('executedDependantGenerator', () => {
-        beforeEach(async () => {
-            resetStacksExecutedGeneratorsAttributes(appTree);
-        });
-
         it('returns false if no prerequisite present', async () => {
             const gen = await generator(appTree);
 
@@ -216,6 +211,7 @@ stages:
 
     describe('executedGenerators', () => {
         beforeEach(async () => {
+            await executeWorkspaceInit(appTree);
             await generator(appTree);
         });
 
