@@ -1,6 +1,6 @@
 import {
+    executedDependantGenerator,
     hasGeneratorExecutedForProject,
-    hasGeneratorExecutedForWorkspace,
 } from '@ensono-stacks/core';
 import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 
@@ -14,6 +14,8 @@ export default async function appInsightsDeploymentGenerator(
     tree: Tree,
     options: AppInsightsDeploymentGeneratorSchema,
 ) {
+    if (!executedDependantGenerator(tree, 'WorkspaceInit', options.project))
+        return false;
     if (
         hasGeneratorExecutedForProject(
             tree,

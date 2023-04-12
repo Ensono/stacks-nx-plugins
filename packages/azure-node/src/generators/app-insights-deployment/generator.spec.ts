@@ -1,4 +1,4 @@
-import { addStacksAttributes } from '@ensono-stacks/test';
+import { addStacksAttributes, executeWorkspaceInit } from '@ensono-stacks/test';
 import { readJson, Tree, updateJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
@@ -42,6 +42,7 @@ describe('app-insights-deployment generator', () => {
     });
 
     it('should update project.json with environment variable', async () => {
+        await executeWorkspaceInit(appTree);
         await generator(appTree, options);
 
         const projectFile = appTree.read('next-app/project.json');
@@ -50,8 +51,19 @@ describe('app-insights-deployment generator', () => {
         );
     });
 
+    describe('executedDependantGenerator', () => {
+        it('returns false if no prerequisite present', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
+
+            expect(gen).toBe(false);
+        });
+    });
+
     describe('executedGenerators', () => {
         beforeEach(async () => {
+            await executeWorkspaceInit(appTree);
             await generator(appTree, options);
         });
 

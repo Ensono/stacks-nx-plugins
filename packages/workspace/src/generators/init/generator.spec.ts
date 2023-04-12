@@ -187,6 +187,8 @@ describe('init generator', () => {
         });
 
         it('should configure prepare-commit-msg and commit-msg for commitlint', async () => {
+            await addStacksAttributes(tree, '');
+
             await generator(tree, {
                 ...options,
                 eslint: false,
