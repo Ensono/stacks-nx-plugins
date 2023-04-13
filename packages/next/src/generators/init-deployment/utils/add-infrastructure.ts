@@ -39,7 +39,7 @@ export function addInfrastructure(
     addIgnoreEntry(tree, '.prettierignore', 'helm yaml', [
         `${joinPathFragments(
             'libs',
-            'next-helm-chart',
+            options.libraryName,
             'build',
             'helm',
             '**',
