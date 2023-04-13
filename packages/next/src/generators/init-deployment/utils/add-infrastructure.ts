@@ -49,7 +49,7 @@ export function addInfrastructure(
 
     tasks.push(() => {
         logger.warn(
-            `Review the infrastructure files in ${project.root}/build/. Search for "%REPLACE%" and make any necessary changes.`,
+            `Review the infrastructure files in ${project.root}/deploy/. Search for "%REPLACE%" and make any necessary changes.`,
         );
     });
 

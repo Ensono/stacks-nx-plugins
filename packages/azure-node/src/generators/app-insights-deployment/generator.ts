@@ -14,7 +14,13 @@ export default async function appInsightsDeploymentGenerator(
     tree: Tree,
     options: AppInsightsDeploymentGeneratorSchema,
 ) {
-    if (!executedDependantGenerator(tree, 'WorkspaceInit', options.project))
+    if (
+        !executedDependantGenerator(
+            tree,
+            'WorkspaceDeployment',
+            options.project,
+        )
+    )
         return false;
     if (
         hasGeneratorExecutedForProject(
