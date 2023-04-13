@@ -9,7 +9,10 @@ import { NextGeneratorSchema } from './schema';
 
 describe('next deployment generator', () => {
     let tree: Tree;
-    const options: NextGeneratorSchema = { project: 'next-app' };
+    const options: NextGeneratorSchema = {
+        project: 'next-app',
+        libraryName: 'stacks-helm-chart',
+    };
 
     async function createNextApp(
         schema?: Partial<NextSchema>,
@@ -52,7 +55,7 @@ describe('next deployment generator', () => {
 
             expect(tree.exists('next-app/Dockerfile')).not.toBeTruthy();
             expect(
-                tree.exists('libs/next-helm-chart/build/helm/Chart.yaml'),
+                tree.exists('libs/stacks-helm-chart/build/helm/Chart.yaml'),
             ).not.toBeTruthy();
             expect(
                 tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
@@ -76,7 +79,7 @@ describe('next deployment generator', () => {
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
             expect(
-                tree.exists('libs/next-helm-chart/build/helm/Chart.yaml'),
+                tree.exists('libs/stacks-helm-chart/build/helm/Chart.yaml'),
             ).toBeTruthy();
             expect(
                 tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
@@ -99,7 +102,7 @@ describe('next deployment generator', () => {
 
             const prettierIgnoreFile = tree.read('/.prettierignore', 'utf-8');
             expect(prettierIgnoreFile).toContain(
-                'libs/next-helm-chart/build/helm/**/*.yaml',
+                'libs/stacks-helm-chart/build/helm/**/*.yaml',
             );
         });
 
@@ -110,7 +113,7 @@ describe('next deployment generator', () => {
 
             expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
             expect(
-                tree.exists('libs/next-helm-chart/build/helm/Chart.yaml'),
+                tree.exists('libs/stacks-helm-chart/build/helm/Chart.yaml'),
             ).toBeTruthy();
             expect(
                 tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
@@ -175,7 +178,7 @@ describe('next deployment generator', () => {
                 await executeWorkspaceInit(tree);
                 await generator(tree, { ...options, openTelemetry: true });
                 const defaultValuesPath =
-                    'libs/next-helm-chart/build/helm/values.yaml';
+                    'libs/stacks-helm-chart/build/helm/values.yaml';
                 const nonProdValuesPath =
                     'next-app/deploy/helm/nonprod/values.yaml';
                 const prodValuesPath = 'next-app/deploy/helm/prod/values.yaml';
@@ -201,7 +204,7 @@ describe('next deployment generator', () => {
                 await executeWorkspaceInit(tree);
                 await generator(tree, { ...options, openTelemetry: false });
                 const defaultValuesPath =
-                    'libs/next-helm-chart/build/helm/values.yaml';
+                    'libs/stacks-helm-chart/build/helm/values.yaml';
                 const nonProdValuesPath =
                     'next-app/deploy/helm/nonprod/values.yaml';
                 const prodValuesPath = 'next-app/deploy/helm/prod/values.yaml';
@@ -217,6 +220,21 @@ describe('next deployment generator', () => {
                 expect(tree.read(prodValuesPath, 'utf-8')).toContain(
                     "instrumentation.opentelemetry.io/inject-nodejs: 'false'",
                 );
+            });
+        });
+
+        describe('--libraryName', () => {
+            it('should name library based on user prompt', async () => {
+                await createNextApp();
+                tree.write('.prettierignore', '');
+                await executeWorkspaceInit(tree);
+                await generator(tree, {
+                    ...options,
+                    libraryName: 'test-lib-name',
+                });
+                const defaultValuesPath =
+                    'libs/test-lib-name/build/helm/values.yaml';
+                expect(tree.exists(defaultValuesPath)).toBeTruthy();
             });
         });
     });
