@@ -1,5 +1,6 @@
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import path from 'path';
 
 import { normalizeOptions } from '.';
 
@@ -36,8 +37,8 @@ describe('normalize', () => {
                 name: 'some-lib',
                 directory: 'subdir',
                 projectName: 'subdir-some-lib',
-                projectRoot: 'subdir/some-lib',
-                projectDirectory: 'subdir/some-lib',
+                projectRoot: path.join('subdir', 'some-lib'),
+                projectDirectory: path.join('subdir', 'some-lib'),
                 parsedTags: [],
             });
         });
@@ -55,7 +56,7 @@ describe('normalize', () => {
                 {
                     directory: 'subdir',
                     name: 'subdir-some-lib',
-                    root: 'subdir/some-lib',
+                    root: path.join('subdir', 'some-lib'),
                 },
             ],
         ])(
