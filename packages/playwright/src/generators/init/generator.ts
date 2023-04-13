@@ -110,7 +110,7 @@ export default async function initGenerator(
     addFiles(tree, 'files', normalizedOptionsForE2E);
 
     // remove app.spec.ts added from @mands generator
-    tree.delete(path.join(projectE2E, 'src', 'app.spec.ts'));
+    tree.delete(`${projectE2E}/src/app.spec.ts`);
 
     // add records to gitignore
     addIgnoreEntry(tree, '.gitignore', 'Playwright', [
