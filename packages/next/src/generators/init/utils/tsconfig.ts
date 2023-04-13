@@ -7,14 +7,17 @@ const updateTsConfig = (
     filePath: string,
     includesFiles?: string[],
 ): void => {
-    updateJson(tree, filePath, tsconfig => {
-        const update = tsconfig;
-        if (tree.children(path.join(project.sourceRoot, 'src')).length === 0) {
+    updateJson(tree, filePath, tsConfig => {
+        const update = tsConfig;
+        const sourceFolder = path.join(project.sourceRoot, 'src');
+        const filesInSource = tree
+            .children(sourceFolder)
+            .filter(child => tree.exists(path.join(sourceFolder, child)));
+        if (filesInSource.length === 0) {
             update.include = update.include.map((fileName: string) => {
                 return fileName.replace('src/', '');
             });
         }
-
         update.include = [
             ...new Set([...(update.include || []), ...(includesFiles || [])]),
         ];
