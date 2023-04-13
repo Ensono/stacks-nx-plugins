@@ -51,7 +51,7 @@ export function executeWorkspaceInit(tree: Tree) {
             ...nxJson.stacks,
             executedGenerators: {
                 ...nxJson.stacks.executedGenerators,
-                workspace: ['WorkspaceInit'],
+                workspace: ['WorkspaceDeployment'],
             },
         },
     }));

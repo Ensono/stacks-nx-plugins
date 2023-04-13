@@ -9,7 +9,7 @@ import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
 
 // eslint-disable-next-line consistent-return
 export default async function initDeploymentGenerator(tree: Tree) {
-    if (!executedDependantGenerator(tree, 'WorkspaceInit')) return false;
+    if (!executedDependantGenerator(tree, 'WorkspaceDeployment')) return false;
     if (hasGeneratorExecutedForWorkspace(tree, 'PlaywrightInitDeployment'))
         return false;
 
