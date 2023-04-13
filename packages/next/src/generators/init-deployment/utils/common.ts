@@ -96,7 +96,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         },
     );
 
-    const helmProjectName = 'next-helm-chart';
+    const helmProjectName = options.libraryName;
     const helmProjectPath = `libs/${helmProjectName}`;
 
     if (!tree.exists(`${helmProjectPath}/project.json`)) {
