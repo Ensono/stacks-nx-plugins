@@ -226,9 +226,12 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
-            expect(tsconfig?.include).toContain('next.config.js');
+            expect(tsconfig?.include).toContain('**/*.ts');
+            expect(tsconfig?.include).toContain('**/*.tsx');
             expect(tsconfig?.include).toContain('**/*.js');
+            expect(tsconfig?.include).toContain('**/*.jsx');
             expect(tsconfig?.include).toContain('next-env.d.ts');
+            expect(tsconfig?.include).toContain('next.config.js');
 
             const tsconfigSpec = readJson(tree, 'next-app/tsconfig.spec.json');
             expect(tsconfigSpec?.include).toContain('jest.config.ts');
