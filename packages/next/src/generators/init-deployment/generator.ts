@@ -56,7 +56,7 @@ export default async function initDeploymentGenerator(
     await formatFiles(tree, [
         joinPathFragments(
             'libs',
-            'next-helm-chart',
+            options.libraryName,
             'build',
             'helm',
             '**',

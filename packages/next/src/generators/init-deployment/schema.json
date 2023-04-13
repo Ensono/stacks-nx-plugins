@@ -21,6 +21,13 @@
             "alias": "o",
             "$default": "false",
             "x-prompt": "Would you like auto-instrumentation for OpenTelemetry?"
+        },
+        "libraryName": {
+            "type": "string",
+            "description": "Name provided for generated helm chart library",
+            "alias": "l",
+            "default": "stacks-helm-chart",
+            "x-prompt": "Would you like to specify a name for the generated helm chart library?"
         }
     },
     "required": ["project"]
