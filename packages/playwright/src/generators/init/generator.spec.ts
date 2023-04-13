@@ -2,6 +2,7 @@ import { tsMorphTree } from '@ensono-stacks/core';
 import { addStacksAttributes } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import path from 'path';
 import { SyntaxKind } from 'ts-morph';
 
 import generator from './generator';
@@ -52,14 +53,14 @@ describe('playwright generator', () => {
         await generator(appTree, options);
 
         // example.spec.ts to be added
-        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
-            'example.spec.ts',
-        );
+        expect(
+            appTree.exists(path.join(projectNameE2E, 'src', 'example.spec.ts')),
+        ).toBeTruthy();
 
         // app.spec.ts to be removed
-        expect(appTree.children(`${projectNameE2E}/src`)).not.toContain(
-            'app.spec.ts',
-        );
+        expect(
+            appTree.exists(path.join(projectNameE2E, 'src', 'app.spec.ts')),
+        ).toBeFalsy();
 
         const project = tsMorphTree(appTree);
 

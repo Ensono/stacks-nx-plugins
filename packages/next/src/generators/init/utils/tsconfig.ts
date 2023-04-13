@@ -9,12 +9,16 @@ const updateTsConfig = (
 ): void => {
     updateJson(tree, filePath, tsconfig => {
         const update = tsconfig;
-        if (tree.children(path.join(project.sourceRoot, 'src')).length === 0) {
+        const children = tree.children(path.join(project.sourceRoot, 'src'));
+        if (
+            children.filter(child =>
+                tree.exists(path.join(project.sourceRoot, 'src', child)),
+            ).length === 0
+        ) {
             update.include = update.include.map((fileName: string) => {
                 return fileName.replace('src/', '');
             });
         }
-
         update.include = [
             ...new Set([...(update.include || []), ...(includesFiles || [])]),
         ];
