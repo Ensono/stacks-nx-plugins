@@ -52,4 +52,5 @@ nx publish playwright
 ## Full documentation
 
 Please visit the stacks documentation page for `playwright`
-[here](https://stacks.amido.com/docs) for more information
+[here](https://stacks.amido.com/docs/nx/playwright/ensono-stacks-playwright) for
+more information
