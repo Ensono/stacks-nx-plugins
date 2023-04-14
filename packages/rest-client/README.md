@@ -52,4 +52,5 @@ nx publish rest-client
 ## Full documentation
 
 Please visit the stacks documentation page for `rest-client`
-[here](https://stacks.amido.com/docs) for more information
+[here](https://stacks.amido.com/docs/nx/rest-client/ensono-stacks-rest-client)
+for more information
