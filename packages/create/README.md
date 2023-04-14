@@ -44,4 +44,5 @@ nx publish create
 ## Full documentation
 
 Please visit the stacks documentation page for `create`
-[here](https://stacks.amido.com/docs) for more information
+[here](https://stacks.amido.com/docs/nx/create-stacks-workspace/ensono-stacks-create-stacks-workspace)
+for more information
