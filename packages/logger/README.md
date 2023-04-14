@@ -52,4 +52,5 @@ nx publish logger
 ## Full documentation
 
 Please visit the stacks documentation page for `logger`
-[here](https://stacks.amido.com/docs) for more information
+[here](https://stacks.amido.com/docs/nx/logger/ensono-stacks-logger) for more
+information
