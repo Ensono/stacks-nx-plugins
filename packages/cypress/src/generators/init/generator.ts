@@ -93,10 +93,10 @@ export default async function initGenerator(
     const morphTree = tsMorphTree(tree);
 
     // add records to gitignore
-    // addIgnoreEntry(tree, '.gitignore', 'Playwright', [
+    // addIgnoreEntry(tree, '.gitignore', 'cypress', [
     //     '/test-results/',
-    //     '/playwright-report/',
-    //     '/playwright/.cache/',
+    //     '/cypress-report/',
+    //     '/cypress/.cache/',
     // ]);
 
     await formatFiles(tree);
@@ -104,7 +104,7 @@ export default async function initGenerator(
     return runTasksInSerial(updateDependencies(tree), () =>
         deploymentGeneratorMessage(
             tree,
-            'nx g @ensono-stacks/playwright:init-deployment',
+            'nx g @ensono-stacks/cypress:init-deployment',
         ),
     );
 }

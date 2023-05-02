@@ -4,7 +4,8 @@ import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import path from 'path';
 import { SyntaxKind } from 'ts-morph';
-
+import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
+import { applicationGenerator } from '@nrwl/next';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
 
@@ -36,12 +37,22 @@ describe('cypress generator', () => {
     let appTree: Tree;
     let options: CypressGeneratorSchema;
 
-    beforeEach(() => {
+    async function createNextApp(schema?: Partial<NextSchema>) {
+        appTree = createTreeWithEmptyWorkspace();
+        await applicationGenerator(appTree, {
+            name: projectName,
+            style: 'css',
+            ...schema,
+        });
+
+        addStacksAttributes(appTree, options.project);
+    }
+
+    beforeEach(async () => {
         options = {
             project: projectName,
         };
-        appTree = createTreeWithEmptyWorkspace();
-        addStacksAttributes(appTree, options.project);
+        await createNextApp();
     });
 
     it('should resolve false if the project already exists', async () => {
@@ -59,8 +70,8 @@ describe('cypress generator', () => {
         // expect .gitignore entries to be added
         // const gitIgnoreFile = appTree.read('/.gitignore', 'utf-8');
         // expect(gitIgnoreFile).toContain('**/test-results');
-        // expect(gitIgnoreFile).toContain('**/playwright-report');
-        // expect(gitIgnoreFile).toContain('**/playwright/.cache');
+        // expect(gitIgnoreFile).toContain('**/cypress-report');
+        // expect(gitIgnoreFile).toContain('**/cypress/.cache');
 
         // Add target to project.json
         const projectJson = readJson(

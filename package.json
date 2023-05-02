@@ -15,6 +15,7 @@
     "@jscutlery/semver": "^2.29.3",
     "@mands/nx-playwright": "~0.2.3",
     "@nrwl/cli": "15.9.3",
+    "@nrwl/cypress": "15.9.3",
     "@nrwl/devkit": "15.9.3",
     "@nrwl/eslint-plugin-nx": "15.9.3",
     "@nrwl/jest": "15.9.3",
