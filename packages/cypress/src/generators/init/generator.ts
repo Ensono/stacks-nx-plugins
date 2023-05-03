@@ -16,11 +16,13 @@ import {
     Tree,
     readProjectConfiguration,
     addDependenciesToPackageJson,
+    updateJson,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
+import { updateLintFile } from '../utils/update-files';
 import { CypressGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends CypressGeneratorSchema {
@@ -89,15 +91,12 @@ export default async function initGenerator(
     };
 
     await cypressE2EConfigurationGenerator(tree, cypressGeneratorSchema);
-
-    const morphTree = tsMorphTree(tree);
-
-    // add records to gitignore
-    // addIgnoreEntry(tree, '.gitignore', 'cypress', [
-    //     '/test-results/',
-    //     '/cypress-report/',
-    //     '/cypress/.cache/',
-    // ]);
+    // update eslint.rc
+    updateJson(tree, '.eslintrc.json', eslintjson => {
+        eslintjson.plugins.push('cypress');
+        eslintjson.overrides[1].extends.push('plugin:cypress/recommended');
+        return eslintjson;
+    });
 
     await formatFiles(tree);
 
