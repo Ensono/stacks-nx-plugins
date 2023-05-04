@@ -11,8 +11,8 @@ import {
     getProjects,
     joinPathFragments,
     Tree,
-} from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+} from '@nx/devkit';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 import path from 'path';
 
@@ -81,7 +81,7 @@ export default async function appInsightsGenerator(
         throw new Error('AppInsights SDK is already in use.');
     }
 
-    thirdPartyDependencyWarning(['@nrwl/next:custom-server']);
+    thirdPartyDependencyWarning(['@nx/next:custom-server']);
 
     customServer.addImportDeclaration({
         namespaceImport: 'appInsights',

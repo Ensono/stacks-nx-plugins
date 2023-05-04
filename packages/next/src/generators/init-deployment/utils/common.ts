@@ -7,7 +7,7 @@ import {
     updateProjectConfiguration,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { paramCase } from 'change-case';
 import path from 'path';
 

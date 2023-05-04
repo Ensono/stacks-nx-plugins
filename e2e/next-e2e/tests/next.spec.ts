@@ -1,16 +1,12 @@
 import { newProject, cleanup } from '@ensono-stacks/e2e';
-import {
-    checkFilesExist,
-    runNxCommandAsync,
-    uniq,
-} from '@nrwl/nx-plugin/testing';
+import { checkFilesExist, runNxCommandAsync, uniq } from '@nx/plugin/testing';
 
 describe('next e2e', () => {
     jest.setTimeout(300_000);
     process.env.HUSKY = '0';
 
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/next'], ['@nrwl/next']);
+        await newProject(['@ensono-stacks/next'], ['@nx/next']);
     });
 
     afterAll(() => {
@@ -22,7 +18,7 @@ describe('next e2e', () => {
 
     it('runs the install generator', async () => {
         await runNxCommandAsync(
-            `generate @nrwl/next:application ${project} --e2eTestRunner=none`,
+            `generate @nx/next:application ${project} --e2eTestRunner=none`,
         );
         await runNxCommandAsync(
             `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
@@ -56,7 +52,7 @@ describe('next e2e', () => {
         );
         await runNxCommandAsync(
             `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
-        )
+        );
         expect(() =>
             checkFilesExist(
                 `apps/${project}/pages/api/auth/[...nextauth].ts`,

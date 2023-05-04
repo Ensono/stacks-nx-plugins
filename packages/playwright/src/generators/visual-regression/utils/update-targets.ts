@@ -4,7 +4,7 @@ import {
     readJson,
     Tree,
     updateJson,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 function updateNxJson(tree) {
     updateJson(tree, 'nx.json', nxJson => {

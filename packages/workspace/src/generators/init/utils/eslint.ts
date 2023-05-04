@@ -5,7 +5,7 @@ import {
     getWorkspaceLayout,
     readRootPackageJson,
     GeneratorCallback,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { Linter } from 'eslint';
 
 import {
@@ -173,7 +173,7 @@ function addEslintDependencies(tree: Tree) {
         tree,
         {},
         {
-            '@nrwl/eslint-plugin-nx': nrwlDependency || 'latest',
+            '@nx/eslint-plugin': nrwlDependency || 'latest',
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,
             'eslint-config-prettier': ESLINT_CONFIG_PRETTIER_VERSION,

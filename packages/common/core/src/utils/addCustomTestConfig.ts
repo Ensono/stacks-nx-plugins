@@ -2,7 +2,7 @@ import {
     ProjectConfiguration,
     Tree,
     updateProjectConfiguration,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 import { mergeProjectConfigTarget } from '../lib/project-config';
 

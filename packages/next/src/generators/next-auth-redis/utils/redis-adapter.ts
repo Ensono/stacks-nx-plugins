@@ -1,5 +1,5 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
 export function configureAdapter(

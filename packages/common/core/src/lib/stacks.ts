@@ -1,4 +1,4 @@
-import { readJson, Tree, NxJsonStacks } from '@nrwl/devkit';
+import { readJson, Tree, NxJsonStacks } from '@nx/devkit';
 
 export class StacksError extends Error {}
 

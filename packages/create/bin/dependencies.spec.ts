@@ -35,7 +35,7 @@ it('installs dependencies for next.js', async () => {
     await installPackages(packages, 'folder/path');
 
     expect(execAsync).toHaveBeenCalledWith(
-        'npm install -D @ensono-stacks/workspace @nrwl/next @ensono-stacks/next',
+        'npm install -D @ensono-stacks/workspace @nx/next @ensono-stacks/next',
         'folder/path',
     );
 });
@@ -82,7 +82,7 @@ it('runs generators for next.js', async () => {
         'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(
-        'npx nx g @nrwl/next:app test-app --e2eTestRunner=none',
+        'npx nx g @nx/next:app test-app --e2eTestRunner=none',
         'folder/path',
     );
     expect(execAsync).toHaveBeenCalledWith(

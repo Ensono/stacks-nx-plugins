@@ -1,6 +1,6 @@
-import { readProjectConfiguration, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator as nextGenerator } from '@nrwl/next/src/generators/application/application';
+import { readProjectConfiguration, Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator as nextGenerator } from '@nx/next/src/generators/application/application';
 
 import { addCustomTestConfig } from './addCustomTestConfig';
 

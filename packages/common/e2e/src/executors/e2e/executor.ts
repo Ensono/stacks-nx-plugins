@@ -9,9 +9,9 @@ import {
     joinPathFragments,
     readJsonFile,
     writeJsonFile,
-} from '@nrwl/devkit';
-import { jestExecutor } from '@nrwl/jest/src/executors/jest/jest.impl';
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+} from '@nx/devkit';
+import { jestExecutor } from '@nx/jest/src/executors/jest/jest.impl';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { ChildProcess } from 'child_process';
 import fs from 'fs';
 import semver from 'semver';

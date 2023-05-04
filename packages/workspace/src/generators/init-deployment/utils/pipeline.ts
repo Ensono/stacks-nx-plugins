@@ -1,5 +1,5 @@
 import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
-import { logger, generateFiles, Tree } from '@nrwl/devkit';
+import { logger, generateFiles, Tree } from '@nx/devkit';
 import { paramCase } from 'change-case';
 import path from 'path';
 

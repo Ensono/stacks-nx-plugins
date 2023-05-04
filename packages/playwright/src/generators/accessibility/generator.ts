@@ -5,7 +5,7 @@ import {
     getProjects,
     offsetFromRoot,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import path from 'path';
 
 import {

@@ -1,7 +1,7 @@
-import { NxJsonConfiguration } from '@nrwl/devkit';
+import { NxJsonConfiguration } from '@nx/devkit';
 
-declare module '@nrwl/devkit' {
-    interface NxJsonStacksExecutedGenerators {
+declare module '@nx/devkit' {
+    export interface NxJsonStacksExecutedGenerators {
         executedGenerators: {
             project: {
                 [key: string]: array;
@@ -10,7 +10,7 @@ declare module '@nrwl/devkit' {
         };
     }
 
-    interface NxJsonStacksConfiguration {
+    export interface NxJsonStacksConfiguration {
         config: {
             business: {
                 company: string;

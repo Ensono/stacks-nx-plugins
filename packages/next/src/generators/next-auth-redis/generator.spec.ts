@@ -1,7 +1,7 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readJson, updateJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
+import { Tree, readJson, updateJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator } from '@nx/next';
 
 import nextInitGenerator from '../init/generator';
 import nextAuthGenerator from '../next-auth/generator';

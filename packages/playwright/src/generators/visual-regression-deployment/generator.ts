@@ -1,5 +1,5 @@
 import { hasGeneratorExecutedForWorkspace } from '@ensono-stacks/core';
-import { formatFiles, Tree } from '@nrwl/devkit';
+import { formatFiles, Tree } from '@nx/devkit';
 import chalk from 'chalk';
 
 import { visualRegressionTypes } from '../../utils/types';

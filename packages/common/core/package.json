@@ -9,6 +9,6 @@
         "minimatch": "^6.2.0"
     },
     "peerDependencies": {
-        "@nrwl/devkit": ">=15.2.1"
+        "@nx/devkit": ">=15.2.1"
     }
 }

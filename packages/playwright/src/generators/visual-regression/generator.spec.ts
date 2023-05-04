@@ -1,7 +1,7 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
@@ -12,8 +12,8 @@ import { VisualRegressionGeneratorSchema } from './schema';
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nrwl/devkit', () => {
-    const actual = jest.requireActual('@nrwl/devkit');
+jest.mock('@nx/devkit', () => {
+    const actual = jest.requireActual('@nx/devkit');
 
     return {
         ...actual,
