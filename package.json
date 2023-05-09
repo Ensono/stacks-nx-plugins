@@ -13,7 +13,7 @@
         "@commitlint/config-nx-scopes": "^17.2.0",
         "@commitlint/cz-commitlint": "^17.3.0",
         "@jscutlery/semver": "^2.29.3",
-        "@mands/nx-playwright": "~0.2.3",
+        "@mands/nx-playwright": "~0.4.0",
         "@swc-node/register": "1.4.2",
         "@swc/cli": "0.1.62",
         "@swc/core": "1.2.173",
