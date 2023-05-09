@@ -5,6 +5,7 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
 import exp from 'constants';
+import * as fs from 'fs';
 import path from 'path';
 import { SyntaxKind } from 'ts-morph';
 
@@ -38,6 +39,15 @@ jest.mock('@nrwl/devkit', () => {
     };
 });
 
+function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
+    const expectedFileContents = fs
+        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf-8')
+        .replace(/(\r)/gm, '')
+        .trim();
+    const fileContents = fileInTree.getFullText().trim();
+    expect(fileContents).toBe(expectedFileContents);
+}
+
 async function createNextApp(schema?: Partial<NextSchema>) {
     appTree = createTreeWithEmptyWorkspace();
     await applicationGenerator(appTree, {
@@ -50,7 +60,6 @@ async function createNextApp(schema?: Partial<NextSchema>) {
 }
 
 describe('cypress generator', () => {
-
     beforeEach(async () => {
         options = {
             project: projectName,
@@ -123,26 +132,9 @@ describe('should run successfully with default options', () => {
         const projectConfigFile = project.addSourceFileAtPath(
             `${projectNameE2E}/cypress.config.ts`,
         );
-
-        const projectConfiguration = projectConfigFile
-            .getFunction('defineConfig')
-            .getBody()
-            .getText();
-        expect(projectConfiguration).toEqual(
-            `...baseConfig,
-        e2e: {
-          ...baseConfig.e2e,
-          screenshotOnRunFailure: true,
-          video: true,
-        },`,
-        );
-        const importDeclarations =
-            projectConfigFile.getImportDeclarations();
-        expect(importDeclarations).toContain(
-            "import { baseConfig } from '../../cypress.config.base'",
-        );
-        expect(importDeclarations).not.toContain(
-            "import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset'",
+        compareToFile(
+            projectConfigFile,
+            './files/e2e-folder/cypress.config.ts__template__',
         );
     });
 
@@ -168,6 +160,7 @@ describe('should run successfully with default options', () => {
                 },
             },
         };
+        expect(projectJson.targets['html-report']).toBeTruthy();
         expect(projectJson.targets['html-report']).toEqual(expectedJson);
     });
 
@@ -182,33 +175,26 @@ describe('should run successfully with default options', () => {
                 path.join(projectNameE2E, 'src', 'support', 'app.po.ts'),
             ),
         ).toBeFalsy();
-        expect(
-            appTree.exists(
-                path.join(projectNameE2E, 'src', 'e2e', 'example.cy.ts'),
-            ),
-        ).toBeTruthy();
-        // Add additional test to check contents of example is correct
+        const filePath = path.join(
+            projectNameE2E,
+            'src',
+            'e2e',
+            'example.cy.ts',
+        );
+        expect(appTree.exists(filePath)).toBeTruthy();
+        compareToFile(
+            project.addSourceFileAtPath(filePath),
+            './files/e2e-folder/src/e2e/example.cy.ts__template__',
+        );
     });
 
     it('should update the support e2e file', () => {
-        const supportFile = project.addSourceFileAtPath(
-            path.join(projectNameE2E, 'src', 'support', 'e2e.ts'),
+        const filePath = path.join(projectNameE2E, 'src', 'support', 'e2e.ts');
+        expect(appTree.exists(filePath)).toBeTruthy();
+        compareToFile(
+            project.addSourceFileAtPath(filePath),
+            './files/e2e-folder/src/support/e2e.ts__template__',
         );
-        expect(
-            supportFile.getImportDeclaration(
-                "import addContext from 'mochawesome/addContext';",
-            ),
-        ).toBeTruthy();
-        expect(supportFile.getText())
-            .toContain(`Cypress.on('test:after:run', (test, runnable) => {
-            if (test.state === 'failed') {
-              const screenshot = \`\${Cypress.config('screenshotsFolder')}/\${
-                Cypress.spec.name
-              }/\${runnable.parent?.title} -- \${test.title} (failed).png\`;
-              // @ts-ignore
-              addContext({ test }, screenshot);
-            }
-          });`);
     });
 
     it('should update the tsconfig.json', () => {
@@ -222,7 +208,11 @@ describe('should run successfully with default options', () => {
     });
 
     it('should create the base cypress configuration', () => {
-        expect(appTree.exists('cypress.config.base.ts')).toBeTruthy();
-        // Add additional test to check contents of example is correct
+        const filePath = 'cypress.config.base.ts';
+        expect(appTree.exists(filePath)).toBeTruthy();
+        compareToFile(
+            project.addSourceFileAtPath(filePath),
+            './files/root/cypress.config.base.ts__template__',
+        );
     });
 });

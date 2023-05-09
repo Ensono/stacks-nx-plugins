@@ -23,10 +23,12 @@ import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-ser
 import path from 'path';
 
 import { updateLintFile } from '../utils/update-files';
+import { updateProjectJsonWithHtmlReport } from '../utils/update-targets';
 import { CypressGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends CypressGeneratorSchema {
     projectName: string;
+    e2eNameForProject: string;
     projectRoot: string;
 }
 
@@ -39,23 +41,27 @@ function normalizeOptions(
     return {
         ...options,
         projectName: project?.name as string,
-        projectRoot: project?.sourceRoot as string,
+        e2eNameForProject: `${project?.name as string}-e2e`,
+        projectRoot: project?.root as string,
     };
 }
 
-function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
+function addFiles(
+    tree: Tree,
+    source: string,
+    destination: string,
+    options: NormalizedSchema,
+) {
     const templateOptions = {
         ...options,
         offsetFromRoot: offsetFromRoot(options.projectRoot),
         template: '',
     };
 
-    const projectRootE2E = `${options.projectRoot}-e2e/src`;
-
     generateFiles(
         tree,
         path.join(__dirname, source),
-        projectRootE2E,
+        destination,
         templateOptions,
     );
 }
@@ -77,26 +83,50 @@ export default async function initGenerator(
 ) {
     if (hasGeneratorExecutedForProject(tree, options.project, 'CypressInit'))
         return false;
-
-    const projectE2E = `${options.project}-e2e`;
-
-    const optionsE2E = {
-        ...options,
-        projectE2E,
-    };
-    const normalizedOptionsForE2E = normalizeOptions(tree, optionsE2E);
-
-    const cypressGeneratorSchema: CypressGeneratorSchema = {
-        project: options.project,
-    };
-
-    await cypressE2EConfigurationGenerator(tree, cypressGeneratorSchema);
-    // update eslint.rc
-    updateJson(tree, '.eslintrc.json', eslintjson => {
-        eslintjson.plugins.push('cypress');
-        eslintjson.overrides[1].extends.push('plugin:cypress/recommended');
-        return eslintjson;
+    const normalizedOptions = normalizeOptions(tree, options);
+    await cypressE2EConfigurationGenerator(tree, {
+        project: normalizedOptions.projectName,
     });
+    // update eslint.rc
+    updateLintFile(tree);
+
+    // add / remove files
+    tree.delete(
+        path.join(
+            normalizedOptions.e2eNameForProject,
+            'src',
+            'support',
+            'app.po.ts',
+        ),
+    );
+    tree.delete(
+        path.join(
+            normalizedOptions.e2eNameForProject,
+            'src',
+            'e2e',
+            'app.cy.ts',
+        ),
+    );
+    addFiles(
+        tree,
+        path.join('files', 'e2e-folder'),
+        normalizedOptions.e2eNameForProject,
+        normalizedOptions,
+    );
+    addFiles(
+        tree,
+        path.join('files', 'root'),
+        normalizedOptions.projectRoot,
+        normalizedOptions,
+    );
+
+    // update targets
+    updateProjectJsonWithHtmlReport(
+        readProjectConfiguration(tree, normalizedOptions.e2eNameForProject),
+        tree,
+    );
+    // update git ignore
+    addIgnoreEntry(tree, '.gitignore', 'Cypress', ['**/test-results']);
 
     await formatFiles(tree);
 
