@@ -2,12 +2,12 @@
 
 exports[`next-auth-redis generator should generate redis adapter lib 1`] = `
 "import NextAuth from 'next-auth';
-import { IORedisAdapter } from \\"@proj/next-auth-redis\\";
-import { Redis } from \\"ioredis\\";
+import { IORedisAdapter } from '@proj/next-auth-redis';
+import { Redis } from 'ioredis';
 
 const nextAuth = NextAuth({
-    providers: [],
-    adapter: IORedisAdapter(new Redis(process.env.REDIS_URL))
+  providers: [],
+  adapter: IORedisAdapter(new Redis(process.env.REDIS_URL)),
 });
 
 export default nextAuth;
@@ -16,12 +16,12 @@ export default nextAuth;
 
 exports[`next-auth-redis generator should generate redis adapter lib with custom env var name 1`] = `
 "import NextAuth from 'next-auth';
-import { IORedisAdapter } from \\"@proj/next-auth-redis\\";
-import { Redis } from \\"ioredis\\";
+import { IORedisAdapter } from '@proj/next-auth-redis';
+import { Redis } from 'ioredis';
 
 const nextAuth = NextAuth({
-    providers: [],
-    adapter: IORedisAdapter(new Redis(process.env.REDIS_CONNECTION_STRING))
+  providers: [],
+  adapter: IORedisAdapter(new Redis(process.env.REDIS_CONNECTION_STRING)),
 });
 
 export default nextAuth;
@@ -30,12 +30,12 @@ export default nextAuth;
 
 exports[`next-auth-redis generator should generate redis adapter lib with custom name 1`] = `
 "import NextAuth from 'next-auth';
-import { IORedisAdapter } from \\"@proj/redis-adapter-for-next-auth\\";
-import { Redis } from \\"ioredis\\";
+import { IORedisAdapter } from '@proj/redis-adapter-for-next-auth';
+import { Redis } from 'ioredis';
 
 const nextAuth = NextAuth({
-    providers: [],
-    adapter: IORedisAdapter(new Redis(process.env.REDIS_URL))
+  providers: [],
+  adapter: IORedisAdapter(new Redis(process.env.REDIS_URL)),
 });
 
 export default nextAuth;
