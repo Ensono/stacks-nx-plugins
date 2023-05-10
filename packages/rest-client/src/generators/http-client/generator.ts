@@ -14,7 +14,6 @@ import {
     Tree,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
-import chalk from 'chalk';
 import path from 'path';
 
 import { axiosVersion } from '../../../utils/versions';
