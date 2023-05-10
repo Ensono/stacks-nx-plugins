@@ -4,10 +4,8 @@ import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
-import exp from 'constants';
 import * as fs from 'fs';
 import path from 'path';
-import { SyntaxKind } from 'ts-morph';
 
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
@@ -126,7 +124,9 @@ describe('should run successfully with default options', () => {
     it('should update the project cypress config', () => {
         // expect cypress config to be updated
         expect(
-            appTree.exists(path.join(projectNameE2E, 'cypress.config.ts')),
+            appTree.exists(
+                joinPathFragments(projectNameE2E, 'cypress.config.ts'),
+            ),
         ).toBeTruthy();
 
         const projectConfigFile = project.addSourceFileAtPath(
@@ -167,15 +167,20 @@ describe('should run successfully with default options', () => {
     it('should set up the example files', () => {
         expect(
             appTree.exists(
-                path.join(projectNameE2E, 'src', 'e2e', 'app.cy.ts'),
+                joinPathFragments(projectNameE2E, 'src', 'e2e', 'app.cy.ts'),
             ),
         ).toBeFalsy();
         expect(
             appTree.exists(
-                path.join(projectNameE2E, 'src', 'support', 'app.po.ts'),
+                joinPathFragments(
+                    projectNameE2E,
+                    'src',
+                    'support',
+                    'app.po.ts',
+                ),
             ),
         ).toBeFalsy();
-        const filePath = path.join(
+        const filePath = joinPathFragments(
             projectNameE2E,
             'src',
             'e2e',
@@ -189,7 +194,12 @@ describe('should run successfully with default options', () => {
     });
 
     it('should update the support e2e file', () => {
-        const filePath = path.join(projectNameE2E, 'src', 'support', 'e2e.ts');
+        const filePath = joinPathFragments(
+            projectNameE2E,
+            'src',
+            'support',
+            'e2e.ts',
+        );
         expect(appTree.exists(filePath)).toBeTruthy();
         compareToFile(
             project.addSourceFileAtPath(filePath),

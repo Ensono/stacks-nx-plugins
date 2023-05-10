@@ -17,12 +17,14 @@ import {
     readProjectConfiguration,
     addDependenciesToPackageJson,
     updateJson,
+    runTasksInSerial,
+    joinPathFragments,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { existsSync } from 'fs';
 import path from 'path';
 
-import { updateLintFile } from '../utils/update-files';
+import { updateLintFile, updateTsConfig } from '../utils/update-files';
 import { updateProjectJsonWithHtmlReport } from '../utils/update-targets';
 import { CypressGeneratorSchema } from './schema';
 
@@ -90,6 +92,9 @@ export default async function initGenerator(
     // update eslint.rc
     updateLintFile(tree);
 
+    // update ts config
+    updateTsConfig(tree, normalizedOptions.e2eNameForProject);
+
     // add / remove files
     tree.delete(
         path.join(
@@ -113,12 +118,14 @@ export default async function initGenerator(
         normalizedOptions.e2eNameForProject,
         normalizedOptions,
     );
-    addFiles(
-        tree,
-        path.join('files', 'root'),
-        normalizedOptions.projectRoot,
-        normalizedOptions,
-    );
+    if (!existsSync(joinPathFragments(tree.root, 'cypress.config.base.ts'))) {
+        addFiles(
+            tree,
+            path.join('files', 'root'),
+            normalizedOptions.projectRoot,
+            normalizedOptions,
+        );
+    }
 
     // update targets
     updateProjectJsonWithHtmlReport(
