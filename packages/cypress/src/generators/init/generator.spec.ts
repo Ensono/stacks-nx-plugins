@@ -10,8 +10,8 @@ import path from 'path';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
 
-const applicationDirectory = 'application';
-const sourceRoot = `apps/${applicationDirectory}`;
+const applicationName = 'application';
+const applicationDirectory = `apps/${applicationName}`;
 const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
 
 let appTree: Tree;
@@ -26,11 +26,11 @@ jest.mock('@nrwl/devkit', () => {
             () =>
                 new Map([
                     [
-                        applicationDirectory,
+                        applicationName,
                         {
-                            root: '',
-                            sourceRoot,
-                            name: applicationDirectory,
+                            root: applicationDirectory,
+                            sourceRoot: applicationDirectory,
+                            name: applicationName,
                         },
                     ],
                 ]),
@@ -48,9 +48,9 @@ function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
 }
 
 async function createNextApp(schema?: Partial<NextSchema>) {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(appTree, {
-        name: applicationDirectory,
+        name: applicationName,
         style: 'css',
         e2eTestRunner: 'none',
         ...schema,
@@ -62,7 +62,7 @@ async function createNextApp(schema?: Partial<NextSchema>) {
 describe('cypress generator', () => {
     beforeEach(async () => {
         options = {
-            project: applicationDirectory,
+            project: applicationName,
         };
         await createNextApp();
     });
@@ -102,7 +102,7 @@ describe('should run successfully with default options', () => {
 
     beforeAll(async () => {
         options = {
-            project: applicationDirectory,
+            project: applicationName,
         };
         await createNextApp();
         await generator(appTree, options);
@@ -156,11 +156,11 @@ describe('should run successfully with default options', () => {
                     'marge merged-html-report.json --reportDir ./ --inline',
                 ],
                 parallel: false,
-                cwd: `${sourceRoot}/test-results/downloads`,
+                cwd: `${applicationDirectory}/test-results/downloads`,
             },
             configurations: {
                 ci: {
-                    cwd: `${sourceRoot}/../../test-results/next-app-e2e/downloads`,
+                    cwd: `${applicationDirectory}/../../test-results/next-app-e2e/downloads`,
                 },
             },
         };

@@ -44,7 +44,10 @@ function normalizeOptions(
         ...options,
         projectName: project?.name as string,
         projectRoot: project?.sourceRoot as string,
-        cypressProject: joinPathFragments(project?.name as string, 'cypress'),
+        cypressProject: joinPathFragments(
+            project?.sourceRoot as string,
+            'cypress',
+        ),
     };
 }
 
@@ -98,7 +101,7 @@ export default async function initGenerator(
     updateLintFile(tree);
 
     // update ts config
-    updateTsConfig(tree, normalizedOptions.projectName);
+    updateTsConfig(tree, normalizedOptions.projectRoot);
 
     // add / remove files
     tree.delete(
@@ -117,13 +120,10 @@ export default async function initGenerator(
             'app.cy.ts',
         ),
     );
-    // tree.delete(
-    //     joinPathFragments(normalizedOptions.projectName, 'cypress.config.ts'),
-    // );
     addFiles(
         tree,
         joinPathFragments('files', 'e2e-folder'),
-        normalizedOptions.projectName,
+        normalizedOptions.projectRoot,
         normalizedOptions,
     );
     if (!existsSync(joinPathFragments(tree.root, 'cypress.config.base.ts'))) {
