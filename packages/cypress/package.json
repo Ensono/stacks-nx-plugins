@@ -9,9 +9,9 @@
         "url": "https://github.com/amido/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "@nrwl/devkit": ">=15.2.1"
+        "@nrwl/devkit": "15.9.2"
     },
     "dependencies": {
-        "@mands/nx-cypress": "*"
+        "@nrwl/cypress": "15.9.2"
     }
 }
