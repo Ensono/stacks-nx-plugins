@@ -30,8 +30,8 @@ import { CypressGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends CypressGeneratorSchema {
     projectName: string;
-    e2eNameForProject: string;
     projectRoot: string;
+    cypressProject: string;
 }
 
 function normalizeOptions(
@@ -43,8 +43,8 @@ function normalizeOptions(
     return {
         ...options,
         projectName: project?.name as string,
-        e2eNameForProject: `${project?.name as string}-e2e`,
-        projectRoot: project?.root as string,
+        projectRoot: project?.sourceRoot as string,
+        cypressProject: joinPathFragments(project?.name as string, 'cypress'),
     };
 }
 
@@ -86,50 +86,59 @@ export default async function initGenerator(
     if (hasGeneratorExecutedForProject(tree, options.project, 'CypressInit'))
         return false;
     const normalizedOptions = normalizeOptions(tree, options);
-    await cypressE2EConfigurationGenerator(tree, {
+
+    const cypressGeneratorConfiguration: CypressE2EConfigSchema = {
         project: normalizedOptions.projectName,
-    });
+        directory: 'cypress',
+        linter: Linter.EsLint,
+    };
+
+    await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);
     // update eslint.rc
     updateLintFile(tree);
 
     // update ts config
-    updateTsConfig(tree, normalizedOptions.e2eNameForProject);
+    updateTsConfig(tree, normalizedOptions.projectName);
 
     // add / remove files
     tree.delete(
-        path.join(
-            normalizedOptions.e2eNameForProject,
+        joinPathFragments(
+            normalizedOptions.cypressProject,
             'src',
             'support',
             'app.po.ts',
         ),
     );
     tree.delete(
-        path.join(
-            normalizedOptions.e2eNameForProject,
+        joinPathFragments(
+            normalizedOptions.cypressProject,
             'src',
             'e2e',
             'app.cy.ts',
         ),
     );
+    // tree.delete(
+    //     joinPathFragments(normalizedOptions.projectName, 'cypress.config.ts'),
+    // );
     addFiles(
         tree,
-        path.join('files', 'e2e-folder'),
-        normalizedOptions.e2eNameForProject,
+        joinPathFragments('files', 'e2e-folder'),
+        normalizedOptions.projectName,
         normalizedOptions,
     );
     if (!existsSync(joinPathFragments(tree.root, 'cypress.config.base.ts'))) {
         addFiles(
             tree,
-            path.join('files', 'root'),
-            normalizedOptions.projectRoot,
+            joinPathFragments('files', 'root'),
+            '',
             normalizedOptions,
         );
     }
 
     // update targets
     updateProjectJsonWithHtmlReport(
-        readProjectConfiguration(tree, normalizedOptions.e2eNameForProject),
+        normalizedOptions.projectRoot,
+        readProjectConfiguration(tree, normalizedOptions.projectName),
         tree,
     );
     // update git ignore

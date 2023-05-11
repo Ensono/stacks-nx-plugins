@@ -6,6 +6,7 @@ export default defineConfig({
   ...baseConfig,
   e2e: {
     ...baseConfig.e2e,
+    cypressDir: 'cypress',
     screenshotOnRunFailure: true,
     video: true,
   },

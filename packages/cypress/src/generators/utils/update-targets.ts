@@ -6,6 +6,7 @@ import {
 } from '@nrwl/devkit';
 
 export function updateProjectJsonWithHtmlReport(
+    projectRoot: string,
     project: ProjectConfiguration,
     tree: Tree,
 ) {
@@ -24,11 +25,11 @@ export function updateProjectJsonWithHtmlReport(
                             'marge merged-html-report.json --reportDir ./ --inline',
                         ],
                         parallel: false,
-                        cwd: 'apps/next-app-e2e/test-results/downloads',
+                        cwd: `${projectRoot}/test-results/downloads`,
                     },
                     configurations: {
                         ci: {
-                            cwd: 'apps/../test-results/next-app-e2e/downloads',
+                            cwd: `${projectRoot}/../../test-results/next-app-e2e/downloads`,
                         },
                     },
                 };

@@ -19,7 +19,7 @@ export function updateLintFile(tree: Tree) {
 export function updateTsConfig(tree: Tree, project: string) {
     updateJson(
         tree,
-        joinPathFragments(project, 'tsconfig.json'),
+        joinPathFragments(project, 'tsconfig.cy.json'),
         tsConfigJson => {
             const updatedProjectJson = { ...tsConfigJson };
             updatedProjectJson.compilerOptions['allowSyntheticDefaultImports'] =

@@ -10,8 +10,9 @@ import path from 'path';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
 
-const projectName = 'test';
-const projectNameE2E = `${projectName}-e2e`;
+const applicationDirectory = 'application';
+const sourceRoot = `apps/${applicationDirectory}`;
+const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
 
 let appTree: Tree;
 let options: CypressGeneratorSchema;
@@ -25,11 +26,11 @@ jest.mock('@nrwl/devkit', () => {
             () =>
                 new Map([
                     [
-                        'test',
+                        applicationDirectory,
                         {
                             root: '',
-                            sourceRoot: `${projectName}`,
-                            name: 'test',
+                            sourceRoot,
+                            name: applicationDirectory,
                         },
                     ],
                 ]),
@@ -49,8 +50,9 @@ function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
 async function createNextApp(schema?: Partial<NextSchema>) {
     appTree = createTreeWithEmptyWorkspace();
     await applicationGenerator(appTree, {
-        name: projectName,
+        name: applicationDirectory,
         style: 'css',
+        e2eTestRunner: 'none',
         ...schema,
     });
 
@@ -60,7 +62,7 @@ async function createNextApp(schema?: Partial<NextSchema>) {
 describe('cypress generator', () => {
     beforeEach(async () => {
         options = {
-            project: projectName,
+            project: applicationDirectory,
         };
         await createNextApp();
     });
@@ -100,7 +102,7 @@ describe('should run successfully with default options', () => {
 
     beforeAll(async () => {
         options = {
-            project: projectName,
+            project: applicationDirectory,
         };
         await createNextApp();
         await generator(appTree, options);
@@ -125,12 +127,12 @@ describe('should run successfully with default options', () => {
         // expect cypress config to be updated
         expect(
             appTree.exists(
-                joinPathFragments(projectNameE2E, 'cypress.config.ts'),
+                joinPathFragments(applicationDirectory, 'cypress.config.ts'),
             ),
         ).toBeTruthy();
 
         const projectConfigFile = project.addSourceFileAtPath(
-            `${projectNameE2E}/cypress.config.ts`,
+            joinPathFragments(applicationDirectory, 'cypress.config.ts'),
         );
         compareToFile(
             projectConfigFile,
@@ -141,9 +143,11 @@ describe('should run successfully with default options', () => {
     it('should update the project.json with the html-report target', () => {
         const projectJson = readJson(
             appTree,
-            joinPathFragments(projectNameE2E, 'project.json'),
+            joinPathFragments(applicationDirectory, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
+
+        // update this to include the actual app name
         const expectedJson = {
             executor: 'nx:run-commands',
             options: {
@@ -152,11 +156,11 @@ describe('should run successfully with default options', () => {
                     'marge merged-html-report.json --reportDir ./ --inline',
                 ],
                 parallel: false,
-                cwd: 'apps/next-app-e2e/test-results/downloads',
+                cwd: `${sourceRoot}/test-results/downloads`,
             },
             configurations: {
                 ci: {
-                    cwd: 'apps/../test-results/next-app-e2e/downloads',
+                    cwd: `${sourceRoot}/../../test-results/next-app-e2e/downloads`,
                 },
             },
         };
@@ -167,13 +171,13 @@ describe('should run successfully with default options', () => {
     it('should set up the example files', () => {
         expect(
             appTree.exists(
-                joinPathFragments(projectNameE2E, 'src', 'e2e', 'app.cy.ts'),
+                joinPathFragments(cypressDirectory, 'src', 'e2e', 'app.cy.ts'),
             ),
         ).toBeFalsy();
         expect(
             appTree.exists(
                 joinPathFragments(
-                    projectNameE2E,
+                    cypressDirectory,
                     'src',
                     'support',
                     'app.po.ts',
@@ -181,7 +185,7 @@ describe('should run successfully with default options', () => {
             ),
         ).toBeFalsy();
         const filePath = joinPathFragments(
-            projectNameE2E,
+            cypressDirectory,
             'src',
             'e2e',
             'example.cy.ts',
@@ -189,13 +193,13 @@ describe('should run successfully with default options', () => {
         expect(appTree.exists(filePath)).toBeTruthy();
         compareToFile(
             project.addSourceFileAtPath(filePath),
-            './files/e2e-folder/src/e2e/example.cy.ts__template__',
+            './files/e2e-folder/cypress/src/e2e/example.cy.ts__template__',
         );
     });
 
     it('should update the support e2e file', () => {
         const filePath = joinPathFragments(
-            projectNameE2E,
+            cypressDirectory,
             'src',
             'support',
             'e2e.ts',
@@ -203,14 +207,14 @@ describe('should run successfully with default options', () => {
         expect(appTree.exists(filePath)).toBeTruthy();
         compareToFile(
             project.addSourceFileAtPath(filePath),
-            './files/e2e-folder/src/support/e2e.ts__template__',
+            './files/e2e-folder/cypress/src/support/e2e.ts__template__',
         );
     });
 
-    it('should update the tsconfig.json', () => {
+    it('should update the tsconfig.cy.json', () => {
         const configJson = readJson(
             appTree,
-            joinPathFragments(projectNameE2E, 'tsconfig.json'),
+            joinPathFragments(applicationDirectory, 'tsconfig.cy.json'),
         );
         expect(
             configJson.compilerOptions['allowSyntheticDefaultImports'],
