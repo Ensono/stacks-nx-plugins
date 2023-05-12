@@ -1,5 +1,5 @@
-import { readJson, readProjectConfiguration, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { readJson, readProjectConfiguration, Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 import { WinstonLoggerGeneratorSchema } from './schema';

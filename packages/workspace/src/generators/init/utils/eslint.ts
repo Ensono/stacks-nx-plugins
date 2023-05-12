@@ -5,7 +5,7 @@ import {
     getWorkspaceLayout,
     readRootPackageJson,
     GeneratorCallback,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { Linter } from 'eslint';
 
 import {

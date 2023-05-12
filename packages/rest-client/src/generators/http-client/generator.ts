@@ -12,7 +12,7 @@ import {
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import chalk from 'chalk';
 import path from 'path';

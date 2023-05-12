@@ -3,7 +3,7 @@ import {
     names,
     ProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 /**
  * Write variables into .env.local file either for specific project

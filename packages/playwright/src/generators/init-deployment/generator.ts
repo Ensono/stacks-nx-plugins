@@ -2,7 +2,7 @@ import {
     executedDependantGenerator,
     hasGeneratorExecutedForWorkspace,
 } from '@ensono-stacks/core';
-import { formatFiles, Tree } from '@nrwl/devkit';
+import { formatFiles, Tree } from '@nx/devkit';
 
 import { updateAzureDevopsStages } from './utils/update-azdevops-build';
 import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';

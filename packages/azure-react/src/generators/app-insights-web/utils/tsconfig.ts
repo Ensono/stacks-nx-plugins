@@ -1,4 +1,4 @@
-import { updateJson, Tree } from '@nrwl/devkit';
+import { updateJson, Tree } from '@nx/devkit';
 
 const updateTsConfig = (tree: Tree, filePath: string) => {
     updateJson(tree, filePath, tsconfig => {

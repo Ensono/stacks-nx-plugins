@@ -2,7 +2,7 @@ import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForWorkspace,
 } from '@ensono-stacks/core';
-import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nrwl/devkit';
+import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nx/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
 import { InstallGeneratorSchema } from './schema';

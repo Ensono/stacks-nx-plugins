@@ -4,7 +4,7 @@ import {
     updateJson,
     writeJson,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { spawnSync } from 'child_process';
 import deepMerge from 'deepmerge';
 import { Linter } from 'eslint';

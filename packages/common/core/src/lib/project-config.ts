@@ -1,4 +1,4 @@
-import { ProjectConfiguration, TargetConfiguration } from '@nrwl/devkit';
+import { ProjectConfiguration, TargetConfiguration } from '@nx/devkit';
 import deepMerge from 'deepmerge';
 
 import { combineMerge } from './merge';

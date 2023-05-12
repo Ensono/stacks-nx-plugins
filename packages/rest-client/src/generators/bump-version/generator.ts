@@ -1,10 +1,5 @@
 import { normalizeOptions, copyFiles } from '@ensono-stacks/core';
-import {
-    formatFiles,
-    names,
-    readProjectConfiguration,
-    Tree,
-} from '@nrwl/devkit';
+import { formatFiles, names, readProjectConfiguration, Tree } from '@nx/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 

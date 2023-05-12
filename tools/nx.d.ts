@@ -1,6 +1,6 @@
-import { NxJsonConfiguration } from '@nrwl/devkit';
+import { NxJsonConfiguration } from '@nx/devkit';
 
-declare module '@nrwl/devkit' {
+declare module '@nx/devkit' {
     interface NxJsonStacksExecutedGenerators {
         executedGenerators: {
             project: {

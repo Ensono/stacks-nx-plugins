@@ -11,7 +11,7 @@ import {
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
