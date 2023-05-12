@@ -13,7 +13,7 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
-import { libraryGenerator } from '@nrwl/js';
+import { libraryGenerator } from '@nx/js';
 import chalk from 'chalk';
 import path from 'path';
 
