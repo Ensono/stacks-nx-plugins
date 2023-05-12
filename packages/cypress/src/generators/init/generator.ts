@@ -2,7 +2,6 @@ import {
     addIgnoreEntry,
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
-    tsMorphTree,
 } from '@ensono-stacks/core';
 import {
     CypressE2EConfigSchema,
@@ -16,7 +15,6 @@ import {
     Tree,
     readProjectConfiguration,
     addDependenciesToPackageJson,
-    updateJson,
     runTasksInSerial,
     joinPathFragments,
 } from '@nrwl/devkit';
@@ -24,9 +22,14 @@ import { Linter } from '@nrwl/linter';
 import { existsSync } from 'fs';
 import path from 'path';
 
-import { updateLintFile, updateTsConfig } from '../utils/update-files';
-import { updateProjectJsonWithHtmlReport } from '../utils/update-targets';
+import {
+    updateBaseTsConfig,
+    updateLintFile,
+    updateTsConfig,
+} from './utils/update-files';
+import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
 import { CypressGeneratorSchema } from './schema';
+import { CYPRESS, CYPRESSMULTIREPORTERS, MOCHAWESOME, MOCHAWESOMEJUNITREPORTER, MOCHAWESOMEMERGE, NRWLCYPRESS } from '../../versions';
 
 interface NormalizedSchema extends CypressGeneratorSchema {
     projectName: string;
@@ -76,8 +79,12 @@ function updateDependencies(tree) {
         tree,
         {},
         {
-            // Needs changing
-            '@nrwl/cypress': '15.9.2',
+            cypress: CYPRESS,
+            '@nrwl/cypress': NRWLCYPRESS,
+            'cypress-multi-reporters': CYPRESSMULTIREPORTERS,
+            mochawesome: MOCHAWESOME,
+            'mochawesome-merge': MOCHAWESOMEMERGE,
+            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER,
         },
     );
 }
@@ -103,22 +110,17 @@ export default async function initGenerator(
     // update ts config
     updateTsConfig(tree, normalizedOptions.projectRoot);
 
+    updateBaseTsConfig(tree);
     // add / remove files
     tree.delete(
         joinPathFragments(
             normalizedOptions.cypressProject,
-            'src',
             'support',
             'app.po.ts',
         ),
     );
     tree.delete(
-        joinPathFragments(
-            normalizedOptions.cypressProject,
-            'src',
-            'e2e',
-            'app.cy.ts',
-        ),
+        joinPathFragments(normalizedOptions.cypressProject, 'e2e', 'app.cy.ts'),
     );
     addFiles(
         tree,

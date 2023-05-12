@@ -3,10 +3,8 @@ import {
     checkFilesExist,
     runNxCommand,
     runNxCommandAsync,
-    readFile,
     uniq,
 } from '@nrwl/nx-plugin/testing';
-import { Project } from 'ts-morph';
 
 describe('cypress e2e', () => {
 
@@ -23,7 +21,7 @@ describe('cypress e2e', () => {
         await newProject(
             ['@nrwl/cypress', '@nrwl/next'],
         );
-    }, 400_000);
+    }, 200_000);
 
     afterAll(() => {
         runNxCommandAsync('reset');

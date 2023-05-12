@@ -1,12 +1,9 @@
-import {
-  nxE2EPreset,
-  nxBaseCypressPreset,
-} from '@nrwl/cypress/plugins/cypress-preset';
+import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
 
 const appName = process.env.NX_TASK_TARGET_PROJECT as string;
 const outputFolderForProject = process.env.CI
   ? `../../test-results/${appName}`
-  : 'test-results';
+  : 'cypress/test-results';
 const baseURL = process.env.BASE_URL || 'http://localhost:4200/';
 export const baseConfig: Cypress.ConfigOptions = {
   reporter: '../../node_modules/cypress-multi-reporters',
@@ -31,7 +28,7 @@ export const baseConfig: Cypress.ConfigOptions = {
     },
   },
   e2e: {
-    ...nxE2EPreset(__dirname),
+    ...nxE2EPreset(__dirname, { cypressDir: 'cypress' }),
     baseUrl: baseURL,
     screenshotsFolder: outputFolderForProject.concat('/screenshots'),
     videosFolder: outputFolderForProject.concat('/videos'),

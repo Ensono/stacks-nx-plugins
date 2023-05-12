@@ -1,12 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, Tree, updateJson } from '@nrwl/devkit';
-import { Project } from 'ts-morph';
-
-let morphTree;
-
-function getMorphTree(tree: Tree) {
-    return morphTree ? tsMorphTree(tree) : morphTree;
-}
 
 export function updateLintFile(tree: Tree) {
     updateJson(tree, '.eslintrc.json', eslintjson => {
@@ -27,4 +19,13 @@ export function updateTsConfig(tree: Tree, project: string) {
             return updatedProjectJson;
         },
     );
+}
+
+export function updateBaseTsConfig(tree: Tree) {
+    // Source map set to false due to Cypress hardcoding inlineSourceMap to true
+    updateJson(tree, 'tsconfig.base.json', tsConfigJson => {
+        const updatedProjectJson = { ...tsConfigJson };
+        updatedProjectJson.compilerOptions['sourceMap'] = false;
+        return updatedProjectJson;
+    });
 }

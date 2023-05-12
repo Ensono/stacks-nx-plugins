@@ -25,7 +25,7 @@ export function updateProjectJsonWithHtmlReport(
                             'marge merged-html-report.json --reportDir ./ --inline',
                         ],
                         parallel: false,
-                        cwd: `${projectRoot}/test-results/downloads`,
+                        cwd: `${projectRoot}/cypress/test-results/downloads`,
                     },
                     configurations: {
                         ci: {

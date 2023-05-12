@@ -4,9 +4,18 @@ import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator } from '@nrwl/next';
 import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
+import exp from 'constants';
 import * as fs from 'fs';
 import path from 'path';
 
+import {
+    CYPRESS,
+    CYPRESSMULTIREPORTERS,
+    MOCHAWESOME,
+    MOCHAWESOMEJUNITREPORTER,
+    MOCHAWESOMEMERGE,
+    NRWLCYPRESS,
+} from '../../versions';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
 
@@ -109,6 +118,22 @@ describe('should run successfully with default options', () => {
         project = tsMorphTree(appTree);
     });
 
+    it('should install deps into package.json', () => {
+        const packageJson = readJson(appTree, 'package.json');
+        expect(packageJson.devDependencies['cypress']).toBe(CYPRESS);
+        expect(packageJson.devDependencies['@nrwl/cypress']).toBe(NRWLCYPRESS);
+        expect(packageJson.devDependencies['cypress-multi-reporters']).toBe(
+            CYPRESSMULTIREPORTERS,
+        );
+        expect(packageJson.devDependencies['mochawesome']).toBe(MOCHAWESOME);
+        expect(packageJson.devDependencies['mochawesome-merge']).toBe(
+            MOCHAWESOMEMERGE,
+        );
+        expect(packageJson.devDependencies['mocha-junit-reporter']).toBe(
+            MOCHAWESOMEJUNITREPORTER,
+        );
+    });
+
     it('should update the eslintrc.json', () => {
         const eslintrc = readJson(appTree, '/.eslintrc.json');
         expect(eslintrc.plugins).toContain('cypress');
@@ -156,7 +181,7 @@ describe('should run successfully with default options', () => {
                     'marge merged-html-report.json --reportDir ./ --inline',
                 ],
                 parallel: false,
-                cwd: `${applicationDirectory}/test-results/downloads`,
+                cwd: `${applicationDirectory}/cypress/test-results/downloads`,
             },
             configurations: {
                 ci: {
@@ -171,43 +196,36 @@ describe('should run successfully with default options', () => {
     it('should set up the example files', () => {
         expect(
             appTree.exists(
-                joinPathFragments(cypressDirectory, 'src', 'e2e', 'app.cy.ts'),
+                joinPathFragments(cypressDirectory, 'e2e', 'app.cy.ts'),
             ),
         ).toBeFalsy();
         expect(
             appTree.exists(
-                joinPathFragments(
-                    cypressDirectory,
-                    'src',
-                    'support',
-                    'app.po.ts',
-                ),
+                joinPathFragments(cypressDirectory, 'support', 'app.po.ts'),
             ),
         ).toBeFalsy();
         const filePath = joinPathFragments(
             cypressDirectory,
-            'src',
             'e2e',
             'example.cy.ts',
         );
         expect(appTree.exists(filePath)).toBeTruthy();
         compareToFile(
             project.addSourceFileAtPath(filePath),
-            './files/e2e-folder/cypress/src/e2e/example.cy.ts__template__',
+            './files/e2e-folder/cypress/e2e/example.cy.ts__template__',
         );
     });
 
     it('should update the support e2e file', () => {
         const filePath = joinPathFragments(
             cypressDirectory,
-            'src',
             'support',
             'e2e.ts',
         );
         expect(appTree.exists(filePath)).toBeTruthy();
         compareToFile(
             project.addSourceFileAtPath(filePath),
-            './files/e2e-folder/cypress/src/support/e2e.ts__template__',
+            './files/e2e-folder/cypress/support/e2e.ts__template__',
         );
     });
 
@@ -228,5 +246,10 @@ describe('should run successfully with default options', () => {
             project.addSourceFileAtPath(filePath),
             './files/root/cypress.config.base.ts__template__',
         );
+    });
+
+    it('should update the tsconfig.base.json', () => {
+        const tsconfig = readJson(appTree, 'tsconfig.base.json');
+        expect(tsconfig.compilerOptions.sourceMap).toBe(false);
     });
 });
