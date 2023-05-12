@@ -5,10 +5,9 @@ import {
     readJson,
     runNxCommandAsync,
     uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 
 describe('logger e2e', () => {
-
     beforeAll(async () => {
         await newProject(['@ensono-stacks/logger']);
     });
@@ -18,16 +17,16 @@ describe('logger e2e', () => {
         cleanup();
     });
 
-    describe("winston generator", () => {
+    describe('winston generator', () => {
         it('should create logger', async () => {
             const project = uniq('logger');
             await runNxCommandAsync(
                 `generate @ensono-stacks/logger:winston ${project}`,
             );
             expect(() =>
-            checkFilesExist(
-                `libs/${project}/src/index.ts`,
-                `libs/${project}/src/index.test.ts`
+                checkFilesExist(
+                    `libs/${project}/src/index.ts`,
+                    `libs/${project}/src/index.test.ts`,
                 ),
             ).not.toThrow();
         }, 120000);
@@ -41,8 +40,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/subdir/${project}/src/index.ts`,
-                        `libs/subdir/${project}/src/index.test.ts`
-                        ),
+                        `libs/subdir/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
         });
@@ -67,8 +66,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
 
@@ -80,8 +79,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
 
@@ -93,8 +92,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
 
@@ -102,7 +101,7 @@ describe('logger e2e', () => {
                 const project = uniq('logger');
                 await runNxCommandAsync(
                     `generate @ensono-stacks/logger:winston ${project} --logLevelType errorLog`,
-                ).catch((stderr) => expect(stderr?.code).toEqual(1));
+                ).catch(stderr => expect(stderr?.code).toEqual(1));
             }, 120000);
         });
 
@@ -115,8 +114,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
         });
@@ -130,8 +129,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
         });
@@ -145,8 +144,8 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
         });
@@ -160,10 +159,10 @@ describe('logger e2e', () => {
                 expect(() =>
                     checkFilesExist(
                         `libs/${project}/src/index.ts`,
-                        `libs/${project}/src/index.test.ts`
-                        ),
+                        `libs/${project}/src/index.test.ts`,
+                    ),
                 ).not.toThrow();
             }, 120000);
         });
+    });
 });
-})

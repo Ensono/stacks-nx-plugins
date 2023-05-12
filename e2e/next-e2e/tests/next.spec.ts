@@ -1,9 +1,5 @@
 import { newProject, cleanup } from '@ensono-stacks/e2e';
-import {
-    checkFilesExist,
-    runNxCommandAsync,
-    uniq,
-} from '@nrwl/nx-plugin/testing';
+import { checkFilesExist, runNxCommandAsync, uniq } from '@nx/plugin/testing';
 
 describe('next e2e', () => {
     jest.setTimeout(300_000);
@@ -56,7 +52,7 @@ describe('next e2e', () => {
         );
         await runNxCommandAsync(
             `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
-        )
+        );
         expect(() =>
             checkFilesExist(
                 `apps/${project}/pages/api/auth/[...nextauth].ts`,
