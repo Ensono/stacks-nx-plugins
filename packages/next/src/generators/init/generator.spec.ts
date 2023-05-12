@@ -68,7 +68,7 @@ describe('next install generator', () => {
                 JSON.stringify({
                     targets: {
                         test: {
-                            executor: '@nrwl/jest:jest',
+                            executor: '@nx/jest:jest',
                             outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
                             options: {
                                 jestConfig: '/next-app/jest.config.ts',
@@ -92,7 +92,7 @@ describe('next install generator', () => {
 
             expect(projectConfig.targets.test).toMatchObject(
                 expect.objectContaining({
-                    executor: '@nrwl/jest:jest',
+                    executor: '@nx/jest:jest',
                     outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
                     options: {
                         jestConfig: '/next-app/jest.config.ts',
