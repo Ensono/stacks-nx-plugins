@@ -1,20 +1,21 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "cli": "nx",
-    "$id": "Init",
-    "title": "Ensono Stacks Playwright Init Generator",
-    "description": "The @ensono-stacks/playwright:init generator initialises your playwright project with additional stacks configuration.",
-    "type": "object",
-    "properties": {
-        "project": {
-            "type": "string",
-            "description": "The name of the project.",
-            "alias": "p",
-            "$default": {
-                "$source": "projectName"
-            },
-            "x-prompt": "What app would you like to generate a test project for?"
-        }
-    },
-    "required": ["project"]
+  "$schema": "http://json-schema.org/schema",
+  "$id": "Init",
+  "title": "Ensono Stacks Playwright Init Generator",
+  "description": "The @ensono-stacks/playwright:init generator initialises your playwright project with additional stacks configuration.",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "alias": "p",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "What app would you like to generate a test project for?"
+    }
+  },
+  "required": [
+    "project"
+  ]
 }
