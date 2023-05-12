@@ -23,13 +23,20 @@ import { existsSync } from 'fs';
 import path from 'path';
 
 import {
+    CYPRESS,
+    CYPRESSMULTIREPORTERS,
+    MOCHAWESOME,
+    MOCHAWESOMEJUNITREPORTER,
+    MOCHAWESOMEMERGE,
+    NRWLCYPRESS,
+} from '../../versions';
+import { CypressGeneratorSchema } from './schema';
+import {
     updateBaseTsConfig,
     updateLintFile,
     updateTsConfig,
 } from './utils/update-files';
 import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
-import { CypressGeneratorSchema } from './schema';
-import { CYPRESS, CYPRESSMULTIREPORTERS, MOCHAWESOME, MOCHAWESOMEJUNITREPORTER, MOCHAWESOMEMERGE, NRWLCYPRESS } from '../../versions';
 
 interface NormalizedSchema extends CypressGeneratorSchema {
     projectName: string;
