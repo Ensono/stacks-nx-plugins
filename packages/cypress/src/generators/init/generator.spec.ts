@@ -8,6 +8,7 @@ import exp from 'constants';
 import * as fs from 'fs';
 import path from 'path';
 
+import { checkOneOccurence, createNextApp } from '../../utils/test-utils';
 import {
     CYPRESS,
     CYPRESSMULTIREPORTERS,
@@ -56,24 +57,12 @@ function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     expect(fileContents).toBe(expectedFileContents);
 }
 
-async function createNextApp(schema?: Partial<NextSchema>) {
-    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(appTree, {
-        name: applicationName,
-        style: 'css',
-        e2eTestRunner: 'none',
-        ...schema,
-    });
-
-    addStacksAttributes(appTree, options.project);
-}
-
 describe('cypress generator', () => {
     beforeEach(async () => {
         options = {
             project: applicationName,
         };
-        await createNextApp();
+        appTree = await createNextApp(options.project);
     });
 
     it('should resolve false if the project already exists', async () => {
@@ -113,33 +102,32 @@ describe('should run successfully with default options', () => {
         options = {
             project: applicationName,
         };
-        await createNextApp();
+        appTree = await createNextApp(options.project);
         await generator(appTree, options);
         project = tsMorphTree(appTree);
     });
 
     it('should install deps into package.json', () => {
         const packageJson = readJson(appTree, 'package.json');
-        expect(packageJson.devDependencies['cypress']).toBe(CYPRESS);
-        expect(packageJson.devDependencies['@nrwl/cypress']).toBe(NRWLCYPRESS);
-        expect(packageJson.devDependencies['cypress-multi-reporters']).toBe(
-            CYPRESSMULTIREPORTERS,
-        );
-        expect(packageJson.devDependencies['mochawesome']).toBe(MOCHAWESOME);
-        expect(packageJson.devDependencies['mochawesome-merge']).toBe(
-            MOCHAWESOMEMERGE,
-        );
-        expect(packageJson.devDependencies['mocha-junit-reporter']).toBe(
-            MOCHAWESOMEJUNITREPORTER,
-        );
+        expect(packageJson?.devDependencies).toMatchObject({
+            cypress: CYPRESS,
+            '@nrwl/cypress': NRWLCYPRESS,
+            'cypress-multi-reporters': CYPRESSMULTIREPORTERS,
+            mochawesome: MOCHAWESOME,
+            'mochawesome-merge': MOCHAWESOMEMERGE,
+            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER,
+        });
     });
 
     it('should update the eslintrc.json', () => {
         const eslintrc = readJson(appTree, '/.eslintrc.json');
-        expect(eslintrc.plugins).toContain('cypress');
-        expect(eslintrc.overrides[1].extends).toContain(
-            'plugin:cypress/recommended',
-        );
+        expect(checkOneOccurence(eslintrc.plugins, 'cypress')).toBeTruthy();
+        expect(
+            checkOneOccurence(
+                eslintrc.overrides[1].extends,
+                'plugin:cypress/recommended',
+            ),
+        ).toBeTruthy();
     });
 
     it('should update the gitignore', () => {
