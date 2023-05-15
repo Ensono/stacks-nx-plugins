@@ -1,10 +1,20 @@
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
+    readJson,
     runNxCommand,
     runNxCommandAsync,
     uniq,
 } from '@nrwl/nx-plugin/testing';
+
+import {
+    CYPRESS,
+    CYPRESSMULTIREPORTERS,
+    MOCHAWESOME,
+    MOCHAWESOMEJUNITREPORTER,
+    MOCHAWESOMEMERGE,
+    NRWLCYPRESS,
+} from '../../../packages/cypress/src/versions';
 
 describe('cypress e2e', () => {
 
@@ -29,6 +39,7 @@ describe('cypress e2e', () => {
     });
 
     describe('--project', () => {
+        
         it('errors when the project does not exist', async () => {
             const project = uniq('imaginaryProjectThatDoesNotExist');
             await runNxCommandAsync(
@@ -59,8 +70,27 @@ describe('cypress e2e', () => {
             expect(checkFilesExist(`apps/${e2eProject}/src/support/e2e.ts`)).toThrow();
             expect(checkFilesExist(`apps/${e2eProject}/src/support/app.po.ts`)).toThrow();
             expect(checkFilesExist(`apps/${e2eProject}/src/e2e/app.cy.ts`)).toThrow();
-            
+
+            const projectJson = readJson(`apps/${e2eProject}/project.json`);
+            expect(projectJson.targets.e2e).toBeTruthy();
+            expect(projectJson.targets['html-report']).toBeTruthy();
+
+            // add packages to package.json
+            const packageJson = readJson('package.json');
+            expect(packageJson.devDependencies['cypress']).toBe(CYPRESS);
+            expect(packageJson.devDependencies['@nrwl/cypress']).toBe(NRWLCYPRESS);
+            expect(packageJson.devDependencies['cypress-multi-reporters']).toBe(
+                CYPRESSMULTIREPORTERS,
+            );
+            expect(packageJson.devDependencies['mochawesome']).toBe(MOCHAWESOME);
+            expect(packageJson.devDependencies['mochawesome-merge']).toBe(
+                MOCHAWESOMEMERGE,
+            );
+            expect(packageJson.devDependencies['mocha-junit-reporter']).toBe(
+                MOCHAWESOMEJUNITREPORTER,
+            );
         }, 200_000);
+
     });
 
 });
