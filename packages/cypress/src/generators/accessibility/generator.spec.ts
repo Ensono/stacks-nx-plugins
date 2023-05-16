@@ -9,6 +9,7 @@ import { AXECORE, CYPRESSAXE } from '../../versions';
 import initGenerator from '../init/generator';
 import generator from './generator';
 import { AccessibilityGeneratorSchema } from './schema';
+import { terminalLogAxeBody } from './utils/update-files';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
@@ -44,7 +45,7 @@ function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     expect(fileContents).toBe(expectedFileContents);
 }
 
-describe('playwright accessibility generator', () => {
+describe('cypress accessibility generator', () => {
     let appTree: Tree;
     let options: AccessibilityGeneratorSchema;
     let project;
@@ -58,7 +59,7 @@ describe('playwright accessibility generator', () => {
         await initGenerator(appTree, options);
     });
 
-    describe('should correctly add accesibility to a fresh test project', () => {
+    describe('should correctly add accessibility to a fresh test project', () => {
         beforeEach(async () => {
             await generator(appTree, options);
         });
@@ -73,7 +74,7 @@ describe('playwright accessibility generator', () => {
             expect(appTree.exists(filePath)).toBeTruthy();
             compareToFile(
                 project.addSourceFileAtPath(filePath),
-                './files/axe-accessibility.cy.ts__template__',
+                './files/cypress/e2e/axe-accessibility.cy.ts__template__',
             );
         }, 100_000);
 
@@ -89,53 +90,53 @@ describe('playwright accessibility generator', () => {
         });
 
         it('should update the applications cypress.config.ts', () => {
-            const filePath = joinPathFragments(
-                applicationDirectory,
-                'cypress.config.ts',
-            );
-            const file = project.addSourceFileAtPath(filePath);
-            expect(file).toMatchSnapshot();
+            // is this actually working?
+            expect(
+                project.addSourceFileAtPath(
+                    joinPathFragments(
+                        applicationDirectory,
+                        'cypress.config.ts',
+                    ),
+                ),
+            ).toMatchSnapshot();
         });
 
         it('should update the applications e2e.ts support file', () => {
             const filePath = joinPathFragments(
-                applicationDirectory,
+                cypressDirectory,
                 'support',
                 'e2e.ts',
             );
             const file = project.addSourceFileAtPath(filePath);
-            const expectedFunction = file
-                .getFunction('terminalLogAxe')
-                .getBodyText();
-            expect(expectedFunction).toBe(`cy.task(
-                'log',
-                \`\${violations.length} accessibility violation\${
-                  violations.length === 1 ? '' : 's'
-                } \${violations.length === 1 ? 'was' : 'were'} detected\`
-              );
-              // pluck specific keys to keep the table readable
-              const violationData = violations.map(
-                ({ id, impact, description, nodes }) => ({
-                  id,
-                  impact,
-                  description,
-                  nodes: nodes.length,
-                })
-              );
-            
-              cy.task('table', violationData);\`);
-            }`);
+            const expectedFunction = file.getFunction('terminalLogAxe');
+            const parameters = expectedFunction.getParameters();
+            expect(parameters.length).toEqual(1);
+            const structure = expectedFunction
+                .getParameters()[0]
+                .getStructure();
+            expect(structure.name).toBe('violations');
+            expect(expectedFunction?.getBodyText()).toBe(terminalLogAxeBody);
         });
 
         it('should update the applications tsconfig.cy.json file', () => {
-            const tsconfig = readJson(appTree, 'tsconfig.cy.json');
+            const tsconfig = readJson(
+                appTree,
+                joinPathFragments(applicationDirectory, 'tsconfig.cy.json'),
+            );
             expect(
-                checkOneOccurence(tsconfig.types, 'cypress-axe'),
+                checkOneOccurence(
+                    tsconfig.compilerOptions.types,
+                    'cypress-axe',
+                ),
             ).toBeTruthy();
         });
     });
 
     describe('should correctly add accesibility when reran', () => {
+        it('should raise an error if a cypress app has not yet been added', () => {
+            expect(true).toBe(false);
+        });
+
         it('should update the applications cypress.config.ts where there is already a setupNodeEvents', async () => {
             const filePath = joinPathFragments(
                 applicationDirectory,

@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "Accessibility",
-    "title": "Ensono Stacks Playwright Accessibility Generator",
-    "description": "The @ensono-stacks/playwright:accessibility generator scaffolds your existing initialised Playwright project with example Accessibility tests and config.",
+    "title": "Ensono Stacks cypress Accessibility Generator",
+    "description": "The @ensono-stacks/cypress:accessibility generator scaffolds your existing initialised cypress project with example Accessibility tests and config.",
     "type": "object",
     "properties": {
         "project": {
