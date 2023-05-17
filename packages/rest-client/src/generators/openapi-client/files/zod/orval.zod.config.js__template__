@@ -1,14 +1,12 @@
-module.exports = () => {
-    return {
-        '<%= schemaName %>-file-transfomer': {
-            output: {
-                mode: 'split',
-                target: './src/<%= schemaName %>.zod.ts',
-                client: 'zod',
-            },
-            input: {
-                target: './<%= schemaPath %>',
-            },
+module.exports = {
+    '<%= schemaName %>-file-transfomer': {
+        output: {
+            mode: 'split',
+            target: './src/<%= schemaName %>.zod.ts',
+            client: 'zod',
         },
-    };
+        input: {
+            target: './<%= schemaPath %>',
+        },
+    },
 };
