@@ -1,3 +1,4 @@
+import { execAsync, getCommandVersion } from '@ensono-stacks/core';
 import yargs from 'yargs';
 
 import {
@@ -8,7 +9,6 @@ import {
     commitGeneratedFiles,
     normaliseForwardedArgv,
 } from './dependencies';
-import { execAsync, getCommandVersion } from './exec';
 import { detectPackageManager } from './package-manager';
 import type { CreateStacksArguments } from './types';
 

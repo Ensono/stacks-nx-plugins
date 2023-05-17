@@ -21,6 +21,13 @@
             "alias": "s",
             "x-prompt": "What is the relative path to your openapi schema?"
         },
+        "zod": {
+            "type": "boolean",
+            "default": false,
+            "description": "Zod validation for your openapi schema",
+            "alias": "z",
+            "x-prompt": "Do you want to generate a Zod validation for your schema?"
+        },
         "tags": {
             "type": "string",
             "description": "Add tags to the project (used for linting)",
@@ -31,5 +38,5 @@
             "description": "Subdirectory inside libs/ where the generated library placed."
         }
     },
-    "required": ["name", "schema"]
+    "required": ["name", "schema", "zod"]
 }
