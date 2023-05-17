@@ -55,13 +55,58 @@ describe('cypress accessibility generator', () => {
         };
         appTree = await createNextApp(options.project);
         project = tsMorphTree(appTree);
-
-        await initGenerator(appTree, options);
     });
 
-    describe('should correctly add accessibility to a fresh test project', () => {
+    it('should raise an error if a cypress app has not yet been added', async () => {
+        await generator(appTree, options).catch(error => {
+            expect(error.message).toEqual(
+                'The dependent CypressInit generator has not been executed',
+            );
+        });
+    });
+
+    it('should correctly update the setUpNodeEvents if it already exists', async () => {
+        await initGenerator(appTree, options);
+        const config = project.addSourceFileAtPath(
+            joinPathFragments(applicationDirectory, 'cypress.config.ts'),
+        );
+        config.replaceWithText(`export default defineConfig({
+            ...baseConfig,
+            e2e: {
+              setupNodeEvents(on, config) {
+                on('before:browser:launch', (file) => {
+                    //do something
+                });
+              },
+            },
+          });`);
+        config.save();
+        await generator(appTree, options);
+        expect(config.getFullText()).toContain("on('before:browser:launch',");
+        expect(config.getFullText()).toContain("on('task',");
+    });
+
+    describe('should correctly add accessibility', () => {
         beforeEach(async () => {
+            await initGenerator(appTree, options);
             await generator(appTree, options);
+        });
+
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
+
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('CypressAccessibility'),
+            ).toBe(true);
+        });
+
+        it('should throw an error if the generator has ran before', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
+            expect(gen).toBe(false);
         });
 
         it('should run successfully and create the accessibility test', async () => {
@@ -129,30 +174,6 @@ describe('cypress accessibility generator', () => {
                     'cypress-axe',
                 ),
             ).toBeTruthy();
-        });
-    });
-
-    describe('should correctly add accesibility when reran', () => {
-        it('should raise an error if a cypress app has not yet been added', () => {
-            expect(true).toBe(false);
-        });
-
-        it('should update the applications cypress.config.ts where there is already a setupNodeEvents', async () => {
-            const filePath = joinPathFragments(
-                applicationDirectory,
-                'cypress.config.ts',
-            );
-            const file = project.addSourceFileAtPath(filePath);
-            const baseConfigObject = file
-                ?.getVariableDeclaration('defineConfig')
-                .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-            const testConfig = baseConfigObject
-                ?.getProperty('use')
-                ?.getStructure();
-            testConfig.add('an existing config');
-            await generator(appTree, options);
-
-            // expect package.json updated
         });
     });
 });

@@ -1,6 +1,16 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, Tree } from '@nrwl/devkit';
-import { SyntaxKind } from 'ts-morph';
+import exp from 'constants';
+import {
+    CallExpression,
+    ExportAssignment,
+    ExportAssignmentStructure,
+    MethodDeclaration,
+    Node,
+    ObjectLiteralExpression,
+    PropertyAssignment,
+    SyntaxKind,
+} from 'ts-morph';
 
 export const terminalLogAxeBody = `cy.task(
     'log',
@@ -41,14 +51,66 @@ export function addTerminalLogging(tree: Tree, cypressDirectory: string) {
     }
 }
 
-export function updateCypressConfig(tree: Tree, project: string){
+export function updateCypressConfig(tree: Tree, project: string) {
     const morphTree = tsMorphTree(tree);
-    const appNode = morphTree.addSourceFileAtPath(
+    const sourceFile = morphTree.addSourceFileAtPath(
         joinPathFragments(project, 'cypress.config.ts'),
     );
-    const statements = appNode.getStatements();
-    const exporAs = appNode.getExportAssignments()[0].getStructure();
-        // figure out what to do with this export assignment
+    const callExpressions = sourceFile.getDescendantsOfKind(
+        SyntaxKind.CallExpression,
+    );
+    const functionName = 'setupNodeEvents';
+    const defineConfigExpression = callExpressions.find(callExpression => {
+        const expression = callExpression.getExpression();
+        return expression && expression.getText() === 'defineConfig';
+    });
+    if (!defineConfigExpression) {
+        throw new Error(
+            'No defineConfig was found in the application cypress.config.ts file, have you created this using @ensono-stacks/cypress:init?',
+        );
+    }
+    const defineConfigArgument =
+        defineConfigExpression?.getArguments()[0] as ObjectLiteralExpression;
 
-    console.log(config);
+    const requiredProperty = defineConfigArgument.getPropertyOrThrow(
+        'e2e',
+    ) as PropertyAssignment;
+
+    const initializer = requiredProperty.getInitializerIfKindOrThrow(
+        SyntaxKind.ObjectLiteralExpression,
+    );
+    const methods = initializer.getChildrenOfKind(SyntaxKind.MethodDeclaration);
+    let setupNodeEventsMethod: MethodDeclaration = methods.find(
+        methodDeclaration => methodDeclaration.getName() === functionName,
+    );
+    if (!setupNodeEventsMethod) {
+        setupNodeEventsMethod = initializer.addMethod({
+            name: functionName,
+            parameters: [
+                {
+                    name: 'on',
+                },
+                {
+                    name: 'config',
+                },
+            ],
+        });
+    }
+    setupNodeEventsMethod.insertStatements(
+        setupNodeEventsMethod.getStatements().length,
+        `
+                on('task', {
+                  log(message) {
+                    console.log(message);
+                    return null;
+                  },
+                  table(message) {
+                    console.table(message);
+                    return null;
+                  },
+                });
+            `,
+    );
+    sourceFile.saveSync();
+    console.log(sourceFile.getText());
 }

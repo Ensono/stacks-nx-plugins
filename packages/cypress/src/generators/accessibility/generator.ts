@@ -1,4 +1,8 @@
 import {
+    hasGeneratorExecutedForProject,
+    isGeneratorInExecutedListForProject,
+} from '@ensono-stacks/core';
+import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
@@ -8,8 +12,6 @@ import {
     updateJson,
     joinPathFragments,
 } from '@nrwl/devkit';
-import { addTerminalLogging, terminalLogAxeBody, updateCypressConfig } from './utils/update-files';
-import path, { join } from 'path';
 import { Project } from 'ts-morph';
 import { option } from 'yargs';
 
@@ -20,6 +22,11 @@ import {
 } from '../../utils/test-utils';
 import { AXECORE, CYPRESSAXE } from '../../versions';
 import { AccessibilityGeneratorSchema } from './schema';
+import {
+    addTerminalLogging,
+    terminalLogAxeBody,
+    updateCypressConfig,
+} from './utils/update-files';
 
 async function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -54,6 +61,20 @@ export default async function accessibilityGenerator(
     tree: Tree,
     options: AccessibilityGeneratorSchema,
 ) {
+    if (
+        hasGeneratorExecutedForProject(
+            tree,
+            options.project,
+            'CypressAccessibility',
+        )
+    )
+        return false;
+    isGeneratorInExecutedListForProject(
+        tree,
+        options.project,
+        'CypressInit',
+        true,
+    );
     const normalizedOptions = normalizeOptions(tree, options);
 
     // generate acessiblity files
