@@ -112,5 +112,4 @@ export function updateCypressConfig(tree: Tree, project: string) {
             `,
     );
     sourceFile.saveSync();
-    console.log(sourceFile.getText());
 }

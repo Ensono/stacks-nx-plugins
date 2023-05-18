@@ -8,7 +8,9 @@ import {
 } from '@nrwl/nx-plugin/testing';
 
 import {
+    AXECORE,
     CYPRESS,
+    CYPRESSAXE,
     CYPRESSMULTIREPORTERS,
     MOCHAWESOME,
     MOCHAWESOMEJUNITREPORTER,
@@ -77,20 +79,44 @@ describe('cypress e2e', () => {
 
             // add packages to package.json
             const packageJson = readJson('package.json');
-            expect(packageJson.devDependencies['cypress']).toBe(CYPRESS);
-            expect(packageJson.devDependencies['@nrwl/cypress']).toBe(NRWLCYPRESS);
-            expect(packageJson.devDependencies['cypress-multi-reporters']).toBe(
-                CYPRESSMULTIREPORTERS,
-            );
-            expect(packageJson.devDependencies['mochawesome']).toBe(MOCHAWESOME);
-            expect(packageJson.devDependencies['mochawesome-merge']).toBe(
-                MOCHAWESOMEMERGE,
-            );
-            expect(packageJson.devDependencies['mocha-junit-reporter']).toBe(
-                MOCHAWESOMEJUNITREPORTER,
-            );
+            expect(packageJson?.devDependencies).toMatchObject({
+                cypress: CYPRESS,
+                '@nrwl/cypress': NRWLCYPRESS,
+                'cypress-multi-reporters': CYPRESSMULTIREPORTERS,
+                mochawesome: MOCHAWESOME,
+                'mochawesome-merge': MOCHAWESOMEMERGE,
+                'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER,
+            });
         }, 200_000);
 
+    });
+
+    describe('accessibility generator', () => {
+        it('should successfully add accessibility test files and add dependencies', async () => {
+            const { baseProject, e2eProject } = setupBaseProject();
+
+            // generate initial playwright project
+            runNxCommand(
+                `generate @ensono-stacks/cypress:init --project=${baseProject} --no-interactive`,
+            );
+            // amend playwright config files
+            runNxCommand(
+                `generate @ensono-stacks/cypress:accessibility --project=${e2eProject} --no-interactive`,
+            );
+
+            expect(() =>
+                checkFilesExist(
+                    `apps/${e2eProject}/cypress/e2e/axe-accessibility.cy.ts`,
+                ),
+            ).not.toThrow();
+
+            // add axe packages to package.json
+            const packageJson = readJson('package.json');
+            expect(packageJson?.devDependencies).toMatchObject({
+                'axe-core': AXECORE,
+                'cypress-axe': CYPRESSAXE,
+            });
+        }, 200_000);
     });
 
 });

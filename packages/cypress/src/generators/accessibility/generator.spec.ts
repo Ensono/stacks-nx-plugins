@@ -2,7 +2,7 @@ import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import * as fs from 'fs';
 import path from 'path';
-import { SyntaxKind } from 'ts-morph';
+import { Project, SyntaxKind } from 'ts-morph';
 
 import { checkOneOccurence, createNextApp } from '../../utils/test-utils';
 import { AXECORE, CYPRESSAXE } from '../../versions';
@@ -80,10 +80,18 @@ describe('cypress accessibility generator', () => {
               },
             },
           });`);
-        config.save();
+        config.saveSync();
         await generator(appTree, options);
-        expect(config.getFullText()).toContain("on('before:browser:launch',");
-        expect(config.getFullText()).toContain("on('task',");
+        expect(
+            appTree
+                .read(
+                    joinPathFragments(
+                        applicationDirectory,
+                        'cypress.config.ts',
+                    ),
+                )
+                .toString(),
+        ).toMatchSnapshot();
     });
 
     describe('should correctly add accessibility', () => {
@@ -135,14 +143,15 @@ describe('cypress accessibility generator', () => {
         });
 
         it('should update the applications cypress.config.ts', () => {
-            // is this actually working?
             expect(
-                project.addSourceFileAtPath(
-                    joinPathFragments(
-                        applicationDirectory,
-                        'cypress.config.ts',
-                    ),
-                ),
+                appTree
+                    .read(
+                        joinPathFragments(
+                            applicationDirectory,
+                            'cypress.config.ts',
+                        ),
+                    )
+                    .toString(),
             ).toMatchSnapshot();
         });
 
