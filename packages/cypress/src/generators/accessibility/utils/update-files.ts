@@ -1,14 +1,8 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, Tree } from '@nrwl/devkit';
-import exp from 'constants';
 import {
-    CallExpression,
-    ExportAssignment,
-    ExportAssignmentStructure,
     MethodDeclaration,
-    Node,
     ObjectLiteralExpression,
-    PropertyAssignment,
     SyntaxKind,
 } from 'ts-morph';
 
@@ -52,39 +46,36 @@ export function addTerminalLogging(tree: Tree, cypressDirectory: string) {
 }
 
 export function updateCypressConfig(tree: Tree, project: string) {
-    const morphTree = tsMorphTree(tree);
-    const sourceFile = morphTree.addSourceFileAtPath(
+    const sourceFile = tsMorphTree(tree).addSourceFileAtPath(
         joinPathFragments(project, 'cypress.config.ts'),
     );
-    const callExpressions = sourceFile.getDescendantsOfKind(
-        SyntaxKind.CallExpression,
-    );
     const functionName = 'setupNodeEvents';
-    const defineConfigExpression = callExpressions.find(callExpression => {
-        const expression = callExpression.getExpression();
-        return expression && expression.getText() === 'defineConfig';
-    });
+    const defineConfigExpression = sourceFile
+        .getDescendantsOfKind(SyntaxKind.CallExpression)
+        .find(callExpression => {
+            const expression = callExpression.getExpression();
+            return expression && expression.getText() === 'defineConfig';
+        })
+        ?.getArguments()[0] as ObjectLiteralExpression;
     if (!defineConfigExpression) {
         throw new Error(
             'No defineConfig was found in the application cypress.config.ts file, have you created this using @ensono-stacks/cypress:init?',
         );
     }
-    const defineConfigArgument =
-        defineConfigExpression?.getArguments()[0] as ObjectLiteralExpression;
 
-    const requiredProperty = defineConfigArgument.getPropertyOrThrow(
-        'e2e',
-    ) as PropertyAssignment;
+    const requiredProperty = defineConfigExpression
+        .getPropertyOrThrow('e2e')
+        .asKind(SyntaxKind.PropertyAssignment)
+        .getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);
 
-    const initializer = requiredProperty.getInitializerIfKindOrThrow(
-        SyntaxKind.ObjectLiteralExpression,
-    );
-    const methods = initializer.getChildrenOfKind(SyntaxKind.MethodDeclaration);
-    let setupNodeEventsMethod: MethodDeclaration = methods.find(
-        methodDeclaration => methodDeclaration.getName() === functionName,
-    );
-    if (!setupNodeEventsMethod) {
-        setupNodeEventsMethod = initializer.addMethod({
+    const setupNodeEventsMethod: MethodDeclaration =
+        requiredProperty
+            .getChildrenOfKind(SyntaxKind.MethodDeclaration)
+            .find(
+                methodDeclaration =>
+                    methodDeclaration.getName() === functionName,
+            ) ||
+        requiredProperty.addMethod({
             name: functionName,
             parameters: [
                 {
@@ -95,7 +86,6 @@ export function updateCypressConfig(tree: Tree, project: string) {
                 },
             ],
         });
-    }
     setupNodeEventsMethod.insertStatements(
         setupNodeEventsMethod.getStatements().length,
         `
