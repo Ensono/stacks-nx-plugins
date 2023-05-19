@@ -23,12 +23,12 @@ import { existsSync } from 'fs';
 import path from 'path';
 
 import {
-    CYPRESS,
-    CYPRESSMULTIREPORTERS,
-    MOCHAWESOME,
-    MOCHAWESOMEJUNITREPORTER,
-    MOCHAWESOMEMERGE,
-    NRWLCYPRESS,
+    CYPRESS_VERSION,
+    CYPRESSMULTIREPORTERS_VERSION,
+    MOCHAWESOME_VERSION,
+    MOCHAWESOMEJUNITREPORTER_VERSION,
+    MOCHAWESOMEMERGE_VERSION,
+    NRWLCYPRESS_VERSION,
 } from '../../versions';
 import { CypressGeneratorSchema } from './schema';
 import {
@@ -86,12 +86,12 @@ function updateDependencies(tree) {
         tree,
         {},
         {
-            cypress: CYPRESS,
-            '@nrwl/cypress': NRWLCYPRESS,
-            'cypress-multi-reporters': CYPRESSMULTIREPORTERS,
-            mochawesome: MOCHAWESOME,
-            'mochawesome-merge': MOCHAWESOMEMERGE,
-            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER,
+            cypress: CYPRESS_VERSION,
+            '@nrwl/cypress': NRWLCYPRESS_VERSION,
+            'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
+            mochawesome: MOCHAWESOME_VERSION,
+            'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
+            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
         },
     );
 }

@@ -9,12 +9,12 @@ import * as fs from 'fs';
 import path from 'path';
 
 import {
-    CYPRESS,
-    CYPRESSMULTIREPORTERS,
-    MOCHAWESOME,
-    MOCHAWESOMEJUNITREPORTER,
-    MOCHAWESOMEMERGE,
-    NRWLCYPRESS,
+    CYPRESS_VERSION,
+    CYPRESSMULTIREPORTERS_VERSION,
+    MOCHAWESOME_VERSION,
+    MOCHAWESOMEJUNITREPORTER_VERSION,
+    MOCHAWESOMEMERGE_VERSION,
+    NRWLCYPRESS_VERSION,
 } from '../../versions';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
@@ -120,18 +120,14 @@ describe('should run successfully with default options', () => {
 
     it('should install deps into package.json', () => {
         const packageJson = readJson(appTree, 'package.json');
-        expect(packageJson.devDependencies['cypress']).toBe(CYPRESS);
-        expect(packageJson.devDependencies['@nrwl/cypress']).toBe(NRWLCYPRESS);
-        expect(packageJson.devDependencies['cypress-multi-reporters']).toBe(
-            CYPRESSMULTIREPORTERS,
-        );
-        expect(packageJson.devDependencies['mochawesome']).toBe(MOCHAWESOME);
-        expect(packageJson.devDependencies['mochawesome-merge']).toBe(
-            MOCHAWESOMEMERGE,
-        );
-        expect(packageJson.devDependencies['mocha-junit-reporter']).toBe(
-            MOCHAWESOMEJUNITREPORTER,
-        );
+        expect(packageJson?.devDependencies).toMatchObject({
+            cypress: CYPRESS_VERSION,
+            '@nrwl/cypress': NRWLCYPRESS_VERSION,
+            'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
+            mochawesome: MOCHAWESOME_VERSION,
+            'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
+            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
+        });
     });
 
     it('should update the eslintrc.json', () => {
