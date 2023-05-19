@@ -5,36 +5,23 @@ import {
 import {
     addDependenciesToPackageJson,
     formatFiles,
-    generateFiles,
-    getProjects,
-    offsetFromRoot,
     Tree,
     updateJson,
     joinPathFragments,
 } from '@nrwl/devkit';
-import { Project } from 'ts-morph';
-import { option } from 'yargs';
 
-import {
-    normalizeOptions,
-    NormalizedSchema,
-    addFiles,
-} from '../../utils/test-utils';
-import { AXECORE, CYPRESSAXE } from '../../versions';
+import { normalizeOptions, addFiles } from '../../utils/test-utils';
+import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
 import { AccessibilityGeneratorSchema } from './schema';
-import {
-    addTerminalLogging,
-    terminalLogAxeBody,
-    updateCypressConfig,
-} from './utils/update-files';
+import { addTerminalLogging, updateCypressConfig } from './utils/update-files';
 
 async function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
         tree,
         {},
         {
-            'axe-core': AXECORE,
-            'cypress-axe': CYPRESSAXE,
+            'axe-core': AXECORE_VERSION,
+            'cypress-axe': CYPRESSAXE_VERSION,
         },
     );
 }
