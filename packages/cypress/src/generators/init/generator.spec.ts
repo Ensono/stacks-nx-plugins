@@ -10,12 +10,12 @@ import path from 'path';
 
 import { checkOneOccurence, createNextApp } from '../../utils/test-utils';
 import {
-    CYPRESS,
-    CYPRESSMULTIREPORTERS,
-    MOCHAWESOME,
-    MOCHAWESOMEJUNITREPORTER,
-    MOCHAWESOMEMERGE,
-    NRWLCYPRESS,
+    CYPRESS_VERSION,
+    CYPRESSMULTIREPORTERS_VERSION,
+    MOCHAWESOME_VERSION,
+    MOCHAWESOMEJUNITREPORTER_VERSION,
+    MOCHAWESOMEMERGE_VERSION,
+    NRWLCYPRESS_VERSION,
 } from '../../versions';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
@@ -110,12 +110,12 @@ describe('should run successfully with default options', () => {
     it('should install deps into package.json', () => {
         const packageJson = readJson(appTree, 'package.json');
         expect(packageJson?.devDependencies).toMatchObject({
-            cypress: CYPRESS,
-            '@nrwl/cypress': NRWLCYPRESS,
-            'cypress-multi-reporters': CYPRESSMULTIREPORTERS,
-            mochawesome: MOCHAWESOME,
-            'mochawesome-merge': MOCHAWESOMEMERGE,
-            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER,
+            cypress: CYPRESS_VERSION,
+            '@nrwl/cypress': NRWLCYPRESS_VERSION,
+            'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
+            mochawesome: MOCHAWESOME_VERSION,
+            'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
+            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
         });
     });
 

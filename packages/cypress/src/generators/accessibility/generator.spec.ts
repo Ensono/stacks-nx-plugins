@@ -2,10 +2,9 @@ import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import * as fs from 'fs';
 import path from 'path';
-import { Project, SyntaxKind } from 'ts-morph';
 
 import { checkOneOccurence, createNextApp } from '../../utils/test-utils';
-import { AXECORE, CYPRESSAXE } from '../../versions';
+import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
 import initGenerator from '../init/generator';
 import generator from './generator';
 import { AccessibilityGeneratorSchema } from './schema';
@@ -137,8 +136,8 @@ describe('cypress accessibility generator', () => {
                 appTree.read('/package.json', 'utf-8'),
             );
             expect(packageJson?.devDependencies).toMatchObject({
-                'axe-core': AXECORE,
-                'cypress-axe': CYPRESSAXE,
+                'axe-core': AXECORE_VERSION,
+                'cypress-axe': CYPRESSAXE_VERSION,
             });
         });
 
