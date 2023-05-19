@@ -9,6 +9,7 @@ describe('openapi-client generator', () => {
     const options: OpenapiClientGeneratorSchema = {
         name: 'testClient',
         schema: 'test.yaml',
+        zod: false,
     };
 
     beforeEach(() => {
@@ -37,27 +38,26 @@ describe('openapi-client generator', () => {
     it('should delete default src lib', async () => {
         await generator(tree, options);
 
-        // eslint-disable-next-line unicorn/prevent-abbreviations
-        const srcLib = tree.exists('testClient/src/lib');
+        const sourceLibrary = tree.exists('src/lib');
 
-        expect(srcLib).toBeFalsy();
+        expect(sourceLibrary).toBeFalsy();
     });
 
     it('should copy schema into generated lib', async () => {
         await generator(tree, options);
 
-        const orvalConfig = tree.exists('testClient/test.yaml');
+        const orvalConfig = tree.exists('test-client/test.yaml');
 
         expect(orvalConfig).toBeTruthy();
     });
 
     it('should generate orval config', async () => {
-        expect(tree.exists('testClient/orval.config.js')).toBeFalsy();
+        expect(tree.exists('orval.config.js')).toBeFalsy();
 
         await generator(tree, options);
 
-        const orvalConfigExists = tree.exists('testClient/orval.config.js');
-        const orvalConfig = tree.read('testClient/orval.config.js', 'utf-8');
+        const orvalConfigExists = tree.exists('test-client/orval.config.js');
+        const orvalConfig = tree.read('test-client/orval.config.js', 'utf-8');
 
         expect(orvalConfigExists).toBeTruthy();
 
@@ -72,5 +72,40 @@ describe('openapi-client generator', () => {
         expect(Object.keys(packageJson.devDependencies)).toEqual(
             expect.arrayContaining(['orval']),
         );
+    });
+
+    describe('--zod', () => {
+        const zodOptions = {
+            ...options,
+            zod: true,
+        };
+
+        it('should generate orval.zod config', async () => {
+            expect(tree.exists('orval.zod.config.js')).toBeFalsy();
+
+            await generator(tree, zodOptions);
+
+            const orvalConfigExists = tree.exists(
+                'test-client/orval.zod.config.js',
+            );
+            const orvalConfig = tree.read(
+                'test-client/orval.zod.config.js',
+                'utf-8',
+            );
+
+            expect(orvalConfigExists).toBeTruthy();
+
+            expect(orvalConfig).toContain(`client: 'zod',`);
+            expect(orvalConfig).toContain(`target: './test.yaml',`);
+        });
+
+        it('should install zod as dependency', async () => {
+            await generator(tree, zodOptions);
+
+            const packageJson = readJson(tree, 'package.json');
+            expect(Object.keys(packageJson.dependencies)).toEqual(
+                expect.arrayContaining(['zod']),
+            );
+        });
     });
 });
