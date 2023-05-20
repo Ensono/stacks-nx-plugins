@@ -155,13 +155,13 @@ describe('rest-client e2e', () => {
 
             expect(() =>
                 checkFilesExist(
-                    `${client}/orval.config.js`,
-                    `${client}/orval.zod.config.js`,
-                    `${client}/petstore-3.0.yaml`,
-                    `${client}/src/index.ts`,
-                    `${client}/src/${client}.ts`,
-                    `${client}/src/${client}.msw.ts`,
-                    `${client}/src/${client}.zod.ts`,
+                    `libs/${client}/orval.config.js`,
+                    `libs/${client}/orval.zod.config.js`,
+                    `libs/${client}/petstore-3.0.yaml`,
+                    `libs/${client}/src/index.ts`,
+                    `libs/${client}/src/${client}.ts`,
+                    `libs/${client}/src/${client}.msw.ts`,
+                    `libs/${client}/src/${client}.zod.ts`,
                 ),
             ).not.toThrow();
 
