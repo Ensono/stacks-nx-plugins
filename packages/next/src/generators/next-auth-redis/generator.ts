@@ -10,7 +10,7 @@ import {
     Tree,
     logger,
     formatFiles,
-    readWorkspaceConfiguration,
+    readNxJson,
     names,
     getWorkspaceLayout,
     generateFiles,
@@ -46,7 +46,7 @@ export default async function nextAuthRedisGenerator(
         );
     }
 
-    const { npmScope } = readWorkspaceConfiguration(tree);
+    const { npmScope } = readNxJson(tree);
     const name = options.adapterName;
 
     const libraryName = names(name).fileName;

@@ -14,10 +14,9 @@ import {
     Tree,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
-import chalk from 'chalk';
 import path from 'path';
 
-import { axiosVersion } from '../../../utils/versions';
+import { AXIOS_VERSION } from '../../../utils/versions';
 import { HttpClientGeneratorSchema } from './schema';
 
 type NormalizedSchema = BaseNormalizedSchema<HttpClientGeneratorSchema>;
@@ -26,7 +25,7 @@ function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
         tree,
         {
-            axios: axiosVersion,
+            axios: AXIOS_VERSION,
         },
         {},
     );

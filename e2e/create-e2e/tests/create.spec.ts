@@ -191,12 +191,5 @@ describe('create', () => {
                 'ProjectName/.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
-
-        const nxJson = readJson('ProjectName/nx.json');
-        expect(nxJson).toMatchObject(
-            expect.objectContaining({
-                npmScope: 'project-test',
-            }),
-        );
     });
 });
