@@ -1,8 +1,7 @@
+import { execAsync } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import yargs from 'yargs';
-import unparse from 'yargs-unparser';
 
-import { execAsync } from './exec';
 import {
     detectPackageManager,
     getPackageManagerCommand,

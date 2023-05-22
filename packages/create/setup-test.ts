@@ -4,7 +4,8 @@ jest.mock('./bin/package-manager', () => ({
     detectPackageManager: jest.fn(() => 'npm'),
 }));
 
-jest.mock('./bin/exec', () => ({
+jest.mock('@ensono-stacks/core', () => ({
+    ...jest.requireActual('@ensono-stacks/core'),
     execAsync: jest.fn(),
     getCommandVersion: jest.fn(() => '1.0.0'),
 }));
