@@ -1,0 +1,3 @@
+export * from './<%= schemaName %>';
+export * from './<%= schemaName %>.msw';
+export * from './<%= schemaName %>.zod';

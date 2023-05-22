@@ -17,6 +17,11 @@
             "factory": "./src/generators/bump-version/generator",
             "schema": "./src/generators/bump-version/schema.json",
             "description": "bump-version generator"
+        },
+        "openapi-client": {
+            "factory": "./src/generators/openapi-client/generator",
+            "schema": "./src/generators/openapi-client/schema.json",
+            "description": "Generates rest client based on an openapi contract"
         }
     }
 }

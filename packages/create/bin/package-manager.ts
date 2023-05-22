@@ -1,7 +1,6 @@
+import { getCommandVersion } from '@ensono-stacks/core';
 import { existsSync } from 'fs';
 import path from 'path';
-
-import { getCommandVersion } from './exec';
 
 export const packageManagerList = ['pnpm', 'yarn', 'npm'] as const;
 

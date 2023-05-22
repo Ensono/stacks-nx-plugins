@@ -1,0 +1,12 @@
+module.exports = {
+    '<%= schemaName %>-file-transfomer': {
+        output: {
+            mode: 'split',
+            target: './src/<%= schemaName %>.zod.ts',
+            client: 'zod',
+        },
+        input: {
+            target: './<%= schemaPath %>',
+        },
+    },
+};
