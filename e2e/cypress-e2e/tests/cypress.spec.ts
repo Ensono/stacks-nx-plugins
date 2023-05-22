@@ -16,11 +16,12 @@ import {
   NRWLCYPRESS_VERSION,
 } from "../../../packages/cypress/src/versions";
 
+let baseProject, applicationDirectory, cypressDirectory;
 describe("cypress e2e", () => {
   function setupBaseProject() {
-    const baseProject = uniq("cypress");
-    const applicationDirectory = `apps/${baseProject}`;
-    const cypressDirectory = `${applicationDirectory}/cypress`;
+    baseProject = uniq("cypress");
+    applicationDirectory = `apps/${baseProject}`;
+    cypressDirectory = `${applicationDirectory}/cypress`;
     runNxCommand(
       `generate @nrwl/next:application ${baseProject} --e2eTestRunner=none`
     );
@@ -45,10 +46,8 @@ describe("cypress e2e", () => {
     }, 200_000);
 
     describe("should successfully run and amend config files if project does exist", async () => {
-      const { baseProject, applicationDirectory, cypressDirectory } =
-        setupBaseProject();
-
       beforeAll(async () => {
+        setupBaseProject();
         await runNxCommandAsync(
           `generate @ensono-stacks/cypress:init --project=${baseProject} --no-interactive`
         );
