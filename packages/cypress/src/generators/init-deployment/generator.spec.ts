@@ -77,12 +77,6 @@ describe('cypress generator', () => {
                 appTree.read('build/azDevOps/azuredevops-stages.yaml', 'utf8'),
             );
 
-            expect(stages.stages[0]?.jobs[0]?.steps[3]).toEqual({
-                script:
-                    'npm ci\n' +
-                    'git config --global user.email "pipelines@test.dev"\n' +
-                    'git config --global user.name "Amido Pipelines"\n',
-            });
             expect(stages.stages[0]?.jobs[0]?.steps[5]).toEqual({
                 task: 'Bash@3',
                 displayName: 'Check test-results Folder',

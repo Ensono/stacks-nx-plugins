@@ -9,21 +9,6 @@ export function updateAzureDevopsStages(tree: Tree) {
         if (!stages) {
             return;
         }
-        const scriptIndex = stages?.stages[0]?.jobs[0]?.steps.findIndex(
-            job =>
-                job?.script?.includes('npm ci') &&
-                job?.script?.includes('git config --global user.email') &&
-                job?.script?.includes('git config --global user.name'),
-        );
-
-        if (scriptIndex && stages?.stages[0]?.jobs[0]?.steps[scriptIndex]) {
-            stages.stages[0].jobs[0].steps[scriptIndex] = {
-                script:
-                    'npm ci\n' +
-                    'git config --global user.email "pipelines@test.dev"\n' +
-                    'git config --global user.name "Amido Pipelines"\n',
-            };
-        }
 
         stages?.stages[0]?.jobs[0]?.steps.push({
             task: 'Bash@3',
