@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "InitDeployment",
-    "title": "Ensono Stacks Playwright Init Deployment Generator",
-    "description": "The @ensono-stacks/playwright:init-deployment generator adds the relevant pipeline and infrastructure code to your workspace.",
+    "title": "Ensono Stacks Cypress Init Deployment Generator",
+    "description": "The @ensono-stacks/cypress:init-deployment generator adds the relevant pipeline and infrastructure code to your workspace.",
     "type": "object",
     "properties": {},
     "required": []
