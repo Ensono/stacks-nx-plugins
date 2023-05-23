@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
@@ -241,12 +242,14 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         process.exit(1);
     }
 
-    console.log(chalk.magenta`Running Nx create-nx-workspace@${nxVersion}`);
+    const setNxVersion = checkNxVersion(nxVersion);
+
+    console.log(chalk.magenta`Running Nx create-nx-workspace@${setNxVersion}`);
 
     const nxResult = spawnSync(
         'npx',
         [
-            `create-nx-workspace@${nxVersion}`,
+            `create-nx-workspace@${setNxVersion}`,
             '--yes',
             '--no-interactive',
             ...argumentsToForward,

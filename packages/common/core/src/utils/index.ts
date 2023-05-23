@@ -1,4 +1,5 @@
 export * from './addCustomTestConfig';
+export * from './checkNxVersion';
 export * from './executedDependantGenerator';
 export * from './deploymentGeneratorMessage';
 export * from './formatFiles';
