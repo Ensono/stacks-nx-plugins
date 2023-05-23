@@ -17,4 +17,3 @@ ingress:
               - <%= internalDomain %>
 
 podAnnotations:
-    instrumentation.opentelemetry.io/inject-nodejs: '<%= openTelemetry %>'
