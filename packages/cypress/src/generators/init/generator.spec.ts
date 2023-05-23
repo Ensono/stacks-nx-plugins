@@ -181,7 +181,7 @@ describe('should run successfully with default options', () => {
             },
             configurations: {
                 ci: {
-                    cwd: `${applicationDirectory}/../../test-results/next-app-e2e/downloads`,
+                    cwd: `${applicationDirectory}/../../test-results/${applicationName}/downloads`,
                 },
             },
         };

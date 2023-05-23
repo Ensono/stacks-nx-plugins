@@ -29,7 +29,7 @@ export function updateProjectJsonWithHtmlReport(
                     },
                     configurations: {
                         ci: {
-                            cwd: `${projectRoot}/../../test-results/next-app-e2e/downloads`,
+                            cwd: `${projectRoot}/../../test-results/${project.name}/downloads`,
                         },
                     },
                 };
