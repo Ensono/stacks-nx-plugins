@@ -9,9 +9,6 @@ import {
 } from '@nrwl/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
 import {
     formatFiles,
-    generateFiles,
-    getProjects,
-    offsetFromRoot,
     Tree,
     readProjectConfiguration,
     addDependenciesToPackageJson,
@@ -20,8 +17,8 @@ import {
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
 import { existsSync } from 'fs';
-import path from 'path';
 
+import { addFiles, normalizeOptions } from '../../utils/test-utils';
 import {
     CYPRESS_VERSION,
     CYPRESSMULTIREPORTERS_VERSION,
@@ -37,49 +34,6 @@ import {
     updateTsConfig,
 } from './utils/update-files';
 import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
-
-interface NormalizedSchema extends CypressGeneratorSchema {
-    projectName: string;
-    projectRoot: string;
-    cypressProject: string;
-}
-
-function normalizeOptions(
-    tree: Tree,
-    options: CypressGeneratorSchema,
-): NormalizedSchema {
-    const project = getProjects(tree).get(options.project);
-
-    return {
-        ...options,
-        projectName: project?.name as string,
-        projectRoot: project?.sourceRoot as string,
-        cypressProject: joinPathFragments(
-            project?.sourceRoot as string,
-            'cypress',
-        ),
-    };
-}
-
-function addFiles(
-    tree: Tree,
-    source: string,
-    destination: string,
-    options: NormalizedSchema,
-) {
-    const templateOptions = {
-        ...options,
-        offsetFromRoot: offsetFromRoot(options.projectRoot),
-        template: '',
-    };
-
-    generateFiles(
-        tree,
-        path.join(__dirname, source),
-        destination,
-        templateOptions,
-    );
-}
 
 function updateDependencies(tree) {
     return addDependenciesToPackageJson(
@@ -132,6 +86,7 @@ export default async function initGenerator(
     addFiles(
         tree,
         joinPathFragments('files', 'e2e-folder'),
+        __dirname,
         normalizedOptions.projectRoot,
         normalizedOptions,
     );
@@ -139,6 +94,7 @@ export default async function initGenerator(
         addFiles(
             tree,
             joinPathFragments('files', 'root'),
+            __dirname,
             '',
             normalizedOptions,
         );

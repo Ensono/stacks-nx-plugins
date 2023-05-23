@@ -14,6 +14,8 @@ import {
   MOCHAWESOMEJUNITREPORTER_VERSION,
   MOCHAWESOMEMERGE_VERSION,
   NRWLCYPRESS_VERSION,
+  AXECORE_VERSION,
+  CYPRESSAXE_VERSION,
 } from "../../../packages/cypress/src/versions";
 
 let baseProject, applicationDirectory, cypressDirectory;
@@ -86,6 +88,23 @@ describe("cypress e2e", () => {
           mochawesome: MOCHAWESOME_VERSION,
           "mochawesome-merge": MOCHAWESOMEMERGE_VERSION,
           "mocha-junit-reporter": MOCHAWESOMEJUNITREPORTER_VERSION,
+        });
+      }, 200_000);
+
+      it("should successfully add accessibility test files and add dependencies", async () => {
+        runNxCommand(
+          `generate @ensono-stacks/cypress:accessibility --project=${baseProject} --no-interactive`
+        );
+
+        expect(() =>
+          checkFilesExist(`${cypressDirectory}/e2e/axe-accessibility.cy.ts`)
+        ).not.toThrow();
+
+        // add axe packages to package.json
+        const packageJson = readJson("package.json");
+        expect(packageJson?.devDependencies).toMatchObject({
+          "axe-core": AXECORE_VERSION,
+          "cypress-axe": CYPRESSAXE_VERSION,
         });
       }, 200_000);
     });
