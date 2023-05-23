@@ -242,7 +242,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         process.exit(1);
     }
 
-    const setNxVersion = checkNxVersion(nxVersion);
+    const setNxVersion = await checkNxVersion(nxVersion);
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${setNxVersion}`);
 
