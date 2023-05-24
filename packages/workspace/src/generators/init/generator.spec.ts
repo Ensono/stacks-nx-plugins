@@ -42,12 +42,10 @@ describe('init generator', () => {
 
         it('should merge defaults with an existing eslintrc file', async () => {
             const defaultConfig = {
-                plugins: ['@nx/nx'],
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                         extends: ['airbnb/base'],
-                        plugins: ['@nx/nx'],
                         rules: {
                             'dot-notation': 'off',
                         },
@@ -68,8 +66,8 @@ describe('init generator', () => {
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
                     plugins: [
-                        '@nx/nx',
                         '@typescript-eslint',
+                        '@nx/typescript',
                         'import',
                         'security',
                     ],
@@ -77,7 +75,6 @@ describe('init generator', () => {
                         expect.objectContaining({
                             files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                             extends: ['airbnb/base'],
-                            plugins: ['@nx/nx'],
                             rules: expect.objectContaining({
                                 'dot-notation': 'off',
                                 'import/no-extraneous-dependencies': 'off',

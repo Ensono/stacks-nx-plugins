@@ -24,7 +24,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
     return {
         root: true,
         ignorePatterns: ['**/*'],
-        plugins: ['@typescript-eslint', '@nx/nx', 'import', 'security'],
+        plugins: ['@typescript-eslint', '@nx/typescript', 'import', 'security'],
         parser: '@typescript-eslint/parser',
         extends: [
             'airbnb/base',
@@ -123,7 +123,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             },
             {
                 files: ['*.ts', '*.tsx'],
-                extends: ['plugin:@nx/nx/typescript'],
+                extends: ['plugin:@nx/typescript'],
                 rules: {
                     '@typescript-eslint/no-empty-function': 'off',
                     '@typescript-eslint/no-explicit-any': 'off',

@@ -16,6 +16,7 @@ describe('next install generator', () => {
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
+            appDir: false,
             ...schema,
         });
 
@@ -28,7 +29,6 @@ describe('next install generator', () => {
         });
 
         it('should add the ci config in the test command in the project.json', async () => {
-            console.log(tree);
             tree.write(
                 'next-app/project.json',
                 JSON.stringify({
@@ -285,12 +285,12 @@ describe('next install generator', () => {
 
         it('should merge defaults with an existing eslintrc.json file', async () => {
             const defaultConfig = {
-                plugins: ['@nx/nx'],
+                plugins: ['@nx/typescript'],
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                         extends: ['airbnb/base'],
-                        plugins: ['@nx/nx'],
+                        plugins: ['@nx/typescript'],
                         rules: {
                             'dot-notation': 'off',
                         },
@@ -309,9 +309,9 @@ describe('next install generator', () => {
 
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
-                    plugins: ['@nx/nx'],
+                    plugins: ['@nx/typescript'],
                     extends: expect.arrayContaining([
-                        'plugin:@nx/nx/react-typescript',
+                        'plugin:@nx/react-typescript',
                         'plugin:testing-library/react',
                         'plugin:@next/next/recommended',
                         'next/core-web-vitals',

@@ -17,7 +17,6 @@ import path from 'path';
 
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
-import { eslintFix } from './utils/eslint-fix';
 import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
@@ -83,8 +82,6 @@ export default async function initGenerator(
         project,
         path.join(project.sourceRoot, 'tsconfig.spec.json'),
     );
-
-    eslintFix(project, tree);
 
     // exclude helm yaml files from initial format when generating the files
     await formatFiles(tree, [
