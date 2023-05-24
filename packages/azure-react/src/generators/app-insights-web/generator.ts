@@ -11,8 +11,8 @@ import {
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
-import { Linter } from '@nrwl/linter';
+} from '@nx/devkit';
+import { Linter } from '@nx/linter';
 import { libraryGenerator } from '@nrwl/react';
 import path from 'path';
 

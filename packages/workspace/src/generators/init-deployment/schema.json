@@ -1,26 +1,27 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "cli": "nx",
-    "$id": "InitDeployment",
-    "title": "Ensono Stacks Workspace Init Deployment Generator",
-    "description": "The @ensono-stacks/workspace:init-deployment generator will add the necessary pipeline and infrastructure code to your workspace.",
-    "type": "object",
-    "properties": {
-        "pipelineRunner": {
-            "type": "string",
-            "description": "Add pipeline runner config",
-            "default": "taskctl",
-            "x-prompt": {
-                "message": "Which pipeline runner would you like to generate?",
-                "type": "list",
-                "items": [
-                    {
-                        "value": "taskctl",
-                        "label": "TaskCtl"
-                    }
-                ]
-            }
-        }
-    },
-    "required": ["pipelineRunner"]
+  "$schema": "http://json-schema.org/schema",
+  "$id": "InitDeployment",
+  "title": "Ensono Stacks Workspace Init Deployment Generator",
+  "description": "The @ensono-stacks/workspace:init-deployment generator will add the necessary pipeline and infrastructure code to your workspace.",
+  "type": "object",
+  "properties": {
+    "pipelineRunner": {
+      "type": "string",
+      "description": "Add pipeline runner config",
+      "default": "taskctl",
+      "x-prompt": {
+        "message": "Which pipeline runner would you like to generate?",
+        "type": "list",
+        "items": [
+          {
+            "value": "taskctl",
+            "label": "TaskCtl"
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "pipelineRunner"
+  ]
 }

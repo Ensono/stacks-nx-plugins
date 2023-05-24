@@ -1,4 +1,4 @@
-import { readJson, writeJson, Tree } from '@nrwl/devkit';
+import { readJson, writeJson, Tree } from '@nx/devkit';
 
 import { InitDeploymentGeneratorSchema } from '../schema';
 

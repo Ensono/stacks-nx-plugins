@@ -6,7 +6,7 @@ import {
     runNxCommandAsync,
     readFile,
     uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 import { Project, SyntaxKind } from 'ts-morph';
 
 describe('playwright e2e', () => {
@@ -16,7 +16,7 @@ describe('playwright e2e', () => {
         const baseProject = uniq('playwright');
         const e2eProject = `${baseProject}-e2e`;
         runNxCommand(
-            `generate @nrwl/next:application ${baseProject} --e2eTestRunner=none`,
+            `generate @nx/next:application ${baseProject} --e2eTestRunner=none`,
         );
         return { baseProject, e2eProject };
     }
@@ -24,7 +24,7 @@ describe('playwright e2e', () => {
     beforeAll(async () => {
         await newProject(
             ['@ensono-stacks/playwright'],
-            ['@mands/nx-playwright', '@nrwl/next'],
+            ['@mands/nx-playwright', '@nx/next'],
         );
     }, 200_000);
 
@@ -47,7 +47,7 @@ describe('playwright e2e', () => {
             // generate initial playwright project and amend playwright config files
             await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
-            )
+            );
             expect(() =>
                 checkFilesExist(
                     'playwright.config.base.ts',

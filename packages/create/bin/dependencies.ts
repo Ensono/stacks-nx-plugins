@@ -66,7 +66,7 @@ export function getGeneratorsToRun(
 
     if (argv.preset === Preset.NextJs) {
         generators.push(
-            `@nrwl/next:app ${argv.appName} --e2eTestRunner=none`,
+            `@nx/next:app ${argv.appName} --e2eTestRunner=none`,
             `@ensono-stacks/next:init --project=${argv.appName}`,
         );
     }
@@ -93,7 +93,7 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
     const plugins = [...stacksRequiredPlugins];
 
     if (argv.preset === Preset.NextJs) {
-        plugins.push('@nrwl/next', '@ensono-stacks/next');
+        plugins.push('@nx/next', '@ensono-stacks/next');
     }
 
     if (argv.e2eTestRunner === E2eTestRunner.Playwright) {

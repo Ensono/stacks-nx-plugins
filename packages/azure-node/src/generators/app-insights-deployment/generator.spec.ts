@@ -1,7 +1,7 @@
 import { addStacksAttributes, executeWorkspaceInit } from '@ensono-stacks/test';
-import { readJson, Tree, updateJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
+import { readJson, Tree, updateJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator } from '@nx/next';
 
 import generator from './generator';
 import { AppInsightsDeploymentGeneratorSchema } from './schema';

@@ -1,4 +1,4 @@
-import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 
 export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
     const filePath = joinPathFragments(project.root, 'Dockerfile');

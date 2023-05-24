@@ -1,5 +1,5 @@
-import { getPackageManagerCommand, logger } from '@nrwl/devkit';
-import { runCommandAsync } from '@nrwl/nx-plugin/testing';
+import { getPackageManagerCommand, logger } from '@nx/devkit';
+import { runCommandAsync } from '@nx/plugin/testing';
 
 import { SupportedPackageManager } from './types';
 import { getNxVersion } from './versions';

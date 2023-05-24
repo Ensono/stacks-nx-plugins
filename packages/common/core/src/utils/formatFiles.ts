@@ -1,4 +1,4 @@
-import { updateJson, Tree } from '@nrwl/devkit';
+import { updateJson, Tree } from '@nx/devkit';
 import minimatch from 'minimatch';
 import { sortObjectByKeys } from 'nx/src/utils/object-sort';
 import path from 'path';

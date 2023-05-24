@@ -2,7 +2,7 @@ import {
     executedDependantGenerator,
     hasGeneratorExecutedForProject,
 } from '@ensono-stacks/core';
-import { readProjectConfiguration, Tree } from '@nrwl/devkit';
+import { readProjectConfiguration, Tree } from '@nx/devkit';
 
 import { AppInsightsDeploymentGeneratorSchema } from './schema';
 import { updateDockerfile } from './utils/update-dockerfile';

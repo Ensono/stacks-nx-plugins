@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, Tree, updateJson } from '@nrwl/devkit';
+import { getWorkspaceLayout, Tree, updateJson } from '@nx/devkit';
 import chalk from 'chalk';
 
 import { readStacksExecutedGenerators } from '../lib/stacks';

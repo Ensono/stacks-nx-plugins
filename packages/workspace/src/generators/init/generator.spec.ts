@@ -1,6 +1,6 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree, readJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 
@@ -27,7 +27,7 @@ describe('init generator', () => {
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining([
                     'eslint',
-                    '@nrwl/eslint-plugin-nx',
+                    '@nx/eslint-plugin',
                     'eslint-config-airbnb',
                     'eslint-config-prettier',
                     'eslint-import-resolver-typescript',
