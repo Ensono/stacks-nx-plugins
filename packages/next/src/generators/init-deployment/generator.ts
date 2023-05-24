@@ -9,8 +9,8 @@ import {
     readProjectConfiguration,
     GeneratorCallback,
     Tree,
+    runTasksInSerial,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 
 import { NextGeneratorSchema } from './schema';

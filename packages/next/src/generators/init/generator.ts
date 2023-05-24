@@ -9,10 +9,10 @@ import {
     GeneratorCallback,
     joinPathFragments,
     readProjectConfiguration,
+    runTasksInSerial,
     Tree,
     updateProjectConfiguration,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextGeneratorSchema } from './schema';

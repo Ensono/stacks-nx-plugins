@@ -64,7 +64,7 @@ export function installNxPackages(
 ) {
     const nxVersion = getNxVersion();
     const nxPackages = packages
-        .filter(dependency => dependency.startsWith('@nrwl/'))
+        .filter(dependency => dependency.startsWith('@nx/'))
         .map(dependency => {
             const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
             return match

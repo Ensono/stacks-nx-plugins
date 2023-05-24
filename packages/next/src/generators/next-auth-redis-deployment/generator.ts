@@ -10,8 +10,8 @@ import {
     logger,
     formatFiles,
     generateFiles,
+    runTasksInSerial,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthRedisDeploymentGeneratorSchema } from './schema';

@@ -13,7 +13,7 @@ import {
     Tree,
 } from '@nx/devkit';
 import { Linter } from '@nx/linter';
-import { libraryGenerator } from '@nrwl/react';
+import { libraryGenerator } from '@nx/react';
 import path from 'path';
 
 import {

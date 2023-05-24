@@ -10,7 +10,7 @@ import {
 function stacksEslintConfig(projectRootPath: string): Linter.Config {
     return {
         extends: [
-            'plugin:@nrwl/nx/react-typescript',
+            'plugin:@nx/nx/react-typescript',
             'plugin:testing-library/react',
             'plugin:@next/next/recommended',
             'next/core-web-vitals',

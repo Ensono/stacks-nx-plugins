@@ -2,8 +2,13 @@ import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForWorkspace,
 } from '@ensono-stacks/core';
-import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
+import {
+    Tree,
+    GeneratorCallback,
+    formatFiles,
+    updateJson,
+    runTasksInSerial,
+} from '@nx/devkit';
 
 import { InstallGeneratorSchema } from './schema';
 import { addCommitizen } from './utils/commitizen';

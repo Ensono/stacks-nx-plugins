@@ -14,9 +14,9 @@ import {
     Tree,
     readProjectConfiguration,
     addDependenciesToPackageJson,
+    runTasksInSerial,
 } from '@nx/devkit';
 import { Linter } from '@nx/linter';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { PLAYWRIGHT_VERSION } from '../../utils/versions';

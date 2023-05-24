@@ -24,7 +24,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
     return {
         root: true,
         ignorePatterns: ['**/*'],
-        plugins: ['@typescript-eslint', '@nrwl/nx', 'import', 'security'],
+        plugins: ['@typescript-eslint', '@nx/nx', 'import', 'security'],
         parser: '@typescript-eslint/parser',
         extends: [
             'airbnb/base',
@@ -46,7 +46,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             {
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                 rules: {
-                    '@nrwl/nx/enforce-module-boundaries': [
+                    '@nx/nx/enforce-module-boundaries': [
                         'error',
                         {
                             enforceBuildableLibDependency: true,
@@ -123,7 +123,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             },
             {
                 files: ['*.ts', '*.tsx'],
-                extends: ['plugin:@nrwl/nx/typescript'],
+                extends: ['plugin:@nx/nx/typescript'],
                 rules: {
                     '@typescript-eslint/no-empty-function': 'off',
                     '@typescript-eslint/no-explicit-any': 'off',
@@ -165,7 +165,7 @@ function addEslintDependencies(tree: Tree) {
     const nrwlDependency =
         (devDependencies &&
             Object.entries(devDependencies)
-                .find(([key]) => key.startsWith('@nrwl/'))
+                .find(([key]) => key.startsWith('@nx/'))
                 ?.at(1)) ||
         'latest';
 
