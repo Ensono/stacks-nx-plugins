@@ -3,7 +3,7 @@ import semver from 'semver';
 
 import { NX_VERSION, NX_VERSION_SCOPE } from './versions';
 
-export async function checkNxVersion(nxVersion: string) {
+export function checkNxVersion(nxVersion: string) {
     const setNxVersion = nxVersion === 'latest' ? NX_VERSION : nxVersion;
 
     const matchVersion = semver.satisfies(setNxVersion, NX_VERSION_SCOPE);
