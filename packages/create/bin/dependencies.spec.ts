@@ -10,16 +10,17 @@ import {
     normaliseForwardedArgv,
 } from './dependencies';
 import { detectPackageManager } from './package-manager';
-import type { CreateStacksArguments } from './types';
+// eslint-disable-next-line unicorn/prevent-abbreviations
+import { CreateStacksArguments, E2eTestRunner } from './types';
 
 beforeEach(() => {
     jest.clearAllMocks();
 });
 
 it('installs dependencies correctly', async () => {
-    const packages = getStacksPlugins(
-        {} as yargs.Arguments<CreateStacksArguments>,
-    );
+    const packages = getStacksPlugins({
+        e2eTestRunner: E2eTestRunner.None,
+    } as yargs.Arguments<CreateStacksArguments>);
     await installPackages(packages, 'folder/path');
 
     expect(execAsync).toHaveBeenCalledWith(
@@ -31,6 +32,7 @@ it('installs dependencies correctly', async () => {
 it('installs dependencies for next.js', async () => {
     const packages = getStacksPlugins({
         preset: 'next',
+        e2eTestRunner: E2eTestRunner.None,
     } as yargs.Arguments<CreateStacksArguments>);
     await installPackages(packages, 'folder/path');
 
@@ -57,9 +59,10 @@ it('installs dependencies with preferred package manager', async () => {
 });
 
 it('runs generators correctly', async () => {
-    const generators = getGeneratorsToRun(
-        {} as yargs.Arguments<CreateStacksArguments>,
-    );
+    const generators = getGeneratorsToRun({
+        e2eTestRunner: E2eTestRunner.None,
+        appName: 'cypress-app',
+    } as yargs.Arguments<CreateStacksArguments>);
     await runGenerators(generators, 'folder/path');
 
     expect(execAsync).toBeCalledTimes(1);
@@ -71,7 +74,7 @@ it('runs generators correctly', async () => {
 
 it('runs generators correctly with cypress test runner', async () => {
     const generators = getGeneratorsToRun({
-        e2eTestRunner: 'cypress',
+        e2eTestRunner: E2eTestRunner.Cypress,
         appName: 'cypress-app',
     } as yargs.Arguments<CreateStacksArguments>);
     await runGenerators(generators, 'folder/path');
@@ -91,7 +94,7 @@ it('runs generators correctly with cypress test runner', async () => {
 
 it('runs generators correctly with playwright test runner', async () => {
     const generators = getGeneratorsToRun({
-        e2eTestRunner: 'playwright',
+        e2eTestRunner: E2eTestRunner.Playwright,
         appName: 'playwright-app',
     } as yargs.Arguments<CreateStacksArguments>);
     await runGenerators(generators, 'folder/path');
@@ -113,6 +116,7 @@ it('runs generators for next.js', async () => {
     const generators = getGeneratorsToRun({
         preset: 'next',
         appName: 'test-app',
+        e2eTestRunner: E2eTestRunner.None,
     } as yargs.Arguments<CreateStacksArguments>);
     await runGenerators(generators, 'folder/path');
 
