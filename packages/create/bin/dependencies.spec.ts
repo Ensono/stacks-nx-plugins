@@ -69,6 +69,46 @@ it('runs generators correctly', async () => {
     );
 });
 
+it('runs generators correctly with cypress test runner', async () => {
+    const generators = getGeneratorsToRun({
+        e2eTestRunner: 'cypress',
+        appName: 'cypress-app',
+    } as yargs.Arguments<CreateStacksArguments>);
+    await runGenerators(generators, 'folder/path');
+
+    expect(execAsync).toBeCalledTimes(2);
+    expect(execAsync).toHaveBeenNthCalledWith(
+        1,
+        'npx nx g @ensono-stacks/workspace:init',
+        'folder/path',
+    );
+    expect(execAsync).toHaveBeenNthCalledWith(
+        2,
+        'npx nx g @ensono-stacks/cypress:init --project=cypress-app',
+        'folder/path',
+    );
+});
+
+it('runs generators correctly with playwright test runner', async () => {
+    const generators = getGeneratorsToRun({
+        e2eTestRunner: 'playwright',
+        appName: 'playwright-app',
+    } as yargs.Arguments<CreateStacksArguments>);
+    await runGenerators(generators, 'folder/path');
+
+    expect(execAsync).toBeCalledTimes(2);
+    expect(execAsync).toHaveBeenNthCalledWith(
+        1,
+        'npx nx g @ensono-stacks/workspace:init',
+        'folder/path',
+    );
+    expect(execAsync).toHaveBeenNthCalledWith(
+        2,
+        'npx nx g @ensono-stacks/playwright:init --project=playwright-app',
+        'folder/path',
+    );
+});
+
 it('runs generators for next.js', async () => {
     const generators = getGeneratorsToRun({
         preset: 'next',

@@ -71,18 +71,17 @@ export function getGeneratorsToRun(
         );
     }
 
-    if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
+    if (argv.e2eTestRunner) {
+        if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
+            console.log(
+                chalk.yellow`\nFor visual regression support, you can run nx g @ensono-stacks/${argv.e2eTestRunner}:visualRegression --project ${argv.appName}`,
+            );
+        }
+        console.log(
+            chalk.yellow`\nFor accessibility support, you can run nx g @ensono-stacks/${argv.e2eTestRunner}:accessibility --project ${argv.appName}`,
+        );
         generators.push(
-            `@ensono-stacks/playwright:init --project=${argv.appName}`,
-        );
-
-        console.log('\n');
-        console.log(
-            chalk.yellow`For accessibility support, you can run nx g @ensono-stacks/playwright:accessibility --project ${argv.appName}`,
-        );
-        console.log('\n');
-        console.log(
-            chalk.yellow`For visual regression support, you can run nx g @ensono-stacks/playwright:visualRegression --project ${argv.appName}`,
+            `@ensono-stacks/${argv.e2eTestRunner}:init --project=${argv.appName}`,
         );
     }
 
@@ -96,8 +95,8 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
         plugins.push('@nrwl/next', '@ensono-stacks/next');
     }
 
-    if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
-        plugins.push('@ensono-stacks/playwright');
+    if (argv.e2eTestRunner) {
+        plugins.push(`@ensono-stacks/${argv.e2eTestRunner}`);
     }
 
     return plugins;
