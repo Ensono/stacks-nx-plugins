@@ -20,7 +20,7 @@ export function updateTasksYaml(tree: Tree) {
             html: {
                 description: 'Generate html reports for tests',
                 command: [
-                    'npx nx affected --base="$BASE_SHA" --target=html-report --parallel=1',
+                    'npx nx affected --base="$BASE_SHA" --target=html-report --configuration=ci --parallel=1',
                 ],
             },
         };
