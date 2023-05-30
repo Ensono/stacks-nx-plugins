@@ -10,6 +10,7 @@
     },
     "peerDependencies": {
         "@nrwl/devkit": "^15.7.2",
-        "@nrwl/react": "^15.7.2"
+        "@nrwl/react": "^15.7.2",
+        "nx": "^15.7.2"
     }
 }
