@@ -32,7 +32,7 @@ export default async function generate(
     if (
         !options.schema ||
         !tree.exists(options.schema) ||
-        !fileExists(options.schema)
+        !tree.isFile(options.schema)
     ) {
         throw new Error(
             'Provided schema does not exist in the workspace. Please check and try again.',
