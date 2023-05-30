@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "$id": "OpenapiClient",
-    "title": "",
+    "title": "Ensono Stacks Rest Client Openapi Client Generator",
+    "description": "The @ensono-stacks/rest-client:openapi-client generator will create types, axios client, stubs and validation from an openapi spec, as a new library for an existing project",
     "type": "object",
     "properties": {
         "name": {
