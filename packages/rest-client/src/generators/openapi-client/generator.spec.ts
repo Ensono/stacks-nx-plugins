@@ -35,6 +35,19 @@ describe('openapi-client generator', () => {
         );
     });
 
+    it('should throw an error if directory specified', async () => {
+        tree.delete('test.yaml');
+        tree.write('openapi/test.yaml', '');
+        await expect(
+            generator(tree, {
+                ...options,
+                schema: './openapi',
+            }),
+        ).rejects.toThrowError(
+            'Provided schema does not exist in the workspace. Please check and try again',
+        );
+    });
+
     it('should delete default src lib', async () => {
         await generator(tree, options);
 
