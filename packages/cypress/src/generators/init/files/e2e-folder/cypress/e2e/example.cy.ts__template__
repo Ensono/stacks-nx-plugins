@@ -8,11 +8,11 @@ describe('Cypress example tests @example-cypress', () => {
     });
   });
 
-  it('App should be up and running', () => {
+  it('should be up and running', () => {
     cy.get('#hero').find('span').should('have.text', "You're up and running");
   });
 
-  it('App should have 5 learning materials', () => {
+  it('should have 5 learning materials', () => {
     cy.get('#learning-materials').find('a').should('have.length', 5);
   });
 });
