@@ -271,10 +271,17 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     const packagesToInstall = getStacksPlugins(parsedArgv);
 
+    // Set nx version for nx packages
+    const versionedPackagesToInstall = packagesToInstall.map(p =>
+        p.startsWith('@nrwl') ? `${p}@${setNxVersion}` : p,
+    );
+
     console.log(chalk.magenta`Installing Stacks dependencies`);
-    await installPackages(packagesToInstall, cwd, parsedArgv.useDev);
+    await installPackages(versionedPackagesToInstall, cwd, parsedArgv.useDev);
     console.log(
-        chalk.magenta`Successfully installed: ${packagesToInstall.join(' ')}`,
+        chalk.magenta`Successfully installed: ${versionedPackagesToInstall.join(
+            ' ',
+        )}`,
     );
 
     console.log(chalk.magenta`Configuring Stacks`);
