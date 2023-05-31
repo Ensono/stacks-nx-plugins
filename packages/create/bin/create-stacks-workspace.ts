@@ -303,7 +303,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
     .wrap(yargs.terminalWidth())
     .parserConfiguration({ 'strip-dashed': true, 'dot-notation': true })
-    .command(
+    .command<CreateStacksArguments>(
         '$0 [name] [options]',
         'Create a new Stacks Nx workspace',
         parsedArgv =>
@@ -312,6 +312,7 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     describe: chalk.dim`Workspace name (e.g. org name)`,
                     type: 'string',
                 })
+
                 .option('preset', {
                     describe: chalk.dim`Customizes the initial content of your workspace. Default presets include: [${Object.values(
                         Preset,
@@ -430,4 +431,8 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
         [getConfiguration as yargs.MiddlewareFunction],
     )
     .help('help', chalk.dim`Show help`)
-    .version('version', chalk.dim`Show version`, stacksVersion);
+    .version(
+        'version',
+        chalk.dim`Show version`,
+        stacksVersion,
+    ) as yargs.Argv<CreateStacksArguments>;
