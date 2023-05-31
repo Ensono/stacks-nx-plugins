@@ -13,6 +13,7 @@ import {
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
 
 import {
@@ -28,7 +29,11 @@ export default async function generate(
     tree: Tree,
     options: OpenapiClientGeneratorSchema,
 ) {
-    if (!tree.exists(options.schema)) {
+    if (
+        !options.schema ||
+        !tree.exists(options.schema) ||
+        !tree.isFile(options.schema)
+    ) {
         throw new Error(
             'Provided schema does not exist in the workspace. Please check and try again.',
         );
@@ -76,6 +81,7 @@ export default async function generate(
                 '@faker-js/faker': FAKERJS_VERSION,
             },
         ),
+        () => execAsync('npm i -g orval -D', project.root) as Promise<void>,
         () =>
             execAsync(
                 'orval --config ./orval.config.js',
