@@ -25,7 +25,7 @@ describe("cypress e2e", () => {
     applicationDirectory = `apps/${baseProject}`;
     cypressDirectory = `${applicationDirectory}/cypress`;
     runNxCommand(
-      `generate @nrwl/next:application ${baseProject} --e2eTestRunner=none`
+      `generate @nrwl/next:application ${baseProject} --e2eTestRunner=none --verbose`
     );
     return { baseProject, applicationDirectory, cypressDirectory };
   }
@@ -52,7 +52,7 @@ describe("cypress e2e", () => {
       beforeAll(async () => {
         setupBaseProject();
         await runNxCommandAsync(
-          `generate @ensono-stacks/cypress:init --project=${baseProject} --no-interactive`
+          `generate @ensono-stacks/cypress:init --project=${baseProject} --no-interactive --verbose`
         );
       });
 
