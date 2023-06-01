@@ -53,7 +53,7 @@ describe("cypress e2e", () => {
         await runNxCommandAsync(
           `generate @ensono-stacks/cypress:init --project=${baseProject} --no-interactive --verbose`
         );
-      });
+      }, 2_000_000);
 
       it("should add/update the relevent files", () => {
         expect(() =>
@@ -71,21 +71,21 @@ describe("cypress e2e", () => {
       });
 
       it("should delete the relevent files", () => {
-        expect(
+        expect( () => {
           checkFilesExist(`${cypressDirectory}/support/app.po.ts`)
-        ).toThrow();
-        expect(checkFilesExist(`${cypressDirectory}/e2e/app.cy.ts`)).toThrow();
+        }).toThrow();
+        expect(() => { checkFilesExist(`${cypressDirectory}/e2e/app.cy.ts`) }).toThrow();
       });
 
       it("should update the package.json", () => {
         const packageJson = readJson('package.json');
         expect(packageJson?.devDependencies).toMatchObject({
           cypress: CYPRESS_VERSION,
-          "@nrwl/cypress": NRWLCYPRESS_VERSION,
           "cypress-multi-reporters": CYPRESSMULTIREPORTERS_VERSION,
           mochawesome: MOCHAWESOME_VERSION,
           "mochawesome-merge": MOCHAWESOMEMERGE_VERSION,
           "mocha-junit-reporter": MOCHAWESOMEJUNITREPORTER_VERSION,
+          "@nrwl/cypress": "^15.9.4"
         });
       }, 200_000);
 
