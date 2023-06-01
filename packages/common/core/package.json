@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "0.9.3-alpha-143.0",
+    "version": "0.9.3",
     "type": "commonjs",
     "dependencies": {
         "ts-morph": "17.0.1",
@@ -9,6 +9,6 @@
         "minimatch": "^6.2.0"
     },
     "peerDependencies": {
-        "@nrwl/devkit": ">=15.2.1"
+        "@nrwl/devkit": "^15.7.2"
     }
 }

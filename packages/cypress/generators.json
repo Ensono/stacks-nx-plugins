@@ -17,7 +17,7 @@
             "factory": "./src/generators/accessibility/generator",
             "schema": "./src/generators/accessibility/schema.json",
             "description": "accessibility generator"
-        },
+        }
         // "visual-regression": {
         //     "factory": "./src/generators/visual-regression/generator",
         //     "schema": "./src/generators/visual-regression/schema.json",
