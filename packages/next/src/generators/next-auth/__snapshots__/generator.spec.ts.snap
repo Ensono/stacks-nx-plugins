@@ -8,9 +8,9 @@ const nextAuth = NextAuth({
   providers: [
     GithubProvider({}),
         AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.AZURE_AD_TENANT_ID,
+            clientId: process.env.AZURE_AD_CLIENT_ID as string,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+            tenantId: process.env.AZURE_AD_TENANT_ID as string,
         })
     ]
 });
@@ -66,9 +66,9 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 const nextAuth = NextAuth({
     providers: [
         AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.AZURE_AD_TENANT_ID,
+            clientId: process.env.AZURE_AD_CLIENT_ID as string,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+            tenantId: process.env.AZURE_AD_TENANT_ID as string,
         }),
     ],
 });
@@ -109,9 +109,9 @@ import AzureADProvider from \\"next-auth/providers/azure-ad\\";
 
 const nextAuth = NextAuth({
     providers: [AzureADProvider({
-        clientId: process.env.AZURE_AD_CLIENT_ID,
-        clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-        tenantId: process.env.AZURE_AD_TENANT_ID,
+        clientId: process.env.AZURE_AD_CLIENT_ID as string,
+        clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+        tenantId: process.env.AZURE_AD_TENANT_ID as string,
     })]
 });
 default export nextAuth;
@@ -125,9 +125,9 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 const nextAuth = NextAuth({
     providers: [
         AzureADProvider({
-            clientId: process.env.AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-            tenantId: process.env.AZURE_AD_TENANT_ID,
+            clientId: process.env.AZURE_AD_CLIENT_ID as string,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+            tenantId: process.env.AZURE_AD_TENANT_ID as string,
         }),
     ],
 });
