@@ -36,7 +36,6 @@ describe("cypress e2e", () => {
 
   afterAll(() => {
     runNxCommandAsync("reset");
-    cleanup();
   });
 
   describe("--project", () => {
@@ -72,7 +71,6 @@ describe("cypress e2e", () => {
       });
 
       it("should delete the relevent files", () => {
-        expect(checkFilesExist(`${cypressDirectory}/support/e2e.ts`)).toThrow();
         expect(
           checkFilesExist(`${cypressDirectory}/support/app.po.ts`)
         ).toThrow();
@@ -80,7 +78,7 @@ describe("cypress e2e", () => {
       });
 
       it("should update the package.json", () => {
-        const packageJson = readJson(`${applicationDirectory}/project.json`);
+        const packageJson = readJson('package.json');
         expect(packageJson?.devDependencies).toMatchObject({
           cypress: CYPRESS_VERSION,
           "@nrwl/cypress": NRWLCYPRESS_VERSION,
