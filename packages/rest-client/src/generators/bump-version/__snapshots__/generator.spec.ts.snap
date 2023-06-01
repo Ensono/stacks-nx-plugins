@@ -30,10 +30,7 @@ export const postTestV3 = async (
     config
   );
 
-export const putTestV3 = async (
-  data: TestV3Data,
-  config: AxiosRequestConfig
-) =>
+export const putTestV3 = async (data: TestV3Data, config: AxiosRequestConfig) =>
   httpClient.put<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
