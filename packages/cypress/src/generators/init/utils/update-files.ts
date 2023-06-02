@@ -1,21 +1,60 @@
 import { joinPathFragments, Tree, updateJson } from '@nrwl/devkit';
 
-export function updateLintFile(tree: Tree) {
-    updateJson(tree, '.eslintrc.json', eslintjson => {
-        eslintjson.plugins.push('cypress');
-        eslintjson.overrides[1].extends.push('plugin:cypress/recommended');
-        return eslintjson;
+function findOverride(
+    json: Array<any>,
+    files: Array<string>,
+    errorMessage: string,
+) {
+    return (
+        json.find(element =>
+            files.every(value => element.files.includes(value)),
+        ) ||
+        (() => {
+            throw new Error(errorMessage);
+        })
+    );
+}
+
+export function updateApplicationLintFile(tree: Tree, path: string) {
+    updateJson(tree, joinPathFragments(path, '.eslintrc.json'), eslintjson => {
+        const updatedProjectJson = { ...eslintjson };
+        const override = findOverride(
+            updatedProjectJson.overrides,
+            ['*.ts', '*.tsx', '*.js', '*.jsx'],
+            'Unable to update the application lint file with with parser options for cypress',
+        );
+        if (!override.parserOptions) {
+            override.parserOptions = {};
+        }
+        if (!override.parserOptions.project) {
+            override.parserOptions.project = [];
+        }
+        const requiredEntry = joinPathFragments(
+            path,
+            'cypress',
+            'tsconfig(.*)?.json',
+        );
+        if (!override.parserOptions.project.includes(requiredEntry)) {
+            override.parserOptions.project.push(requiredEntry);
+        }
+        return updatedProjectJson;
     });
 }
 
 export function updateTsConfig(tree: Tree, project: string) {
     updateJson(
         tree,
-        joinPathFragments(project, 'tsconfig.cy.json'),
+        joinPathFragments(project, 'tsconfig.json'),
         tsConfigJson => {
             const updatedProjectJson = { ...tsConfigJson };
-            updatedProjectJson.compilerOptions['allowSyntheticDefaultImports'] =
-                true;
+            updatedProjectJson.exclude.push(
+                'cypress/**/**',
+                'cypress.config.ts',
+            );
+            updatedProjectJson.references =
+                updatedProjectJson.references.filter(
+                    reference => reference.path !== './tsconfig.cy.json',
+                );
             return updatedProjectJson;
         },
     );

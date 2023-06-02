@@ -171,10 +171,10 @@ describe('cypress accessibility generator', () => {
             expect(expectedFunction?.getBodyText()).toBe(terminalLogAxeBody);
         });
 
-        it('should update the applications tsconfig.cy.json file', () => {
+        it('should update the applications cypress tsconfig.json file', () => {
             const tsconfig = readJson(
                 appTree,
-                joinPathFragments(applicationDirectory, 'tsconfig.cy.json'),
+                joinPathFragments(cypressDirectory, 'tsconfig.json'),
             );
             expect(
                 checkOneOccurence(

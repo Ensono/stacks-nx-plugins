@@ -119,13 +119,15 @@ describe('should run successfully with default options', () => {
         });
     });
 
-    it('should update the eslintrc.json', () => {
-        const eslintrc = readJson(appTree, '/.eslintrc.json');
-        expect(checkOneOccurence(eslintrc.plugins, 'cypress')).toBeTruthy();
+    it('should update the applications eslintrc.json', () => {
+        const eslintrc = readJson(
+            appTree,
+            joinPathFragments(applicationDirectory, '.eslintrc.json'),
+        );
         expect(
             checkOneOccurence(
-                eslintrc.overrides[1].extends,
-                'plugin:cypress/recommended',
+                eslintrc.overrides[0].parserOptions.project,
+                joinPathFragments(cypressDirectory, 'tsconfig(.*)?.json'),
             ),
         ).toBeTruthy();
     });
@@ -217,14 +219,39 @@ describe('should run successfully with default options', () => {
         );
     });
 
-    it('should update the tsconfig.cy.json', () => {
-        const configJson = readJson(
-            appTree,
-            joinPathFragments(applicationDirectory, 'tsconfig.cy.json'),
-        );
-        expect(
-            configJson.compilerOptions['allowSyntheticDefaultImports'],
-        ).toEqual(true);
+    describe('should move the tsconfig.cy.json into the cypress directory and configure it', () => {
+        it('has removed the tsconfig.cy.json from the app directory', () => {
+            expect(
+                appTree.exists(
+                    joinPathFragments(applicationDirectory, 'tsconfig.cy.json'),
+                ),
+            ).toBeFalsy();
+        });
+
+        it('has excluded cypress from the application tsconfig.json', () => {
+            const configJson = readJson(
+                appTree,
+                joinPathFragments(applicationDirectory, 'tsconfig.json'),
+            );
+            expect(
+                checkOneOccurence(configJson.exclude, 'cypress/**/**'),
+            ).toBeTruthy();
+            expect(
+                checkOneOccurence(configJson.exclude, 'cypress.config.ts'),
+            ).toBeTruthy();
+            expect(configJson.references).not.toContainEqual({
+                path: './tsconfig.cy.json',
+            });
+        });
+
+        it('has configured the new tsconfig.json within the cypress directory', () => {
+            compareToFile(
+                project.addSourceFileAtPath(
+                    joinPathFragments(cypressDirectory, 'tsconfig.json'),
+                ),
+                './files/e2e-folder/cypress/tsconfig.json__template__',
+            );
+        });
     });
 
     it('should create the base cypress configuration', () => {
