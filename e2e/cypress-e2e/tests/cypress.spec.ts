@@ -63,7 +63,6 @@ describe("cypress e2e", () => {
             `${cypressDirectory}/e2e/example.cy.ts`,
             `${cypressDirectory}/support/e2e.ts`,
             `${applicationDirectory}/tsconfig.json`,
-            `${applicationDirectory}/tsconfig.cy.json`,
             `${applicationDirectory}/cypress.config.ts`
           )
         ).not.toThrow();
@@ -74,6 +73,7 @@ describe("cypress e2e", () => {
           checkFilesExist(`${cypressDirectory}/support/app.po.ts`)
         }).toThrow();
         expect(() => { checkFilesExist(`${cypressDirectory}/e2e/app.cy.ts`) }).toThrow();
+        expect(() => { checkFilesExist(`${applicationDirectory}/tsconfig.cy.json`) }).toThrow();
       });
 
       it("should update the package.json", () => {
