@@ -30,7 +30,7 @@ import {
 import { CypressGeneratorSchema } from './schema';
 import {
     updateBaseTsConfig,
-    updateLintFile,
+    updateApplicationLintFile,
     updateTsConfig,
 } from './utils/update-files';
 import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
@@ -65,12 +65,10 @@ export default async function initGenerator(
     };
 
     await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);
-    // update eslint.rc
-    updateLintFile(tree);
-
+    // update application eslint.rc
+    updateApplicationLintFile(tree, normalizedOptions.projectRoot);
     // update ts config
     updateTsConfig(tree, normalizedOptions.projectRoot);
-
     updateBaseTsConfig(tree);
     // add / remove files
     tree.delete(
@@ -82,6 +80,9 @@ export default async function initGenerator(
     );
     tree.delete(
         joinPathFragments(normalizedOptions.cypressProject, 'e2e', 'app.cy.ts'),
+    );
+    tree.delete(
+        joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.cy.json'),
     );
     addFiles(
         tree,

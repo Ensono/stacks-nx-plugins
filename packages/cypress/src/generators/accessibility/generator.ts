@@ -29,7 +29,7 @@ async function updateDependencies(tree: Tree) {
 function updateTsConfig(tree: Tree, project: string) {
     updateJson(
         tree,
-        joinPathFragments(project, 'tsconfig.cy.json'),
+        joinPathFragments(project, 'tsconfig.json'),
         tsConfigJson => {
             const updatedProjectJson = { ...tsConfigJson };
             if (
@@ -74,7 +74,7 @@ export default async function accessibilityGenerator(
     );
 
     // update ts config
-    updateTsConfig(tree, normalizedOptions.projectRoot);
+    updateTsConfig(tree, normalizedOptions.cypressProject);
 
     updateCypressConfig(tree, normalizedOptions.projectRoot);
 
