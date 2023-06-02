@@ -61,7 +61,7 @@ describe('logger generator', () => {
         });
         const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
         expect(indexFile).toContain(
-            'logger.add(new winston.transports.File({filename: "/log-file.log"}))',
+            "logger.add(new winston.transports.File({ filename: '/log-file.log' }))",
         );
     });
 

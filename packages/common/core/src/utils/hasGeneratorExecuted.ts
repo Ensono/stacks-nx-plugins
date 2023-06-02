@@ -7,6 +7,26 @@ import {
     tagExecutedGeneratorForWorkspace,
 } from './tagExecutedGenerator';
 
+export function isGeneratorInExecutedListForProject(
+    tree: Tree,
+    projectName: string,
+    generatorName: string,
+    throwError = false,
+): boolean {
+    const stacksExecutedGeneratorsUpdated = readStacksExecutedGenerators(tree);
+
+    const found =
+        stacksExecutedGeneratorsUpdated.project[projectName].includes(
+            generatorName,
+        );
+    if (!found && throwError) {
+        throw new Error(
+            `The dependent ${generatorName} generator has not been executed`,
+        );
+    }
+    return found;
+}
+
 export function hasGeneratorExecutedForProject(
     tree: Tree,
     projectName: string,
@@ -30,13 +50,11 @@ export function hasGeneratorExecutedForProject(
             },
         }));
 
-    const stacksExecutedGeneratorsUpdated = readStacksExecutedGenerators(tree);
-
-    const generatorExecuted =
-        stacksExecutedGeneratorsUpdated.project[projectName].includes(
-            generatorName,
-        );
-
+    const generatorExecuted = isGeneratorInExecutedListForProject(
+        tree,
+        projectName,
+        generatorName,
+    );
     if (!generatorExecuted) {
         tagExecutedGeneratorForProject(tree, projectName, generatorName);
     } else {
