@@ -52,6 +52,10 @@ const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
         name: E2eTestRunner.Playwright,
         message: 'playwright        [a testing library]',
     },
+    {
+        name: E2eTestRunner.Cypress,
+        message: 'cypress        [a testing library]',
+    },
 ];
 
 async function determineRepoName(
