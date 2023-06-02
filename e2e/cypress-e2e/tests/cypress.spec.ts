@@ -63,7 +63,6 @@ describe("cypress e2e", () => {
             `${cypressDirectory}/e2e/example.cy.ts`,
             `${cypressDirectory}/support/e2e.ts`,
             `${applicationDirectory}/tsconfig.json`,
-            `${applicationDirectory}/tsconfig.cy.json`,
             `${applicationDirectory}/cypress.config.ts`
           )
         ).not.toThrow();
