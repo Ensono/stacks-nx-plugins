@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "cli": "nx",
+    "$id": "Accessibility",
+    "title": "Ensono Stacks cypress Accessibility Generator",
+    "description": "The @ensono-stacks/cypress:accessibility generator scaffolds your existing initialised cypress project with example Accessibility tests and config.",
+    "type": "object",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "alias": "p",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-prompt": "What is the name of the project for this component?"
+        }
+    },
+    "required": ["project"]
+}

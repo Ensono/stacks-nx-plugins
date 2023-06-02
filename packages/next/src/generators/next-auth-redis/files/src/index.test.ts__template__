@@ -30,19 +30,25 @@ describe('Next Auth Redis Adapter', () => {
       if (!data || Object.keys(data).length === 0) return null;
       return hydrateDates(data);
     },
-    async account({ provider, providerAccountId }) {
+    async account({
+      provider,
+      providerAccountId,
+    }: {
+      provider: string;
+      providerAccountId: string;
+    }) {
       const data = await client.hgetall(
         `testApp:account:${provider}:${providerAccountId}`
       );
       if (!data || Object.keys(data).length === 0) return null;
       return hydrateDates(data);
     },
-    async session(sessionToken) {
+    async session(sessionToken: string) {
       const data = await client.hgetall(`testApp:session:${sessionToken}`);
       if (!data || Object.keys(data).length === 0) return null;
       return hydrateDates(data);
     },
-    async verificationToken(where) {
+    async verificationToken(where: { token: string; identifier: string }) {
       const data = await client.hgetall(`testApp:token:${where.identifier}`);
       if (!data) return null;
       return hydrateDates(data);

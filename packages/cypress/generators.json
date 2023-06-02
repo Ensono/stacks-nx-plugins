@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "name": "cypress",
+    "version": "0.0.1",
+    "generators": {
+        "init": {
+            "factory": "./src/generators/init/generator",
+            "schema": "./src/generators/init/schema.json",
+            "description": "init generator"
+        },
+        "init-deployment": {
+            "factory": "./src/generators/init-deployment/generator",
+            "schema": "./src/generators/init-deployment/schema.json",
+            "description": "The deployment generator contains all the pipeline and infrastructure change for cypress."
+        },
+        "accessibility": {
+            "factory": "./src/generators/accessibility/generator",
+            "schema": "./src/generators/accessibility/schema.json",
+            "description": "accessibility generator"
+        }
+        // "visual-regression": {
+        //     "factory": "./src/generators/visual-regression/generator",
+        //     "schema": "./src/generators/visual-regression/schema.json",
+        //     "description": "visual regression generator"
+        // },
+        // "visual-regression-deployment": {
+        //     "factory": "./src/generators/visual-regression-deployment/generator",
+        //     "schema": "./src/generators/visual-regression-deployment/schema.json",
+        //     "description": "visual-regression-deployment generator"
+        // }
+    }
+}
