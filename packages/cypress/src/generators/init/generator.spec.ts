@@ -16,6 +16,7 @@ import {
     MOCHAWESOMEJUNITREPORTER_VERSION,
     MOCHAWESOMEMERGE_VERSION,
     NRWLCYPRESS_VERSION,
+    CYPRESSGREP_VERSION,
 } from '../../versions';
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
@@ -116,6 +117,7 @@ describe('should run successfully with default options', () => {
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
             'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
+            '@cypress/grep': CYPRESSGREP_VERSION,
         });
     });
 
