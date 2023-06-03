@@ -16,7 +16,10 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
+import registerCypressGrep from '@cypress/grep/src/support';
 import addContext from 'mochawesome/addContext';
+
+registerCypressGrep();
 
 // Append screenshots on failure to test reports
 Cypress.on('test:after:run', (test, runnable) => {

@@ -38,5 +38,9 @@ export const baseConfig: Cypress.ConfigOptions = {
     retries: {
       runMode: process.env.CI ? 2 : 0,
     },
+    setupNodeEvents(on, config) {
+      require('@cypress/grep/src/plugin')(config);
+      return config;
+    },
   },
 };
