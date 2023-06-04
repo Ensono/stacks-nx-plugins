@@ -37,6 +37,7 @@ export function addTerminalLogging(tree: Tree, cypressDirectory: string) {
             parameters: [
                 {
                     name: 'violations',
+                    type: '{ id: string; impact: string; description: string; nodes: string[]; }[]',
                 },
             ],
         });
