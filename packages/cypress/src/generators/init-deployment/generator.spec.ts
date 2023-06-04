@@ -1,3 +1,4 @@
+import { tagExecutedGeneratorForWorkspace } from '@ensono-stacks/core';
 import { readJson, Tree } from '@nrwl/devkit';
 import YAML from 'yaml';
 
