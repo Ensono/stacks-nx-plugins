@@ -50,25 +50,13 @@ describe('cypress generator', () => {
                 task: 'e2e:ci',
                 depends_on: 'build',
             });
-            expect(taskctlYAML.pipelines.fe).toContainEqual({
-                task: 'html',
-                depends_on: 'e2e:ci',
-            });
             expect(taskctlYAML.pipelines.nonprod).toContainEqual({
                 task: 'e2e:ci',
                 depends_on: 'test:ci',
             });
-            expect(taskctlYAML.pipelines.nonprod).toContainEqual({
-                task: 'html',
-                depends_on: 'e2e:ci',
-            });
             expect(taskctlYAML.pipelines.prod).toContainEqual({
                 task: 'e2e:ci',
                 depends_on: 'test:ci',
-            });
-            expect(taskctlYAML.pipelines.prod).toContainEqual({
-                task: 'html',
-                depends_on: 'e2e:ci',
             });
         }, 100_000);
 
@@ -78,6 +66,17 @@ describe('cypress generator', () => {
             );
 
             expect(stages.stages[0]?.jobs[0]?.steps[5]).toEqual({
+                task: 'Bash@3',
+                condition:
+                    "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
+                displayName: 'Generate Reports',
+                inputs: {
+                    targetType: 'inline',
+                    script: 'npx nx affected --base="$BASE_SHA" --target=html-report --configuration=ci --parallel=1',
+                },
+            });
+
+            expect(stages.stages[0]?.jobs[0]?.steps[6]).toEqual({
                 task: 'Bash@3',
                 displayName: 'Check test-results Folder',
                 condition: 'succeededOrFailed()',
@@ -89,7 +88,7 @@ describe('cypress generator', () => {
                         'fi',
                 },
             });
-            expect(stages.stages[0]?.jobs[0]?.steps[6]).toEqual({
+            expect(stages.stages[0]?.jobs[0]?.steps[7]).toEqual({
                 task: 'PublishTestResults@2',
                 condition:
                     "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
@@ -98,7 +97,7 @@ describe('cypress generator', () => {
                     testResultsFiles: 'test-results/**/*.xml',
                 },
             });
-            expect(stages.stages[0]?.jobs[0]?.steps[7]).toEqual({
+            expect(stages.stages[0]?.jobs[0]?.steps[8]).toEqual({
                 task: 'PublishPipelineArtifact@1',
                 condition:
                     "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
