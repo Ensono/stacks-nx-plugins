@@ -174,10 +174,21 @@ describe('cypress accessibility generator', () => {
                 .getParameters()
                 .find(parameter => parameter.getName() === 'violations');
             const parameterType = violationsParameter.getType().getText();
-            expect(parameterType).toBe(
-                '{ id: string; impact: string; description: string; nodes: string[]; }[]',
-            );
+            expect(parameterType).toBe('Result[]');
             expect(expectedFunction?.getBodyText()).toBe(terminalLogAxeBody);
+            const importExists = file
+                .getImportDeclarations()
+                .some(
+                    importDecl =>
+                        importDecl.getModuleSpecifierValue() === 'axe-core' &&
+                        importDecl
+                            .getNamedImports()
+                            .some(
+                                namedImport =>
+                                    namedImport.getName() === 'Result',
+                            ),
+                );
+            expect(importExists).toBe(true);
         });
 
         it('should update the applications cypress tsconfig.json file', () => {
