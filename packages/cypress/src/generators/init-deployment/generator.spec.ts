@@ -68,17 +68,6 @@ describe('cypress generator', () => {
 
             expect(stages.stages[0]?.jobs[0]?.steps[5]).toEqual({
                 task: 'Bash@3',
-                condition:
-                    "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
-                displayName: 'Generate Reports',
-                inputs: {
-                    targetType: 'inline',
-                    script: 'npx nx affected --base="$BASE_SHA" --target=html-report --configuration=ci --parallel=1',
-                },
-            });
-
-            expect(stages.stages[0]?.jobs[0]?.steps[6]).toEqual({
-                task: 'Bash@3',
                 displayName: 'Check test-results Folder',
                 condition: 'succeededOrFailed()',
                 inputs: {
@@ -89,6 +78,18 @@ describe('cypress generator', () => {
                         'fi',
                 },
             });
+
+            expect(stages.stages[0]?.jobs[0]?.steps[6]).toEqual({
+                task: 'Bash@3',
+                condition:
+                    "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
+                displayName: 'Generate Reports',
+                inputs: {
+                    targetType: 'inline',
+                    script: 'npx nx affected --base="$BASE_SHA" --target=html-report --configuration=ci --parallel=1',
+                },
+            });
+
             expect(stages.stages[0]?.jobs[0]?.steps[7]).toEqual({
                 task: 'PublishTestResults@2',
                 condition:

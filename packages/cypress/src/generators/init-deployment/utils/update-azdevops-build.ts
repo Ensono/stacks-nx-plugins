@@ -12,17 +12,6 @@ export function updateAzureDevopsStages(tree: Tree) {
 
         stages?.stages[0]?.jobs[0]?.steps.push({
             task: 'Bash@3',
-            condition:
-                "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
-            displayName: 'Generate Reports',
-            inputs: {
-                targetType: 'inline',
-                script: 'npx nx affected --base="$BASE_SHA" --target=html-report --configuration=ci --parallel=1',
-            },
-        });
-
-        stages?.stages[0]?.jobs[0]?.steps.push({
-            task: 'Bash@3',
             displayName: 'Check test-results Folder',
             condition: 'succeededOrFailed()',
             inputs: {
@@ -31,6 +20,17 @@ export function updateAzureDevopsStages(tree: Tree) {
                     'if [ -d $SYSTEM_DEFAULTWORKINGDIRECTORY/test-results ]; then\n' +
                     '  echo "##vso[task.setVariable variable=HASTESTRESULTS]true"\n' +
                     'fi',
+            },
+        });
+
+        stages?.stages[0]?.jobs[0]?.steps.push({
+            task: 'Bash@3',
+            condition:
+                "and(succeededOrFailed(),eq(variables.HASTESTRESULTS, 'true'))",
+            displayName: 'Generate Reports',
+            inputs: {
+                targetType: 'inline',
+                script: 'npx nx affected --base="$BASE_SHA" --target=html-report --configuration=ci --parallel=1',
             },
         });
 
