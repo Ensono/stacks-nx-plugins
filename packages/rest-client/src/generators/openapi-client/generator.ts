@@ -64,6 +64,11 @@ export default async function generate(
         `${project.root}/src`,
     ]);
 
+    // Add eslintignore entry
+    addIgnoreEntry(tree, '.eslintignore', 'openapi-client', [
+        `${project.root}/src`,
+    ]);
+
     // Generate orval.config.js in new lib folder
     generateFiles(tree, path.join(__dirname, 'files/client'), project.root, {
         schemaName: options.name,
