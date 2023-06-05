@@ -71,7 +71,7 @@ export function getGeneratorsToRun(
         );
     }
 
-    if (argv.e2eTestRunner !== E2eTestRunner.None) {
+    if (argv.e2eTestRunner && argv.e2eTestRunner !== E2eTestRunner.None) {
         if (argv.e2eTestRunner === E2eTestRunner.Playwright) {
             console.log(
                 chalk.yellow`\nFor visual regression support, you can run nx g @ensono-stacks/${argv.e2eTestRunner}:visualRegression --project ${argv.appName}`,
@@ -95,7 +95,7 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
         plugins.push('@nrwl/next', '@ensono-stacks/next');
     }
 
-    if (argv.e2eTestRunner !== E2eTestRunner.None) {
+    if (argv.e2eTestRunner && argv.e2eTestRunner !== E2eTestRunner.None) {
         plugins.push(`@ensono-stacks/${argv.e2eTestRunner}`);
     }
 
