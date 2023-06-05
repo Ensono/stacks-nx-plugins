@@ -44,11 +44,21 @@ export function addTerminalLogging(tree: Tree, cypressDirectory: string) {
             ],
         });
         functionDeclaration.setBodyText(terminalLogAxeBody);
+        const importIndex = appNode
+            .getImportDeclaration('@cypress/grep/src/support')
+            .getChildIndex();
         const newImportDeclaration: OptionalKind<ImportDeclarationStructure> = {
             moduleSpecifier: 'axe-core',
             namedImports: ['Result'],
         };
-        appNode.insertImportDeclaration(1, newImportDeclaration);
+        if (importIndex !== -1) {
+            appNode.insertImportDeclaration(
+                importIndex + 1,
+                newImportDeclaration,
+            );
+        } else {
+            appNode.addImportDeclaration(newImportDeclaration);
+        }
         appNode.save();
     }
 }
