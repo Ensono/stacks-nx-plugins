@@ -64,6 +64,12 @@ describe('cypress accessibility generator', () => {
         });
     });
 
+    it('should raise an error if an invalid project is specified', async () => {
+        await generator(appTree, { project: 'nosuchproject' }).catch(error => {
+            expect(error.message).toEqual('nosuchproject does not exist.');
+        });
+    });
+
     it('should correctly update the setUpNodeEvents if it already exists', async () => {
         await initGenerator(appTree, options);
         const config = project.addSourceFileAtPath(
@@ -164,11 +170,25 @@ describe('cypress accessibility generator', () => {
             const expectedFunction = file.getFunction('terminalLogAxe');
             const parameters = expectedFunction.getParameters();
             expect(parameters.length).toEqual(1);
-            const structure = expectedFunction
-                .getParameters()[0]
-                .getStructure();
-            expect(structure.name).toBe('violations');
+            const violationsParameter = expectedFunction
+                .getParameters()
+                .find(parameter => parameter.getName() === 'violations');
+            const parameterType = violationsParameter.getType().getText();
+            expect(parameterType).toBe('Result[]');
             expect(expectedFunction?.getBodyText()).toBe(terminalLogAxeBody);
+            const importExists = file
+                .getImportDeclarations()
+                .some(
+                    importDecl =>
+                        importDecl.getModuleSpecifierValue() === 'axe-core' &&
+                        importDecl
+                            .getNamedImports()
+                            .some(
+                                namedImport =>
+                                    namedImport.getName() === 'Result',
+                            ),
+                );
+            expect(importExists).toBe(true);
         });
 
         it('should update the applications cypress tsconfig.json file', () => {

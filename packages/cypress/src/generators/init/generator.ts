@@ -26,6 +26,7 @@ import {
     MOCHAWESOMEJUNITREPORTER_VERSION,
     MOCHAWESOMEMERGE_VERSION,
     NRWLCYPRESS_VERSION,
+    CYPRESSGREP_VERSION,
 } from '../../versions';
 import { CypressGeneratorSchema } from './schema';
 import {
@@ -46,6 +47,7 @@ function updateDependencies(tree) {
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
             'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
+            '@cypress/grep': CYPRESSGREP_VERSION,
         },
     );
 }

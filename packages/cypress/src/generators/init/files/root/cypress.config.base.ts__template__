@@ -13,7 +13,7 @@ export const baseConfig: Cypress.ConfigOptions = {
       : 'spec, mocha-junit-reporter, mochawesome',
     mochaJunitReporterReporterOptions: {
       mochaFile: outputFolderForProject.concat(
-        '/downloads/junit-report/results-[hash].xml'
+        `/downloads/junit-report/results-${appName}-[hash].xml`
       ),
     },
     mochawesomeReporterOptions: {
@@ -37,6 +37,10 @@ export const baseConfig: Cypress.ConfigOptions = {
     trashAssetsBeforeRuns: true,
     retries: {
       runMode: process.env.CI ? 2 : 0,
+    },
+    setupNodeEvents(on, config) {
+      require('@cypress/grep/src/plugin')(config);
+      return config;
     },
   },
 };

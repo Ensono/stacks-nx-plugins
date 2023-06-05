@@ -48,6 +48,7 @@ export default async function accessibilityGenerator(
     tree: Tree,
     options: AccessibilityGeneratorSchema,
 ) {
+    const normalizedOptions = normalizeOptions(tree, options);
     if (
         hasGeneratorExecutedForProject(
             tree,
@@ -62,7 +63,6 @@ export default async function accessibilityGenerator(
         'CypressInit',
         true,
     );
-    const normalizedOptions = normalizeOptions(tree, options);
 
     // generate acessiblity files
     addFiles(

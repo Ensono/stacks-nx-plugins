@@ -4,6 +4,8 @@ import {
     MethodDeclaration,
     ObjectLiteralExpression,
     SyntaxKind,
+    ImportDeclarationStructure,
+    OptionalKind,
 } from 'ts-morph';
 
 export const terminalLogAxeBody = `cy.task(
@@ -37,10 +39,16 @@ export function addTerminalLogging(tree: Tree, cypressDirectory: string) {
             parameters: [
                 {
                     name: 'violations',
+                    type: 'Result[]',
                 },
             ],
         });
         functionDeclaration.setBodyText(terminalLogAxeBody);
+        const newImportDeclaration: OptionalKind<ImportDeclarationStructure> = {
+            moduleSpecifier: 'axe-core',
+            namedImports: ['Result'],
+        };
+        appNode.insertImportDeclaration(1, newImportDeclaration);
         appNode.save();
     }
 }
