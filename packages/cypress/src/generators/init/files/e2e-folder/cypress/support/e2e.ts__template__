@@ -24,9 +24,7 @@ registerCypressGrep();
 // Append screenshots on failure to test reports
 Cypress.on('test:after:run', (test, runnable) => {
   if (test.state === 'failed') {
-    const screenshot = `${Cypress.config('screenshotsFolder')}/${
-      Cypress.spec.name
-    }/${runnable.parent?.title} -- ${test.title} (failed).png`;
+    const screenshot = `../screenshots/${Cypress.spec.name}/${runnable.parent?.title} -- ${test.title} (failed).png`;
     // @ts-ignore
     addContext({ test }, screenshot);
   }
