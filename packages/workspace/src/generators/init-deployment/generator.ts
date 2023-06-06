@@ -1,4 +1,7 @@
-import { hasGeneratorExecutedForWorkspace } from '@ensono-stacks/core';
+import {
+    addIgnoreEntry,
+    hasGeneratorExecutedForWorkspace,
+} from '@ensono-stacks/core';
 import { formatFiles, GeneratorCallback, Tree } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
@@ -17,6 +20,9 @@ export default async function initDeploymentGenerator(
 
     // Add pipeline code to workspace
     tasks.push(addPipeline(tree, options));
+
+    // Update git ignore
+    addIgnoreEntry(tree, '.gitignore', 'Docker', ['.nx-container']);
 
     // Add target to nx.json
     setDefaults(tree, options);
