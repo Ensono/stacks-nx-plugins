@@ -1,14 +1,10 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { addStacksAttributes } from '@ensono-stacks/test';
+import { createNextApp } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
-import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
-import exp from 'constants';
 import * as fs from 'fs';
 import path from 'path';
 
-import { checkOneOccurence, createNextApp } from '../../utils/test-utils';
+import { checkOneOccurence } from '../../utils/test-utils';
 import {
     CYPRESS_VERSION,
     CYPRESSMULTIREPORTERS_VERSION,

@@ -1,9 +1,10 @@
 import { tsMorphTree } from '@ensono-stacks/core';
+import { createNextApp } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
 import * as fs from 'fs';
 import path from 'path';
 
-import { checkOneOccurence, createNextApp } from '../../utils/test-utils';
+import { checkOneOccurence } from '../../utils/test-utils';
 import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
 import initGenerator from '../init/generator';
 import generator from './generator';
