@@ -31,11 +31,6 @@ const presetOptions: { name: Preset; message: string }[] = [
             'apps              [an empty monorepo with no plugins with a layout that works best for building apps]',
     },
     {
-        name: Preset.ReactMonorepo,
-        message:
-            'react             [a monorepo with a single React application]',
-    },
-    {
         name: Preset.NextJs,
         message:
             'next.js           [a monorepo with a single Next.js application]',
