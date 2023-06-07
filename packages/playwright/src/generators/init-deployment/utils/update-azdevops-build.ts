@@ -17,12 +17,10 @@ export function updateAzureDevopsStages(tree: Tree) {
         );
 
         if (scriptIndex && stages?.stages[0]?.jobs[0]?.steps[scriptIndex]) {
+            const defaultScript = stages.stages[0].jobs[0].steps[scriptIndex];
+            const playwrightScript = 'npx playwright install --with-deps';
             stages.stages[0].jobs[0].steps[scriptIndex] = {
-                script:
-                    'npm ci\n' +
-                    'git config --global user.email "pipelines@test.dev"\n' +
-                    'git config --global user.name "Amido Pipelines"\n' +
-                    'npx playwright install --with-deps',
+                script: `${defaultScript.script}${playwrightScript}`,
             };
         }
 
