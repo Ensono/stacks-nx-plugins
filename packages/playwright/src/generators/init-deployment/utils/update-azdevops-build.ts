@@ -18,11 +18,8 @@ export function updateAzureDevopsStages(tree: Tree) {
 
         if (scriptIndex && stages?.stages[0]?.jobs[0]?.steps[scriptIndex]) {
             stages.stages[0].jobs[0].steps[scriptIndex] = {
-                script:
-                    'npm ci\n' +
-                    'git config --global user.email "pipelines@test.dev"\n' +
-                    'git config --global user.name "Amido Pipelines"\n' +
-                    'npx playwright install --with-deps',
+                // eslint-disable-next-line no-useless-concat
+                script: 'npm ci\n' + 'npx playwright install --with-deps',
             };
         }
 
