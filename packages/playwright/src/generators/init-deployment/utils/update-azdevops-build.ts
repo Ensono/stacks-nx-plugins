@@ -17,9 +17,10 @@ export function updateAzureDevopsStages(tree: Tree) {
         );
 
         if (scriptIndex && stages?.stages[0]?.jobs[0]?.steps[scriptIndex]) {
+            const defaultScript = stages.stages[0].jobs[0].steps[scriptIndex];
+            const playwrightScript = 'npx playwright install --with-deps';
             stages.stages[0].jobs[0].steps[scriptIndex] = {
-                // eslint-disable-next-line no-useless-concat
-                script: 'npm ci\n' + 'npx playwright install --with-deps',
+                script: `${defaultScript.script}${playwrightScript}`,
             };
         }
 
