@@ -42,7 +42,6 @@ export enum Preset {
     Apps = 'apps',
     TS = 'ts',
     NextJs = 'next',
-    ReactMonorepo = 'react-monorepo',
 }
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
