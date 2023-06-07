@@ -1,10 +1,9 @@
-import { tagExecutedGeneratorForWorkspace } from '@ensono-stacks/core';
+import { createNextApp } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nrwl/devkit';
 import YAML from 'yaml';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries, import/no-relative-packages
 import workspaceInitDeployment from '../../../../workspace/src/generators/init-deployment/generator';
-import { createNextApp } from '../../utils/test-utils';
 import generator from './generator';
 
 const applicationName = 'application';
