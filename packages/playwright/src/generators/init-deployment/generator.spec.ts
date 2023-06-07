@@ -162,11 +162,8 @@ stages:
         );
 
         expect(stages.stages[0]?.jobs[0]?.steps[3]).toEqual({
-            script:
-                'npm ci\n' +
-                'git config --global user.email "pipelines@test.dev"\n' +
-                'git config --global user.name "Amido Pipelines"\n' +
-                'npx playwright install --with-deps',
+            // eslint-disable-next-line no-useless-concat
+            script: 'npm ci\n' + 'npx playwright install --with-deps',
         });
         expect(stages.stages[0]?.jobs[0]?.steps[5]).toEqual({
             task: 'Bash@3',
