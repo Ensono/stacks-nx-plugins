@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { checkNxVersion } from '@ensono-stacks/core';
+import { checkNxVersion, findFile } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
@@ -222,6 +222,14 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     const targetDirectory = path.resolve(dir);
     const isTargetDirectoryCurrent = targetDirectory === process.cwd();
+
+    const isNxJson = findFile('nx.json', targetDirectory, 3);
+    if (!isNxJson) {
+        console.error(
+            chalk.red`Stacks workspace can only be created inside an existing Nx Monorepo. Please select as such and try again.`,
+        );
+        process.exit(1);
+    }
 
     if (!isTargetDirectoryCurrent && fs.existsSync(targetDirectory)) {
         if (overwrite) {
