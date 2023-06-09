@@ -18,19 +18,19 @@ export function findFile(
     let runner = 0;
     let foundFile = false;
 
-    const run = (childDirectory: any) => {
+    const run = (parentDirectory: any) => {
         if (runner < runTimes) {
-            const directoryFiles = fs.readdirSync(
-                childDirectory || targetDirectory,
-            );
-
-            if (directoryFiles.includes(fileName)) {
+            if (
+                fs.existsSync(
+                    `${parentDirectory || targetDirectory}/${fileName}`,
+                )
+            ) {
                 foundFile = true;
                 return foundFile;
             }
 
             runner += 1;
-            run(path.resolve(childDirectory || targetDirectory, '..'));
+            run(path.resolve(parentDirectory || targetDirectory, '..'));
         }
         return foundFile;
     };
