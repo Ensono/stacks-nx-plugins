@@ -81,6 +81,12 @@ export default async function visualRegressionGenerator(
     )
         return false;
 
+    if (!options.project.endsWith('-e2e')) {
+        throw new Error(
+            `${options.project} is not an e2e project. Please select a supported target.`,
+        );
+    }
+
     const project = getProjects(tree).get(options.project);
 
     if (!project) {
