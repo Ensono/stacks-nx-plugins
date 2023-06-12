@@ -1,3 +1,7 @@
+/*
+    TODO: https://dev.azure.com/amido-dev/Amido-Stacks/_workitems/edit/6236
+    This generator has been removed from the generators.json because it needs work
+*/
 import {
     formatFilesWithEslint,
     createOrUpdateLocalEnv,
