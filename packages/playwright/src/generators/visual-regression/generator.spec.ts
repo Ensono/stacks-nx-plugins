@@ -24,7 +24,7 @@ jest.mock('@nrwl/devkit', () => {
                         'test',
                         {
                             root: '',
-                            sourceRoot: `${projectNameE2E}/src`,
+                            sourceRoot: `${projectName}/src`,
                             name: 'test',
                         },
                     ],
@@ -50,13 +50,23 @@ describe('playwright generator', () => {
         addStacksAttributes(appTree, '');
     });
 
-    it('should error if the project does not exist', async () => {
+    it('should error if the project is not supported', async () => {
         const options: VisualRegressionGeneratorSchema = {
-            project: 'non-existent-project',
+            project: 'test',
             type: 'none',
         };
         await expect(generator(appTree, options)).rejects.toThrowError(
-            `non-existent-project does not exist`,
+            `test is not an e2e project. Please select a supported target.`,
+        );
+    });
+
+    it('should error if the project does not exist', async () => {
+        const options: VisualRegressionGeneratorSchema = {
+            project: 'non-existent-project-e2e',
+            type: 'none',
+        };
+        await expect(generator(appTree, options)).rejects.toThrowError(
+            `non-existent-project-e2e does not exist`,
         );
     });
 

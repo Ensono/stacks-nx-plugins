@@ -66,6 +66,12 @@ export default async function accessibilityGenerator(
         throw new Error(`${options.project} does not exist.`);
     }
 
+    if (!options.project.endsWith('-e2e')) {
+        throw new Error(
+            `${options.project} is not an e2e project. Please select a supported target.`,
+        );
+    }
+
     const normalizedOptions = normalizeOptions(tree, options);
 
     // generate acessiblity files
