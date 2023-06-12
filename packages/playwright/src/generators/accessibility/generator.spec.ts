@@ -25,8 +25,16 @@ jest.mock('@nrwl/devkit', () => {
                         'test',
                         {
                             root: '',
-                            sourceRoot: `${projectNameE2E}/src`,
+                            sourceRoot: `${projectName}/src`,
                             name: 'test',
+                        },
+                    ],
+                    [
+                        'test-e2e',
+                        {
+                            root: '',
+                            sourceRoot: `${projectNameE2E}/src`,
+                            name: 'test-e2e',
                         },
                     ],
                 ]),
@@ -36,19 +44,36 @@ jest.mock('@nrwl/devkit', () => {
 
 describe('playwright accessibility generator', () => {
     let appTree: Tree;
-    let options: AccessibilityGeneratorSchema;
 
     beforeEach(() => {
-        options = {
-            project: projectName,
-            accessibility: true,
-        };
         appTree = createTreeWithEmptyWorkspace();
 
-        addStacksAttributes(appTree, options.project);
+        addStacksAttributes(appTree, projectName);
+    });
+
+    it('should error if the project is not supported', async () => {
+        const options: AccessibilityGeneratorSchema = {
+            project: 'test',
+        };
+        await expect(generator(appTree, options)).rejects.toThrowError(
+            `test is not an e2e project. Please select a supported target.`,
+        );
+    });
+
+    it('should error if the project does not exist', async () => {
+        const options: AccessibilityGeneratorSchema = {
+            project: 'non-existent-project-e2e',
+        };
+        await expect(generator(appTree, options)).rejects.toThrowError(
+            `non-existent-project-e2e does not exist`,
+        );
     });
 
     it('should run successfully', async () => {
+        const options: AccessibilityGeneratorSchema = {
+            project: projectNameE2E,
+        };
+
         await initGenerator(appTree, options);
         await generator(appTree, options);
 
