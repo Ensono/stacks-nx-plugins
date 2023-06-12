@@ -51,12 +51,12 @@ describe('playwright accessibility generator', () => {
         addStacksAttributes(appTree, projectName);
     });
 
-    it('should error if the project does not supported', async () => {
+    it('should error if the project is not supported', async () => {
         const options: AccessibilityGeneratorSchema = {
-            project: 'non-supported-project',
+            project: 'test',
         };
         await expect(generator(appTree, options)).rejects.toThrowError(
-            `non-supported-project is not an e2e project. Please select a supported target.`,
+            `test is not an e2e project. Please select a supported target.`,
         );
     });
 
