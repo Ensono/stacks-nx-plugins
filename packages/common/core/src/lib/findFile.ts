@@ -13,7 +13,7 @@ import path from 'path';
 export function findFile(
     fileName: string,
     targetDirectory: string,
-    runTimes: number,
+    runTimes = 1,
 ) {
     let runner = 0;
     let foundFile = false;
