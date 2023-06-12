@@ -3,6 +3,7 @@ import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
     tsMorphTree,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
 import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
@@ -75,6 +76,8 @@ export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (hasGeneratorExecutedForProject(tree, options.project, 'PlaywrightInit'))
         return false;
 

@@ -3,6 +3,7 @@ import {
     readStacksConfig,
     getResourceGroup,
     hasGeneratorExecutedForProject,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 /*
     TODO: https://dev.azure.com/amido-dev/Amido-Stacks/_workitems/edit/6236
@@ -28,6 +29,8 @@ export default async function nextAuthRedisDeploymentGenerator(
     tree: Tree,
     options: NextAuthRedisDeploymentGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (
         hasGeneratorExecutedForProject(
             tree,
