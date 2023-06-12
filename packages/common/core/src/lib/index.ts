@@ -6,7 +6,7 @@ export * from './exec';
 export * from './findFile';
 export * from './local-env';
 export * from './merge';
-export * from './nonMonorepo';
+export * from './verifyPluginCanBeInstalled';
 export * from './normalize-options';
 export * from './project-config';
 export * from './registry';

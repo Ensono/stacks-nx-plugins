@@ -2,6 +2,7 @@ import {
     addCustomTestConfig,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
+    verifyPluginCanBeInstalled,
     warnDirectoryProjectName,
 } from '@ensono-stacks/core';
 import {
@@ -51,6 +52,8 @@ export default async function generate(
     tree: Tree,
     options: HttpClientGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     const normalizedOptions = normalizeOptions(tree, options);
 
     // Use the existing library generator

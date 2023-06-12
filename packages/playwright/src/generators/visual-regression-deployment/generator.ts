@@ -1,4 +1,7 @@
-import { hasGeneratorExecutedForWorkspace } from '@ensono-stacks/core';
+import {
+    hasGeneratorExecutedForWorkspace,
+    verifyPluginCanBeInstalled,
+} from '@ensono-stacks/core';
 import { formatFiles, Tree } from '@nrwl/devkit';
 import chalk from 'chalk';
 
@@ -13,6 +16,8 @@ export default async function visualRegressionDeploymentGenerator(
     tree: Tree,
     options: VisualRegressionDeploymentGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     if (
         hasGeneratorExecutedForWorkspace(
             tree,
