@@ -4,6 +4,7 @@ import {
     addCustomTestConfig,
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
+    nonMonorepo,
 } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
@@ -24,6 +25,12 @@ export default async function initGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
+    if (nonMonorepo(tree, options.project)) {
+        throw new Error(
+            'Stacks workspace can only be created inside an existing Nx Monorepo. Please select as such and try again.',
+        );
+    }
+
     if (hasGeneratorExecutedForProject(tree, options.project, 'NextInit'))
         return false;
 
