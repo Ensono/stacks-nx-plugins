@@ -5,7 +5,7 @@ import {
     runNxCommand,
     runNxCommandAsync,
     uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 
 import {
     CYPRESS_VERSION,
