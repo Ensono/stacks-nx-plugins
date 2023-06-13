@@ -16,7 +16,7 @@ import {
     formatFiles,
     generateFiles,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthRedisDeploymentGeneratorSchema } from './schema';
