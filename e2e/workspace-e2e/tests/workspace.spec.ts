@@ -2,7 +2,7 @@ import {
     checkFilesExist,
     readJson,
     runNxCommandAsync,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 describe('workspace', () => {
     jest.setTimeout(300_000);

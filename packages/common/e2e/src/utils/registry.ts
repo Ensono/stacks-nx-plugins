@@ -1,5 +1,5 @@
 import { joinPathFragments, workspaceRoot } from '@nx/devkit';
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { ChildProcess, fork, execSync } from 'child_process';
 import fs from 'fs';
 import { URL } from 'url';

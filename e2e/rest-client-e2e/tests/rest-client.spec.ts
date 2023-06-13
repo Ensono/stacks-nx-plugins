@@ -4,8 +4,8 @@ import {
     runNxCommand,
     runNxCommandAsync,
     uniq,
-} from '@nrwl/nx-plugin/testing';
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 import YAML from 'yaml';
 import fs from 'fs';
