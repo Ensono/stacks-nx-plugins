@@ -27,7 +27,7 @@ describe('init generator', () => {
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining([
                     'eslint',
-                    '@nrwl/eslint-plugin-nx',
+                    '@nx/eslint-plugin',
                     'eslint-config-airbnb',
                     'eslint-config-prettier',
                     'eslint-import-resolver-typescript',
