@@ -1,8 +1,4 @@
-import {
-    checkFilesExist,
-    runNxCommandAsync,
-    uniq,
-} from '@nrwl/nx-plugin/testing';
+import { checkFilesExist, runNxCommandAsync, uniq } from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 
 describe('azure-react e2e', () => {
