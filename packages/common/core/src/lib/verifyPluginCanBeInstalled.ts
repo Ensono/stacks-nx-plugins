@@ -36,5 +36,7 @@ export function verifyPluginCanBeInstalled(tree: Tree, project?: string) {
 
     if (isNonMonorepo) {
         throw new Error(errorMessage);
+    } else {
+        return true;
     }
 }

@@ -8,10 +8,10 @@ describe('verifyPluginCanBeInstalled', () => {
     let tree: Tree;
     const project = 'testproject';
 
-    it('should return true if no apps', () => {
+    it('should return true if empty workspace', () => {
         tree = createTreeWithEmptyWorkspace();
 
-        expect(verifyPluginCanBeInstalled(tree, './')).toBe(false);
+        expect(verifyPluginCanBeInstalled(tree)).toBe(true);
     });
 
     describe('with apps', () => {
@@ -20,7 +20,7 @@ describe('verifyPluginCanBeInstalled', () => {
         });
 
         it('should return true if apps exists', () => {
-            expect(verifyPluginCanBeInstalled(tree, project)).toBe(false);
+            expect(verifyPluginCanBeInstalled(tree, project)).toBe(true);
         });
     });
 });
