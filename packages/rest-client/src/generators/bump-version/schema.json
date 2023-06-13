@@ -1,25 +1,26 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "cli": "nx",
-    "$id": "BumpVersion",
-    "title": "Ensono Stacks Rest Client Bump Version Generator",
-    "description": "The @ensono-stacks/rest-client:bump-version generator will bump the version of any generated endpoints",
-    "type": "object",
-    "properties": {
-        "name": {
-            "type": "string",
-            "description": "The endpoint you want to bump.",
-            "x-prompt": "Which endpoint do you want to bump?",
-            "$default": {
-                "$source": "projectName"
-            },
-            "pattern": "^[a-z0-9_/-]+"
-        },
-        "endpointVersion": {
-            "type": "number",
-            "description": "The version you want to bump your endpoint. Omitting this value will bump latest version + 1.",
-            "pattern": "^\\d+$"
-        }
+  "$schema": "http://json-schema.org/schema",
+  "$id": "BumpVersion",
+  "title": "Ensono Stacks Rest Client Bump Version Generator",
+  "description": "The @ensono-stacks/rest-client:bump-version generator will bump the version of any generated endpoints",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The endpoint you want to bump.",
+      "x-prompt": "Which endpoint do you want to bump?",
+      "$default": {
+        "$source": "projectName"
+      },
+      "pattern": "^[a-z0-9_/-]+"
     },
-    "required": ["name"]
+    "endpointVersion": {
+      "type": "number",
+      "description": "The version you want to bump your endpoint. Omitting this value will bump latest version + 1.",
+      "pattern": "^\\d+$"
+    }
+  },
+  "required": [
+    "name"
+  ]
 }
