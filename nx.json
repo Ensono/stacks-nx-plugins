@@ -1,64 +1,83 @@
 {
-    "extends": "nx/presets/npm.json",
-    "$schema": "./node_modules/nx/schemas/nx-schema.json",
-    "npmScope": "ensono-stacks",
-    "defaultProject": "workspace",
-    "pluginsConfig": {
-        "@nrwl/js": {
-            "analyzeSourceFiles": true
-        }
-    },
-    "tasksRunnerOptions": {
-        "default": {
-            "runner": "@nrwl/nx-cloud",
-            "options": {
-                "cacheableOperations": ["build", "lint", "test", "e2e"],
-                "accessToken": "Njg2NjM4NDUtOGY5ZC00ODk1LWIyMjctM2M5ZWM3NzczMTY1fHJlYWQ=",
-                "encryptionKey": "stacks-nx-plugins"
-            }
-        }
-    },
-    "workspaceLayout": {
-        "appsDir": "e2e",
-        "libsDir": "packages"
-    },
-    "namedInputs": {
-        "default": ["{projectRoot}/**/*", "sharedGlobals"],
-        "production": [
-            "default",
-            "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-            "!{projectRoot}/tsconfig.spec.json",
-            "!{projectRoot}/jest.config.[jt]s",
-            "!{projectRoot}/.eslintrc.json"
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
         ],
-        "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
-    },
-    "targetDefaults": {
-        "build": {
-            "dependsOn": ["^build"]
-        },
-        "lint": {
-            "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
-        },
-        "test": {
-            "inputs": [
-                "default",
-                "^production",
-                "{workspaceRoot}/jest.preset.js"
-            ]
-        },
-        "e2e": {
-            "dependsOn": ["^build"],
-            "inputs": [
-                "default",
-                "^production",
-                {
-                    "env": "NX_E2E_CI_CACHE_KEY"
-                }
-            ]
-        },
-        "version": {
-            "dependsOn": ["build"]
-        }
+        "accessToken": "Njg2NjM4NDUtOGY5ZC00ODk1LWIyMjctM2M5ZWM3NzczMTY1fHJlYWQ=",
+        "encryptionKey": "stacks-nx-plugins"
+      }
     }
+  },
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": true
+    }
+  },
+  "extends": "nx/presets/npm.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "ensono-stacks",
+  "defaultProject": "workspace",
+  "workspaceLayout": {
+    "appsDir": "e2e",
+    "libsDir": "packages"
+  },
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "production": [
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/.eslintrc.json"
+    ],
+    "sharedGlobals": [
+      "{workspaceRoot}/babel.config.json"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "lint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json"
+      ]
+    },
+    "test": {
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ]
+    },
+    "e2e": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^production",
+        {
+          "env": "NX_E2E_CI_CACHE_KEY"
+        }
+      ]
+    },
+    "version": {
+      "dependsOn": [
+        "build"
+      ]
+    }
+  }
 }
