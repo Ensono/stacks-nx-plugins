@@ -12,7 +12,7 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
-import { libraryGenerator } from '@nrwl/js';
+import { libraryGenerator } from '@nx/js';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
