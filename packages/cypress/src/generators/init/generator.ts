@@ -7,7 +7,7 @@ import {
 import {
     CypressE2EConfigSchema,
     cypressE2EConfigurationGenerator,
-} from '@nrwl/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
+} from '@nx/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
 import {
     formatFiles,
     Tree,
@@ -43,7 +43,7 @@ function updateDependencies(tree) {
         {},
         {
             cypress: CYPRESS_VERSION,
-            '@nrwl/cypress': NRWLCYPRESS_VERSION,
+            '@nx/cypress': NRWLCYPRESS_VERSION,
             'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
