@@ -4,7 +4,7 @@ import {
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { formatFiles, GeneratorCallback, Tree } from '@nx/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 
 import { InitDeploymentGeneratorSchema } from './schema';
 import { addPipeline } from './utils/pipeline';
