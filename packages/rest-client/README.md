@@ -1,11 +1,7 @@
 # Rest Client
 
-This library is a NX plugin. Please see further documentation on NX plugins
-[here](https://nx.dev/plugin-features/create-your-own-plugin)
-
-What is its purpose?
-
-What benefits does it give you?
+Please visit the stacks documentation page for `rest-client`
+[here](https://stacks.amido.com/docs/nx/rest-client/ensono-stacks-rest-client) for more information
 
 ## Generators and Executors
 
@@ -48,8 +44,3 @@ Run the following to publish the NPM package
 ```bash
 nx publish rest-client
 ```
-
-## Full documentation
-
-Please visit the stacks documentation page for `rest-client`
-[here](https://stacks.amido.com/docs) for more information
