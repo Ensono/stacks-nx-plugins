@@ -16,7 +16,6 @@
         "@nrwl/eslint-plugin-nx": "16.3.2",
         "@nrwl/cypress": "16.3.2",
         "@nrwl/jest": "16.3.2",
-        "@nrwl/js": "16.3.2",
         "@nrwl/linter": "16.3.2",
         "@nrwl/next": "16.3.2",
         "@nrwl/nx-plugin": "16.3.2",
@@ -53,7 +52,8 @@
         "verdaccio": "^5.25.0",
         "nx-cloud": "16.0.5",
         "@nx/devkit": "16.3.2",
-        "@nx/workspace": "16.3.2"
+        "@nx/workspace": "16.3.2",
+        "@nx/js": "16.3.2"
     },
     "config": {
         "commitizen": {
