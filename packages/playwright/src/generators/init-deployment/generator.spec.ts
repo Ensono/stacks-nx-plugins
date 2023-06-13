@@ -2,7 +2,7 @@ import { createNextApp } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries, import/no-relative-packages
+// eslint-disable-next-line @nx/enforce-module-boundaries, import/no-relative-packages
 import workspaceInitDeployment from '../../../../workspace/src/generators/init-deployment/generator';
 import generator from './generator';
 
