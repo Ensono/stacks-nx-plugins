@@ -16,7 +16,7 @@ import {
     readProjectConfiguration,
     addDependenciesToPackageJson,
 } from '@nx/devkit';
-import { Linter } from '@nrwl/linter';
+import { Linter } from '@nx/linter';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
