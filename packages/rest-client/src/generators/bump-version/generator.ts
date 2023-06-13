@@ -1,4 +1,8 @@
-import { normalizeOptions, copyFiles } from '@ensono-stacks/core';
+import {
+    normalizeOptions,
+    copyFiles,
+    verifyPluginCanBeInstalled,
+} from '@ensono-stacks/core';
 import {
     formatFiles,
     names,
@@ -116,6 +120,8 @@ export default async function bumpVersion(
     tree: Tree,
     optionsParameter: BumpVersionGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, optionsParameter.name);
+
     const latestVersion = findLatestVersion(tree, {
         endpointName: optionsParameter.name,
     });

@@ -3,6 +3,7 @@ import {
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
     warnDirectoryProjectName,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { formatFiles, generateFiles, names, Tree } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
@@ -43,6 +44,8 @@ export default async function clientEndpoint(
     tree: Tree,
     optionsParameter: ClientEndpointGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     const options = {
         ...optionsParameter,
         // include endpoint version in library name
