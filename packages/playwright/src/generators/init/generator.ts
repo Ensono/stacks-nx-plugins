@@ -17,7 +17,7 @@ import {
     addDependenciesToPackageJson,
 } from '@nx/devkit';
 import { Linter } from '@nrwl/linter';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { PLAYWRIGHT_VERSION } from '../../utils/versions';

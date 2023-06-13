@@ -11,7 +11,7 @@ import {
     GeneratorCallback,
     Tree,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 
 import { NextGeneratorSchema } from './schema';
