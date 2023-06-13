@@ -7,6 +7,7 @@ import {
     createOrUpdateLocalEnv,
     hasGeneratorExecutedForProject,
     deploymentGeneratorMessage,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -32,6 +33,8 @@ export default async function nextAuthRedisGenerator(
     tree: Tree,
     options: NextAuthRedisGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuthRedis'))
         return false;
 

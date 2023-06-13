@@ -1,6 +1,7 @@
 import {
     addIgnoreEntry,
     hasGeneratorExecutedForWorkspace,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { formatFiles, GeneratorCallback, Tree } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
@@ -13,6 +14,8 @@ export default async function initDeploymentGenerator(
     tree: Tree,
     options: InitDeploymentGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     if (hasGeneratorExecutedForWorkspace(tree, 'WorkspaceDeployment'))
         return false;
 

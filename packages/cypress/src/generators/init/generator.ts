@@ -2,6 +2,7 @@ import {
     addIgnoreEntry,
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     CypressE2EConfigSchema,
@@ -56,6 +57,8 @@ export default async function initGenerator(
     tree: Tree,
     options: CypressGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (hasGeneratorExecutedForProject(tree, options.project, 'CypressInit'))
         return false;
     const normalizedOptions = normalizeOptions(tree, options);

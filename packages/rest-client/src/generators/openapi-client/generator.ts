@@ -3,6 +3,7 @@ import {
     copyFiles,
     execAsync,
     normalizeOptions,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -29,6 +30,8 @@ export default async function generate(
     tree: Tree,
     options: OpenapiClientGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     if (
         !options.schema ||
         !tree.exists(options.schema) ||

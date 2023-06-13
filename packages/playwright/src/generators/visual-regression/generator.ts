@@ -2,6 +2,7 @@ import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
     tsMorphTree,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -71,6 +72,8 @@ export default async function visualRegressionGenerator(
     tree: Tree,
     options: VisualRegressionGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (
         hasGeneratorExecutedForProject(
             tree,

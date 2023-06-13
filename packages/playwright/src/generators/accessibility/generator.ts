@@ -1,3 +1,4 @@
+import { verifyPluginCanBeInstalled } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     formatFiles,
@@ -60,6 +61,8 @@ export default async function accessibilityGenerator(
     tree: Tree,
     options: AccessibilityGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     const project = getProjects(tree).get(options.project);
 
     if (!project) {
