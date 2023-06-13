@@ -1,6 +1,7 @@
 import {
     executedDependantGenerator,
     hasGeneratorExecutedForProject,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 
@@ -14,6 +15,8 @@ export default async function appInsightsDeploymentGenerator(
     tree: Tree,
     options: AppInsightsDeploymentGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (
         !executedDependantGenerator(
             tree,

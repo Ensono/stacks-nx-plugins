@@ -3,6 +3,7 @@ import {
     addCustomTestConfig,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -54,6 +55,8 @@ export default async function generate(
     tree: Tree,
     options: WinstonLoggerGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     const tasks: GeneratorCallback[] = [];
     const normalizedOptions = normalizeOptions(tree, options);
 

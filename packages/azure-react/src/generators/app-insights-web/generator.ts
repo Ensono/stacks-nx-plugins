@@ -2,6 +2,7 @@ import {
     hasGeneratorExecutedForProject,
     NormalizedSchema as BaseNormalizedSchema,
     normalizeOptions,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -57,6 +58,8 @@ export default async function appInsightsWebGenerator(
     tree: Tree,
     options: AppInsightsWebGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     if (
         hasGeneratorExecutedForProject(
             tree,

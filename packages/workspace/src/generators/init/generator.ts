@@ -1,6 +1,7 @@
 import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForWorkspace,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
@@ -17,6 +18,8 @@ export default async function install(
     tree: Tree,
     options: InstallGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree);
+
     if (hasGeneratorExecutedForWorkspace(tree, 'WorkspaceInit')) return false;
 
     const tasks: GeneratorCallback[] = [];
