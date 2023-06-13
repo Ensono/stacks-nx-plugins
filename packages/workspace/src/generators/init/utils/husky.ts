@@ -1,4 +1,4 @@
-import { addDependenciesToPackageJson, updateJson, Tree } from '@nrwl/devkit';
+import { addDependenciesToPackageJson, updateJson, Tree } from '@nx/devkit';
 
 import { InstallGeneratorSchema } from '../schema';
 import { HUSKY_VERSION, PACKAGE_JSON } from './constants';

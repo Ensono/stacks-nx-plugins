@@ -1,6 +1,6 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { formatFiles } from './formatFiles';
 

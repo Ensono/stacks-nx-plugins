@@ -3,7 +3,7 @@ import {
     Tree,
     readJson,
     generateFiles,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import path from 'path';
 
 import {

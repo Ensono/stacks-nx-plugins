@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/better-regex */
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 import {
     Project,
     ScriptTarget,

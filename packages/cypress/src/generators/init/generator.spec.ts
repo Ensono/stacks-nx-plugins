@@ -1,6 +1,6 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { createNextApp } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import * as fs from 'fs';
 import path from 'path';
 
@@ -24,8 +24,8 @@ const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
 let appTree: Tree;
 let options: CypressGeneratorSchema;
 
-jest.mock('@nrwl/devkit', () => {
-    const actual = jest.requireActual('@nrwl/devkit');
+jest.mock('@nx/devkit', () => {
+    const actual = jest.requireActual('@nx/devkit');
 
     return {
         ...actual,

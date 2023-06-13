@@ -1,4 +1,4 @@
-import { readJsonFile } from '@nrwl/devkit';
+import { readJsonFile } from '@nx/devkit';
 
 export function getNxVersion(): string {
     return (
