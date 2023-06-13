@@ -24,7 +24,7 @@ describe('cypress e2e', () => {
         applicationDirectory = `apps/${baseProject}`;
         cypressDirectory = `${applicationDirectory}/cypress`;
         runNxCommand(
-            `generate @nrwl/next:application ${baseProject} --e2eTestRunner=none --verbose`,
+            `generate @nx/next:application ${baseProject} --e2eTestRunner=none --verbose`,
         );
         return { baseProject, applicationDirectory, cypressDirectory };
     }
@@ -32,7 +32,7 @@ describe('cypress e2e', () => {
     beforeAll(async () => {
         await newProject(
             ['@ensono-stacks/cypress'],
-            ['@nx/cypress', '@nrwl/next'],
+            ['@nx/cypress', '@nx/next'],
         );
     }, 200_000);
 
