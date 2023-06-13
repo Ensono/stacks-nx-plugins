@@ -16,7 +16,7 @@ import {
     runTasksInSerial,
     joinPathFragments,
 } from '@nx/devkit';
-import { Linter } from '@nrwl/linter';
+import { Linter } from '@nx/linter';
 import { existsSync } from 'fs';
 
 import { addFiles, normalizeOptions } from '../../utils/test-utils';
