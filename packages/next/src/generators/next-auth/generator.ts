@@ -3,6 +3,7 @@ import {
     formatFiles,
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     generateFiles,
@@ -24,6 +25,8 @@ export default async function nextAuthGenerator(
     tree: Tree,
     options: NextAuthGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuth', true))
         return false;
 

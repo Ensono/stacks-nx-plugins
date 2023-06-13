@@ -1,6 +1,7 @@
 import {
     hasGeneratorExecutedForProject,
     isGeneratorInExecutedListForProject,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -48,6 +49,8 @@ export default async function accessibilityGenerator(
     tree: Tree,
     options: AccessibilityGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     const normalizedOptions = normalizeOptions(tree, options);
     if (
         hasGeneratorExecutedForProject(

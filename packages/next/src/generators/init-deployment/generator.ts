@@ -3,6 +3,7 @@ import {
     executedDependantGenerator,
     hasGeneratorExecutedForProject,
     StacksError,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -20,6 +21,8 @@ export default async function initDeploymentGenerator(
     tree: Tree,
     options: NextGeneratorSchema,
 ) {
+    verifyPluginCanBeInstalled(tree, options.project);
+
     if (
         !executedDependantGenerator(
             tree,

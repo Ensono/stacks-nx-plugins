@@ -1,6 +1,7 @@
 import {
     executedDependantGenerator,
     hasGeneratorExecutedForWorkspace,
+    verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { formatFiles, Tree } from '@nrwl/devkit';
 
@@ -9,6 +10,8 @@ import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
 
 // eslint-disable-next-line consistent-return
 export default async function initDeploymentGenerator(tree: Tree) {
+    verifyPluginCanBeInstalled(tree);
+
     if (!executedDependantGenerator(tree, 'WorkspaceDeployment')) return false;
     if (hasGeneratorExecutedForWorkspace(tree, 'PlaywrightInitDeployment'))
         return false;

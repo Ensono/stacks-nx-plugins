@@ -2,16 +2,16 @@ import { createNextApp } from '@ensono-stacks/test';
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from 'nx/src/devkit-testing-exports';
 
-import { nonMonorepo } from '.';
+import { verifyPluginCanBeInstalled } from '.';
 
-describe('nonMonorepo', () => {
+describe('verifyPluginCanBeInstalled', () => {
     let tree: Tree;
     const project = 'testproject';
 
-    it('should return true if no apps', () => {
+    it('should return true if empty workspace', () => {
         tree = createTreeWithEmptyWorkspace();
 
-        expect(nonMonorepo(tree, './')).toBe(false);
+        expect(verifyPluginCanBeInstalled(tree)).toBe(true);
     });
 
     describe('with apps', () => {
@@ -20,7 +20,7 @@ describe('nonMonorepo', () => {
         });
 
         it('should return true if apps exists', () => {
-            expect(nonMonorepo(tree, project)).toBe(false);
+            expect(verifyPluginCanBeInstalled(tree, project)).toBe(true);
         });
     });
 });
