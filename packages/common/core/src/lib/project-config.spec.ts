@@ -108,7 +108,7 @@ describe('project config', () => {
                     projectType: 'application',
                     targets: {
                         test: {
-                            executor: '@nrwl/jest:jest',
+                            executor: '@nx/jest:jest',
                             outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
                             options: {
                                 jestConfig: 'apps/testing/jest.config.ts',
