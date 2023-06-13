@@ -1,5 +1,5 @@
 import { createNextApp } from '@ensono-stacks/test';
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from 'nx/src/devkit-testing-exports';
 
 import { verifyPluginCanBeInstalled } from '.';

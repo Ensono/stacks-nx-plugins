@@ -12,7 +12,7 @@ import {
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { Linter } from '@nrwl/linter';
 import { libraryGenerator } from '@nrwl/react';
 import path from 'path';

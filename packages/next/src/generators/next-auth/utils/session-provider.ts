@@ -1,4 +1,4 @@
-import { joinPathFragments, ProjectConfiguration } from '@nrwl/devkit';
+import { joinPathFragments, ProjectConfiguration } from '@nx/devkit';
 import { SyntaxKind, Project } from 'ts-morph';
 
 export function addSessionProviderToApp(

@@ -1,5 +1,5 @@
 import { createOrUpdateLocalEnv } from '@ensono-stacks/core';
-import { ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { ProjectConfiguration, Tree } from '@nx/devkit';
 import crypto from 'crypto';
 
 import { NextAuthGeneratorSchema } from '../schema';

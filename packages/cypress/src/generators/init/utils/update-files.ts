@@ -1,4 +1,4 @@
-import { joinPathFragments, Tree, updateJson } from '@nrwl/devkit';
+import { joinPathFragments, Tree, updateJson } from '@nx/devkit';
 
 function findOverride(
     json: Array<any>,

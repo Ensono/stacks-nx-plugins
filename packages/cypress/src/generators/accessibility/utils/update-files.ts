@@ -1,5 +1,5 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, Tree } from '@nrwl/devkit';
+import { joinPathFragments, Tree } from '@nx/devkit';
 import {
     MethodDeclaration,
     ObjectLiteralExpression,

@@ -3,7 +3,7 @@ import {
     Tree,
     readJson,
     updateJson,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 import { InstallGeneratorSchema } from '../schema';
 import {

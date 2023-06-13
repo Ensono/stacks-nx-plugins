@@ -1,5 +1,5 @@
 import { updateEslintConfig, mergeEslintConfigs } from '@ensono-stacks/core';
-import { Tree, addDependenciesToPackageJson } from '@nrwl/devkit';
+import { Tree, addDependenciesToPackageJson } from '@nx/devkit';
 import { Linter } from 'eslint';
 
 import {
