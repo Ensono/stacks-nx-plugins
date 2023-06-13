@@ -1,5 +1,5 @@
-import { Tree, readJson, writeJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree, readJson, writeJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { updateEslintConfig, mergeEslintConfigs } from '.';
 

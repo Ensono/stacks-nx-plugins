@@ -1,4 +1,4 @@
-import { NxJsonStacksConfiguration } from '@nrwl/devkit';
+import { NxJsonStacksConfiguration } from '@nx/devkit';
 
 function lowerCaseCharactersOnly(value: string) {
     return value.replace(/([^A-Za-z])/g, '').toLowerCase();

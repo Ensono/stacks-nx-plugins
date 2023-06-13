@@ -1,5 +1,5 @@
 import { createNextApp } from '@ensono-stacks/test';
-import { readJson, Tree } from '@nrwl/devkit';
+import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries, import/no-relative-packages
