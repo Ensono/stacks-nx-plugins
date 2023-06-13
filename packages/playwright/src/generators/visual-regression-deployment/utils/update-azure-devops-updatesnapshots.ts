@@ -3,7 +3,7 @@ import {
     generateFiles,
     readJson,
     NxJsonStacksConfiguration,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import path from 'path';
 import YAML from 'yaml';
 

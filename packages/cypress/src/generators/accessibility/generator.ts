@@ -9,7 +9,7 @@ import {
     Tree,
     updateJson,
     joinPathFragments,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 import { normalizeOptions, addFiles } from '../../utils/test-utils';
 import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';

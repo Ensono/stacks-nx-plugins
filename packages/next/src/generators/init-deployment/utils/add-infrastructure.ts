@@ -5,7 +5,7 @@ import {
     Tree,
     GeneratorCallback,
     joinPathFragments,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 import { NextGeneratorSchema } from '../schema';
 import { addCommon } from './common';

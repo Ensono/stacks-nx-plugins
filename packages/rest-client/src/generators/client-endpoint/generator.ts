@@ -5,7 +5,7 @@ import {
     warnDirectoryProjectName,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { formatFiles, generateFiles, names, Tree } from '@nrwl/devkit';
+import { formatFiles, generateFiles, names, Tree } from '@nx/devkit';
 import { libraryGenerator } from '@nrwl/js';
 import path from 'path';
 

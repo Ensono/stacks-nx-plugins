@@ -15,7 +15,7 @@ import {
     addDependenciesToPackageJson,
     runTasksInSerial,
     joinPathFragments,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { Linter } from '@nrwl/linter';
 import { existsSync } from 'fs';
 
