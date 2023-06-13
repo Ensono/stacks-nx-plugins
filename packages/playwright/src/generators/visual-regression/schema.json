@@ -1,41 +1,46 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "cli": "nx",
-    "$id": "VisualRegression",
-    "title": "Ensono Stacks Playwright Visual Regression Generator",
-    "description": "The @ensono-stacks/playwright:visual-regression generator scaffolds example visual regression tests and config.",
-    "type": "object",
-    "properties": {
-        "project": {
-            "type": "string",
-            "description": "The name of the project.",
-            "alias": "p",
-            "$default": {
-                "$source": "projectName"
-            },
-            "x-prompt": "What is the name of the project for this component?"
-        },
-        "type": {
-            "type": "string",
-            "description": "Method used to conduct visual regression testing",
-            "alias": "t",
-            "default": "none",
-            "enum": ["native", "applitools"],
-            "x-prompt": {
-                "message": "What type of visual regression tests would you like to use?",
-                "type": "list",
-                "items": [
-                    {
-                        "value": "native",
-                        "label": "Native"
-                    },
-                    {
-                        "value": "applitools",
-                        "label": "Applitools"
-                    }
-                ]
-            }
-        }
+  "$schema": "http://json-schema.org/schema",
+  "$id": "VisualRegression",
+  "title": "Ensono Stacks Playwright Visual Regression Generator",
+  "description": "The @ensono-stacks/playwright:visual-regression generator scaffolds example visual regression tests and config.",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "alias": "p",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "What is the name of the project for this component?"
     },
-    "required": ["project", "type"]
+    "type": {
+      "type": "string",
+      "description": "Method used to conduct visual regression testing",
+      "alias": "t",
+      "default": "none",
+      "enum": [
+        "native",
+        "applitools"
+      ],
+      "x-prompt": {
+        "message": "What type of visual regression tests would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "native",
+            "label": "Native"
+          },
+          {
+            "value": "applitools",
+            "label": "Applitools"
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "project",
+    "type"
+  ]
 }

@@ -1,26 +1,25 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "cli": "nx",
-    "$id": "Init",
-    "title": "Ensono Stacks Workspace Init Generator",
-    "description": "The @ensono-stacks/workspace:init generator will set up libraries to manage code & commit quality, keeping projects consistent and will generally be useful in any workspace.",
-    "type": "object",
-    "properties": {
-        "husky": {
-            "type": "boolean",
-            "description": "Install & configure husky",
-            "default": true
-        },
-        "commitizen": {
-            "type": "boolean",
-            "description": "Install & configure commitizen",
-            "default": true
-        },
-        "eslint": {
-            "type": "boolean",
-            "description": "Install & configure eslint",
-            "default": true
-        }
+  "$schema": "http://json-schema.org/schema",
+  "$id": "Init",
+  "title": "Ensono Stacks Workspace Init Generator",
+  "description": "The @ensono-stacks/workspace:init generator will set up libraries to manage code & commit quality, keeping projects consistent and will generally be useful in any workspace.",
+  "type": "object",
+  "properties": {
+    "husky": {
+      "type": "boolean",
+      "description": "Install & configure husky",
+      "default": true
     },
-    "required": []
+    "commitizen": {
+      "type": "boolean",
+      "description": "Install & configure commitizen",
+      "default": true
+    },
+    "eslint": {
+      "type": "boolean",
+      "description": "Install & configure eslint",
+      "default": true
+    }
+  },
+  "required": []
 }
