@@ -1,7 +1,8 @@
-# Next
+# @ensono-stacks/next
 
 Please visit the stacks documentation page for `next`
-[here](https://stacks.amido.com/docs/nx/next/ensono-stacks-next) for more information
+[here](https://stacks.amido.com/docs/nx/next/ensono-stacks-next) for more
+information
 
 ## Generators and Executors
 
