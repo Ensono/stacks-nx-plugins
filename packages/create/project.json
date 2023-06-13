@@ -5,7 +5,7 @@
     "projectType": "library",
     "targets": {
         "build": {
-            "executor": "@nrwl/js:tsc",
+            "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
                 "buildableProjectDepsInPackageJsonType": "dependencies",
@@ -30,7 +30,6 @@
                 "passWithNoTests": true
             }
         },
-
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {

@@ -14,7 +14,7 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
-import { libraryGenerator } from '@nrwl/js';
+import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
 import { AXIOS_VERSION } from '../../../utils/versions';
