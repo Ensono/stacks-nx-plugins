@@ -1,7 +1,8 @@
-# Rest Client
+# @ensono-stacks/rest-client
 
 Please visit the stacks documentation page for `rest-client`
-[here](https://stacks.amido.com/docs/nx/rest-client/ensono-stacks-rest-client) for more information
+[here](https://stacks.amido.com/docs/nx/rest-client/ensono-stacks-rest-client)
+for more information
 
 ## Generators and Executors
 
