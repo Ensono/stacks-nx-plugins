@@ -84,7 +84,7 @@ export default async function appInsightsGenerator(
         throw new Error('AppInsights SDK is already in use.');
     }
 
-    thirdPartyDependencyWarning(['@nrwl/next:custom-server']);
+    thirdPartyDependencyWarning(['@nx/next:custom-server']);
 
     customServer.addImportDeclaration({
         namespaceImport: 'appInsights',

@@ -1,6 +1,6 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
-import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
+import { applicationGenerator } from '@nx/next';
+import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
 
 import { addStacksAttributes } from './stacks-attributes';
 
