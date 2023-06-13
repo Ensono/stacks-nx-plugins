@@ -14,7 +14,7 @@
         "plugin:security/recommended",
         "prettier"
     ],
-    "plugins": ["@typescript-eslint", "@nrwl/nx", "import", "security"],
+    "plugins": ["@typescript-eslint", "@nx", "import", "security"],
     "settings": {
         "import/resolver": {
             "typescript": {
@@ -26,7 +26,7 @@
         {
             "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
             "rules": {
-                "@nrwl/nx/enforce-module-boundaries": [
+                "@nx/enforce-module-boundaries": [
                     "error",
                     {
                         "enforceBuildableLibDependency": true,
@@ -111,7 +111,7 @@
         },
         {
             "files": ["*.ts", "*.tsx"],
-            "extends": ["plugin:@nrwl/nx/typescript"],
+            "extends": ["plugin:@nx/typescript"],
             "rules": {
                 "@typescript-eslint/no-var-requires": "off",
                 "@typescript-eslint/no-empty-function": "off",
@@ -130,7 +130,7 @@
         },
         {
             "files": ["*.js", "*.jsx"],
-            "extends": ["plugin:@nrwl/nx/javascript"],
+            "extends": ["plugin:@nx/javascript"],
             "rules": {}
         },
         {
