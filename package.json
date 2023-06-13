@@ -13,7 +13,6 @@
         "@commitlint/cz-commitlint": "^17.5.0",
         "@jscutlery/semver": "^3.0.0",
         "@mands/nx-playwright": "~0.6.2",
-        "@nrwl/eslint-plugin-nx": "16.3.2",
         "@nrwl/jest": "16.3.2",
         "@nrwl/next": "16.3.2",
         "@swc-node/register": "1.6.5",
@@ -53,7 +52,8 @@
         "@nx/js": "16.3.2",
         "@nx/cypress": "16.3.2",
         "@nx/linter": "16.3.2",
-        "@nx/plugin": "16.3.2"
+        "@nx/plugin": "16.3.2",
+        "@nx/eslint-plugin": "16.3.2"
     },
     "config": {
         "commitizen": {
