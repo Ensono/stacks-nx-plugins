@@ -1,7 +1,8 @@
-# Logger
+# @ensono-stacks/logger
 
 Please visit the stacks documentation page for `logger`
-[here](https://stacks.amido.com/docs/nx/logger/ensono-stacks-logger) for more information
+[here](https://stacks.amido.com/docs/nx/logger/ensono-stacks-logger) for more
+information
 
 ## Generators and Executors
 
