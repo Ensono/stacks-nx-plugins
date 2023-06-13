@@ -10,7 +10,7 @@ describe('azure-node e2e', () => {
     jest.setTimeout(300_000);
 
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/azure-node'], ['@nrwl/next']);
+        await newProject(['@ensono-stacks/azure-node'], ['@nx/next']);
     });
 
     afterAll(() => {
@@ -24,7 +24,7 @@ describe('azure-node e2e', () => {
         it('runs the install generator', async () => {
             // Generate next project
             await runNxCommandAsync(
-                `generate @nrwl/next:application ${project} --custom-server`,
+                `generate @nx/next:application ${project} --custom-server`,
             );
             // Add appInsights to custom server
             await runNxCommandAsync(
