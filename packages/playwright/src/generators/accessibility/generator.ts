@@ -9,11 +9,11 @@ import {
 } from '@nx/devkit';
 import path from 'path';
 
+import { AccessibilityGeneratorSchema } from './schema';
 import {
     AXE_CORE_PLAYWRIGHT_VERSION,
     AXE_RESULTS_PRETTY_PRINT_VERSION,
 } from '../../utils/versions';
-import { AccessibilityGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends AccessibilityGeneratorSchema {
     projectName: string;

@@ -9,16 +9,20 @@ export function getPackageManagerNxCreateCommand(
 ): string {
     const nxVersion = getNxVersion();
     switch (packageManager) {
-        case 'npm':
+        case 'npm': {
             return `npx --yes @ensono-stacks/create-stacks-workspace@dev --useDev --nxVersion=${nxVersion}`;
-        case 'yarn':
+        }
+        case 'yarn': {
             return `yarn global add @ensono-stacks/create-stacks-workspace@dev --useDev && create-nx-workspace --nxVersion=${nxVersion}`;
-        case 'pnpm':
+        }
+        case 'pnpm': {
             return `pnpm dlx @ensono-stacks/create-stacks-workspace@dev --useDev --nxVersion=${nxVersion}`;
-        default:
+        }
+        default: {
             throw new Error(
                 `Unsupported package manager used: ${packageManager}`,
             );
+        }
     }
 }
 

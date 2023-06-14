@@ -13,7 +13,7 @@ export function updatePipelineStagesYaml(
     // Skip if file doesn't exist
     if (!tree.exists(filePath)) return;
 
-    const stagesYAML = YAML.parse(tree.read(filePath, 'utf-8'));
+    const stagesYAML = YAML.parse(tree.read(filePath, 'utf8'));
 
     // Find deployment step
     const stageIndex = stagesYAML.stages.findIndex(

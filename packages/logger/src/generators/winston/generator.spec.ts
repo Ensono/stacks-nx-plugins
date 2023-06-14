@@ -48,7 +48,7 @@ describe('logger generator', () => {
 
     it('should add console log transport', async () => {
         await generator(tree, { ...options, consoleLogs: true });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Console())',
         );
@@ -59,7 +59,7 @@ describe('logger generator', () => {
             ...options,
             fileTransportPath: '/log-file.log',
         });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
         expect(indexFile).toContain(
             "logger.add(new winston.transports.File({ filename: '/log-file.log' }))",
         );
@@ -72,7 +72,7 @@ describe('logger generator', () => {
             httpTransportPort: 300,
             httpTransportHost: 'www.testsite.co.uk',
         });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
         expect(indexFile).toContain(
             'const httpTransportConfiguration: winston.transports.HttpTransportOptions = {',
         );
@@ -88,7 +88,7 @@ describe('logger generator', () => {
             ...options,
             streamPath: 'www.testsite.co.uk',
         });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf-8');
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Stream(streamTransportConfiguration));',
         );

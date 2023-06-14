@@ -46,7 +46,7 @@ describe('stacks', () => {
 
             const result = addStacksAttributes(tree, 'test-project');
 
-            const nxJson = JSON.parse(tree.read('nx.json', 'utf-8') as string);
+            const nxJson = JSON.parse(tree.read('nx.json', 'utf8') as string);
             expect(nxJson.stacks).toBeTruthy();
             expect(nxJson.stacks.config).toMatchObject(expectedStacksConfig);
             expect(nxJson.stacks.executedGenerators).toMatchObject(
