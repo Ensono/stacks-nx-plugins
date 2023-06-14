@@ -24,6 +24,7 @@ describe('next-auth generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
+            appDir: false,
         });
 
         addStacksAttributes(appTree, options.project);
