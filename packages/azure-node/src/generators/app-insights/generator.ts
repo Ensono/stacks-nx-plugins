@@ -17,13 +17,13 @@ import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-seria
 import chalk from 'chalk';
 import path from 'path';
 
-import { appInsightsVersion } from '../../../utils/versions';
 import { AppInsightsGeneratorSchema } from './schema';
 import {
     initAppInsights,
     configureAppInsights,
     startAppInsights,
 } from './templates/appInsights';
+import { appInsightsVersion } from '../../../utils/versions';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

@@ -1,11 +1,11 @@
 import { NxJsonStacksConfiguration } from '@nx/devkit';
 
 function lowerCaseCharactersOnly(value: string) {
-    return value.replace(/([^A-Za-z])/g, '').toLowerCase();
+    return value.replaceAll(/([^A-Za-z])/g, '').toLowerCase();
 }
 
 function hyphenatedLowerCaseCharactersOnly(value: string) {
-    return value.replace(/([^A-Za-z-])/g, '').toLowerCase();
+    return value.replaceAll(/([^A-Za-z-])/g, '').toLowerCase();
 }
 
 export function getRegistryUrl(
