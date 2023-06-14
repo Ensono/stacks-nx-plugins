@@ -94,10 +94,13 @@ export async function formatFiles(
             }
 
             try {
-                if (file.content?.toString('utf8') && prettier) {
+                if (file.content?.toString('utf-8') && prettier) {
                     tree.write(
                         file.path,
-                        prettier.format(file.content.toString('utf8'), options),
+                        prettier.format(
+                            file.content.toString('utf-8'),
+                            options,
+                        ),
                     );
                 }
             } catch (error) {

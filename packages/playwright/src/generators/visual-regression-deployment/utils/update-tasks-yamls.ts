@@ -6,7 +6,7 @@ export function updateTasksYaml(tree: Tree) {
         return;
     }
 
-    const tasks = YAML.parse(tree.read('build/taskctl/tasks.yaml', 'utf8'));
+    const tasks = YAML.parse(tree.read('build/taskctl/tasks.yaml', 'utf-8'));
     if (tasks.tasks) {
         // Add e2e tasks
         tasks.tasks = {

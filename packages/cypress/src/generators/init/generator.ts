@@ -19,13 +19,6 @@ import {
 import { Linter } from '@nx/linter';
 import { existsSync } from 'fs';
 
-import { CypressGeneratorSchema } from './schema';
-import {
-    updateBaseTsConfig,
-    updateApplicationLintFile,
-    updateTsConfig,
-} from './utils/update-files';
-import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
 import { addFiles, normalizeOptions } from '../../utils/test-utils';
 import {
     CYPRESS_VERSION,
@@ -36,6 +29,13 @@ import {
     NRWLCYPRESS_VERSION,
     CYPRESSGREP_VERSION,
 } from '../../versions';
+import { CypressGeneratorSchema } from './schema';
+import {
+    updateBaseTsConfig,
+    updateApplicationLintFile,
+    updateTsConfig,
+} from './utils/update-files';
+import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
 
 function updateDependencies(tree) {
     return addDependenciesToPackageJson(

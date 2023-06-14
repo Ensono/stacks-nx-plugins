@@ -7,9 +7,9 @@ import {
     joinPathFragments,
 } from '@nx/devkit';
 
+import { NextGeneratorSchema } from '../schema';
 import { addCommon } from './common';
 import { addTerraform } from './terraform';
-import { NextGeneratorSchema } from '../schema';
 
 export function addInfrastructure(
     tree: Tree,
