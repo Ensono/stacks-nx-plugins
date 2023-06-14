@@ -27,5 +27,5 @@ export function execAsync(
 }
 
 export function getCommandVersion(command: string) {
-    return execSync(`${command} --version`).toString('utf-8').trim();
+    return execSync(`${command} --version`).toString('utf8').trim();
 }

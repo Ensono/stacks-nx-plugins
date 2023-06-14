@@ -16,12 +16,12 @@ import { ChildProcess } from 'child_process';
 import fs from 'fs';
 import semver from 'semver';
 
+import { End2EndExecutorSchema } from './schema';
 import {
     addUser,
     getNpmPackageVersion,
     startVerdaccio,
 } from '../../utils/registry';
-import { End2EndExecutorSchema } from './schema';
 
 function filterPublishableLibraries(
     libraries: WorkspaceLibrary[],
@@ -110,12 +110,16 @@ export default async function runEnd2EndExecutor(
         const versionUpdates = publishableLibraries.reduce((accum, library) => {
             // We need to patch the version higher than whats on npm
             // as verdaccio will validate versions via it's proxies
-            const distOutput = readTargetOptions(
+            const distributionOutput = readTargetOptions(
                 { project: library.name, target: 'build' },
                 context,
             ).outputPath as string;
             const packageJson = readJsonFile(
-                joinPathFragments(context.root, distOutput, 'package.json'),
+                joinPathFragments(
+                    context.root,
+                    distributionOutput,
+                    'package.json',
+                ),
             );
             const currentVersion = getNpmPackageVersion(packageJson.name);
             const version = semver.inc(currentVersion, 'patch');
@@ -124,7 +128,7 @@ export default async function runEnd2EndExecutor(
                 ...accum,
                 [packageJson.name]: {
                     libName: library.name,
-                    distOutput,
+                    distOutput: distributionOutput,
                     version,
                 },
             };
