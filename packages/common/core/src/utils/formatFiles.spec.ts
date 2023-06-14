@@ -17,7 +17,7 @@ describe('formatFiles', () => {
 
         await formatFiles(appTree);
 
-        const ignoreFile = appTree.read('test/testFormat.js', 'utf-8');
+        const ignoreFile = appTree.read('test/testFormat.js', 'utf8');
 
         expect(ignoreFile).toBe(`foo();\nconst test = 'yoyo';\n`);
     });
