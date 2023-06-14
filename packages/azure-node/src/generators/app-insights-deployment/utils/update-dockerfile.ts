@@ -10,7 +10,7 @@ export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
         project.targets?.['build-custom-server']?.options?.main;
 
     const rootFolderPath = project.targets?.build?.options?.root;
-    const distributionFolderPath = project.targets?.build?.options?.outputPath;
+    const distFolderPath = project.targets?.build?.options?.outputPath;
 
     let customServerRelativePath: string;
 
@@ -29,8 +29,8 @@ export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
                 `CMD ["dumb-init", "node", "${customServerRelativePath}"]`,
             )
             .replace(
-                `COPY ${distributionFolderPath}/public ./public`,
-                `COPY ${distributionFolderPath}/public ./public\nCOPY ${distributionFolderPath}/server ./server`,
+                `COPY ${distFolderPath}/public ./public`,
+                `COPY ${distFolderPath}/public ./public\nCOPY ${distFolderPath}/server ./server`,
             );
         tree.write(filePath, newContents);
     }

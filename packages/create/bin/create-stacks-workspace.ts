@@ -9,6 +9,7 @@ import path from 'path';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
 
+import packageJson from '../package.json';
 import {
     commitGeneratedFiles,
     getGeneratorsToRun,
@@ -21,7 +22,6 @@ import { configureNx } from './nx';
 import { packageManagerList } from './package-manager';
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
-import packageJson from '../package.json';
 
 const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
@@ -61,7 +61,7 @@ async function determineRepoName(
         : (parsedArgv['name'] as string | undefined);
 
     if (repoName) {
-        return repoName;
+        return Promise.resolve(repoName);
     }
 
     return enquirer
@@ -85,7 +85,7 @@ async function determinePreset(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
     if (!(parsedArguments.preset || parsedArguments.interactive)) {
-        return Preset.Apps;
+        return Promise.resolve(Preset.Apps);
     }
 
     if (parsedArguments.preset) {
@@ -97,7 +97,7 @@ ${Object.values(Preset)}`);
 
             process.exit(1);
         } else {
-            return parsedArguments.preset as Preset;
+            return Promise.resolve(parsedArguments.preset as Preset);
         }
     }
 
@@ -119,15 +119,15 @@ async function determineAppName(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
     if (preset === Preset.Apps) {
-        return '';
+        return Promise.resolve('');
     }
 
     if (parsedArguments.appName) {
-        return parsedArguments.appName;
+        return Promise.resolve(parsedArguments.appName);
     }
 
     if (!parsedArguments.interactive) {
-        return `stacks-app`;
+        return Promise.resolve(`stacks-app`);
     }
 
     return enquirer
@@ -152,7 +152,7 @@ async function determineE2eTestRunner(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ) {
     if (!(parsedArguments.e2eTestRunner || parsedArguments.interactive)) {
-        return E2eTestRunner.None;
+        return Promise.resolve(E2eTestRunner.None);
     }
 
     if (parsedArguments.e2eTestRunner) {
@@ -166,7 +166,9 @@ ${Object.values(E2eTestRunner)}`);
 
             process.exit(1);
         } else {
-            return parsedArguments.e2eTestRunner as E2eTestRunner;
+            return Promise.resolve(
+                parsedArguments.e2eTestRunner as E2eTestRunner,
+            );
         }
     }
 

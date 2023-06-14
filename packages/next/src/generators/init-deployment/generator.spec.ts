@@ -101,7 +101,7 @@ describe('next deployment generator', () => {
                 'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
             );
 
-            const prettierIgnoreFile = tree.read('/.prettierignore', 'utf8');
+            const prettierIgnoreFile = tree.read('/.prettierignore', 'utf-8');
             expect(prettierIgnoreFile).toContain(
                 'libs/stacks-helm-chart/build/helm/**/*.yaml',
             );
