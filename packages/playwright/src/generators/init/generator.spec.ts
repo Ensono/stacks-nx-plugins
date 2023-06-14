@@ -110,7 +110,7 @@ describe('playwright generator', () => {
         ).toMatchSnapshot();
 
         // expect .gitignore entries to be added
-        const gitIgnoreFile = appTree.read('/.gitignore', 'utf8');
+        const gitIgnoreFile = appTree.read('/.gitignore', 'utf-8');
         expect(gitIgnoreFile).toContain('**/test-results');
         expect(gitIgnoreFile).toContain('**/playwright-report');
         expect(gitIgnoreFile).toContain('**/playwright/.cache');

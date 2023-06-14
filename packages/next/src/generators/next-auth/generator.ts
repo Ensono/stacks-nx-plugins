@@ -64,7 +64,7 @@ export default async function nextAuthGenerator(
     ]);
 
     return runTasksInSerial(
-        options.skipPackageJson ? () => {} : installDependencies(tree),
+        !options.skipPackageJson ? installDependencies(tree) : () => {},
         formatFilesWithEslint(options.project),
         () => {
             logger.warn(`Do not forget to update your .env.local environment variables with values.

@@ -22,11 +22,13 @@ export function createOrUpdateLocalEnv(
     const localEnvPath = joinPathFragments(project?.root ?? '', '.env.local');
 
     const env = Object.entries(parameters).map(([key, value]) => [
-        key.toLocaleUpperCase() === key ? key : names(key).constantName,
+        key.toLocaleUpperCase() !== key ? names(key).constantName : key,
         value,
     ]);
 
-    if (tree.exists(localEnvPath)) {
+    if (!tree.exists(localEnvPath)) {
+        tree.write(localEnvPath, env.map(entry => entry.join('=')).join('\n'));
+    } else {
         let localEnv = tree.read(localEnvPath)?.toString().trim() ?? '';
         env.forEach(([key, value]) => {
             if (!localEnv.includes(`${key}=`)) {
@@ -34,7 +36,5 @@ export function createOrUpdateLocalEnv(
             }
         });
         tree.write(localEnvPath, localEnv);
-    } else {
-        tree.write(localEnvPath, env.map(entry => entry.join('=')).join('\n'));
     }
 }
