@@ -1,6 +1,6 @@
 import { PackageManager } from './package-manager';
 
-export type CreateStacksArguments = {
+export interface CreateStacksArguments {
     name: string;
     dir: string;
     preset: string;
@@ -36,7 +36,7 @@ export type CreateStacksArguments = {
         url: string;
     };
     useDev?: boolean;
-};
+}
 
 export enum Preset {
     Apps = 'apps',
