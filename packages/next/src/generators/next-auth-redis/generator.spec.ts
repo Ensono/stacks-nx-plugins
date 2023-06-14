@@ -21,6 +21,7 @@ describe('next-auth-redis generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
+            appDir: false,
         });
         addStacksAttributes(appTree, options.project);
         await nextInitGenerator(appTree, { project: 'next-app' });
