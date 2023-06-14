@@ -10,7 +10,7 @@ export function addIgnoreEntry(
     entries: string[],
 ) {
     let content = tree.exists(fileName)
-        ? (tree.read(fileName, 'utf-8') as string).trimEnd()
+        ? (tree.read(fileName, 'utf8') as string).trimEnd()
         : '';
 
     const ig = ignore();

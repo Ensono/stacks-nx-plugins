@@ -2,13 +2,13 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
+import generator from './generator';
+import { AccessibilityGeneratorSchema } from './schema';
 import {
     AXE_CORE_PLAYWRIGHT_VERSION,
     AXE_RESULTS_PRETTY_PRINT_VERSION,
 } from '../../utils/versions';
 import initGenerator from '../init/generator';
-import generator from './generator';
-import { AccessibilityGeneratorSchema } from './schema';
 
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
@@ -83,7 +83,7 @@ describe('playwright accessibility generator', () => {
         );
 
         // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
+        const packageJson = JSON.parse(appTree.read('/package.json', 'utf8'));
         expect(packageJson?.devDependencies).toMatchObject({
             '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
             'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,

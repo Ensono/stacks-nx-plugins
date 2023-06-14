@@ -17,14 +17,14 @@ import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-seria
 import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
 
+import { printZod } from './art';
+import { OpenapiClientGeneratorSchema } from './schema';
 import {
     FAKERJS_VERSION,
     MSW_VERSION,
     ORVAL_VERSION,
     ZOD_VERSION,
 } from '../../../utils/versions';
-import { printZod } from './art';
-import { OpenapiClientGeneratorSchema } from './schema';
 
 export default async function generate(
     tree: Tree,
