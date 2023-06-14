@@ -57,7 +57,7 @@
                 "passWithNoTests": true
             }
         },
-        "version": {
+        "version-donotrun": {
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
