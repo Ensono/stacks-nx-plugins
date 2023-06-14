@@ -58,7 +58,7 @@ export function getNpmPackageVersion(packageName: string) {
         version = execSync(`npm view ${packageName} version`, {
             env: process.env,
         })
-            .toString('utf-8')
+            .toString('utf8')
             .trim();
     } catch {
         version = '0.0.0';

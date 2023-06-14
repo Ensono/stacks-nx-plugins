@@ -11,10 +11,10 @@ import {
     joinPathFragments,
 } from '@nx/devkit';
 
-import { normalizeOptions, addFiles } from '../../utils/test-utils';
-import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
 import { AccessibilityGeneratorSchema } from './schema';
 import { addTerminalLogging, updateCypressConfig } from './utils/update-files';
+import { normalizeOptions, addFiles } from '../../utils/test-utils';
+import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
 
 async function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
