@@ -22,6 +22,7 @@ describe('next deployment generator', () => {
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
+            appDir: false,
             ...schema,
         });
 
