@@ -4,8 +4,6 @@ import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import * as fs from 'fs';
 import path from 'path';
 
-import generator from './generator';
-import { CypressGeneratorSchema } from './schema';
 import { checkOneOccurence } from '../../utils/test-utils';
 import {
     CYPRESS_VERSION,
@@ -16,6 +14,8 @@ import {
     NRWLCYPRESS_VERSION,
     CYPRESSGREP_VERSION,
 } from '../../versions';
+import generator from './generator';
+import { CypressGeneratorSchema } from './schema';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
@@ -47,8 +47,8 @@ jest.mock('@nx/devkit', () => {
 
 function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     const expectedFileContents = fs
-        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8)
-        .replaceAll(/(\r)/gm, '')
+        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf-8')
+        .replace(/(\r)/gm, '')
         .trim();
     const fileContents = fileInTree.getFullText().trim();
     expect(fileContents).toBe(expectedFileContents);
@@ -132,7 +132,7 @@ describe('should run successfully with default options', () => {
 
     it('should update the gitignore', () => {
         // expect .gitignore entries to be added
-        const gitIgnoreFile = appTree.read('/.gitignore', 'utf8');
+        const gitIgnoreFile = appTree.read('/.gitignore', 'utf-8');
         expect(gitIgnoreFile).toContain('**/test-results');
     });
 

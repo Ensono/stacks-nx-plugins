@@ -16,14 +16,14 @@ import {
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
+import { visualRegressionTypes } from '../../utils/types';
+import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import { VisualRegressionGeneratorSchema } from './schema';
 import {
     updatePlaywrightConfigWithApplitoolsVisualRegression,
     updatePlaywrightConfigWithNativeVisualRegression,
 } from './utils/update-playwright-config';
 import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
-import { visualRegressionTypes } from '../../utils/types';
-import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 interface NormalizedSchema extends VisualRegressionGeneratorSchema {
     projectName: string;
@@ -101,7 +101,7 @@ export default async function visualRegressionGenerator(
     const morphTree = tsMorphTree(tree);
 
     switch (options.type) {
-        case visualRegressionTypes.NATIVE: {
+        case visualRegressionTypes.NATIVE:
             // update project.json with new visual target
             updateProjectJsonWithNativeVisualRegressionTargets(
                 readProjectConfiguration(tree, options.project),
@@ -114,8 +114,7 @@ export default async function visualRegressionGenerator(
             // example.spec.ts
             addFiles(tree, 'files/native', normalizedOptions);
             break;
-        }
-        case visualRegressionTypes.APPLITOOLS: {
+        case visualRegressionTypes.APPLITOOLS:
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithApplitoolsVisualRegression(
                 readProjectConfiguration(tree, options.project),
@@ -125,7 +124,6 @@ export default async function visualRegressionGenerator(
             // example.spec.ts
             addFiles(tree, 'files/applitools', normalizedOptions);
             break;
-        }
         default:
     }
 

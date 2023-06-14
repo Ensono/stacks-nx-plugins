@@ -5,13 +5,13 @@ import {
     updateJson,
 } from '@nx/devkit';
 
+import { InstallGeneratorSchema } from '../schema';
 import {
     COMMITIZEN_VERSION,
     COMMITLINT_CZ_COMMITLINT_VERSION,
     PACKAGE_JSON,
 } from './constants';
 import { PackageJson } from './types';
-import { InstallGeneratorSchema } from '../schema';
 
 function addCommitizenDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

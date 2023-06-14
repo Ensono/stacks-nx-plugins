@@ -1,9 +1,9 @@
 import { createNextApp } from '@ensono-stacks/test';
-import workspaceInitDeployment from '@ensono-stacks/workspace/src/generators/init-deployment/generator';
 import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries, import/no-relative-packages
+import workspaceInitDeployment from '../../../../workspace/src/generators/init-deployment/generator';
 import generator from './generator';
 
 const applicationName = 'application';

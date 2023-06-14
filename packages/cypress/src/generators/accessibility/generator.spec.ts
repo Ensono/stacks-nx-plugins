@@ -4,12 +4,12 @@ import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import * as fs from 'fs';
 import path from 'path';
 
-import generator from './generator';
-import { AccessibilityGeneratorSchema } from './schema';
-import { terminalLogAxeBody } from './utils/update-files';
 import { checkOneOccurence } from '../../utils/test-utils';
 import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
 import initGenerator from '../init/generator';
+import generator from './generator';
+import { AccessibilityGeneratorSchema } from './schema';
+import { terminalLogAxeBody } from './utils/update-files';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
@@ -38,8 +38,8 @@ jest.mock('@nx/devkit', () => {
 
 function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     const expectedFileContents = fs
-        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8)
-        .replaceAll(/(\r)/gm, '')
+        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf-8')
+        .replace(/(\r)/gm, '')
         .trim();
     const fileContents = fileInTree.getFullText().trim();
     expect(fileContents).toBe(expectedFileContents);
@@ -140,7 +140,7 @@ describe('cypress accessibility generator', () => {
         it('should update the package.json with the required dependencies', () => {
             // expect package.json updated
             const packageJson = JSON.parse(
-                appTree.read('/package.json', 'utf8'),
+                appTree.read('/package.json', 'utf-8'),
             );
             expect(packageJson?.devDependencies).toMatchObject({
                 'axe-core': AXECORE_VERSION,

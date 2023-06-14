@@ -17,8 +17,8 @@ import {
 import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
-import { HttpClientGeneratorSchema } from './schema';
 import { AXIOS_VERSION } from '../../../utils/versions';
+import { HttpClientGeneratorSchema } from './schema';
 
 type NormalizedSchema = BaseNormalizedSchema<HttpClientGeneratorSchema>;
 

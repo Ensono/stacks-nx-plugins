@@ -156,9 +156,9 @@ export function readJsonInJs<T extends Record<string, any>>(
     const jsonInJS = node.getFullText();
     const objectJson = JSON.parse(
         jsonInJS
-            .replaceAll("'", '"')
-            .replaceAll(/\s"{0}(\w+?)"{0}(?=:)/g, '"$1"')
-            .replaceAll(/(,)\s*(?=}|]){1}/g, ''),
+            .replace(/'/g, '"')
+            .replace(/\s"{0}(\w+?)"{0}(?=:)/g, '"$1"')
+            .replace(/(,)\s*(?=}|]){1}/g, ''),
     );
 
     return objectJson;
@@ -171,8 +171,8 @@ export function updateJsonInJS<
     const objectJson = readJsonInJs<T>(node);
     const update = updater(objectJson);
     const object = JSON.stringify(update, null, 2)
-        .replaceAll(/"(\w+?)"(?=:)/g, '$1')
-        .replaceAll(/(?!}|]){1}(\s*)(?=}|]){1}/g, ',$1');
+        .replace(/"(\w+?)"(?=:)/g, '$1')
+        .replace(/(?!}|]){1}(\s*)(?=}|]){1}/g, ',$1');
     node.replaceWithText(object);
     const source = node.getSourceFile();
     source.saveSync();

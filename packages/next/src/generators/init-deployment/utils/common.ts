@@ -11,13 +11,13 @@ import {
 import { paramCase } from 'change-case';
 import path from 'path';
 
-import { addHelmProject } from './helm';
 import {
     JSCUTLERY_SEMVER_VERSION,
     NXTOOLS_NX_CONTAINER_VERSION,
     NXTOOLS_NX_METADATA_VERSION,
 } from '../../../utils/constants';
 import { NextGeneratorSchema } from '../schema';
+import { addHelmProject } from './helm';
 
 function addCommonInfrastructureDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -42,7 +42,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
     const customServer =
         project.targets?.['build-custom-server']?.options?.main;
 
-    const distributionFolderPath = project.targets?.build?.options?.outputPath;
+    const distFolderPath = project.targets?.build?.options?.outputPath;
     const rootFolderPath = project.targets?.build?.options?.root;
 
     const port = setPort(project);
@@ -78,7 +78,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         path.join(__dirname, '..', 'files', 'apps', 'common'),
         project.root,
         {
-            distFolderPath: distributionFolderPath,
+            distFolderPath,
             customServerRelativePath,
             port,
             nonprodRegistryPath: `${getRegistryUrl(

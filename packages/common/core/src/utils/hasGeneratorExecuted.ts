@@ -1,11 +1,11 @@
 import { getWorkspaceLayout, Tree, updateJson } from '@nx/devkit';
 import chalk from 'chalk';
 
+import { readStacksExecutedGenerators } from '../lib/stacks';
 import {
     tagExecutedGeneratorForProject,
     tagExecutedGeneratorForWorkspace,
 } from './tagExecutedGenerator';
-import { readStacksExecutedGenerators } from '../lib/stacks';
 
 export function isGeneratorInExecutedListForProject(
     tree: Tree,
@@ -55,7 +55,9 @@ export function hasGeneratorExecutedForProject(
         projectName,
         generatorName,
     );
-    if (generatorExecuted) {
+    if (!generatorExecuted) {
+        tagExecutedGeneratorForProject(tree, projectName, generatorName);
+    } else {
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the project`,
@@ -77,8 +79,6 @@ export function hasGeneratorExecutedForProject(
                 chalk.yellow`and verify the new output is as expected on re-run`,
                 '\n',
             );
-    } else {
-        tagExecutedGeneratorForProject(tree, projectName, generatorName);
     }
 
     return generatorExecuted;
@@ -96,7 +96,9 @@ export function hasGeneratorExecutedForWorkspace(
 
     const workspace = getWorkspaceLayout(tree);
 
-    if (generatorExecuted) {
+    if (!generatorExecuted) {
+        tagExecutedGeneratorForWorkspace(tree, generatorName);
+    } else {
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the workspace`,
@@ -116,8 +118,6 @@ export function hasGeneratorExecutedForWorkspace(
                 chalk.yellow`and verify the new output is as expected on re-run`,
                 '\n',
             );
-    } else {
-        tagExecutedGeneratorForWorkspace(tree, generatorName);
     }
 
     return generatorExecuted;

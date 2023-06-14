@@ -4,10 +4,10 @@ import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 
-import generator from './generator';
-import { VisualRegressionGeneratorSchema } from './schema';
 import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 import initGenerator from '../init/generator';
+import generator from './generator';
+import { VisualRegressionGeneratorSchema } from './schema';
 
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
@@ -143,7 +143,7 @@ describe('playwright generator', () => {
         );
 
         // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf8'));
+        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
         expect(packageJson?.devDependencies).toMatchObject({
             '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
         });

@@ -29,7 +29,7 @@ export function updateAzureDevopsSnapshotsYaml(tree: Tree) {
                     'azDevOps',
                     'azuredevops-updatesnapshots.yaml',
                 ),
-                'utf8',
+                'utf-8',
             ),
         );
         const nxJsonStacks = readJson(tree, 'nx.json')

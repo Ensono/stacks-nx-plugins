@@ -18,7 +18,7 @@ function findLatestVersion(
         const versionsPath = readProjectConfiguration(
             tree,
             endpointName,
-        ).root.replaceAll(/v(\d+)$/g, '');
+        ).root.replace(/v(\d+)$/g, '');
 
         children = tree.children(versionsPath);
     } catch {
@@ -82,22 +82,22 @@ function updateVersionInCode(
         tree.write(
             filePath,
             fileContent
-                .replaceAll(
+                .replace(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(latestVersionNames.className, 'g'),
                     newVersionNames.className,
                 )
-                .replaceAll(
+                .replace(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(latestVersionNames.name, 'g'),
                     newVersionNames.name,
                 )
-                .replaceAll(
+                .replace(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(`v${latestVersion}`, 'g'),
                     `v${newVersion}`,
                 )
-                .replaceAll(
+                .replace(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(`V${latestVersion}`, 'g'),
                     `V${newVersion}`,
@@ -135,7 +135,7 @@ export default async function bumpVersion(
     const libsEndpoint = readProjectConfiguration(
         tree,
         optionsParameter.name,
-    ).root.replaceAll(/v(\d+)$/g, '');
+    ).root.replace(/v(\d+)$/g, '');
 
     const endpointRoot = libsEndpoint.replace('libs/', '');
 
