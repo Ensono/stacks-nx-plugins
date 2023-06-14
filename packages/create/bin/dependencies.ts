@@ -108,7 +108,7 @@ export async function installPackages(
     useDevelopment?: boolean,
 ) {
     if (packages.length === 0) {
-        return Promise.resolve();
+        return;
     }
 
     const versionedPackages = useDevelopment
@@ -127,7 +127,7 @@ export async function installPackages(
 
 export async function runGenerators(commands: string[], cwd: string) {
     if (commands.length === 0) {
-        return Promise.resolve();
+        return;
     }
 
     const packageManager = detectPackageManager(cwd);

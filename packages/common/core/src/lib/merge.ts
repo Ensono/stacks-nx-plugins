@@ -53,7 +53,7 @@ export function combineMerge(
     let destination = [...target];
 
     source.forEach((item, index) => {
-        if (typeof destination[index] === 'undefined') {
+        if (destination[index] === undefined) {
             destination[index] = item;
         } else if (
             options?.isMergeableObject &&

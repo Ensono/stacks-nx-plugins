@@ -70,7 +70,7 @@ describe('openapi-client generator', () => {
         await generator(tree, options);
 
         const orvalConfigExists = tree.exists('test-client/orval.config.js');
-        const orvalConfig = tree.read('test-client/orval.config.js', 'utf-8');
+        const orvalConfig = tree.read('test-client/orval.config.js', 'utf8');
 
         expect(orvalConfigExists).toBeTruthy();
 
@@ -103,7 +103,7 @@ describe('openapi-client generator', () => {
             );
             const orvalConfig = tree.read(
                 'test-client/orval.zod.config.js',
-                'utf-8',
+                'utf8',
             );
 
             expect(orvalConfigExists).toBeTruthy();

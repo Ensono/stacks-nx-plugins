@@ -51,13 +51,13 @@ export function addTerminalLogging(tree: Tree, cypressDirectory: string) {
             moduleSpecifier: 'axe-core',
             namedImports: ['Result'],
         };
-        if (importIndex !== -1) {
+        if (importIndex === -1) {
+            appNode.addImportDeclaration(newImportDeclaration);
+        } else {
             appNode.insertImportDeclaration(
                 importIndex + 1,
                 newImportDeclaration,
             );
-        } else {
-            appNode.addImportDeclaration(newImportDeclaration);
         }
         appNode.save();
     }

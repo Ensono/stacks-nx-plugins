@@ -4,7 +4,7 @@ import path from 'path';
 
 export const packageManagerList = ['pnpm', 'yarn', 'npm'] as const;
 
-export type PackageManager = typeof packageManagerList[number];
+export type PackageManager = (typeof packageManagerList)[number];
 
 export function detectPackageManager(directory = ''): PackageManager {
     return existsSync(path.join(directory, 'yarn.lock'))

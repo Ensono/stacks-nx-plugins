@@ -3,10 +3,10 @@ import { readJson, Tree, updateJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 
-import nextInitGenerator from '../init/generator';
-import nextAuthGenerator from '../next-auth/generator';
 import generator from './generator';
 import { NextAuthRedisDeploymentGeneratorSchema } from './schema';
+import nextInitGenerator from '../init/generator';
+import nextAuthGenerator from '../next-auth/generator';
 
 describe('next-auth-redis-deployment generator', () => {
     let appTree: Tree;

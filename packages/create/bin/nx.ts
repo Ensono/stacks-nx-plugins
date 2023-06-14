@@ -11,7 +11,7 @@ export function configureNx(
     const nxJsonPath = path.join(cwd, 'nx.json');
 
     if (fs.existsSync(nxJsonPath)) {
-        const data = fs.readFileSync(nxJsonPath, { encoding: 'utf-8' });
+        const data = fs.readFileSync(nxJsonPath, { encoding: 'utf8' });
         const nxJson = JSON.parse(data);
 
         nxJson.stacks = {
@@ -30,7 +30,7 @@ export function configureNx(
         };
 
         fs.writeFileSync(nxJsonPath, JSON.stringify(nxJson, null, 2), {
-            encoding: 'utf-8',
+            encoding: 'utf8',
         });
     }
 }
