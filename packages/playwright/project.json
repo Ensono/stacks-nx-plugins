@@ -72,7 +72,7 @@
                     "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": false,
+                    "push": true,
                     "postTargets": ["playwright:publish:prerelease"]
                 },
                 "release": {
