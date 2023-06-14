@@ -1,5 +1,5 @@
 # @ensono-stacks/playwright
-
+ 
 Please visit the stacks documentation page for `playwright`
 [here](https://stacks.amido.com/docs/nx/playwright/ensono-stacks-playwright) for
 more information
