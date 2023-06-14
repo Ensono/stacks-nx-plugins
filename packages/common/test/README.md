@@ -1,4 +1,4 @@
-# common-test
+# @ensono-stacks/test
 
 This library was generated with [Nx](https://nx.dev).
 
