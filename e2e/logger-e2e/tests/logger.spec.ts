@@ -7,6 +7,13 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 
+describe('test new setup', () => {
+    it('should create logger', async () => {
+        await newProject(['@ensono-stacks/logger']);
+    });
+    
+});
+
 describe('logger e2e', () => {
     beforeAll(async () => {
         await newProject(['@ensono-stacks/logger']);

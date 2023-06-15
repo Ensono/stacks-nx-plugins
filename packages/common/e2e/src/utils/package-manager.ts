@@ -1,4 +1,4 @@
-import { getPackageManagerCommand, logger } from '@nx/devkit';
+import { getPackageManagerCommand, getProjects, logger } from '@nx/devkit';
 import { runCommandAsync } from '@nx/plugin/testing';
 
 import { SupportedPackageManager } from './types';
@@ -7,16 +7,15 @@ import { getNxVersion } from './versions';
 export function getPackageManagerNxCreateCommand(
     packageManager: SupportedPackageManager,
 ): string {
-    const nxVersion = getNxVersion();
     switch (packageManager) {
         case 'npm': {
-            return `npx --yes @ensono-stacks/create-stacks-workspace@dev --useDev --nxVersion=${nxVersion}`;
+            return `npx --yes @ensono-stacks/create-stacks-workspace`;
         }
         case 'yarn': {
-            return `yarn global add @ensono-stacks/create-stacks-workspace@dev --useDev && create-nx-workspace --nxVersion=${nxVersion}`;
+            return `yarn global add @ensono-stacks/create-stacks-workspace`;
         }
         case 'pnpm': {
-            return `pnpm dlx @ensono-stacks/create-stacks-workspace@dev --useDev --nxVersion=${nxVersion}`;
+            return `pnpm dlx @ensono-stacks/create-stacks-workspace`;
         }
         default: {
             throw new Error(
@@ -50,17 +49,17 @@ export async function installPackages(
     }
 }
 
-export function installVersionedPackages(
-    packageManager: SupportedPackageManager,
-    packages: string[],
-) {
-    const packagesWithVersions = packages.map(dependency => {
-        const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
-        return match ? dependency : `${dependency}@latest`;
-    });
+// export function installVersionedPackages(
+//     packageManager: SupportedPackageManager,
+//     packages: string[],
+// ) {
+//     const packagesWithVersions = packages.map(dependency => {
+//         const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
+//         return match ? dependency : `${dependency}@latest`;
+//     });
 
-    return installPackages(packageManager, packagesWithVersions);
-}
+//     return installPackages(packageManager, packagesWithVersions);
+// }
 
 export function installNxPackages(
     packageManager: SupportedPackageManager,
@@ -68,7 +67,11 @@ export function installNxPackages(
 ) {
     const nxVersion = getNxVersion();
     const nxPackages = packages
-        .filter(dependency => dependency.startsWith('@nrwl/'))
+        .filter(
+            dependency =>
+                dependency.startsWith('@nrwl/') ||
+                dependency.startsWith('@nx/'),
+        )
         .map(dependency => {
             const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
             return match
