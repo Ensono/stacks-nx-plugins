@@ -24,7 +24,6 @@ import { packageManagerList } from './package-manager';
 import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
 import packageJson from '../package.json';
 
-type Arguments = CreateStacksArguments;
 const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
     {
@@ -56,7 +55,7 @@ const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
 ];
 
 async function determineRepoName(
-    parsedArgv: yargs.Arguments<Arguments>,
+    parsedArgv: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
     const repoName = parsedArgv._[0]
         ? parsedArgv._[0].toString()
@@ -84,7 +83,7 @@ async function determineRepoName(
 }
 
 async function determinePreset(
-    parsedArguments: yargs.Arguments<Arguments>,
+    parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
     if (!(parsedArguments.preset || parsedArguments.interactive)) {
         return Preset.Apps;
@@ -94,8 +93,11 @@ async function determinePreset(
         if (
             (Object.values(Preset) as string[]).includes(parsedArguments.preset)
         ) {
-            console.error(chalk.red`Invalid preset: It must be one of the following:
-${Object.values(Preset)}`);
+            console.error(
+                chalk.red`Invalid preset: It must be one of the following: ${Object.values(
+                    Preset,
+                )}`,
+            );
 
             process.exit(1);
         } else {
@@ -118,7 +120,7 @@ ${Object.values(Preset)}`);
 
 async function determineAppName(
     preset: Preset,
-    parsedArguments: yargs.Arguments<Arguments>,
+    parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
     if (preset === Preset.Apps) {
         return '';
@@ -151,7 +153,7 @@ async function determineAppName(
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 async function determineE2eTestRunner(
-    parsedArguments: yargs.Arguments<Arguments>,
+    parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ) {
     if (!(parsedArguments.e2eTestRunner || parsedArguments.interactive)) {
         return E2eTestRunner.None;
@@ -163,8 +165,11 @@ async function determineE2eTestRunner(
                 parsedArguments.e2eTestRunner,
             )
         ) {
-            console.error(chalk.red`Invalid test runner: It must be one of the following:
-${Object.values(E2eTestRunner)}`);
+            console.error(
+                chalk.red`Invalid test runner: It must be one of the following:${Object.values(
+                    E2eTestRunner,
+                )}`,
+            );
 
             process.exit(1);
         } else {
@@ -188,7 +193,7 @@ ${Object.values(E2eTestRunner)}`);
 }
 
 async function getConfiguration(
-    argv: yargs.Arguments<Arguments>,
+    argv: yargs.Arguments<CreateStacksArguments>,
 ): Promise<void> {
     try {
         const name = await determineRepoName(argv);
@@ -218,7 +223,7 @@ async function getConfiguration(
     }
 }
 
-async function main(parsedArgv: yargs.Arguments<Arguments>) {
+async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
     const { name, skipGit } = forwardArgv;
 
@@ -326,10 +331,10 @@ export function withOptions<T>(
     return options.reverse().reduce((argv, option) => option(argv), argv);
 }
 
-export const commandsObject: yargs.Argv<Arguments> = yargs
+export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
     .wrap(yargs.terminalWidth())
     .parserConfiguration({ 'strip-dashed': true, 'dot-notation': true })
-    .command<Arguments>(
+    .command<CreateStacksArguments>(
         '$0 [name] [options]',
         'Create a new Stacks Nx workspace',
         updatedYargs =>
@@ -462,4 +467,4 @@ export const commandsObject: yargs.Argv<Arguments> = yargs
         'version',
         chalk.dim`Show version`,
         stacksVersion,
-    ) as yargs.Argv<Arguments>;
+    ) as yargs.Argv<CreateStacksArguments>;
