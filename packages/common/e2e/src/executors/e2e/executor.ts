@@ -103,13 +103,17 @@ export default async function runEnd2EndExecutor(
         const childFolders = fs.readdirSync(packages, {
             withFileTypes: true,
         });
-        return childFolders.flatMap(
-            folder =>
-                getDependentPackagesForProject(
-                    context.projectGraph,
-                    folder.name,
-                ).workspaceLibraries,
-        );
+        return [
+            ...new Set(
+                childFolders.flatMap(
+                    folder =>
+                        getDependentPackagesForProject(
+                            context.projectGraph,
+                            folder.name,
+                        ).workspaceLibraries,
+                ),
+            ),
+        ];
     }
 
     const publishableLibraries = filterPublishableLibraries(
