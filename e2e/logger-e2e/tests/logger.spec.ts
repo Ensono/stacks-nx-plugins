@@ -10,11 +10,10 @@ import {
 describe('logger e2e', () => {
     beforeAll(async () => {
         await newProject(['@ensono-stacks/logger']);
-    });
+    }, 200_000);
 
     afterAll(async () => {
         await runNxCommandAsync('reset');
-        cleanup();
     });
 
     describe('winston generator', () => {
