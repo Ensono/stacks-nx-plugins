@@ -11,9 +11,10 @@ import {
     writeJsonFile,
 } from '@nx/devkit';
 import { jestExecutor } from '@nx/jest/src/executors/jest/jest.impl';
-import { tmpProjPath } from '@nx/plugin/testing';
-import { ChildProcess } from 'child_process';
+import { runNxCommand, tmpProjPath } from '@nx/plugin/testing';
+import { ChildProcess, execSync } from 'child_process';
 import fs from 'fs';
+import path from 'path';
 import semver from 'semver';
 
 import { End2EndExecutorSchema } from './schema';
@@ -52,6 +53,9 @@ export default async function runEnd2EndExecutor(
     const { npmScope } = readJsonFile(
         joinPathFragments(context.root, 'nx.json'),
     );
+
+    logger.log(`[${context.projectName}] Building all packages`);
+    execSync('nx run-many -t build');
 
     // Remove previously published packages
     // TODO: read verdaccio yml to get path to storage
@@ -94,18 +98,27 @@ export default async function runEnd2EndExecutor(
         logger.debug(error);
     }
 
-    const { workspaceLibraries } = getDependentPackagesForProject(
-        context.projectGraph,
-        context.projectName,
-    );
+    function getStacksPackageInformation(): WorkspaceLibrary[] {
+        const packages = path.join(__dirname, '../../../../../../', 'e2e');
+        const childFolders = fs.readdirSync(packages, {
+            withFileTypes: true,
+        });
+        return childFolders.flatMap(
+            folder =>
+                getDependentPackagesForProject(
+                    context.projectGraph,
+                    folder.name,
+                ).workspaceLibraries,
+        );
+    }
 
     const publishableLibraries = filterPublishableLibraries(
-        workspaceLibraries,
+        getStacksPackageInformation(),
         context.projectGraph,
     );
 
     let success = false;
-
+    logger.log(`[${context.projectName}] Publishing libraries`);
     try {
         const versionUpdates = publishableLibraries.reduce((accum, library) => {
             // We need to patch the version higher than whats on npm
@@ -137,6 +150,7 @@ export default async function runEnd2EndExecutor(
         const changedPackages = Object.keys(versionUpdates);
         const publishPromises = Object.entries(versionUpdates).map(
             ([name, { distOutput, libName, version }]) => {
+                logger.log(`[${libName}] Publishing`);
                 const packageJson = readJsonFile(
                     joinPathFragments(distOutput, 'package.json'),
                 );

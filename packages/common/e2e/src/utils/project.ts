@@ -1,6 +1,8 @@
 import { tmpProjPath } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
+import { logger } from 'nx/src/utils/logger';
+import * as os from 'os';
 import path from 'path';
 
 import { cleanup } from './cleanup';
@@ -20,32 +22,21 @@ export interface CreateWorkspaceOptions {
 
 export function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = path.dirname(tmpProjPath());
+    logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
     const createCommand = getPackageManagerNxCreateCommand(
         options.packageManager,
     );
 
     let command = `${createCommand} proj --preset=${
         options.preset || 'apps'
-    } --packageManager=${options.packageManager}`;
-    command +=
-        ' --business.company=Amido --business.domain=Stacks --business.component=Nx';
-    command += ' --cloud.platform=azure --cloud.region=euw';
-    command +=
-        ' --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com';
-    command += ' --pipeline=azdo';
-    command +=
-        ' --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container';
-    command += ' --vcs.type=github --vcs.url=amidostacks.git';
-    command += ' --cli=nx --no-nxCloud --no-interactive';
+    } --packageManager=${
+        options.packageManager
+    } --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container' --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive'`;
 
     if (options.args) {
         command += ` ${options.args}`;
     }
-
-    if (!fs.existsSync(temporaryDirectory)) {
-        fs.mkdirSync(temporaryDirectory, { recursive: true });
-    }
-
+    logger.log(`[create] Running create command: ${command}`);
     const create = execSync(command, {
         cwd: temporaryDirectory,
         env: {
