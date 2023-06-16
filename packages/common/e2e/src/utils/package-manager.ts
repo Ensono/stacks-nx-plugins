@@ -37,7 +37,7 @@ export async function installPackages(
     if (packages.length === 0) {
         return;
     }
-
+    logger.log(`Installing the following packages:${packages.join('\n')}`);
     const pm = getPackageManagerCommand(packageManager);
 
     const { stdout, stderr } = await runCommandAsync(
@@ -67,8 +67,18 @@ export function installNxPackages(
     packages: string[],
 ) {
     const nxVersion = getNxVersion();
+    const invalidPackages = packages.filter(dependency =>
+        dependency.startsWith('@nrwl/'),
+    );
+    if (invalidPackages.length > 0) {
+        throw new Error(
+            `Following @nrwl packages are not supported, upgrade to @nx: ${invalidPackages.join(
+                '\n',
+            )}`,
+        );
+    }
     const nxPackages = packages
-        .filter(dependency => dependency.startsWith('@nrwl/'))
+        .filter(dependency => dependency.startsWith('@nx/'))
         .map(dependency => {
             const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
             return match

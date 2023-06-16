@@ -8,9 +8,11 @@ import {
 } from '@nx/plugin/testing';
 
 describe('logger e2e', () => {
+    jest.setTimeout(200_000);
+
     beforeAll(async () => {
         await newProject(['@ensono-stacks/logger']);
-    }, 200_000);
+    });
 
     afterAll(async () => {
         await runNxCommandAsync('reset');
@@ -28,7 +30,7 @@ describe('logger e2e', () => {
                     `libs/${project}/src/index.test.ts`,
                 ),
             ).not.toThrow();
-        }, 120000);
+        });
 
         describe('--directory', () => {
             it('should create src in the specified directory', async () => {
@@ -42,7 +44,7 @@ describe('logger e2e', () => {
                         `libs/subdir/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
         });
 
         describe('--tags', () => {
@@ -53,7 +55,7 @@ describe('logger e2e', () => {
                 );
                 const projectJson = readJson(`libs/${project}/project.json`);
                 expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
-            }, 120000);
+            });
         });
 
         describe('--logLevelType', () => {
@@ -68,7 +70,7 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
 
             it('should create src with "npm" log level type', async () => {
                 const project = uniq('logger');
@@ -81,7 +83,7 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
 
             it('should create src with "syslog" log level type', async () => {
                 const project = uniq('logger');
@@ -94,14 +96,14 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
 
             it('should error with invalid log level type', async () => {
                 const project = uniq('logger');
                 await runNxCommandAsync(
                     `generate @ensono-stacks/logger:winston ${project} --logLevelType errorLog`,
                 ).catch(stderr => expect(stderr?.code).toEqual(1));
-            }, 120000);
+            });
         });
 
         describe('--consoleLog', () => {
@@ -116,7 +118,7 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
         });
 
         describe('--fileTransportPath', () => {
@@ -131,7 +133,7 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
         });
 
         describe('--httpTransport', () => {
@@ -146,7 +148,7 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
         });
 
         describe('--streamPath', () => {
@@ -161,7 +163,7 @@ describe('logger e2e', () => {
                         `libs/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
-            }, 120000);
+            });
         });
     });
 });
