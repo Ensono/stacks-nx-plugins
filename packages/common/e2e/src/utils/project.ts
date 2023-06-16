@@ -31,7 +31,7 @@ export function runCreateWorkspace(options: CreateWorkspaceOptions) {
         options.preset || 'apps'
     } --packageManager=${
         options.packageManager
-    } --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container' --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive'`;
+    } --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive`;
 
     if (options.args) {
         command += ` ${options.args}`;
