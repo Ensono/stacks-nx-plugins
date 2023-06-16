@@ -58,7 +58,6 @@ export default async function runEnd2EndExecutor(
     execSync('nx run-many -t build');
 
     // Remove previously published packages
-    // TODO: read verdaccio yml to get path to storage
     const verdaccioStoragePath = joinPathFragments(
         context.root,
         'tmp',
@@ -152,9 +151,9 @@ export default async function runEnd2EndExecutor(
         }, {} as Record<string, { libName: string; distOutput: string; version: string }>);
 
         const changedPackages = Object.keys(versionUpdates);
+        logger.log(`[info] Publishing the following packages: ${changedPackages.join('\n')}`);
         const publishPromises = Object.entries(versionUpdates).map(
             ([name, { distOutput, libName, version }]) => {
-                logger.log(`[${libName}] Publishing`);
                 const packageJson = readJsonFile(
                     joinPathFragments(distOutput, 'package.json'),
                 );
