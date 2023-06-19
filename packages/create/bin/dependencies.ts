@@ -106,9 +106,9 @@ export async function installPackages(
     packages: string[],
     cwd: string,
     useDevelopment?: boolean,
-) {
+): Promise<unknown> {
     if (packages.length === 0) {
-        return;
+        return 'No packages to install';
     }
 
     const versionedPackages = useDevelopment
@@ -121,11 +121,13 @@ export async function installPackages(
 
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
-
     return execAsync(`${pm.addDependency} ${versionedPackages.join(' ')}`, cwd);
 }
 
-export async function runGenerators(commands: string[], cwd: string) {
+export async function runGenerators(
+    commands: string[],
+    cwd: string,
+): Promise<unknown> {
     if (commands.length === 0) {
         return;
     }
@@ -137,6 +139,7 @@ export async function runGenerators(commands: string[], cwd: string) {
         return execAsync(`${pm.exec} nx g ${command}`, cwd);
     });
 
+    // eslint-disable-next-line consistent-return
     return chain(promises);
 }
 

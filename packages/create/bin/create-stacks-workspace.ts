@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { checkNxVersion } from '@ensono-stacks/core';
-import { output } from '@nx/devkit';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
@@ -284,21 +283,25 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     // Set nx version for nx packages
     const versionedPackagesToInstall = packagesToInstall.map(p =>
-        p.startsWith('@nrwl') ? `${p}@${setNxVersion}` : p,
+        p.startsWith('@nx') ? `${p}@${setNxVersion}` : p,
     );
 
     console.log(chalk.magenta`Installing Stacks dependencies`);
     await installPackages(versionedPackagesToInstall, cwd, parsedArgv.useDev);
     console.log(
         chalk.magenta`Successfully installed: ${versionedPackagesToInstall.join(
-            ' ',
+            '\n',
         )}`,
     );
 
-    console.log(chalk.magenta`Configuring Stacks`);
+    console.log(chalk.magenta`Configuring Stacks with Nx ${setNxVersion}`);
     configureNx(parsedArgv, cwd);
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
-
+    console.log(
+        chalk.cyan`Running the following generators:\n${generatorsToRun.join(
+            '\n',
+        )}`,
+    );
     try {
         await runGenerators(generatorsToRun, cwd);
     } catch (error: any) {

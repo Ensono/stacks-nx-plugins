@@ -10,13 +10,13 @@ export function getPackageManagerNxCreateCommand(
     const nxVersion = getNxVersion();
     switch (packageManager) {
         case 'npm': {
-            return `npx --yes @ensono-stacks/create-stacks-workspace --nxVersion=${nxVersion}`;
+            return `npx --yes @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
         }
         case 'yarn': {
-            return `yarn global add @ensono-stacks/create-stacks-workspace --nxVersion=${nxVersion}`;
+            return `yarn global add @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
         }
         case 'pnpm': {
-            return `pnpm dlx @ensono-stacks/create-stacks-workspace --nxVersion=${nxVersion}`;
+            return `pnpm dlx @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
         }
         default: {
             throw new Error(

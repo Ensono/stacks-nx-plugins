@@ -11,7 +11,6 @@ import {
     writeJsonFile,
 } from '@nx/devkit';
 import { jestExecutor } from '@nx/jest/src/executors/jest/jest.impl';
-import { runNxCommand, tmpProjPath } from '@nx/plugin/testing';
 import { ChildProcess, execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -55,7 +54,7 @@ export default async function runEnd2EndExecutor(
     );
 
     logger.log(`[${context.projectName}] Building all packages`);
-    execSync('nx run-many -t build');
+    execSync('nx run-many -t build', { stdio: 'inherit' });
 
     // Remove previously published packages
     const verdaccioStoragePath = joinPathFragments(
@@ -77,10 +76,6 @@ export default async function runEnd2EndExecutor(
             joinPathFragments(verdaccioStoragePath, '.verdaccio-db.json'),
             {},
         );
-    }
-
-    if (!fs.existsSync(tmpProjPath())) {
-        fs.mkdirSync(tmpProjPath(), { recursive: true });
     }
 
     let child: ChildProcess;
@@ -121,7 +116,9 @@ export default async function runEnd2EndExecutor(
     );
 
     let success = false;
-    logger.log(`[${context.projectName}] Publishing libraries`);
+    logger.log(
+        `[${context.projectName}] Getting libraries ready for publishing`,
+    );
     try {
         const versionUpdates = publishableLibraries.reduce((accum, library) => {
             // We need to patch the version higher than whats on npm
@@ -151,7 +148,11 @@ export default async function runEnd2EndExecutor(
         }, {} as Record<string, { libName: string; distOutput: string; version: string }>);
 
         const changedPackages = Object.keys(versionUpdates);
-        logger.log(`[info] Publishing the following packages: ${changedPackages.join('\n')}`);
+        logger.log(
+            `[info] Publishing the following packages: ${changedPackages.join(
+                '\n',
+            )}`,
+        );
         const publishPromises = Object.entries(versionUpdates).map(
             ([name, { distOutput, libName, version }]) => {
                 const packageJson = readJsonFile(

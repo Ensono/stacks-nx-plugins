@@ -3,7 +3,7 @@ import {
     readJson,
     runNxCommandAsync,
 } from '@nx/plugin/testing';
-import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { newProject } from '@ensono-stacks/e2e';
 describe('workspace', () => {
     jest.setTimeout(300_000);
 
@@ -11,9 +11,8 @@ describe('workspace', () => {
         await newProject([]);
     });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
-        cleanup();
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     it('runs the install generator', async () => {

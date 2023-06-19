@@ -4,7 +4,7 @@ export function execAsync(
     command: string,
     cwd: string,
     options: Omit<ExecOptions, 'env'> = {},
-) {
+): Promise<unknown> {
     return new Promise((response, reject) => {
         exec(
             command,
