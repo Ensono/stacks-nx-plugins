@@ -44,8 +44,9 @@ export async function startVerdaccio(verdaccioConfig: string) {
 
 function getNpmConfigPath() {
     const raw = execSync(`npm config list --json`, {
-        cwd: tmpProjPath(),
+        cwd: process.cwd(),
         env: process.env,
+        stdio: 'pipe',
     });
 
     const { userconfig } = JSON.parse(raw.toString());
