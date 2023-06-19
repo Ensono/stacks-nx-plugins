@@ -9,7 +9,6 @@ export function configureNx(
     cwd: string,
 ) {
     const nxJsonPath = path.join(cwd, 'nx.json');
-
     if (fs.existsSync(nxJsonPath)) {
         const data = fs.readFileSync(nxJsonPath, { encoding: 'utf8' });
         const nxJson = JSON.parse(data);
