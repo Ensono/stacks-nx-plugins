@@ -17,6 +17,7 @@ import {
     ESLINT_PLUGIN_PRETTIER_VERSION,
     ESLINT_PLUGIN_SECURITY_VERSION,
     ESLINT_PLUGIN_UNICORN_VERSION,
+    ESLINT_PLUGIN_VERSION,
     ESLINT_VERSION,
 } from './constants';
 
@@ -24,7 +25,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
     return {
         root: true,
         ignorePatterns: ['**/*'],
-        plugins: ['@typescript-eslint', '@nrwl/nx', 'import', 'security'],
+        plugins: ['@typescript-eslint', '@nx', 'import', 'security'],
         parser: '@typescript-eslint/parser',
         extends: [
             'airbnb/base',
@@ -46,7 +47,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             {
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                 rules: {
-                    '@nrwl/nx/enforce-module-boundaries': [
+                    '@nx/enforce-module-boundaries': [
                         'error',
                         {
                             enforceBuildableLibDependency: true,
@@ -123,7 +124,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             },
             {
                 files: ['*.ts', '*.tsx'],
-                extends: ['plugin:@nrwl/nx/typescript'],
+                extends: ['plugin:@nx/typescript'],
                 rules: {
                     '@typescript-eslint/no-empty-function': 'off',
                     '@typescript-eslint/no-explicit-any': 'off',
@@ -162,10 +163,10 @@ function addRules(tree: Tree) {
 
 function addEslintDependencies(tree: Tree) {
     const { devDependencies } = readRootPackageJson();
-    const nrwlDependency =
+    const nxDependency =
         (devDependencies &&
             Object.entries(devDependencies)
-                .find(([key]) => key.startsWith('@nrwl/'))
+                .find(([key]) => key.startsWith('@nx/'))
                 ?.at(1)) ||
         'latest';
 
@@ -173,7 +174,8 @@ function addEslintDependencies(tree: Tree) {
         tree,
         {},
         {
-            '@nx/eslint-plugin': nrwlDependency || 'latest',
+            '@nx/eslint-plugin': nxDependency || 'latest',
+            '@typescript-eslint/eslint-plugin': ESLINT_PLUGIN_VERSION,
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,
             'eslint-config-prettier': ESLINT_CONFIG_PRETTIER_VERSION,
