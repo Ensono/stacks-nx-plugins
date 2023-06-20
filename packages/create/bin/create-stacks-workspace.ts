@@ -92,8 +92,11 @@ async function determinePreset(
         if (
             (Object.values(Preset) as string[]).includes(parsedArguments.preset)
         ) {
-            console.error(chalk.red`Invalid preset: It must be one of the following:
-${Object.values(Preset)}`);
+            console.error(
+                chalk.red`Invalid preset: It must be one of the following: ${Object.values(
+                    Preset,
+                )}`,
+            );
 
             process.exit(1);
         } else {
@@ -161,8 +164,11 @@ async function determineE2eTestRunner(
                 parsedArguments.e2eTestRunner,
             )
         ) {
-            console.error(chalk.red`Invalid test runner: It must be one of the following:
-${Object.values(E2eTestRunner)}`);
+            console.error(
+                chalk.red`Invalid test runner: It must be one of the following:${Object.values(
+                    E2eTestRunner,
+                )}`,
+            );
 
             process.exit(1);
         } else {
@@ -185,28 +191,35 @@ ${Object.values(E2eTestRunner)}`);
         });
 }
 
-async function getConfiguration(argv: yargs.Arguments<CreateStacksArguments>) {
-    const name = await determineRepoName(argv);
-    let { preset, appName, e2eTestRunner } = argv;
+async function getConfiguration(
+    argv: yargs.Arguments<CreateStacksArguments>,
+): Promise<void> {
+    try {
+        const name = await determineRepoName(argv);
+        let { preset, appName, e2eTestRunner } = argv;
 
-    if (!preset) {
-        preset = await determinePreset(argv);
+        if (!preset) {
+            preset = await determinePreset(argv);
+        }
+
+        if (preset && !appName) {
+            appName = await determineAppName(preset as Preset, argv);
+        }
+
+        if (preset && appName && !e2eTestRunner) {
+            e2eTestRunner = await determineE2eTestRunner(argv);
+        }
+
+        Object.assign(argv, {
+            name: paramCase(name),
+            preset,
+            appName: paramCase(appName),
+            e2eTestRunner,
+        });
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
     }
-
-    if (preset && !appName) {
-        appName = await determineAppName(preset as Preset, argv);
-    }
-
-    if (preset && appName && !e2eTestRunner) {
-        e2eTestRunner = await determineE2eTestRunner(argv);
-    }
-
-    Object.assign(argv, {
-        name: paramCase(name),
-        preset,
-        appName: paramCase(appName),
-        e2eTestRunner,
-    });
 }
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
@@ -270,21 +283,25 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     // Set nx version for nx packages
     const versionedPackagesToInstall = packagesToInstall.map(p =>
-        p.startsWith('@nrwl') ? `${p}@${setNxVersion}` : p,
+        p.startsWith('@nx') ? `${p}@${setNxVersion}` : p,
     );
 
     console.log(chalk.magenta`Installing Stacks dependencies`);
     await installPackages(versionedPackagesToInstall, cwd, parsedArgv.useDev);
     console.log(
         chalk.magenta`Successfully installed: ${versionedPackagesToInstall.join(
-            ' ',
+            '\n',
         )}`,
     );
 
-    console.log(chalk.magenta`Configuring Stacks`);
+    console.log(chalk.magenta`Configuring Stacks with Nx ${setNxVersion}`);
     configureNx(parsedArgv, cwd);
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
-
+    console.log(
+        chalk.cyan`Running the following generators:\n${generatorsToRun.join(
+            '\n',
+        )}`,
+    );
     try {
         await runGenerators(generatorsToRun, cwd);
     } catch (error: any) {
@@ -307,134 +324,150 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     console.log(chalk.magenta`Stacks is ready`);
 }
 
+export function withOptions<T>(
+    argv: yargs.Argv<T>,
+    ...options: ((argv: yargs.Argv<T>) => yargs.Argv<T>)[]
+): any {
+    // Reversing the options keeps the execution order correct.
+    // e.g. [withCI, withGIT] should transform into withGIT(withCI) so withCI resolves first.
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    return options.reverse().reduce((argv, option) => option(argv), argv);
+}
+
 export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
     .wrap(yargs.terminalWidth())
     .parserConfiguration({ 'strip-dashed': true, 'dot-notation': true })
-    .command(
+    .command<CreateStacksArguments>(
         '$0 [name] [options]',
         'Create a new Stacks Nx workspace',
-        parsedArgv =>
-            parsedArgv
-                .option('name', {
-                    describe: chalk.dim`Workspace name (e.g. org name)`,
-                    type: 'string',
-                })
-                .option('preset', {
-                    describe: chalk.dim`Customizes the initial content of your workspace. Default presets include: [${Object.values(
-                        Preset,
-                    )
-                        .map(p => `"${p}"`)
-                        .join(', ')}]`,
-                    type: 'string',
-                })
-                .option('dir', {
-                    describe: chalk.dim`The directory to install to`,
-                    type: 'string',
-                    default: '.',
-                })
-                .option('appName', {
-                    describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
-                    type: 'string',
-                })
-                .option('e2eTestRunner', {
-                    describe: chalk.dim`The name of the e2e test runner library to install when selected`,
-                    type: 'string',
-                })
-                .option('nxVersion', {
-                    describe: chalk.dim`Set the version of Nx you want installed`,
-                    type: 'string',
-                    default: 'latest',
-                })
-                .option('packageManager', {
-                    alias: 'pm',
-                    describe: chalk.dim`Package manager to use`,
-                    choices: [...packageManagerList].sort(),
-                    defaultDescription: 'npm',
-                    type: 'string',
-                })
-                .option('interactive', {
-                    describe: chalk.dim`Enable interactive mode`,
-                    alias: 'i',
-                    type: 'boolean',
-                    default: true,
-                })
-                .option('overwrite', {
-                    describe: chalk.dim`Overwrite the target directory on install`,
-                    alias: 'o',
-                    type: 'boolean',
-                    default: false,
-                })
-                .option('skipGit', {
-                    describe: chalk.dim`Skip git init`,
-                    type: 'boolean',
-                    default: false,
-                })
-                .option('cloud.platform', {
-                    describe: chalk.dim`Name of the cloud provider`,
-                    choices: ['azure'],
-                    type: 'string',
-                    default: 'azure',
-                })
-                .option('cloud.region', {
-                    describe: chalk.dim`Region name where resources should be created`,
-                    type: 'string',
-                    default: 'euw',
-                })
-                .option('pipeline', {
-                    describe: chalk.dim`Name of the pipeline provider`,
-                    choices: ['azdo'],
-                    type: 'string',
-                    default: 'azdo',
-                })
-                .option('business.company', {
-                    describe: chalk.dim`Company Name`,
-                    type: 'string',
-                })
-                .option('business.domain', {
-                    describe: chalk.dim`Company Scope or area`,
-                    type: 'string',
-                })
-                .option('business.component', {
-                    describe: chalk.dim`Company component being worked on`,
-                    type: 'string',
-                })
-                .option('domain.internal', {
-                    describe: chalk.dim`Internal domain for nonprod resources`,
-                    type: 'string',
-                })
-                .option('domain.external', {
-                    describe: chalk.dim`External domain for prod resources`,
-                    type: 'string',
-                })
-                .option('terraform.group', {
-                    describe: chalk.dim`Terraform state group name`,
-                    type: 'string',
-                })
-                .option('terraform.container', {
-                    describe: chalk.dim`Terraform storage container name`,
-                    type: 'string',
-                })
-                .option('terraform.storage', {
-                    describe: chalk.dim`Terraform storage name`,
-                    type: 'string',
-                })
-                .option('terraform.container', {
-                    describe: chalk.dim`Terraform container name`,
-                    type: 'string',
-                })
-                .option('vcs.type', {
-                    describe: chalk.dim`Version control provider`,
-                    choices: ['azdo', 'github'],
-                    type: 'string',
-                })
-                .option('vcs.url', {
-                    describe: chalk.dim`Version control remote url`,
-                    type: 'string',
-                }),
+        updatedYargs =>
+            withOptions(
+                updatedYargs
+                    .option('name', {
+                        describe: chalk.dim`Workspace name (e.g. org name)`,
+                        type: 'string',
+                    })
+                    .option('preset', {
+                        describe: chalk.dim`Customizes the initial content of your workspace. Default presets include: [${Object.values(
+                            Preset,
+                        )
+                            .map(p => `"${p}"`)
+                            .join(', ')}]`,
+                        type: 'string',
+                    })
+                    .option('dir', {
+                        describe: chalk.dim`The directory to install to`,
+                        type: 'string',
+                        default: '.',
+                    })
+                    .option('appName', {
+                        describe: chalk.dim`The name of the application when a preset with pregenerated app is selected`,
+                        type: 'string',
+                    })
+                    .option('e2eTestRunner', {
+                        describe: chalk.dim`The name of the e2e test runner library to install when selected`,
+                        type: 'string',
+                    })
+                    .option('nxVersion', {
+                        describe: chalk.dim`Set the version of Nx you want installed`,
+                        type: 'string',
+                        default: 'latest',
+                    })
+                    .option('packageManager', {
+                        alias: 'pm',
+                        describe: chalk.dim`Package manager to use`,
+                        choices: [...packageManagerList].sort(),
+                        defaultDescription: 'npm',
+                        type: 'string',
+                    })
+                    .option('interactive', {
+                        describe: chalk.dim`Enable interactive mode`,
+                        alias: 'i',
+                        type: 'boolean',
+                        default: true,
+                    })
+                    .option('overwrite', {
+                        describe: chalk.dim`Overwrite the target directory on install`,
+                        alias: 'o',
+                        type: 'boolean',
+                        default: false,
+                    })
+                    .option('skipGit', {
+                        describe: chalk.dim`Skip git init`,
+                        type: 'boolean',
+                        default: false,
+                    })
+                    .option('cloud.platform', {
+                        describe: chalk.dim`Name of the cloud provider`,
+                        choices: ['azure'],
+                        type: 'string',
+                        default: 'azure',
+                    })
+                    .option('cloud.region', {
+                        describe: chalk.dim`Region name where resources should be created`,
+                        type: 'string',
+                        default: 'euw',
+                    })
+                    .option('pipeline', {
+                        describe: chalk.dim`Name of the pipeline provider`,
+                        choices: ['azdo'],
+                        type: 'string',
+                        default: 'azdo',
+                    })
+                    .option('business.company', {
+                        describe: chalk.dim`Company Name`,
+                        type: 'string',
+                    })
+                    .option('business.domain', {
+                        describe: chalk.dim`Company Scope or area`,
+                        type: 'string',
+                    })
+                    .option('business.component', {
+                        describe: chalk.dim`Company component being worked on`,
+                        type: 'string',
+                    })
+                    .option('domain.internal', {
+                        describe: chalk.dim`Internal domain for nonprod resources`,
+                        type: 'string',
+                    })
+                    .option('domain.external', {
+                        describe: chalk.dim`External domain for prod resources`,
+                        type: 'string',
+                    })
+                    .option('terraform.group', {
+                        describe: chalk.dim`Terraform state group name`,
+                        type: 'string',
+                    })
+                    .option('terraform.container', {
+                        describe: chalk.dim`Terraform storage container name`,
+                        type: 'string',
+                    })
+                    .option('terraform.storage', {
+                        describe: chalk.dim`Terraform storage name`,
+                        type: 'string',
+                    })
+                    .option('terraform.container', {
+                        describe: chalk.dim`Terraform container name`,
+                        type: 'string',
+                    })
+                    .option('vcs.type', {
+                        describe: chalk.dim`Version control provider`,
+                        choices: ['azdo', 'github'],
+                        type: 'string',
+                    })
+                    .option('vcs.url', {
+                        describe: chalk.dim`Version control remote url`,
+                        type: 'string',
+                    }),
+            ),
         async (argv: yargs.ArgumentsCamelCase<CreateStacksArguments>) => {
             return main(argv).catch(console.log);
         },
         [getConfiguration as yargs.MiddlewareFunction],
     )
     .help('help', chalk.dim`Show help`)
-    .version('version', chalk.dim`Show version`, stacksVersion);
+    .version(
+        'version',
+        chalk.dim`Show version`,
+        stacksVersion,
+    ) as yargs.Argv<CreateStacksArguments>;

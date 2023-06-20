@@ -1,7 +1,5 @@
 import {
     ExecutorContext,
-    getDependentPackagesForProject,
-    WorkspaceLibrary,
     ProjectGraph,
     readTargetOptions,
     runExecutor,
@@ -11,23 +9,34 @@ import {
     writeJsonFile,
 } from '@nx/devkit';
 import { jestExecutor } from '@nx/jest/src/executors/jest/jest.impl';
-import { tmpProjPath } from '@nx/plugin/testing';
-import { ChildProcess } from 'child_process';
+import { ChildProcess, execSync } from 'child_process';
 import fs from 'fs';
 import semver from 'semver';
 
 import { End2EndExecutorSchema } from './schema';
+import { getDependentPackagesForProject } from '../../utils/dependencies';
 import {
     addUser,
     getNpmPackageVersion,
     startVerdaccio,
 } from '../../utils/registry';
+import { WorkspaceLibrary } from '../../utils/types';
 
 function filterPublishableLibraries(
     libraries: WorkspaceLibrary[],
     projectGraph: ProjectGraph,
 ) {
-    return libraries.filter(library => {
+    const uniqueArray = libraries.filter(
+        (object, index, self) =>
+            index ===
+            self.findIndex(
+                o =>
+                    o.name === object.name &&
+                    o.importKey === object.importKey &&
+                    o.root === object.root,
+            ),
+    );
+    return uniqueArray.filter(library => {
         const projectNode = projectGraph.nodes[library.name];
         return projectNode.data?.targets?.publish;
     });
@@ -53,8 +62,10 @@ export default async function runEnd2EndExecutor(
         joinPathFragments(context.root, 'nx.json'),
     );
 
+    logger.log(`[${context.projectName}] Building dependent packages`);
+    execSync('nx run-many -t build -p create workspace', { stdio: 'inherit' });
+
     // Remove previously published packages
-    // TODO: read verdaccio yml to get path to storage
     const verdaccioStoragePath = joinPathFragments(
         context.root,
         'tmp',
@@ -76,10 +87,6 @@ export default async function runEnd2EndExecutor(
         );
     }
 
-    if (!fs.existsSync(tmpProjPath())) {
-        fs.mkdirSync(tmpProjPath(), { recursive: true });
-    }
-
     let child: ChildProcess;
     logger.log(`[${context.projectName}] Starting Verdaccio`);
     try {
@@ -94,18 +101,29 @@ export default async function runEnd2EndExecutor(
         logger.debug(error);
     }
 
-    const { workspaceLibraries } = getDependentPackagesForProject(
-        context.projectGraph,
-        context.projectName,
-    );
+    function getStacksPackageInformation(): WorkspaceLibrary[] {
+        function deps(projectName) {
+            return getDependentPackagesForProject(
+                context.projectGraph,
+                projectName,
+            ).workspaceLibraries;
+        }
+        return [
+            ...deps(context.projectName),
+            ...deps('create-e2e'),
+            ...deps('workspace-e2e'),
+        ];
+    }
 
     const publishableLibraries = filterPublishableLibraries(
-        workspaceLibraries,
+        getStacksPackageInformation(),
         context.projectGraph,
     );
 
     let success = false;
-
+    logger.log(
+        `[${context.projectName}] Getting libraries ready for publishing`,
+    );
     try {
         const versionUpdates = publishableLibraries.reduce((accum, library) => {
             // We need to patch the version higher than whats on npm
@@ -135,6 +153,11 @@ export default async function runEnd2EndExecutor(
         }, {} as Record<string, { libName: string; distOutput: string; version: string }>);
 
         const changedPackages = Object.keys(versionUpdates);
+        logger.log(
+            `[info] Publishing the following packages: ${changedPackages.join(
+                '\n',
+            )}`,
+        );
         const publishPromises = Object.entries(versionUpdates).map(
             ([name, { distOutput, libName, version }]) => {
                 const packageJson = readJsonFile(

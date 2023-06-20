@@ -11,9 +11,10 @@ import {
     generateFiles,
     readProjectConfiguration,
     Tree,
+    runTasksInSerial,
+    GeneratorCallback,
 } from '@nx/devkit';
 import { libraryGenerator } from '@nx/js';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
 
@@ -42,7 +43,7 @@ export default async function generate(
         );
     }
 
-    const callbackTasks = [];
+    const callbackTasks: GeneratorCallback[] = [];
 
     const normalizedOptions = normalizeOptions(tree, options);
 
