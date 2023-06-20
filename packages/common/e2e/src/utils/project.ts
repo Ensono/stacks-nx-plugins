@@ -26,7 +26,11 @@ export interface CreateWorkspaceOptions {
 
 export function runCreateWorkspace(options: CreateWorkspaceOptions) {
     // Workspace created in system temp as unable to provision new workspace in default nx temp folders as repo is under git control
-    const temporaryDirectory = path.join(os.tmpdir(), 'stacks', 'nx-e2e');
+    const temporaryDirectory = path.join(
+        os.tmpdir(),
+        'stacks',
+        options.packageManager,
+    );
     const projectName = 'proj';
     const temporaryProjectDirectory = path.join(
         temporaryDirectory,
@@ -71,7 +75,7 @@ export function runCreateWorkspace(options: CreateWorkspaceOptions) {
 }
 
 export async function newProject(
-    packagesToInstall: string[],
+    stacksPackageToInstall?: string,
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
 ) {
@@ -89,6 +93,6 @@ export async function newProject(
         ...options,
     });
     logger.log(`[create-stacks-workspace] ${result}`);
-    await installVersionedPackages(packageManager, packagesToInstall);
+    await installVersionedPackages(packageManager, stacksPackageToInstall);
     await installNxPackages(packageManager, nxPackagesToInstall);
 }
