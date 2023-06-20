@@ -6,12 +6,11 @@ describe('next e2e', () => {
     process.env.HUSKY = '0';
 
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/next'], ['@nx/next']);
+        await newProject('@ensono-stacks/next', ['@nx/next']);
     });
 
     afterAll(() => {
         runNxCommandAsync('reset');
-        cleanup();
     });
 
     const project = uniq('nextjs');

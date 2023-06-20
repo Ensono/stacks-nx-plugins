@@ -27,7 +27,11 @@ function filterPublishableLibraries(
     libraries: WorkspaceLibrary[],
     projectGraph: ProjectGraph,
 ) {
-    return libraries.filter(library => {
+    const uniqueArray = libraries.filter(
+        (object, index, self) =>
+            index === self.findIndex(o => o.name === object.name),
+    );
+    return uniqueArray.filter(library => {
         const projectNode = projectGraph.nodes[library.name];
         return projectNode.data?.targets?.publish;
     });
@@ -53,8 +57,8 @@ export default async function runEnd2EndExecutor(
         joinPathFragments(context.root, 'nx.json'),
     );
 
-    logger.log(`[${context.projectName}] Building all packages`);
-    execSync('nx run-many -t build', { stdio: 'inherit' });
+    logger.log(`[${context.projectName}] Building dependent packages`);
+    execSync('nx run-many -t build -p create workspace', { stdio: 'inherit' });
 
     // Remove previously published packages
     const verdaccioStoragePath = joinPathFragments(
@@ -93,20 +97,16 @@ export default async function runEnd2EndExecutor(
     }
 
     function getStacksPackageInformation(): WorkspaceLibrary[] {
-        const packages = path.join(__dirname, '../../../../../../', 'e2e');
-        const childFolders = fs.readdirSync(packages, {
-            withFileTypes: true,
-        });
+        function deps(projectName) {
+            return getDependentPackagesForProject(
+                context.projectGraph,
+                projectName,
+            ).workspaceLibraries;
+        }
         return [
-            ...new Set(
-                childFolders.flatMap(
-                    folder =>
-                        getDependentPackagesForProject(
-                            context.projectGraph,
-                            folder.name,
-                        ).workspaceLibraries,
-                ),
-            ),
+            ...deps(context.projectName),
+            ...deps('create-e2e'),
+            ...deps('workspace-e2e'),
         ];
     }
 
