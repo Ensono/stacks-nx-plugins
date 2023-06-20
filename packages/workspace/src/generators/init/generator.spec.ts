@@ -42,7 +42,7 @@ describe('init generator', () => {
 
         it('should merge defaults with an existing eslintrc file', async () => {
             const defaultConfig = {
-                plugins: ['@nx/typescript'],
+                plugins: ['@nx'],
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
@@ -68,7 +68,7 @@ describe('init generator', () => {
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
                     plugins: [
-                        '@nx/typescript',
+                        '@nx',
                         '@typescript-eslint',
                         'import',
                         'security',
