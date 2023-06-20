@@ -1,12 +1,7 @@
-import {
-    tmpProjPath,
-    directoryExists,
-    tmpBackupProjPath,
-} from '@nx/plugin/testing';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
-import { copySync, emptyDirSync, moveSync } from 'fs-extra';
+import { emptyDirSync } from 'fs-extra';
 import { logger } from 'nx/src/utils/logger';
-import * as os from 'os';
 import path from 'path';
 
 import { cleanup } from './cleanup';
@@ -25,53 +20,30 @@ export interface CreateWorkspaceOptions {
 }
 
 export function runCreateWorkspace(options: CreateWorkspaceOptions) {
-    // Workspace created in system temp as unable to provision new workspace in default nx temp folders as repo is under git control
-    const temporaryDirectory = path.join(
-        os.tmpdir(),
-        'stacks',
-        options.packageManager,
-    );
+    const temporaryDirectory = path.dirname(tmpProjPath());
     const projectName = 'proj';
-    const temporaryProjectDirectory = path.join(
-        temporaryDirectory,
-        projectName,
-    );
-    let createResult = 'Workspace created from workspace backup';
-    if (!directoryExists(temporaryProjectDirectory)) {
-        logger.log(
-            '[create] No workspace backup found, creating new workspace backup',
-        );
-        emptyDirSync(temporaryDirectory);
-        logger.log(
-            `[create] Created temporary directory: ${temporaryDirectory}`,
-        );
-        const command = `${getPackageManagerNxCreateCommand(
-            options.packageManager,
-        )} ${projectName} --preset=${
-            options.preset || 'apps'
-        } --packageManager=${
-            options.packageManager
-        } --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive ${
-            options.args ?? ''
-        }`;
-        logger.log(
-            `[create] Running create command in ${temporaryDirectory}: ${command}`,
-        );
-        execSync(command, {
-            cwd: temporaryDirectory,
-            env: {
-                ...process.env,
-                HUSKY: '0',
-            },
-            stdio: 'inherit',
-        });
-        createResult = `New workspace created from clean installation`;
-    }
     logger.log(
-        `[create] Workspace backup found. Taking copy from: ${temporaryProjectDirectory}`,
+        '[create] No workspace backup found, creating new workspace backup',
     );
-    copySync(temporaryProjectDirectory, tmpProjPath());
-    return createResult;
+    emptyDirSync(temporaryDirectory);
+    logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
+    const command = `${getPackageManagerNxCreateCommand(
+        options.packageManager,
+    )} ${projectName} --preset=${options.preset || 'apps'} --packageManager=${
+        options.packageManager
+    } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive ${
+        options.args ?? ''
+    }`;
+    logger.log(`[create] Running create command:\n${command}`);
+    execSync(command, {
+        cwd: temporaryDirectory,
+        env: {
+            ...process.env,
+            HUSKY: '0',
+        },
+        stdio: 'inherit',
+    });
+    return `${projectName} created in ${temporaryDirectory}`;
 }
 
 export async function newProject(
