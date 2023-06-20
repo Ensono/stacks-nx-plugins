@@ -20,7 +20,6 @@ export default async function install(
 ) {
     verifyPluginCanBeInstalled(tree);
 
-    // TODO: Verify why the required executor generator list is not being added
     if (hasGeneratorExecutedForWorkspace(tree, 'WorkspaceInit')) return false;
 
     const tasks: GeneratorCallback[] = [];
