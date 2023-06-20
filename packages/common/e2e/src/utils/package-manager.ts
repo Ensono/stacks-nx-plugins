@@ -25,7 +25,7 @@ export function getPackageManagerNxCreateCommand(
 }
 
 export function getSelectedPackageManager(): SupportedPackageManager {
-    return (process.env['SELECTED_PM'] as SupportedPackageManager) || 'yarn';
+    return (process.env['SELECTED_PM'] as SupportedPackageManager) || 'npm';
 }
 
 export async function installPackages(

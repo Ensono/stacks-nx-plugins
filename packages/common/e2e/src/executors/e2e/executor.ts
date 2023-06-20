@@ -1,7 +1,5 @@
 import {
     ExecutorContext,
-    getDependentPackagesForProject,
-    WorkspaceLibrary,
     ProjectGraph,
     readTargetOptions,
     runExecutor,
@@ -13,15 +11,16 @@ import {
 import { jestExecutor } from '@nx/jest/src/executors/jest/jest.impl';
 import { ChildProcess, execSync } from 'child_process';
 import fs from 'fs';
-import path from 'path';
 import semver from 'semver';
 
 import { End2EndExecutorSchema } from './schema';
+import { getDependentPackagesForProject } from '../../utils/dependencies';
 import {
     addUser,
     getNpmPackageVersion,
     startVerdaccio,
 } from '../../utils/registry';
+import { WorkspaceLibrary } from '../../utils/types';
 
 function filterPublishableLibraries(
     libraries: WorkspaceLibrary[],
@@ -29,7 +28,13 @@ function filterPublishableLibraries(
 ) {
     const uniqueArray = libraries.filter(
         (object, index, self) =>
-            index === self.findIndex(o => o.name === object.name),
+            index ===
+            self.findIndex(
+                o =>
+                    o.name === object.name &&
+                    o.importKey === object.importKey &&
+                    o.root === object.root,
+            ),
     );
     return uniqueArray.filter(library => {
         const projectNode = projectGraph.nodes[library.name];
