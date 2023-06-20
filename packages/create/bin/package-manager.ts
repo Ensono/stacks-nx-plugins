@@ -41,7 +41,6 @@ export function getPackageManagerCommand(
             };
         }
 
-        case 'npm':
         default: {
             process.env['npm_config_legacy_peer_deps'] =
                 process.env['npm_config_legacy_peer_deps'] ?? 'true';
