@@ -22,9 +22,6 @@ export interface CreateWorkspaceOptions {
 export function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = path.dirname(tmpProjPath());
     const projectName = 'proj';
-    logger.log(
-        '[create] No workspace backup found, creating new workspace backup',
-    );
     emptyDirSync(temporaryDirectory);
     logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
     const command = `${getPackageManagerNxCreateCommand(
