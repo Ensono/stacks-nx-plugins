@@ -9,11 +9,9 @@ export function getPackageManagerNxCreateCommand(
 ): string {
     const nxVersion = getNxVersion();
     switch (packageManager) {
+        case 'yarn':
         case 'npm': {
             return `npx --yes @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
-        }
-        case 'yarn': {
-            return `yarn global add @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
         }
         case 'pnpm': {
             return `pnpm dlx @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
@@ -27,7 +25,7 @@ export function getPackageManagerNxCreateCommand(
 }
 
 export function getSelectedPackageManager(): SupportedPackageManager {
-    return (process.env['SELECTED_PM'] as SupportedPackageManager) || 'npm';
+    return (process.env['SELECTED_PM'] as SupportedPackageManager) || 'yarn';
 }
 
 export async function installPackages(
@@ -52,14 +50,15 @@ export async function installPackages(
 
 export function installVersionedPackages(
     packageManager: SupportedPackageManager,
-    packages: string[],
+    stacksPackageToInstall: string,
 ) {
-    const packagesWithVersions = packages.map(dependency => {
-        const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
-        return match ? dependency : `${dependency}@latest`;
-    });
-
-    return installPackages(packageManager, packagesWithVersions);
+    if (stacksPackageToInstall) {
+        const match = stacksPackageToInstall.match(/^(?:[a-z]|@).*@(.*)/);
+        return installPackages(packageManager, [
+            match ? stacksPackageToInstall : `${stacksPackageToInstall}@latest`,
+        ]);
+    }
+    return 'No pacakges to install';
 }
 
 export function installNxPackages(

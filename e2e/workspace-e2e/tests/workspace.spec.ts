@@ -8,7 +8,7 @@ describe('workspace', () => {
     jest.setTimeout(300_000);
 
     beforeAll(async () => {
-        await newProject([]);
+        await newProject();
     });
 
     afterAll(async () => {

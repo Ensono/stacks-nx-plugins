@@ -31,7 +31,7 @@ describe('cypress e2e', () => {
 
     beforeAll(async () => {
         await newProject(
-            ['@ensono-stacks/cypress'],
+            '@ensono-stacks/cypress',
             ['@nx/cypress', '@nx/next'],
         );
     }, 200_000);

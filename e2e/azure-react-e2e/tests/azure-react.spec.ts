@@ -3,12 +3,11 @@ import { newProject, cleanup } from '@ensono-stacks/e2e';
 
 describe('azure-react e2e', () => {
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/azure-react'], ['@nrwl/react']);
+        await newProject('@ensono-stacks/azure-react', ['@nrwl/react']);
     });
 
     afterAll(() => {
         runNxCommandAsync('reset');
-        cleanup();
     });
 
     describe('app-insights-web', () => {

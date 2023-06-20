@@ -10,12 +10,11 @@ describe('azure-node e2e', () => {
     jest.setTimeout(300_000);
 
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/azure-node'], ['@nx/next']);
+        await newProject('@ensono-stacks/azure-node', ['@nx/next']);
     });
 
     afterAll(() => {
         runNxCommandAsync('reset');
-        cleanup();
     });
 
     describe('app-insights', () => {
