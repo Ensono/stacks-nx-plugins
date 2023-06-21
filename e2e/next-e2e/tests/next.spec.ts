@@ -17,7 +17,7 @@ describe('next e2e', () => {
 
     it('runs the install generator', async () => {
         await runNxCommandAsync(
-            `generate @nx/next:application ${project} --e2eTestRunner=none`,
+            `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir`,
         );
         await runNxCommandAsync(
             `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
