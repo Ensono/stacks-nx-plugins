@@ -1,5 +1,5 @@
 import { createNextApp } from '@ensono-stacks/test';
-import workspaceInitDeployment from '@ensono-stacks/workspace/src/generators/init-deployment/generator';
+import { initDeploymentGenerator } from '@ensono-stacks/workspace';
 import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
@@ -13,7 +13,7 @@ describe('playwright generator', () => {
         const applicationName = 'application';
         appTree = await createNextApp(applicationName);
 
-        await workspaceInitDeployment(appTree, {
+        await initDeploymentGenerator(appTree, {
             pipelineRunner: 'taskctl',
         });
 
