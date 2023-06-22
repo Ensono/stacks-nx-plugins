@@ -112,7 +112,7 @@ export default async function appInsightsGenerator(
     customServer.saveSync();
 
     const serverPath = joinPathFragments(project.root, server);
-    // add nrwl/next custom server to prettier ignore
+    // add nx/next custom server to prettier ignore
     addIgnoreEntry(tree, '.prettierignore', 'next server', [serverPath]);
     // Format files excluding the server file
     await formatFiles(tree, [serverPath]);
