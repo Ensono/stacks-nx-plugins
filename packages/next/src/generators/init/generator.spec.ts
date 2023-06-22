@@ -1,5 +1,5 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readJson, updateJson } from '@nx/devkit';
+import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
@@ -285,12 +285,12 @@ describe('next install generator', () => {
 
         it('should merge defaults with an existing eslintrc.json file', async () => {
             const defaultConfig = {
-                plugins: ['@nrwl/nx'],
+                plugins: ['@nx'],
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                         extends: ['airbnb/base'],
-                        plugins: ['@nrwl/nx'],
+                        plugins: ['@nx'],
                         rules: {
                             'dot-notation': 'off',
                         },
@@ -309,9 +309,9 @@ describe('next install generator', () => {
 
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
-                    plugins: ['@nrwl/nx'],
+                    plugins: ['@nx'],
                     extends: expect.arrayContaining([
-                        'plugin:@nrwl/nx/react-typescript',
+                        'plugin:@nx/react-typescript',
                         'plugin:testing-library/react',
                         'plugin:@next/next/recommended',
                         'next/core-web-vitals',
