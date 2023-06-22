@@ -47,7 +47,7 @@ jest.mock('@nx/devkit', () => {
 
 function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     const expectedFileContents = fs
-        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8)
+        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8')
         .replaceAll(/(\r)/gm, '')
         .trim();
     const fileContents = fileInTree.getFullText().trim();
