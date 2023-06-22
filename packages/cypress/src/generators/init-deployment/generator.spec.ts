@@ -1,5 +1,5 @@
 import { createNextApp } from '@ensono-stacks/test';
-import workspaceInitDeployment from '@ensono-stacks/workspace/src/generators/init-deployment/generator';
+import { initDeploymentGenerator } from '@ensono-stacks/workspace';
 import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
@@ -22,7 +22,7 @@ describe('cypress generator', () => {
 
     describe('generator should manipulate deployment files as expected', () => {
         beforeAll(async () => {
-            await workspaceInitDeployment(appTree, {
+            await initDeploymentGenerator(appTree, {
                 pipelineRunner: 'taskctl',
             });
             await generator(appTree);
