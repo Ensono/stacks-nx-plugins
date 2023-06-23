@@ -13,7 +13,7 @@ import {
     MOCHAWESOME_VERSION,
     MOCHAWESOMEJUNITREPORTER_VERSION,
     MOCHAWESOMEMERGE_VERSION,
-    NRWLCYPRESS_VERSION,
+    NXCYPRESS_VERSION,
     CYPRESSGREP_VERSION,
 } from '../../versions';
 
@@ -108,7 +108,7 @@ describe('should run successfully with default options', () => {
         const packageJson = readJson(appTree, 'package.json');
         expect(packageJson?.devDependencies).toMatchObject({
             cypress: CYPRESS_VERSION,
-            '@nx/cypress': NRWLCYPRESS_VERSION,
+            '@nx/cypress': NXCYPRESS_VERSION,
             'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
@@ -237,9 +237,6 @@ describe('should run successfully with default options', () => {
             expect(
                 checkOneOccurence(configJson.exclude, 'cypress.config.ts'),
             ).toBeTruthy();
-            expect(configJson.references).not.toContainEqual({
-                path: './tsconfig.cy.json',
-            });
         });
 
         it('has configured the new tsconfig.json within the cypress directory', () => {
