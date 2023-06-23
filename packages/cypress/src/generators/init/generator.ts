@@ -33,7 +33,7 @@ import {
     MOCHAWESOME_VERSION,
     MOCHAWESOMEJUNITREPORTER_VERSION,
     MOCHAWESOMEMERGE_VERSION,
-    NRWLCYPRESS_VERSION,
+    NXCYPRESS_VERSION,
     CYPRESSGREP_VERSION,
 } from '../../versions';
 
@@ -43,7 +43,7 @@ function updateDependencies(tree) {
         {},
         {
             cypress: CYPRESS_VERSION,
-            '@nx/cypress': NRWLCYPRESS_VERSION,
+            '@nx/cypress': NXCYPRESS_VERSION,
             'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
