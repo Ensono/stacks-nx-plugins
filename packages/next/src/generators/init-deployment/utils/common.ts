@@ -39,19 +39,18 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
     const stacksConfig = readStacksConfig(tree);
     const project = readProjectConfiguration(tree, options.project);
 
-    const customServer =
-        project.targets?.['build-custom-server']?.options?.main;
+    const customServer = project.targets?.['build-custom-server'];
 
+    const sourceRoot = project?.sourceRoot;
     const distributionFolderPath = project.targets?.build?.options?.outputPath;
-    const rootFolderPath = project.targets?.build?.options?.root;
 
     const port = setPort(project);
 
     let customServerRelativePath: string;
 
-    if (customServer) {
-        customServerRelativePath = customServer
-            .replace(`${rootFolderPath}/`, '')
+    if (customServer?.options?.main) {
+        customServerRelativePath = customServer?.options?.main
+            .replace(`${sourceRoot}/`, '')
             .replace('.ts', '.js');
     }
 
