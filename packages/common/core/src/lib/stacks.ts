@@ -26,6 +26,7 @@ export function readStacksConfig(tree: Tree) {
         throw new StacksError('Incomplete Stacks configuration in nx.json.');
     }
 
+    /* eslint-disable unicorn/no-unreadable-iife */
     return (({
         config: { business, cloud, domain, pipeline, terraform, vcs },
         executedGenerators,
