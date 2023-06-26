@@ -6,17 +6,16 @@ export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
     // Return if Dockerfile doesn't exist
     if (!tree.exists(filePath)) return;
 
-    const customServer =
-        project.targets?.['build-custom-server']?.options?.main;
+    const customServer = project.targets?.['build-custom-server'];
 
-    const rootFolderPath = project.targets?.build?.options?.root;
+    const sourceRoot = project?.sourceRoot;
     const distributionFolderPath = project.targets?.build?.options?.outputPath;
 
     let customServerRelativePath: string;
 
-    if (customServer) {
-        customServerRelativePath = customServer
-            .replace(`${rootFolderPath}/`, '')
+    if (customServer?.options?.main) {
+        customServerRelativePath = customServer?.options?.main
+            .replace(`${sourceRoot}/`, '')
             .replace('.ts', '.js');
     }
 
