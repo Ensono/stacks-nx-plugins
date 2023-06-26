@@ -30,6 +30,7 @@ export function readStacksConfig(tree: Tree) {
     return (({
         config: { business, cloud, domain, pipeline, terraform, vcs },
         executedGenerators,
+        // eslint-disable-next-line unicorn/no-unreadable-iife
     }) => ({
         business,
         cloud,
