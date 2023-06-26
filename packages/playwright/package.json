@@ -9,8 +9,8 @@
         "url": "https://github.com/amido/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "nx": "^15.7.2",
-        "@nx/devkit": "^15.7.2"
+        "nx": "^16.4.0",
+        "@nx/devkit": "^16.4.0"
     },
     "dependencies": {
         "@mands/nx-playwright": "^0.2.3"
