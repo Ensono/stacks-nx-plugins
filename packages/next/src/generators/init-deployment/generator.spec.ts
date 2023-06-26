@@ -107,35 +107,34 @@ describe('next deployment generator', () => {
             );
         });
 
-        // TODO: customer server seemes to be broken in @nx/next at the moment, revisit this when it's fixed.
-        // it('should scaffold with infrastructure on a custom server', async () => {
-        //     await createNextApp({ customServer: true });
-        //     await executeWorkspaceInit(tree);
-        //     await generator(tree, { ...options });
+        it('should scaffold with infrastructure on a custom server', async () => {
+            await createNextApp({ customServer: true });
+            await executeWorkspaceInit(tree);
+            await generator(tree, { ...options });
 
-        //     expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
-        //     expect(
-        //         tree.exists('libs/stacks-helm-chart/build/helm/Chart.yaml'),
-        //     ).toBeTruthy();
-        //     expect(
-        //         tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
-        //     ).toBeTruthy();
-        //     expect(
-        //         tree.exists('next-app/deploy/helm/prod/values.yaml'),
-        //     ).toBeTruthy();
-        //     expect(
-        //         tree.exists('next-app/deploy/terraform/versions.tf'),
-        //     ).toBeTruthy();
-        //     expect(
-        //         tree.exists('next-app/deploy/terraform/data.tf'),
-        //     ).toBeTruthy();
+            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
+            expect(
+                tree.exists('libs/stacks-helm-chart/build/helm/Chart.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/helm/prod/values.yaml'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/terraform/versions.tf'),
+            ).toBeTruthy();
+            expect(
+                tree.exists('next-app/deploy/terraform/data.tf'),
+            ).toBeTruthy();
 
-        //     const docker = tree.read('next-app/Dockerfile')?.toString();
+            const docker = tree.read('next-app/Dockerfile')?.toString();
 
-        //     expect(docker).toContain(
-        //         'CMD ["dumb-init", "node", "server/main.js"]',
-        //     );
-        // });
+            expect(docker).toContain(
+                'CMD ["dumb-init", "node", "server/main.js"]',
+            );
+        });
 
         describe('executedDependantGenerator', () => {
             it('returns false if no prerequisite present', async () => {
