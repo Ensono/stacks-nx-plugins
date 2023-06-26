@@ -37,7 +37,7 @@ it('installs dependencies for next.js', async () => {
     await installPackages(packages, 'folder/path');
 
     expect(execAsync).toHaveBeenCalledWith(
-        'npm install -D @ensono-stacks/workspace @nx/next @ensono-stacks/next',
+        'npm install -D @ensono-stacks/workspace @nx/next @ensono-stacks/next --no-appDir',
         'folder/path',
     );
 });
