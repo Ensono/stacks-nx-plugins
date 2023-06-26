@@ -6,6 +6,7 @@ export function execAsync(
     options: Omit<ExecOptions, 'env'> = {},
 ): Promise<unknown> {
     return new Promise((response, reject) => {
+        // eslint-disable-next-line security/detect-child-process
         exec(
             command,
             {
