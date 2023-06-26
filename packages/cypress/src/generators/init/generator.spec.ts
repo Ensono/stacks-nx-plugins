@@ -108,7 +108,7 @@ describe('should run successfully with default options', () => {
         const packageJson = readJson(appTree, 'package.json');
         expect(packageJson?.devDependencies).toMatchObject({
             cypress: CYPRESS_VERSION,
-            '@nx/cypress': NXCYPRESS_VERSION,
+            '@nx/cypress': '16.3.2',
             'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
