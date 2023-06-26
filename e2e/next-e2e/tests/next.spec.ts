@@ -45,27 +45,23 @@ describe('next e2e', () => {
         expect(stdout).toContain('Compiled successfully');
     }, 200_000);
 
-    /*
-        TODO: https://dev.azure.com/amido-dev/Amido-Stacks/_workitems/edit/6236
-        This generator has been removed from the generators.json because it needs work
-    */
-    // it('configures NextAuth with Redis adapter', async () => {
-    //     await runNxCommandAsync(
-    //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
-    //     );
-    //     await runNxCommandAsync(
-    //         `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
-    //     )
-    //     expect(() =>
-    //         checkFilesExist(
-    //             `apps/${project}/pages/api/auth/[...nextauth].ts`,
-    //             `apps/${project}/.env.local`,
-    //             `libs/next-auth-redis/src/index.test.ts`,
-    //             `libs/next-auth-redis/src/index.ts`,
-    //         ),
-    //     ).not.toThrow();
+    it('configures NextAuth with Redis adapter', async () => {
+        await runNxCommandAsync(
+            `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
+        );
+        await runNxCommandAsync(
+            `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
+        );
+        expect(() =>
+            checkFilesExist(
+                `apps/${project}/pages/api/auth/[...nextauth].ts`,
+                `apps/${project}/.env.local`,
+                `libs/next-auth-redis/src/index.test.ts`,
+                `libs/next-auth-redis/src/index.ts`,
+            ),
+        ).not.toThrow();
 
-    //     const result = await runNxCommandAsync('test next-auth-redis');
-    //     expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
-    // }, 200_000);
+        const result = await runNxCommandAsync('test next-auth-redis');
+        expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+    }, 200_000);
 });
