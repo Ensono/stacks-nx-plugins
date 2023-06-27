@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/rest-client",
-    "version": "2.0.0-alpha-173.0",
+    "version": "1.0.1-alpha-175.0",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
