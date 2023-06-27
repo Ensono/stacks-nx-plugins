@@ -4,7 +4,7 @@ import path from 'path';
 
 export const packageManagerList = ['pnpm', 'yarn', 'npm'] as const;
 
-export type PackageManager = typeof packageManagerList[number];
+export type PackageManager = (typeof packageManagerList)[number];
 
 export function detectPackageManager(directory = ''): PackageManager {
     return existsSync(path.join(directory, 'yarn.lock'))
@@ -41,7 +41,6 @@ export function getPackageManagerCommand(
             };
         }
 
-        case 'npm':
         default: {
             process.env['npm_config_legacy_peer_deps'] =
                 process.env['npm_config_legacy_peer_deps'] ?? 'true';

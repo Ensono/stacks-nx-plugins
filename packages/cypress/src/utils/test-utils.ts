@@ -4,7 +4,7 @@ import {
     joinPathFragments,
     offsetFromRoot,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import path from 'path';
 
 import { CypressGeneratorSchema } from '../generators/init/schema';

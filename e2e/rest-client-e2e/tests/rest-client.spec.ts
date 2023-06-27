@@ -4,8 +4,8 @@ import {
     runNxCommand,
     runNxCommandAsync,
     uniq,
-} from '@nrwl/nx-plugin/testing';
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 import YAML from 'yaml';
 import fs from 'fs';
@@ -14,12 +14,11 @@ import petstoreSchemaJSON from '../fixtures/petstore-3.0.json';
 
 describe('rest-client e2e', () => {
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/rest-client'], ['@nrwl/js']);
+        await newProject('@ensono-stacks/rest-client', ['@nx/js']);
     });
 
     afterAll(() => {
         runNxCommandAsync('reset');
-        cleanup();
     });
 
     describe('http-client', () => {
@@ -147,7 +146,10 @@ describe('rest-client e2e', () => {
         it('should create the orval client with zod validation', async () => {
             const tempPath = tmpProjPath();
             // Create schema file in the filesystem
-            fs.writeFileSync(`${tempPath}/petstore-3.0.yaml`, YAML.stringify(petstoreSchemaJSON));
+            fs.writeFileSync(
+                `${tempPath}/petstore-3.0.yaml`,
+                YAML.stringify(petstoreSchemaJSON),
+            );
 
             await runNxCommand(
                 `generate @ensono-stacks/rest-client:openapi-client ${client} --schema=petstore-3.0.yaml --zod --no-interactive`,
@@ -164,7 +166,6 @@ describe('rest-client e2e', () => {
                     `libs/${client}/src/${client}.zod.ts`,
                 ),
             ).not.toThrow();
-
 
             const expectedImportName = `@proj/${client}`;
 

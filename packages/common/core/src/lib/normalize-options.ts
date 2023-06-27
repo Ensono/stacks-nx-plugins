@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, names, Tree } from '@nrwl/devkit';
+import { getWorkspaceLayout, names, Tree } from '@nx/devkit';
 import path from 'path';
 
 type BaseSchema = {
@@ -40,8 +40,8 @@ export function normalizeOptions<TSchema extends BaseSchema>(
     );
 
     const projectName = projectDirectory
-        .replace(/\//g, '-')
-        .replace(/\\/g, '-');
+        .replaceAll('/', '-')
+        .replaceAll('\\', '-');
 
     const parsedTags = options.tags
         ? options.tags.split(',').map(s => s.trim())

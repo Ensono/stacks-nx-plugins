@@ -1,6 +1,7 @@
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
-import fs from 'fs';
+import { emptyDirSync } from 'fs-extra';
+import { logger } from 'nx/src/utils/logger';
 import path from 'path';
 
 import { cleanup } from './cleanup';
@@ -20,60 +21,47 @@ export interface CreateWorkspaceOptions {
 
 export function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = path.dirname(tmpProjPath());
-    const createCommand = getPackageManagerNxCreateCommand(
+    const projectName = 'proj';
+    emptyDirSync(temporaryDirectory);
+    logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
+    const command = `${getPackageManagerNxCreateCommand(
         options.packageManager,
-    );
-
-    let command = `${createCommand} proj --preset=${
-        options.preset || 'apps'
-    } --packageManager=${options.packageManager}`;
-    command +=
-        ' --business.company=Amido --business.domain=Stacks --business.component=Nx';
-    command += ' --cloud.platform=azure --cloud.region=euw';
-    command +=
-        ' --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com';
-    command += ' --pipeline=azdo';
-    command +=
-        ' --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container';
-    command += ' --vcs.type=github --vcs.url=amidostacks.git';
-    command += ' --cli=nx --no-nxCloud --no-interactive';
-
-    if (options.args) {
-        command += ` ${options.args}`;
-    }
-
-    if (!fs.existsSync(temporaryDirectory)) {
-        fs.mkdirSync(temporaryDirectory, { recursive: true });
-    }
-
-    const create = execSync(command, {
+    )} ${projectName} --preset=${options.preset || 'apps'} --packageManager=${
+        options.packageManager
+    } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive ${
+        options.args ?? ''
+    }`;
+    logger.log(`[create] Running create command:\n${command}`);
+    execSync(command, {
         cwd: temporaryDirectory,
         env: {
             ...process.env,
             HUSKY: '0',
         },
-        stdio: 'pipe',
+        stdio: 'inherit',
     });
-
-    return create ? create.toString() : '';
+    return `${projectName} created in ${temporaryDirectory}`;
 }
 
 export async function newProject(
-    packagesToInstall: string[],
+    stacksPackageToInstall?: string,
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
 ) {
+    if (!process.env.npm_config_registry) {
+        throw new Error(
+            'Verdaccio is not running. Have you started this test with the e2e executor?',
+        );
+    }
     process.env.HUSKY = '0';
     const packageManager = getSelectedPackageManager();
-
-    const config = {
+    cleanup();
+    const result = runCreateWorkspace({
         preset: 'apps' as SupportedNxPreset,
         packageManager,
         ...options,
-    };
-
-    cleanup();
-    runCreateWorkspace(config);
-    await installVersionedPackages(packageManager, packagesToInstall);
+    });
+    logger.log(`[create-stacks-workspace] ${result}`);
+    await installVersionedPackages(packageManager, stacksPackageToInstall);
     await installNxPackages(packageManager, nxPackagesToInstall);
 }

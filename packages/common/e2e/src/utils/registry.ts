@@ -1,5 +1,5 @@
-import { joinPathFragments, workspaceRoot } from '@nrwl/devkit';
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+import { joinPathFragments, workspaceRoot } from '@nx/devkit';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { ChildProcess, fork, execSync } from 'child_process';
 import fs from 'fs';
 import { URL } from 'url';
@@ -44,8 +44,9 @@ export async function startVerdaccio(verdaccioConfig: string) {
 
 function getNpmConfigPath() {
     const raw = execSync(`npm config list --json`, {
-        cwd: tmpProjPath(),
+        cwd: process.cwd(),
         env: process.env,
+        stdio: 'pipe',
     });
 
     const { userconfig } = JSON.parse(raw.toString());
@@ -58,7 +59,7 @@ export function getNpmPackageVersion(packageName: string) {
         version = execSync(`npm view ${packageName} version`, {
             env: process.env,
         })
-            .toString('utf-8')
+            .toString('utf8')
             .trim();
     } catch {
         version = '0.0.0';

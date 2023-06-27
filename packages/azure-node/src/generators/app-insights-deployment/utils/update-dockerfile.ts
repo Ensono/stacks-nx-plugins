@@ -1,4 +1,4 @@
-import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 
 export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
     const filePath = joinPathFragments(project.root, 'Dockerfile');
@@ -6,17 +6,16 @@ export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
     // Return if Dockerfile doesn't exist
     if (!tree.exists(filePath)) return;
 
-    const customServer =
-        project.targets?.['build-custom-server']?.options?.main;
+    const customServer = project.targets?.['build-custom-server'];
 
-    const rootFolderPath = project.targets?.build?.options?.root;
-    const distFolderPath = project.targets?.build?.options?.outputPath;
+    const sourceRoot = project?.sourceRoot;
+    const distributionFolderPath = project.targets?.build?.options?.outputPath;
 
     let customServerRelativePath: string;
 
-    if (customServer) {
-        customServerRelativePath = customServer
-            .replace(`${rootFolderPath}/`, '')
+    if (customServer?.options?.main) {
+        customServerRelativePath = customServer?.options?.main
+            .replace(`${sourceRoot}/`, '')
             .replace('.ts', '.js');
     }
 
@@ -29,8 +28,8 @@ export function updateDockerfile(project: ProjectConfiguration, tree: Tree) {
                 `CMD ["dumb-init", "node", "${customServerRelativePath}"]`,
             )
             .replace(
-                `COPY ${distFolderPath}/public ./public`,
-                `COPY ${distFolderPath}/public ./public\nCOPY ${distFolderPath}/server ./server`,
+                `COPY ${distributionFolderPath}/public ./public`,
+                `COPY ${distributionFolderPath}/public ./public\nCOPY ${distributionFolderPath}/server ./server`,
             );
         tree.write(filePath, newContents);
     }

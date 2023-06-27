@@ -1,9 +1,9 @@
 import { createNextApp } from '@ensono-stacks/test';
-import { readJson, Tree } from '@nrwl/devkit';
+import { initDeploymentGenerator } from '@ensono-stacks/workspace';
+import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries, import/no-relative-packages
-import workspaceInitDeployment from '../../../../workspace/src/generators/init-deployment/generator';
+// eslint-disable-next-line @nx/enforce-module-boundaries, import/no-relative-packages
 import generator from './generator';
 
 describe('playwright generator', () => {
@@ -13,7 +13,7 @@ describe('playwright generator', () => {
         const applicationName = 'application';
         appTree = await createNextApp(applicationName);
 
-        await workspaceInitDeployment(appTree, {
+        await initDeploymentGenerator(appTree, {
             pipelineRunner: 'taskctl',
         });
 

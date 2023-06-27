@@ -11,20 +11,21 @@ import {
     generateFiles,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
-import { libraryGenerator } from '@nrwl/js';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+    runTasksInSerial,
+    GeneratorCallback,
+} from '@nx/devkit';
+import { libraryGenerator } from '@nx/js';
 import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
 
+import { printZod } from './art';
+import { OpenapiClientGeneratorSchema } from './schema';
 import {
     FAKERJS_VERSION,
     MSW_VERSION,
     ORVAL_VERSION,
     ZOD_VERSION,
 } from '../../../utils/versions';
-import { printZod } from './art';
-import { OpenapiClientGeneratorSchema } from './schema';
 
 export default async function generate(
     tree: Tree,
@@ -42,7 +43,7 @@ export default async function generate(
         );
     }
 
-    const callbackTasks = [];
+    const callbackTasks: GeneratorCallback[] = [];
 
     const normalizedOptions = normalizeOptions(tree, options);
 

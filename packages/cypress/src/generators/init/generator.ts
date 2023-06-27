@@ -7,7 +7,7 @@ import {
 import {
     CypressE2EConfigSchema,
     cypressE2EConfigurationGenerator,
-} from '@nrwl/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
+} from '@nx/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
 import {
     formatFiles,
     Tree,
@@ -15,20 +15,10 @@ import {
     addDependenciesToPackageJson,
     runTasksInSerial,
     joinPathFragments,
-} from '@nrwl/devkit';
-import { Linter } from '@nrwl/linter';
+} from '@nx/devkit';
+import { Linter } from '@nx/linter';
 import { existsSync } from 'fs';
 
-import { addFiles, normalizeOptions } from '../../utils/test-utils';
-import {
-    CYPRESS_VERSION,
-    CYPRESSMULTIREPORTERS_VERSION,
-    MOCHAWESOME_VERSION,
-    MOCHAWESOMEJUNITREPORTER_VERSION,
-    MOCHAWESOMEMERGE_VERSION,
-    NRWLCYPRESS_VERSION,
-    CYPRESSGREP_VERSION,
-} from '../../versions';
 import { CypressGeneratorSchema } from './schema';
 import {
     updateBaseTsConfig,
@@ -36,6 +26,16 @@ import {
     updateTsConfig,
 } from './utils/update-files';
 import { updateProjectJsonWithHtmlReport } from './utils/update-targets';
+import { addFiles, normalizeOptions } from '../../utils/test-utils';
+import {
+    CYPRESS_VERSION,
+    CYPRESSMULTIREPORTERS_VERSION,
+    MOCHAWESOME_VERSION,
+    MOCHAWESOMEJUNITREPORTER_VERSION,
+    MOCHAWESOMEMERGE_VERSION,
+    NXCYPRESS_VERSION,
+    CYPRESSGREP_VERSION,
+} from '../../versions';
 
 function updateDependencies(tree) {
     return addDependenciesToPackageJson(
@@ -43,7 +43,7 @@ function updateDependencies(tree) {
         {},
         {
             cypress: CYPRESS_VERSION,
-            '@nrwl/cypress': NRWLCYPRESS_VERSION,
+            '@nx/cypress': NXCYPRESS_VERSION,
             'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,

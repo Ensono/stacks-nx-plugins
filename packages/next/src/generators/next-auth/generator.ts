@@ -11,8 +11,8 @@ import {
     readProjectConfiguration,
     Tree,
     logger,
-} from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+} from '@nx/devkit';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthGeneratorSchema } from './schema';
@@ -64,7 +64,7 @@ export default async function nextAuthGenerator(
     ]);
 
     return runTasksInSerial(
-        !options.skipPackageJson ? installDependencies(tree) : () => {},
+        options.skipPackageJson ? () => {} : installDependencies(tree),
         formatFilesWithEslint(options.project),
         () => {
             logger.warn(`Do not forget to update your .env.local environment variables with values.

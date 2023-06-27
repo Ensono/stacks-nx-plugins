@@ -1,5 +1,5 @@
 import { updateEslintConfig, mergeEslintConfigs } from '@ensono-stacks/core';
-import { Tree, addDependenciesToPackageJson } from '@nrwl/devkit';
+import { Tree, addDependenciesToPackageJson } from '@nx/devkit';
 import { Linter } from 'eslint';
 
 import {
@@ -10,7 +10,7 @@ import {
 function stacksEslintConfig(projectRootPath: string): Linter.Config {
     return {
         extends: [
-            'plugin:@nrwl/nx/react-typescript',
+            'plugin:@nx/react-typescript',
             'plugin:testing-library/react',
             'plugin:@next/next/recommended',
             'next/core-web-vitals',

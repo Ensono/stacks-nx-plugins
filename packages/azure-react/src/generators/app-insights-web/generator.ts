@@ -4,6 +4,7 @@ import {
     normalizeOptions,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
+import { libraryGenerator } from '@nrwl/react';
 import {
     addDependenciesToPackageJson,
     formatFiles,
@@ -12,17 +13,16 @@ import {
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
-import { Linter } from '@nrwl/linter';
-import { libraryGenerator } from '@nrwl/react';
+} from '@nx/devkit';
+import { Linter } from '@nx/linter';
 import path from 'path';
 
+import { AppInsightsWebGeneratorSchema } from './schema';
+import updateTsConfig from './utils/tsconfig';
 import {
     appInsightsReactVersion,
     appInsightsWebVersion,
 } from '../../../utils/versions';
-import { AppInsightsWebGeneratorSchema } from './schema';
-import updateTsConfig from './utils/tsconfig';
 
 type NormalizedSchema = BaseNormalizedSchema<AppInsightsWebGeneratorSchema>;
 

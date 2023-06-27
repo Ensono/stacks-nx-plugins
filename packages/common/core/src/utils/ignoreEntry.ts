@@ -1,4 +1,4 @@
-import { joinPathFragments } from '@nrwl/devkit';
+import { joinPathFragments } from '@nx/devkit';
 import { existsSync } from 'fs';
 import ignore from 'ignore';
 import { Tree } from 'nx/src/generators/tree';
@@ -10,7 +10,7 @@ export function addIgnoreEntry(
     entries: string[],
 ) {
     let content = tree.exists(fileName)
-        ? (tree.read(fileName, 'utf-8') as string).trimEnd()
+        ? (tree.read(fileName, 'utf8') as string).trimEnd()
         : '';
 
     const ig = ignore();

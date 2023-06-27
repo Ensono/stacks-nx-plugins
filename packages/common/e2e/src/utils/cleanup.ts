@@ -1,4 +1,4 @@
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+import { tmpProjPath } from '@nx/plugin/testing';
 import { existsSync, rmSync } from 'fs';
 import path from 'path';
 

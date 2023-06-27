@@ -1,5 +1,5 @@
-import { Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { createOrUpdateLocalEnv } from '.';
 
@@ -17,7 +17,7 @@ describe('environment', () => {
             });
 
             expect(tree.exists('.env.local')).toBeTruthy();
-            expect(tree.read('.env.local', 'utf-8')).toContain(
+            expect(tree.read('.env.local', 'utf8')).toContain(
                 'TEST_ENV=testValue',
             );
         });
@@ -30,7 +30,7 @@ describe('environment', () => {
             });
 
             expect(tree.exists('.env.local')).toBeTruthy();
-            expect(tree.read('.env.local', 'utf-8')).toContain(
+            expect(tree.read('.env.local', 'utf8')).toContain(
                 'TEST_ENV=testValue\nNEW_ENV=newValue',
             );
         });
@@ -44,7 +44,7 @@ describe('environment', () => {
             });
 
             expect(tree.exists('.env.local')).toBeTruthy();
-            expect(tree.read('.env.local', 'utf-8')).toContain(
+            expect(tree.read('.env.local', 'utf8')).toContain(
                 'TEST_ENV=testValue\nNEW_ENV=newValue',
             );
         });
