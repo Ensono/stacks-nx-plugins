@@ -39,7 +39,7 @@ jobs:
 
     - name: Version
       shell: bash
-      run: npx nx affected --target=version --base=last-release --configuration=release --releaseAs=major --parallel=1
+      run: npx nx affected --target=version --base=last-release --configuration=release --parallel=1
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
