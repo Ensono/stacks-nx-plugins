@@ -1,5 +1,5 @@
-import { getPackageManagerCommand, logger } from '@nrwl/devkit';
-import { runCommandAsync } from '@nrwl/nx-plugin/testing';
+import { getPackageManagerCommand, logger } from '@nx/devkit';
+import { runCommandAsync } from '@nx/plugin/testing';
 
 import { SupportedPackageManager } from './types';
 import { getNxVersion } from './versions';
@@ -9,16 +9,18 @@ export function getPackageManagerNxCreateCommand(
 ): string {
     const nxVersion = getNxVersion();
     switch (packageManager) {
-        case 'npm':
-            return `npx --yes @ensono-stacks/create-stacks-workspace@dev --useDev --nxVersion=${nxVersion}`;
         case 'yarn':
-            return `yarn global add @ensono-stacks/create-stacks-workspace@dev --useDev && create-nx-workspace --nxVersion=${nxVersion}`;
-        case 'pnpm':
-            return `pnpm dlx @ensono-stacks/create-stacks-workspace@dev --useDev --nxVersion=${nxVersion}`;
-        default:
+        case 'npm': {
+            return `npx --yes @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
+        }
+        case 'pnpm': {
+            return `pnpm dlx @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
+        }
+        default: {
             throw new Error(
                 `Unsupported package manager used: ${packageManager}`,
             );
+        }
     }
 }
 
@@ -33,7 +35,7 @@ export async function installPackages(
     if (packages.length === 0) {
         return;
     }
-
+    logger.log(`Installing the following packages:${packages.join('\n')}`);
     const pm = getPackageManagerCommand(packageManager);
 
     const { stdout, stderr } = await runCommandAsync(
@@ -48,14 +50,15 @@ export async function installPackages(
 
 export function installVersionedPackages(
     packageManager: SupportedPackageManager,
-    packages: string[],
+    stacksPackageToInstall: string,
 ) {
-    const packagesWithVersions = packages.map(dependency => {
-        const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
-        return match ? dependency : `${dependency}@latest`;
-    });
-
-    return installPackages(packageManager, packagesWithVersions);
+    if (stacksPackageToInstall) {
+        const match = stacksPackageToInstall.match(/^(?:[a-z]|@).*@(.*)/);
+        return installPackages(packageManager, [
+            match ? stacksPackageToInstall : `${stacksPackageToInstall}@latest`,
+        ]);
+    }
+    return 'No pacakges to install';
 }
 
 export function installNxPackages(
@@ -63,8 +66,18 @@ export function installNxPackages(
     packages: string[],
 ) {
     const nxVersion = getNxVersion();
+    const invalidPackages = packages.filter(dependency =>
+        dependency.startsWith('@nrwl/'),
+    );
+    if (invalidPackages.length > 0) {
+        throw new Error(
+            `Following @nrwl packages are not supported, upgrade to @nx: ${invalidPackages.join(
+                '\n',
+            )}`,
+        );
+    }
     const nxPackages = packages
-        .filter(dependency => dependency.startsWith('@nrwl/'))
+        .filter(dependency => dependency.startsWith('@nx/'))
         .map(dependency => {
             const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
             return match

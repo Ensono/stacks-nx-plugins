@@ -12,18 +12,18 @@ import {
     getProjects,
     joinPathFragments,
     Tree,
-} from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+} from '@nx/devkit';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 import path from 'path';
 
-import { appInsightsVersion } from '../../../utils/versions';
 import { AppInsightsGeneratorSchema } from './schema';
 import {
     initAppInsights,
     configureAppInsights,
     startAppInsights,
 } from './templates/appInsights';
+import { appInsightsVersion } from '../../../utils/versions';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -84,7 +84,7 @@ export default async function appInsightsGenerator(
         throw new Error('AppInsights SDK is already in use.');
     }
 
-    thirdPartyDependencyWarning(['@nrwl/next:custom-server']);
+    thirdPartyDependencyWarning(['@nx/next:custom-server']);
 
     customServer.addImportDeclaration({
         namespaceImport: 'appInsights',
@@ -112,7 +112,7 @@ export default async function appInsightsGenerator(
     customServer.saveSync();
 
     const serverPath = joinPathFragments(project.root, server);
-    // add nrwl/next custom server to prettier ignore
+    // add nx/next custom server to prettier ignore
     addIgnoreEntry(tree, '.prettierignore', 'next server', [serverPath]);
     // Format files excluding the server file
     await formatFiles(tree, [serverPath]);

@@ -1,7 +1,7 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readProjectConfiguration, readJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree, readProjectConfiguration, readJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 import { AppInsightsWebGeneratorSchema } from './schema';

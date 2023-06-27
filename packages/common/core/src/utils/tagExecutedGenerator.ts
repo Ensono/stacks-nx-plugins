@@ -1,4 +1,4 @@
-import { Tree, updateJson } from '@nrwl/devkit';
+import { Tree, updateJson } from '@nx/devkit';
 
 export function tagExecutedGeneratorForProject(
     tree: Tree,

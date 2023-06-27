@@ -1,16 +1,7 @@
 {
-    "extends": "nx/presets/npm.json",
-    "$schema": "./node_modules/nx/schemas/nx-schema.json",
-    "npmScope": "ensono-stacks",
-    "defaultProject": "workspace",
-    "pluginsConfig": {
-        "@nrwl/js": {
-            "analyzeSourceFiles": true
-        }
-    },
     "tasksRunnerOptions": {
         "default": {
-            "runner": "@nrwl/nx-cloud",
+            "runner": "nx-cloud",
             "options": {
                 "cacheableOperations": ["build", "lint", "test", "e2e"],
                 "accessToken": "Njg2NjM4NDUtOGY5ZC00ODk1LWIyMjctM2M5ZWM3NzczMTY1fHJlYWQ=",
@@ -18,6 +9,15 @@
             }
         }
     },
+    "pluginsConfig": {
+        "@nx/js": {
+            "analyzeSourceFiles": true
+        }
+    },
+    "extends": "nx/presets/npm.json",
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "npmScope": "ensono-stacks",
+    "defaultProject": "workspace",
     "workspaceLayout": {
         "appsDir": "e2e",
         "libsDir": "packages"

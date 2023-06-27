@@ -1,4 +1,4 @@
-import { joinPathFragments, Tree, updateJson } from '@nrwl/devkit';
+import { joinPathFragments, Tree, updateJson } from '@nx/devkit';
 
 function findOverride(
     json: Array<any>,
@@ -47,14 +47,11 @@ export function updateTsConfig(tree: Tree, project: string) {
         joinPathFragments(project, 'tsconfig.json'),
         tsConfigJson => {
             const updatedProjectJson = { ...tsConfigJson };
+
             updatedProjectJson.exclude.push(
                 'cypress/**/**',
                 'cypress.config.ts',
             );
-            updatedProjectJson.references =
-                updatedProjectJson.references.filter(
-                    reference => reference.path !== './tsconfig.cy.json',
-                );
             return updatedProjectJson;
         },
     );

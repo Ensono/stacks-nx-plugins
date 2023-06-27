@@ -1,19 +1,19 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
 
-import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
-import initGenerator from '../init/generator';
 import generator from './generator';
 import { VisualRegressionGeneratorSchema } from './schema';
+import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
+import initGenerator from '../init/generator';
 
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nrwl/devkit', () => {
-    const actual = jest.requireActual('@nrwl/devkit');
+jest.mock('@nx/devkit', () => {
+    const actual = jest.requireActual('@nx/devkit');
 
     return {
         ...actual,
@@ -143,7 +143,7 @@ describe('playwright generator', () => {
         );
 
         // expect package.json updated
-        const packageJson = JSON.parse(appTree.read('/package.json', 'utf-8'));
+        const packageJson = JSON.parse(appTree.read('/package.json', 'utf8'));
         expect(packageJson?.devDependencies).toMatchObject({
             '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
         });

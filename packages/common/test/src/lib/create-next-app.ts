@@ -1,6 +1,6 @@
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
-import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator } from '@nx/next';
+import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
 
 import { addStacksAttributes } from './stacks-attributes';
 
@@ -13,6 +13,7 @@ export async function createNextApp(
         name: applicationName,
         style: 'css',
         e2eTestRunner: 'none',
+        appDir: false,
         ...schema,
     });
 

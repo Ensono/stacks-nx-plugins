@@ -1,4 +1,4 @@
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 import path from 'path';
 
 function copyFile(tree: Tree, sourcePath: string, targetPath: string) {

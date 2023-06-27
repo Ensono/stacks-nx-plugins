@@ -3,13 +3,8 @@ import {
     copyFiles,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import {
-    formatFiles,
-    names,
-    readProjectConfiguration,
-    Tree,
-} from '@nrwl/devkit';
-import { libraryGenerator } from '@nrwl/js';
+import { formatFiles, names, readProjectConfiguration, Tree } from '@nx/devkit';
+import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
 import { BumpVersionGeneratorSchema } from './schema';
@@ -23,7 +18,7 @@ function findLatestVersion(
         const versionsPath = readProjectConfiguration(
             tree,
             endpointName,
-        ).root.replace(/v(\d+)$/g, '');
+        ).root.replaceAll(/v(\d+)$/g, '');
 
         children = tree.children(versionsPath);
     } catch {
@@ -87,22 +82,22 @@ function updateVersionInCode(
         tree.write(
             filePath,
             fileContent
-                .replace(
+                .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(latestVersionNames.className, 'g'),
                     newVersionNames.className,
                 )
-                .replace(
+                .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(latestVersionNames.name, 'g'),
                     newVersionNames.name,
                 )
-                .replace(
+                .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(`v${latestVersion}`, 'g'),
                     `v${newVersion}`,
                 )
-                .replace(
+                .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(`V${latestVersion}`, 'g'),
                     `V${newVersion}`,
@@ -140,7 +135,7 @@ export default async function bumpVersion(
     const libsEndpoint = readProjectConfiguration(
         tree,
         optionsParameter.name,
-    ).root.replace(/v(\d+)$/g, '');
+    ).root.replaceAll(/v(\d+)$/g, '');
 
     const endpointRoot = libsEndpoint.replace('libs/', '');
 

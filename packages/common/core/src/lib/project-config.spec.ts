@@ -108,7 +108,7 @@ describe('project config', () => {
                     projectType: 'application',
                     targets: {
                         test: {
-                            executor: '@nrwl/jest:jest',
+                            executor: '@nx/jest:jest',
                             outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
                             options: {
                                 jestConfig: 'apps/testing/jest.config.ts',
@@ -160,7 +160,7 @@ describe('project config', () => {
                     root: '',
                     targets: {
                         export: {
-                            executor: '@nrwl/next:export',
+                            executor: '@nx/next:export',
                             options: {
                                 buildTarget: 'next-project:build:production',
                             },
@@ -179,7 +179,7 @@ describe('project config', () => {
                 root: '',
                 targets: {
                     export: {
-                        executor: '@nrwl/next:export',
+                        executor: '@nx/next:export',
                         options: {
                             buildTarget: 'next-project:build:development',
                         },

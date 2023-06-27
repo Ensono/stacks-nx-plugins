@@ -1,7 +1,7 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import path from 'path';
 import { SyntaxKind } from 'ts-morph';
 
@@ -11,8 +11,8 @@ import { PlaywrightGeneratorSchema } from './schema';
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nrwl/devkit', () => {
-    const actual = jest.requireActual('@nrwl/devkit');
+jest.mock('@nx/devkit', () => {
+    const actual = jest.requireActual('@nx/devkit');
 
     return {
         ...actual,
@@ -110,7 +110,7 @@ describe('playwright generator', () => {
         ).toMatchSnapshot();
 
         // expect .gitignore entries to be added
-        const gitIgnoreFile = appTree.read('/.gitignore', 'utf-8');
+        const gitIgnoreFile = appTree.read('/.gitignore', 'utf8');
         expect(gitIgnoreFile).toContain('**/test-results');
         expect(gitIgnoreFile).toContain('**/playwright-report');
         expect(gitIgnoreFile).toContain('**/playwright/.cache');

@@ -1,8 +1,8 @@
 import { addStacksAttributes, executeWorkspaceInit } from '@ensono-stacks/test';
-import { readJson, Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
-import { Schema as NextSchema } from '@nrwl/next/src/generators/application/schema';
+import { readJson, Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator } from '@nx/next';
+import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
@@ -22,6 +22,7 @@ describe('next deployment generator', () => {
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
+            appDir: false,
             ...schema,
         });
 
@@ -100,7 +101,7 @@ describe('next deployment generator', () => {
                 'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
             );
 
-            const prettierIgnoreFile = tree.read('/.prettierignore', 'utf-8');
+            const prettierIgnoreFile = tree.read('/.prettierignore', 'utf8');
             expect(prettierIgnoreFile).toContain(
                 'libs/stacks-helm-chart/build/helm/**/*.yaml',
             );

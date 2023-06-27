@@ -1,9 +1,9 @@
 import { createNextApp } from '@ensono-stacks/test';
-import { readJson, Tree } from '@nrwl/devkit';
+import { initDeploymentGenerator } from '@ensono-stacks/workspace';
+import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries, import/no-relative-packages
-import workspaceInitDeployment from '../../../../workspace/src/generators/init-deployment/generator';
+// eslint-disable-next-line @nx/enforce-module-boundaries, import/no-relative-packages
 import generator from './generator';
 
 const applicationName = 'application';
@@ -22,7 +22,7 @@ describe('cypress generator', () => {
 
     describe('generator should manipulate deployment files as expected', () => {
         beforeAll(async () => {
-            await workspaceInitDeployment(appTree, {
+            await initDeploymentGenerator(appTree, {
                 pipelineRunner: 'taskctl',
             });
             await generator(appTree);

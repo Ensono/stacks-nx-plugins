@@ -7,17 +7,17 @@ import {
     updateProjectConfiguration,
     readProjectConfiguration,
     Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { paramCase } from 'change-case';
 import path from 'path';
 
+import { addHelmProject } from './helm';
 import {
     JSCUTLERY_SEMVER_VERSION,
     NXTOOLS_NX_CONTAINER_VERSION,
     NXTOOLS_NX_METADATA_VERSION,
 } from '../../../utils/constants';
 import { NextGeneratorSchema } from '../schema';
-import { addHelmProject } from './helm';
 
 function addCommonInfrastructureDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -39,19 +39,18 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
     const stacksConfig = readStacksConfig(tree);
     const project = readProjectConfiguration(tree, options.project);
 
-    const customServer =
-        project.targets?.['build-custom-server']?.options?.main;
+    const customServer = project.targets?.['build-custom-server'];
 
-    const distFolderPath = project.targets?.build?.options?.outputPath;
-    const rootFolderPath = project.targets?.build?.options?.root;
+    const sourceRoot = project?.sourceRoot;
+    const distributionFolderPath = project.targets?.build?.options?.outputPath;
 
     const port = setPort(project);
 
     let customServerRelativePath: string;
 
-    if (customServer) {
-        customServerRelativePath = customServer
-            .replace(`${rootFolderPath}/`, '')
+    if (customServer?.options?.main) {
+        customServerRelativePath = customServer?.options?.main
+            .replace(`${sourceRoot}/`, '')
             .replace('.ts', '.js');
     }
 
@@ -78,7 +77,7 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
         path.join(__dirname, '..', 'files', 'apps', 'common'),
         project.root,
         {
-            distFolderPath,
+            distFolderPath: distributionFolderPath,
             customServerRelativePath,
             port,
             nonprodRegistryPath: `${getRegistryUrl(

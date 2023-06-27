@@ -4,8 +4,9 @@ export function execAsync(
     command: string,
     cwd: string,
     options: Omit<ExecOptions, 'env'> = {},
-) {
+): Promise<unknown> {
     return new Promise((response, reject) => {
+        // eslint-disable-next-line security/detect-child-process
         exec(
             command,
             {
@@ -27,5 +28,5 @@ export function execAsync(
 }
 
 export function getCommandVersion(command: string) {
-    return execSync(`${command} --version`).toString('utf-8').trim();
+    return execSync(`${command} --version`).toString('utf8').trim();
 }

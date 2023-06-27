@@ -1,9 +1,11 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { createNextApp } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import * as fs from 'fs';
 import path from 'path';
 
+import generator from './generator';
+import { CypressGeneratorSchema } from './schema';
 import { checkOneOccurence } from '../../utils/test-utils';
 import {
     CYPRESS_VERSION,
@@ -11,11 +13,9 @@ import {
     MOCHAWESOME_VERSION,
     MOCHAWESOMEJUNITREPORTER_VERSION,
     MOCHAWESOMEMERGE_VERSION,
-    NRWLCYPRESS_VERSION,
+    NXCYPRESS_VERSION,
     CYPRESSGREP_VERSION,
 } from '../../versions';
-import generator from './generator';
-import { CypressGeneratorSchema } from './schema';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
@@ -24,8 +24,8 @@ const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
 let appTree: Tree;
 let options: CypressGeneratorSchema;
 
-jest.mock('@nrwl/devkit', () => {
-    const actual = jest.requireActual('@nrwl/devkit');
+jest.mock('@nx/devkit', () => {
+    const actual = jest.requireActual('@nx/devkit');
 
     return {
         ...actual,
@@ -47,8 +47,8 @@ jest.mock('@nrwl/devkit', () => {
 
 function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     const expectedFileContents = fs
-        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf-8')
-        .replace(/(\r)/gm, '')
+        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8')
+        .replaceAll(/(\r)/gm, '')
         .trim();
     const fileContents = fileInTree.getFullText().trim();
     expect(fileContents).toBe(expectedFileContents);
@@ -108,7 +108,7 @@ describe('should run successfully with default options', () => {
         const packageJson = readJson(appTree, 'package.json');
         expect(packageJson?.devDependencies).toMatchObject({
             cypress: CYPRESS_VERSION,
-            '@nrwl/cypress': NRWLCYPRESS_VERSION,
+            '@nx/cypress': '16.4.0',
             'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
             mochawesome: MOCHAWESOME_VERSION,
             'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
@@ -132,7 +132,7 @@ describe('should run successfully with default options', () => {
 
     it('should update the gitignore', () => {
         // expect .gitignore entries to be added
-        const gitIgnoreFile = appTree.read('/.gitignore', 'utf-8');
+        const gitIgnoreFile = appTree.read('/.gitignore', 'utf8');
         expect(gitIgnoreFile).toContain('**/test-results');
     });
 
@@ -237,9 +237,6 @@ describe('should run successfully with default options', () => {
             expect(
                 checkOneOccurence(configJson.exclude, 'cypress.config.ts'),
             ).toBeTruthy();
-            expect(configJson.references).not.toContainEqual({
-                path: './tsconfig.cy.json',
-            });
         });
 
         it('has configured the new tsconfig.json within the cypress directory', () => {

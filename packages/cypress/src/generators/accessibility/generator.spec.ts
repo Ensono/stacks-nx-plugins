@@ -1,22 +1,22 @@
 import { tsMorphTree } from '@ensono-stacks/core';
 import { createNextApp } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nrwl/devkit';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import * as fs from 'fs';
 import path from 'path';
 
-import { checkOneOccurence } from '../../utils/test-utils';
-import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
-import initGenerator from '../init/generator';
 import generator from './generator';
 import { AccessibilityGeneratorSchema } from './schema';
 import { terminalLogAxeBody } from './utils/update-files';
+import { checkOneOccurence } from '../../utils/test-utils';
+import { AXECORE_VERSION, CYPRESSAXE_VERSION } from '../../versions';
+import initGenerator from '../init/generator';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
 const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
 
-jest.mock('@nrwl/devkit', () => {
-    const actual = jest.requireActual('@nrwl/devkit');
+jest.mock('@nx/devkit', () => {
+    const actual = jest.requireActual('@nx/devkit');
 
     return {
         ...actual,
@@ -38,8 +38,8 @@ jest.mock('@nrwl/devkit', () => {
 
 function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
     const expectedFileContents = fs
-        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf-8')
-        .replace(/(\r)/gm, '')
+        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8')
+        .replaceAll(/(\r)/gm, '')
         .trim();
     const fileContents = fileInTree.getFullText().trim();
     expect(fileContents).toBe(expectedFileContents);
@@ -140,7 +140,7 @@ describe('cypress accessibility generator', () => {
         it('should update the package.json with the required dependencies', () => {
             // expect package.json updated
             const packageJson = JSON.parse(
-                appTree.read('/package.json', 'utf-8'),
+                appTree.read('/package.json', 'utf8'),
             );
             expect(packageJson?.devDependencies).toMatchObject({
                 'axe-core': AXECORE_VERSION,

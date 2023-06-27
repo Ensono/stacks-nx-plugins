@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import { readStacksConfig, getRegistryUrl } from '@ensono-stacks/core';
-import { addProjectConfiguration, Tree } from '@nrwl/devkit';
+import { addProjectConfiguration, Tree } from '@nx/devkit';
 
 import { NextGeneratorSchema } from '../schema';
 

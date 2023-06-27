@@ -1,12 +1,12 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { readJson, Tree, updateJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '@nrwl/next';
+import { readJson, Tree, updateJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator } from '@nx/next';
 
-import nextInitGenerator from '../init/generator';
-import nextAuthGenerator from '../next-auth/generator';
 import generator from './generator';
 import { NextAuthRedisDeploymentGeneratorSchema } from './schema';
+import nextInitGenerator from '../init/generator';
+import nextAuthGenerator from '../next-auth/generator';
 
 describe('next-auth-redis-deployment generator', () => {
     let appTree: Tree;
@@ -19,6 +19,7 @@ describe('next-auth-redis-deployment generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
+            appDir: false,
         });
         addStacksAttributes(appTree, options.project);
         await nextInitGenerator(appTree, { project: 'next-app' });

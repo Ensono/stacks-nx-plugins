@@ -66,7 +66,7 @@ export function getGeneratorsToRun(
 
     if (argv.preset === Preset.NextJs) {
         generators.push(
-            `@nrwl/next:app ${argv.appName} --e2eTestRunner=none`,
+            `@nx/next:app ${argv.appName} --e2eTestRunner=none --no-appDir`,
             `@ensono-stacks/next:init --project=${argv.appName}`,
         );
     }
@@ -92,7 +92,7 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
     const plugins = [...stacksRequiredPlugins];
 
     if (argv.preset === Preset.NextJs) {
-        plugins.push('@nrwl/next', '@ensono-stacks/next');
+        plugins.push('@nx/next', '@ensono-stacks/next');
     }
 
     if (argv.e2eTestRunner && argv.e2eTestRunner !== E2eTestRunner.None) {
@@ -106,9 +106,9 @@ export async function installPackages(
     packages: string[],
     cwd: string,
     useDevelopment?: boolean,
-) {
+): Promise<unknown> {
     if (packages.length === 0) {
-        return Promise.resolve();
+        return 'No packages to install';
     }
 
     const versionedPackages = useDevelopment
@@ -121,13 +121,15 @@ export async function installPackages(
 
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
-
     return execAsync(`${pm.addDependency} ${versionedPackages.join(' ')}`, cwd);
 }
 
-export async function runGenerators(commands: string[], cwd: string) {
+export async function runGenerators(
+    commands: string[],
+    cwd: string,
+): Promise<unknown> {
     if (commands.length === 0) {
-        return Promise.resolve();
+        return;
     }
 
     const packageManager = detectPackageManager(cwd);
@@ -137,6 +139,7 @@ export async function runGenerators(commands: string[], cwd: string) {
         return execAsync(`${pm.exec} nx g ${command}`, cwd);
     });
 
+    // eslint-disable-next-line consistent-return
     return chain(promises);
 }
 

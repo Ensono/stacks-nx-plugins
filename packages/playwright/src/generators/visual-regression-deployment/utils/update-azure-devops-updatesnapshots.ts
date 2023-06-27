@@ -3,7 +3,7 @@ import {
     generateFiles,
     readJson,
     NxJsonStacksConfiguration,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import path from 'path';
 import YAML from 'yaml';
 
@@ -29,7 +29,7 @@ export function updateAzureDevopsSnapshotsYaml(tree: Tree) {
                     'azDevOps',
                     'azuredevops-updatesnapshots.yaml',
                 ),
-                'utf-8',
+                'utf8',
             ),
         );
         const nxJsonStacks = readJson(tree, 'nx.json')

@@ -1,9 +1,9 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { joinPathFragments, ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
 /**
- * Fixes eslint errors from @nrwl/next incompatible with our config.
+ * Fixes eslint errors from @nx/next incompatible with our config.
  */
 export function eslintFix(project: ProjectConfiguration, tree: Tree) {
     const morphTree = tsMorphTree(tree);

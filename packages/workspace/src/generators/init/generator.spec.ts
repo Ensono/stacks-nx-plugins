@@ -1,6 +1,6 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree, readJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 
@@ -27,7 +27,7 @@ describe('init generator', () => {
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining([
                     'eslint',
-                    '@nrwl/eslint-plugin-nx',
+                    '@nx/eslint-plugin',
                     'eslint-config-airbnb',
                     'eslint-config-prettier',
                     'eslint-import-resolver-typescript',
@@ -42,12 +42,12 @@ describe('init generator', () => {
 
         it('should merge defaults with an existing eslintrc file', async () => {
             const defaultConfig = {
-                plugins: ['@nrwl/nx'],
+                plugins: ['@nx'],
                 overrides: [
                     {
                         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                         extends: ['airbnb/base'],
-                        plugins: ['@nrwl/nx'],
+                        plugins: ['@nx/typescript'],
                         rules: {
                             'dot-notation': 'off',
                         },
@@ -68,7 +68,7 @@ describe('init generator', () => {
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
                     plugins: [
-                        '@nrwl/nx',
+                        '@nx',
                         '@typescript-eslint',
                         'import',
                         'security',
@@ -77,7 +77,7 @@ describe('init generator', () => {
                         expect.objectContaining({
                             files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                             extends: ['airbnb/base'],
-                            plugins: ['@nrwl/nx'],
+                            plugins: ['@nx/typescript'],
                             rules: expect.objectContaining({
                                 'dot-notation': 'off',
                                 'import/no-extraneous-dependencies': 'off',
