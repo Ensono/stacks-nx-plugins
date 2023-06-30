@@ -188,4 +188,40 @@ describe('create', () => {
             ),
         ).not.toThrow();
     });
+
+    it('can install with playwright set as e2eTestRunner', async () => {
+        const run = () =>
+            execSync(
+                'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --e2eTestRunner=playwright --no-nxCloud --skipGit --no-interactive --verbose',
+                {
+                    cwd: temporaryDirectory,
+                    stdio: 'inherit',
+                    env: {
+                        ...process.env,
+                        npm_config_cache: cacheDirectory,
+                        HUSKY: '0',
+                    },
+                },
+            );
+
+        expect(() => run()).not.toThrow();
+    });
+
+    it('can install with cypress set as e2eTestRunner', async () => {
+        const run = () =>
+            execSync(
+                'npx --yes @ensono-stacks/create-stacks-workspace proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --e2eTestRunner=cypress --no-nxCloud --skipGit --no-interactive --verbose',
+                {
+                    cwd: temporaryDirectory,
+                    stdio: 'inherit',
+                    env: {
+                        ...process.env,
+                        npm_config_cache: cacheDirectory,
+                        HUSKY: '0',
+                    },
+                },
+            );
+
+        expect(() => run()).not.toThrow();
+    });
 });
