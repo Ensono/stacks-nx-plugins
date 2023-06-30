@@ -30,7 +30,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             '@nx',
             'import',
             'security',
-            "jsx-a11y"
+            'jsx-a11y',
         ],
         parser: '@typescript-eslint/parser',
         extends: [
