@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, Tree, updateJson } from '@nx/devkit';
+import { getWorkspaceLayout, readJson, Tree, updateJson } from '@nx/devkit';
 import chalk from 'chalk';
 
 import {
@@ -94,13 +94,24 @@ export function hasGeneratorExecutedForWorkspace(
     const generatorExecuted =
         stacksExecutedGenerators.workspace.includes(generatorName);
 
-    const workspace = getWorkspaceLayout(tree);
+    const getNpmScope = () => {
+        const workspace = getWorkspaceLayout(tree);
+        // Code copied from Nx -> packages/workspace/src/utilities/get-import-path.ts
+        if (workspace.npmScope) {
+            return workspace.npmScope;
+        }
+        const { name } = tree.exists('package.json')
+            ? readJson(tree, 'package.json')
+            : { name: null };
+
+        return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
+    };
 
     if (generatorExecuted) {
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the workspace`,
-            chalk.magenta`${workspace.npmScope}.`,
+            chalk.magenta`${getNpmScope()}.`,
             chalk.yellow`No changes made.`,
             '\n',
         );
