@@ -192,7 +192,7 @@ describe('create', () => {
     it('can install with playwright set as e2eTestRunner', async () => {
         const run = () =>
             execSync(
-                'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --appName=test-app --e2eTestRunner=playwright --no-nxCloud --skipGit --no-interactive --verbose',
+                'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=playwright --no-nxCloud --skipGit --no-interactive --verbose',
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
