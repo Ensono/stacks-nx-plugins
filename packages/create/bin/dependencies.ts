@@ -24,7 +24,7 @@ export function normaliseForwardedArgv(
     updatedForwardArgv['preset'] =
         forwardArgv['preset'] === 'next' ? 'apps' : forwardArgv['preset'];
 
-    // As playwright is not supported by the Nx generator for e2eTestRunner, we pass none to proceed and later install it ourselves as part of Stacks Playwright plugin.
+    // As we have our own playwright and cypress implementations, we pass in none for the initial Nx create workspace to avoid potential conflict/errors etc.
     updatedForwardArgv['e2eTestRunner'] =
         updatedForwardArgv['e2eTestRunner'] === 'playwright' ||
         updatedForwardArgv['e2eTestRunner'] === 'cypress'
