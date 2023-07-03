@@ -25,7 +25,13 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
     return {
         root: true,
         ignorePatterns: ['**/*'],
-        plugins: ['@typescript-eslint', '@nx', 'import', 'security'],
+        plugins: [
+            '@typescript-eslint',
+            '@nx',
+            'import',
+            'security',
+            'jsx-a11y',
+        ],
         parser: '@typescript-eslint/parser',
         extends: [
             'airbnb/base',
@@ -35,6 +41,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             'plugin:import/recommended',
             'plugin:import/typescript',
             'plugin:security/recommended',
+            "plugin:jsx-a11y/recommended",
         ],
         settings: {
             'import/resolver': {

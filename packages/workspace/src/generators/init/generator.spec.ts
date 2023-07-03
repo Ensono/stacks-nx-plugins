@@ -72,6 +72,7 @@ describe('init generator', () => {
                         '@typescript-eslint',
                         'import',
                         'security',
+                        'jsx-a11y',
                     ],
                     overrides: expect.arrayContaining([
                         expect.objectContaining({
