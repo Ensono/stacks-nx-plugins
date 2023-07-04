@@ -1,6 +1,21 @@
 
 # Stacks Project Guidelines
 
+- [Introduction](#introduction)
+- [Get Started](#get-started)
+  - [System Requirements](#system-requirements)
+  - [Setup](#setup)
+- [Naming Conventions and Coding Style](#naming-conventions-and-coding-style)
+- [Creating a New Plugin](#creating-a-new-plugin)
+  - [Generator Analysis](#generator-analysis)
+  - [Development process](#development-process)
+- [Testing](#testing)
+  - [Unit Testing](#unit-testing)
+  - [End to end testing](#end-to-end-testing)
+  - [Testing packages locally](#testing-packages-locally)
+- [Contributing Changes](#contributing-changes)
+- [Releasing packages and publishing to NPM](#releasing-packages-and-publishing-to-npm)
+
 ## Introduction
 
 Welcome to the Stacks project! This document provides guidelines to help you get started with the Stacks workspace and develop new plugins or contribute to existing ones. It covers setup instructions, development practices, testing, and contribution guidelines.
@@ -69,7 +84,7 @@ It is then recommended to break this down into multiple generators:
 
 - @ensono-stacks/*plugin*:[additional] (Any additional configuration or code which may not always be required, but adds some additional useful functionality or behaviour to the users project should be split into their own generators).
 
-> **Cypress Example:**
+***Cypress Example:***
 
 **@ensono-stacks/cypress:init** - Add a cypress testing framework to an application and configures everything surrounding the test execution and reporting
 
@@ -81,7 +96,7 @@ It is then recommended to break this down into multiple generators:
 
 From a process perspective, it is recommended to develop your desired end state first, which can then be reverse engineered back into a plugin/generators. Here is an example of the process followed for creating our `@ensono-stacks/cypress` plugin:
 
-> Step 1: Creating your end state
+***Step 1: Creating your end state***
 
 - Create a baseline workspace with a Next.js application. Commit this to your `main` branch
 
@@ -91,19 +106,15 @@ From a process perspective, it is recommended to develop your desired end state 
 
 - Create a new branch from `cypress-baseline` for the *accessibility* generator (`cypress-accessibility`), adding the additional requirements for adding accessibility tests using cypress to your application.
 
-> Step 2: Create your plugin, generators and unit tests.
-
-```text
+***Step 2: Create your plugin, generators and unit tests.***
 
 TDD should be followed. For each generator to create you should write all of the unit tests to verify that the files you create or amend match the desired states defined in step 1.
-
-```
 
 - Create a new plugin with the following command:
 
 ```bash
 
-nx g @nx/plugin:plugin <plugin name>
+nx g @nx/plugin:plugin <plugin name> --importPath @ensono-stacks/<plugin name>
 
 ```
 
@@ -121,7 +132,7 @@ nx generate @nx/plugin:generator <generator name> --project=<plugin name>
 
 - *accessibility* generator: Use Git to review the differences between the `cypress-accessibility` branch and the `cypress-baseline` branch. Again creating the relevant unit tests.
 
-> Step 3: Implementation
+***Step 3: Implementation***
 
 It is worth reviewing existing plugins to understand how we utilise the `@nx/devkit` and `@ensono-stacks/core` to create and manipulate files.
 
