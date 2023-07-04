@@ -76,13 +76,13 @@ If you want to create a new plugin within the Stacks project, follow these steps
 
 When creating a new plugin you should first understand your goals and the desired end state of what your plugin and accompanying generators should create for the user.
 
-It is then recommended to break this down into multiple generators:
+It is then recommended to break this down into multiple generators where applicable:
 
 - @ensono-stacks/*plugin*:init (init should be responsible for generating the core requirements of your desired end state)
 
 - @ensono-stacks/*plugin*:init-deployment (init-deployment should be responsible for making all relevant changes to deployment files to ensure that your generated code can be deployed. NOTE: Only if required)
 
-- @ensono-stacks/*plugin*:[additional] (Any additional configuration or code which may not always be required, but adds some additional useful functionality or behaviour to the users project should be split into their own generators).
+- @ensono-stacks/*plugin*:[additional] (Any additional configuration or code which may not always be required, but adds some additional useful functionality or behaviour to the users project should be split into their own generator. Alternatively, if the additional behaviour is only small, you could also consider adding this as a optional part of the init schema).
 
 ***Cypress Example:***
 
@@ -102,13 +102,14 @@ From a process perspective, it is recommended to develop your desired end state 
 
 - Create a new branch, e.g. `cypress-baseline` for the *init* generator. In this branch, install and configure the Cypress testing framework with the required configurations.
 
-- Create a new branch from `cypress-baseline` for the *init-deployment* generator (`cypress-deployment`), adding the additional requirements deploying your application with cypress tests.
+- Create a new branch from `cypress-baseline` for the *init-deployment* generator (`cypress-deployment`), adding the additional requirements for deploying your application with cypress tests.
 
 - Create a new branch from `cypress-baseline` for the *accessibility* generator (`cypress-accessibility`), adding the additional requirements for adding accessibility tests using cypress to your application.
 
 ***Step 2: Create your plugin, generators and unit tests.***
 
 TDD should be followed. For each generator to create you should write all of the unit tests to verify that the files you create or amend match the desired states defined in step 1.
+Following the approach outlined in step 1, tailored to your own plugin, helps to determine the behaviour and responsibility of each required generator. Through the git comparison functionality you gain a visual representation of exactly what has changed and in which files, making development of your unit tests MUCH easier!
 
 - Create a new plugin with the following command:
 
@@ -140,7 +141,7 @@ Some important initial checks:
 
 1. `verifyPluginCanBeInstalled()`: Checks to see if the workspace is compatible
 
-2. `hasGeneratorExecutedForProject()`: If the generator can only be ran once, this ensure that the `nx.json` and stacks `executedGenerators` list is correctly updated.
+2. `hasGeneratorExecutedForProject()`: If the generator can only be ran once, this ensures that the `nx.json` and stacks `executedGenerators` list is correctly updated.
 
 Once the code has been written for your generators, you must create corresponding e2e tests to ensure that your plugin can be built, published and executed within a stacks/nx workspace.
 
@@ -183,7 +184,7 @@ End to end tests look to cover usage of the plugin within an Nx workspace, in or
 The following are the steps in which e2e tests follow:
 
 1. The e2e executor builds, packages and deploys the selected plugin and it's dependent packages, including the create and workspace packages, to the verdaccio instance.
-2. The [newProject(stacksPackageToInstall, nxPackagesToInstall)](./packages/common/e2e/src/utils/project.ts) method will call then create a new Stacks workspace using the `@ensono-stacks/create-stacks-workspace` plugin which has been published to verdaccio. It will then install the plugin you are testing in the workspace.
+2. The [newProject(stacksPackageToInstall, nxPackagesToInstall)](./packages/common/e2e/src/utils/project.ts) method will then create a new Stacks workspace using the `@ensono-stacks/create-stacks-workspace` plugin which has been published to verdaccio. It will then install the plugin you are testing in the workspace.
 3. With the workspace provisioned, e2e tests should look to verify that the various generators available to the plugin can be executed and utilised within the workspace.
 
 To run your e2e tests you must use the e2e executor:
@@ -205,7 +206,7 @@ nx e2e <plugin name>-e2e
   npm pack
   ```
 
-  - From your workspace used for testing you can then directly reference the pack file from you `package.json` and install it with `npm install`
+  - From your workspace used for testing you can then directly reference the pack file from your `package.json` and install it with `npm install`
 
 ## Contributing Changes
 
@@ -227,7 +228,7 @@ Stacks uses [semantic versioning](https://semver.org/) with the [@jscutlery/semv
 
 There are two workflows in place for deployment:
 
-- **prerelease**: Published an alpha version of the plugin to the `@dev` tag
+- **prerelease**: Publishes an alpha version of the plugin to the `@dev` tag
   - When a package is merged to `main` the [prerelease.yml](/.github/workflows/prerelease.yml) workflow is ran, this calls the `version` target for all projects which have been updated using the `prerelease` configuration. Example version: `plugin-2.0.0-alpha-100.0`.
 - **release**: Publishes the next version of the plugin to the `@latest` tag
   - The [release.yml](/.github/workflows/release.yml) workflow can be ran manually to publish the next version of **all** plugins. Once a prerelease package has been verified and you are happy, then the release workflow can be ran.
