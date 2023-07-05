@@ -26,9 +26,9 @@ Welcome to the Stacks project! This document provides guidelines to help you get
 
 To set up the Stacks workspace, ensure that you have the following installed on your system:
 
-- npm
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-- Node.js version 18 or above
+- [Node.js](https://nodejs.org/en) version 18.6.1 LTS (Minumum/Recommended)
 
 The following are recommended plugins for visual studio code:
 
@@ -58,7 +58,27 @@ This will set up [Husky](https://typicode.github.io/husky/) to manage commit qua
 
 When working with the Stacks project, adhere to the following naming conventions and coding style guidelines:
 
-- Ensure husky has been configured to enforce commit standards
+- We adhere to the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard, a lightweight convention on top of commit messages. Commitizen has been added as a hook to Husky, which will provide a CLI to help complete commits which adhere to the below:
+  - Commit messages should be structured as follows
+
+    ```text
+    <type>[optional scope]: <description>
+
+    [optional body]
+
+    [optional footer(s)]
+
+    ```
+  
+  - *type*: defined by [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
+  - *scope*: Provide additional context to the impact of the change.
+
+    ```text
+    ** Example **
+    feat(core): Replace old function
+
+    BREAKING CHANGE: removes function used across multiple files
+    ```
 
 - Branch naming conventions:
 
@@ -113,18 +133,14 @@ Following the approach outlined in step 1, tailored to your own plugin, helps to
 
 - Create a new plugin with the following command:
 
-```bash
-
-nx g @nx/plugin:plugin <plugin name> --importPath @ensono-stacks/<plugin name>
-
-```
+  ```bash
+  nx g @nx/plugin:plugin <plugin name> --importPath @ensono-stacks/<plugin name>
+  ```
 
 For each new generator, the following command can be run:
 
 ```bash
-
 nx generate @nx/plugin:generator <generator name> --project=<plugin name>
-
 ```
 
 - *init* generator: Use Git to review the differences between the `cypress-baseline` branch and the `main` branch. This will help identify the files your generator needs to manipulate or create, then write all of the unit tests to check that the desired end state is met.
@@ -137,11 +153,11 @@ nx generate @nx/plugin:generator <generator name> --project=<plugin name>
 
 It is worth reviewing existing plugins to understand how we utilise the `@nx/devkit` and `@ensono-stacks/core` to create and manipulate files.
 
-Some important initial checks:
+The following two functions come from the `@ensono-stacks/core` package and must be the first calls inside any generator for validation purposes:
 
 1. `verifyPluginCanBeInstalled()`: Checks to see if the workspace is compatible
 
-2. `hasGeneratorExecutedForProject()`: If the generator can only be ran once, this ensures that the `nx.json` and stacks `executedGenerators` list is correctly updated.
+2. `hasGeneratorExecutedForProject()`: If the generator can only be ran once, this ensures that the `nx.json` and stacks `executedGenerators` list is correctly updated. If the executor has ran before and this method `returns true`, you should `return false` from the generator. If this generator can be ran multiple times, then this check can be omitted.
 
 Once the code has been written for your generators, you must create corresponding e2e tests to ensure that your plugin can be built, published and executed within a stacks/nx workspace.
 
@@ -149,33 +165,33 @@ Once the code has been written for your generators, you must create correspondin
 
 ### Unit Testing
 
-Unit tests should looks to cover all areas of a generator in regards to file creation and manipulation. By following a TDD approach this should ensure maximum coverage for all of the files which are affected by a generator.
+Unit tests should look to cover all areas of a generator in regards to file creation and manipulation. By following a TDD approach this should ensure maximum coverage for all of the files which are affected by a generator.
 
 - You can use the Jest runner plugin in Visual Studio Code or Nx to run the tests with the following commands:
 
   - Test a specific package
 
-  ```bash
-  nx test <package-name>
-  ```
+    ```bash
+    nx test <package-name>
+    ```
 
   - Test all packages that have been updated
 
-  ```bash
-  nx affected -t test
-  ```
+    ```bash
+    nx affected -t test
+    ```
 
   - Run the test target for multiple packages
 
-  ```bash
-  nx run-many -t test -p proj1 proj2
-  ```
+    ```bash
+    nx run-many -t test -p proj1 proj2
+    ```
 
   - Run the test target for all packages
 
-  ```bash
-  nx run-many --target test --all --parallel 8
-  ```
+    ```bash
+    nx run-many --target test --all --parallel 8
+    ```
 
 ### End to end testing
 
@@ -195,18 +211,46 @@ nx e2e <plugin name>-e2e
 
 ### Testing packages locally
 
-- Option 1: Use npm linking
-  - TO BE COMPLETED - @Metecan
-- Option 2: Use npm packing
+- **Option 1**: [npx linking](https://docs.npmjs.com/cli/v9/commands/npm-link)
+  - Step 1: Build the plugin which you would like to use/test locally:
+
+    ```bash
+    nx build <pluginName>
+    ```
+
+  - Step 2: Link the built plugin through `npx link`:
+
+    ```bash
+    npx link dist/packages/<pluginName>
+    ```
+
+  - Step 3: Link to the built package from the workspace where you want to test:
+
+    ```bash
+    npx link ../../stacks-nx-plugins/dist/packages/<pluginName>
+    ```
+
+  - From the workspace where you want to test your plugin you should now see the symlink present within your node_modules. As the link has taken place, for further changes simply running a new build as in step 1 should be enough, without having to go through steps 2 & 3 again. If not, repeat the steps.
+- **Option 2**: npm packing
   - You can build and package your plugin locally through `npm pack`
 
-  ```bash
-  nx run-many -t build -p package1 package2
-  cd dist/packages/<package>
-  npm pack
-  ```
+    ```bash
+    nx run-many -t build -p package1 package2
+    cd dist/packages/<package>
+    npm pack
+    ```
 
   - From your workspace used for testing you can then directly reference the pack file from your `package.json` and install it with `npm install`
+
+### @ensono-stacks/create-stacks-workspace
+
+The [@ensono-stacks/create-stacks-workspace](https://stacks.amido.com/docs/nx/create-stacks-workspace/ensono-stacks-create-stacks-workspace) is the entry point for creating a stacks workspace from scratch, please review the official stacks documentation for it's usage and command line arguments.
+
+When working with pre-releases (See [releasing packages](#releasing-packages-and-publishing-to-npm)) you must pass in an additional argument to the create script to ensure that it uses the latest pre-released plugin versions:
+
+```bash
+npx @ensono-stacks/create-stacks-workspace@dev --useDev
+```
 
 ## Contributing Changes
 
