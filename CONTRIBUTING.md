@@ -28,7 +28,7 @@ To set up the Stacks workspace, ensure that you have the following installed on 
 
 - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-- [Node.js](https://nodejs.org/en) version 18.6.1 LTS (Minumum/Recommended)
+- [Node.js](https://nodejs.org/en) version 18.6.1 LTS (Minimum/Recommended)
 
 The following are recommended plugins for visual studio code:
 
