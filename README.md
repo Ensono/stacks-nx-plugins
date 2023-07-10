@@ -1,5 +1,9 @@
 # Amido Stacks with Nx
 
+> See [the contributing guide](./CONTRIBUTING.md) for detailed instructions on how to get started with contributing to the stacks project.
+
+## Using Stacks
+
 The ideologies of Stacks and [`Nx`](https://nx.dev/) are aligned in their focus on providing businesses with a framework that accelerates development, allowing you to focus on business objectives with best practice code. Leveraging Nx allows us to build upon that work and to fill the gaps with infrastructure, pipelines and the integration with other Stacks subsystems. Leveraging Nx allows a common developer experience, global communities of support, and an enterprise ready base.
 <!-- markdownlint-disable MD033 -->
 <details>

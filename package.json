@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
+        "prepare": "husky install",
         "build": "nx run-many --target build --all --parallel 8"
     },
     "private": true,
