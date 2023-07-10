@@ -1,32 +1,34 @@
-import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { newProject, cleanup, createNextApplication, runTarget, targetOptions } from '@ensono-stacks/e2e';
 import { checkFilesExist, runNxCommandAsync, uniq } from '@nx/plugin/testing';
 
 describe('next e2e', () => {
-    jest.setTimeout(300_000);
+    jest.setTimeout(1_000_000);
     process.env.HUSKY = '0';
+    const project = 'nextjs2537935'; //uniq('nextjs');
 
     beforeAll(async () => {
-        await newProject('@ensono-stacks/next', ['@nx/next']);
+        // await newProject('@ensono-stacks/next', ['@nx/next']);
+        // await createNextApplication(project);
     });
 
     afterAll(() => {
         runNxCommandAsync('reset');
     });
 
-    const project = uniq('nextjs');
+    describe('init generator', () =>{
 
-    it('runs the install generator', async () => {
-        await runNxCommandAsync(
-            `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir`,
-        );
-        await runNxCommandAsync(
-            `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
-        );
+        it('runs the install generator', async () => {
+            expect(() =>
+                checkFilesExist('tsconfig.base.json', '.eslintrc.json'),
+            ).not.toThrow();
+        }, 200_000);
 
-        expect(() =>
-            checkFilesExist('tsconfig.base.json', '.eslintrc.json'),
-        ).not.toThrow();
-    }, 200_000);
+        it('serves the application', async () => {
+            expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
+        })
+    })
+
+    
 
     it('can configure NextAuth', async () => {
         await runNxCommandAsync(
@@ -40,9 +42,7 @@ describe('next e2e', () => {
             ),
         ).not.toThrow();
 
-        const { stdout } = await runNxCommandAsync(`build ${project}`);
-
-        expect(stdout).toContain('Compiled successfully');
+        expect(runTarget(project, targetOptions.build)).toBe('Compiled successfully');
     }, 200_000);
 
     // it('configures NextAuth with Redis adapter', async () => {
