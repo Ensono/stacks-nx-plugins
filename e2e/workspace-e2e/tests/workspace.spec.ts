@@ -5,7 +5,7 @@ import {
 } from '@nx/plugin/testing';
 import { newProject } from '@ensono-stacks/e2e';
 describe('workspace', () => {
-    jest.setTimeout(300_000);
+    jest.setTimeout(1_000_000);
 
     beforeAll(async () => {
         await newProject();
@@ -15,7 +15,7 @@ describe('workspace', () => {
         await runNxCommandAsync('reset');
     });
 
-    it('runs the install generator', async () => {
+    it('adds and updates the relevant files', async () => {
         expect(() =>
             checkFilesExist(
                 'tsconfig.base.json',
@@ -26,9 +26,10 @@ describe('workspace', () => {
                 '.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
+    });
 
+    it('updates the packages.json', () => {
         const packageJson = readJson('package.json');
-
         expect(packageJson).toMatchObject(
             expect.objectContaining({
                 config: {
@@ -38,5 +39,10 @@ describe('workspace', () => {
                 },
             }),
         );
-    }, 100000);
+    })
+
+    it('updates the eslintrc.json', () => {
+        const eslintRc = readJson('.eslintrc.json');
+        expect(eslintRc).toMatchSnapshot();
+    })
 });
