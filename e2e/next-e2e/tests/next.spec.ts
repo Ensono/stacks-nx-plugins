@@ -1,6 +1,16 @@
-import { createNextApplication, newProject, runTarget, targetOptions } from '@ensono-stacks/e2e';
+import {
+    createNextApplication,
+    newProject,
+    runTarget,
+    targetOptions,
+} from '@ensono-stacks/e2e';
 import { joinPathFragments } from '@nx/devkit';
-import { checkFilesExist, runNxCommandAsync, tmpProjPath, uniq } from '@nx/plugin/testing';
+import {
+    checkFilesExist,
+    runNxCommandAsync,
+    tmpProjPath,
+    uniq,
+} from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
 
 describe('next e2e', () => {
@@ -17,8 +27,7 @@ describe('next e2e', () => {
         runNxCommandAsync('reset');
     });
 
-    describe('init generator', () =>{
-
+    describe('init generator', () => {
         it('runs the install generator', async () => {
             expect(() =>
                 checkFilesExist('tsconfig.base.json', '.eslintrc.json'),
@@ -27,34 +36,45 @@ describe('next e2e', () => {
 
         it('serves the application', async () => {
             expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
-        })
+        });
 
         describe('it lints the application', () => {
-            const sourceFile = new Project().addSourceFileAtPath(joinPathFragments(tmpProjPath(), 'apps', project, 'pages', 'index.tsx'));
+            const sourceFile = new Project().addSourceFileAtPath(
+                joinPathFragments(
+                    tmpProjPath(),
+                    'apps',
+                    project,
+                    'pages',
+                    'index.tsx',
+                ),
+            );
             const original = sourceFile.getFullText();
 
             it('should have no linting errors', async () => {
-                expect(await runTarget(project, targetOptions.lint)).toContain('All files pass linting');
-            })
+                expect(await runTarget(project, targetOptions.lint)).toContain(
+                    'All files pass linting',
+                );
+            });
 
             it('it should having ally linting errors', async () => {
-                sourceFile.insertText(original.indexOf('<div className="text-container">'), "<div role=\"date\">Some Text in a 'div' with an incorrect aria role</div>\n");
+                sourceFile.insertText(
+                    original.indexOf('<div className="text-container">'),
+                    '<div role="date">Some Text in a \'div\' with an incorrect aria role</div>\n',
+                );
                 sourceFile.saveSync();
-                expect(await runTarget(project, targetOptions.lint)).toContain('jsx-a11y/aria-role');
-            })
+                expect(await runTarget(project, targetOptions.lint)).toContain(
+                    'jsx-a11y/aria-role',
+                );
+            });
 
             afterEach(() => {
                 sourceFile.replaceWithText(original);
                 sourceFile.saveSync();
-            })
-            
-        })
-    })
-
-    
+            });
+        });
+    });
 
     describe('NextAuth generator', () => {
-
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
@@ -63,21 +83,19 @@ describe('next e2e', () => {
 
         it('adds new files for NextAuth', () => {
             expect(() =>
-            checkFilesExist(
-                `apps/${project}/pages/api/auth/[...nextauth].ts`,
-                `apps/${project}/.env.local`,
-            ),
-        ).not.toThrow();
-        })
+                checkFilesExist(
+                    `apps/${project}/pages/api/auth/[...nextauth].ts`,
+                    `apps/${project}/.env.local`,
+                ),
+            ).not.toThrow();
+        });
 
         it('can serve the application', async () => {
             expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
-        })
-        
+        });
     });
 
     describe('init-deployment generator', () => {
-
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -90,16 +108,22 @@ describe('next e2e', () => {
             expect(() =>
                 checkFilesExist(
                     joinPathFragments(libraryPath, 'project.json'),
-                    joinPathFragments(libraryPath, 'build', 'helm', 'Chart.yaml'),
+                    joinPathFragments(
+                        libraryPath,
+                        'build',
+                        'helm',
+                        'Chart.yaml',
+                    ),
                 ),
             ).not.toThrow();
-        })
+        });
 
         it('is a usable package and can be linted', async () => {
-            expect(await runTarget(library, targetOptions.lint)).toContain('1 chart(s) linted, 0 chart(s) failed');
-        })
-
-    })
+            expect(await runTarget(library, targetOptions.lint)).toContain(
+                '1 chart(s) linted, 0 chart(s) failed',
+            );
+        });
+    });
 
     // it('configures NextAuth with Redis adapter', async () => {
     //     await runNxCommandAsync(
