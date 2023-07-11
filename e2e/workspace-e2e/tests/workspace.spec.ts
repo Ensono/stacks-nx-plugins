@@ -13,7 +13,8 @@ describe('workspace', () => {
 
     afterAll(async () => {
         await runNxCommandAsync('reset');
-    });r
+    });
+    r;
 
     it('adds and updates the relevant files', async () => {
         expect(() =>
@@ -39,10 +40,10 @@ describe('workspace', () => {
                 },
             }),
         );
-    })
+    });
 
     it('updates the eslintrc.json', () => {
         const eslintRc = readJson('.eslintrc.json');
         expect(eslintRc).toMatchSnapshot();
-    })
+    });
 });

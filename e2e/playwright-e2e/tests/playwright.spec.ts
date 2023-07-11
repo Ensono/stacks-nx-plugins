@@ -22,10 +22,10 @@ describe('playwright e2e', () => {
     }
 
     beforeAll(async () => {
-        await newProject(
-            '@ensono-stacks/playwright',
-            ['@mands/nx-playwright', '@nx/next'],
-        );
+        await newProject('@ensono-stacks/playwright', [
+            '@mands/nx-playwright',
+            '@nx/next',
+        ]);
     }, 200_000);
 
     afterAll(() => {
