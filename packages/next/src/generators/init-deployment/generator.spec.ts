@@ -1,5 +1,5 @@
 import { addStacksAttributes, executeWorkspaceInit } from '@ensono-stacks/test';
-import { readJson, Tree } from '@nx/devkit';
+import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
@@ -72,39 +72,158 @@ describe('next deployment generator', () => {
             ).not.toBeTruthy();
         });
 
-        it('should scaffold with infrastructure', async () => {
-            await createNextApp();
-            tree.write('.prettierignore', '');
-            await executeWorkspaceInit(tree);
-            await generator(tree, { ...options });
+        describe('should scaffold with infrastructure', () => {
+            beforeAll(async () => {
+                await createNextApp();
+                tree.write('.prettierignore', '');
+                await executeWorkspaceInit(tree);
+                await generator(tree, { ...options });
+            });
 
-            expect(tree.exists('next-app/Dockerfile')).toBeTruthy();
-            expect(
-                tree.exists('libs/stacks-helm-chart/build/helm/Chart.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/helm/nonprod/values.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/helm/prod/values.yaml'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/terraform/versions.tf'),
-            ).toBeTruthy();
-            expect(
-                tree.exists('next-app/deploy/terraform/data.tf'),
-            ).toBeTruthy();
+            it('should create the helm chart', () => {
+                const libraryPath = joinPathFragments(
+                    'libs',
+                    'stacks-helm-chart',
+                );
+                const helmPath = joinPathFragments(
+                    libraryPath,
+                    'build',
+                    'helm',
+                );
+                const templatePath = joinPathFragments(helmPath, 'templates');
 
-            const docker = tree.read('next-app/Dockerfile')?.toString();
+                expect(
+                    tree.exists(joinPathFragments(libraryPath, 'project.json')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(joinPathFragments(helmPath, '.helmignore')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(joinPathFragments(helmPath, 'Chart.yaml')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(joinPathFragments(helmPath, 'values.yaml')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(helmPath, 'charts', '.gitkeep'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(templatePath, 'deployment.yaml'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(joinPathFragments(templatePath, 'hpa.yaml')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(templatePath, 'ingress.yaml'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(joinPathFragments(templatePath, 'NOTES.txt')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(templatePath, 'service.yaml'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(templatePath, 'serviceaccount.yaml'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(templatePath, '_helpers.tpl'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(
+                            templatePath,
+                            'tests',
+                            'test-connection.yaml',
+                        ),
+                    ),
+                ).toBeTruthy();
+            });
 
-            expect(docker).toContain(
-                'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
-            );
+            it('creates the deployment files', () => {
+                const deployPath = joinPathFragments(
+                    'next-app',
+                    'deploy',
+                );
+                const helmPath = joinPathFragments(deployPath, 'helm');
+                const terraformPath = joinPathFragments(
+                    deployPath,
+                    'terraform',
+                );
 
-            const prettierIgnoreFile = tree.read('/.prettierignore', 'utf8');
-            expect(prettierIgnoreFile).toContain(
-                'libs/stacks-helm-chart/build/helm/**/*.yaml',
-            );
+                expect(
+                    tree.exists(
+                        joinPathFragments(helmPath, 'nonprod', 'values.yaml'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(helmPath, 'prod', 'values.yaml'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(terraformPath, '.terraform.lock.hcl'),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(joinPathFragments(terraformPath, 'data.tf')),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(
+                            terraformPath,
+                            'variables',
+                            'nonprod',
+                            'dns.tfvars',
+                        ),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(
+                            terraformPath,
+                            'variables',
+                            'prod',
+                            'dns.tfvars',
+                        ),
+                    ),
+                ).toBeTruthy();
+                expect(
+                    tree.exists(
+                        joinPathFragments(terraformPath, 'versions.tf'),
+                    ),
+                ).toBeTruthy();
+            });
+
+            it('creates the application docker file', () => {
+                const docker = tree
+                    .read(joinPathFragments('next-app', 'Dockerfile'))
+                    ?.toString();
+
+                expect(docker).toContain(
+                    'CMD ["dumb-init", "node_modules/.bin/next", "start"]',
+                );
+
+                const prettierIgnoreFile = tree.read(
+                    '/.prettierignore',
+                    'utf8',
+                );
+                expect(prettierIgnoreFile).toContain(
+                    'libs/stacks-helm-chart/build/helm/**/*.yaml',
+                );
+            });
         });
 
         it('should scaffold with infrastructure on a custom server', async () => {

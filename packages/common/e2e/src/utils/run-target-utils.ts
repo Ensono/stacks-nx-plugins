@@ -1,11 +1,5 @@
-import {
-    runNxCommandAsync,
-    runNxCommand,
-    tmpProjPath,
-} from '@nx/plugin/testing';
+import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { ChildProcess, exec } from 'child_process';
-import { Console } from 'console';
-import { stdout } from 'process';
 
 import { killPort } from './process-utils';
 
@@ -13,6 +7,7 @@ export enum targetOptions {
     build,
     serve,
     test,
+    lint,
 }
 
 /**
@@ -20,8 +15,8 @@ export enum targetOptions {
  * @param log
  * @returns
  */
-export function stripConsoleColors(log: string): string {
-    return log?.replace(
+export function stripConsoleColors(logs: string): string {
+    return logs?.replace(
         // eslint-disable-next-line no-control-regex, security/detect-unsafe-regex, prettier/prettier, unicorn/better-regex, unicorn/escape-case
     /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
         '',
@@ -32,7 +27,6 @@ export function runCommandUntil(
     command: string,
     criteria: (output: string) => boolean,
 ): Promise<ChildProcess> {
-    console.log(`Running the following command: ${command}`);
     // eslint-disable-next-line security/detect-child-process
     const p = exec(`npx nx ${command}`, {
         cwd: tmpProjPath(),
@@ -42,14 +36,15 @@ export function runCommandUntil(
         let output = '';
         let complete = false;
 
-        function checkCriteria(c) {
+        function checkCriteria(c: { toString: () => string }) {
             output += c.toString();
+
             if (criteria(stripConsoleColors(output)) && !complete) {
                 console.log(output);
                 complete = true;
                 response(p);
             } else if (output.includes('Error:')) {
-                rej(new Error(`Error detected during serve`));
+                rej(new Error(`Error detected running command: \n${output}`));
             }
         }
 
@@ -72,15 +67,26 @@ export function runCommandUntil(
 }
 
 export async function runTarget(project: string, target: targetOptions) {
-    const command = `${targetOptions[target]} ${project}`;
-    const port = 4000;
+    const command = `${targetOptions[target]} ${project} `;
+    let silenceError = true;
     switch (target) {
-        case targetOptions.build:
-        case targetOptions.test: {
-            const logs = runNxCommand(command);
-            return stripConsoleColors(logs);
+        case targetOptions.build: {
+            silenceError = false;
+        }
+        // eslint-disable-next-line no-fallthrough
+        case targetOptions.test:
+        case targetOptions.lint: {
+            const { stdout, stderr } = await runNxCommandAsync(
+                `${command} --skip-nx-cache`,
+                {
+                    silenceError,
+                },
+            );
+            return stripConsoleColors(`${stdout}\n${stderr}`);
         }
         case targetOptions.serve: {
+            await runTarget(project, targetOptions.build);
+            const port = 4000;
             try {
                 await runCommandUntil(
                     `${command} --port=${port} --verbose`,

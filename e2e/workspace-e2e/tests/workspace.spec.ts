@@ -13,7 +13,7 @@ describe('workspace', () => {
 
     afterAll(async () => {
         await runNxCommandAsync('reset');
-    });
+    });r
 
     it('adds and updates the relevant files', async () => {
         expect(() =>
