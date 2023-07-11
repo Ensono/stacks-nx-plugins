@@ -39,16 +39,21 @@ describe('next e2e', () => {
         });
 
         describe('it lints the application', () => {
-            const sourceFile = new Project().addSourceFileAtPath(
-                joinPathFragments(
-                    tmpProjPath(),
-                    'apps',
-                    project,
-                    'pages',
-                    'index.tsx',
-                ),
-            );
-            const original = sourceFile.getFullText();
+            
+            let sourceFile, original;
+
+            beforeAll(() => {
+                sourceFile = new Project().addSourceFileAtPath(
+                    joinPathFragments(
+                        tmpProjPath(),
+                        'apps',
+                        project,
+                        'pages',
+                        'index.tsx',
+                    ),
+                );
+                original = sourceFile.getFullText();
+            });
 
             it('should have no linting errors', async () => {
                 expect(await runTarget(project, targetOptions.lint)).toContain(
