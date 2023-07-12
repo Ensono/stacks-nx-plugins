@@ -16,11 +16,11 @@ import { Project } from 'ts-morph';
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
     process.env.HUSKY = '0';
-    const project = 'nextjs1631040'; //uniq('nextjs');
+    const project = uniq('nextjs');
 
     beforeAll(async () => {
-        // await newProject('@ensono-stacks/next', ['@nx/next']);
-        // await createNextApplication(project);
+        await newProject('@ensono-stacks/next', ['@nx/next']);
+        await createNextApplication(project);
     });
 
     afterAll(async () => {
