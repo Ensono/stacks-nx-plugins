@@ -1,5 +1,5 @@
 import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
-import { ChildProcess, exec } from 'child_process';
+import { exec } from 'child_process';
 
 import { killPort } from './process-utils';
 
@@ -23,16 +23,16 @@ export function stripConsoleColors(logs: string): string {
     );
 }
 
-export function runCommandUntil(
+export async function runCommandUntil(
     command: string,
     criteria: (output: string) => boolean,
-): Promise<ChildProcess> {
+) {
     // eslint-disable-next-line security/detect-child-process
     const p = exec(`npx nx ${command}`, {
         cwd: tmpProjPath(),
         encoding: 'utf8',
     });
-    return new Promise((response, rej) => {
+    await new Promise((response, rej) => {
         let output = '';
         let complete = false;
 
@@ -59,10 +59,11 @@ export function runCommandUntil(
                     .split('\n')
                     .map(l => `    ${l}`)
                     .join('\n')}`);
-                // eslint-disable-next-line prefer-promise-reject-errors
-                rej(`Exited with ${code}`);
+                rej(new Error(`Exited with ${code}`));
             }
         });
+    }).finally(() => {
+        p.kill();
     });
 }
 
