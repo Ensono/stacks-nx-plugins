@@ -1,8 +1,11 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { addStacksAttributes } from '@ensono-stacks/test';
+import {
+    addStacksAttributes,
+    checkFilesExistInTree,
+} from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import path from 'path';
+import path, { join } from 'path';
 import { SyntaxKind } from 'ts-morph';
 
 import generator from './generator';
@@ -52,18 +55,27 @@ describe('playwright generator', () => {
     it('should run successfully with default options', async () => {
         await generator(appTree, options);
 
-        // example.spec.ts to be added
-        expect(
-            appTree.exists(path.join(projectNameE2E, 'src', 'example.spec.ts')),
-        ).toBeTruthy();
+        expect(() =>
+            checkFilesExistInTree(
+                appTree,
+                'playwright.config.base.ts',
+                joinPathFragments(projectNameE2E, 'project.json'),
+                joinPathFragments(projectNameE2E, 'playwright.config.ts'),
+                joinPathFragments(projectNameE2E, 'tsconfig.e2e.json'),
+                joinPathFragments(projectNameE2E, 'tsconfig.json'),
+                joinPathFragments(projectNameE2E, '.eslintrc.json'),
+                joinPathFragments(projectNameE2E, 'src', 'example.spec.ts'),
+            ),
+        ).not.toThrowError();
 
         // app.spec.ts to be removed
         expect(
-            appTree.exists(path.join(projectNameE2E, 'src', 'app.spec.ts')),
+            appTree.exists(
+                joinPathFragments(projectNameE2E, 'src', 'app.spec.ts'),
+            ),
         ).toBeFalsy();
 
         const project = tsMorphTree(appTree);
-
         // expect playwright.config.base.ts to be updated
         const baseConfigFile = project.addSourceFileAtPath(
             'playwright.config.base.ts',
