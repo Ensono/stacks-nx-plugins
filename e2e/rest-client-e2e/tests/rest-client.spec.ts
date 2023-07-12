@@ -17,8 +17,8 @@ describe('rest-client e2e', () => {
         await newProject('@ensono-stacks/rest-client', ['@nx/js']);
     });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('http-client', () => {

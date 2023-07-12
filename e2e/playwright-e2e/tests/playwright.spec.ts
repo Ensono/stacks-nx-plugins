@@ -28,8 +28,8 @@ describe('playwright e2e', () => {
         ]);
     }, 200_000);
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('--project', () => {
