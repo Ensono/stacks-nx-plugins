@@ -1,3 +1,4 @@
+import { tsMorphTree } from '@ensono-stacks/core';
 import {
     addStacksAttributes,
     checkFilesExistInTree,
@@ -10,6 +11,16 @@ import { Schema as NextSchema } from '@nx/next/src/generators/application/schema
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
+
+function snapshotFiles(tree, files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
+}
 
 describe('next deployment generator', () => {
     let tree: Tree;
@@ -98,28 +109,25 @@ describe('next deployment generator', () => {
                 );
                 const templatePath = joinPathFragments(helmPath, 'templates');
 
-                expect(() =>
-                    checkFilesExistInTree(
-                        tree,
-                        joinPathFragments(libraryPath, 'project.json'),
-                        joinPathFragments(helmPath, '.helmignore'),
-                        joinPathFragments(helmPath, 'Chart.yaml'),
-                        joinPathFragments(helmPath, 'values.yaml'),
-                        joinPathFragments(helmPath, 'charts', '.gitkeep'),
-                        joinPathFragments(templatePath, 'deployment.yaml'),
-                        joinPathFragments(templatePath, 'hpa.yaml'),
-                        joinPathFragments(templatePath, 'ingress.yaml'),
-                        joinPathFragments(templatePath, 'NOTES.txt'),
-                        joinPathFragments(templatePath, 'service.yaml'),
-                        joinPathFragments(templatePath, 'serviceaccount.yaml'),
-                        joinPathFragments(templatePath, '_helpers.tpl'),
-                        joinPathFragments(
-                            templatePath,
-                            'tests',
-                            'test-connection.yaml',
-                        ),
+                snapshotFiles(tree, [
+                    joinPathFragments(libraryPath, 'project.json'),
+                    joinPathFragments(helmPath, '.helmignore'),
+                    joinPathFragments(helmPath, 'Chart.yaml'),
+                    joinPathFragments(helmPath, 'values.yaml'),
+                    joinPathFragments(helmPath, 'charts', '.gitkeep'),
+                    joinPathFragments(templatePath, 'deployment.yaml'),
+                    joinPathFragments(templatePath, 'hpa.yaml'),
+                    joinPathFragments(templatePath, 'ingress.yaml'),
+                    joinPathFragments(templatePath, 'NOTES.txt'),
+                    joinPathFragments(templatePath, 'service.yaml'),
+                    joinPathFragments(templatePath, 'serviceaccount.yaml'),
+                    joinPathFragments(templatePath, '_helpers.tpl'),
+                    joinPathFragments(
+                        templatePath,
+                        'tests',
+                        'test-connection.yaml',
                     ),
-                ).not.toThrowError();
+                ]);
             });
 
             it('creates the deployment files', () => {
@@ -129,28 +137,26 @@ describe('next deployment generator', () => {
                     deployPath,
                     'terraform',
                 );
-                expect(() =>
-                    checkFilesExistInTree(
-                        tree,
-                        joinPathFragments(helmPath, 'nonprod', 'values.yaml'),
-                        joinPathFragments(helmPath, 'prod', 'values.yaml'),
-                        joinPathFragments(terraformPath, '.terraform.lock.hcl'),
-                        joinPathFragments(terraformPath, 'data.tf'),
-                        joinPathFragments(
-                            terraformPath,
-                            'variables',
-                            'nonprod',
-                            'dns.tfvars',
-                        ),
-                        joinPathFragments(
-                            terraformPath,
-                            'variables',
-                            'prod',
-                            'dns.tfvars',
-                        ),
-                        joinPathFragments(terraformPath, 'versions.tf'),
+                const deploymentFiles = [
+                    joinPathFragments(helmPath, 'nonprod', 'values.yaml'),
+                    joinPathFragments(helmPath, 'prod', 'values.yaml'),
+                    joinPathFragments(terraformPath, '.terraform.lock.hcl'),
+                    joinPathFragments(terraformPath, 'data.tf'),
+                    joinPathFragments(
+                        terraformPath,
+                        'variables',
+                        'nonprod',
+                        'dns.tfvars',
                     ),
-                ).not.toThrowError();
+                    joinPathFragments(
+                        terraformPath,
+                        'variables',
+                        'prod',
+                        'dns.tfvars',
+                    ),
+                    joinPathFragments(terraformPath, 'versions.tf'),
+                ];
+                snapshotFiles(tree, deploymentFiles);
             });
 
             it('creates the application docker file', () => {
@@ -177,17 +183,14 @@ describe('next deployment generator', () => {
             await executeWorkspaceInit(tree);
             await generator(tree, { ...options });
 
-            expect(() =>
-                checkFilesExistInTree(
-                    tree,
-                    'next-app/Dockerfile',
-                    'libs/stacks-helm-chart/build/helm/Chart.yaml',
-                    'next-app/deploy/helm/nonprod/values.yaml',
-                    'next-app/deploy/helm/prod/values.yaml',
-                    'next-app/deploy/terraform/versions.tf',
-                    'next-app/deploy/terraform/data.tf',
-                ),
-            ).not.toThrowError();
+            snapshotFiles(tree, [
+                'next-app/Dockerfile',
+                'libs/stacks-helm-chart/build/helm/Chart.yaml',
+                'next-app/deploy/helm/nonprod/values.yaml',
+                'next-app/deploy/helm/prod/values.yaml',
+                'next-app/deploy/terraform/versions.tf',
+                'next-app/deploy/terraform/data.tf',
+            ]);
 
             const docker = tree.read('next-app/Dockerfile')?.toString();
 

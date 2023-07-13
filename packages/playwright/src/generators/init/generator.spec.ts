@@ -5,7 +5,6 @@ import {
 } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import path, { join } from 'path';
 import { SyntaxKind } from 'ts-morph';
 
 import generator from './generator';
@@ -35,6 +34,16 @@ jest.mock('@nx/devkit', () => {
     };
 });
 
+function snapshotFiles(tree, files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
+}
+
 describe('playwright generator', () => {
     let appTree: Tree;
     let options: PlaywrightGeneratorSchema;
@@ -55,71 +64,21 @@ describe('playwright generator', () => {
     it('should run successfully with default options', async () => {
         await generator(appTree, options);
 
-        expect(() =>
-            checkFilesExistInTree(
-                appTree,
-                'playwright.config.base.ts',
-                joinPathFragments(projectNameE2E, 'project.json'),
-                joinPathFragments(projectNameE2E, 'playwright.config.ts'),
-                joinPathFragments(projectNameE2E, 'tsconfig.e2e.json'),
-                joinPathFragments(projectNameE2E, 'tsconfig.json'),
-                joinPathFragments(projectNameE2E, '.eslintrc.json'),
-                joinPathFragments(projectNameE2E, 'src', 'example.spec.ts'),
-            ),
-        ).not.toThrowError();
-
+        snapshotFiles(appTree, [
+            joinPathFragments(projectNameE2E, 'project.json'),
+            joinPathFragments(projectNameE2E, 'playwright.config.ts'),
+            joinPathFragments(projectNameE2E, 'tsconfig.e2e.json'),
+            joinPathFragments(projectNameE2E, 'tsconfig.json'),
+            joinPathFragments(projectNameE2E, '.eslintrc.json'),
+            joinPathFragments(projectNameE2E, 'src', 'example.spec.ts'),
+            'playwright.config.base.ts',
+        ]);
         // app.spec.ts to be removed
         expect(
             appTree.exists(
                 joinPathFragments(projectNameE2E, 'src', 'app.spec.ts'),
             ),
         ).toBeFalsy();
-
-        const project = tsMorphTree(appTree);
-        // expect playwright.config.base.ts to be updated
-        const baseConfigFile = project.addSourceFileAtPath(
-            'playwright.config.base.ts',
-        );
-
-        const baseConfigObject = baseConfigFile
-            ?.getVariableDeclaration('baseConfig')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            baseConfigObject?.getProperty('maxFailures')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: 'process.env.CI ? 10 : undefined',
-            }),
-        );
-        expect(
-            baseConfigObject?.getProperty('forbidOnly')?.getStructure(),
-        ).toEqual(
-            expect.objectContaining({
-                initializer: '!!process.env.CI',
-            }),
-        );
-        expect(
-            baseConfigFile
-                .getVariableDeclaration('baseURL')
-                .getDescendantsOfKind(SyntaxKind.Identifier)
-                .find(identifier => identifier.getText() === 'BASE_URL'),
-        ).toBeTruthy();
-
-        // expect playwright.config.ts to be updated
-        const projectConfigFile = project.addSourceFileAtPath(
-            `${projectNameE2E}/playwright.config.ts`,
-        );
-        const projectConfigObject = projectConfigFile
-            ?.getVariableDeclaration('config')
-            .getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
-        expect(
-            projectConfigObject?.getProperty('use')?.getStructure(),
-        ).toBeTruthy();
-        expect(
-            projectConfigObject?.getProperty('projects')?.getStructure(),
-        ).toMatchSnapshot();
 
         // expect .gitignore entries to be added
         const gitIgnoreFile = appTree.read('/.gitignore', 'utf8');
