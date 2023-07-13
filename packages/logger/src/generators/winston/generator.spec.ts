@@ -37,13 +37,46 @@ describe('logger generator', () => {
         expect(tree.exists('test-client/src/index.test.ts'));
     });
 
-    it('should install winston as a dependency', async () => {
+    it('should install winston as a dependency npm,', async () => {
         await generator(tree, options);
 
         const packageJson = readJson(tree, 'package.json');
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['winston']),
         );
+
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        expect(indexFile).toContain('winston.config.npm.levels');
+    });
+
+    it('should install winston as a dependency cli', async () => {
+        await generator(tree, {
+            ...options,
+            logLevelType: 'cli',
+        });
+
+        const packageJson = readJson(tree, 'package.json');
+        expect(Object.keys(packageJson.dependencies)).toEqual(
+            expect.arrayContaining(['winston']),
+        );
+
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        expect(indexFile).toContain('winston.config.cli.levels');
+    });
+
+    it('should install winston as a dependency syslog', async () => {
+        await generator(tree, {
+            ...options,
+            logLevelType: 'syslog',
+        });
+
+        const packageJson = readJson(tree, 'package.json');
+        expect(Object.keys(packageJson.dependencies)).toEqual(
+            expect.arrayContaining(['winston']),
+        );
+
+        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        expect(indexFile).toContain('winston.config.syslog.levels');
     });
 
     it('should add console log transport', async () => {
