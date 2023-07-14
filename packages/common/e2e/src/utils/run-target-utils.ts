@@ -10,6 +10,7 @@ export enum targetOptions {
     // eslint-disable-next-line unicorn/prevent-abbreviations
     e2e,
     lint,
+    'html-report',
 }
 
 /**
@@ -74,7 +75,7 @@ export async function runTarget(
     target: targetOptions,
     additionalArguments = '',
 ) {
-    const command = `${targetOptions[target]} ${project} `;
+    const command = `${targetOptions[target]} ${project} ${additionalArguments}`;
     let silenceError = true;
     switch (target) {
         case targetOptions.build: {
@@ -83,9 +84,10 @@ export async function runTarget(
         // eslint-disable-next-line no-fallthrough
         case targetOptions.test:
         case targetOptions.e2e:
+        case targetOptions['html-report']:
         case targetOptions.lint: {
             const { stdout, stderr } = await runNxCommandAsync(
-                `${command} --skip-nx-cache ${additionalArguments}`,
+                `${command} --skip-nx-cache`,
                 {
                     silenceError,
                 },
@@ -97,7 +99,7 @@ export async function runTarget(
             const port = 4000;
             try {
                 await runCommandUntil(
-                    `${command} --port=${port} --verbose ${additionalArguments}`,
+                    `${command} --port=${port} --verbose`,
                     output => {
                         return (
                             output.includes(`localhost:${port}`) &&
