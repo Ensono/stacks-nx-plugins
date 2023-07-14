@@ -1,8 +1,6 @@
 import { tsMorphTree } from '@ensono-stacks/core';
-import { createNextApp } from '@ensono-stacks/test';
+import { checkFilesExistInTree, createNextApp } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nx/devkit';
-import * as fs from 'fs';
-import path from 'path';
 
 import generator from './generator';
 import { CypressGeneratorSchema } from './schema';
@@ -45,13 +43,14 @@ jest.mock('@nx/devkit', () => {
     };
 });
 
-function compareToFile(fileInTree, fileToMatchAgainstPath: string) {
-    const expectedFileContents = fs
-        .readFileSync(path.resolve(__dirname, fileToMatchAgainstPath), 'utf8')
-        .replaceAll(/(\r)/gm, '')
-        .trim();
-    const fileContents = fileInTree.getFullText().trim();
-    expect(fileContents).toBe(expectedFileContents);
+function snapshotFiles(tree, ...files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
 }
 
 describe('cypress generator', () => {
@@ -137,19 +136,9 @@ describe('should run successfully with default options', () => {
     });
 
     it('should update the project cypress config', () => {
-        // expect cypress config to be updated
-        expect(
-            appTree.exists(
-                joinPathFragments(applicationDirectory, 'cypress.config.ts'),
-            ),
-        ).toBeTruthy();
-
-        const projectConfigFile = project.addSourceFileAtPath(
+        snapshotFiles(
+            appTree,
             joinPathFragments(applicationDirectory, 'cypress.config.ts'),
-        );
-        compareToFile(
-            projectConfigFile,
-            './files/e2e-folder/cypress.config.ts__template__',
         );
     });
 
@@ -192,28 +181,18 @@ describe('should run successfully with default options', () => {
                 joinPathFragments(cypressDirectory, 'support', 'app.po.ts'),
             ),
         ).toBeFalsy();
-        const filePath = joinPathFragments(
-            cypressDirectory,
-            'e2e',
-            'example.cy.ts',
-        );
-        expect(appTree.exists(filePath)).toBeTruthy();
-        compareToFile(
-            project.addSourceFileAtPath(filePath),
-            './files/e2e-folder/cypress/e2e/example.cy.ts__template__',
+        snapshotFiles(
+            appTree,
+            joinPathFragments(cypressDirectory, 'e2e', 'example.cy.ts'),
+            joinPathFragments(cypressDirectory, 'fixtures', 'example.json'),
+            joinPathFragments(cypressDirectory, 'support', 'commands.ts'),
         );
     });
 
     it('should update the support e2e file', () => {
-        const filePath = joinPathFragments(
-            cypressDirectory,
-            'support',
-            'e2e.ts',
-        );
-        expect(appTree.exists(filePath)).toBeTruthy();
-        compareToFile(
-            project.addSourceFileAtPath(filePath),
-            './files/e2e-folder/cypress/support/e2e.ts__template__',
+        snapshotFiles(
+            appTree,
+            joinPathFragments(cypressDirectory, 'support', 'e2e.ts'),
         );
     });
 
@@ -240,22 +219,15 @@ describe('should run successfully with default options', () => {
         });
 
         it('has configured the new tsconfig.json within the cypress directory', () => {
-            compareToFile(
-                project.addSourceFileAtPath(
-                    joinPathFragments(cypressDirectory, 'tsconfig.json'),
-                ),
-                './files/e2e-folder/cypress/tsconfig.json__template__',
+            snapshotFiles(
+                appTree,
+                joinPathFragments(cypressDirectory, 'tsconfig.json'),
             );
         });
     });
 
     it('should create the base cypress configuration', () => {
-        const filePath = 'cypress.config.base.ts';
-        expect(appTree.exists(filePath)).toBeTruthy();
-        compareToFile(
-            project.addSourceFileAtPath(filePath),
-            './files/root/cypress.config.base.ts__template__',
-        );
+        snapshotFiles(appTree, 'cypress.config.base.ts');
     });
 
     it('should update the tsconfig.base.json', () => {
