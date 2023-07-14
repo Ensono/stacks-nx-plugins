@@ -39,7 +39,6 @@ describe('next e2e', () => {
         });
 
         describe('it lints the application', () => {
-            
             let sourceFile, original;
 
             beforeAll(() => {
