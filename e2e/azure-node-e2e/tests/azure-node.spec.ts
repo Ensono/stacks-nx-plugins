@@ -13,8 +13,8 @@ describe('azure-node e2e', () => {
         await newProject('@ensono-stacks/azure-node', ['@nx/next']);
     });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('app-insights', () => {

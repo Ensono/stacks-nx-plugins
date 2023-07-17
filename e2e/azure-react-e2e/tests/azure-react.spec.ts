@@ -6,8 +6,8 @@ describe('azure-react e2e', () => {
         await newProject('@ensono-stacks/azure-react', ['@nrwl/react']);
     });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('app-insights-web', () => {
