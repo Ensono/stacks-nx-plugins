@@ -53,26 +53,6 @@ describe('logger generator', () => {
 
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'logger']);
-        expect(tree.exists(`${appName}/src/index.ts`));
-        expect(tree.exists(`${appName}/src/index.test.ts`));
-
-        expect(() =>
-            checkFilesExistInTree(
-                tree,
-                `custom/${appName}/tsconfig.json`,
-                `custom/${appName}/README.md`,
-                `custom/${appName}/tsconfig.lib.json`,
-                `custom/${appName}/tsconfig.spec.json`,
-                `custom/${appName}/package.json`,
-                `custom/${appName}/project.json`,
-                `custom/${appName}/.eslintrc.json`,
-                `custom/${appName}/jest.config.ts`,
-                `jest.config.ts`,
-                `jest.preset.js`,
-                `.prettierignore`,
-                `.prettierrc`,
-            ),
-        ).not.toThrowError();
 
         const packageJson = readJsonPath('package.json');
         expect(Object.keys(packageJson.devDependencies)).toEqual(
@@ -87,6 +67,12 @@ describe('logger generator', () => {
             joinPathFragments(`custom/${appName}`, '.eslintrc.json'),
             joinPathFragments(`custom/${appName}`, 'package.json'),
             joinPathFragments(`custom/${appName}`, 'jest.config.ts'),
+            joinPathFragments(`custom/${appName}/src`, 'index.ts'),
+            joinPathFragments(`custom/${appName}/src`, 'index.test.ts'),
+            'jest.config.ts',
+            'jest.preset.js',
+            '.prettierignore',
+            '.prettierrc',
         ]);
     });
 

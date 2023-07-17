@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`logger generator should generate the logger: .prettierignore 1`] = `
+"# Add files here to ignore them from prettier formatting
+/dist
+/coverage"
+`;
+
+exports[`logger generator should generate the logger: .prettierrc 1`] = `
+"{ "singleQuote": true }
+"
+`;
+
 exports[`logger generator should generate the logger: custom/test-logger/.eslintrc.json 1`] = `
 "{
   "ignorePatterns": ["!**/*"],
@@ -115,6 +126,43 @@ exports[`logger generator should generate the logger: custom/test-logger/project
 "
 `;
 
+exports[`logger generator should generate the logger: custom/test-logger/src/index.test.ts 1`] = `
+"import logger from '.';
+
+describe('logger', () => {
+  it('should be a winston logger instance', () => {
+    expect(logger).toBeDefined();
+
+    expect(logger).toHaveProperty('error');
+    expect(logger).toHaveProperty('warn');
+    expect(logger).toHaveProperty('info');
+    expect(logger).toHaveProperty('verbose');
+    expect(logger).toHaveProperty('debug');
+    expect(logger).toHaveProperty('silly');
+  });
+});
+"
+`;
+
+exports[`logger generator should generate the logger: custom/test-logger/src/index.ts 1`] = `
+"import * as winston from 'winston';
+
+const logConfiguration: winston.LoggerOptions = {
+  level: 'debug',
+  levels: winston.config.npm.levels,
+};
+
+if (process.env.NODE_ENV === 'production') {
+  logConfiguration.level = 'info';
+}
+
+// Reusable winston logging instance
+const logger = winston.createLogger(logConfiguration);
+
+export default logger;
+"
+`;
+
 exports[`logger generator should generate the logger: custom/test-logger/tsconfig.json 1`] = `
 "{
   "extends": "../../tsconfig.base.json",
@@ -164,5 +212,21 @@ exports[`logger generator should generate the logger: custom/test-logger/tsconfi
     "src/**/*.d.ts"
   ]
 }
+"
+`;
+
+exports[`logger generator should generate the logger: jest.config.ts 1`] = `
+"import { getJestProjects } from '@nx/jest';
+
+export default {
+  projects: getJestProjects(),
+};
+"
+`;
+
+exports[`logger generator should generate the logger: jest.preset.js 1`] = `
+"const nxPreset = require('@nx/jest/preset').default;
+
+module.exports = { ...nxPreset };
 "
 `;
