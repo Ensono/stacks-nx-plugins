@@ -1,8 +1,9 @@
-import { tmpProjPath } from '@nx/plugin/testing';
+import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { emptyDirSync } from 'fs-extra';
 import { logger } from 'nx/src/utils/logger';
 import path from 'path';
+import { option } from 'yargs';
 
 import { cleanup } from './cleanup';
 import {
@@ -64,4 +65,13 @@ export async function newProject(
     logger.log(`[create-stacks-workspace] ${result}`);
     await installVersionedPackages(packageManager, stacksPackageToInstall);
     await installNxPackages(packageManager, nxPackagesToInstall);
+}
+
+export async function createNextApplication(project: string) {
+    await runNxCommandAsync(
+        `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir`,
+    );
+    await runNxCommandAsync(
+        `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
+    );
 }

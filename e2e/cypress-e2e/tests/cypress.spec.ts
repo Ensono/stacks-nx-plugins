@@ -34,8 +34,8 @@ describe('cypress e2e', () => {
         await newProject('@ensono-stacks/cypress', ['@nx/cypress', '@nx/next']);
     }, 200_000);
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('--project', () => {
