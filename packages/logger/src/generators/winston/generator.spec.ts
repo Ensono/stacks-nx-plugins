@@ -38,8 +38,8 @@ describe('logger generator', () => {
         streamPath: undefined,
     };
 
-    beforeEach(() => {
-        tree = createTreeWithEmptyWorkspace();
+    beforeEach(async () => {
+        tree = await createTreeWithEmptyWorkspace();
     });
 
     it('should generate the logger', async () => {
@@ -54,7 +54,7 @@ describe('logger generator', () => {
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'logger']);
 
-        const packageJson = readJsonPath('package.json');
+        const packageJson = await readJsonPath('package.json');
         expect(Object.keys(packageJson.devDependencies)).toEqual(
             expect.arrayContaining(['@ensono-stacks/logger']),
         );
