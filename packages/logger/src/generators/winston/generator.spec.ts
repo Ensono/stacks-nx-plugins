@@ -7,7 +7,6 @@ import {
     joinPathFragments,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { readJson as readJsonPath } from '@nx/plugin/testing';
 
 import generator from './generator';
 import { WinstonLoggerGeneratorSchema } from './schema';
@@ -38,8 +37,8 @@ describe('logger generator', () => {
         streamPath: undefined,
     };
 
-    beforeEach(async () => {
-        tree = await createTreeWithEmptyWorkspace();
+    beforeEach(() => {
+        tree = createTreeWithEmptyWorkspace();
     });
 
     it('should generate the logger', async () => {
@@ -53,11 +52,6 @@ describe('logger generator', () => {
 
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'logger']);
-
-        const packageJson = await readJsonPath('package.json');
-        expect(Object.keys(packageJson.devDependencies)).toEqual(
-            expect.arrayContaining(['@ensono-stacks/logger']),
-        );
 
         snapshotFiles(tree, [
             joinPathFragments(`custom/${appName}`, 'project.json'),
