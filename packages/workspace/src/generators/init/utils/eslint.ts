@@ -41,7 +41,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             'plugin:import/recommended',
             'plugin:import/typescript',
             'plugin:security/recommended',
-            "plugin:jsx-a11y/recommended",
+            'plugin:jsx-a11y/recommended',
         ],
         settings: {
             'import/resolver': {
