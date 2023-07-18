@@ -56,6 +56,7 @@ export default async function runEnd2EndExecutor(
     const verdaccioUrl = `http://localhost:4872/`;
     process.env.npm_config_registry = verdaccioUrl;
     process.env.YARN_REGISTRY = process.env.npm_config_registry;
+    process.env.HUSKY = '0';
 
     // https://github.com/nrwl/nx/issues/11205
     const { npmScope } = readJsonFile(
