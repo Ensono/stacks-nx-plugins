@@ -49,18 +49,8 @@ describe('azure-node e2e', () => {
         const project = uniq('nextjs');
 
         beforeAll(async () => {
-            // Generate next project
-            await runNxCommandAsync(
-                `generate @nx/next:application ${project} --custom-server --e2eTestRunner=none --no-appDir`,
-            );
-            // Run next init generator
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
-            );
-            // Run next deployment generator
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:init-deployment --project=${project} --no-interactive`,
-            );
+            // Generate new next project with a customer server and deployment
+            await createNextApplication(project, true, true);
         });
 
         it('runs the install generator', async () => {

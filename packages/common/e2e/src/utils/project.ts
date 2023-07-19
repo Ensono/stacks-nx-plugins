@@ -67,11 +67,21 @@ export async function newProject(
     await installNxPackages(packageManager, nxPackagesToInstall);
 }
 
-export async function createNextApplication(project: string) {
+export async function createNextApplication(
+    project: string,
+    customServer?: boolean,
+    deployment?: boolean,
+) {
+    const server = customServer ? '--customServer' : '';
     await runNxCommandAsync(
-        `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir`,
+        `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir ${server}`,
     );
     await runNxCommandAsync(
         `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
     );
+    if (deployment) {
+        await runNxCommandAsync(
+            `generate @ensono-stacks/next:init-deployment --project=${project} --no-interactive`,
+        );
+    }
 }
