@@ -19,7 +19,7 @@ describe('next e2e', () => {
     const project = uniq('nextjs');
 
     beforeAll(async () => {
-        await newProject('@ensono-stacks/next', ['@nx/next']);
+        await newProject(['@ensono-stacks/next'], ['@nx/next']);
         await createNextApplication(project);
     });
 

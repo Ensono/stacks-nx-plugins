@@ -45,7 +45,7 @@ export function runCreateWorkspace(options: CreateWorkspaceOptions) {
 }
 
 export async function newProject(
-    stacksPackageToInstall?: string,
+    stacksPackagesToInstall?: string[],
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
 ) {
@@ -63,7 +63,7 @@ export async function newProject(
         ...options,
     });
     logger.log(`[create-stacks-workspace] ${result}`);
-    await installVersionedPackages(packageManager, stacksPackageToInstall);
+    await installVersionedPackages(packageManager, stacksPackagesToInstall);
     await installNxPackages(packageManager, nxPackagesToInstall);
 }
 
