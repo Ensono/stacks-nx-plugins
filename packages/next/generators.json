@@ -17,6 +17,11 @@
             "factory": "./src/generators/next-auth/generator",
             "schema": "./src/generators/next-auth/schema.json",
             "description": "Add NextAuth to a project"
+        },
+        "react-query": {
+            "factory": "./src/generators/react-query/generator",
+            "schema": "./src/generators/react-query/schema.json",
+            "description": "react-query generator"
         }
     }
 }
