@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
-exec < /dev/tty && npx cz --hook || true
+# Check if the CI environment variable is set
+if [ -z "$CI" ]; then
+    . "$(dirname -- "$0")/_/husky.sh"
+    exec < /dev/tty && npx cz --hook || true
+fi
