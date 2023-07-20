@@ -201,8 +201,9 @@ End to end tests look to cover usage of the plugin within an Nx workspace, in or
 The following are the steps in which e2e tests follow:
 
 1. The e2e executor builds, packages and deploys the selected plugin and it's dependent packages, including the create and workspace packages, to the verdaccio instance.
-2. The [newProject(stacksPackageToInstall, nxPackagesToInstall)](./packages/common/e2e/src/utils/project.ts) method will then create a new Stacks workspace using the `@ensono-stacks/create-stacks-workspace` plugin which has been published to verdaccio. It will then install the plugin you are testing in the workspace.
-3. With the workspace provisioned, e2e tests should look to verify that the various generators available to the plugin can be executed and utilised within the workspace.
+2. To ensure that packages are built from the codebase the `project.json` file inside the e2e plugin folder (eg e2e/create-e2e/project.json) needs to have its `implicitDependencies` updated. It needs to contain each of the plugins that will be used in the test. Otherwise the latest published version of the plugin will be used.
+3. The [newProject(stacksPackagesToInstall, nxPackagesToInstall)](./packages/common/e2e/src/utils/project.ts) method will then create a new Stacks workspace using the `@ensono-stacks/create-stacks-workspace` plugin which has been published to verdaccio. It will then install the plugin you are testing in the workspace.
+4. With the workspace provisioned, e2e tests should look to verify that the various generators available to the plugin can be executed and utilised within the workspace.
 
 To run your e2e tests you must use the e2e executor:
 

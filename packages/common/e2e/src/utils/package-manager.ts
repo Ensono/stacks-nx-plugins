@@ -50,13 +50,14 @@ export async function installPackages(
 
 export function installVersionedPackages(
     packageManager: SupportedPackageManager,
-    stacksPackageToInstall: string,
+    stacksPackagesToInstall: string[],
 ) {
-    if (stacksPackageToInstall) {
-        const match = stacksPackageToInstall.match(/^(?:[a-z]|@).*@(.*)/);
-        return installPackages(packageManager, [
-            match ? stacksPackageToInstall : `${stacksPackageToInstall}@latest`,
-        ]);
+    if (stacksPackagesToInstall) {
+        const stacksPackages = stacksPackagesToInstall.map(stacksPackage => {
+            const match = stacksPackage.match(/^(?:[a-z]|@).*@(.*)/);
+            return match ? stacksPackage : `${stacksPackage}@latest`;
+        });
+        return installPackages(packageManager, stacksPackages);
     }
     return 'No pacakges to install';
 }

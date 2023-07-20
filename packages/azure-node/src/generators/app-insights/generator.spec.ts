@@ -11,7 +11,7 @@ describe('app-insights generator', () => {
     let appTree: Tree;
     const options: AppInsightsGeneratorSchema = {
         project: 'test',
-        server: 'server.js',
+        server: 'server/main.ts',
         applicationinsightsConnectionString: 'TEST_CONNECTION_STRING_ENV',
     };
 
@@ -73,7 +73,7 @@ describe('app-insights generator', () => {
             style: 'css',
         });
 
-        appTree.delete('test/server.js');
+        appTree.delete('test/server/main.ts');
         await expect(generator(appTree, options)).rejects.toThrowError(
             'No custom server found.',
         );
@@ -87,7 +87,7 @@ describe('app-insights generator', () => {
         });
 
         appTree.write(
-            'test/server.js',
+            'test/server/main.ts',
             'import * as appInsights from "applicationinsights"',
         );
         await expect(generator(appTree, options)).rejects.toThrowError(
@@ -128,6 +128,12 @@ describe('app-insights generator', () => {
                     options.project
                 ].includes('AzureNodeAppInsights'),
             ).toBe(true);
+        });
+
+        it('should update server/main.ts', async () => {
+            await generator(appTree, options);
+            const mainTs = appTree.read('test/server/main.ts');
+            expect(mainTs.toString()).toMatchSnapshot();
         });
 
         it('should return false from method and exit generator if already executed', async () => {

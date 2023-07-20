@@ -13,7 +13,7 @@ describe('logger e2e', () => {
     jest.setTimeout(1_000_000);
 
     beforeAll(async () => {
-        await newProject('@ensono-stacks/logger');
+        await newProject(['@ensono-stacks/logger']);
     });
 
     afterAll(async () => {
