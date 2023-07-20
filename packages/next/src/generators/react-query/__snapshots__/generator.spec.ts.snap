@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react-query generator should configure app if there are already wrapping react providers 1`] = `
+"import { SessionProvider } from 'next-auth/react';
+function SomeProvider({ children }: PropsWithChildren) {
+    return <>{children}</>;
+}
+function CustomApp({
+    Component,
+    pageProps: { session, ...pageProps },
+}: AppProps) {
+    return (
+        <SessionProvider session={session}>
+            <SomeProvider>
+                <Component {...pageProps} />
+            </SomeProvider>
+        </SessionProvider>
+    );
+}
+export default CustomApp;
+"
+`;
