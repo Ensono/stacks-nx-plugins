@@ -5,6 +5,7 @@ import {
 } from '@nx/devkit';
 import { Project, SyntaxKind } from 'ts-morph';
 
+// the code that needs to be injected to _app.tsx file.
 const reactAxeConfigurationCode = `
 /**
  * A dynamic import is used here to only load the react-axe library for a11y checks
@@ -42,19 +43,13 @@ export function addReactAxeConfigToApp(
     project: ProjectConfiguration,
     morphTree: Project,
 ) {
-    console.log('TESTTSTTST \n lifuhglwadfkuhlwadif \n skajFDGKWDJFG')
     try {
         const pagesDirectory = joinPathFragments(
             project.root,
             'pages',
             '_app.tsx',
         );
-        // Checks if the file _app.tsx exists in the project
-        // const isPagesDirectory =
-        //     morphTree.getSourceFile(pagesDirectory) !== undefined;
-
-        // if (isPagesDirectory) {
-        // the whole operation should fail if the _app.tsx is not found
+        // the whole operation should fail if the _app.tsx is not found (error is Thrown by addSourceFileAtPath)
         const appNode = morphTree.addSourceFileAtPath(pagesDirectory);
         // Find the line containing "function CustomApp"
         const functionCustomAppLine = appNode
