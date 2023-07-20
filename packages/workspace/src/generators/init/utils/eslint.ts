@@ -1,8 +1,11 @@
-import { mergeEslintConfigs, updateEslintConfig } from '@ensono-stacks/core';
+import {
+    getNpmScope,
+    mergeEslintConfigs,
+    updateEslintConfig,
+} from '@ensono-stacks/core';
 import {
     Tree,
     addDependenciesToPackageJson,
-    getWorkspaceLayout,
     readRootPackageJson,
     GeneratorCallback,
 } from '@nx/devkit';
@@ -76,9 +79,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                             ],
                             pathGroups: [
                                 {
-                                    pattern: `@${
-                                        getWorkspaceLayout(tree).npmScope
-                                    }/**`,
+                                    pattern: `@${getNpmScope(tree)}/**`,
                                     group: 'internal',
                                 },
                             ],
