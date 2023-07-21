@@ -45,6 +45,16 @@ describe('next e2e', () => {
         expect(stdout).toContain('Compiled successfully');
     }, 200_000);
 
+    it('can configure ReactQuery', async () => {
+        await runNxCommandAsync(
+            `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
+        );
+
+        const { stdout } = await runNxCommandAsync(`build ${project}`);
+
+        expect(stdout).toContain('Compiled successfully');
+    }, 200_000);
+
     // it('configures NextAuth with Redis adapter', async () => {
     //     await runNxCommandAsync(
     //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,

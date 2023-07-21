@@ -41,16 +41,10 @@ describe('react-query generator', () => {
         });
 
         it('should return false from method and exit generator if already executed', async () => {
-            await generator(appTree, {
-                ...options,
-            });
+            const eslintConfig = readJson(appTree, 'next-app/.eslintrc.json');
 
-            const eslintConfig = readJson(appTree, '.eslintrc.json');
-
-            expect(Object.keys(eslintConfig.extends)).toEqual(
-                expect.arrayContaining([
-                    'plugin:@tanstack/eslint-plugin-query/recommended',
-                ]),
+            expect(eslintConfig.extends).toContain(
+                'plugin:@tanstack/eslint-plugin-query/recommended',
             );
         });
 

@@ -11,7 +11,7 @@ export function addQueryClientProviderToApp(
         joinPathFragments(project.root, 'pages', '_app.tsx'),
     );
 
-    // Check if the App Already contains next-auth
+    // Check if the App Already contains react-query
     const isNextAuthImport = appNode
         .getImportDeclarations()
         .some(
@@ -26,6 +26,10 @@ export function addQueryClientProviderToApp(
             moduleSpecifier: REACT_QUERY_NPM_PACKAGE_NAME,
         });
 
+        appNode
+            .getSourceFile()
+            .insertStatements(1, ' \nconst queryClient = new QueryClient()\n');
+
         // get default export node reference
         const defaultExport = appNode
             .getExportAssignmentOrThrow(d => !d.isExportEquals())
@@ -37,8 +41,6 @@ export function addQueryClientProviderToApp(
         const parameter = main.getDescendantsOfKind(
             SyntaxKind.ObjectBindingPattern,
         )[0];
-
-        main.insertStatements(3, ' \nconst queryClient = new QueryClient()\n');
 
         // Add the QueryClientProvider
         const content = main

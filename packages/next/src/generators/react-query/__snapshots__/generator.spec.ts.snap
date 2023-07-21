@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`react-query generator should configure app if pageProps is already destructured 1`] = `
+"import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+function CustomApp({
+    Component,
+    pageProps: { something, ...pageProperties },
+}: AppProps) {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <SomeProvider>
+                <Component {...pageProperties} />
+            </SomeProvider>
+        </QueryClientProvider>
+    );
+
+    const queryClient = new QueryClient();
+}
+export default CustomApp;
+"
+`;
+
 exports[`react-query generator should configure app if there are already wrapping react providers 1`] = `
 "import { SessionProvider } from 'next-auth/react';
 function SomeProvider({ children }: PropsWithChildren) {
