@@ -129,16 +129,25 @@ describe('next e2e', () => {
         });
     });
 
-    it('can configure ReactQuery', async () => {
-        await runNxCommandAsync(
-            `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
-        );
+    describe('react-query generator', () => {
+        const library = 'stacks-helm-chart';
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
+            );
+        });
 
-        const { stdout } = await runNxCommandAsync(`build ${project}`);
+        it('successfully lint with new linting update', async () => {
+            expect(await runTarget(library, targetOptions.lint)).toContain(
+                '1 chart(s) linted, 0 chart(s) failed',
+            );
+        });
 
-        expect(stdout).toContain('Compiled successfully');
-    }, 200_000);
-
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
+        });
+    });
+    
     // it('configures NextAuth with Redis adapter', async () => {
     //     await runNxCommandAsync(
     //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
