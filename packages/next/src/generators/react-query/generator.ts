@@ -6,8 +6,10 @@ import {
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
+    GeneratorCallback,
     joinPathFragments,
     logger,
+    readJson,
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
@@ -31,8 +33,11 @@ export async function reactQueryGenerator(
             'ReactQuery',
             true,
         )
-    )
+    ) {
         return false;
+    }
+
+    const tasks: GeneratorCallback[] = [];
 
     const project = readProjectConfiguration(tree, options.project);
 
@@ -40,21 +45,14 @@ export async function reactQueryGenerator(
 
     addQueryClientProviderToApp(project, morphTree);
 
-    updateESLint(tree, project.root);
-
-    await formatFiles(tree, [
-        joinPathFragments(project.root, 'build', 'helm', '**', '*.yaml'),
-    ]);
-
-    return runTasksInSerial(
-        options.skipPackageJson ? () => {} : installDependencies(tree),
+    tasks.push(
+        updateESLint(tree, project.root, options),
         formatFilesWithEslint(options.project),
-        () => {
-            logger.warn(
-                `React Query has been added to your app's _app.tsx file`,
-            );
-        },
     );
+
+    return runTasksInSerial(...tasks, () => {
+        logger.warn(`React Query has been added to your app's _app.tsx file`);
+    });
 }
 
 export default reactQueryGenerator;
