@@ -1,4 +1,4 @@
-import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { newProject, runTarget, targetOptions } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     readJson,
@@ -20,6 +20,8 @@ import {
 
 let baseProject, applicationDirectory, cypressDirectory;
 describe('cypress e2e', () => {
+    jest.setTimeout(1_000_000);
+
     function setupBaseProject() {
         baseProject = uniq('cypress');
         applicationDirectory = `apps/${baseProject}`;
@@ -31,11 +33,11 @@ describe('cypress e2e', () => {
     }
 
     beforeAll(async () => {
-        await newProject('@ensono-stacks/cypress', ['@nx/cypress', '@nx/next']);
-    }, 200_000);
+        await newProject(['@ensono-stacks/cypress'], ['@nx/cypress', '@nx/next']);
+    });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('--project', () => {
@@ -44,7 +46,7 @@ describe('cypress e2e', () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/cypress:init ${project}`,
             ).catch(stderr => expect(stderr?.code).toEqual(1));
-        }, 200_000);
+        });
 
         describe('should successfully run and amend config files if project does exist', () => {
             beforeAll(async () => {
@@ -52,9 +54,9 @@ describe('cypress e2e', () => {
                 await runNxCommandAsync(
                     `generate @ensono-stacks/cypress:init --project=${baseProject} --no-interactive --verbose`,
                 );
-            }, 2_000_000);
+            });
 
-            it('should add/update the relevent files', () => {
+            it('should add/update the relevant files', () => {
                 expect(() =>
                     checkFilesExist(
                         'cypress.config.base.ts',
@@ -68,7 +70,7 @@ describe('cypress e2e', () => {
                 ).not.toThrow();
             });
 
-            it('should delete the relevent files', () => {
+            it('should delete the relevant files', () => {
                 expect(() => {
                     checkFilesExist(`${cypressDirectory}/support/app.po.ts`);
                 }).toThrow();
@@ -90,7 +92,7 @@ describe('cypress e2e', () => {
                     'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
                     '@nx/cypress': NXCYPRESS_VERSION,
                 });
-            }, 200_000);
+            });
 
             it('should successfully add accessibility test files and add dependencies', async () => {
                 runNxCommand(
@@ -109,7 +111,42 @@ describe('cypress e2e', () => {
                     'axe-core': AXECORE_VERSION,
                     'cypress-axe': CYPRESSAXE_VERSION,
                 });
-            }, 200_000);
+            });
+
+            describe('should be a runnable test suite', () => {
+                
+                let results;
+                beforeAll(async () => {
+                    process.env.CI = 'true';
+                    results =
+                        await runTarget(
+                            baseProject,
+                            targetOptions.e2e,
+                            '--env.grep="should be up and running"',
+                        );
+                });
+
+                it('should run the e2e tests', () => {
+                    expect(results).toContain(
+                        `Successfully ran target e2e for project ${baseProject}`,
+                    );
+                });
+
+                it('should generate html reports', async () => {
+                    expect(await runTarget(
+                        baseProject,
+                        targetOptions['html-report'],
+                        '--configuration=ci'
+                    )).toContain(`Successfully ran target html-report for project ${baseProject}`);
+                    expect(() =>
+                    checkFilesExist(
+                        `test-results/${baseProject}/downloads/merged-html-report.html`,
+                        `test-results/${baseProject}/downloads/merged-html-report.json`,
+                    ),
+                ).not.toThrow();
+                });
+            });
+           
         });
     });
 });

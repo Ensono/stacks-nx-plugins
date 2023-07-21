@@ -14,11 +14,11 @@ import petstoreSchemaJSON from '../fixtures/petstore-3.0.json';
 
 describe('rest-client e2e', () => {
     beforeAll(async () => {
-        await newProject('@ensono-stacks/rest-client', ['@nx/js']);
+        await newProject(['@ensono-stacks/rest-client'], ['@nx/js']);
     });
 
-    afterAll(() => {
-        runNxCommandAsync('reset');
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
     });
 
     describe('http-client', () => {

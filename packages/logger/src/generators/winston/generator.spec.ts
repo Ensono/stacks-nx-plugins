@@ -1,13 +1,32 @@
-import { readJson, readProjectConfiguration, Tree } from '@nx/devkit';
+import { tsMorphTree } from '@ensono-stacks/core';
+import { checkFilesExistInTree } from '@ensono-stacks/test';
+import {
+    readProjectConfiguration,
+    Tree,
+    readJson,
+    joinPathFragments,
+} from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 import { WinstonLoggerGeneratorSchema } from './schema';
 
+const appName = 'test-logger';
+
+function snapshotFiles(tree: Tree, files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
+}
+
 describe('logger generator', () => {
     let tree: Tree;
     const options: WinstonLoggerGeneratorSchema = {
-        name: 'test-client',
+        name: `${appName}`,
         logLevelType: 'npm',
         consoleLogs: false,
         fileTransportPath: undefined,
@@ -26,29 +45,76 @@ describe('logger generator', () => {
         await generator(tree, {
             ...options,
             directory: 'custom',
-            tags: 'test, client',
+            tags: 'test, logger',
         });
 
-        const config = readProjectConfiguration(tree, 'custom-test-client');
+        const config = readProjectConfiguration(tree, 'custom-test-logger');
 
         expect(config).toBeDefined();
-        expect(config.tags).toEqual(['test', 'client']);
-        expect(tree.exists('test-client/src/index.ts'));
-        expect(tree.exists('test-client/src/index.test.ts'));
+        expect(config.tags).toEqual(['test', 'logger']);
+
+        snapshotFiles(tree, [
+            joinPathFragments(`custom/${appName}`, 'project.json'),
+            joinPathFragments(`custom/${appName}`, 'tsconfig.json'),
+            joinPathFragments(`custom/${appName}`, 'tsconfig.lib.json'),
+            joinPathFragments(`custom/${appName}`, 'tsconfig.spec.json'),
+            joinPathFragments(`custom/${appName}`, '.eslintrc.json'),
+            joinPathFragments(`custom/${appName}`, 'package.json'),
+            joinPathFragments(`custom/${appName}`, 'jest.config.ts'),
+            joinPathFragments(`custom/${appName}/src`, 'index.ts'),
+            joinPathFragments(`custom/${appName}/src`, 'index.test.ts'),
+            'jest.config.ts',
+            'jest.preset.js',
+            '.prettierignore',
+            '.prettierrc',
+        ]);
     });
 
-    it('should install winston as a dependency', async () => {
+    it('should install winston as a dependency npm,', async () => {
         await generator(tree, options);
 
         const packageJson = readJson(tree, 'package.json');
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['winston']),
         );
+
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+        expect(indexFile).toContain('winston.config.npm.levels');
+    });
+
+    it('should install winston as a dependency cli', async () => {
+        await generator(tree, {
+            ...options,
+            logLevelType: 'cli',
+        });
+
+        const packageJson = readJson(tree, 'package.json');
+        expect(Object.keys(packageJson.dependencies)).toEqual(
+            expect.arrayContaining(['winston']),
+        );
+
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+        expect(indexFile).toContain('winston.config.cli.levels');
+    });
+
+    it('should install winston as a dependency syslog', async () => {
+        await generator(tree, {
+            ...options,
+            logLevelType: 'syslog',
+        });
+
+        const packageJson = readJson(tree, 'package.json');
+        expect(Object.keys(packageJson.dependencies)).toEqual(
+            expect.arrayContaining(['winston']),
+        );
+
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+        expect(indexFile).toContain('winston.config.syslog.levels');
     });
 
     it('should add console log transport', async () => {
         await generator(tree, { ...options, consoleLogs: true });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Console())',
         );
@@ -59,7 +125,7 @@ describe('logger generator', () => {
             ...options,
             fileTransportPath: '/log-file.log',
         });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
         expect(indexFile).toContain(
             "logger.add(new winston.transports.File({ filename: '/log-file.log' }))",
         );
@@ -72,7 +138,7 @@ describe('logger generator', () => {
             httpTransportPort: 300,
             httpTransportHost: 'www.testsite.co.uk',
         });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
         expect(indexFile).toContain(
             'const httpTransportConfiguration: winston.transports.HttpTransportOptions = {',
         );
@@ -88,7 +154,7 @@ describe('logger generator', () => {
             ...options,
             streamPath: 'www.testsite.co.uk',
         });
-        const indexFile = tree.read('/test-client/src/index.ts', 'utf8');
+        const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Stream(streamTransportConfiguration));',
         );
@@ -97,7 +163,7 @@ describe('logger generator', () => {
     it('should add the ci config in the test command in the project.json', async () => {
         await generator(tree, options);
 
-        const projectConfig = readJson(tree, 'test-client/project.json');
+        const projectConfig = readJson(tree, `${appName}/project.json`);
 
         expect(projectConfig.targets.test).toMatchObject(
             expect.objectContaining({
@@ -120,7 +186,7 @@ describe('logger generator', () => {
     it('should add the ci config in the test command in the project.json with a custom directory', async () => {
         await generator(tree, { ...options, directory: 'custom' });
 
-        const projectConfig = readJson(tree, 'custom/test-client/project.json');
+        const projectConfig = readJson(tree, `custom/${appName}/project.json`);
 
         expect(projectConfig.targets.test).toMatchObject(
             expect.objectContaining({

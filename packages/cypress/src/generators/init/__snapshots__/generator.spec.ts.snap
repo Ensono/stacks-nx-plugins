@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should run successfully with default options should create the base cypress configuration: cypress.config.base.ts 1`] = `
+"import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
+
+const appName = process.env.NX_TASK_TARGET_PROJECT as string;
+const outputFolderForProject = process.env.CI
+  ? \`../../test-results/\${appName}\`
+  : 'cypress/test-results';
+const baseURL = process.env.BASE_URL || 'http://localhost:4200/';
+export const baseConfig: Cypress.ConfigOptions = {
+  reporter: '../../node_modules/cypress-multi-reporters',
+  reporterOptions: {
+    reporterEnabled: !process.env.CI
+      ? 'spec'
+      : 'spec, mocha-junit-reporter, mochawesome',
+    mochaJunitReporterReporterOptions: {
+      mochaFile: outputFolderForProject.concat(
+        \`/downloads/junit-report/results-\${appName}-[hash].xml\`
+      ),
+    },
+    mochawesomeReporterOptions: {
+      charts: true,
+      overwrite: false,
+      html: false,
+      json: true,
+      reportDir: outputFolderForProject.concat('/downloads/reports-json-file'),
+      reportFilename: '[name].html',
+      embeddedScreenshots: true,
+      inlineAssets: true,
+    },
+  },
+  e2e: {
+    ...nxE2EPreset(__dirname, { cypressDir: 'cypress' }),
+    baseUrl: baseURL,
+    screenshotsFolder: outputFolderForProject.concat('/screenshots'),
+    videosFolder: outputFolderForProject.concat('/videos'),
+    downloadsFolder: outputFolderForProject.concat('/downloads'),
+    videoUploadOnPasses: false,
+    trashAssetsBeforeRuns: true,
+    retries: {
+      runMode: process.env.CI ? 2 : 0,
+    },
+    setupNodeEvents(on, config) {
+      require('@cypress/grep/src/plugin')(config);
+      return config;
+    },
+  },
+};
+"
+`;
+
+exports[`should run successfully with default options should move the tsconfig.cy.json into the cypress directory and configure it has configured the new tsconfig.json within the cypress directory: apps/application/cypress/tsconfig.json 1`] = `
+"{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "outDir": "../../dist/out-tsc",
+    "allowJs": true,
+    "types": ["cypress", "node"],
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["**/*.ts", "**/*.js", "../cypress.config.ts"]
+}
+"
+`;
+
+exports[`should run successfully with default options should set up the example files: apps/application/cypress/e2e/example.cy.ts 1`] = `
+"describe('Cypress example tests @example-cypress', () => {
+  beforeEach(() => cy.visit('/'));
+
+  it('should take the user to the next steps part of the page when clicking whats next', () => {
+    cy.contains('a', "What's next?").click();
+    cy.url().then((url) => {
+      expect(url).to.contain('#commands');
+    });
+  });
+
+  it('should be up and running', () => {
+    cy.get('#hero').find('span').should('have.text', "You're up and running");
+  });
+
+  it('should have 5 learning materials', () => {
+    cy.get('#learning-materials').find('a').should('have.length', 5);
+  });
+});
+"
+`;
+
+exports[`should run successfully with default options should set up the example files: apps/application/cypress/fixtures/example.json 1`] = `
+"{
+  "name": "Using fixtures to represent data",
+  "email": "hello@cypress.io",
+  "body": "Fixtures are a great way to mock data for responses to routes"
+}
+"
+`;
+
+exports[`should run successfully with default options should set up the example files: apps/application/cypress/support/commands.ts 1`] = `
+"declare namespace Cypress {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface Chainable<Subject> {
+    login(email: string, password: string): void;
+  }
+}
+
+// -- This is a parent command --
+Cypress.Commands.add('login', (email, password) => {
+  console.log('Custom command example: Login', email, password);
+});
+//
+// -- This is a child command --
+// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
+//
+//
+// -- This is a dual command --
+// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
+//
+//
+// -- This will overwrite an existing command --
+// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+"
+`;
+
+exports[`should run successfully with default options should update the project cypress config: apps/application/cypress.config.ts 1`] = `
+"import { defineConfig } from 'cypress';
+
+import { baseConfig } from '../../cypress.config.base';
+
+export default defineConfig({
+  ...baseConfig,
+  e2e: {
+    ...baseConfig.e2e,
+    screenshotOnRunFailure: true,
+    video: true,
+  },
+});
+"
+`;
+
+exports[`should run successfully with default options should update the support e2e file: apps/application/cypress/support/e2e.ts 1`] = `
+"import './commands';
+import registerCypressGrep from '@cypress/grep/src/support';
+import addContext from 'mochawesome/addContext';
+
+registerCypressGrep();
+
+// Append screenshots on failure to test reports
+Cypress.on('test:after:run', (test, runnable) => {
+  if (test.state === 'failed') {
+    const screenshot = \`../screenshots/\${Cypress.spec.name}/\${runnable.parent?.title} -- \${test.title} (failed).png\`;
+    // @ts-ignore
+    addContext({ test }, screenshot);
+  }
+});
+"
+`;

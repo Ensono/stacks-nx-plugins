@@ -1,8 +1,12 @@
-import { newProject, cleanup } from '@ensono-stacks/e2e';
+import {
+    newProject,
+    createNextApplication,
+    runTarget,
+    targetOptions,
+} from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     readJson,
-    runNxCommand,
     runNxCommandAsync,
     readFile,
     uniq,
@@ -11,156 +15,77 @@ import { Project, SyntaxKind } from 'ts-morph';
 
 describe('playwright e2e', () => {
     process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = 'true';
-
-    function setupBaseProject() {
+    process.env.HUSKY = '0';
+    jest.setTimeout(1_000_000);
+    async function setupBaseProject() {
         const baseProject = uniq('playwright');
         const e2eProject = `${baseProject}-e2e`;
-        runNxCommand(
-            `generate @nx/next:application ${baseProject} --e2eTestRunner=none`,
+        await runNxCommandAsync(
+            `generate @nx/next:application ${baseProject} --e2eTestRunner=none --no-appDir`,
+        );
+        await runNxCommandAsync(
+            `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
         );
         return { baseProject, e2eProject };
     }
 
     beforeAll(async () => {
-        await newProject(
-            '@ensono-stacks/playwright',
-            ['@mands/nx-playwright', '@nx/next'],
-        );
-    }, 200_000);
-
-    afterAll(() => {
-        runNxCommandAsync('reset');
+        await newProject(['@ensono-stacks/playwright'], [
+            '@mands/nx-playwright',
+            '@nx/next',
+        ]);
     });
 
-    describe('--project', () => {
-        it('errors when the project does not exist', async () => {
-            const project = uniq('imaginaryProjectThatDoesNotExist');
-            await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:init ${project}`,
-            ).catch(stderr => expect(stderr?.code).toEqual(1));
-        }, 200_000);
+    afterAll(async () => {
+        await runNxCommandAsync('reset');
+    });
+
+    it('errors when the project does not exist', async () => {
+        const project = uniq('imaginaryProjectThatDoesNotExist');
+        await runNxCommandAsync(
+            `generate @ensono-stacks/playwright:init ${project}`,
+        ).catch(stderr => expect(stderr?.code).toEqual(1));
+    });
+
+    describe('init generator', () => {
+        let e2eProject;
+        beforeAll(async () => {
+            e2eProject = (await setupBaseProject()).e2eProject;
+        });
 
         it('should successfully run and amend config files if project does exist', async () => {
-            const { baseProject, e2eProject } = setupBaseProject();
-
-            // generate initial playwright project and amend playwright config files
-            await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
-            );
             expect(() =>
                 checkFilesExist(
                     'playwright.config.base.ts',
                     `apps/${e2eProject}/playwright.config.ts`,
                 ),
             ).not.toThrow();
+        });
 
-            // expect playwright.base.config.ts to be altered
-            const baseConfig = readFile('playwright.config.base.ts');
-            const baseConfigFile = new Project().createSourceFile(
-                'playwright.config.base.ts',
-                baseConfig,
-            );
-            const baseConfigObject = baseConfigFile
-                ?.getVariableDeclaration('baseConfig')
-                ?.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-
+        it('should be able to run the e2e test target', async () => {
+            // The tests will actually fail to run as Playwright detects that it is being run with jest. So only able to verify that the target is ran and server started
             expect(
-                baseConfigObject?.getProperty('maxFailures')?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: 'process.env.CI ? 10 : undefined',
-                }),
+                await runTarget(
+                    e2eProject,
+                    targetOptions.e2e,
+                    '--grep="whats next" --testProject="chromium"',
+                ),
+            ).toContain(
+                'ready started server on 0.0.0.0:4200, url: http://localhost:4200',
             );
-            expect(
-                baseConfigObject?.getProperty('fullyParallel')?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: 'true',
-                }),
-            );
-            expect(
-                baseConfigObject?.getProperty('forbidOnly')?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: '!!process.env.CI',
-                }),
-            );
-            expect(
-                baseConfigObject?.getProperty('retries')?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: 'process.env.CI ? 2 : undefined',
-                }),
-            );
-
-            // expect playwright.config.ts to be altered
-            const projectConfig = readFile(
-                `apps/${e2eProject}/playwright.config.ts`,
-            );
-            const projectConfigFile = new Project().createSourceFile(
-                'playwright.base.ts',
-                projectConfig,
-            );
-            const projectConfigObject = projectConfigFile
-                ?.getVariableDeclaration('config')
-                ?.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-            expect(
-                projectConfigObject?.getProperty('projects')?.getStructure(),
-            ).toEqual(
-                expect.objectContaining({
-                    initializer: `[
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      },
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
-
-    /* Test against mobile viewports. */
-    {
-      name: 'Mobile Chrome',
-      use: {
-        ...devices['Pixel 5'],
-      },
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 12'],
-      },
-    },
-  ]`,
-                }),
-            );
-        }, 200_000);
+        });
     });
 
     describe('accessibility generator', () => {
-        it('should successfully add accessibility test files and add dependencies', async () => {
-            const { baseProject, e2eProject } = setupBaseProject();
-
-            // generate initial playwright project
-            runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
-            );
-            // amend playwright config files
-            runNxCommand(
+        let e2eProject;
+        beforeAll(async () => {
+            e2eProject = (await setupBaseProject()).e2eProject;
+            await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:accessibility --project=${e2eProject} --no-interactive`,
             );
+        });
 
+        it('should successfully add accessibility test files and add dependencies', async () => {
             expect(() =>
                 checkFilesExist(
                     'playwright.config.base.ts',
@@ -175,22 +100,19 @@ describe('playwright e2e', () => {
                 '@axe-core/playwright': '4.5.2',
                 'axe-result-pretty-print': '1.0.2',
             });
-        }, 200_000);
+        });
     });
 
-    describe('visual regression generator', () => {
-        it('should successfully add native regression config', async () => {
-            const { baseProject, e2eProject } = setupBaseProject();
-
-            // generate initial playwright project
-            await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
-            );
-            // amend playwright config files
+    describe('Visual - native generator', () => {
+        let e2eProject;
+        beforeAll(async () => {
+            e2eProject = (await setupBaseProject()).e2eProject;
             await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=native --no-interactive`,
             );
+        });
 
+        it('should successfully add native regression config', async () => {
             expect(() =>
                 checkFilesExist(
                     'playwright.config.base.ts',
@@ -199,7 +121,7 @@ describe('playwright e2e', () => {
                 ),
             ).not.toThrow();
 
-            // expect playwright.config.ts to be ameneded with native regression config
+            // expect playwright.config.ts to be amended with native regression config
             const projectConfig = readFile(
                 `apps/${e2eProject}/playwright.config.ts`,
             );
@@ -210,20 +132,18 @@ describe('playwright e2e', () => {
             const projectConfigObject = projectConfigFile
                 ?.getVariableDeclaration('config')
                 ?.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
-        }, 200_000);
+        });
+    });
 
-        it('should successfully add applitools regression config and add dependencies', async () => {
-            const { baseProject, e2eProject } = setupBaseProject();
-
-            // generate initial playwright project
-            runNxCommand(
-                `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,
-            );
-            // amend playwright config files
-            runNxCommand(
+    describe('visual - applitools generator', () => {
+        let e2eProject;
+        beforeAll(async () => {
+            e2eProject = (await setupBaseProject()).e2eProject;
+            await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=applitools --no-interactive`,
             );
-
+        });
+        it('should successfully add applitools regression config and add dependencies', async () => {
             expect(() =>
                 checkFilesExist(
                     'playwright.config.base.ts',
@@ -232,7 +152,7 @@ describe('playwright e2e', () => {
                 ),
             ).not.toThrow();
 
-            // expect playwright.config.ts to be ameneded with native regression config
+            // expect playwright.config.ts to be amended with native regression config
             const projectConfig = readFile(
                 `apps/${e2eProject}/playwright.config.ts`,
             );
@@ -250,6 +170,6 @@ describe('playwright e2e', () => {
                     initializer: '/.*@visual-regression/',
                 }),
             );
-        }, 200_000);
+        });
     });
 });
