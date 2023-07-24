@@ -130,7 +130,6 @@ describe('next e2e', () => {
     });
 
     describe('react-query generator', () => {
-        const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
@@ -138,8 +137,8 @@ describe('next e2e', () => {
         });
 
         it('successfully lint with new linting update', async () => {
-            expect(await runTarget(library, targetOptions.lint)).toContain(
-                '1 chart(s) linted, 0 chart(s) failed',
+            expect(await runTarget(project, targetOptions.lint)).toContain(
+                `Successfully ran target lint for project ${project}`,
             );
         });
 
