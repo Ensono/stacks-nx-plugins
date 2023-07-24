@@ -11,8 +11,9 @@ const reactAxeConfigurationCode = `
 /**
  * A dynamic import is used here to only load the react-axe library for a11y checks
  * when it is not in production mode
- * This ensures that it is not unnecessarily ran in local env.
+ * This ensures that it is only ran in local env.
  */
+// @ts-ignore
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' ) {
     // eslint-disable-next-line global-require
     const axe = require('@axe-core/react'); // eslint-disable-line @typescript-eslint/no-var-requires
