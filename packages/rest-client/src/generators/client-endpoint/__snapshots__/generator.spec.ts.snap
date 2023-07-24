@@ -1,0 +1,216 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/.eslintrc.json 1`] = `
+"{
+  "extends": ["../../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
+}
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/README.md 1`] = `
+"# endpoints-test-endpoint-v1
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run \`nx build endpoints-test-endpoint-v1\` to build the library.
+
+## Running unit tests
+
+Run \`nx test endpoints-test-endpoint-v1\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/jest.config.ts 1`] = `
+"export default {
+  displayName: 'endpoints-test-endpoint-v1',
+  preset: '../../../jest.preset.js',
+  transform: {
+    '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
+  },
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  coverageDirectory: '../../../coverage/endpoints/test-endpoint/v1',
+};
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/package.json 1`] = `
+"{
+  "name": "@proj/endpoints/test-endpoint/v1",
+  "version": "0.0.1",
+  "type": "commonjs"
+}
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/project.json 1`] = `
+"{
+  "name": "endpoints-test-endpoint-v1",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "endpoints/test-endpoint/v1/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/endpoints/test-endpoint/v1",
+        "main": "endpoints/test-endpoint/v1/src/index.ts",
+        "tsConfig": "endpoints/test-endpoint/v1/tsconfig.lib.json",
+        "assets": ["endpoints/test-endpoint/v1/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["endpoints/test-endpoint/v1/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "endpoints/test-endpoint/v1/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": ["testEndpoint"]
+}
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/src/index.test.ts 1`] = `
+"describe('TestEndpoint endpoint', () => {
+  it('should generate the right methods', () => {
+    expect(true).toBeTruthy();
+  });
+});
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/src/index.ts 1`] = `
+"import httpClient, {
+  RequestConfig,
+  Response,
+} from '@ensono-stacks/http-client';
+
+import { TestEndpoint, TestEndpointData } from './index.types';
+
+const API_ENDPOINT = \`\${process.env.API_URL}/TestEndpoint/v1\`;
+
+export const getTestEndpoint = async (config: RequestConfig) =>
+  httpClient.get<TestEndpoint>(API_ENDPOINT, config);
+
+export const deleteTestEndpoint = async (config: RequestConfig) =>
+  httpClient.delete<TestEndpoint>(API_ENDPOINT, config);
+
+export const headTestEndpoint = async (config: RequestConfig) =>
+  httpClient.head<TestEndpoint>(API_ENDPOINT, config);
+
+export const postTestEndpoint = async (
+  data: TestEndpointData,
+  config: RequestConfig
+) =>
+  httpClient.post<TestEndpoint, Response<TestEndpoint>, TestEndpointData>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+
+export const putTestEndpoint = async (
+  data: TestEndpointData,
+  config: RequestConfig
+) =>
+  httpClient.put<TestEndpoint, Response<TestEndpoint>, TestEndpointData>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+
+export const patchTestEndpoint = async (
+  data: Partial<TestEndpointData>,
+  config: RequestConfig
+) =>
+  httpClient.patch<TestEndpoint, Response<TestEndpoint>, TestEndpointData>(
+    API_ENDPOINT,
+    data,
+    config
+  );
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/tsconfig.json 1`] = `
+"{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs"
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/tsconfig.lib.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+}
+"
+`;
+
+exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/tsconfig.spec.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "module": "commonjs",
+    "types": ["jest", "node"]
+  },
+  "include": [
+    "jest.config.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
+"
+`;

@@ -1,8 +1,25 @@
-import { Tree, readProjectConfiguration, readJson } from '@nx/devkit';
+import { tsMorphTree } from '@ensono-stacks/core';
+import { checkFilesExistInTree } from '@ensono-stacks/test';
+import {
+    Tree,
+    readProjectConfiguration,
+    readJson,
+    joinPathFragments,
+} from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 import { OpenapiClientGeneratorSchema } from './schema';
+
+function snapshotFiles(tree: Tree, files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
+}
 
 describe('openapi-client generator', () => {
     let tree: Tree;
@@ -21,6 +38,18 @@ describe('openapi-client generator', () => {
         await generator(tree, options);
         const config = readProjectConfiguration(tree, 'test-client');
         expect(config).toBeDefined();
+
+        snapshotFiles(tree, [
+            joinPathFragments('test-client', 'project.json'),
+            joinPathFragments('test-client', 'tsconfig.json'),
+            joinPathFragments('test-client', 'tsconfig.lib.json'),
+            joinPathFragments('test-client', 'tsconfig.spec.json'),
+            joinPathFragments('test-client', '.eslintrc.json'),
+            joinPathFragments('test-client', 'package.json'),
+            joinPathFragments('test-client', 'jest.config.ts'),
+            joinPathFragments('test-client/src', 'index.ts'),
+            joinPathFragments('test-client', 'README.md'),
+        ]);
     });
 
     it('should throw an error if schema not found', async () => {
@@ -69,10 +98,11 @@ describe('openapi-client generator', () => {
 
         await generator(tree, options);
 
-        const orvalConfigExists = tree.exists('test-client/orval.config.js');
-        const orvalConfig = tree.read('test-client/orval.config.js', 'utf8');
+        snapshotFiles(tree, [
+            joinPathFragments('test-client', 'orval.config.js'),
+        ]);
 
-        expect(orvalConfigExists).toBeTruthy();
+        const orvalConfig = tree.read('test-client/orval.config.js', 'utf8');
 
         expect(orvalConfig).toContain(`target: './src/testClient.ts',`);
         expect(orvalConfig).toContain(`target: './test.yaml',`);
@@ -98,15 +128,14 @@ describe('openapi-client generator', () => {
 
             await generator(tree, zodOptions);
 
-            const orvalConfigExists = tree.exists(
-                'test-client/orval.zod.config.js',
-            );
+            snapshotFiles(tree, [
+                joinPathFragments('test-client', 'orval.zod.config.js'),
+            ]);
+
             const orvalConfig = tree.read(
                 'test-client/orval.zod.config.js',
                 'utf8',
             );
-
-            expect(orvalConfigExists).toBeTruthy();
 
             expect(orvalConfig).toContain(`client: 'zod',`);
             expect(orvalConfig).toContain(`target: './test.yaml',`);

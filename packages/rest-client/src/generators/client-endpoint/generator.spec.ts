@@ -1,8 +1,20 @@
-import { Tree } from '@nx/devkit';
+import { tsMorphTree } from '@ensono-stacks/core';
+import { checkFilesExistInTree } from '@ensono-stacks/test';
+import { Tree, joinPathFragments } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 import { ClientEndpointGeneratorSchema } from './schema';
+
+function snapshotFiles(tree: Tree, files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
+}
 
 describe('client-endpoint generator', () => {
     let tree: Tree;
@@ -10,7 +22,7 @@ describe('client-endpoint generator', () => {
         name: 'testEndpoint',
         httpClient: '@ensono-stacks/http-client',
         envVar: 'API_URL',
-        methods: ['get', 'post'],
+        methods: ['get', 'post', 'patch', 'put', 'delete', 'head', 'options'],
         endpointVersion: 1,
         directory: 'endpoints',
     };
@@ -25,15 +37,35 @@ describe('client-endpoint generator', () => {
             tags: 'testEndpoint',
         });
 
-        expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.ts'),
-        ).toBeTruthy();
-        expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.test.ts'),
-        ).toBeTruthy();
-        expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.types.ts'),
-        ).toBeTruthy();
+        snapshotFiles(tree, [
+            joinPathFragments('endpoints/test-endpoint/v1', 'project.json'),
+            joinPathFragments('endpoints/test-endpoint/v1', 'tsconfig.json'),
+            joinPathFragments(
+                'endpoints/test-endpoint/v1',
+                'tsconfig.lib.json',
+            ),
+            joinPathFragments(
+                'endpoints/test-endpoint/v1',
+                'tsconfig.spec.json',
+            ),
+            joinPathFragments('endpoints/test-endpoint/v1', '.eslintrc.json'),
+            joinPathFragments('endpoints/test-endpoint/v1', 'package.json'),
+            joinPathFragments('endpoints/test-endpoint/v1', 'jest.config.ts'),
+            joinPathFragments('endpoints/test-endpoint/v1/src', 'index.ts'),
+            joinPathFragments(
+                'endpoints/test-endpoint/v1/src',
+                'index.test.ts',
+            ),
+            joinPathFragments('endpoints/test-endpoint/v1', 'README.md'),
+        ]);
+
+        const fileContent = tree.read(
+            `endpoints/test-endpoint/v1/src/index.ts`,
+            'utf8',
+        );
+        expect(fileContent).toMatch(
+            /import httpClient, {\n *RequestConfig,\n *Response,\n *} from '@ensono-stacks\/http-client'/g,
+        );
     });
 
     it("should generate an .env.local file to the root if it doesn't exist", async () => {
