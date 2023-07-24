@@ -1,11 +1,25 @@
-import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readJson } from '@nx/devkit';
+import { tsMorphTree } from '@ensono-stacks/core';
+import {
+    addStacksAttributes,
+    checkFilesExistInTree,
+} from '@ensono-stacks/test';
+import { Tree, joinPathFragments, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
+
+function snapshotFiles(tree, files: string[]) {
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    const project = tsMorphTree(tree);
+    files.forEach(file => {
+        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
+            file,
+        );
+    });
+}
 
 describe('next install generator', () => {
     let tree: Tree;
@@ -140,6 +154,14 @@ describe('next install generator', () => {
                 });
 
                 expect(gen).toBe(false);
+            });
+            it('should match the snapshot for _app.tsx file', async () => {
+                const underscoreAppFilePath = joinPathFragments(
+                    options.project,
+                    'pages',
+                    '_app.tsx',
+                );
+                snapshotFiles(tree, [underscoreAppFilePath]);
             });
         });
     });

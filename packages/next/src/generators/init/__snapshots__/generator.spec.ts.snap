@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`next install generator Project config executedGenerators should match the snapshot for _app.tsx file: next-app/pages/_app.tsx 1`] = `
+"import { AppProps } from 'next/app';
+import Head from 'next/head';
+import './styles.css';
+
+/**
+ * A dynamic import is used here to only load the react-axe library for a11y checks
+ * when it is not in production mode
+ * This ensures that it is only ran in local env.
+ */
+// @ts-ignore
+if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line global-require
+    const axe = require('@axe-core/react'); // eslint-disable-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line global-require
+    const React = require('react'); // eslint-disable-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line global-require
+    const ReactDOM = require('react-dom'); // eslint-disable-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    axe(React, ReactDOM, 1000);
+}
+
+function CustomApp({ Component, pageProps }: AppProps) {
+    return (
+        <>
+            <Head>
+                <title>Welcome to next-app!</title>
+            </Head>
+            <main className="app">
+                <Component {...pageProps} />
+            </main>
+        </>
+    );
+}
+
+export default CustomApp;
+"
+`;
