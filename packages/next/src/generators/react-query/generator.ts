@@ -1,5 +1,4 @@
 import {
-    formatFiles,
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
     tsMorphTree,
@@ -7,13 +6,11 @@ import {
 } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
-    joinPathFragments,
     logger,
-    readJson,
     readProjectConfiguration,
+    runTasksInSerial,
     Tree,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 
 import { ReactQueryGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependancies';
@@ -46,7 +43,8 @@ export async function reactQueryGenerator(
     addQueryClientProviderToApp(project, morphTree);
 
     tasks.push(
-        updateESLint(tree, project.root, options),
+        updateESLint(tree, project.root),
+        installDependencies(tree, options),
         formatFilesWithEslint(options.project),
     );
 

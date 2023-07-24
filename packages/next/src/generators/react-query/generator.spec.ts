@@ -40,7 +40,7 @@ describe('react-query generator', () => {
             ).toBe(true);
         });
 
-        it('should return false from method and exit generator if already executed', async () => {
+        it('eslint config with react query plugin', async () => {
             const eslintConfig = readJson(appTree, 'next-app/.eslintrc.json');
 
             expect(eslintConfig.extends).toContain(
@@ -48,7 +48,7 @@ describe('react-query generator', () => {
             );
         });
 
-        it('should eslint config with react query plugin', async () => {
+        it('return false from method and exit generator if already executed', async () => {
             const gen = await generator(appTree, {
                 ...options,
             });
