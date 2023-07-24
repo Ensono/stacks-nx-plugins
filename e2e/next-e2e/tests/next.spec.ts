@@ -147,7 +147,7 @@ describe('next e2e', () => {
             expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
         });
     });
-    
+
     // it('configures NextAuth with Redis adapter', async () => {
     //     await runNxCommandAsync(
     //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,

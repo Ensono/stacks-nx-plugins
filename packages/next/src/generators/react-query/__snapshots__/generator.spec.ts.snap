@@ -22,20 +22,24 @@ export default CustomApp;
 `;
 
 exports[`react-query generator should configure app if there are already wrapping react providers 1`] = `
-"import { SessionProvider } from 'next-auth/react';
+"import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+ 
+const queryClient = new QueryClient()
+
+
 function SomeProvider({ children }: PropsWithChildren) {
     return <>{children}</>;
 }
 function CustomApp({
     Component,
-    pageProps: { session, ...pageProps },
+    pageProps,
 }: AppProps) {
     return (
-        <SessionProvider session={session}>
-            <SomeProvider>
-                <Component {...pageProps} />
-            </SomeProvider>
-        </SessionProvider>
+        <QueryClientProvider client={queryClient}>
+                        <SomeProvider>
+                    <Component {...pageProps} />
+                </SomeProvider>
+                    </QueryClientProvider>
     );
 }
 export default CustomApp;
