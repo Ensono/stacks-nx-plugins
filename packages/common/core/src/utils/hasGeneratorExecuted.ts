@@ -7,6 +7,18 @@ import {
 } from './tagExecutedGenerator';
 import { readStacksExecutedGenerators } from '../lib/stacks';
 
+export function getNpmScope(tree: Tree) {
+    const workspace = getWorkspaceLayout(tree);
+    if (workspace.npmScope) {
+        return workspace.npmScope;
+    }
+    const { name } = tree.exists('package.json')
+        ? readJson(tree, 'package.json')
+        : { name: null };
+
+    return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
+}
+
 export function isGeneratorInExecutedListForProject(
     tree: Tree,
     projectName: string,
@@ -94,24 +106,11 @@ export function hasGeneratorExecutedForWorkspace(
     const generatorExecuted =
         stacksExecutedGenerators.workspace.includes(generatorName);
 
-    const getNpmScope = () => {
-        const workspace = getWorkspaceLayout(tree);
-        // Code copied from Nx -> packages/workspace/src/utilities/get-import-path.ts
-        if (workspace.npmScope) {
-            return workspace.npmScope;
-        }
-        const { name } = tree.exists('package.json')
-            ? readJson(tree, 'package.json')
-            : { name: null };
-
-        return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
-    };
-
     if (generatorExecuted) {
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the workspace`,
-            chalk.magenta`${getNpmScope()}.`,
+            chalk.magenta`${getNpmScope(tree)}.`,
             chalk.yellow`No changes made.`,
             '\n',
         );

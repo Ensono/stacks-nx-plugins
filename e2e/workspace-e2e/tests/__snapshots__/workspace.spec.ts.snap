@@ -72,7 +72,7 @@ exports[`workspace updates the eslintrc.json 1`] = `
             "pathGroups": [
               {
                 "group": "internal",
-                "pattern": "@undefined/**",
+                "pattern": "@proj/**",
               },
             ],
           },
