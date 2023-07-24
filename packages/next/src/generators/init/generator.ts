@@ -15,6 +15,7 @@ import {
     updateProjectConfiguration,
 } from '@nx/devkit';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
+import chalk from 'chalk';
 import path from 'path';
 
 import { NextGeneratorSchema } from './schema';
@@ -97,8 +98,11 @@ export default async function initGenerator(
 
     const morphTree = tsMorphTree(tree);
 
+    console.info(chalk.green`Attempting to add configuration for react-axe`);
     addReactAxeConfigToApp(project, morphTree);
-
+    console.info(
+        chalk.green`continuing execution of next:init generator after attempting to add react-axe`,
+    );
     eslintFix(project, tree);
 
     // exclude helm yaml files from initial format when generating the files

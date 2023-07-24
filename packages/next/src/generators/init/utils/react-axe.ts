@@ -3,6 +3,7 @@ import {
     ProjectConfiguration,
     joinPathFragments,
 } from '@nx/devkit';
+import chalk from 'chalk';
 import { Project, SyntaxKind } from 'ts-morph';
 
 // the code that needs to be injected to _app.tsx file.
@@ -10,7 +11,7 @@ const reactAxeConfigurationCode = `
 /**
  * A dynamic import is used here to only load the react-axe library for a11y checks
  * when it is not in production mode
- * This ensures that it is not unnecessarily ran in production.
+ * This ensures that it is not unnecessarily ran in local env.
  */
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' ) {
     // eslint-disable-next-line global-require
@@ -49,32 +50,36 @@ export function addReactAxeConfigToApp(
             'pages',
             '_app.tsx',
         );
-        // the whole operation should fail if the _app.tsx is not found (error is Thrown by addSourceFileAtPath)
         const appNode = morphTree.addSourceFileAtPath(pagesDirectory);
-        // Find the line containing "function CustomApp"
-        const functionCustomAppLine = appNode
-            .getDescendantsOfKind(SyntaxKind.FunctionDeclaration)
-            .find(node => node.getName() === 'CustomApp')
-            ?.getStartLineNumber();
+        // only try to modify the _app.tsx file if it exists
+        if (appNode) {
+            // Find the line containing "function CustomApp"
+            const functionCustomAppLine = appNode
+                .getDescendantsOfKind(SyntaxKind.FunctionDeclaration)
+                .find(node => node.getName() === 'CustomApp')
+                ?.getStartLineNumber();
 
-        if (functionCustomAppLine) {
-            // Get all the lines in the source file
-            const lines = appNode.getFullText().split('\n');
+            if (functionCustomAppLine) {
+                // Get all the lines in the source file
+                const lines = appNode.getFullText().split('\n');
 
-            // Calculate the line number to insert the new code
-            const insertLine = functionCustomAppLine - 2;
+                // Calculate the line number to insert the new code
+                const insertLine = functionCustomAppLine - 2;
 
-            // Insert the react-axe config code
-            lines.splice(insertLine, 0, reactAxeConfigurationCode);
+                // Insert the react-axe config code
+                lines.splice(insertLine, 0, reactAxeConfigurationCode);
 
-            // Save the changes to the file.
-            appNode.replaceWithText(lines.join('\n'));
-            appNode.saveSync();
+                // Save the changes to the file.
+                appNode.replaceWithText(lines.join('\n'));
+                appNode.saveSync();
+            }
         }
-        // }
     } catch (error) {
         console.error(
-            `Couldn't add the react-axe configuration to the project root file, got error: ${error}`,
+            chalk.red`Failed to add the react-axe configuration to the _app.tsx file, got error: ${error}`,
+        );
+        console.info(
+            chalk.yellow`Failed possibly because this next.js application was created with the new app directory which doesn't have an _app.tsx file.`,
         );
     }
 }
