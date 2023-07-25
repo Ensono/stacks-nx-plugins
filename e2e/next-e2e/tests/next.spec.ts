@@ -129,6 +129,24 @@ describe('next e2e', () => {
         });
     });
 
+    describe('react-query generator', () => {
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
+            );
+        });
+
+        it('successfully lint with new linting update', async () => {
+            expect(await runTarget(project, targetOptions.lint)).toContain(
+                `Successfully ran target lint for project ${project}`,
+            );
+        });
+
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
+        });
+    });
+
     // it('configures NextAuth with Redis adapter', async () => {
     //     await runNxCommandAsync(
     //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
