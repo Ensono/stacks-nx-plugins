@@ -5,6 +5,7 @@ import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
+    tsMorphTree,
 } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
@@ -14,11 +15,16 @@ import {
     updateProjectConfiguration,
 } from '@nx/devkit';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
+import chalk from 'chalk';
 import path from 'path';
 
 import { NextGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
 import { eslintFix } from './utils/eslint-fix';
+import {
+    addReactAxeConfigToApp,
+    addReactAxeDependency,
+} from './utils/react-axe';
 import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
@@ -70,7 +76,10 @@ export default async function initGenerator(
         ciCoverageConfig,
     );
 
-    tasks.push(formatFilesWithEslint(options.project));
+    tasks.push(
+        formatFilesWithEslint(options.project),
+        addReactAxeDependency(tree),
+    );
 
     // update tsconfig.json
     updateTsConfig(
@@ -87,6 +96,13 @@ export default async function initGenerator(
         path.join(project.sourceRoot, 'tsconfig.spec.json'),
     );
 
+    const morphTree = tsMorphTree(tree);
+
+    console.info(chalk.green`Attempting to add configuration for react-axe`);
+    addReactAxeConfigToApp(project, morphTree);
+    console.info(
+        chalk.green`continuing execution of next:init generator after attempting to add react-axe`,
+    );
     eslintFix(project, tree);
 
     // exclude helm yaml files from initial format when generating the files
