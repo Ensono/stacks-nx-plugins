@@ -6,7 +6,7 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 import { tmpProjPath } from '@nx/plugin/testing';
-import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { newProject, cleanup, runTarget, targetOptions } from '@ensono-stacks/e2e';
 import YAML from 'yaml';
 import fs from 'fs';
 
@@ -42,9 +42,12 @@ describe('rest-client e2e', () => {
         });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(`test ${project}`);
+            const result = await runTarget(
+                `${project}`,
+                targetOptions.test,
+            )
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+            expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
     });
 
@@ -85,19 +88,19 @@ describe('rest-client e2e', () => {
         });
 
         it('should build the library without failure', async () => {
-            const result = await runNxCommandAsync(
-                `build ${endpointsDir}-${libName}-v1`,
-            );
-
-            expect(result.stderr).not.toEqual(expect.stringContaining('failed'));
+            await runTarget(
+                `${endpointsDir}-${libName}-v1`,
+                targetOptions.build,
+            )
         });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(
-                `test ${endpointsDir}-${libName}-v1`,
-            );
+            const result = await runTarget(
+                `${endpointsDir}-${libName}-v1`,
+                targetOptions.test,
+            )
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+            expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
 
         it('should create endpoints without specifying directory', async () => {
@@ -183,19 +186,19 @@ describe('rest-client e2e', () => {
         });
 
         it('should build the new version library without failure', async () => {
-            const result = await runNxCommandAsync(
-                `build ${endpointsDir}-${libName}-v3`,
-            );
-
-            expect(result.stderr).not.toEqual(expect.stringContaining('failed'));
+            await runTarget(
+                `${endpointsDir}-${libName}-v3`,
+                targetOptions.build,
+            )
         });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(
-                `test ${endpointsDir}-${libName}-v3`,
-            );
+            const result = await runTarget(
+                `${endpointsDir}-${libName}-v3`,
+                targetOptions.test,
+            )
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+            expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
     });
 

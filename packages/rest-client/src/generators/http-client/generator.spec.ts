@@ -119,7 +119,7 @@ describe('http-client generator', () => {
         expect(packageJson.name).toEqual('@customimport/restclient');
     });
 
-    it('should generate the http-client with no formatiing', async () => {
+    it('should generate the http-client with no formatting', async () => {
         await generator(tree, {
             ...options,
             skipFormat: true,
