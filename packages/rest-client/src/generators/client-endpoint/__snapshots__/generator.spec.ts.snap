@@ -131,6 +131,9 @@ export const deleteTestEndpoint = async (config: RequestConfig) =>
 export const headTestEndpoint = async (config: RequestConfig) =>
   httpClient.head<TestEndpoint>(API_ENDPOINT, config);
 
+export const optionsTestEndpoint = async (config: RequestConfig) =>
+  httpClient.options<TestEndpoint>(API_ENDPOINT, config);
+
 export const postTestEndpoint = async (
   data: TestEndpointData,
   config: RequestConfig
