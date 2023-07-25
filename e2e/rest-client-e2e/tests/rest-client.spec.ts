@@ -6,13 +6,15 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 import { tmpProjPath } from '@nx/plugin/testing';
-import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { newProject, cleanup, runTarget, targetOptions } from '@ensono-stacks/e2e';
 import YAML from 'yaml';
 import fs from 'fs';
 
 import petstoreSchemaJSON from '../fixtures/petstore-3.0.json';
 
 describe('rest-client e2e', () => {
+    jest.setTimeout(1_000_000);
+
     beforeAll(async () => {
         await newProject(['@ensono-stacks/rest-client'], ['@nx/js']);
     });
@@ -37,64 +39,116 @@ describe('rest-client e2e', () => {
                     `libs/${project}/src/index.test.ts`,
                 ),
             ).not.toThrow();
-        }, 120000);
+        });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(`test ${project}`);
+            const result = await runTarget(
+                `${project}`,
+                targetOptions.test,
+            )
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+            expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
     });
 
     describe('client-endpoint', () => {
-        const endpoint = uniq('test-endpoint');
+        const libName = uniq('test-endpoint');
+        const endpointsDir = uniq('endpoints');
+        const httpclientName = uniq('http-client');
+
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/rest-client:http-client ${httpclientName}`,
+            );
+        });
 
         it('should create lib in the specified directory', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --httpClient="@proj/http-client" --no-interactive`,
+                `generate @ensono-stacks/rest-client:client-endpoint ${libName} --methods=get,post,patch,put,delete,head,options --directory=${endpointsDir} --httpClient="@proj/${httpclientName}" --no-interactive`,
             );
 
             expect(() =>
                 checkFilesExist(
-                    `libs/endpoints/${endpoint}/v1/src/index.ts`,
-                    `libs/endpoints/${endpoint}/v1/src/index.test.ts`,
-                    `libs/endpoints/${endpoint}/v1/src/index.types.ts`,
-                    `libs/endpoints/${endpoint}/v1/project.json`,
-                    `libs/endpoints/${endpoint}/v1/tsconfig.json`,
+                    `libs/${endpointsDir}/${libName}/v1/src/index.ts`,
+                    `libs/${endpointsDir}/${libName}/v1/src/index.test.ts`,
+                    `libs/${endpointsDir}/${libName}/v1/src/index.types.ts`,
+                    `libs/${endpointsDir}/${libName}/v1/project.json`,
+                    `libs/${endpointsDir}/${libName}/v1/tsconfig.json`,
+                    `.env.local`
                 ),
             ).not.toThrow();
 
-            const expectedImportName = `@proj/endpoints/${endpoint}/v1`;
+            const expectedImportName = `@proj/${endpointsDir}/${libName}/v1`;
 
             const tsConfig = readJson('tsconfig.base.json');
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportName,
-                [`libs/endpoints/${endpoint}/v1/src/index.ts`],
+                [`libs/${endpointsDir}/${libName}/v1/src/index.ts`],
             );
-        }, 120000);
+        });
+
+        it('should build the library without failure', async () => {
+            await runTarget(
+                `${endpointsDir}-${libName}-v1`,
+                targetOptions.build,
+            )
+        });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(
-                `test endpoints-${endpoint}-v1`,
+            const result = await runTarget(
+                `${endpointsDir}-${libName}-v1`,
+                targetOptions.test,
+            )
+
+            expect(result).not.toEqual(expect.stringContaining('FAIL'));
+        });
+
+        it('should create endpoints without specifying directory', async () => {
+            const libNameNodir = uniq('test-endpoint');
+            await runNxCommand(
+                `generate @ensono-stacks/rest-client:client-endpoint ${libNameNodir} --methods=get,post,patch,put,delete,head,options --httpClient="@proj/http-client" --no-interactive`,
             );
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+            expect(() =>
+                checkFilesExist(
+                    `libs/${libNameNodir}/v1/src/index.ts`,
+                    `libs/${libNameNodir}/v1/src/index.test.ts`,
+                    `libs/${libNameNodir}/v1/src/index.types.ts`,
+                    `libs/${libNameNodir}/v1/project.json`,
+                    `libs/${libNameNodir}/v1/tsconfig.json`,
+                    `.env.local`
+                ),
+            ).not.toThrow();
+
+            const expectedImportName = `@proj/${libNameNodir}/v1`;
+
+            const tsConfig = readJson('tsconfig.base.json');
+            expect(tsConfig.compilerOptions.paths).toHaveProperty(
+                expectedImportName,
+                [`libs/${libNameNodir}/v1/src/index.ts`],
+            );
         });
     });
 
     describe('bump-version', () => {
-        const endpoint = uniq('test-endpoint');
-        const endpointWithDirectory = `endpoints/${endpoint}`;
+        const libName = uniq('test-endpoint');
+        const endpointsDir = uniq('endpoints');
+        const endpointWithDirectory = `${endpointsDir}/${libName}`;
+
+        const httpclientName = uniq('http-client');
 
         beforeAll(async () => {
+            await runNxCommandAsync(
+                            `generate @ensono-stacks/rest-client:http-client ${httpclientName}`,
+                        );
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${endpoint} --methods=get,post --directory=endpoints --httpClient="@proj/http-client" --no-interactive`,
+                `generate @ensono-stacks/rest-client:client-endpoint ${libName} --methods=get,post --directory=${endpointsDir} --httpClient="@proj/${httpclientName}" --no-interactive`,
             );
         });
 
         it('should copy the existing endpoint and bump the version', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:bump-version --name endpoints-${endpoint}-v1 --endpointVersion=3 --no-interactive`,
+                `generate @ensono-stacks/rest-client:bump-version --name ${endpointsDir}-${libName}-v1 --endpointVersion=3 --no-interactive`,
             );
 
             expect(() =>
@@ -129,14 +183,22 @@ describe('rest-client e2e', () => {
                 expectedImportNameV3,
                 [`libs/${endpointWithDirectory}/v3/src/index.ts`],
             );
-        }, 120000);
+        });
+
+        it('should build the new version library without failure', async () => {
+            await runTarget(
+                `${endpointsDir}-${libName}-v3`,
+                targetOptions.build,
+            )
+        });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runNxCommandAsync(
-                `test endpoints-${endpoint}-v3`,
-            );
+            const result = await runTarget(
+                `${endpointsDir}-${libName}-v3`,
+                targetOptions.test,
+            )
 
-            expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
+            expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
     });
 
@@ -174,6 +236,6 @@ describe('rest-client e2e', () => {
                 expectedImportName,
                 [`libs/${client}/src/index.ts`],
             );
-        }, 120000);
+        });
     });
 });

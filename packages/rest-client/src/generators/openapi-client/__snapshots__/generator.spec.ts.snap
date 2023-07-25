@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`openapi-client generator --zod should generate orval.zod config: test-client/orval.zod.config.js 1`] = `
+"module.exports = {
+  'testClient-file-transfomer': {
+    output: {
+      mode: 'split',
+      target: './src/testClient.zod.ts',
+      client: 'zod',
+    },
+    input: {
+      target: './test.yaml',
+    },
+  },
+};
+"
+`;
+
+exports[`openapi-client generator should generate orval config: test-client/orval.config.js 1`] = `
+"module.exports = {
+  'testClient-file-transfomer': {
+    output: {
+      mode: 'split',
+      target: './src/testClient.ts',
+      schemas: './src/model',
+      mock: true,
+    },
+    input: {
+      target: './test.yaml',
+    },
+  },
+};
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/.eslintrc.json 1`] = `
+"{
+  "extends": ["../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
+}
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/README.md 1`] = `
+"# test-client
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run \`nx build test-client\` to build the library.
+
+## Running unit tests
+
+Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/jest.config.ts 1`] = `
+"export default {
+  displayName: 'test-client',
+  preset: '../jest.preset.js',
+  transform: {
+    '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
+  },
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  coverageDirectory: '../coverage/test-client',
+};
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/package.json 1`] = `
+"{
+  "name": "@proj/test-client",
+  "version": "0.0.1",
+  "type": "commonjs"
+}
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/project.json 1`] = `
+"{
+  "name": "test-client",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "test-client/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/test-client",
+        "main": "test-client/src/index.ts",
+        "tsConfig": "test-client/tsconfig.lib.json",
+        "assets": ["test-client/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["test-client/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "test-client/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/src/index.ts 1`] = `
+"export * from './testClient';
+export * from './testClient.msw';
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/tsconfig.json 1`] = `
+"{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs"
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/tsconfig.lib.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+}
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/tsconfig.spec.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/out-tsc",
+    "module": "commonjs",
+    "types": ["jest", "node"]
+  },
+  "include": [
+    "jest.config.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
+"
+`;
