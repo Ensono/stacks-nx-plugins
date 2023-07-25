@@ -10,6 +10,7 @@ import { Schema as NextSchema } from '@nx/next/src/generators/application/schema
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
+import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 
 function snapshotFiles(tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
@@ -162,6 +163,12 @@ describe('next install generator', () => {
                     '_app.tsx',
                 );
                 snapshotFiles(tree, [underscoreAppFilePath]);
+            });
+            it('should install the react-axe package', async () => {
+                const packageJson = readJson(tree, 'package.json');
+                expect(packageJson?.devDependencies).toMatchObject({
+                    '@axe-core/react': REACT_AXE_CORE_VERSION,
+                });
             });
         });
     });
