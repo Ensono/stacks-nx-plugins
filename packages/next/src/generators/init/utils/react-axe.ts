@@ -6,6 +6,8 @@ import {
 import chalk from 'chalk';
 import { Project, SyntaxKind } from 'ts-morph';
 
+import { REACT_AXE_CORE_VERSION } from '../../../utils/constants';
+
 // the code that needs to be injected to _app.tsx file.
 const reactAxeConfigurationCode = `
 /**
@@ -31,7 +33,7 @@ export function addReactAxeDependency(tree) {
         tree,
         {},
         {
-            '@axe-core/react': '^4.7.3',
+            '@axe-core/react': REACT_AXE_CORE_VERSION,
         },
     );
 }
