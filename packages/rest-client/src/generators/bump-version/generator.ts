@@ -35,7 +35,9 @@ function findLatestVersion(
         );
     }
 
-    if (children.some(folderName => versionFolderConvention.test(folderName))) {
+    if (
+        children.some(folderName => !versionFolderConvention.test(folderName))
+    ) {
         throw new Error(
             "Found a folder that does not follow convention, please follow 'v<number>'",
         );
@@ -121,11 +123,37 @@ function isRelative(parent: string, directory: string) {
     return relative && !relative.startsWith('..') && !path.isAbsolute(relative);
 }
 
+function isEndpointVersionOptionIncorrectlyPresent(
+    endpointVersion: number | undefined,
+) {
+    if (endpointVersion === undefined) {
+        return false;
+    }
+
+    if (Number.isInteger(endpointVersion)) {
+        return false;
+    }
+
+    if (Number.isNaN(endpointVersion)) {
+        return true;
+    }
+
+    return false;
+}
+
 export default async function bumpVersion(
     tree: Tree,
     optionsParameter: BumpVersionGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree, optionsParameter.name);
+
+    const endpointVersionOptionIncorrectlyPresent =
+        isEndpointVersionOptionIncorrectlyPresent(
+            optionsParameter.endpointVersion,
+        );
+    if (endpointVersionOptionIncorrectlyPresent) {
+        throw new TypeError(`The endpoint version needs to be a number.`);
+    }
 
     const latestVersion = findLatestVersion(tree, {
         endpointName: optionsParameter.name,
