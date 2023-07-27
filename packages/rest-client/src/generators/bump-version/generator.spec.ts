@@ -54,6 +54,18 @@ describe('bump-version generator', () => {
         );
     });
 
+    it('should throw an error if a folder name does not match folder convention', async () => {
+        await tree.write('endpoints/test/fakeVersion/src/index.ts', 'test');
+
+        await expect(() =>
+            generator(tree, {
+                ...options,
+            }),
+        ).rejects.toThrowError(
+            "Found a folder that does not follow convention, please follow 'v<number>'",
+        );
+    });
+
     it('should generate the new version of the endpoint', async () => {
         tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
         await generator(tree, {
