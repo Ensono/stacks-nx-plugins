@@ -13,12 +13,11 @@ function findLatestVersion(
     tree: Tree,
     { endpointName }: { endpointName: string },
 ): number {
-    const versionFolderConvention = /v(\d+)$/g;
     let children;
     try {
         const versionsPath = readProjectConfiguration(tree, endpointName);
         const versionFolderFromPath = versionsPath.root.replaceAll(
-            versionFolderConvention,
+            /v(\d+)$/g,
             '',
         );
 
@@ -36,7 +35,10 @@ function findLatestVersion(
     }
 
     if (
-        children.some(folderName => !versionFolderConvention.test(folderName))
+        children.some(folderName => {
+            const folderNameMatchesConvention = /v(\d+)$/.test(folderName);
+            return !folderNameMatchesConvention;
+        })
     ) {
         throw new Error(
             "Found a folder that does not follow convention, please follow 'v<number>'",
