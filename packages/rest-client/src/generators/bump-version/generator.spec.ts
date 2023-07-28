@@ -172,4 +172,17 @@ describe('bump-version generator', () => {
             "Found a folder that does not follow convention, please follow 'v<number>'",
         );
     });
+
+    it('should throw an error if a folder name does not match folder convention', async () => {
+        await tree.write('endpoints/test/v4/src/index.ts', 'test');
+        await tree.write('endpoints/test/v3/src/index.ts', 'test');
+
+        await expect(() =>
+            generator(tree, {
+                ...options,
+            }),
+        ).rejects.toThrowError(
+            "Found a folder that does not follow convention, please follow 'v<number>'",
+        );
+    });
 });
