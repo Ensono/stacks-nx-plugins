@@ -49,8 +49,6 @@ function findLatestVersion(
         Number.parseInt(version.replace(/^v/i, ''), 10),
     );
 
-    console.log('versions:', versions);
-
     return Math.max(...versions);
 }
 
