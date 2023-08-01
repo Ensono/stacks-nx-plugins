@@ -53,7 +53,7 @@ const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     },
 ];
 
-async function determineRepoName(
+export async function determineRepoName(
     parsedArgv: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
     const repoName = parsedArgv._[0]
@@ -81,7 +81,7 @@ async function determineRepoName(
         });
 }
 
-async function determinePreset(
+export async function determinePreset(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
     if (!(parsedArguments.preset || parsedArguments.interactive)) {
@@ -92,16 +92,15 @@ async function determinePreset(
         if (
             (Object.values(Preset) as string[]).includes(parsedArguments.preset)
         ) {
-            console.error(
-                chalk.red`Invalid preset: It must be one of the following: ${Object.values(
-                    Preset,
-                )}`,
-            );
-
-            process.exit(1);
-        } else {
             return parsedArguments.preset as Preset;
         }
+        console.error(
+            chalk.red`Invalid preset: It must be one of the following: ${Object.values(
+                Preset,
+            )}`,
+        );
+
+        process.exit(1);
     }
 
     return enquirer
@@ -117,7 +116,7 @@ async function determinePreset(
         .then(a => a.Preset);
 }
 
-async function determineAppName(
+export async function determineAppName(
     preset: Preset,
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
@@ -151,7 +150,7 @@ async function determineAppName(
 }
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-async function determineE2eTestRunner(
+export async function determineE2eTestRunner(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ) {
     if (!(parsedArguments.e2eTestRunner || parsedArguments.interactive)) {
@@ -164,16 +163,16 @@ async function determineE2eTestRunner(
                 parsedArguments.e2eTestRunner,
             )
         ) {
-            console.error(
-                chalk.red`Invalid test runner: It must be one of the following:${Object.values(
-                    E2eTestRunner,
-                )}`,
-            );
-
-            process.exit(1);
-        } else {
             return parsedArguments.e2eTestRunner as E2eTestRunner;
         }
+
+        console.error(
+            chalk.red`Invalid test runner: It must be one of the following:${Object.values(
+                E2eTestRunner,
+            )}`,
+        );
+
+        process.exit(1);
     }
 
     return enquirer
@@ -191,24 +190,18 @@ async function determineE2eTestRunner(
         });
 }
 
-async function getConfiguration(
+export async function getConfiguration(
     argv: yargs.Arguments<CreateStacksArguments>,
 ): Promise<void> {
     try {
         const name = await determineRepoName(argv);
         let { preset, appName, e2eTestRunner } = argv;
 
-        if (!preset) {
-            preset = await determinePreset(argv);
-        }
+        preset = await determinePreset(argv);
 
-        if (preset && !appName) {
-            appName = await determineAppName(preset as Preset, argv);
-        }
+        appName = await determineAppName(preset as Preset, argv);
 
-        if (preset && appName && !e2eTestRunner) {
-            e2eTestRunner = await determineE2eTestRunner(argv);
-        }
+        e2eTestRunner = await determineE2eTestRunner(argv);
 
         Object.assign(argv, {
             name: paramCase(name),
