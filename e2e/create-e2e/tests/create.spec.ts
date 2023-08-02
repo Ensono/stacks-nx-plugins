@@ -224,4 +224,30 @@ describe('create', () => {
 
         expect(() => run()).not.toThrow();
     });
+
+    it('can install different nx version', async () => {
+        const run = () =>
+            execSync(
+                'npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=next --appName=test-app --nxVersion 16.5.1 --no-nxCloud --skipGit --no-interactive --verbose',
+                {
+                    cwd: temporaryDirectory,
+                    stdio: 'inherit',
+                    env: {
+                        ...process.env,
+                        npm_config_cache: cacheDirectory,
+                        HUSKY: '0',
+                    },
+                },
+            );
+
+        expect(() => run()).not.toThrow();
+
+        const packageJson = readJson('package.json');
+
+        expect(packageJson.devDependencies).toMatchObject(
+            expect.objectContaining({
+                    "@nx/workspace": "16.5.1"
+            }),
+        );
+    });
 });
