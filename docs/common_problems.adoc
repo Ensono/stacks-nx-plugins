@@ -4,7 +4,7 @@ This document contains a list of common issues that may arise when using the sta
 
 === *Incorrect Nodejs version*
 
-You will generally want to be on the latest LTS release of Nodejs. You can check what the latest version is here: https://nodejs.org/en
+We recommend the latest LTS release of Nodejs. You can check what the latest version is here: https://nodejs.org/en
 
 One error that has been seen as a result of being on an older Nodejs version is:
 
