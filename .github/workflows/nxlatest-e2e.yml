@@ -1,5 +1,5 @@
 name: NX_Latest_E2E
-on: workflow_dispatch
+on: [push]
 jobs:
   e2e:
     permissions:
