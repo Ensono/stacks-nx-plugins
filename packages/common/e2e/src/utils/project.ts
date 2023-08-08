@@ -1,9 +1,9 @@
 import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
+import fs from 'fs';
 import { emptyDirSync } from 'fs-extra';
 import { logger } from 'nx/src/utils/logger';
 import path from 'path';
-import { option } from 'yargs';
 
 import { cleanup } from './cleanup';
 import {
@@ -20,27 +20,41 @@ export interface CreateWorkspaceOptions {
     args?: string;
 }
 
-export function runCreateWorkspace(options: CreateWorkspaceOptions) {
+export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = path.dirname(tmpProjPath());
     const projectName = 'proj';
     emptyDirSync(temporaryDirectory);
     logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
-    const command = `${getPackageManagerNxCreateCommand(
+
+    const cacheDirectory = path.join(temporaryDirectory, '.cache');
+    if (!fs.existsSync(cacheDirectory)) {
+        fs.mkdirSync(cacheDirectory, {
+            recursive: true,
+        });
+    }
+    const command = `${await getPackageManagerNxCreateCommand(
         options.packageManager,
-    )} ${projectName} --preset=${options.preset || 'apps'} --packageManager=${
+    )} --name=${projectName} --preset=${
+        options.preset || 'apps'
+    } --packageManager=${
         options.packageManager
     } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive ${
         options.args ?? ''
     }`;
     logger.log(`[create] Running create command:\n${command}`);
-    execSync(command, {
-        cwd: temporaryDirectory,
-        env: {
-            ...process.env,
-            HUSKY: '0',
-        },
-        stdio: 'inherit',
-    });
+    try {
+        execSync(command, {
+            cwd: temporaryDirectory,
+            env: {
+                ...process.env,
+                npm_config_cache: cacheDirectory,
+                HUSKY: '0',
+            },
+            stdio: 'inherit',
+        });
+    } catch (error) {
+        throw new Error(`Create workspace failed: ${error}`);
+    }
     return `${projectName} created in ${temporaryDirectory}`;
 }
 
@@ -57,7 +71,7 @@ export async function newProject(
     process.env.HUSKY = '0';
     const packageManager = getSelectedPackageManager();
     cleanup();
-    const result = runCreateWorkspace({
+    const result = await runCreateWorkspace({
         preset: 'apps' as SupportedNxPreset,
         packageManager,
         ...options,
