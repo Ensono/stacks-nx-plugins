@@ -1,0 +1,35 @@
+name: NX_Latest_E2E
+on: workflow_dispatch
+jobs:
+  e2e:
+    permissions:
+      contents: read
+    name: E2E
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    with:
+      runs-on: ubuntu-latest
+      node-version: 18
+      number-of-agents: 3
+      parallel-commands-on-agents: |
+        npx nx affected --base=last-release --target=e2e --parallel=1
+      environment-variables: |
+        NX_E2E_CI_CACHE_KEY=e2e-gha
+        NODE_OPTIONS=--max_old_space_size=8192
+        NX_VERBOSE_LOGGING=${{ 'true' }}
+        NX_E2E_SKIP_BUILD_CLEANUP=${{ 'true' }}
+        NPM_CONFIG_USERCONFIG=$RUNNER_TEMP/.npmrc
+        NX_RUN_GROUP=${{ github.run_id }}
+        TEST_LATEST_NX=${{ 'true' }}
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  agents:
+    name: Nx Cloud - Agents
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    with:
+      runs-on: ubuntu-latest
+      node-version: 18
+      number-of-agents: 3
+      environment-variables: |
+        NX_RUN_GROUP=${{ github.run_id }}
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
