@@ -1,6 +1,5 @@
 name: NX_Latest_E2E
 on:
-  push:
   schedule: 
     - cron: 0 6 * * 1
   workflow_dispatch:
@@ -10,9 +9,12 @@ jobs:
     steps:
       - name: Package Latest Version
         uses: Bruce17/ghaction-package-latest-version@v1.1.2
+        id: find-version
         with:
           package: nx
           language: node
+    outputs:
+      latestVersion: ${{ steps.find-version.outputs.latestVersion}}
   e2e:
     needs: find-latest-nx-version
     permissions:
