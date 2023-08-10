@@ -11,7 +11,7 @@ jobs:
       - name: Get Latest Nx Version
         id: version
         run: |
-          echo "version=$(npm view nx version)" >> "GITHUB_OUTPUT"
+          version=$(npm view nx version)" >> "GITHUB_OUTPUT"
     outputs:
       latestVersion: ${{ steps.version.outputs.version }}
   e2e:
