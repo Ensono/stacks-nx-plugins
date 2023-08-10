@@ -20,6 +20,9 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: ${{ matrix.node-version }}
+
+        - name: Install packages
+          run: npm install
       
         - name: Run E2E Tests
           run: npx nx affected --skip-nx-cache --base=last-release --target=e2e
