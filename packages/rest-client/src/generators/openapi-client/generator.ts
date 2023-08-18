@@ -10,11 +10,10 @@ import {
     formatFiles,
     generateFiles,
     readProjectConfiguration,
+    runTasksInSerial,
     Tree,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
-import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
 
 import {

@@ -8,10 +8,10 @@ import {
 import {
     joinPathFragments,
     readProjectConfiguration,
+    runTasksInSerial,
     GeneratorCallback,
     Tree,
 } from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 
 import { NextGeneratorSchema } from './schema';

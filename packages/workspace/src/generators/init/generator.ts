@@ -3,8 +3,13 @@ import {
     hasGeneratorExecutedForWorkspace,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import {
+    Tree,
+    GeneratorCallback,
+    formatFiles,
+    runTasksInSerial,
+    updateJson,
+} from '@nrwl/devkit';
 
 import { InstallGeneratorSchema } from './schema';
 import { addCommitizen } from './utils/commitizen';

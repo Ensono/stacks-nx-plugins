@@ -12,6 +12,7 @@ import {
 import {
     joinPathFragments,
     readProjectConfiguration,
+    runTasksInSerial,
     Tree,
     logger,
     formatFiles,
@@ -21,7 +22,6 @@ import {
     generateFiles,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/js';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthRedisGeneratorSchema } from './schema';

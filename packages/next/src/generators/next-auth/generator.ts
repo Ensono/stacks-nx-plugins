@@ -9,10 +9,10 @@ import {
     generateFiles,
     joinPathFragments,
     readProjectConfiguration,
+    runTasksInSerial,
     Tree,
     logger,
 } from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthGeneratorSchema } from './schema';

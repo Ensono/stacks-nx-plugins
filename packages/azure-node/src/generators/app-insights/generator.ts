@@ -11,9 +11,9 @@ import {
     addDependenciesToPackageJson,
     getProjects,
     joinPathFragments,
+    runTasksInSerial,
     Tree,
 } from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 import path from 'path';
 
