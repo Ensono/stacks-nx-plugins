@@ -4,10 +4,10 @@ import { runCommandAsync } from '@nx/plugin/testing';
 import { SupportedPackageManager } from './types';
 import { getNxVersion } from './versions';
 
-export function getPackageManagerNxCreateCommand(
+export async function getPackageManagerNxCreateCommand(
     packageManager: SupportedPackageManager,
-): string {
-    const nxVersion = getNxVersion();
+): Promise<string> {
+    const nxVersion = await getNxVersion();
     switch (packageManager) {
         case 'yarn':
         case 'npm': {
@@ -62,11 +62,11 @@ export function installVersionedPackages(
     return 'No pacakges to install';
 }
 
-export function installNxPackages(
+export async function installNxPackages(
     packageManager: SupportedPackageManager,
     packages: string[],
 ) {
-    const nxVersion = getNxVersion();
+    const nxVersion = await getNxVersion();
     const invalidPackages = packages.filter(dependency =>
         dependency.startsWith('@nrwl/'),
     );
