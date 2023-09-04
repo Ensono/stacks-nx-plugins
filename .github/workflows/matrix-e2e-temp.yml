@@ -35,7 +35,7 @@ jobs:
         NODE_OPTIONS=--max_old_space_size=8192
         SELECTED_PM=${{ matrix.package_manager }}
         NX_VERBOSE_LOGGING=${{ 'true' }}
-        NX_E2E_SKIP_BUILD_CLEANUP=${{ 'true' }}
+        NX_E2E_SKIP_BUILD_CLEANUP=${{ 'false' }}
         NPM_CONFIG_USERCONFIG=$RUNNER_TEMP/.npmrc
         NX_RUN_GROUP=${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
     secrets:
