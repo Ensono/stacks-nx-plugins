@@ -1,0 +1,43 @@
+== Common Problems
+
+This document contains a list of common issues that may arise when using the stacks workspace and plugins. These are not bugs, and are usually a result of user error or configuration.
+
+=== *Incorrect Nodejs version*
+
+We recommend the latest LTS release of Nodejs. You can check what the latest version is here: https://nodejs.org/en
+
+One error that has been seen as a result of being on an older Nodejs version is:
+
+`.at is not a function`
+
+If you encounter any errors that don't seem to have an obvious resolution it is always best to first check the version of Nodejs you're running.
+
+=== *Trying to create a workspace in a folder under source control*
+
+When creating a new stacks workspace, it needs to be created in a folder that isn't under source control by Git. If you try to create a workspace in a folder that is already a git repo you will see the following Nx warning during the creation process:
+
+`Directory is already under version control. Skipping initialization of git.`
+
+You will also likely see husky errors like the following:
+
+[source,shell]
+--
+husky - .git can't be found (see https://typicode.github.io/husky/#/?id=custom-directory)
+npm ERR! code 1
+npm ERR! path /repo/myworkspace
+npm ERR! command failed
+npm ERR! command sh -c husky install
+--
+
+To avoid this issue you need to make sure the folder where the stacks workspace is being created is not already a git repo.
+
+=== *Existing node_modules in parent folder*
+
+Having a `node_modules` folder in a parent folder of the stacks-nx-plugins project can sometimes cause issues, especially when trying to run the unit tests. You may sometimes get an error like the following:
+
+`Cannot find module '@nx/next' from '../../../node_modules/@ensono-stacks/test/src/lib/create-next-app.js'`
+
+This is just an example, and occurs when trying to run the unit tests for the next plugin. If you look in the folder path above you can see the `node_modules` folder is outside of the `@ensono-stacks` folder.
+
+To fix the problem you need to delete the `node_modules` folder in the parent folder. You will be able to tell from the error which `node_modules` folder is being used. It must be the `node_modules` folder within the stacks project folder that is being used.
+

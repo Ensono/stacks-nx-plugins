@@ -16,3 +16,5 @@ export const ESLINT_PLUGIN_PRETTIER_VERSION = '4.0.0';
 export const ESLINT_PLUGIN_SECURITY_VERSION = '1.4.0';
 export const ESLINT_PLUGIN_UNICORN_VERSION = '37.0.1';
 export const LINT_STAGED_VERSION = '13.1.2';
+
+export const NODE_LTS = 'v18.17.1';

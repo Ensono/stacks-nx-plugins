@@ -15,12 +15,13 @@ function findLatestVersion(
 ): number {
     let children;
     try {
-        const versionsPath = readProjectConfiguration(
-            tree,
-            endpointName,
-        ).root.replaceAll(/v(\d+)$/g, '');
+        const versionsPath = readProjectConfiguration(tree, endpointName);
+        const versionFolderFromPath = versionsPath.root.replaceAll(
+            /v(\d+)$/g,
+            '',
+        );
 
-        children = tree.children(versionsPath);
+        children = tree.children(versionFolderFromPath);
     } catch {
         throw new Error(
             "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
@@ -29,7 +30,18 @@ function findLatestVersion(
 
     if (children.length === 0) {
         throw new Error(
-            "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
+            "No version is present for the endpoint. Are you sure you don't want to generate a new endpoint?",
+        );
+    }
+
+    if (
+        children.some(folderName => {
+            const folderNameMatchesConvention = /v(\d+)$/.test(folderName);
+            return !folderNameMatchesConvention;
+        })
+    ) {
+        throw new Error(
+            "Found a folder that does not follow convention, please follow 'v<number>'",
         );
     }
 
@@ -111,11 +123,37 @@ function isRelative(parent: string, directory: string) {
     return relative && !relative.startsWith('..') && !path.isAbsolute(relative);
 }
 
+function isEndpointVersionOptionIncorrectlyPresent(
+    endpointVersion: number | undefined,
+) {
+    if (endpointVersion === undefined) {
+        return false;
+    }
+
+    if (Number.isInteger(endpointVersion)) {
+        return false;
+    }
+
+    if (Number.isNaN(endpointVersion)) {
+        return true;
+    }
+
+    return false;
+}
+
 export default async function bumpVersion(
     tree: Tree,
     optionsParameter: BumpVersionGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree, optionsParameter.name);
+
+    const endpointVersionOptionIncorrectlyPresent =
+        isEndpointVersionOptionIncorrectlyPresent(
+            optionsParameter.endpointVersion,
+        );
+    if (endpointVersionOptionIncorrectlyPresent) {
+        throw new TypeError(`The endpoint version needs to be a number.`);
+    }
 
     const latestVersion = findLatestVersion(tree, {
         endpointName: optionsParameter.name,
