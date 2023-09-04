@@ -15,7 +15,6 @@ import {
     MOCHAWESOMEMERGE_VERSION,
     AXECORE_VERSION,
     CYPRESSAXE_VERSION,
-    NXCYPRESS_VERSION,
 } from '../../../packages/cypress/src/versions';
 
 let baseProject, applicationDirectory, cypressDirectory;
@@ -33,7 +32,7 @@ describe('cypress e2e', () => {
     }
 
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/cypress'], ['@nx/cypress', '@nx/next']);
+        await newProject(['@ensono-stacks/cypress'], ['@nx/next']);
     });
 
     afterAll(async () => {
@@ -90,7 +89,6 @@ describe('cypress e2e', () => {
                     mochawesome: MOCHAWESOME_VERSION,
                     'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
                     'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
-                    '@nx/cypress': NXCYPRESS_VERSION,
                 });
             });
 

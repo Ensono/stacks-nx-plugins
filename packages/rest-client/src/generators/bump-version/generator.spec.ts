@@ -160,4 +160,16 @@ describe('bump-version generator', () => {
         expect(indexTestTs).toMatchSnapshot();
         expect(indexTypesTs).toMatchSnapshot();
     });
+
+    it('should throw an error if a folder name does not match folder convention', async () => {
+        await tree.write('endpoints/test/fakeVersion/src/index.ts', 'test');
+
+        await expect(() =>
+            generator(tree, {
+                ...options,
+            }),
+        ).rejects.toThrowError(
+            "Found a folder that does not follow convention, please follow 'v<number>'",
+        );
+    });
 });
