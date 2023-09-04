@@ -29,7 +29,7 @@ jobs:
       number-of-agents: 1
       runs-on: ${{ matrix.os }}
       parallel-commands-on-agents: |
-        npx nx e2e next-e2e --target=e2e --parallel=1
+        npx nx e2e create-e2e playwright-e2e --target=e2e --parallel=1
       environment-variables: |
         NX_E2E_CI_CACHE_KEY=e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
         NODE_OPTIONS=--max_old_space_size=8192
