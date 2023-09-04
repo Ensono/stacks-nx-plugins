@@ -12,6 +12,7 @@ import { addCommitlint } from './utils/commitlint';
 import { addEslint } from './utils/eslint';
 import { addHusky } from './utils/husky';
 import { addLintStaged } from './utils/lint-staged';
+import { addNVM } from './utils/nvm';
 import { createTsConfigBase } from './utils/tsconfig';
 
 export default async function install(
@@ -34,6 +35,10 @@ export default async function install(
 
     if (options.eslint) {
         tasks.push(addEslint(tree));
+    }
+
+    if (options.nvm) {
+        tasks.push(addNVM(tree));
     }
 
     // Create tsconfig.base if it doesn't exist
