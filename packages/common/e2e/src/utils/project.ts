@@ -1,4 +1,4 @@
-import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
+import { runNxCommandAsync, tmpProjPath, uniq } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import { emptyDirSync } from 'fs-extra';
@@ -22,7 +22,7 @@ export interface CreateWorkspaceOptions {
 
 export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = path.dirname(tmpProjPath());
-    const projectName = 'proj';
+    const projectName = uniq('proj');
     emptyDirSync(temporaryDirectory);
     logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
 
