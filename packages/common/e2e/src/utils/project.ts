@@ -22,7 +22,7 @@ export interface CreateWorkspaceOptions {
 
 export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = path.dirname(tmpProjPath());
-    const projectName = uniq('proj');
+    const projectName = 'proj';
     emptyDirSync(temporaryDirectory);
     logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
 
