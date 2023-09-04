@@ -214,6 +214,45 @@ describe('init generator', () => {
         });
     });
 
+    describe('--nvm', () => {
+        it('should install and create nvm file', async () => {
+            await generator(tree, {
+                ...options,
+                eslint: false,
+                commitizen: false,
+                husky: false,
+                nvm: true,
+            });
+
+            const nvmFile = tree.read('.nvmrc');
+
+            expect(nvmFile?.toString()).toEqual(
+                expect.stringContaining('v18.17.1'),
+            );
+            expect(tree.exists('.nvmrc')).toBeTruthy();
+        });
+
+        it('should update file if it exists', async () => {
+            const preCommitHook = 'v16.4.0';
+            tree.write('.nvmrc', preCommitHook);
+
+            await generator(tree, {
+                ...options,
+                eslint: false,
+                commitizen: false,
+                husky: false,
+                nvm: true,
+            });
+
+            const nvmFile = tree.read('.nvmrc');
+
+            expect(nvmFile?.toString()).toEqual(
+                expect.stringContaining('v18.17.1'),
+            );
+            expect(tree.exists('.nvmrc')).toBeTruthy();
+        });
+    });
+
     describe('tsconfig.base', () => {
         it('should generate the tsconfig.base file', async () => {
             await generator(tree, {
