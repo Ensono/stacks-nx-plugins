@@ -19,6 +19,11 @@
       "type": "boolean",
       "description": "Install & configure eslint",
       "default": true
+    },
+    "nvm": {
+      "type": "boolean",
+      "description": "Install & configure nvm file",
+      "default": true
     }
   },
   "required": []
