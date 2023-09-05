@@ -42,7 +42,7 @@ describe('azure-node e2e', () => {
             );
             expect(fileContent).toMatch(/cloudRole(.|\n)*\'nextjs\d*\'/g);
             expect(fileContent).toMatch(/appInsights\.start/g);
-        }, 120000);
+        });
     });
 
     describe('app-insights-deployment generator', () => {
@@ -68,6 +68,6 @@ describe('azure-node e2e', () => {
 
             const azureDevopsStagesFile = readFile('build/azDevOps/azuredevops-stages.yaml');
             expect(azureDevopsStagesFile).toContain('TEST_CONNECTION_STRING_ENV: $(TEST_CONNECTION_STRING_ENV)');
-        }, 120000);
+        });
     });
 });
