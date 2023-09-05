@@ -61,6 +61,12 @@ jobs:
       number-of-agents: 1
       runs-on: ${{ matrix.os }}
       environment-variables: |
+        NX_E2E_CI_CACHE_KEY=e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
+        NODE_OPTIONS=--max_old_space_size=8192
+        SELECTED_PM=${{ matrix.package_manager }}
+        NX_VERBOSE_LOGGING=${{ 'true' }}
+        NX_E2E_SKIP_BUILD_CLEANUP=${{ 'true' }}
+        NPM_CONFIG_USERCONFIG=$RUNNER_TEMP/.npmrc
         NX_RUN_GROUP=${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
