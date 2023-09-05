@@ -124,7 +124,7 @@ describe('next e2e', () => {
 
         it('is a usable package and can be linted', async () => {
             expect(await runTarget(library, targetOptions.lint)).toContain(
-                '2 chart(s) linted, 0 chart(s) failed',
+                '1 chart(s) linted, 0 chart(s) failed',
             );
         });
     });

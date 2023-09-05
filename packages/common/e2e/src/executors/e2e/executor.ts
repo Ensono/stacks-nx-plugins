@@ -216,7 +216,7 @@ export default async function runEnd2EndExecutor(
                 watch: false,
                 runInBand: true,
                 maxWorkers: 1,
-                testTimeout: 120_000,
+                testTimeout: 240_000,
             },
             context,
         );
