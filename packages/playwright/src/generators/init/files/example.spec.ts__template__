@@ -21,7 +21,7 @@ test.describe('Playwright example tests @example-playwright', () => {
   });
 
   test('App should have 5 learning materials', async ({ page }) => {
-    expect((await page.locator('#learning-materials').count()) === 5);
+    expect(await page.locator('#learning-materials').count()).toEqual(5);
   });
 
   test('NX logo should be hidden on mobile', async ({ page, isMobile }) => {
