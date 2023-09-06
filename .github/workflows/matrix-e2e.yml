@@ -15,7 +15,7 @@ jobs:
       node-version: 18
       number-of-agents: 3
       parallel-commands-on-agents: |
-        npx nx run-many -t e2e --skip-nx-cache --parallel=1
+        npx nx affected --base=last-release --target=e2e --parallel=1
       environment-variables: |
         NX_E2E_CI_CACHE_KEY=e2e-gha
         NODE_OPTIONS=--max_old_space_size=8192

@@ -11,22 +11,22 @@ jobs:
     strategy:
       matrix:
         os:
-        - ubuntu-latest
+        - macos-latest
         include:
-        - os: ubuntu-latest
-          os-name: ubuntu
+        - os: macos-latest
+          os-name: macos
         node_version:
         - '18'
         package_manager:
         - npm
     name: E2E ${{ matrix.os-name }}/${{ matrix.package_manager }}
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
     with:
       node-version: 18
-      number-of-agents: 3
+      number-of-agents: 1
       runs-on: ${{ matrix.os }}
       parallel-commands-on-agents: |
-        npx nx affected --base=last-release --skip-nx-cache --target=e2e --parallel=1
+        npx nx run-many -t e2e --skip-nx-cache --parallel=1
       environment-variables: |
         NX_E2E_CI_CACHE_KEY=e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
         NODE_OPTIONS=--max_old_space_size=8192
@@ -41,17 +41,17 @@ jobs:
     strategy:
       matrix:
         os:
-        - ubuntu-latest
+        - macos-latest
         include:
-        - os: ubuntu-latest
-          os-name: ubuntu
+        - os: macos-latest
+          os-name: macos
         node_version:
         - '18'
         package_manager:
         - npm
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
     with:
-      number-of-agents: 3
+      number-of-agents: 1
       runs-on: ${{ matrix.os }}
       environment-variables: |
         NX_RUN_GROUP=${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
