@@ -23,7 +23,7 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
     with:
       node-version: 18
-      number-of-agents: 1
+      number-of-agents: 3
       runs-on: ${{ matrix.os }}
       parallel-commands-on-agents: |
         npx nx affected --base=last-release --target=e2e --parallel=1
@@ -51,14 +51,9 @@ jobs:
         - npm
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
     with:
-      number-of-agents: 1
+      number-of-agents: 3
       runs-on: ${{ matrix.os }}
       environment-variables: |
-        NX_E2E_CI_CACHE_KEY=e2e-gha-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
-        NODE_OPTIONS=--max_old_space_size=8192
-        SELECTED_PM=${{ matrix.package_manager }}
-        NX_VERBOSE_LOGGING=${{ 'true' }}
-        NX_E2E_SKIP_BUILD_CLEANUP=${{ 'true' }}
         NX_RUN_GROUP=${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.package_manager }}
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
