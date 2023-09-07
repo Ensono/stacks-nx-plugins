@@ -36,6 +36,9 @@ describe('init generator', () => {
                     'eslint-plugin-prettier',
                     'eslint-plugin-security',
                     'eslint-plugin-unicorn',
+                    'eslint-plugin-no-unsanitized',
+                    'eslint-plugin-jest',
+                    'eslint-plugin-jest-dom',
                 ]),
             );
         });
@@ -73,6 +76,7 @@ describe('init generator', () => {
                         'import',
                         'security',
                         'jsx-a11y',
+                        'jest',
                     ],
                     overrides: expect.arrayContaining([
                         expect.objectContaining({
