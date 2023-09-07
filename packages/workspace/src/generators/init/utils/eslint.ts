@@ -22,6 +22,9 @@ import {
     ESLINT_PLUGIN_UNICORN_VERSION,
     ESLINT_PLUGIN_VERSION,
     ESLINT_VERSION,
+    ESLINT_PLUGIN_JEST,
+    ESLINT_PLUGIN_JEST_DOM,
+    ESLINT_PLUGIN_NO_UNSANITIZED,
 } from './constants';
 
 function stacksEslintConfig(tree: Tree): Linter.Config {
@@ -34,6 +37,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             'import',
             'security',
             'jsx-a11y',
+            'jest',
         ],
         parser: '@typescript-eslint/parser',
         extends: [
@@ -45,6 +49,9 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             'plugin:import/typescript',
             'plugin:security/recommended',
             'plugin:jsx-a11y/recommended',
+            'plugin:jest/recommended',
+            'plugin:jest-dom/recommended',
+            'plugin:no-unsanitized/DOM',
         ],
         settings: {
             'import/resolver': {
@@ -128,6 +135,16 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                             },
                         },
                     ],
+                    'jest/expect-expect': [
+                        'error',
+                        {
+                            assertFunctionNames: [
+                                'expect',
+                                'cy.**.should',
+                                '**.contains',
+                            ],
+                        },
+                    ],
                 },
             },
             {
@@ -194,6 +211,9 @@ function addEslintDependencies(tree: Tree) {
             'eslint-plugin-prettier': ESLINT_PLUGIN_PRETTIER_VERSION,
             'eslint-plugin-security': ESLINT_PLUGIN_SECURITY_VERSION,
             'eslint-plugin-unicorn': ESLINT_PLUGIN_UNICORN_VERSION,
+            'eslint-plugin-jest': ESLINT_PLUGIN_JEST,
+            'eslint-plugin-jest-dom': ESLINT_PLUGIN_JEST_DOM,
+            'eslint-plugin-no-unsanitized': ESLINT_PLUGIN_NO_UNSANITIZED,
         },
     );
 }
