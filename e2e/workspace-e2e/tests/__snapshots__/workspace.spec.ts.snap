@@ -11,6 +11,9 @@ exports[`workspace updates the eslintrc.json 1`] = `
     "plugin:import/typescript",
     "plugin:security/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:no-unsanitized/DOM",
   ],
   "ignorePatterns": [
     "**/*",
@@ -78,6 +81,16 @@ exports[`workspace updates the eslintrc.json 1`] = `
           },
         ],
         "import/prefer-default-export": "off",
+        "jest/expect-expect": [
+          "error",
+          {
+            "assertFunctionNames": [
+              "expect",
+              "cy.**.should",
+              "**.contains",
+            ],
+          },
+        ],
         "no-console": "off",
         "no-duplicate-imports": "error",
         "no-irregular-whitespace": "error",
@@ -151,6 +164,7 @@ exports[`workspace updates the eslintrc.json 1`] = `
     "import",
     "security",
     "jsx-a11y",
+    "jest",
   ],
   "root": true,
   "settings": {
