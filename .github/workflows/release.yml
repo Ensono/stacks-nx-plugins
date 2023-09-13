@@ -41,7 +41,7 @@ jobs:
       shell: bash
       run: |
         export CI=true
-        npx nx affected --target=version --base=last-release --configuration=release --parallel=1 --allowEmptyRelease
+        npx nx affected --target=version --base=last-release --configuration=release --parallel=1
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
