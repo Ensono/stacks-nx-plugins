@@ -1,7 +1,7 @@
 # @ensono-stacks/cypress
 
 Please visit the stacks documentation page for `cypress`
-[here](https://stacks.amido.com/docs/nx/cypress/ensono-stacks-cypress) for more
+[here](https://stacks.ensono.com/docs/nx/cypress/ensono-stacks-cypress) for more
 information
 
 ## Generators and Executors
