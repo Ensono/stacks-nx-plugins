@@ -246,7 +246,7 @@ nx e2e <plugin name>-e2e
 
 ### Create stacks workspace script
 
-The [@ensono-stacks/create-stacks-workspace](https://stacks.amido.com/docs/nx/create-stacks-workspace/ensono-stacks-create-stacks-workspace) is the entry point for creating a stacks workspace from scratch, please review the official stacks documentation for it's usage and command line arguments.
+The [@ensono-stacks/create-stacks-workspace](https://stacks.ensono.com/docs/nx/create-stacks-workspace/ensono-stacks-create-stacks-workspace) is the entry point for creating a stacks workspace from scratch, please review the official stacks documentation for it's usage and command line arguments.
 
 When working with pre-releases (See [releasing packages](#releasing-packages-and-publishing-to-npm)) you must pass in an additional argument to the create script to ensure that it uses the latest pre-released plugin versions:
 
