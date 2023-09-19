@@ -15,6 +15,8 @@ import {
     Tree,
     readProjectConfiguration,
     addDependenciesToPackageJson,
+    joinPathFragments,
+    updateJson,
 } from '@nx/devkit';
 import { Linter } from '@nx/linter';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
@@ -28,6 +30,16 @@ import { PLAYWRIGHT_VERSION } from '../../utils/versions';
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
     projectRoot: string;
+}
+
+function updateTsConfig(tree: Tree, project: string) {
+    updateJson(tree, joinPathFragments(project, 'tsconfig.json'), tsconfig => ({
+        ...tsconfig,
+        compilerOptions: {
+            ...tsconfig.compilerOptions,
+            lib: ['dom'],
+        },
+    }));
 }
 
 function normalizeOptions(
@@ -108,6 +120,9 @@ export default async function initGenerator(
         readProjectConfiguration(tree, projectE2E),
         morphTree,
     );
+
+    // Update tsconfig
+    updateTsConfig(tree, projectE2E);
 
     // example.spec.ts
     addFiles(tree, 'files', normalizedOptionsForE2E);
