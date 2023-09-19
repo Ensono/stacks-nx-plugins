@@ -24,7 +24,7 @@ jest.mock('@nx/devkit', () => {
                         'test',
                         {
                             root: '',
-                            sourceRoot: `${projectName}/src`,
+                            sourceRoot: `${projectName}`,
                             name: 'test',
                         },
                     ],
@@ -32,7 +32,7 @@ jest.mock('@nx/devkit', () => {
                         'test-e2e',
                         {
                             root: '',
-                            sourceRoot: `${projectNameE2E}/src`,
+                            sourceRoot: `${projectNameE2E}`,
                             name: 'test-e2e',
                         },
                     ],
@@ -79,7 +79,7 @@ describe('playwright generator', () => {
         await generator(appTree, options);
 
         // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
+        expect(appTree.children(projectNameE2E)).toContain(
             'playwright-visual-regression.spec.ts',
         );
 
@@ -120,7 +120,7 @@ describe('playwright generator', () => {
         await generator(appTree, options);
 
         // playwright-visual-regression.spec.ts to be added
-        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
+        expect(appTree.children(projectNameE2E)).toContain(
             'applitools-eyes-grid.spec.ts',
         );
 
