@@ -121,15 +121,15 @@ export default async function initGenerator(
         morphTree,
     );
 
-    // Update tsconfig
-    updateTsConfig(tree, projectE2E);
-
     // example.spec.ts
     addFiles(tree, 'files', normalizedOptionsForE2E);
 
     // remove app.spec.ts added from @mands generato
     const { projectRoot } = normalizedOptionsForE2E;
     tree.delete(`${projectRoot}-e2e/src/app.spec.ts`);
+
+    // Update tsconfig
+    updateTsConfig(tree, `${projectRoot}-e2e`);
 
     // add records to gitignore
     addIgnoreEntry(tree, '.gitignore', 'Playwright', [
