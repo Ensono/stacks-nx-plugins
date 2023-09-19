@@ -6,7 +6,7 @@
     "executors": "./executors.json",
     "repository": {
         "type": "git",
-        "url": "https://github.com/amido/stacks-nx-plugins.git"
+        "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
         "@nrwl/react": "^16.4.0",
