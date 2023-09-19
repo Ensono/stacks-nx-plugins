@@ -38,7 +38,7 @@ stages:
                   inputs:
                       targetType: inline
                       script: |
-                          wget https://github.com/amido/stacks-envfile/releases/download/v$(StacksEnvfileVersion)/stacks-envfile-linux-amd64-$(StacksEnvfileVersion) -O /usr/local/bin/envfile
+                          wget https://github.com/ensono/stacks-envfile/releases/download/v$(StacksEnvfileVersion)/stacks-envfile-linux-amd64-$(StacksEnvfileVersion) -O /usr/local/bin/envfile
                           chmod +x /usr/local/bin/envfile
                 - script: |
                       npm ci
