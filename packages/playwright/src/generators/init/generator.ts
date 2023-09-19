@@ -15,6 +15,8 @@ import {
     Tree,
     readProjectConfiguration,
     addDependenciesToPackageJson,
+    joinPathFragments,
+    updateJson,
 } from '@nx/devkit';
 import { Linter } from '@nx/linter';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
@@ -28,6 +30,16 @@ import { PLAYWRIGHT_VERSION } from '../../utils/versions';
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
     projectRoot: string;
+}
+
+function updateTsConfig(tree: Tree, project: string) {
+    updateJson(tree, joinPathFragments(project, 'tsconfig.json'), tsconfig => ({
+        ...tsconfig,
+        compilerOptions: {
+            ...tsconfig.compilerOptions,
+            lib: ['dom'],
+        },
+    }));
 }
 
 function normalizeOptions(
@@ -115,6 +127,9 @@ export default async function initGenerator(
     // remove app.spec.ts added from @mands generato
     const { projectRoot } = normalizedOptionsForE2E;
     tree.delete(`${projectRoot}-e2e/src/app.spec.ts`);
+
+    // Update tsconfig
+    updateTsConfig(tree, `${projectRoot}-e2e`);
 
     // add records to gitignore
     addIgnoreEntry(tree, '.gitignore', 'Playwright', [

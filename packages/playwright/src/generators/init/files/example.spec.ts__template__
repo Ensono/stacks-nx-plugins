@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test';
 // An example test using Playwright
 // Configuration such as the applications BASE URL is automatically configured / declared in the playwright.config.ts file
 
+type AppStatus = string | null;
+
 test.describe('Playwright example tests @example-playwright', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -16,7 +18,7 @@ test.describe('Playwright example tests @example-playwright', () => {
   });
 
   test('App should be up and running', async ({ page }) => {
-    const status: string = await page.locator('#hero >> span').textContent();
+    const status: AppStatus = await page.locator('#hero >> span').textContent();
     expect(status).toBe("You're up and running");
   });
 
