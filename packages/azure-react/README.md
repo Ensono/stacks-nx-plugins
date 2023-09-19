@@ -52,4 +52,4 @@ nx publish azure-react
 ## Full documentation
 
 Please visit the stacks documentation page for `azure-react`
-[here](https://stacks.amido.com/docs) for more information
+[here](https://stacks.ensono.com/docs) for more information
