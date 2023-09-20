@@ -4,6 +4,7 @@ import {
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nx/devkit';
+import { updateReadme } from '@nx/workspace/src/generators/move/lib/update-readme';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 
 import { InstallGeneratorSchema } from './schema';
@@ -59,6 +60,15 @@ export default async function install(
                   },
               },
     );
+
+    // Update README.md file
+    updateReadme(tree, {
+        importPath: '',
+        projectName: 'Ensono Stacks',
+        destination: '',
+        relativeToRootDestination: '',
+        updateImportPath: false,
+    });
 
     await formatFiles(tree);
 
