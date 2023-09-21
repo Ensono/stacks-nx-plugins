@@ -4,7 +4,6 @@ import {
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import { Tree, GeneratorCallback, formatFiles, updateJson } from '@nx/devkit';
-import { updateReadme } from '@nx/workspace/src/generators/move/lib/update-readme';
 import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 
 import { InstallGeneratorSchema } from './schema';
@@ -14,6 +13,7 @@ import { addEslint } from './utils/eslint';
 import { addHusky } from './utils/husky';
 import { addLintStaged } from './utils/lint-staged';
 import { addNVM } from './utils/nvm';
+import { modifyReadme } from './utils/readme';
 import { createTsConfigBase } from './utils/tsconfig';
 
 export default async function install(
@@ -61,14 +61,7 @@ export default async function install(
               },
     );
 
-    // Update README.md file
-    updateReadme(tree, {
-        importPath: '',
-        projectName: 'Ensono Stacks',
-        destination: '',
-        relativeToRootDestination: '',
-        updateImportPath: false,
-    });
+    modifyReadme(tree);
 
     await formatFiles(tree);
 

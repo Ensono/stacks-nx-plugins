@@ -1,6 +1,7 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { readFile } from '@nx/plugin/testing';
 
 import generator from './generator';
 
@@ -267,6 +268,22 @@ describe('init generator', () => {
             });
 
             expect(tree.exists('tsconfig.base.json')).toBeTruthy();
+        });
+    });
+
+    describe('README.md file', () => {
+        it('should change the readme text', async () => {
+            await generator(tree, {
+                ...options,
+                eslint: false,
+                commitizen: false,
+                husky: false,
+                nvm: false,
+            });
+
+            const readmeFile = tree.read('./README.md', 'utf8');
+
+            expect(readmeFile).toContain('Ensono Stacks');
         });
     });
 
