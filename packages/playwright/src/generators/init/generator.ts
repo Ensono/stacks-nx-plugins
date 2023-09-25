@@ -1,6 +1,7 @@
 import {
     addIgnoreEntry,
     deploymentGeneratorMessage,
+    execAsync,
     hasGeneratorExecutedForProject,
     tsMorphTree,
     verifyPluginCanBeInstalled,
@@ -140,10 +141,13 @@ export default async function initGenerator(
 
     await formatFiles(tree);
 
-    return runTasksInSerial(updateDependencies(tree), () =>
-        deploymentGeneratorMessage(
-            tree,
-            'nx g @ensono-stacks/playwright:init-deployment',
-        ),
+    return runTasksInSerial(
+        updateDependencies(tree),
+        () =>
+            deploymentGeneratorMessage(
+                tree,
+                'nx g @ensono-stacks/playwright:init-deployment',
+            ),
+        () => execAsync('npx playwright install', projectRoot) as Promise<void>,
     );
 }
