@@ -41,15 +41,15 @@ const presetOptions: { name: Preset; message: string }[] = [
 const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     {
         name: E2eTestRunner.None,
-        message: 'none              [no test runner config created]',
+        message: 'none',
     },
     {
         name: E2eTestRunner.Playwright,
-        message: 'playwright        [a testing library]',
+        message: 'playwright',
     },
     {
         name: E2eTestRunner.Cypress,
-        message: 'cypress        [a testing library]',
+        message: 'cypress',
     },
 ];
 
