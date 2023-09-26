@@ -65,10 +65,6 @@ export function getGeneratorsToRun(
         ])
     ) {
         generators.push(`@ensono-stacks/workspace:init-deployment`);
-    } else {
-        console.log(
-            chalk.yellow`Skipping @ensono-stacks/workspace:init-deployment generator because Stacks config is missing. Did you start using stacks-cli?`,
-        );
     }
 
     if (argv.preset === Preset.NextJs) {
