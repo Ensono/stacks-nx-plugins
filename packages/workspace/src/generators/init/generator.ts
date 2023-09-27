@@ -61,6 +61,7 @@ export default async function install(
               },
     );
 
+    // Create README.md if it doesn't exist
     modifyReadme(tree);
 
     await formatFiles(tree);

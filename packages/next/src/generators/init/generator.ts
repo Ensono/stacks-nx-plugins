@@ -25,6 +25,7 @@ import {
     addReactAxeConfigToApp,
     addReactAxeDependency,
 } from './utils/react-axe';
+import { modifyReadme } from './utils/readme';
 import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
@@ -95,6 +96,9 @@ export default async function initGenerator(
         project,
         path.join(project.sourceRoot, 'tsconfig.spec.json'),
     );
+
+    // Create README.md if it doesn't exist
+    modifyReadme(tree, options);
 
     const morphTree = tsMorphTree(tree);
 
