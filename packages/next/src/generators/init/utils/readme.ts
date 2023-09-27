@@ -1,9 +1,9 @@
 import { generateFiles, Tree } from '@nx/devkit';
 import path from 'path';
 
-import { InstallGeneratorSchema } from '../schema';
+import { NextGeneratorSchema } from '../schema';
 
-function createReadmeFile(tree: Tree) {
+function createReadmeFile(tree: Tree, options: NextGeneratorSchema) {
     generateFiles(
         tree, // the virtual file system
         path.join(__dirname, '..', 'files', 'readme'),
@@ -11,15 +11,15 @@ function createReadmeFile(tree: Tree) {
         {
             template: '',
             hasProjectName: false,
-            projectName: '',
+            projectName: options.project,
         },
     );
 }
 
-export function modifyReadme(tree: Tree) {
+export function modifyReadme(tree: Tree, options: NextGeneratorSchema) {
     const readmePath = path.join(__dirname, 'README.md');
 
     if (!tree.exists(readmePath)) {
-        createReadmeFile(tree);
+        createReadmeFile(tree, options);
     }
 }
