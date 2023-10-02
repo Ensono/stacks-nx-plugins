@@ -372,4 +372,20 @@ describe('next install generator', () => {
             );
         });
     });
+
+    describe('storybook', () => {
+        beforeEach(async () => {
+            await createNextApp();
+        });
+
+        it('should install storybook', async () => {
+            await generator(tree, options);
+
+            const packageJson = readJson(tree, 'package.json');
+
+            expect(Object.keys(packageJson.devDependencies)).toEqual(
+                expect.arrayContaining(['@nx/storybook']),
+            );
+        });
+    });
 });
