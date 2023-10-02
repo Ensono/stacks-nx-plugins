@@ -15,6 +15,7 @@ export function execAsync(
                 env: { ...process.env, NX_DAEMON: 'false' },
             },
             (error, stdout, stderr) => {
+                console.log('error, stdout, stderr:', error, stdout, stderr);
                 console.log(stdout);
                 if (error) {
                     console.log(stderr);

@@ -52,9 +52,7 @@ export default async function initGenerator(
 
     updateProjectConfiguration(tree, project.name, update);
 
-    tasks.push(addEslint(tree, project.root));
-
-    addStorybook(tree, options);
+    tasks.push(addEslint(tree, project.root), addStorybook(tree, options));
 
     const ciCoverageConfig = {
         ci: {
