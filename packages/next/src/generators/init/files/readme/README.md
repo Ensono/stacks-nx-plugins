@@ -12,7 +12,7 @@ Making digital transformation easier and more reliable.
 
 ## Plugins
 
-Checkout a list of [Ensono Stacks Plugins](https://stacks.ensono.com/docs/getting_started/setup#ensono-stacks-plugins) that can expand the capability on the workspace.
+Checkout a list of [Ensono Stacks Plugins](https://stacks.ensono.com/docs/getting_started/setup#ensono-stacks-plugins) that can expand the capability of the workspace.
 
 ## Running tasks
 
