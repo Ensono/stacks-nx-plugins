@@ -25,6 +25,7 @@ import {
     addReactAxeConfigToApp,
     addReactAxeDependency,
 } from './utils/react-axe';
+import { addStorybook } from './utils/storybook';
 import updateTsConfig from './utils/tsconfig';
 
 export default async function initGenerator(
@@ -52,6 +53,8 @@ export default async function initGenerator(
     updateProjectConfiguration(tree, project.name, update);
 
     tasks.push(addEslint(tree, project.root));
+
+    addStorybook(tree, options);
 
     const ciCoverageConfig = {
         ci: {
