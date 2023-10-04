@@ -13,6 +13,7 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
+import {listFiles} from "@nx/plugin/src/utils/testing-utils/utils";
 
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
@@ -81,7 +82,7 @@ describe('next e2e', () => {
         describe('adds storybook to the application', () => {
             it('should modify project.json with storybook command', async () => {
 
-                const projectJson = readJson(`${project}/project.json`);
+                const projectJson = readJson(`./apps/${project}/tsconfig.json`);
 
                 // toContain(
                 expect(projectJson).toEqual(
@@ -103,7 +104,7 @@ describe('next e2e', () => {
             });
 
             it('should modify nx.json with storybook command', async () => {
-                const nxConfigJson = readJson(`${project}/nx.json`);
+                const nxConfigJson = readJson(`./apps/${project}/tsconfig.json`);
 
                 expect(nxConfigJson).toEqual(
                     expect.objectContaining({
@@ -122,7 +123,7 @@ describe('next e2e', () => {
             });
 
             it('should modify tsconfig.json with storybook command', async () => {
-                const tsconfigJson = readJson(`${project}/tsconfig.json`);
+                const tsconfigJson = readJson(`./apps/${project}/tsconfig.json`);
 
                 expect(tsconfigJson).toEqual(
                     expect.objectContaining({
@@ -144,7 +145,7 @@ describe('next e2e', () => {
             });
 
             it('should modify .eslintrc.json with storybook command', async () => {
-                const eslintConfigJson = readJson(`${project}/.eslintrc.json`);
+                const eslintConfigJson = readJson(`./apps/${project}/tsconfig.json`);
 
                 expect(eslintConfigJson).toEqual(
                     expect.objectContaining({
