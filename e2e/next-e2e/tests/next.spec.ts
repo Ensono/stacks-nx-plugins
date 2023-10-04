@@ -13,7 +13,6 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
-import generator from "../../../packages/next/src/generators/init/generator";
 
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
@@ -234,23 +233,4 @@ describe('next e2e', () => {
         });
     });
 
-    // it('configures NextAuth with Redis adapter', async () => {
-    //     await runNxCommandAsync(
-    //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
-    //     );
-    //     await runNxCommandAsync(
-    //         `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
-    //     );
-    //     expect(() =>
-    //         checkFilesExist(
-    //             `apps/${project}/pages/api/auth/[...nextauth].ts`,
-    //             `apps/${project}/.env.local`,
-    //             `libs/next-auth-redis/src/index.test.ts`,
-    //             `libs/next-auth-redis/src/index.ts`,
-    //         ),
-    //     ).not.toThrow();
-
-    //     const result = await runNxCommandAsync('test next-auth-redis');
-    //     expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
-    // }, 200_000);
 });
