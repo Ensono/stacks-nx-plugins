@@ -13,6 +13,12 @@ import generator from './generator';
 import { NextGeneratorSchema } from './schema';
 import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 
+jest.mock('@ensono-stacks/core', () => ({
+    ...jest.requireActual('@ensono-stacks/core'),
+    execAsync: jest.fn(),
+    getCommandVersion: jest.fn(() => '1.0.0'),
+}));
+
 function snapshotFiles(tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
     const project = tsMorphTree(tree);
@@ -421,95 +427,6 @@ describe('next install generator', () => {
             expect(() =>
                 checkFilesExistInTree(tree, `next-app/tsconfig.storybook.json`),
             ).not.toThrow();
-        });
-
-        it('should modify project.json with storybook command', async () => {
-            await generator(tree, options);
-
-            const projectJson = readJson(tree, 'next-app/project.json');
-
-            expect(projectJson).toEqual(
-                expect.objectContaining({
-                    storybook: {
-                        executor: '@nx/storybook:storybook',
-                        options: {
-                            port: 4400,
-                            configDir: 'apps/next-app/.storybook',
-                        },
-                        configurations: {
-                            ci: {
-                                quiet: true,
-                            },
-                        },
-                    },
-                }),
-            );
-        });
-
-        it('should modify nx.json with storybook command', async () => {
-            await generator(tree, options);
-
-            const nxConfigJson = readJson(tree, 'nx.json');
-
-            expect(nxConfigJson).toEqual(
-                expect.objectContaining({
-                    targetDefaults: {
-                        'build-storybook': {
-                            inputs: [
-                                'default',
-                                '^production',
-                                '{projectRoot}/.storybook/**/*',
-                                '{projectRoot}/tsconfig.storybook.json',
-                            ],
-                        },
-                    },
-                }),
-            );
-        });
-
-        it('should modify tsconfig.json with storybook command', async () => {
-            await generator(tree, options);
-
-            const tsconfigJson = readJson(tree, 'next-app/tsconfig.json');
-
-            expect(tsconfigJson).toEqual(
-                expect.objectContaining({
-                    exclude: [
-                        'node_modules',
-                        'jest.config.ts',
-                        'src/**/*.spec.ts',
-                        'src/**/*.test.ts',
-                        '**/*.stories.ts',
-                        '**/*.stories.js',
-                    ],
-                    references: [
-                        {
-                            path: './tsconfig.storybook.json',
-                        },
-                    ],
-                }),
-            );
-        });
-
-        it('should modify .eslintrc.json with storybook command', async () => {
-            await generator(tree, options);
-
-            const eslintConfigJson = readJson(tree, 'next-app/.eslintrc.json');
-
-            expect(eslintConfigJson).toEqual(
-                expect.objectContaining({
-                    overrides: [
-                        {
-                            parserOptions: {
-                                project: [
-                                    'apps/demo/tsconfig(.*)?.json',
-                                    'apps/demo/tsconfig.storybook.json',
-                                ],
-                            },
-                        },
-                    ],
-                }),
-            );
         });
     });
 });

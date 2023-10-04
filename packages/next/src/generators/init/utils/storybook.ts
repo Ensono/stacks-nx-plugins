@@ -49,43 +49,10 @@ export function addStorybook(tree: Tree, options: NextGeneratorSchema) {
         directory: tree.root,
     });
 
-    const project = readProjectConfiguration(
-        tree,
-        normalizedOptions.projectName,
-    );
+    const project = readProjectConfiguration(tree, normalizedOptions.name);
 
     try {
         addStorybookDependencies(tree);
-
-        // execSync(
-        //     `npx nx g @nx/react:storybook-configuration --name=${project.name} --configureCypress=false --generateCypressSpecs=false --no-interactive --verbose`,
-        //     {
-        //         // cwd: process.cwd(),
-        //         cwd: path.join(tree.root, '/', project.name),
-        //         env: { ...process.env, NX_DAEMON: 'false' },
-        //         stdio: 'inherit',
-        //     },
-        // );
-
-        // const { stdout, stderr, error } = spawnSync(
-        //     `npx`,
-        //     [
-        //         'nx g @nx/react:storybook-configuration',
-        //         `--name=${project.name}`,
-        //         '--configureCypress=false',
-        //         '--generateCypressSpecs=false',
-        //         '--no-interactive',
-        //         '--no-interactive',
-        //         '--verbose',
-        //     ],
-        //     {
-        //         // cwd: process.cwd(),
-        //         cwd: path.join(tree.root),
-        //         shell: true,
-        //         env: { ...process.env, NX_DAEMON: 'false' },
-        //         stdio: 'inherit',
-        //     },
-        // );
 
         execAsync(
             `npx nx g @nx/react:storybook-configuration --name=${project.name} --configureCypress=false --generateCypressSpecs=false --no-interactive --verbose`,

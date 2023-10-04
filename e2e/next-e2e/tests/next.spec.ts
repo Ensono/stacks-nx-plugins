@@ -4,14 +4,16 @@ import {
     runTarget,
     targetOptions,
 } from '@ensono-stacks/e2e';
-import { joinPathFragments } from '@nx/devkit';
+import {joinPathFragments} from '@nx/devkit';
 import {
     checkFilesExist,
     runNxCommandAsync,
     tmpProjPath,
+    readJson,
     uniq,
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
+import generator from "../../../packages/next/src/generators/init/generator";
 
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
@@ -74,6 +76,91 @@ describe('next e2e', () => {
             afterEach(() => {
                 sourceFile.replaceWithText(original);
                 sourceFile.saveSync();
+            });
+        });
+
+        describe('adds storybook to the application', () => {
+            it('should modify project.json with storybook command', async () => {
+
+                const projectJson = readJson(`${project}/project.json`);
+
+                // toContain(
+                expect(projectJson).toEqual(
+                    expect.objectContaining({
+                        storybook: {
+                            executor: '@nx/storybook:storybook',
+                            options: {
+                                port: 4400,
+                                configDir: 'apps/next-app/.storybook',
+                            },
+                            configurations: {
+                                ci: {
+                                    quiet: true,
+                                },
+                            },
+                        },
+                    }),
+                );
+            });
+
+            it('should modify nx.json with storybook command', async () => {
+                const nxConfigJson = readJson(`${project}/nx.json`);
+
+                expect(nxConfigJson).toEqual(
+                    expect.objectContaining({
+                        targetDefaults: {
+                            'build-storybook': {
+                                inputs: [
+                                    'default',
+                                    '^production',
+                                    '{projectRoot}/.storybook/**/*',
+                                    '{projectRoot}/tsconfig.storybook.json',
+                                ],
+                            },
+                        },
+                    }),
+                );
+            });
+
+            it('should modify tsconfig.json with storybook command', async () => {
+                const tsconfigJson = readJson(`${project}//tsconfig.json`);
+
+                expect(tsconfigJson).toEqual(
+                    expect.objectContaining({
+                        exclude: [
+                            'node_modules',
+                            'jest.config.ts',
+                            'src/**/*.spec.ts',
+                            'src/**/*.test.ts',
+                            '**/*.stories.ts',
+                            '**/*.stories.js',
+                        ],
+                        references: [
+                            {
+                                path: './tsconfig.storybook.json',
+                            },
+                        ],
+                    }),
+                );
+            });
+
+            it('should modify .eslintrc.json with storybook command', async () => {
+                const eslintConfigJson = readJson(`${project}//.eslintrc.json`);
+
+                expect(eslintConfigJson).toEqual(
+                    expect.objectContaining({
+                        overrides: [
+                            {
+                                parserOptions: {
+                                    project: [
+                                        'apps/demo/tsconfig(.*)?.json',
+                                        'apps/demo/tsconfig.storybook.json',
+                                    ],
+                                },
+                            },
+                        ],
+                    }),
+                );
             });
         });
     });
