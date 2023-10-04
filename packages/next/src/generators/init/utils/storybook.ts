@@ -1,19 +1,14 @@
-import {
-    execAsync,
-    getResourceGroup,
-    normalizeOptions,
-} from '@ensono-stacks/core';
+import { execAsync, normalizeOptions } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     generateFiles,
-    GeneratorCallback,
-    readJson,
     readProjectConfiguration,
-    readRootPackageJson,
-    runTasksInSerial,
+    // runTasksInSerial,
     Tree,
 } from '@nx/devkit';
+import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
+import { execSync, spawnSync } from 'child_process';
 import path from 'path';
 
 import {
@@ -51,6 +46,7 @@ export function addStorybook(tree: Tree, options: NextGeneratorSchema) {
     const normalizedOptions = normalizeOptions(tree, {
         ...options,
         name: options.project,
+        directory: tree.root,
     });
 
     const project = readProjectConfiguration(
@@ -61,36 +57,51 @@ export function addStorybook(tree: Tree, options: NextGeneratorSchema) {
     try {
         addStorybookDependencies(tree);
 
-        // TODO: fix npm command issue
-        // execAsync(
-        //     `npx nx g @nx/react:storybook-configuration ${options.project} --configureCypress=false --generateCypressSpecs=false --no-interactive`,
-        //     project.root,
+        // execSync(
+        //     `npx nx g @nx/react:storybook-configuration --name=${project.name} --configureCypress=false --generateCypressSpecs=false --no-interactive --verbose`,
+        //     {
+        //         // cwd: process.cwd(),
+        //         cwd: path.join(tree.root, '/', project.name),
+        //         env: { ...process.env, NX_DAEMON: 'false' },
+        //         stdio: 'inherit',
+        //     },
         // );
+
+        // const { stdout, stderr, error } = spawnSync(
+        //     `npx`,
+        //     [
+        //         'nx g @nx/react:storybook-configuration',
+        //         `--name=${project.name}`,
+        //         '--configureCypress=false',
+        //         '--generateCypressSpecs=false',
+        //         '--no-interactive',
+        //         '--no-interactive',
+        //         '--verbose',
+        //     ],
+        //     {
+        //         // cwd: process.cwd(),
+        //         cwd: path.join(tree.root),
+        //         shell: true,
+        //         env: { ...process.env, NX_DAEMON: 'false' },
+        //         stdio: 'inherit',
+        //     },
+        // );
+
+        execAsync(
+            `npx nx g @nx/react:storybook-configuration --name=${project.name} --configureCypress=false --generateCypressSpecs=false --no-interactive --verbose`,
+            project.root,
+        );
 
         generateFiles(tree, path.join(__dirname, `../files`), project.root, {});
 
         return () => {};
-    } catch {
+    } catch (error) {
+        console.log(error);
+
         console.error(
             chalk.red`Failed to install NX React Storybook configuration`,
         );
 
         return () => {};
     }
-
-    // return runTasksInSerial(
-    //     addStorybookDependencies(tree),
-    //     () =>
-    //         execAsync(
-    //             `nx g @nx/react:storybook-configuration ${options.project} --no-interactive`,
-    //             project.root,
-    //         ) as Promise<void>,
-    //     () =>
-    //         generateFiles(
-    //             tree,
-    //             path.join(__dirname, `../files`),
-    //             project.root,
-    //             {},
-    //         ),
-    // );
 }
