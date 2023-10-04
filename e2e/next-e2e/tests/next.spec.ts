@@ -122,7 +122,7 @@ describe('next e2e', () => {
             });
 
             it('should modify tsconfig.json with storybook command', async () => {
-                const tsconfigJson = readJson(`${project}//tsconfig.json`);
+                const tsconfigJson = readJson(`${project}/tsconfig.json`);
 
                 expect(tsconfigJson).toEqual(
                     expect.objectContaining({
@@ -144,7 +144,7 @@ describe('next e2e', () => {
             });
 
             it('should modify .eslintrc.json with storybook command', async () => {
-                const eslintConfigJson = readJson(`${project}//.eslintrc.json`);
+                const eslintConfigJson = readJson(`${project}/.eslintrc.json`);
 
                 expect(eslintConfigJson).toEqual(
                     expect.objectContaining({
