@@ -10,7 +10,7 @@
     "components/**/*.stories.jsx",
     "components/**/*.stories.tsx",
     "components/**/*.stories.mdx",
-    ".storybook/*.js",
-    ".storybook/*.ts"
+    "storybook/.storybook/*.js",
+    "storybook/.storybook/*.ts"
   ]
 }

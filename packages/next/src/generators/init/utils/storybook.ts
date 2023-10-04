@@ -59,7 +59,12 @@ export function addStorybook(tree: Tree, options: NextGeneratorSchema) {
             project.root,
         );
 
-        generateFiles(tree, path.join(__dirname, `../files`), project.root, {});
+        generateFiles(
+            tree,
+            path.join(__dirname, `../files/storybook`),
+            project.root,
+            {},
+        );
 
         return () => {};
     } catch (error) {
