@@ -82,7 +82,6 @@ export default async function initGenerator(
         addReactAxeDependency(tree),
     );
 
-    // update tsconfig.json
     updateTsConfig(
         tree,
         project,
@@ -90,7 +89,6 @@ export default async function initGenerator(
         ['next.config.js'],
     );
 
-    // update tsconfig.spec.json
     updateTsConfig(
         tree,
         project,
@@ -100,7 +98,9 @@ export default async function initGenerator(
     const morphTree = tsMorphTree(tree);
 
     console.info(chalk.green`Attempting to add configuration for react-axe`);
+
     addReactAxeConfigToApp(project, morphTree);
+
     console.info(
         chalk.green`continuing execution of next:init generator after attempting to add react-axe`,
     );
