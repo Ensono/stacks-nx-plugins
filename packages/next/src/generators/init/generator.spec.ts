@@ -7,7 +7,6 @@ import { Tree, joinPathFragments, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
-import { checkFilesExist, readFile } from '@nx/plugin/testing';
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
@@ -377,6 +376,63 @@ describe('next install generator', () => {
                     ]),
                 }),
             );
+        });
+    });
+
+    describe('README.md file', () => {
+        beforeEach(async () => {
+            await createNextApp();
+        });
+
+        it('should create README file', async () => {
+            tree.write(
+                'next-app/project.json',
+                JSON.stringify({
+                    targets: { test: {} },
+                    name: 'next-app',
+                    sourceRoot: '/next-app',
+                }),
+            );
+
+            await generator(tree, options);
+
+            const readmeFile = tree.exists('README.md');
+
+            expect(readmeFile).toBeTruthy();
+        });
+
+        it('should show the project name in readme file', async () => {
+            tree.write(
+                'next-app/project.json',
+                JSON.stringify({
+                    targets: { test: {} },
+                    name: 'next-app',
+                    sourceRoot: '/next-app',
+                }),
+            );
+
+            await generator(tree, options);
+
+            const readmeFile = tree.read('README.md', 'utf8');
+
+            expect(readmeFile).toContain('next-app');
+        });
+
+        it('should show the nx command', async () => {
+            tree.write(
+                'next-app/project.json',
+                JSON.stringify({
+                    targets: { test: {} },
+                    name: 'next-app',
+                    sourceRoot: '/next-app',
+                }),
+            );
+
+            await generator(tree, options);
+
+            const readmeFile = tree.read('README.md', 'utf8');
+
+            expect(readmeFile).toContain('nx build next-app');
         });
     });
 

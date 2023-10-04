@@ -13,6 +13,7 @@ import { addEslint } from './utils/eslint';
 import { addHusky } from './utils/husky';
 import { addLintStaged } from './utils/lint-staged';
 import { addNVM } from './utils/nvm';
+import { modifyReadme } from './utils/readme';
 import { createTsConfigBase } from './utils/tsconfig';
 
 export default async function install(
@@ -59,6 +60,9 @@ export default async function install(
                   },
               },
     );
+
+    // Create README.md if it doesn't exist
+    modifyReadme(tree);
 
     await formatFiles(tree);
 
