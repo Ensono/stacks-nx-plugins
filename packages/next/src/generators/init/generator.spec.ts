@@ -12,12 +12,6 @@ import generator from './generator';
 import { NextGeneratorSchema } from './schema';
 import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 
-jest.mock('@ensono-stacks/core', () => ({
-    ...jest.requireActual('@ensono-stacks/core'),
-    execAsync: jest.fn(),
-    getCommandVersion: jest.fn(() => '1.0.0'),
-}));
-
 function snapshotFiles(tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
     const project = tsMorphTree(tree);
@@ -433,56 +427,6 @@ describe('next install generator', () => {
             const readmeFile = tree.read('README.md', 'utf8');
 
             expect(readmeFile).toContain('nx build next-app');
-        });
-    });
-
-    describe('storybook', () => {
-        beforeEach(async () => {
-            await createNextApp();
-        });
-
-        it('should install storybook dependencies', async () => {
-            await generator(tree, options);
-
-            const packageJson = readJson(tree, 'package.json');
-
-            expect(Object.keys(packageJson.devDependencies)).toEqual(
-                expect.arrayContaining([
-                    '@nx/storybook',
-                    '@storybook/nextjs',
-                    '@storybook/addon-links',
-                    '@storybook/manager-api',
-                    '@storybook/preview-api',
-                    '@storybook/addon-a11y',
-                    '@storybook/addon-actions',
-                    '@storybook/addon-jest',
-                    '@storybook/theming',
-                ]),
-            );
-        });
-
-        it('should generate storybook folder with main file', async () => {
-            await generator(tree, options);
-
-            expect(() =>
-                checkFilesExistInTree(tree, `next-app/.storybook/main.js`),
-            ).not.toThrow();
-        });
-
-        it('should generate storybook folder with preview config', async () => {
-            await generator(tree, options);
-
-            expect(() =>
-                checkFilesExistInTree(tree, `next-app/.storybook/preview.js`),
-            ).not.toThrow();
-        });
-
-        it('should generate storybook tsconfig file', async () => {
-            await generator(tree, options);
-
-            expect(() =>
-                checkFilesExistInTree(tree, `next-app/tsconfig.storybook.json`),
-            ).not.toThrow();
         });
     });
 });
