@@ -22,6 +22,11 @@
             "factory": "./src/generators/react-query/generator",
             "schema": "./src/generators/react-query/schema.json",
             "description": "react-query generator"
+        },
+        "storybook": {
+            "factory": "./src/generators/storybook/generator",
+            "schema": "./src/generators/storybook/schema.json",
+            "description": "storybook generator"
         }
     }
 }
