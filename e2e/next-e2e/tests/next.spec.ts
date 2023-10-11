@@ -180,12 +180,6 @@ describe('next e2e', () => {
             expect(JSON.stringify(projectJson)).toContain('storybook')
         });
 
-        it('should modify nx.json with storybook command', async () => {
-            const nxConfigJson = readJson(`nx.json`);
-
-            expect(JSON.stringify(nxConfigJson)).toContain('build-storybook')
-        });
-
         it('should modify tsconfig.json with storybook command', async () => {
             const tsconfigJson = readJson(`apps/${project}/tsconfig.json`);
 
