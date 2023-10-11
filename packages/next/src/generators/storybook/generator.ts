@@ -45,7 +45,7 @@ export async function storybookGenerator(
         updateESLint(tree, project.root),
         installDependencies(tree, options),
         await addStorybook(tree, project),
-        () => createFiles(tree, project),
+        createFiles(tree, project),
         formatFilesWithEslint(options.project),
     );
 

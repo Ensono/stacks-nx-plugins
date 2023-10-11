@@ -32,6 +32,10 @@ describe('storybook generator', () => {
         addStacksAttributes(appTree, options.project);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('executedGenerators', () => {
         beforeEach(async () => {
             await generator(appTree, { ...options });
