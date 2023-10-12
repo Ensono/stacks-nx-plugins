@@ -201,7 +201,9 @@ export async function getConfiguration(
 
         appName = await determineAppName(preset as Preset, argv);
 
-        e2eTestRunner = await determineE2eTestRunner(argv);
+        if (preset === Preset.NextJs) {
+            e2eTestRunner = await determineE2eTestRunner(argv);
+        }
 
         Object.assign(argv, {
             name: paramCase(name),
