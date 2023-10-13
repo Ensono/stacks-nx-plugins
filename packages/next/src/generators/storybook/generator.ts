@@ -44,7 +44,7 @@ export async function storybookGenerator(
     );
 
     return runTasksInSerial(...tasks, () => {
-        logger.warn(`Storybook has been added to your app's _app.tsx file`);
+        logger.warn(`Storybook files have been added to ${project.name} app`);
     });
 }
 
