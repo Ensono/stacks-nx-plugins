@@ -4,14 +4,16 @@ import {
     runTarget,
     targetOptions,
 } from '@ensono-stacks/e2e';
-import { joinPathFragments } from '@nx/devkit';
+import {joinPathFragments} from '@nx/devkit';
 import {
     checkFilesExist,
     runNxCommandAsync,
     tmpProjPath,
+    readJson,
     uniq,
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
+import { unlinkSync } from 'fs';
 
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
@@ -40,7 +42,7 @@ describe('next e2e', () => {
 
         describe('it lints the application', () => {
             let sourceFile, original;
-
+        
             beforeAll(() => {
                 sourceFile = new Project().addSourceFileAtPath(
                     joinPathFragments(
@@ -53,13 +55,13 @@ describe('next e2e', () => {
                 );
                 original = sourceFile.getFullText();
             });
-
+        
             it('should have no linting errors', async () => {
                 expect(await runTarget(project, targetOptions.lint)).toContain(
                     'All files pass linting',
                 );
             });
-
+        
             it('it should having ally linting errors', async () => {
                 sourceFile.insertText(
                     original.indexOf('<div className="text-container">'),
@@ -70,14 +72,15 @@ describe('next e2e', () => {
                     'jsx-a11y/aria-role',
                 );
             });
-
+        
             afterEach(() => {
                 sourceFile.replaceWithText(original);
                 sourceFile.saveSync();
             });
         });
-    });
 
+    });
+    
     describe('NextAuth generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -85,6 +88,10 @@ describe('next e2e', () => {
             );
         });
 
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+    
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
@@ -93,12 +100,12 @@ describe('next e2e', () => {
                 ),
             ).not.toThrow();
         });
-
+    
         it('can serve the application', async () => {
             expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
         });
     });
-
+    
     describe('init-deployment generator', () => {
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
@@ -107,6 +114,10 @@ describe('next e2e', () => {
             );
         });
 
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+    
         it('creates the required helm chart library', async () => {
             const libraryPath = joinPathFragments('libs', library);
             expect(() =>
@@ -121,14 +132,14 @@ describe('next e2e', () => {
                 ),
             ).not.toThrow();
         });
-
+    
         it('is a usable package and can be linted', async () => {
             expect(await runTarget(library, targetOptions.lint)).toContain(
                 '1 chart(s) linted, 0 chart(s) failed',
             );
         });
     });
-
+    
     describe('react-query generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -136,34 +147,52 @@ describe('next e2e', () => {
             );
         });
 
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+    
         it('successfully lint with new linting update', async () => {
             expect(await runTarget(project, targetOptions.lint)).toContain(
                 `Successfully ran target lint for project ${project}`,
             );
         });
-
+    
         it('can serve the application', async () => {
             expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
         });
     });
 
-    // it('configures NextAuth with Redis adapter', async () => {
-    //     await runNxCommandAsync(
-    //         `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
-    //     );
-    //     await runNxCommandAsync(
-    //         `generate @ensono-stacks/next:next-auth-redis --project=${project} --no-interactive`,
-    //     );
-    //     expect(() =>
-    //         checkFilesExist(
-    //             `apps/${project}/pages/api/auth/[...nextauth].ts`,
-    //             `apps/${project}/.env.local`,
-    //             `libs/next-auth-redis/src/index.test.ts`,
-    //             `libs/next-auth-redis/src/index.ts`,
-    //         ),
-    //     ).not.toThrow();
+    describe('storybook generator', () => {
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:storybook --project=${project} --no-interactive`,
+            );
+        });
 
-    //     const result = await runNxCommandAsync('test next-auth-redis');
-    //     expect(result.stderr).not.toEqual(expect.stringContaining('FAIL'));
-    // }, 200_000);
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+
+        it('should modify project.json with storybook command', async () => {
+            const projectJson = readJson(`apps/${project}/project.json`);
+
+
+            expect(JSON.stringify(projectJson)).toContain('storybook')
+        });
+
+        it('should modify tsconfig.json with storybook command', async () => {
+            const tsconfigJson = readJson(`apps/${project}/tsconfig.json`);
+
+            expect(JSON.stringify(tsconfigJson)).toContain('stories')
+        });
+
+        it('should modify .eslintrc.json with storybook command', async () => {
+            const eslintConfigJson = readJson(`apps/${project}/.eslintrc.json`);
+
+            expect(JSON.stringify(eslintConfigJson)).toContain('storybook')
+        });
+
+    });
+
+
 });
