@@ -8,6 +8,12 @@ import { NextAuthRedisDeploymentGeneratorSchema } from './schema';
 import nextInitGenerator from '../init/generator';
 import nextAuthGenerator from '../next-auth/generator';
 
+jest.mock('@ensono-stacks/core', () => ({
+    ...jest.requireActual('@ensono-stacks/core'),
+    execAsync: jest.fn(),
+    getCommandVersion: jest.fn(() => '1.0.0'),
+}));
+
 describe('next-auth-redis-deployment generator', () => {
     let appTree: Tree;
     const options: NextAuthRedisDeploymentGeneratorSchema = {

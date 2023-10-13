@@ -4,16 +4,11 @@ import path from 'path';
 import { NextGeneratorSchema } from '../schema';
 
 function createReadmeFile(tree: Tree, options: NextGeneratorSchema) {
-    generateFiles(
-        tree, // the virtual file system
-        path.join(__dirname, '..', 'files', 'readme'),
-        '',
-        {
-            template: '',
-            hasProjectName: false,
-            projectName: options.project,
-        },
-    );
+    generateFiles(tree, path.join(__dirname, '..', 'files', 'readme'), '', {
+        template: '',
+        hasProjectName: false,
+        projectName: options.project,
+    });
 }
 
 export function modifyReadme(tree: Tree, options: NextGeneratorSchema) {
