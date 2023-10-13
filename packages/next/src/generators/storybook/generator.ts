@@ -33,14 +33,6 @@ export async function storybookGenerator(
 
     const project = readProjectConfiguration(tree, options.project);
 
-    /*
-        const normalizedOptions = normalizeOptions(tree, {
-        ...options,
-        name: options.project,
-        directory: tree.root,
-    });
-     */
-
     tasks.push(
         updateESLint(tree, project.root),
         installDependencies(tree, options),

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/schema",
   "$id": "Storybook",
   "title": "Ensono Stacks Storybook Generator",
-  "description": "The @ensono-stacks/next:stroybook generator adds Stroybook to the Next App",
+  "description": "The @ensono-stacks/next:storybook generator adds Storybook to the Next App",
   "type": "object",
   "properties": {
     "project": {
