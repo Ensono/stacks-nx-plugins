@@ -180,6 +180,13 @@ describe('next e2e', () => {
             expect(JSON.stringify(projectJson)).toContain('storybook')
         });
 
+        it('should modify project.json with create-component command', async () => {
+            const projectJson = readJson(`apps/${project}/project.json`);
+
+
+            expect(JSON.stringify(projectJson)).toContain('create-component')
+        });
+
         it('should modify tsconfig.json with storybook command', async () => {
             const tsconfigJson = readJson(`apps/${project}/tsconfig.json`);
 
