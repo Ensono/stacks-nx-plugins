@@ -3,7 +3,7 @@ export default {
         name: '@storybook/nextjs',
         options: {},
     },
-    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+    stories: ['../**/*.mdx', '../**/*.stories.@(js|jsx|mjs|ts|tsx)'],
     addons: [
         '@storybook/addon-essentials',
         '@storybook/addon-links',
