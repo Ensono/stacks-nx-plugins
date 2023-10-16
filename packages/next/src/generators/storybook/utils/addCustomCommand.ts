@@ -13,8 +13,8 @@ export const addCustomCommand = (tree: Tree, project: ProjectConfiguration) => {
                     executor: 'nx:run-commands',
                     options: {
                         commands: [
-                            `nx g @nx/react:component --project='${project.name}'`,
-                            'nx g @nx/react:component-story',
+                            `nx g @nx/react:component --name={args.name} --project=${project.name} --directory={args.folderPath}`,
+                            `nx g @nx/react:component-story --project=${project.name} --componentPath={args.folderPath}/{args.name}/{args.name}.tsx`,
                         ],
                         parallel: false,
                     },
