@@ -12,6 +12,7 @@ import {
 } from '@nx/devkit';
 
 import { StorybookGeneratorSchema } from './schema';
+import { addCustomCommand } from './utils/addCustomCommand';
 import { addStorybook } from './utils/addStorybook';
 import { createFiles } from './utils/createFiles';
 import { installDependencies } from './utils/dependancies';
@@ -38,11 +39,12 @@ export async function storybookGenerator(
         installDependencies(tree, options),
         await addStorybook(tree, project),
         createFiles(tree, project),
+        addCustomCommand(tree, project),
         formatFilesWithEslint(options.project),
     );
 
     return runTasksInSerial(...tasks, () => {
-        logger.warn(`Storybook has been added to your app's _app.tsx file`);
+        logger.warn(`Storybook files have been added to ${project.name} app`);
     });
 }
 
