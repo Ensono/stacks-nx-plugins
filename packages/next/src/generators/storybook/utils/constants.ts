@@ -1,4 +1,5 @@
 export const NX_STORYBOOK_VERSION = '16.9.1';
+export const NX_WEBPACK_VERSION = '16.9.1';
 export const NEXTJS_STORYBOOK_VERSION = '7.4.5';
 export const ADDON_LINKS_STORYBOOK_VERSION = '7.4.5';
 export const MANAGER_API_STORYBOOK_VERSION = '7.4.5';
