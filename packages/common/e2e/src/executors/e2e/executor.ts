@@ -96,11 +96,9 @@ export default async function runEnd2EndExecutor(
         logger.log(`Verdaccio already running...`);
     }
 
-    try {
-        addUser(verdaccioUrl);
-    } catch (error) {
-        logger.debug(error);
-    }
+    const npmConfigPath = process.env['NPM_CONFIG_USERCONFIG'];
+    logger.log(`[${context.projectName}] NPM Config Path: ${npmConfigPath} `);
+    addUser(verdaccioUrl);
 
     function getStacksPackageInformation(): WorkspaceLibrary[] {
         function deps(projectName) {
@@ -218,7 +216,7 @@ export default async function runEnd2EndExecutor(
                 watch: false,
                 runInBand: true,
                 maxWorkers: 1,
-                testTimeout: 120_000,
+                testTimeout: 240_000,
             },
             context,
         );

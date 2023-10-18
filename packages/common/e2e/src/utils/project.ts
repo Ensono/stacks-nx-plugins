@@ -1,4 +1,4 @@
-import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
+import { runNxCommandAsync, tmpProjPath, uniq } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import { emptyDirSync } from 'fs-extra';
