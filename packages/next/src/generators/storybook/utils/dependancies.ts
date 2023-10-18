@@ -11,6 +11,7 @@ import {
     MANAGER_API_STORYBOOK_VERSION,
     NEXTJS_STORYBOOK_VERSION,
     NX_STORYBOOK_VERSION,
+    NX_WEBPACK_VERSION,
     PREVIEW_API_STORYBOOK_VERSION,
     THEMING_STORYBOOK_VERSION,
 } from './constants';
@@ -31,6 +32,7 @@ export function installDependencies(
         },
         {
             '@nx/storybook': NX_STORYBOOK_VERSION,
+            '@nx/webpack': NX_WEBPACK_VERSION,
             '@storybook/nextjs': NEXTJS_STORYBOOK_VERSION,
             '@storybook/addon-essentials': ADDON_ESSENTIALS_STORYBOOK_VERSION,
             '@storybook/addon-actions': ADDON_ACTIONS_STORYBOOK_VERSION,
