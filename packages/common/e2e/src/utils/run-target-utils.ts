@@ -73,9 +73,21 @@ export async function runCommandUntil(
 export async function runTarget(
     project: string,
     target: targetOptions,
+    includesMessage = 'compiled client and server successfully',
     additionalArguments = '',
 ) {
-    const command = `${targetOptions[target]} ${project} ${additionalArguments}`;
+    let command;
+    let subProject;
+    if (project.includes(':')) {
+        const splitString = project.split(':');
+        // eslint-disable-next-line prefer-destructuring, no-param-reassign
+        project = splitString[0];
+        // eslint-disable-next-line prefer-destructuring
+        subProject = splitString[1];
+        command = `${targetOptions[target]} ${project}:${subProject} ${additionalArguments}`;
+    } else {
+        command = `${targetOptions[target]} ${project} ${additionalArguments}`;
+    }
     let silenceError = true;
     switch (target) {
         case targetOptions.build: {
@@ -95,7 +107,6 @@ export async function runTarget(
             return stripConsoleColors(`${stdout}\n${stderr}`);
         }
         case targetOptions.serve: {
-            await runTarget(project, targetOptions.build);
             const port = 4000;
             try {
                 await runCommandUntil(
@@ -103,9 +114,7 @@ export async function runTarget(
                     output => {
                         return (
                             output.includes(`localhost:${port}`) &&
-                            output.includes(
-                                'compiled client and server successfully',
-                            )
+                            output.includes(includesMessage)
                         );
                     },
                 );
