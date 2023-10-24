@@ -192,6 +192,29 @@ describe('next e2e', () => {
             expect(JSON.stringify(eslintConfigJson)).toContain('storybook')
         });
 
+        describe('it generates a component using custom command', () => {
+            beforeAll(async () => {
+                await runNxCommandAsync(
+                    `run ${project}:custom-component --name=testcomponent --folderPath=components --verbose`,
+                );
+            });
+
+            it('adds new files for Storybook component', () => {
+                expect(() =>
+                    checkFilesExist(
+                        `apps/${project}/components/testcomponent/testcomponent.module.css`,
+                        `apps/${project}/components/testcomponent/testcomponent.spec.tsx`,
+                        `apps/${project}/components/testcomponent/testcomponent.stories.tsx`,
+                        `apps/${project}/components/testcomponent/testcomponent.tsx`
+                    ),
+                ).not.toThrow();
+            });
+
+            it('can serve the storybook application', async () => {
+                expect(await runTarget(`${project}:storybook`, targetOptions.serve, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
+            });
+        })
+
     });
 
 
