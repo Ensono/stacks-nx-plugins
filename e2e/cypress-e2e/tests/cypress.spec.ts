@@ -120,6 +120,7 @@ describe('cypress e2e', () => {
                         await runTarget(
                             baseProject,
                             targetOptions.e2e,
+                            undefined,
                             '--env.grep="should be up and running"',
                         );
                 });
@@ -134,6 +135,7 @@ describe('cypress e2e', () => {
                     expect(await runTarget(
                         baseProject,
                         targetOptions['html-report'],
+                        undefined,
                         '--configuration=ci'
                     )).toContain(`Successfully ran target html-report for project ${baseProject}`);
                     expect(() =>
