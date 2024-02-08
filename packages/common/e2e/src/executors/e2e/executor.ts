@@ -96,11 +96,7 @@ export default async function runEnd2EndExecutor(
         logger.log(`Verdaccio already running...`);
     }
 
-    try {
-        addUser(verdaccioUrl);
-    } catch (error) {
-        logger.debug(error);
-    }
+    addUser(verdaccioUrl);
 
     function getStacksPackageInformation(): WorkspaceLibrary[] {
         function deps(projectName) {
