@@ -4,8 +4,8 @@
     "type": "commonjs",
     "dependencies": {
         "ts-morph": "17.0.1",
-        "tslib": "^2.6.1",
         "deepmerge": "^4.3.0",
+        "tslib": "^2.6.1",
         "minimatch": "^6.2.0"
     },
     "peerDependencies": {
