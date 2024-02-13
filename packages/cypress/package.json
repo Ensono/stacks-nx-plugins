@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/cypress",
-    "version": "2.0.4-alpha-221.0",
+    "version": "2.0.4",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
