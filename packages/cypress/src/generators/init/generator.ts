@@ -4,10 +4,8 @@ import {
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import {
-    CypressE2EConfigSchema,
-    cypressE2EConfigurationGenerator,
-} from '@nx/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
+import { cypressE2EConfigurationGenerator } from '@nx/cypress';
+import { CypressE2EConfigSchema } from '@nx/cypress/src/generators/configuration/configuration';
 import {
     formatFiles,
     Tree,
