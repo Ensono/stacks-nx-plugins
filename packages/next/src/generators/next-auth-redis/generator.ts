@@ -53,7 +53,7 @@ export default async function nextAuthRedisGenerator(
         );
     }
 
-    const { npmScope } = readNxJson(tree);
+    // const { npmScope } = readNxJson(tree);
     const name = options.adapterName;
 
     const libraryName = names(name).fileName;
@@ -77,8 +77,8 @@ export default async function nextAuthRedisGenerator(
     });
 
     configureAdapter(project, tree, {
-      // @TODO: get correct npm scope from root package.json
-        "@ensono-stacks",
+        // TODO: get npmScope / name from root package.json
+        npmScope: '@ensono-stacks',
         libraryName,
         envVar: options.envVar,
     });

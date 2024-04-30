@@ -30,7 +30,7 @@ export function configureAdapter(
         .find(
             importDeclaration =>
                 importDeclaration.getModuleSpecifier().getLiteralValue() ===
-                `@${npmScope}/${libraryName}`,
+                `@ensono-stacks/${libraryName}`,
         );
     IORedisAdapterImport?.setIsTypeOnly(false);
 
@@ -41,7 +41,8 @@ export function configureAdapter(
     ) {
         nextAuthNode.addImportDeclaration({
             namedImports: ['IORedisAdapter'],
-            moduleSpecifier: `@${npmScope}/${libraryName}`,
+            // TODO: get npmScope / name from root package.json
+            moduleSpecifier: `@ensono-stacks/${libraryName}`,
         });
     }
 
