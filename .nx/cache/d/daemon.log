@@ -1,0 +1,1472 @@
+[NX Daemon Server] - 2024-04-30T09:56:11.845Z - Started listening on: /var/folders/c1/nprvnq3526x05ybw43ys791m0000gn/T/fa570581173253abd46f/d.sock
+[NX Daemon Server] - 2024-04-30T09:56:11.848Z - [WATCHER]: Subscribed to changes within: /Users/isaacshek/Documents/dev/stacks/stacks-nx-plugins
+[NX Daemon Server] - 2024-04-30T09:56:11.850Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-04-30T09:56:11.851Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-04-30T09:56:11.851Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-04-30T09:56:11.852Z - [REQUEST]: Client Request for Project Graph Received
+fatal: no path specified
+[NX Daemon Server] - 2024-04-30T09:56:11.970Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:11.971Z - [REQUEST]: 
+[NX Daemon Server] - 2024-04-30T09:56:11.971Z - [REQUEST]: 
+[NX Daemon Server] - 2024-04-30T09:56:12.111Z - Time taken for 'hash changed files from watcher' 22.762749910354614ms
+[NX Daemon Server] - 2024-04-30T09:56:12.170Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:12.170Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:12.389Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:12.390Z - [REQUEST]: 12583081014501283332,9449879894280387461
+[NX Daemon Server] - 2024-04-30T09:56:12.390Z - [REQUEST]: 
+[NX Daemon Server] - 2024-04-30T09:56:12.550Z - Time taken for 'hash changed files from watcher' 52.80291700363159ms
+[NX Daemon Server] - 2024-04-30T09:56:12.654Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-04-30T09:56:12.656Z - Time taken for 'total for creating and serializing project graph' 801.709625005722ms
+[NX Daemon Server] - 2024-04-30T09:56:12.682Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-04-30T09:56:12.683Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 802. Response time: 29.
+[NX Daemon Server] - 2024-04-30T09:56:12.684Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-04-30T09:56:12.725Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:12.726Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:12.931Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:12.931Z - [REQUEST]: 6484040936734049418,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:12.931Z - [REQUEST]: .nx/cache/file-map.json~c1039c30,.nx/cache/project-graph.json~c1039c30
+[NX Daemon Server] - 2024-04-30T09:56:13.038Z - Time taken for 'hash changed files from watcher' 53.74629092216492ms
+[NX Daemon Server] - 2024-04-30T09:56:13.078Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-04-30T09:56:13.080Z - Time taken for 'total for creating and serializing project graph' 393.8545000553131ms
+[NX Daemon Server] - 2024-04-30T09:56:13.082Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-04-30T09:56:13.082Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 394. Response time: 4.
+[NX Daemon Server] - 2024-04-30T09:56:13.085Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-04-30T09:56:13.153Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 4 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:13.153Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.153Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.153Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:13.154Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:13.154Z - Time taken for 'changed-projects' 0.1458752155303955ms
+[NX Daemon Server] - 2024-04-30T09:56:13.350Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:13.350Z - [REQUEST]: 17286596212505152279,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:13.350Z - [REQUEST]: .nx/cache/file-map.json~12e564db,.nx/cache/file-map.json~be2a421a,.nx/cache/project-graph.json~12e564db,.nx/cache/project-graph.json~be2a421a
+[NX Daemon Server] - 2024-04-30T09:56:13.436Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.437Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.437Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:13.437Z - Time taken for 'hash changed files from watcher' 56.303375005722046ms
+[NX Daemon Server] - 2024-04-30T09:56:13.509Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:13.509Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.509Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.509Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:13.509Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:13.509Z - Time taken for 'changed-projects' 0.07891702651977539ms
+[NX Daemon Server] - 2024-04-30T09:56:13.691Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:13.691Z - [REQUEST]: 17808365391740948792,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:13.691Z - [REQUEST]: .nx/cache/file-map.json~9b02fa6f,.nx/cache/project-graph.json~9b02fa6f
+[NX Daemon Server] - 2024-04-30T09:56:13.768Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.769Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.769Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:13.769Z - Time taken for 'hash changed files from watcher' 45.245457887649536ms
+[NX Daemon Server] - 2024-04-30T09:56:13.833Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:13.834Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.834Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:13.834Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:13.834Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:13.834Z - Time taken for 'changed-projects' 0.06325006484985352ms
+[NX Daemon Server] - 2024-04-30T09:56:14.010Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:14.010Z - [REQUEST]: 259220428381277258,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:14.010Z - [REQUEST]: .nx/cache/file-map.json~f9fe52e0,.nx/cache/project-graph.json~f9fe52e0
+[NX Daemon Server] - 2024-04-30T09:56:14.091Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.091Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.091Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:14.091Z - Time taken for 'hash changed files from watcher' 41.549999952316284ms
+[NX Daemon Server] - 2024-04-30T09:56:14.162Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:14.163Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:14.163Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.163Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.163Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:14.163Z - Time taken for 'changed-projects' 0.10299992561340332ms
+[NX Daemon Server] - 2024-04-30T09:56:14.412Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:14.412Z - [REQUEST]: 12412071566972783834,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:14.412Z - [REQUEST]: .nx/cache/file-map.json~7e00a239,.nx/cache/project-graph.json~7e00a239
+[NX Daemon Server] - 2024-04-30T09:56:14.494Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.494Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.494Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:14.495Z - Time taken for 'hash changed files from watcher' 114.0008749961853ms
+[NX Daemon Server] - 2024-04-30T09:56:14.568Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:14.569Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:14.569Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.569Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.569Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:14.569Z - Time taken for 'changed-projects' 0.0796661376953125ms
+[NX Daemon Server] - 2024-04-30T09:56:14.759Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:14.759Z - [REQUEST]: 14606150478585975087,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:14.759Z - [REQUEST]: .nx/cache/file-map.json~a10dda4d,.nx/cache/project-graph.json~a10dda4d
+[NX Daemon Server] - 2024-04-30T09:56:14.832Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.832Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.832Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:14.832Z - Time taken for 'hash changed files from watcher' 53.450958013534546ms
+[NX Daemon Server] - 2024-04-30T09:56:14.908Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:14.908Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.908Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:14.908Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:14.908Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:14.908Z - Time taken for 'changed-projects' 0.0774998664855957ms
+[NX Daemon Server] - 2024-04-30T09:56:15.074Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:15.074Z - [REQUEST]: 3562454532128214437,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:15.074Z - [REQUEST]: .nx/cache/file-map.json~8d3408a4,.nx/cache/project-graph.json~8d3408a4
+[NX Daemon Server] - 2024-04-30T09:56:15.184Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.187Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.187Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 3.
+[NX Daemon Server] - 2024-04-30T09:56:15.187Z - Time taken for 'hash changed files from watcher' 30.92341685295105ms
+[NX Daemon Server] - 2024-04-30T09:56:15.249Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 1 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:15.249Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.249Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.249Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:15.249Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:15.249Z - Time taken for 'changed-projects' 0.09249997138977051ms
+[NX Daemon Server] - 2024-04-30T09:56:15.476Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:15.476Z - [REQUEST]: 13526008132598148802,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:15.476Z - [REQUEST]: .nx/cache/file-map.json~0f3b8646
+[NX Daemon Server] - 2024-04-30T09:56:15.553Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.553Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.553Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:15.554Z - Time taken for 'hash changed files from watcher' 93.75683307647705ms
+[NX Daemon Server] - 2024-04-30T09:56:15.628Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:15.628Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.628Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.628Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:15.628Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:15.628Z - Time taken for 'changed-projects' 0.10150003433227539ms
+[NX Daemon Server] - 2024-04-30T09:56:15.815Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:15.815Z - [REQUEST]: 11138983786280163319,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:15.815Z - [REQUEST]: .nx/cache/file-map.json~29f8db57,.nx/cache/project-graph.json~29f8db57
+[NX Daemon Server] - 2024-04-30T09:56:15.891Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.891Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.891Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:15.891Z - Time taken for 'hash changed files from watcher' 53.80608296394348ms
+[NX Daemon Server] - 2024-04-30T09:56:15.967Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:15.967Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.967Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:15.967Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:15.967Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:15.967Z - Time taken for 'changed-projects' 0.07200002670288086ms
+[NX Daemon Server] - 2024-04-30T09:56:16.152Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:16.152Z - [REQUEST]: 17745949924743176056,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:16.152Z - [REQUEST]: .nx/cache/file-map.json~f817ddbd,.nx/cache/project-graph.json~f817ddbd
+[NX Daemon Server] - 2024-04-30T09:56:16.231Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.231Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.231Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:16.232Z - Time taken for 'hash changed files from watcher' 38.96820902824402ms
+[NX Daemon Server] - 2024-04-30T09:56:16.307Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:16.307Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.307Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.307Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:16.307Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:16.307Z - Time taken for 'changed-projects' 0.0672910213470459ms
+[NX Daemon Server] - 2024-04-30T09:56:16.496Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:16.496Z - [REQUEST]: 15609340992409554774,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:16.496Z - [REQUEST]: .nx/cache/file-map.json~de679a1f,.nx/cache/project-graph.json~de679a1f
+[NX Daemon Server] - 2024-04-30T09:56:16.570Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.570Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.570Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:16.571Z - Time taken for 'hash changed files from watcher' 48.77991604804993ms
+[NX Daemon Server] - 2024-04-30T09:56:16.643Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:16.644Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:16.644Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.644Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.644Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:16.644Z - Time taken for 'changed-projects' 0.08320903778076172ms
+[NX Daemon Server] - 2024-04-30T09:56:16.850Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:16.850Z - [REQUEST]: 11574663043967026261,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:16.850Z - [REQUEST]: .nx/cache/file-map.json~8dd46b57,.nx/cache/project-graph.json~8dd46b57
+[NX Daemon Server] - 2024-04-30T09:56:16.929Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.929Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.929Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:16.929Z - Time taken for 'hash changed files from watcher' 72.80479192733765ms
+[NX Daemon Server] - 2024-04-30T09:56:16.997Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:16.997Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.997Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:16.997Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:16.997Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:16.997Z - Time taken for 'changed-projects' 0.06787514686584473ms
+[NX Daemon Server] - 2024-04-30T09:56:17.212Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:17.212Z - [REQUEST]: 11159720983556110038,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:17.212Z - [REQUEST]: .nx/cache/file-map.json~04ee32ae,.nx/cache/project-graph.json~04ee32ae
+[NX Daemon Server] - 2024-04-30T09:56:17.293Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.293Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.293Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:17.294Z - Time taken for 'hash changed files from watcher' 73.37400007247925ms
+[NX Daemon Server] - 2024-04-30T09:56:17.366Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:17.366Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.366Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.366Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:17.366Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:17.367Z - Time taken for 'changed-projects' 0.06687498092651367ms
+[NX Daemon Server] - 2024-04-30T09:56:17.546Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:17.546Z - [REQUEST]: 15459853208522552772,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:17.546Z - [REQUEST]: .nx/cache/file-map.json~5afc57a7,.nx/cache/project-graph.json~5afc57a7
+[NX Daemon Server] - 2024-04-30T09:56:17.640Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.640Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.640Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:17.640Z - Time taken for 'hash changed files from watcher' 55.22099995613098ms
+[NX Daemon Server] - 2024-04-30T09:56:17.716Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:17.717Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.717Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:17.717Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:17.717Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:17.717Z - Time taken for 'changed-projects' 0.08641695976257324ms
+[NX Daemon Server] - 2024-04-30T09:56:17.918Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:17.918Z - [REQUEST]: 12740371377967320219,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:17.918Z - [REQUEST]: .nx/cache/file-map.json~958f6597,.nx/cache/project-graph.json~958f6597
+[NX Daemon Server] - 2024-04-30T09:56:18.004Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.004Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.004Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:18.005Z - Time taken for 'hash changed files from watcher' 59.71904110908508ms
+[NX Daemon Server] - 2024-04-30T09:56:18.081Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:18.082Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.082Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.082Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:18.082Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:18.082Z - Time taken for 'changed-projects' 0.061167001724243164ms
+[NX Daemon Server] - 2024-04-30T09:56:18.263Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:18.263Z - [REQUEST]: 2374968768733785508,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:18.263Z - [REQUEST]: .nx/cache/file-map.json~6e293742,.nx/cache/project-graph.json~6e293742
+[NX Daemon Server] - 2024-04-30T09:56:18.339Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.340Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.340Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:18.340Z - Time taken for 'hash changed files from watcher' 49.474082946777344ms
+[NX Daemon Server] - 2024-04-30T09:56:18.415Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:18.415Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.415Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.415Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:18.415Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:18.415Z - Time taken for 'changed-projects' 0.06937503814697266ms
+[NX Daemon Server] - 2024-04-30T09:56:18.606Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:18.606Z - [REQUEST]: 4993770706158403272,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:18.606Z - [REQUEST]: .nx/cache/file-map.json~14c1c3de,.nx/cache/project-graph.json~14c1c3de
+[NX Daemon Server] - 2024-04-30T09:56:18.683Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.683Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.683Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:18.683Z - Time taken for 'hash changed files from watcher' 54.47141695022583ms
+[NX Daemon Server] - 2024-04-30T09:56:18.756Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:18.756Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.756Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:18.756Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:18.757Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:18.757Z - Time taken for 'changed-projects' 0.0592498779296875ms
+[NX Daemon Server] - 2024-04-30T09:56:18.936Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:18.936Z - [REQUEST]: 6939455036660860517,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:18.936Z - [REQUEST]: .nx/cache/file-map.json~02eb44f0,.nx/cache/project-graph.json~02eb44f0
+[NX Daemon Server] - 2024-04-30T09:56:19.011Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.011Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.011Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:19.011Z - Time taken for 'hash changed files from watcher' 47.94266700744629ms
+[NX Daemon Server] - 2024-04-30T09:56:19.087Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:19.087Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.088Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.088Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:19.088Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:19.088Z - Time taken for 'changed-projects' 0.05533409118652344ms
+[NX Daemon Server] - 2024-04-30T09:56:19.275Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:19.275Z - [REQUEST]: 8373189749815780958,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:19.275Z - [REQUEST]: .nx/cache/file-map.json~cd4b0bb6,.nx/cache/project-graph.json~cd4b0bb6
+[NX Daemon Server] - 2024-04-30T09:56:19.351Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.351Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.351Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:19.351Z - Time taken for 'hash changed files from watcher' 56.74637508392334ms
+[NX Daemon Server] - 2024-04-30T09:56:19.426Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:19.427Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.427Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.427Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:19.427Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:19.427Z - Time taken for 'changed-projects' 0.06279182434082031ms
+[NX Daemon Server] - 2024-04-30T09:56:19.626Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:19.626Z - [REQUEST]: 4979479415513140944,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:19.626Z - [REQUEST]: .nx/cache/file-map.json~de322a23,.nx/cache/project-graph.json~de322a23
+[NX Daemon Server] - 2024-04-30T09:56:19.700Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.701Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.701Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:19.702Z - Time taken for 'hash changed files from watcher' 59.36800003051758ms
+[NX Daemon Server] - 2024-04-30T09:56:19.777Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:19.777Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.777Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:19.777Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:19.777Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:19.777Z - Time taken for 'changed-projects' 0.07124996185302734ms
+[NX Daemon Server] - 2024-04-30T09:56:19.975Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:19.975Z - [REQUEST]: 2666594989044785469,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:19.975Z - [REQUEST]: .nx/cache/file-map.json~e46dafee,.nx/cache/project-graph.json~e46dafee
+[NX Daemon Server] - 2024-04-30T09:56:20.082Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.082Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.082Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:20.082Z - Time taken for 'hash changed files from watcher' 53.15529179573059ms
+[NX Daemon Server] - 2024-04-30T09:56:20.159Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:20.159Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.159Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.159Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:20.159Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:20.159Z - Time taken for 'changed-projects' 0.05891609191894531ms
+[NX Daemon Server] - 2024-04-30T09:56:20.359Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:20.359Z - [REQUEST]: 12926149200821018813,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:20.359Z - [REQUEST]: .nx/cache/file-map.json~69299ea6,.nx/cache/project-graph.json~69299ea6
+[NX Daemon Server] - 2024-04-30T09:56:20.462Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.462Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.462Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:20.463Z - Time taken for 'hash changed files from watcher' 62.90479111671448ms
+[NX Daemon Server] - 2024-04-30T09:56:20.539Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:20.539Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.539Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.539Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:20.539Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:20.539Z - Time taken for 'changed-projects' 0.06566715240478516ms
+[NX Daemon Server] - 2024-04-30T09:56:20.716Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:20.716Z - [REQUEST]: 738658930285844423,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:20.716Z - [REQUEST]: .nx/cache/file-map.json~4f133984,.nx/cache/project-graph.json~4f133984
+[NX Daemon Server] - 2024-04-30T09:56:20.790Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.790Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.790Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:20.790Z - Time taken for 'hash changed files from watcher' 42.75466704368591ms
+[NX Daemon Server] - 2024-04-30T09:56:20.858Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:20.858Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.858Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:20.858Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:20.858Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:20.858Z - Time taken for 'changed-projects' 0.06349992752075195ms
+[NX Daemon Server] - 2024-04-30T09:56:21.058Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:21.058Z - [REQUEST]: 17619621874408159295,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:21.058Z - [REQUEST]: .nx/cache/file-map.json~37015022,.nx/cache/project-graph.json~37015022
+[NX Daemon Server] - 2024-04-30T09:56:21.134Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.134Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.134Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:21.134Z - Time taken for 'hash changed files from watcher' 41.23141598701477ms
+[NX Daemon Server] - 2024-04-30T09:56:21.210Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:21.210Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.210Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.210Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:21.210Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:21.210Z - Time taken for 'changed-projects' 0.0644998550415039ms
+[NX Daemon Server] - 2024-04-30T09:56:21.409Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:21.409Z - [REQUEST]: 1848535464123242097,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:21.409Z - [REQUEST]: .nx/cache/file-map.json~d00e3d50,.nx/cache/project-graph.json~d00e3d50
+[NX Daemon Server] - 2024-04-30T09:56:21.480Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.480Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.481Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:21.481Z - Time taken for 'hash changed files from watcher' 63.88075017929077ms
+[NX Daemon Server] - 2024-04-30T09:56:21.556Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:21.557Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.557Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.557Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:21.557Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:21.557Z - Time taken for 'changed-projects' 0.0657498836517334ms
+[NX Daemon Server] - 2024-04-30T09:56:21.737Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:21.737Z - [REQUEST]: 15448768802468196201,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:21.737Z - [REQUEST]: .nx/cache/file-map.json~14c3e5e7,.nx/cache/project-graph.json~14c3e5e7
+[NX Daemon Server] - 2024-04-30T09:56:21.814Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.814Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.814Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:21.814Z - Time taken for 'hash changed files from watcher' 43.9849579334259ms
+[NX Daemon Server] - 2024-04-30T09:56:21.887Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:21.887Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.887Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:21.887Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:21.887Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:21.887Z - Time taken for 'changed-projects' 0.059541940689086914ms
+[NX Daemon Server] - 2024-04-30T09:56:22.070Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:22.070Z - [REQUEST]: 8731374858256133714,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:22.070Z - [REQUEST]: .nx/cache/file-map.json~932c60af,.nx/cache/project-graph.json~932c60af
+[NX Daemon Server] - 2024-04-30T09:56:22.145Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.145Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.145Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:22.146Z - Time taken for 'hash changed files from watcher' 53.80079221725464ms
+[NX Daemon Server] - 2024-04-30T09:56:22.221Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:22.222Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:22.222Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.223Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.223Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:22.223Z - Time taken for 'changed-projects' 0.07495903968811035ms
+[NX Daemon Server] - 2024-04-30T09:56:22.415Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:22.415Z - [REQUEST]: 15279642011527841503,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:22.415Z - [REQUEST]: .nx/cache/file-map.json~00028d0f,.nx/cache/project-graph.json~00028d0f
+[NX Daemon Server] - 2024-04-30T09:56:22.490Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.490Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.490Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:22.490Z - Time taken for 'hash changed files from watcher' 53.06699991226196ms
+[NX Daemon Server] - 2024-04-30T09:56:22.575Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:22.575Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.575Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.575Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:22.575Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:22.575Z - Time taken for 'changed-projects' 0.1327500343322754ms
+[NX Daemon Server] - 2024-04-30T09:56:22.822Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:22.822Z - [REQUEST]: 6892396753573107411,8565178953511144613,15480962863890071544
+[NX Daemon Server] - 2024-04-30T09:56:22.822Z - [REQUEST]: .nx/cache/file-map.json~469669ab,.nx/cache/project-graph.json~469669ab
+[NX Daemon Server] - 2024-04-30T09:56:22.899Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.899Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.899Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:22.900Z - Time taken for 'hash changed files from watcher' 106.97058415412903ms
+[NX Daemon Server] - 2024-04-30T09:56:22.975Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:22.975Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.975Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:22.975Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:22.975Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:22.975Z - Time taken for 'changed-projects' 0.06229090690612793ms
+[NX Daemon Server] - 2024-04-30T09:56:23.160Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:23.160Z - [REQUEST]: 4713218224541314216,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:23.160Z - [REQUEST]: .nx/cache/file-map.json~ca713319,.nx/cache/project-graph.json~ca713319
+[NX Daemon Server] - 2024-04-30T09:56:23.239Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.239Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.239Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:23.239Z - Time taken for 'hash changed files from watcher' 51.45645809173584ms
+[NX Daemon Server] - 2024-04-30T09:56:23.307Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:23.307Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.307Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.307Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:23.307Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:23.307Z - Time taken for 'changed-projects' 0.0713338851928711ms
+[NX Daemon Server] - 2024-04-30T09:56:23.500Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:23.500Z - [REQUEST]: 7469851709674921625,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:23.500Z - [REQUEST]: .nx/cache/file-map.json~0ce93f00,.nx/cache/project-graph.json~0ce93f00
+[NX Daemon Server] - 2024-04-30T09:56:23.579Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.579Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.579Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:23.579Z - Time taken for 'hash changed files from watcher' 61.13291692733765ms
+[NX Daemon Server] - 2024-04-30T09:56:23.652Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:23.653Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.653Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.653Z - Handled FILE-WATCH-CHANGED. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:23.653Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:23.653Z - Time taken for 'changed-projects' 0.07245802879333496ms
+[NX Daemon Server] - 2024-04-30T09:56:23.842Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:23.842Z - [REQUEST]: 5633457629884210760,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:23.842Z - [REQUEST]: .nx/cache/file-map.json~cc348a15,.nx/cache/project-graph.json~cc348a15
+[NX Daemon Server] - 2024-04-30T09:56:23.917Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.918Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.918Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:23.918Z - Time taken for 'hash changed files from watcher' 52.52829098701477ms
+[NX Daemon Server] - 2024-04-30T09:56:23.992Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:23.993Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.993Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:23.993Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:23.993Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:23.993Z - Time taken for 'changed-projects' 0.07512497901916504ms
+[NX Daemon Server] - 2024-04-30T09:56:24.194Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:24.194Z - [REQUEST]: 11587781573419737935,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:24.194Z - [REQUEST]: .nx/cache/file-map.json~8983d092,.nx/cache/project-graph.json~8983d092
+[NX Daemon Server] - 2024-04-30T09:56:24.267Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.267Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.267Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:24.267Z - Time taken for 'hash changed files from watcher' 69.61437487602234ms
+[NX Daemon Server] - 2024-04-30T09:56:24.340Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:24.340Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.340Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.340Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:24.340Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:24.340Z - Time taken for 'changed-projects' 0.07933402061462402ms
+[NX Daemon Server] - 2024-04-30T09:56:24.560Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:24.560Z - [REQUEST]: 13081920809137224055,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:24.560Z - [REQUEST]: .nx/cache/file-map.json~f86fbd7b,.nx/cache/project-graph.json~f86fbd7b
+[NX Daemon Server] - 2024-04-30T09:56:24.634Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.634Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.634Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:24.635Z - Time taken for 'hash changed files from watcher' 81.42516613006592ms
+[NX Daemon Server] - 2024-04-30T09:56:24.708Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:24.708Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.708Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.708Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:24.709Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:24.709Z - Time taken for 'changed-projects' 0.0915830135345459ms
+[NX Daemon Server] - 2024-04-30T09:56:24.925Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:24.925Z - [REQUEST]: 11141985085071923872,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:24.925Z - [REQUEST]: .nx/cache/file-map.json~7e9daa1e,.nx/cache/project-graph.json~7e9daa1e
+[NX Daemon Server] - 2024-04-30T09:56:24.997Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.997Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:24.998Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:24.998Z - Time taken for 'hash changed files from watcher' 66.47279214859009ms
+[NX Daemon Server] - 2024-04-30T09:56:25.074Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:25.074Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.074Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.074Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:25.074Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:25.074Z - Time taken for 'changed-projects' 0.07566690444946289ms
+[NX Daemon Server] - 2024-04-30T09:56:25.268Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:25.268Z - [REQUEST]: 11306759807178114748,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:25.268Z - [REQUEST]: .nx/cache/file-map.json~403bdb8d,.nx/cache/project-graph.json~403bdb8d
+[NX Daemon Server] - 2024-04-30T09:56:25.347Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.347Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.347Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:25.348Z - Time taken for 'hash changed files from watcher' 58.61154079437256ms
+[NX Daemon Server] - 2024-04-30T09:56:25.424Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:25.424Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.424Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.424Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:25.424Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:25.424Z - Time taken for 'changed-projects' 0.0722501277923584ms
+[NX Daemon Server] - 2024-04-30T09:56:25.597Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:25.597Z - [REQUEST]: 14540582585899617431,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:25.597Z - [REQUEST]: .nx/cache/file-map.json~bfbd9102,.nx/cache/project-graph.json~bfbd9102
+[NX Daemon Server] - 2024-04-30T09:56:25.670Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.671Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.671Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:25.671Z - Time taken for 'hash changed files from watcher' 38.919041872024536ms
+[NX Daemon Server] - 2024-04-30T09:56:25.743Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:25.743Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.743Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:25.743Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:25.743Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:25.743Z - Time taken for 'changed-projects' 0.05341601371765137ms
+[NX Daemon Server] - 2024-04-30T09:56:25.922Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:25.922Z - [REQUEST]: 7780480230368023536,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:25.922Z - [REQUEST]: .nx/cache/file-map.json~1a322fcb,.nx/cache/project-graph.json~1a322fcb
+[NX Daemon Server] - 2024-04-30T09:56:26.018Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.018Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.018Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:26.018Z - Time taken for 'hash changed files from watcher' 43.41533398628235ms
+[NX Daemon Server] - 2024-04-30T09:56:26.092Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:26.092Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.092Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.092Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:26.093Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:26.093Z - Time taken for 'changed-projects' 0.058875083923339844ms
+[NX Daemon Server] - 2024-04-30T09:56:26.265Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:26.265Z - [REQUEST]: 5846632064259565459,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:26.265Z - [REQUEST]: .nx/cache/file-map.json~e4a08e82,.nx/cache/project-graph.json~e4a08e82
+[NX Daemon Server] - 2024-04-30T09:56:26.339Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.339Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.339Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:26.339Z - Time taken for 'hash changed files from watcher' 41.4919171333313ms
+[NX Daemon Server] - 2024-04-30T09:56:26.411Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:26.412Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.412Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.412Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:26.412Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:26.412Z - Time taken for 'changed-projects' 0.06233406066894531ms
+[NX Daemon Server] - 2024-04-30T09:56:26.612Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:26.612Z - [REQUEST]: 12712083045185128116,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:26.612Z - [REQUEST]: .nx/cache/file-map.json~35177997,.nx/cache/project-graph.json~35177997
+[NX Daemon Server] - 2024-04-30T09:56:26.686Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.686Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.686Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:26.686Z - Time taken for 'hash changed files from watcher' 67.3188328742981ms
+[NX Daemon Server] - 2024-04-30T09:56:26.758Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:26.759Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.759Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:26.759Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:26.759Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:26.759Z - Time taken for 'changed-projects' 0.06412506103515625ms
+[NX Daemon Server] - 2024-04-30T09:56:26.971Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:26.971Z - [REQUEST]: 12267984373889400825,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:26.971Z - [REQUEST]: .nx/cache/file-map.json~40dec522,.nx/cache/project-graph.json~40dec522
+[NX Daemon Server] - 2024-04-30T09:56:27.049Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.049Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.049Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:27.050Z - Time taken for 'hash changed files from watcher' 75.80962491035461ms
+[NX Daemon Server] - 2024-04-30T09:56:27.126Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:27.126Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.126Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.126Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:27.126Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:27.126Z - Time taken for 'changed-projects' 0.08387517929077148ms
+[NX Daemon Server] - 2024-04-30T09:56:27.318Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:27.318Z - [REQUEST]: 8763261923661910202,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:27.318Z - [REQUEST]: .nx/cache/file-map.json~8564b3e1,.nx/cache/project-graph.json~8564b3e1
+[NX Daemon Server] - 2024-04-30T09:56:27.388Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.388Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.388Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:27.389Z - Time taken for 'hash changed files from watcher' 55.79075002670288ms
+[NX Daemon Server] - 2024-04-30T09:56:27.461Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:27.461Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.461Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.462Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:27.462Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:27.462Z - Time taken for 'changed-projects' 0.07970809936523438ms
+[NX Daemon Server] - 2024-04-30T09:56:27.660Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:27.660Z - [REQUEST]: 2534732416400125882,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:27.660Z - [REQUEST]: .nx/cache/file-map.json~bf82e2f4,.nx/cache/project-graph.json~bf82e2f4
+[NX Daemon Server] - 2024-04-30T09:56:27.732Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.732Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.732Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:27.733Z - Time taken for 'hash changed files from watcher' 52.37016701698303ms
+[NX Daemon Server] - 2024-04-30T09:56:27.808Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:27.808Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.809Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:27.809Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:27.809Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:27.809Z - Time taken for 'changed-projects' 0.10095787048339844ms
+[NX Daemon Server] - 2024-04-30T09:56:28.017Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:28.017Z - [REQUEST]: 13397137169237523240,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:28.017Z - [REQUEST]: .nx/cache/file-map.json~b91a0107,.nx/cache/project-graph.json~b91a0107
+[NX Daemon Server] - 2024-04-30T09:56:28.102Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.102Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.102Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:28.102Z - Time taken for 'hash changed files from watcher' 58.12970805168152ms
+[NX Daemon Server] - 2024-04-30T09:56:28.175Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:28.175Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.175Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.175Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:28.175Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:28.175Z - Time taken for 'changed-projects' 0.06795883178710938ms
+[NX Daemon Server] - 2024-04-30T09:56:28.361Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:28.361Z - [REQUEST]: 7684838024809212325,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:28.361Z - [REQUEST]: .nx/cache/file-map.json~ab10bf5b,.nx/cache/project-graph.json~ab10bf5b
+[NX Daemon Server] - 2024-04-30T09:56:28.431Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.431Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.431Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:28.431Z - Time taken for 'hash changed files from watcher' 47.14650011062622ms
+[NX Daemon Server] - 2024-04-30T09:56:28.504Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:28.504Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.504Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.504Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:28.504Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:28.504Z - Time taken for 'changed-projects' 0.06787490844726562ms
+[NX Daemon Server] - 2024-04-30T09:56:28.706Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:28.706Z - [REQUEST]: 16310184606872103975,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:28.706Z - [REQUEST]: .nx/cache/file-map.json~72ab6ec1,.nx/cache/project-graph.json~72ab6ec1
+[NX Daemon Server] - 2024-04-30T09:56:28.778Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.778Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.778Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:28.778Z - Time taken for 'hash changed files from watcher' 60.55945801734924ms
+[NX Daemon Server] - 2024-04-30T09:56:28.854Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:28.854Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.855Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:28.855Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:28.855Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:28.855Z - Time taken for 'changed-projects' 0.07516694068908691ms
+[NX Daemon Server] - 2024-04-30T09:56:29.039Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:29.039Z - [REQUEST]: 4307408402718980001,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:29.039Z - [REQUEST]: .nx/cache/file-map.json~c09ec032,.nx/cache/project-graph.json~c09ec032
+[NX Daemon Server] - 2024-04-30T09:56:29.111Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.111Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.111Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:29.111Z - Time taken for 'hash changed files from watcher' 46.67400002479553ms
+[NX Daemon Server] - 2024-04-30T09:56:29.188Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:29.188Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.188Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.188Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:29.188Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:29.188Z - Time taken for 'changed-projects' 0.06362509727478027ms
+[NX Daemon Server] - 2024-04-30T09:56:29.382Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:29.382Z - [REQUEST]: 16299659276180481551,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:29.382Z - [REQUEST]: .nx/cache/file-map.json~0af5bd71,.nx/cache/project-graph.json~0af5bd71
+[NX Daemon Server] - 2024-04-30T09:56:29.457Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.457Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.457Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:29.459Z - Time taken for 'hash changed files from watcher' 53.401416063308716ms
+[NX Daemon Server] - 2024-04-30T09:56:29.530Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:29.531Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.531Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.531Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:29.531Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:29.531Z - Time taken for 'changed-projects' 0.08841705322265625ms
+[NX Daemon Server] - 2024-04-30T09:56:29.733Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:29.733Z - [REQUEST]: 299341488020970897,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:29.733Z - [REQUEST]: .nx/cache/file-map.json~58f5c525,.nx/cache/project-graph.json~58f5c525
+[NX Daemon Server] - 2024-04-30T09:56:29.804Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.804Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.804Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:29.804Z - Time taken for 'hash changed files from watcher' 64.2412919998169ms
+[NX Daemon Server] - 2024-04-30T09:56:29.867Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:29.867Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.867Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:29.867Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:29.867Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:29.867Z - Time taken for 'changed-projects' 0.0722501277923584ms
+[NX Daemon Server] - 2024-04-30T09:56:30.069Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:30.069Z - [REQUEST]: 708887381605598499,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:30.069Z - [REQUEST]: .nx/cache/file-map.json~08d1aeb5,.nx/cache/project-graph.json~08d1aeb5
+[NX Daemon Server] - 2024-04-30T09:56:30.140Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.140Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.140Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:30.141Z - Time taken for 'hash changed files from watcher' 60.39316701889038ms
+[NX Daemon Server] - 2024-04-30T09:56:30.214Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:30.214Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.214Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.214Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:30.214Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:30.214Z - Time taken for 'changed-projects' 0.06920814514160156ms
+[NX Daemon Server] - 2024-04-30T09:56:30.399Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:30.399Z - [REQUEST]: 3604213381407920839,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:30.399Z - [REQUEST]: .nx/cache/file-map.json~3920b4d2,.nx/cache/project-graph.json~3920b4d2
+[NX Daemon Server] - 2024-04-30T09:56:30.470Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.470Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.470Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:30.470Z - Time taken for 'hash changed files from watcher' 43.81204080581665ms
+[NX Daemon Server] - 2024-04-30T09:56:30.543Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:30.543Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.543Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.543Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:30.543Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:30.543Z - Time taken for 'changed-projects' 0.05995798110961914ms
+[NX Daemon Server] - 2024-04-30T09:56:30.731Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:30.731Z - [REQUEST]: 5753381313317716738,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:30.731Z - [REQUEST]: .nx/cache/file-map.json~4aca38f6,.nx/cache/project-graph.json~4aca38f6
+[NX Daemon Server] - 2024-04-30T09:56:30.804Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.804Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.804Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:30.804Z - Time taken for 'hash changed files from watcher' 55.22250008583069ms
+[NX Daemon Server] - 2024-04-30T09:56:30.869Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:30.870Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.870Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:30.870Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:30.870Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:30.870Z - Time taken for 'changed-projects' 0.0648338794708252ms
+[NX Daemon Server] - 2024-04-30T09:56:31.065Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:31.065Z - [REQUEST]: 10213771464174818448,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:31.065Z - [REQUEST]: .nx/cache/file-map.json~f5730f0d,.nx/cache/project-graph.json~f5730f0d
+[NX Daemon Server] - 2024-04-30T09:56:31.135Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.135Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.135Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:31.136Z - Time taken for 'hash changed files from watcher' 57.00470805168152ms
+[NX Daemon Server] - 2024-04-30T09:56:31.209Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:31.209Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:31.209Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.210Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.210Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:31.210Z - Time taken for 'changed-projects' 0.05416703224182129ms
+[NX Daemon Server] - 2024-04-30T09:56:31.388Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:31.388Z - [REQUEST]: 290323787367387563,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:31.388Z - [REQUEST]: .nx/cache/file-map.json~435d8ff9,.nx/cache/project-graph.json~435d8ff9
+[NX Daemon Server] - 2024-04-30T09:56:31.461Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.461Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.461Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:31.461Z - Time taken for 'hash changed files from watcher' 42.59124994277954ms
+[NX Daemon Server] - 2024-04-30T09:56:31.534Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:31.534Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.534Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.534Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:31.534Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:31.534Z - Time taken for 'changed-projects' 0.06987500190734863ms
+[NX Daemon Server] - 2024-04-30T09:56:31.736Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:31.736Z - [REQUEST]: 16717112814876347449,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:31.736Z - [REQUEST]: .nx/cache/file-map.json~4ef60bf1,.nx/cache/project-graph.json~4ef60bf1
+[NX Daemon Server] - 2024-04-30T09:56:31.807Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.807Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.807Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:31.809Z - Time taken for 'hash changed files from watcher' 64.43624997138977ms
+[NX Daemon Server] - 2024-04-30T09:56:31.871Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:31.871Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.871Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:31.871Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:31.871Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:31.871Z - Time taken for 'changed-projects' 0.07850003242492676ms
+[NX Daemon Server] - 2024-04-30T09:56:32.044Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:32.044Z - [REQUEST]: 14286210109840849513,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:32.044Z - [REQUEST]: .nx/cache/file-map.json~e5e947d0,.nx/cache/project-graph.json~e5e947d0
+[NX Daemon Server] - 2024-04-30T09:56:32.116Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.116Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.116Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:32.116Z - Time taken for 'hash changed files from watcher' 34.81387495994568ms
+[NX Daemon Server] - 2024-04-30T09:56:32.230Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:32.230Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.230Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.230Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:32.231Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:32.231Z - Time taken for 'changed-projects' 0.05766582489013672ms
+[NX Daemon Server] - 2024-04-30T09:56:32.428Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:32.428Z - [REQUEST]: 11466743720749041597,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:32.428Z - [REQUEST]: .nx/cache/file-map.json~6b984181,.nx/cache/project-graph.json~6b984181
+[NX Daemon Server] - 2024-04-30T09:56:32.499Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.499Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.499Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:32.500Z - Time taken for 'hash changed files from watcher' 67.39074993133545ms
+[NX Daemon Server] - 2024-04-30T09:56:32.575Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:32.575Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.575Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.575Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:32.575Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:32.575Z - Time taken for 'changed-projects' 0.06566619873046875ms
+[NX Daemon Server] - 2024-04-30T09:56:32.767Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:32.767Z - [REQUEST]: 15581469671228874130,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:32.767Z - [REQUEST]: .nx/cache/file-map.json~d21388b8,.nx/cache/project-graph.json~d21388b8
+[NX Daemon Server] - 2024-04-30T09:56:32.840Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.840Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.840Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:32.840Z - Time taken for 'hash changed files from watcher' 46.34708309173584ms
+[NX Daemon Server] - 2024-04-30T09:56:32.911Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:32.911Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.911Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:32.911Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:32.911Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:32.911Z - Time taken for 'changed-projects' 0.07816696166992188ms
+[NX Daemon Server] - 2024-04-30T09:56:33.116Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:33.116Z - [REQUEST]: 17524343312338429949,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:33.116Z - [REQUEST]: .nx/cache/file-map.json~9866da5e,.nx/cache/project-graph.json~9866da5e
+[NX Daemon Server] - 2024-04-30T09:56:33.199Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.199Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.199Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:33.199Z - Time taken for 'hash changed files from watcher' 80.27012491226196ms
+[NX Daemon Server] - 2024-04-30T09:56:33.274Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:33.274Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.274Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.274Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:33.274Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:33.274Z - Time taken for 'changed-projects' 0.0657498836517334ms
+[NX Daemon Server] - 2024-04-30T09:56:33.468Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:33.468Z - [REQUEST]: 10947052943450981716,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:33.468Z - [REQUEST]: .nx/cache/file-map.json~31856fda,.nx/cache/project-graph.json~31856fda
+[NX Daemon Server] - 2024-04-30T09:56:33.555Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.555Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.555Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:33.555Z - Time taken for 'hash changed files from watcher' 54.701709032058716ms
+[NX Daemon Server] - 2024-04-30T09:56:33.627Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:33.627Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.627Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.627Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:33.627Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:33.627Z - Time taken for 'changed-projects' 0.06333303451538086ms
+[NX Daemon Server] - 2024-04-30T09:56:33.813Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:33.813Z - [REQUEST]: 2302184357880999732,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:33.813Z - [REQUEST]: .nx/cache/file-map.json~3b455b25,.nx/cache/project-graph.json~3b455b25
+[NX Daemon Server] - 2024-04-30T09:56:33.886Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.886Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.886Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:33.886Z - Time taken for 'hash changed files from watcher' 42.446792125701904ms
+[NX Daemon Server] - 2024-04-30T09:56:33.962Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:33.962Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.962Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:33.962Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:33.962Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:33.962Z - Time taken for 'changed-projects' 0.07675004005432129ms
+[NX Daemon Server] - 2024-04-30T09:56:34.156Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:34.156Z - [REQUEST]: 11497045185451868582,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:34.156Z - [REQUEST]: .nx/cache/file-map.json~01f87816,.nx/cache/project-graph.json~01f87816
+[NX Daemon Server] - 2024-04-30T09:56:34.232Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.232Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.232Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:34.234Z - Time taken for 'hash changed files from watcher' 51.28279209136963ms
+[NX Daemon Server] - 2024-04-30T09:56:34.307Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:34.307Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.307Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.307Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:34.307Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:34.307Z - Time taken for 'changed-projects' 0.0776669979095459ms
+[NX Daemon Server] - 2024-04-30T09:56:34.481Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:34.481Z - [REQUEST]: 18229509350155707582,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:34.481Z - [REQUEST]: .nx/cache/file-map.json~db5859c3,.nx/cache/project-graph.json~db5859c3
+[NX Daemon Server] - 2024-04-30T09:56:34.551Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.551Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.551Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:34.551Z - Time taken for 'hash changed files from watcher' 43.96512508392334ms
+[NX Daemon Server] - 2024-04-30T09:56:34.625Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:34.626Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:34.626Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.626Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.626Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:34.626Z - Time taken for 'changed-projects' 0.07633304595947266ms
+[NX Daemon Server] - 2024-04-30T09:56:34.816Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:34.816Z - [REQUEST]: 15017203559733510367,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:34.816Z - [REQUEST]: .nx/cache/file-map.json~62e40570,.nx/cache/project-graph.json~62e40570
+[NX Daemon Server] - 2024-04-30T09:56:34.887Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.887Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.887Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:34.888Z - Time taken for 'hash changed files from watcher' 47.478874921798706ms
+[NX Daemon Server] - 2024-04-30T09:56:34.963Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:34.964Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.964Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:34.964Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:34.964Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:34.964Z - Time taken for 'changed-projects' 0.07816696166992188ms
+[NX Daemon Server] - 2024-04-30T09:56:35.150Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:35.150Z - [REQUEST]: 6168714528343780823,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:35.150Z - [REQUEST]: .nx/cache/file-map.json~5dcfb3c8,.nx/cache/project-graph.json~5dcfb3c8
+[NX Daemon Server] - 2024-04-30T09:56:35.219Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.219Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.219Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:35.219Z - Time taken for 'hash changed files from watcher' 50.350708961486816ms
+[NX Daemon Server] - 2024-04-30T09:56:35.294Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:35.294Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.294Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.294Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:35.294Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:35.294Z - Time taken for 'changed-projects' 0.06687498092651367ms
+[NX Daemon Server] - 2024-04-30T09:56:35.486Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:35.486Z - [REQUEST]: 9912428203498048418,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:35.486Z - [REQUEST]: .nx/cache/file-map.json~f8be6b8f,.nx/cache/project-graph.json~f8be6b8f
+[NX Daemon Server] - 2024-04-30T09:56:35.558Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.558Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.558Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:35.558Z - Time taken for 'hash changed files from watcher' 47.487082958221436ms
+[NX Daemon Server] - 2024-04-30T09:56:35.632Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:35.633Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:35.633Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.633Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.633Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:35.633Z - Time taken for 'changed-projects' 0.07245898246765137ms
+[NX Daemon Server] - 2024-04-30T09:56:35.826Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:35.827Z - [REQUEST]: 8520456828274780218,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:35.827Z - [REQUEST]: .nx/cache/file-map.json~ddac86f1,.nx/cache/project-graph.json~ddac86f1
+[NX Daemon Server] - 2024-04-30T09:56:35.895Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.895Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.895Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:35.895Z - Time taken for 'hash changed files from watcher' 57.19250011444092ms
+[NX Daemon Server] - 2024-04-30T09:56:35.974Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:35.974Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.974Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:35.974Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:35.974Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:35.974Z - Time taken for 'changed-projects' 0.0651249885559082ms
+[NX Daemon Server] - 2024-04-30T09:56:36.171Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:36.172Z - [REQUEST]: 16013446496935075204,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:36.172Z - [REQUEST]: .nx/cache/file-map.json~f85fd1ba,.nx/cache/project-graph.json~f85fd1ba
+[NX Daemon Server] - 2024-04-30T09:56:36.242Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.242Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.242Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:36.242Z - Time taken for 'hash changed files from watcher' 57.22683310508728ms
+[NX Daemon Server] - 2024-04-30T09:56:36.319Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:36.319Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.319Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.319Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:36.319Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:36.319Z - Time taken for 'changed-projects' 0.07633304595947266ms
+[NX Daemon Server] - 2024-04-30T09:56:36.494Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:36.494Z - [REQUEST]: 8915652384537664896,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:36.494Z - [REQUEST]: .nx/cache/file-map.json~4fff3ed4,.nx/cache/project-graph.json~4fff3ed4
+[NX Daemon Server] - 2024-04-30T09:56:36.563Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.564Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.564Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:36.565Z - Time taken for 'hash changed files from watcher' 40.79370903968811ms
+[NX Daemon Server] - 2024-04-30T09:56:36.640Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:36.640Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.640Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.640Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:36.640Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:36.640Z - Time taken for 'changed-projects' 0.08474993705749512ms
+[NX Daemon Server] - 2024-04-30T09:56:36.819Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:36.819Z - [REQUEST]: 11613742583385976723,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:36.819Z - [REQUEST]: .nx/cache/file-map.json~39ddad1c,.nx/cache/project-graph.json~39ddad1c
+[NX Daemon Server] - 2024-04-30T09:56:36.893Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.893Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.893Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:36.893Z - Time taken for 'hash changed files from watcher' 45.760125160217285ms
+[NX Daemon Server] - 2024-04-30T09:56:36.967Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:36.967Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.967Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:36.967Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:36.967Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:36.967Z - Time taken for 'changed-projects' 0.06874990463256836ms
+[NX Daemon Server] - 2024-04-30T09:56:37.158Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:37.158Z - [REQUEST]: 14008645495312790074,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:37.158Z - [REQUEST]: .nx/cache/file-map.json~409d0a6d,.nx/cache/project-graph.json~409d0a6d
+[NX Daemon Server] - 2024-04-30T09:56:37.230Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.230Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.230Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:37.231Z - Time taken for 'hash changed files from watcher' 58.81495809555054ms
+[NX Daemon Server] - 2024-04-30T09:56:37.306Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:37.306Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.306Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.306Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:37.306Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:37.306Z - Time taken for 'changed-projects' 0.0668339729309082ms
+[NX Daemon Server] - 2024-04-30T09:56:37.487Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:37.487Z - [REQUEST]: 3544795725388121271,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:37.487Z - [REQUEST]: .nx/cache/file-map.json~872bf1fc,.nx/cache/project-graph.json~872bf1fc
+[NX Daemon Server] - 2024-04-30T09:56:37.559Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.559Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.559Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:37.559Z - Time taken for 'hash changed files from watcher' 47.345499992370605ms
+[NX Daemon Server] - 2024-04-30T09:56:37.631Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:37.631Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.631Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.631Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:37.631Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:37.631Z - Time taken for 'changed-projects' 0.07937502861022949ms
+[NX Daemon Server] - 2024-04-30T09:56:37.807Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:37.807Z - [REQUEST]: 4958302205427197403,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:37.807Z - [REQUEST]: .nx/cache/file-map.json~cbc4b418,.nx/cache/project-graph.json~cbc4b418
+[NX Daemon Server] - 2024-04-30T09:56:37.880Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.880Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.880Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:37.880Z - Time taken for 'hash changed files from watcher' 41.30629110336304ms
+[NX Daemon Server] - 2024-04-30T09:56:37.951Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:37.951Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.951Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:37.951Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:37.951Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:37.951Z - Time taken for 'changed-projects' 0.05591702461242676ms
+[NX Daemon Server] - 2024-04-30T09:56:38.135Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:38.135Z - [REQUEST]: 6538696994516998462,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:38.135Z - [REQUEST]: .nx/cache/file-map.json~d4ef1b30,.nx/cache/project-graph.json~d4ef1b30
+[NX Daemon Server] - 2024-04-30T09:56:38.206Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.206Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.206Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:38.206Z - Time taken for 'hash changed files from watcher' 49.148208141326904ms
+[NX Daemon Server] - 2024-04-30T09:56:38.270Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:38.271Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.271Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.271Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:38.271Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:38.271Z - Time taken for 'changed-projects' 0.06366682052612305ms
+[NX Daemon Server] - 2024-04-30T09:56:38.451Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:38.451Z - [REQUEST]: 9016537719227777479,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:38.451Z - [REQUEST]: .nx/cache/file-map.json~9895b50f,.nx/cache/project-graph.json~9895b50f
+[NX Daemon Server] - 2024-04-30T09:56:38.533Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.533Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.533Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:38.533Z - Time taken for 'hash changed files from watcher' 48.66854214668274ms
+[NX Daemon Server] - 2024-04-30T09:56:38.607Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:38.607Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.607Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.607Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:38.607Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:38.607Z - Time taken for 'changed-projects' 0.06520915031433105ms
+[NX Daemon Server] - 2024-04-30T09:56:38.794Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:38.794Z - [REQUEST]: 6652293574300312486,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:38.794Z - [REQUEST]: .nx/cache/file-map.json~0637da94,.nx/cache/project-graph.json~0637da94
+[NX Daemon Server] - 2024-04-30T09:56:38.863Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.863Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.863Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:38.864Z - Time taken for 'hash changed files from watcher' 54.45491695404053ms
+[NX Daemon Server] - 2024-04-30T09:56:38.937Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:38.937Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.937Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:38.937Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:38.937Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:38.937Z - Time taken for 'changed-projects' 0.08220791816711426ms
+[NX Daemon Server] - 2024-04-30T09:56:39.138Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:39.139Z - [REQUEST]: 6293608996961206951,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:39.139Z - [REQUEST]: .nx/cache/file-map.json~a6cfae70,.nx/cache/project-graph.json~a6cfae70
+[NX Daemon Server] - 2024-04-30T09:56:39.208Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.209Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.209Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:39.209Z - Time taken for 'hash changed files from watcher' 62.95341610908508ms
+[NX Daemon Server] - 2024-04-30T09:56:39.282Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:39.283Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.283Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.283Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:39.283Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:39.283Z - Time taken for 'changed-projects' 0.07166695594787598ms
+[NX Daemon Server] - 2024-04-30T09:56:39.497Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:39.497Z - [REQUEST]: 11854121372221040746,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:39.497Z - [REQUEST]: .nx/cache/file-map.json~2697610c,.nx/cache/project-graph.json~2697610c
+[NX Daemon Server] - 2024-04-30T09:56:39.566Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.566Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.566Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:39.567Z - Time taken for 'hash changed files from watcher' 71.58212494850159ms
+[NX Daemon Server] - 2024-04-30T09:56:39.642Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:39.643Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.643Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.643Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:39.643Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:39.643Z - Time taken for 'changed-projects' 0.07979106903076172ms
+[NX Daemon Server] - 2024-04-30T09:56:39.819Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:39.819Z - [REQUEST]: 6890009715018826666,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:39.819Z - [REQUEST]: .nx/cache/file-map.json~83d5be07,.nx/cache/project-graph.json~83d5be07
+[NX Daemon Server] - 2024-04-30T09:56:39.890Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.890Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.890Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:39.890Z - Time taken for 'hash changed files from watcher' 40.28308296203613ms
+[NX Daemon Server] - 2024-04-30T09:56:39.965Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:39.965Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.965Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:39.965Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:39.965Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:39.965Z - Time taken for 'changed-projects' 0.06999993324279785ms
+[NX Daemon Server] - 2024-04-30T09:56:40.160Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:40.160Z - [REQUEST]: 6439260071193882340,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:40.160Z - [REQUEST]: .nx/cache/file-map.json~bf016c34,.nx/cache/project-graph.json~bf016c34
+[NX Daemon Server] - 2024-04-30T09:56:40.233Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.233Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.233Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:40.233Z - Time taken for 'hash changed files from watcher' 56.627832889556885ms
+[NX Daemon Server] - 2024-04-30T09:56:40.308Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:40.308Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.308Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.308Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:40.308Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:40.308Z - Time taken for 'changed-projects' 0.06949996948242188ms
+[NX Daemon Server] - 2024-04-30T09:56:40.470Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:40.471Z - [REQUEST]: 1992763620874139173,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:40.471Z - [REQUEST]: .nx/cache/file-map.json~73ffec9e,.nx/cache/project-graph.json~73ffec9e
+[NX Daemon Server] - 2024-04-30T09:56:40.545Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.545Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.545Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:40.545Z - Time taken for 'hash changed files from watcher' 31.67562484741211ms
+[NX Daemon Server] - 2024-04-30T09:56:40.617Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:40.617Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.618Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.618Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:40.618Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:40.618Z - Time taken for 'changed-projects' 0.0598750114440918ms
+[NX Daemon Server] - 2024-04-30T09:56:40.806Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:40.807Z - [REQUEST]: 13986547767913293475,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:40.807Z - [REQUEST]: .nx/cache/file-map.json~e158285b,.nx/cache/project-graph.json~e158285b
+[NX Daemon Server] - 2024-04-30T09:56:40.876Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.876Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.876Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:40.876Z - Time taken for 'hash changed files from watcher' 49.21129107475281ms
+[NX Daemon Server] - 2024-04-30T09:56:40.952Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:40.952Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.952Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:40.952Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:40.952Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:40.952Z - Time taken for 'changed-projects' 0.08049988746643066ms
+[NX Daemon Server] - 2024-04-30T09:56:41.146Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:41.146Z - [REQUEST]: 9076566021738956422,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:41.146Z - [REQUEST]: .nx/cache/file-map.json~2c084d7d,.nx/cache/project-graph.json~2c084d7d
+[NX Daemon Server] - 2024-04-30T09:56:41.217Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.217Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.217Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:41.218Z - Time taken for 'hash changed files from watcher' 45.15841603279114ms
+[NX Daemon Server] - 2024-04-30T09:56:41.290Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:41.290Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.290Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.290Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:41.290Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:41.290Z - Time taken for 'changed-projects' 0.08304190635681152ms
+[NX Daemon Server] - 2024-04-30T09:56:41.481Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:41.481Z - [REQUEST]: 6768735304022758054,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:41.481Z - [REQUEST]: .nx/cache/file-map.json~5ad6a52f,.nx/cache/project-graph.json~5ad6a52f
+[NX Daemon Server] - 2024-04-30T09:56:41.551Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.551Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.551Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:41.551Z - Time taken for 'hash changed files from watcher' 47.884583950042725ms
+[NX Daemon Server] - 2024-04-30T09:56:41.627Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:41.627Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.627Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.627Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:41.627Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:41.627Z - Time taken for 'changed-projects' 0.06920909881591797ms
+[NX Daemon Server] - 2024-04-30T09:56:41.815Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:41.815Z - [REQUEST]: 13128383871422699122,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:41.815Z - [REQUEST]: .nx/cache/file-map.json~fcd36b14,.nx/cache/project-graph.json~fcd36b14
+[NX Daemon Server] - 2024-04-30T09:56:41.885Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.885Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.885Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:41.886Z - Time taken for 'hash changed files from watcher' 46.755083084106445ms
+[NX Daemon Server] - 2024-04-30T09:56:41.960Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:41.961Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.961Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:41.961Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:41.961Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:41.961Z - Time taken for 'changed-projects' 0.07800006866455078ms
+[NX Daemon Server] - 2024-04-30T09:56:42.148Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:42.148Z - [REQUEST]: 3134804432570947087,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:42.148Z - [REQUEST]: .nx/cache/file-map.json~037a2f4a,.nx/cache/project-graph.json~037a2f4a
+[NX Daemon Server] - 2024-04-30T09:56:42.218Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.218Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.218Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:42.218Z - Time taken for 'hash changed files from watcher' 50.62720799446106ms
+[NX Daemon Server] - 2024-04-30T09:56:42.295Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:42.295Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.295Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.296Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:42.296Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:42.296Z - Time taken for 'changed-projects' 0.07400012016296387ms
+[NX Daemon Server] - 2024-04-30T09:56:42.492Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:42.492Z - [REQUEST]: 16112470138013547615,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:42.492Z - [REQUEST]: .nx/cache/file-map.json~a37d56b9,.nx/cache/project-graph.json~a37d56b9
+[NX Daemon Server] - 2024-04-30T09:56:42.563Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.563Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.563Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:42.564Z - Time taken for 'hash changed files from watcher' 61.211166858673096ms
+[NX Daemon Server] - 2024-04-30T09:56:42.639Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:42.639Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.639Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.639Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:42.639Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:42.639Z - Time taken for 'changed-projects' 0.07120800018310547ms
+[NX Daemon Server] - 2024-04-30T09:56:42.817Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:42.817Z - [REQUEST]: 14654118830833350045,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:42.817Z - [REQUEST]: .nx/cache/file-map.json~9b9d2a77,.nx/cache/project-graph.json~9b9d2a77
+[NX Daemon Server] - 2024-04-30T09:56:42.887Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.887Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.887Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:42.887Z - Time taken for 'hash changed files from watcher' 51.02179193496704ms
+[NX Daemon Server] - 2024-04-30T09:56:42.962Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:42.962Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.962Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:42.962Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:42.962Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:42.962Z - Time taken for 'changed-projects' 0.0733330249786377ms
+[NX Daemon Server] - 2024-04-30T09:56:43.162Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:43.163Z - [REQUEST]: 16979359292278832157,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:43.163Z - [REQUEST]: .nx/cache/file-map.json~94de4d58,.nx/cache/project-graph.json~94de4d58
+[NX Daemon Server] - 2024-04-30T09:56:43.236Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.236Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.236Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:43.236Z - Time taken for 'hash changed files from watcher' 59.88612484931946ms
+[NX Daemon Server] - 2024-04-30T09:56:43.307Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:43.308Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.308Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.308Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:43.308Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:43.308Z - Time taken for 'changed-projects' 0.07783293724060059ms
+[NX Daemon Server] - 2024-04-30T09:56:43.504Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:43.504Z - [REQUEST]: 2373074985502366562,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:43.504Z - [REQUEST]: .nx/cache/file-map.json~c15fed9c,.nx/cache/project-graph.json~c15fed9c
+[NX Daemon Server] - 2024-04-30T09:56:43.574Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.574Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.574Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:43.575Z - Time taken for 'hash changed files from watcher' 57.30629086494446ms
+[NX Daemon Server] - 2024-04-30T09:56:43.647Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:43.647Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.647Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.647Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:43.647Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:43.647Z - Time taken for 'changed-projects' 0.08562493324279785ms
+[NX Daemon Server] - 2024-04-30T09:56:43.834Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:43.834Z - [REQUEST]: 7924610118386419377,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:43.834Z - [REQUEST]: .nx/cache/file-map.json~773d5a45,.nx/cache/project-graph.json~773d5a45
+[NX Daemon Server] - 2024-04-30T09:56:43.907Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.907Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.907Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:43.907Z - Time taken for 'hash changed files from watcher' 42.367416858673096ms
+[NX Daemon Server] - 2024-04-30T09:56:43.978Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:43.979Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.979Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:43.979Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:43.979Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:43.979Z - Time taken for 'changed-projects' 0.06641697883605957ms
+[NX Daemon Server] - 2024-04-30T09:56:44.171Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:44.171Z - [REQUEST]: 8061259810481096786,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:44.171Z - [REQUEST]: .nx/cache/file-map.json~74d72785,.nx/cache/project-graph.json~74d72785
+[NX Daemon Server] - 2024-04-30T09:56:44.241Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.241Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.241Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:44.242Z - Time taken for 'hash changed files from watcher' 47.19320797920227ms
+[NX Daemon Server] - 2024-04-30T09:56:44.317Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:44.317Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.317Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.317Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:44.317Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:44.317Z - Time taken for 'changed-projects' 0.06716704368591309ms
+[NX Daemon Server] - 2024-04-30T09:56:44.515Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:44.516Z - [REQUEST]: 18144949602720224368,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:44.516Z - [REQUEST]: .nx/cache/file-map.json~ec1349df,.nx/cache/project-graph.json~ec1349df
+[NX Daemon Server] - 2024-04-30T09:56:44.587Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.587Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.587Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:44.587Z - Time taken for 'hash changed files from watcher' 64.93933296203613ms
+[NX Daemon Server] - 2024-04-30T09:56:44.661Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:44.662Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.662Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.662Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:44.662Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:44.662Z - Time taken for 'changed-projects' 0.06379199028015137ms
+[NX Daemon Server] - 2024-04-30T09:56:44.842Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:44.842Z - [REQUEST]: 5023663775566539198,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:44.842Z - [REQUEST]: .nx/cache/file-map.json~36c4355c,.nx/cache/project-graph.json~36c4355c
+[NX Daemon Server] - 2024-04-30T09:56:44.918Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.918Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.918Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:44.918Z - Time taken for 'hash changed files from watcher' 41.186832904815674ms
+[NX Daemon Server] - 2024-04-30T09:56:44.991Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:44.991Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.991Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:44.991Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:44.991Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:44.991Z - Time taken for 'changed-projects' 0.0668339729309082ms
+[NX Daemon Server] - 2024-04-30T09:56:45.176Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:45.176Z - [REQUEST]: 17471396665305753656,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:45.176Z - [REQUEST]: .nx/cache/file-map.json~90b64c94,.nx/cache/project-graph.json~90b64c94
+[NX Daemon Server] - 2024-04-30T09:56:45.246Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.246Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.246Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:45.246Z - Time taken for 'hash changed files from watcher' 40.30762505531311ms
+[NX Daemon Server] - 2024-04-30T09:56:45.322Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:45.322Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.322Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.322Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:45.322Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:45.322Z - Time taken for 'changed-projects' 0.07383298873901367ms
+[NX Daemon Server] - 2024-04-30T09:56:45.535Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:45.535Z - [REQUEST]: 4087182310120366403,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:45.535Z - [REQUEST]: .nx/cache/file-map.json~adcc1c17,.nx/cache/project-graph.json~adcc1c17
+[NX Daemon Server] - 2024-04-30T09:56:45.610Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.610Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.610Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:45.610Z - Time taken for 'hash changed files from watcher' 70.60483407974243ms
+[NX Daemon Server] - 2024-04-30T09:56:45.682Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:45.682Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.682Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.682Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:45.682Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:45.682Z - Time taken for 'changed-projects' 0.06887483596801758ms
+[NX Daemon Server] - 2024-04-30T09:56:45.853Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:45.853Z - [REQUEST]: 6082655817599712585,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:45.853Z - [REQUEST]: .nx/cache/file-map.json~9264235e,.nx/cache/project-graph.json~9264235e
+[NX Daemon Server] - 2024-04-30T09:56:45.947Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.948Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:45.948Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:45.949Z - Time taken for 'hash changed files from watcher' 43.39716696739197ms
+[NX Daemon Server] - 2024-04-30T09:56:46.009Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:46.010Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.010Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.010Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:46.010Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:46.010Z - Time taken for 'changed-projects' 0.05995893478393555ms
+[NX Daemon Server] - 2024-04-30T09:56:46.200Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:46.200Z - [REQUEST]: 1464090282970737006,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:46.201Z - [REQUEST]: .nx/cache/file-map.json~ab3b5129,.nx/cache/project-graph.json~ab3b5129
+[NX Daemon Server] - 2024-04-30T09:56:46.293Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.293Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.293Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:46.293Z - Time taken for 'hash changed files from watcher' 48.984375ms
+[NX Daemon Server] - 2024-04-30T09:56:46.366Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:46.366Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.366Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.366Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:46.366Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:46.366Z - Time taken for 'changed-projects' 0.05845808982849121ms
+[NX Daemon Server] - 2024-04-30T09:56:46.557Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:46.557Z - [REQUEST]: 7613223881606960509,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:46.557Z - [REQUEST]: .nx/cache/file-map.json~7312e494,.nx/cache/project-graph.json~7312e494
+[NX Daemon Server] - 2024-04-30T09:56:46.631Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.631Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.631Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:46.632Z - Time taken for 'hash changed files from watcher' 59.76208305358887ms
+[NX Daemon Server] - 2024-04-30T09:56:46.707Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:46.708Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.708Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.708Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:46.708Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:46.708Z - Time taken for 'changed-projects' 0.07816720008850098ms
+[NX Daemon Server] - 2024-04-30T09:56:46.913Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:46.913Z - [REQUEST]: 10662783196202691095,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:46.913Z - [REQUEST]: .nx/cache/file-map.json~0213d3b4,.nx/cache/project-graph.json~0213d3b4
+[NX Daemon Server] - 2024-04-30T09:56:46.985Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.986Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:46.986Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:46.986Z - Time taken for 'hash changed files from watcher' 66.33808398246765ms
+[NX Daemon Server] - 2024-04-30T09:56:47.060Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:47.060Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.060Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.060Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:47.060Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:47.060Z - Time taken for 'changed-projects' 0.07141613960266113ms
+[NX Daemon Server] - 2024-04-30T09:56:47.257Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:47.257Z - [REQUEST]: 9183643848126654909,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:47.257Z - [REQUEST]: .nx/cache/file-map.json~b4385d8a,.nx/cache/project-graph.json~b4385d8a
+[NX Daemon Server] - 2024-04-30T09:56:47.329Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.329Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.329Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:47.329Z - Time taken for 'hash changed files from watcher' 54.57912492752075ms
+[NX Daemon Server] - 2024-04-30T09:56:47.390Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:47.390Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.390Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.390Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:47.390Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:47.390Z - Time taken for 'changed-projects' 0.07458305358886719ms
+[NX Daemon Server] - 2024-04-30T09:56:47.598Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:47.598Z - [REQUEST]: 12049129092786332595,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:47.598Z - [REQUEST]: .nx/cache/file-map.json~2406c724,.nx/cache/project-graph.json~2406c724
+[NX Daemon Server] - 2024-04-30T09:56:47.683Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.683Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.683Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:47.683Z - Time taken for 'hash changed files from watcher' 50.925583839416504ms
+[NX Daemon Server] - 2024-04-30T09:56:47.758Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:47.759Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:47.759Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.759Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:47.759Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:47.759Z - Time taken for 'changed-projects' 0.054125070571899414ms
+[NX Daemon Server] - 2024-04-30T09:56:47.962Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:47.962Z - [REQUEST]: 4433221169902084163,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:47.962Z - [REQUEST]: .nx/cache/file-map.json~b245a444,.nx/cache/project-graph.json~b245a444
+[NX Daemon Server] - 2024-04-30T09:56:48.037Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.037Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.037Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:48.037Z - Time taken for 'hash changed files from watcher' 55.59249997138977ms
+[NX Daemon Server] - 2024-04-30T09:56:48.109Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:48.109Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.109Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.109Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:48.109Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:48.109Z - Time taken for 'changed-projects' 0.06733298301696777ms
+[NX Daemon Server] - 2024-04-30T09:56:48.309Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:48.309Z - [REQUEST]: 12434825973008555910,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:48.309Z - [REQUEST]: .nx/cache/file-map.json~3eed2351,.nx/cache/project-graph.json~3eed2351
+[NX Daemon Server] - 2024-04-30T09:56:48.396Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.396Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.396Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:48.397Z - Time taken for 'hash changed files from watcher' 63.73129200935364ms
+[NX Daemon Server] - 2024-04-30T09:56:48.473Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:48.474Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.474Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.474Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:48.474Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:48.474Z - Time taken for 'changed-projects' 0.07566714286804199ms
+[NX Daemon Server] - 2024-04-30T09:56:48.641Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:48.641Z - [REQUEST]: 2571905924548217250,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:48.641Z - [REQUEST]: .nx/cache/file-map.json~30868b78,.nx/cache/project-graph.json~30868b78
+[NX Daemon Server] - 2024-04-30T09:56:48.715Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.715Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.715Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:48.715Z - Time taken for 'hash changed files from watcher' 36.96220803260803ms
+[NX Daemon Server] - 2024-04-30T09:56:48.791Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:48.792Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:48.792Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.792Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:48.792Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:48.792Z - Time taken for 'changed-projects' 0.07962512969970703ms
+[NX Daemon Server] - 2024-04-30T09:56:48.980Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:48.980Z - [REQUEST]: 1311992711192466322,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:48.980Z - [REQUEST]: .nx/cache/file-map.json~aa2c3b48,.nx/cache/project-graph.json~aa2c3b48
+[NX Daemon Server] - 2024-04-30T09:56:49.059Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.059Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.059Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:49.060Z - Time taken for 'hash changed files from watcher' 56.783915996551514ms
+[NX Daemon Server] - 2024-04-30T09:56:49.134Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:49.135Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.135Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.135Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:49.135Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:49.135Z - Time taken for 'changed-projects' 0.06208300590515137ms
+[NX Daemon Server] - 2024-04-30T09:56:49.320Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:49.320Z - [REQUEST]: 17108158371843253406,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:49.320Z - [REQUEST]: .nx/cache/file-map.json~5a59b781,.nx/cache/project-graph.json~5a59b781
+[NX Daemon Server] - 2024-04-30T09:56:49.391Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.392Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.392Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-04-30T09:56:49.392Z - Time taken for 'hash changed files from watcher' 57.46683382987976ms
+[NX Daemon Server] - 2024-04-30T09:56:49.471Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:49.472Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:49.472Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.472Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.472Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:49.472Z - Time taken for 'changed-projects' 0.06208395957946777ms
+[NX Daemon Server] - 2024-04-30T09:56:49.656Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:49.656Z - [REQUEST]: 7933850364710687870,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:49.656Z - [REQUEST]: .nx/cache/file-map.json~1101a5c2,.nx/cache/project-graph.json~1101a5c2
+[NX Daemon Server] - 2024-04-30T09:56:49.731Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.731Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.731Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:49.731Z - Time taken for 'hash changed files from watcher' 52.12166690826416ms
+[NX Daemon Server] - 2024-04-30T09:56:49.806Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:49.806Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.806Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:49.806Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:49.806Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:49.806Z - Time taken for 'changed-projects' 0.07216715812683105ms
+[NX Daemon Server] - 2024-04-30T09:56:50.027Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:50.027Z - [REQUEST]: 2181766345106714181,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:50.027Z - [REQUEST]: .nx/cache/file-map.json~7cffe26f,.nx/cache/project-graph.json~7cffe26f
+[NX Daemon Server] - 2024-04-30T09:56:50.098Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.098Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.098Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:50.098Z - Time taken for 'hash changed files from watcher' 78.9687910079956ms
+[NX Daemon Server] - 2024-04-30T09:56:50.175Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:50.175Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.175Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.175Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:50.175Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:50.175Z - Time taken for 'changed-projects' 0.06224989891052246ms
+[NX Daemon Server] - 2024-04-30T09:56:50.374Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:50.374Z - [REQUEST]: 15082112452361990983,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:50.374Z - [REQUEST]: .nx/cache/file-map.json~082bdacb,.nx/cache/project-graph.json~082bdacb
+[NX Daemon Server] - 2024-04-30T09:56:50.451Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.451Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.451Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:50.451Z - Time taken for 'hash changed files from watcher' 68.07066679000854ms
+[NX Daemon Server] - 2024-04-30T09:56:50.527Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:50.527Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.527Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.527Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:50.527Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:50.527Z - Time taken for 'changed-projects' 0.06629204750061035ms
+[NX Daemon Server] - 2024-04-30T09:56:50.705Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:50.705Z - [REQUEST]: 15595309605482403045,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:50.705Z - [REQUEST]: .nx/cache/file-map.json~22fc34ac,.nx/cache/project-graph.json~22fc34ac
+[NX Daemon Server] - 2024-04-30T09:56:50.779Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.779Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.779Z - Handled FILE-WATCH-CHANGED. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:50.779Z - Time taken for 'hash changed files from watcher' 39.491333961486816ms
+[NX Daemon Server] - 2024-04-30T09:56:50.852Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-04-30T09:56:50.852Z - [REQUEST]: Responding to the client. File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.852Z - Done responding to the client File watch changed
+[NX Daemon Server] - 2024-04-30T09:56:50.852Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2024-04-30T09:56:50.852Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-04-30T09:56:50.852Z - Time taken for 'changed-projects' 0.06108283996582031ms
+[NX Daemon Server] - 2024-04-30T09:56:51.046Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-04-30T09:56:51.046Z - [REQUEST]: 7683753041840686982,8565178953511144613
+[NX Daemon Server] - 2024-04-30T09:56:51.046Z - [REQUEST]: .nx/cache/file-map.json~8622a159,.nx/cache/project-graph.json~8622a159

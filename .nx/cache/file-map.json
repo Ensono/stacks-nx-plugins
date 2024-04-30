@@ -1,0 +1,3053 @@
+{
+  "version": "6.0",
+  "nxVersion": "16.4.0",
+  "deps": {
+    "@swc/helpers": "0.5.1",
+    "chalk": "4.1.0",
+    "change-case": "4.1.2",
+    "enquirer": "2.3.6",
+    "semver": "^7.6.0",
+    "ts-morph": "18.0.0",
+    "tslib": "^2.6.1",
+    "winston": "3.9.0",
+    "yaml": "2.3.1",
+    "yargs": "17.7.2",
+    "yargs-unparser": "2.0.0",
+    "@commitlint/cli": "17.6.5",
+    "@commitlint/config-conventional": "17.6.5",
+    "@commitlint/config-nx-scopes": "17.6.4",
+    "@commitlint/cz-commitlint": "17.5.0",
+    "@jscutlery/semver": "3.0.0",
+    "@mands/nx-playwright": "~0.6.2",
+    "@nx/cypress": "16.4.0",
+    "@nx/devkit": "16.4.0",
+    "@nx/eslint-plugin": "16.4.0",
+    "@nx/jest": "16.4.0",
+    "@nx/js": "16.4.0",
+    "@nx/linter": "16.4.0",
+    "@nx/next": "16.4.0",
+    "@nx/plugin": "16.4.0",
+    "@nx/workspace": "16.4.0",
+    "@swc-node/register": "1.6.5",
+    "@swc/cli": "0.1.62",
+    "@swc/core": "1.3.63",
+    "@types/eslint": "8.40.2",
+    "@types/jest": "29.5.2",
+    "@types/minimatch": "5.1.2",
+    "@types/node": "20.3.1",
+    "@types/prettier": "2.7.3",
+    "@types/yargs-unparser": "2.0.1",
+    "@typescript-eslint/eslint-plugin": "5.59.11",
+    "@typescript-eslint/parser": "5.59.11",
+    "commitizen": "4.3.0",
+    "eslint": "8.42.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-import-resolver-typescript": "3.5.5",
+    "eslint-plugin-compat": "4.1.4",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-security": "1.7.1",
+    "eslint-plugin-testing-library": "5.11.0",
+    "eslint-plugin-unicorn": "47.0.0",
+    "fs-extra": "11.1.1",
+    "husky": "8.0.3",
+    "jest": "29.5.0",
+    "jest-environment-jsdom": "29.5.0",
+    "jsonc-eslint-parser": "2.3.0",
+    "kill-port": "2.0.1",
+    "ngx-deploy-npm": "7.1.0",
+    "nx": "16.4.0",
+    "nx-cloud": "16.3.0",
+    "prettier": "2.8.8",
+    "tcp-port-used": "1.0.2",
+    "ts-jest": "29.1.0",
+    "ts-node": "10.9.1",
+    "verdaccio": "5.25.0"
+  },
+  "pathMappings": {
+    "@ensono-stacks/azure-node": [
+      "packages/azure-node/src/index.ts"
+    ],
+    "@ensono-stacks/azure-react": [
+      "packages/azure-react/src/index.ts"
+    ],
+    "@ensono-stacks/core": [
+      "packages/common/core/src/index.ts"
+    ],
+    "@ensono-stacks/e2e": [
+      "packages/common/e2e/src/index.ts"
+    ],
+    "@ensono-stacks/logger": [
+      "packages/logger/src/index.ts"
+    ],
+    "@ensono-stacks/next": [
+      "packages/next/src/index.ts"
+    ],
+    "@ensono-stacks/playwright": [
+      "packages/playwright/src/index.ts"
+    ],
+    "@ensono-stacks/rest-client": [
+      "packages/rest-client/src/index.ts"
+    ],
+    "@ensono-stacks/test": [
+      "packages/common/test/src/index.ts"
+    ],
+    "@ensono-stacks/workspace": [
+      "packages/workspace/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
+  },
+  "projectFileMap": {
+    "workspace": [
+      {
+        "file": "packages/workspace/.eslintrc.json",
+        "hash": "3042093633291221569"
+      },
+      {
+        "file": "packages/workspace/README.md",
+        "hash": "4951295420595726098"
+      },
+      {
+        "file": "packages/workspace/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/workspace/generators.json",
+        "hash": "16463382427646181389"
+      },
+      {
+        "file": "packages/workspace/jest.config.ts",
+        "hash": "2450397106633953745"
+      },
+      {
+        "file": "packages/workspace/package.json",
+        "hash": "13032250615056499763",
+        "deps": [
+          "npm:nx",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace"
+        ]
+      },
+      {
+        "file": "packages/workspace/project.json",
+        "hash": "18324280300198330642"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/files/taskctl/azdo/build/azDevOps/azuredevops-runner.yaml",
+        "hash": "4068864155587571040"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/files/taskctl/azdo/build/azDevOps/azuredevops-stages.yaml",
+        "hash": "13871202066999168145"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/files/taskctl/azdo/build/azDevOps/azuredevops-vars.yaml",
+        "hash": "13178095134851066905"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/files/taskctl/common/build/taskctl/contexts.yaml",
+        "hash": "15068534163809731195"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/files/taskctl/common/build/taskctl/tasks.yaml",
+        "hash": "5713685835520851502"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/files/taskctl/common/taskctl.yaml",
+        "hash": "17795769906147491418"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/generator.spec.ts",
+        "hash": "12892550284294398749",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/generator.ts",
+        "hash": "13227624272053383216",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/schema.d.ts",
+        "hash": "12106695919983634747"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/schema.json",
+        "hash": "14143338108334208691"
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/utils/pipeline.ts",
+        "hash": "7500997040998623296",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:change-case",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init-deployment/utils/set-defaults.ts",
+        "hash": "2326465724841162683",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/files/commitlint/commitlint.config.js",
+        "hash": "9581295054669923632",
+        "deps": [
+          "npm:@commitlint/config-nx-scopes"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/files/lintstaged/lint-staged.config.js",
+        "hash": "7183700910448032244"
+      },
+      {
+        "file": "packages/workspace/src/generators/init/files/readme/README.md",
+        "hash": "2943794178290422369"
+      },
+      {
+        "file": "packages/workspace/src/generators/init/files/tsconfig/tsconfig.base.json__template__",
+        "hash": "14234624910133245663"
+      },
+      {
+        "file": "packages/workspace/src/generators/init/generator.spec.ts",
+        "hash": "11117711811113427022",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/plugin"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/generator.ts",
+        "hash": "6722242140914785716",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/schema.d.ts",
+        "hash": "3855264189750933975"
+      },
+      {
+        "file": "packages/workspace/src/generators/init/schema.json",
+        "hash": "217839765047367339"
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/commitizen.ts",
+        "hash": "14160461247109074646",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/commitlint.ts",
+        "hash": "3184501181135644248",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/constants.ts",
+        "hash": "1654640990841072266"
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/eslint.ts",
+        "hash": "419080923927208830",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:eslint"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/husky.ts",
+        "hash": "7187966329883951303",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/lint-staged.ts",
+        "hash": "15569871232761330019",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/nvm.ts",
+        "hash": "14419144243940495749",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/readme.ts",
+        "hash": "17164069327848577393",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/tsconfig.ts",
+        "hash": "8224490619625897489",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/workspace/src/generators/init/utils/types.ts",
+        "hash": "10616805365581907870"
+      },
+      {
+        "file": "packages/workspace/src/index.ts",
+        "hash": "15506666187396665524"
+      },
+      {
+        "file": "packages/workspace/tsconfig.json",
+        "hash": "11493708040870531319"
+      },
+      {
+        "file": "packages/workspace/tsconfig.lib.json",
+        "hash": "132271558902478018"
+      },
+      {
+        "file": "packages/workspace/tsconfig.spec.json",
+        "hash": "15226029701661289164"
+      }
+    ],
+    "common-test": [
+      {
+        "file": "packages/common/test/.eslintrc.json",
+        "hash": "9711169714124487252"
+      },
+      {
+        "file": "packages/common/test/README.md",
+        "hash": "4049848201164454508"
+      },
+      {
+        "file": "packages/common/test/jest.config.ts",
+        "hash": "13708966597817583383"
+      },
+      {
+        "file": "packages/common/test/package.json",
+        "hash": "10115322126791297638"
+      },
+      {
+        "file": "packages/common/test/project.json",
+        "hash": "600704283025949985"
+      },
+      {
+        "file": "packages/common/test/src/index.ts",
+        "hash": "14428353282588746736"
+      },
+      {
+        "file": "packages/common/test/src/lib/create-next-app.spec.ts",
+        "hash": "351088427277778141",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/test/src/lib/create-next-app.ts",
+        "hash": "4084995893030558562",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/common/test/src/lib/files-exist-in-tree.spec.ts",
+        "hash": "6912696711884715228",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/test/src/lib/files-exist-in-tree.ts",
+        "hash": "17002579835427179568",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/test/src/lib/index.ts",
+        "hash": "1485131118616014946"
+      },
+      {
+        "file": "packages/common/test/src/lib/stacks-attributes.spec.ts",
+        "hash": "14329487452436880015",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/test/src/lib/stacks-attributes.ts",
+        "hash": "11279902190915127873",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/test/tsconfig.json",
+        "hash": "15394874861207803846"
+      },
+      {
+        "file": "packages/common/test/tsconfig.lib.json",
+        "hash": "17753869744540453478"
+      },
+      {
+        "file": "packages/common/test/tsconfig.spec.json",
+        "hash": "18009515764251117500"
+      }
+    ],
+    "rest-client-e2e": [
+      {
+        "file": "e2e/rest-client-e2e/fixtures/petstore-3.0.json",
+        "hash": "13054746107627828541"
+      },
+      {
+        "file": "e2e/rest-client-e2e/jest.config.ts",
+        "hash": "15023017243237759461"
+      },
+      {
+        "file": "e2e/rest-client-e2e/project.json",
+        "hash": "6925624520771725455"
+      },
+      {
+        "file": "e2e/rest-client-e2e/tests/rest-client.spec.ts",
+        "hash": "12621340244581410138",
+        "deps": [
+          "npm:@nx/plugin",
+          "common-e2e",
+          "npm:yaml",
+          "npm:fs"
+        ]
+      },
+      {
+        "file": "e2e/rest-client-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/rest-client-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "playwright-e2e": [
+      {
+        "file": "e2e/playwright-e2e/jest.config.ts",
+        "hash": "10140013315046317417"
+      },
+      {
+        "file": "e2e/playwright-e2e/project.json",
+        "hash": "8612685201270338169"
+      },
+      {
+        "file": "e2e/playwright-e2e/tests/playwright.spec.ts",
+        "hash": "16501986471248433620",
+        "deps": [
+          "common-e2e",
+          "npm:@nx/plugin",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "e2e/playwright-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/playwright-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "next": [
+      {
+        "file": "packages/next/.eslintrc.json",
+        "hash": "9593231661756115270"
+      },
+      {
+        "file": "packages/next/README.md",
+        "hash": "3286719500499486504"
+      },
+      {
+        "file": "packages/next/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/next/generators.json",
+        "hash": "17519122306104865289"
+      },
+      {
+        "file": "packages/next/jest.config.ts",
+        "hash": "6420231842500191723"
+      },
+      {
+        "file": "packages/next/package.json",
+        "hash": "16558658315926523401",
+        "deps": [
+          "npm:nx",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/project.json",
+        "hash": "10718034040191890870"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/__snapshots__/generator.spec.ts.snap",
+        "hash": "14223685783359598093"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/azure/deploy/terraform/.terraform.lock.hcl",
+        "hash": "7987509351446312959"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/azure/deploy/terraform/data.tf",
+        "hash": "9546121593947895079"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/azure/deploy/terraform/dns.tf",
+        "hash": "8768955224870014250"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/azure/deploy/terraform/variables/nonprod/dns.tfvars",
+        "hash": "15592170443168264918"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/azure/deploy/terraform/variables/prod/dns.tfvars",
+        "hash": "16827470406351204317"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/azure/deploy/terraform/versions.tf",
+        "hash": "15732690733171550709"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/common/Dockerfile",
+        "hash": "7289589225317865811"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/common/deploy/helm/nonprod/values.yaml",
+        "hash": "6464435373210789715"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/apps/common/deploy/helm/prod/values.yaml",
+        "hash": "16200857843237986747"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/.helmignore",
+        "hash": "2882549355274642284"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/Chart.yaml",
+        "hash": "11766669788542607013"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/charts/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/NOTES.txt",
+        "hash": "17408343414614514881"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/_helpers.tpl",
+        "hash": "11382605151956424008"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/deployment.yaml",
+        "hash": "11135977030406904291"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/hpa.yaml",
+        "hash": "15277881949156677787"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/ingress.yaml",
+        "hash": "8850021987020926632"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/service.yaml",
+        "hash": "11631138742959888797"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/serviceaccount.yaml",
+        "hash": "677808715452807512"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/templates/tests/test-connection.yaml",
+        "hash": "2686032315767866126"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/files/libs/common/build/helm/values.yaml",
+        "hash": "17300084676871952377"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/generator.spec.ts",
+        "hash": "1682918449987763427",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/generator.ts",
+        "hash": "14423213875374593691",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/schema.d.ts",
+        "hash": "7933673426516883181"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/schema.json",
+        "hash": "11031460716735345499"
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/utils/add-infrastructure.ts",
+        "hash": "4916751942869659821",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/utils/common.ts",
+        "hash": "6750603867533381370",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:change-case",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/utils/helm.ts",
+        "hash": "10954816711279785264",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init-deployment/utils/terraform.ts",
+        "hash": "11212469713630890928",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:change-case",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/__snapshots__/generator.spec.ts.snap",
+        "hash": "11225669453374591308"
+      },
+      {
+        "file": "packages/next/src/generators/init/files/readme/README.md",
+        "hash": "10502558912334508020"
+      },
+      {
+        "file": "packages/next/src/generators/init/generator.spec.ts",
+        "hash": "10781452238881029118",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/generator.ts",
+        "hash": "3295451171310267105",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace",
+          "npm:chalk",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/schema.d.ts",
+        "hash": "11332051652347422306"
+      },
+      {
+        "file": "packages/next/src/generators/init/schema.json",
+        "hash": "7262204289355345855"
+      },
+      {
+        "file": "packages/next/src/generators/init/utils/constants.ts",
+        "hash": "3235537665536440801"
+      },
+      {
+        "file": "packages/next/src/generators/init/utils/eslint-fix.ts",
+        "hash": "2025655683846596462",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/utils/eslint.ts",
+        "hash": "12100082557442953836",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:eslint"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/utils/react-axe.ts",
+        "hash": "8407043282938035942",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:chalk",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/utils/readme.ts",
+        "hash": "16660956821798089513",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/init/utils/tsconfig.ts",
+        "hash": "10607189648224300530",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/files/azure/deploy/terraform/redis.tf",
+        "hash": "6444566761503283108"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/files/azure/deploy/terraform/variables/nonprod/redis.tfvars",
+        "hash": "9028836037774827989"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/files/azure/deploy/terraform/variables/prod/redis.tfvars",
+        "hash": "748281440481015665"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/files/common/deploy/helm/nonprod/redis.yaml",
+        "hash": "5802858668684368494"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/files/common/deploy/helm/prod/redis.yaml",
+        "hash": "12997432014126110678"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/generator.spec.ts",
+        "hash": "11869488960389558741",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/generator.ts",
+        "hash": "17570625889558979799",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/schema.d.ts",
+        "hash": "15608665277203959987"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/schema.json",
+        "hash": "6243419932044936426"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis-deployment/utils/update-targets.ts",
+        "hash": "986549699272707523",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/__snapshots__/generator.spec.ts.snap",
+        "hash": "17322315613679779455"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/files/src/index.test.ts__template__",
+        "hash": "10884699214140820412"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/files/src/index.ts__template__",
+        "hash": "13997077658003327392"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/generator.spec.ts",
+        "hash": "15366922424773912868",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/generator.ts",
+        "hash": "3199933085960469514",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/js",
+          "npm:@nx/workspace",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/schema.d.ts",
+        "hash": "3928079168759840111"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/schema.json",
+        "hash": "613902450391825802"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/utils/constants.ts",
+        "hash": "13845414629073047685"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/utils/dependencies.ts",
+        "hash": "16254718061118566205",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth-redis/utils/redis-adapter.ts",
+        "hash": "3319997182146754836",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/__snapshots__/generator.spec.ts.snap",
+        "hash": "14419822427367857146"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/files/pages/api/auth/[...nextauth].ts__template__",
+        "hash": "15209166504165527276"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/generator.spec.ts",
+        "hash": "17877870175168032397",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/generator.ts",
+        "hash": "12030819575003339980",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/schema.d.ts",
+        "hash": "3512315483233801945"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/schema.json",
+        "hash": "1498075929217435443"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/test/fixtures/index.ts",
+        "hash": "10459744821311457492"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/test/fixtures/next-app-with-destructured-properties.ts",
+        "hash": "5265702856683900418"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/test/fixtures/next-app-with-providers.ts",
+        "hash": "15045953986492218681"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/test/fixtures/next-auth-empty.ts",
+        "hash": "4226489724966947516"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/test/fixtures/next-auth-with-github.ts",
+        "hash": "11911731751461616946"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/utils/constants.ts",
+        "hash": "373588299125081681"
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/utils/dependencies.ts",
+        "hash": "9557714364177843881",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/utils/local-env.ts",
+        "hash": "6003891798832528786",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:crypto"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/utils/next-auth-provider.ts",
+        "hash": "8634595192035785198",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/next-auth/utils/session-provider.ts",
+        "hash": "11876944507398139801",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/react-query/__snapshots__/generator.spec.ts.snap",
+        "hash": "18264297249839850266"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/generator.spec.ts",
+        "hash": "4207477554416121980",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/react-query/generator.ts",
+        "hash": "11056461947549672299",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/react-query/schema.d.ts",
+        "hash": "17200832465723033529"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/schema.json",
+        "hash": "3666323275139136396"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/test/fixtures/index.ts",
+        "hash": "1547422247083910338"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/test/fixtures/next-app-with-destructured-providers.ts",
+        "hash": "5265702856683900418"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/test/fixtures/next-app-with-providers.ts",
+        "hash": "15045953986492218681"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/utils/constants.ts",
+        "hash": "14013897909862689935"
+      },
+      {
+        "file": "packages/next/src/generators/react-query/utils/dependancies.ts",
+        "hash": "6570111532687109737",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:nx"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/react-query/utils/eslint.ts",
+        "hash": "15873309403297901285",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:eslint"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/react-query/utils/query-client-provider.ts",
+        "hash": "14060880538419660223",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/files/.storybook/main.js",
+        "hash": "10091992456556822830"
+      },
+      {
+        "file": "packages/next/src/generators/storybook/files/.storybook/preview.js",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "packages/next/src/generators/storybook/files/tsconfig.storybook.json",
+        "hash": "974615108560997596"
+      },
+      {
+        "file": "packages/next/src/generators/storybook/generator.spec.ts",
+        "hash": "11892257776358641410",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next",
+          "npm:nx"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/generator.ts",
+        "hash": "10414625526130203212",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/schema.d.ts",
+        "hash": "15180343854926817307"
+      },
+      {
+        "file": "packages/next/src/generators/storybook/schema.json",
+        "hash": "17799223208424362580"
+      },
+      {
+        "file": "packages/next/src/generators/storybook/utils/addCustomCommand.ts",
+        "hash": "840116414565471493",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:nx"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/utils/addStorybook.ts",
+        "hash": "6433362831011026056",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/utils/constants.ts",
+        "hash": "4280700091855353980"
+      },
+      {
+        "file": "packages/next/src/generators/storybook/utils/createFiles.ts",
+        "hash": "10238225667032584746",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:nx",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/utils/dependancies.ts",
+        "hash": "7669049052201940634",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/next/src/generators/storybook/utils/eslint.ts",
+        "hash": "16575788611976863993",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:eslint"
+        ]
+      },
+      {
+        "file": "packages/next/src/index.ts",
+        "hash": "15506666187396665524"
+      },
+      {
+        "file": "packages/next/src/utils/constants.ts",
+        "hash": "12707290381270311971"
+      },
+      {
+        "file": "packages/next/tsconfig.json",
+        "hash": "8428878190469550949"
+      },
+      {
+        "file": "packages/next/tsconfig.lib.json",
+        "hash": "14022495631187104357"
+      },
+      {
+        "file": "packages/next/tsconfig.spec.json",
+        "hash": "17796050757650504141"
+      }
+    ],
+    "logger": [
+      {
+        "file": "packages/logger/.eslintrc.json",
+        "hash": "12899357415497956695"
+      },
+      {
+        "file": "packages/logger/README.md",
+        "hash": "11776793288223073621"
+      },
+      {
+        "file": "packages/logger/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/logger/generators.json",
+        "hash": "2831784912902837109"
+      },
+      {
+        "file": "packages/logger/jest.config.ts",
+        "hash": "12286349104076845175"
+      },
+      {
+        "file": "packages/logger/package.json",
+        "hash": "3945861722528379415",
+        "deps": [
+          "npm:nx",
+          "npm:@nx/devkit",
+          "npm:@nx/js"
+        ]
+      },
+      {
+        "file": "packages/logger/project.json",
+        "hash": "14840908449848956695"
+      },
+      {
+        "file": "packages/logger/src/generators/winston/__snapshots__/generator.spec.ts.snap",
+        "hash": "8641481388297431861"
+      },
+      {
+        "file": "packages/logger/src/generators/winston/files/src/index.test.ts__template__",
+        "hash": "9287042901235518794"
+      },
+      {
+        "file": "packages/logger/src/generators/winston/files/src/index.ts__template__",
+        "hash": "1687733471825709664"
+      },
+      {
+        "file": "packages/logger/src/generators/winston/generator.spec.ts",
+        "hash": "7697533479549758101",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/logger/src/generators/winston/generator.ts",
+        "hash": "8789381123914056697",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/js",
+          "npm:@nx/workspace",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/logger/src/generators/winston/schema.d.ts",
+        "hash": "15517242735656417116"
+      },
+      {
+        "file": "packages/logger/src/generators/winston/schema.json",
+        "hash": "15798980527787989297"
+      },
+      {
+        "file": "packages/logger/src/generators/winston/utils/eslint.ts",
+        "hash": "15473889931416780747",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:eslint"
+        ]
+      },
+      {
+        "file": "packages/logger/src/generators/winston/utils/version.ts",
+        "hash": "6223686367524950610"
+      },
+      {
+        "file": "packages/logger/src/index.ts",
+        "hash": "8176437520771194037"
+      },
+      {
+        "file": "packages/logger/tsconfig.json",
+        "hash": "11493708040870531319"
+      },
+      {
+        "file": "packages/logger/tsconfig.lib.json",
+        "hash": "11370554795606207728"
+      },
+      {
+        "file": "packages/logger/tsconfig.spec.json",
+        "hash": "15226029701661289164"
+      }
+    ],
+    "create-e2e": [
+      {
+        "file": "e2e/create-e2e/jest.config.ts",
+        "hash": "5228936609317755937"
+      },
+      {
+        "file": "e2e/create-e2e/project.json",
+        "hash": "586067071167449564"
+      },
+      {
+        "file": "e2e/create-e2e/tests/create.spec.ts",
+        "hash": "11489504691168040475",
+        "deps": [
+          "common-e2e",
+          "npm:@nx/plugin",
+          "npm:child_process",
+          "npm:fs",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "e2e/create-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/create-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "create": [
+      {
+        "file": "packages/create/.eslintrc.json",
+        "hash": "13115356415698820196"
+      },
+      {
+        "file": "packages/create/README.md",
+        "hash": "1953227235905645617"
+      },
+      {
+        "file": "packages/create/bin/create-stacks-workspace.spec.ts",
+        "hash": "4920459455115971406",
+        "deps": [
+          "npm:chalk",
+          "npm:enquirer",
+          "npm:yargs"
+        ]
+      },
+      {
+        "file": "packages/create/bin/create-stacks-workspace.ts",
+        "hash": "4766476719063836644",
+        "deps": [
+          "common-core",
+          "npm:chalk",
+          "npm:change-case",
+          "npm:child_process",
+          "npm:enquirer",
+          "npm:fs",
+          "npm:path",
+          "npm:yargs",
+          "npm:yargs-unparser"
+        ]
+      },
+      {
+        "file": "packages/create/bin/dependencies.spec.ts",
+        "hash": "1935860297843781079",
+        "deps": [
+          "common-core",
+          "npm:yargs"
+        ]
+      },
+      {
+        "file": "packages/create/bin/dependencies.ts",
+        "hash": "6173326687407646736",
+        "deps": [
+          "common-core",
+          "npm:chalk",
+          "npm:yargs"
+        ]
+      },
+      {
+        "file": "packages/create/bin/index.ts",
+        "hash": "14356976482420665153"
+      },
+      {
+        "file": "packages/create/bin/nx.ts",
+        "hash": "15348750504743141670",
+        "deps": [
+          "npm:fs",
+          "npm:path",
+          "npm:yargs"
+        ]
+      },
+      {
+        "file": "packages/create/bin/package-manager.ts",
+        "hash": "16478144331910702868",
+        "deps": [
+          "common-core",
+          "npm:fs",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/create/bin/types.ts",
+        "hash": "12085945201313846351"
+      },
+      {
+        "file": "packages/create/jest.config.ts",
+        "hash": "8276779865830603895"
+      },
+      {
+        "file": "packages/create/package.json",
+        "hash": "10514075919701095912"
+      },
+      {
+        "file": "packages/create/project.json",
+        "hash": "17811336382496891019"
+      },
+      {
+        "file": "packages/create/setup-test.ts",
+        "hash": "15771836960190919877"
+      },
+      {
+        "file": "packages/create/tsconfig.json",
+        "hash": "11493708040870531319"
+      },
+      {
+        "file": "packages/create/tsconfig.lib.json",
+        "hash": "14244778239458842121"
+      },
+      {
+        "file": "packages/create/tsconfig.spec.json",
+        "hash": "18420308034430427965"
+      }
+    ],
+    "workspace-e2e": [
+      {
+        "file": "e2e/workspace-e2e/jest.config.ts",
+        "hash": "5352789819869631526"
+      },
+      {
+        "file": "e2e/workspace-e2e/project.json",
+        "hash": "12480232316415677226"
+      },
+      {
+        "file": "e2e/workspace-e2e/tests/__snapshots__/workspace.spec.ts.snap",
+        "hash": "18032011923641010236"
+      },
+      {
+        "file": "e2e/workspace-e2e/tests/workspace.spec.ts",
+        "hash": "2779799192118733239",
+        "deps": [
+          "npm:@nx/plugin",
+          "common-e2e"
+        ]
+      },
+      {
+        "file": "e2e/workspace-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/workspace-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "azure-react": [
+      {
+        "file": "packages/azure-react/.eslintrc.json",
+        "hash": "9958035007419705094"
+      },
+      {
+        "file": "packages/azure-react/README.md",
+        "hash": "3096984784562118683"
+      },
+      {
+        "file": "packages/azure-react/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/azure-react/generators.json",
+        "hash": "12773071843433964339"
+      },
+      {
+        "file": "packages/azure-react/jest.config.ts",
+        "hash": "6637730827113459993"
+      },
+      {
+        "file": "packages/azure-react/package.json",
+        "hash": "10836218907709953465",
+        "deps": [
+          "npm:@nrwl/react",
+          "npm:nx",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-react/project.json",
+        "hash": "2845452558387277454"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/files/src/app-insights-config.ts__template__",
+        "hash": "7233565136595616980"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/files/src/index.ts__template__",
+        "hash": "5264917850660732496"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/files/src/telemetry-provider.test.tsx__template__",
+        "hash": "13236780116673156810"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/files/src/telemetry-provider.tsx__template__",
+        "hash": "15870135456132561256"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/generator.spec.ts",
+        "hash": "18061179556175948595",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/generator.ts",
+        "hash": "8387266616983303051",
+        "deps": [
+          "common-core",
+          "npm:@nrwl/react",
+          "npm:@nx/devkit",
+          "npm:@nx/linter",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/schema.d.ts",
+        "hash": "14231266470356808290"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/schema.json",
+        "hash": "5252171599355940607"
+      },
+      {
+        "file": "packages/azure-react/src/generators/app-insights-web/utils/tsconfig.ts",
+        "hash": "17812104451424639557",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-react/src/index.ts",
+        "hash": "9262614376586888678"
+      },
+      {
+        "file": "packages/azure-react/tsconfig.json",
+        "hash": "8428878190469550949"
+      },
+      {
+        "file": "packages/azure-react/tsconfig.lib.json",
+        "hash": "5561914351903125732"
+      },
+      {
+        "file": "packages/azure-react/tsconfig.spec.json",
+        "hash": "17796050757650504141"
+      },
+      {
+        "file": "packages/azure-react/utils/versions.ts",
+        "hash": "6317519102775813111"
+      }
+    ],
+    "common-e2e": [
+      {
+        "file": "packages/common/e2e/.eslintrc.json",
+        "hash": "8930693522153648937"
+      },
+      {
+        "file": "packages/common/e2e/README.md",
+        "hash": "10197688272724374255"
+      },
+      {
+        "file": "packages/common/e2e/executors.json",
+        "hash": "17562922142554576249"
+      },
+      {
+        "file": "packages/common/e2e/generators.json",
+        "hash": "15991556766452060497"
+      },
+      {
+        "file": "packages/common/e2e/package.json",
+        "hash": "15565564798311838105"
+      },
+      {
+        "file": "packages/common/e2e/project.json",
+        "hash": "11715280803373624744"
+      },
+      {
+        "file": "packages/common/e2e/src/executors/e2e/executor.ts",
+        "hash": "14931973469713405939",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:@nx/jest",
+          "npm:child_process",
+          "npm:fs",
+          "npm:semver"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/executors/e2e/schema.d.ts",
+        "hash": "8724103453417581830",
+        "deps": [
+          "npm:@nx/jest"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/executors/e2e/schema.json",
+        "hash": "3739693238685212000"
+      },
+      {
+        "file": "packages/common/e2e/src/index.ts",
+        "hash": "8213285748717114530"
+      },
+      {
+        "file": "packages/common/e2e/src/utils/cleanup.ts",
+        "hash": "10358654563241953291",
+        "deps": [
+          "npm:@nx/plugin",
+          "npm:fs",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/dependencies.ts",
+        "hash": "16448890710209776410",
+        "deps": [
+          "npm:fs",
+          "npm:nx",
+          "npm:path",
+          "npm:typescript"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/index.ts",
+        "hash": "14372541881289442740"
+      },
+      {
+        "file": "packages/common/e2e/src/utils/package-manager.ts",
+        "hash": "10714323914629471742",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:@nx/plugin"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/process-utils.ts",
+        "hash": "6987407225227411444",
+        "deps": [
+          "npm:kill-port",
+          "npm:tcp-port-used"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/project.ts",
+        "hash": "1913143029588410134",
+        "deps": [
+          "npm:@nx/plugin",
+          "npm:child_process",
+          "npm:fs",
+          "npm:fs-extra",
+          "npm:nx",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/registry.ts",
+        "hash": "1035551903881047815",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:@nx/plugin",
+          "npm:child_process",
+          "npm:fs",
+          "npm:url"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/run-target-utils.ts",
+        "hash": "9389777301868299052",
+        "deps": [
+          "npm:@nx/plugin",
+          "npm:child_process"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/src/utils/types.ts",
+        "hash": "11722568875608902331"
+      },
+      {
+        "file": "packages/common/e2e/src/utils/versions.ts",
+        "hash": "12263991035329871517",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:util",
+          "npm:child_process"
+        ]
+      },
+      {
+        "file": "packages/common/e2e/tsconfig.json",
+        "hash": "14111577273029206292"
+      },
+      {
+        "file": "packages/common/e2e/tsconfig.lib.json",
+        "hash": "1233573607384727174"
+      },
+      {
+        "file": "packages/common/e2e/tsconfig.spec.json",
+        "hash": "15557089909488064201"
+      }
+    ],
+    "rest-client": [
+      {
+        "file": "packages/rest-client/.eslintrc.json",
+        "hash": "18334856311370184988"
+      },
+      {
+        "file": "packages/rest-client/README.md",
+        "hash": "13267841110138485446"
+      },
+      {
+        "file": "packages/rest-client/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/rest-client/generators.json",
+        "hash": "13759480856544919337"
+      },
+      {
+        "file": "packages/rest-client/jest.config.ts",
+        "hash": "14807302351101515085"
+      },
+      {
+        "file": "packages/rest-client/package.json",
+        "hash": "14444947235256693674",
+        "deps": [
+          "npm:nx",
+          "npm:@nx/devkit",
+          "npm:@nx/js"
+        ]
+      },
+      {
+        "file": "packages/rest-client/project.json",
+        "hash": "16557435326517613411"
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/__snapshots__/generator.spec.ts.snap",
+        "hash": "2926408781895089249"
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/generator.spec.ts",
+        "hash": "4523365290094625361",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:fs",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/generator.ts",
+        "hash": "9357073539815480590",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/js",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/schema.d.ts",
+        "hash": "6891284757218406310"
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/schema.json",
+        "hash": "3142362630842621152"
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/test/fixtures/index.test.ts.fixture",
+        "hash": "6749679135417692834"
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/test/fixtures/index.ts.fixture",
+        "hash": "4499230838009752650"
+      },
+      {
+        "file": "packages/rest-client/src/generators/bump-version/test/fixtures/index.types.ts.fixture",
+        "hash": "13917047673273262655"
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/__snapshots__/generator.spec.ts.snap",
+        "hash": "9584169850016176925"
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/files/src/index.test.ts__template__",
+        "hash": "8217491950766908335"
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/files/src/index.ts__template__",
+        "hash": "8316168908764995318"
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/files/src/index.types.ts__template__",
+        "hash": "2316717633560603118"
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/generator.spec.ts",
+        "hash": "15342921360466163818",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/generator.ts",
+        "hash": "10098478370675595541",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/js",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/schema.d.ts",
+        "hash": "6809775420168655771"
+      },
+      {
+        "file": "packages/rest-client/src/generators/client-endpoint/schema.json",
+        "hash": "11369967775364815877"
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/__snapshots__/generator.spec.ts.snap",
+        "hash": "10830821163644642480"
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/files/src/index.test.ts__template__",
+        "hash": "6389666099064197290"
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/files/src/index.ts__template__",
+        "hash": "5896501668923568129"
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/generator.spec.ts",
+        "hash": "17057134674970687449",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/generator.ts",
+        "hash": "10372488535269297342",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/js",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/schema.d.ts",
+        "hash": "2469260939626845539"
+      },
+      {
+        "file": "packages/rest-client/src/generators/http-client/schema.json",
+        "hash": "2259868705728832995"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/__snapshots__/generator.spec.ts.snap",
+        "hash": "12154576539161408395"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/art.ts",
+        "hash": "12028449958606970287"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/files/client/orval.config.js__template__",
+        "hash": "13730837126364610877"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/files/client/src/index.ts__template__",
+        "hash": "12183233670866099239"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/files/orval.zod.config.js__template__",
+        "hash": "14453522537395469101"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/files/zod/orval.zod.config.js__template__",
+        "hash": "13918308374732889634"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/files/zod/src/index.ts__template__",
+        "hash": "1475091345378087167"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/generator.spec.ts",
+        "hash": "5189591944933825038",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/generator.ts",
+        "hash": "12811261369128143921",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/js",
+          "npm:nx",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/schema.d.ts",
+        "hash": "6403388136171582556"
+      },
+      {
+        "file": "packages/rest-client/src/generators/openapi-client/schema.json",
+        "hash": "18111816859894077625"
+      },
+      {
+        "file": "packages/rest-client/src/index.ts",
+        "hash": "8245289719552757540"
+      },
+      {
+        "file": "packages/rest-client/tsconfig.json",
+        "hash": "11493708040870531319"
+      },
+      {
+        "file": "packages/rest-client/tsconfig.lib.json",
+        "hash": "132271558902478018"
+      },
+      {
+        "file": "packages/rest-client/tsconfig.spec.json",
+        "hash": "15226029701661289164"
+      },
+      {
+        "file": "packages/rest-client/utils/versions.ts",
+        "hash": "15015402467410959238"
+      }
+    ],
+    "azure-react-e2e": [
+      {
+        "file": "e2e/azure-react-e2e/jest.config.ts",
+        "hash": "5763440398481197535"
+      },
+      {
+        "file": "e2e/azure-react-e2e/project.json",
+        "hash": "9261728762743261482"
+      },
+      {
+        "file": "e2e/azure-react-e2e/tests/azure-react.spec.ts",
+        "hash": "16617358038569810427",
+        "deps": [
+          "npm:@nx/plugin",
+          "common-e2e"
+        ]
+      },
+      {
+        "file": "e2e/azure-react-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/azure-react-e2e/tsconfig.spec.json",
+        "hash": "17796050757650504141"
+      }
+    ],
+    "azure-node": [
+      {
+        "file": "packages/azure-node/.eslintrc.json",
+        "hash": "2955765253428927953"
+      },
+      {
+        "file": "packages/azure-node/README.md",
+        "hash": "14990845949729683096"
+      },
+      {
+        "file": "packages/azure-node/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/azure-node/generators.json",
+        "hash": "1763747559660427964"
+      },
+      {
+        "file": "packages/azure-node/jest.config.ts",
+        "hash": "2476750566509835638"
+      },
+      {
+        "file": "packages/azure-node/package.json",
+        "hash": "17567627465485687257",
+        "deps": [
+          "npm:ts-morph",
+          "npm:nx",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-node/project.json",
+        "hash": "7283731772368027434"
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/generator.spec.ts",
+        "hash": "403685968350953407",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/generator.ts",
+        "hash": "15769696131036527868",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/schema.d.ts",
+        "hash": "8484398587628608817"
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/schema.json",
+        "hash": "6492747953004778055"
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/utils/update-dockerfile.ts",
+        "hash": "5465402703105895638",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/utils/update-pipeline.ts",
+        "hash": "11750060459618090537",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights-deployment/utils/update-targets.ts",
+        "hash": "10562591684380413131",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights/__snapshots__/generator.spec.ts.snap",
+        "hash": "10892078248871388724"
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights/generator.spec.ts",
+        "hash": "12065370142886760280",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights/generator.ts",
+        "hash": "6220209702875698346",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace",
+          "npm:chalk",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights/schema.d.ts",
+        "hash": "380388969359811617"
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights/schema.json",
+        "hash": "7554721833555834656"
+      },
+      {
+        "file": "packages/azure-node/src/generators/app-insights/templates/appInsights.ts",
+        "hash": "7390254128742576716"
+      },
+      {
+        "file": "packages/azure-node/src/index.ts",
+        "hash": "881160107659111352"
+      },
+      {
+        "file": "packages/azure-node/tsconfig.json",
+        "hash": "8428878190469550949"
+      },
+      {
+        "file": "packages/azure-node/tsconfig.lib.json",
+        "hash": "14022495631187104357"
+      },
+      {
+        "file": "packages/azure-node/tsconfig.spec.json",
+        "hash": "17796050757650504141"
+      },
+      {
+        "file": "packages/azure-node/utils/versions.ts",
+        "hash": "13337477901383141396"
+      }
+    ],
+    "azure-node-e2e": [
+      {
+        "file": "e2e/azure-node-e2e/jest.config.ts",
+        "hash": "5884057848955320522"
+      },
+      {
+        "file": "e2e/azure-node-e2e/project.json",
+        "hash": "12036365091981812582"
+      },
+      {
+        "file": "e2e/azure-node-e2e/tests/azure-node.spec.ts",
+        "hash": "13511493794660201603",
+        "deps": [
+          "common-e2e",
+          "npm:@nx/plugin"
+        ]
+      },
+      {
+        "file": "e2e/azure-node-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/azure-node-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "cypress": [
+      {
+        "file": "packages/cypress/.eslintrc.json",
+        "hash": "8901378343533514596"
+      },
+      {
+        "file": "packages/cypress/README.md",
+        "hash": "6408457560007427950"
+      },
+      {
+        "file": "packages/cypress/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/cypress/generators.json",
+        "hash": "11156151978581279754"
+      },
+      {
+        "file": "packages/cypress/jest.config.ts",
+        "hash": "5805133291372745097"
+      },
+      {
+        "file": "packages/cypress/package.json",
+        "hash": "3252228769790479804",
+        "deps": [
+          "npm:@nx/cypress",
+          "npm:nx",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/cypress/project.json",
+        "hash": "13900703251283116861"
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/__snapshots__/generator.spec.ts.snap",
+        "hash": "7552573367505743149"
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/files/cypress/e2e/axe-accessibility.cy.ts__template__",
+        "hash": "17611938650439178766"
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/generator.spec.ts",
+        "hash": "11560385305288213995",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:fs",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/generator.ts",
+        "hash": "10512248293573149687",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/schema.d.ts",
+        "hash": "14437245098558677512"
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/schema.json",
+        "hash": "13731544205300580912"
+      },
+      {
+        "file": "packages/cypress/src/generators/accessibility/utils/update-files.ts",
+        "hash": "8815561955596392612",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init-deployment/generator.spec.ts",
+        "hash": "6409714472138563173",
+        "deps": [
+          "common-test",
+          "workspace",
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init-deployment/generator.ts",
+        "hash": "7553583067870826170",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init-deployment/schema.d.ts",
+        "hash": "10206686993444681174"
+      },
+      {
+        "file": "packages/cypress/src/generators/init-deployment/schema.json",
+        "hash": "101609065534444786"
+      },
+      {
+        "file": "packages/cypress/src/generators/init-deployment/utils/update-azdevops-build.ts",
+        "hash": "10722067479783888149",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init-deployment/utils/update-tasks-yamls.ts",
+        "hash": "16011148827727796572",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init/__snapshots__/generator.spec.ts.snap",
+        "hash": "15904415288628997104"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/files/e2e-folder/cypress.config.ts__template__",
+        "hash": "7801233701854007631"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/files/e2e-folder/cypress/e2e/example.cy.ts__template__",
+        "hash": "4421619395572777529"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/files/e2e-folder/cypress/support/e2e.ts__template__",
+        "hash": "17613048642658052498"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/files/e2e-folder/cypress/tsconfig.json__template__",
+        "hash": "16331282501123027833"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/files/root/cypress.config.base.ts__template__",
+        "hash": "987846542411069860"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/generator.spec.ts",
+        "hash": "11810082099036439269",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init/generator.ts",
+        "hash": "6596452121751870027",
+        "deps": [
+          "common-core",
+          "npm:@nx/cypress",
+          "npm:@nx/devkit",
+          "npm:@nx/linter",
+          "npm:fs"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init/schema.d.ts",
+        "hash": "12084517300956159554"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/schema.json",
+        "hash": "11609601060940408585"
+      },
+      {
+        "file": "packages/cypress/src/generators/init/utils/update-files.ts",
+        "hash": "17302861535563284846",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/generators/init/utils/update-targets.ts",
+        "hash": "18136848808507484895",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/index.ts",
+        "hash": "4902102767338028580"
+      },
+      {
+        "file": "packages/cypress/src/utils/test-utils.ts",
+        "hash": "8047455504467994990",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/cypress/src/versions.ts",
+        "hash": "2324860694681533317"
+      },
+      {
+        "file": "packages/cypress/tsconfig.json",
+        "hash": "8428878190469550949"
+      },
+      {
+        "file": "packages/cypress/tsconfig.lib.json",
+        "hash": "14022495631187104357"
+      },
+      {
+        "file": "packages/cypress/tsconfig.spec.json",
+        "hash": "17796050757650504141"
+      }
+    ],
+    "next-e2e": [
+      {
+        "file": "e2e/next-e2e/jest.config.ts",
+        "hash": "5850423680361654335"
+      },
+      {
+        "file": "e2e/next-e2e/project.json",
+        "hash": "12245938536168840262"
+      },
+      {
+        "file": "e2e/next-e2e/tests/next.spec.ts",
+        "hash": "6896233013930458523",
+        "deps": [
+          "common-e2e",
+          "npm:@nx/devkit",
+          "npm:@nx/plugin",
+          "npm:ts-morph",
+          "npm:fs"
+        ]
+      },
+      {
+        "file": "e2e/next-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/next-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "cypress-e2e": [
+      {
+        "file": "e2e/cypress-e2e/jest.config.ts",
+        "hash": "8399618370993663429"
+      },
+      {
+        "file": "e2e/cypress-e2e/project.json",
+        "hash": "2424076577646449121"
+      },
+      {
+        "file": "e2e/cypress-e2e/tests/cypress.spec.ts",
+        "hash": "7763948816131156968",
+        "deps": [
+          "common-e2e",
+          "npm:@nx/plugin",
+          "cypress"
+        ]
+      },
+      {
+        "file": "e2e/cypress-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/cypress-e2e/tsconfig.spec.json",
+        "hash": "13109411734146394704"
+      }
+    ],
+    "common-core": [
+      {
+        "file": "packages/common/core/.eslintrc.json",
+        "hash": "4473930083868569811"
+      },
+      {
+        "file": "packages/common/core/README.md",
+        "hash": "13809851747423904585"
+      },
+      {
+        "file": "packages/common/core/jest.config.ts",
+        "hash": "17604360856363886245"
+      },
+      {
+        "file": "packages/common/core/package.json",
+        "hash": "8683497694961831763",
+        "deps": [
+          "npm:ts-morph",
+          "npm:deepmerge",
+          "npm:tslib",
+          "npm:minimatch",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/project.json",
+        "hash": "18208404954868222941"
+      },
+      {
+        "file": "packages/common/core/src/index.ts",
+        "hash": "8676056581044718545"
+      },
+      {
+        "file": "packages/common/core/src/lib/array.spec.ts",
+        "hash": "1704055426710221419"
+      },
+      {
+        "file": "packages/common/core/src/lib/array.ts",
+        "hash": "15178376696144592221"
+      },
+      {
+        "file": "packages/common/core/src/lib/copy-files.spec.ts",
+        "hash": "16711511405496924649",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/copy-files.ts",
+        "hash": "1410506901374483711",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/directory-name-warning.spec.ts",
+        "hash": "8344303311846631915"
+      },
+      {
+        "file": "packages/common/core/src/lib/directory-name-warning.ts",
+        "hash": "16851750637021688805",
+        "deps": [
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/eslint.spec.ts",
+        "hash": "2369648959405225677",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/eslint.ts",
+        "hash": "566048223626655379",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:child_process",
+          "npm:deepmerge",
+          "npm:eslint",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/exec.ts",
+        "hash": "10235643571400000917",
+        "deps": [
+          "npm:child_process"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/findFile.spec.ts",
+        "hash": "16069857464790107078",
+        "deps": [
+          "npm:fs"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/findFile.ts",
+        "hash": "5480600240961003765",
+        "deps": [
+          "npm:fs",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/index.ts",
+        "hash": "8726972456492463746"
+      },
+      {
+        "file": "packages/common/core/src/lib/local-env.spec.ts",
+        "hash": "176312962632115788",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/local-env.ts",
+        "hash": "2629330251362412562",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/merge.spec.ts",
+        "hash": "15115587561692479128",
+        "deps": [
+          "npm:deepmerge"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/merge.ts",
+        "hash": "4467416265650416141",
+        "deps": [
+          "npm:deepmerge"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/normalize-options.spec.ts",
+        "hash": "1225936862942726082",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/normalize-options.ts",
+        "hash": "13231637476256749710",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/project-config.spec.ts",
+        "hash": "7580991436691204134"
+      },
+      {
+        "file": "packages/common/core/src/lib/project-config.ts",
+        "hash": "17799531381967475378",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:deepmerge"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/registry.spec.ts",
+        "hash": "224063953565114060"
+      },
+      {
+        "file": "packages/common/core/src/lib/registry.ts",
+        "hash": "12525451194091707912",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/stacks.spec.ts",
+        "hash": "131697897404979726",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/stacks.ts",
+        "hash": "14626332282684875914",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/ts-morph.spec.ts",
+        "hash": "12626775882648543225",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/ts-morph.ts",
+        "hash": "384325841987713774",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/verifyPluginCanBeInstalled.spec.ts",
+        "hash": "12950548468708717937",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:nx"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/lib/verifyPluginCanBeInstalled.ts",
+        "hash": "13226483507133841258",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/addCustomTestConfig.spec.ts",
+        "hash": "6348949643733899591",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/addCustomTestConfig.ts",
+        "hash": "8225336204141425454",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/checkNxVersion.ts",
+        "hash": "1903963355266746013",
+        "deps": [
+          "npm:chalk",
+          "npm:semver"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/deploymentGeneratorMessage.spec.ts",
+        "hash": "534208676402269027",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/deploymentGeneratorMessage.ts",
+        "hash": "13999163506887385389",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/executedDependantGenerator.spec.ts",
+        "hash": "17494637817726431329",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/executedDependantGenerator.ts",
+        "hash": "9571020868579800402",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/formatFiles.spec.ts",
+        "hash": "9926077522785350773",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/formatFiles.ts",
+        "hash": "518456117938344666",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:minimatch",
+          "npm:nx",
+          "npm:path",
+          "npm:prettier"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/hasGeneratorExecuted.spec.ts",
+        "hash": "2057087238777788339",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/hasGeneratorExecuted.ts",
+        "hash": "17992530768921544127",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/ignoreEntry.spec.ts",
+        "hash": "17901277971928948649",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/ignoreEntry.ts",
+        "hash": "17950516506637363245",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:fs",
+          "npm:ignore",
+          "npm:nx"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/index.ts",
+        "hash": "11247064580604432907"
+      },
+      {
+        "file": "packages/common/core/src/utils/tagExecutedGenerator.spec.ts",
+        "hash": "13822975881319599938",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/tagExecutedGenerator.ts",
+        "hash": "5756180730909540355",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/thirdPartyDependencyWarning.spec.ts",
+        "hash": "17003913042466593008",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/thirdPartyDependencyWarning.ts",
+        "hash": "8914930956989563542",
+        "deps": [
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/common/core/src/utils/versions.ts",
+        "hash": "882229142681793816"
+      },
+      {
+        "file": "packages/common/core/tsconfig.json",
+        "hash": "15394874861207803846"
+      },
+      {
+        "file": "packages/common/core/tsconfig.lib.json",
+        "hash": "1233573607384727174"
+      },
+      {
+        "file": "packages/common/core/tsconfig.spec.json",
+        "hash": "18009515764251117500"
+      }
+    ],
+    "playwright": [
+      {
+        "file": "packages/playwright/.eslintrc.json",
+        "hash": "5874535494554679786"
+      },
+      {
+        "file": "packages/playwright/README.md",
+        "hash": "18155477937621559176"
+      },
+      {
+        "file": "packages/playwright/executors.json",
+        "hash": "9851449878413419074"
+      },
+      {
+        "file": "packages/playwright/generators.json",
+        "hash": "9520852643887790453"
+      },
+      {
+        "file": "packages/playwright/jest.config.ts",
+        "hash": "13841424048103992600"
+      },
+      {
+        "file": "packages/playwright/package.json",
+        "hash": "14589413771772527905",
+        "deps": [
+          "npm:@mands/nx-playwright",
+          "npm:nx",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/playwright/project.json",
+        "hash": "9498340970017140769"
+      },
+      {
+        "file": "packages/playwright/src/generators/accessibility/files/axe-accessibility.spec.ts__template__",
+        "hash": "10979317841378671753"
+      },
+      {
+        "file": "packages/playwright/src/generators/accessibility/generator.spec.ts",
+        "hash": "5648809392813362132",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/accessibility/generator.ts",
+        "hash": "16314137473631788683",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/accessibility/schema.d.ts",
+        "hash": "14437245098558677512"
+      },
+      {
+        "file": "packages/playwright/src/generators/accessibility/schema.json",
+        "hash": "25972364779913574"
+      },
+      {
+        "file": "packages/playwright/src/generators/init-deployment/generator.spec.ts",
+        "hash": "8114554222641592439",
+        "deps": [
+          "common-test",
+          "workspace",
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init-deployment/generator.ts",
+        "hash": "12972484069373058939",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init-deployment/schema.d.ts",
+        "hash": "10206686993444681174"
+      },
+      {
+        "file": "packages/playwright/src/generators/init-deployment/schema.json",
+        "hash": "12366996853259793015"
+      },
+      {
+        "file": "packages/playwright/src/generators/init-deployment/utils/update-azdevops-build.ts",
+        "hash": "17037472903749427634",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init-deployment/utils/update-tasks-yamls.ts",
+        "hash": "17332739919627747563",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init/__snapshots__/generator.spec.ts.snap",
+        "hash": "8975908656817132068"
+      },
+      {
+        "file": "packages/playwright/src/generators/init/files/example.spec.ts__template__",
+        "hash": "8392883017013780610"
+      },
+      {
+        "file": "packages/playwright/src/generators/init/generator.spec.ts",
+        "hash": "10215205443983579788",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init/generator.ts",
+        "hash": "2348771845114962771",
+        "deps": [
+          "common-core",
+          "npm:@mands/nx-playwright",
+          "npm:@nx/devkit",
+          "npm:@nx/linter",
+          "npm:@nx/workspace",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init/schema.d.ts",
+        "hash": "10685932311059808837"
+      },
+      {
+        "file": "packages/playwright/src/generators/init/schema.json",
+        "hash": "4202441396897486050"
+      },
+      {
+        "file": "packages/playwright/src/generators/init/utils/update-playwright-config-base.ts",
+        "hash": "4724087265701666365",
+        "deps": [
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/init/utils/update-playwright-config.ts",
+        "hash": "12788145329987059266",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/files/native-build/azuredevops-updatesnapshots.yaml",
+        "hash": "7238512592986236354"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/generator.spec.ts",
+        "hash": "15535648881148455527",
+        "deps": [
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/generator.ts",
+        "hash": "9139462542102378244",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:chalk"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/schema.d.ts",
+        "hash": "11699308260411589884"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/schema.json",
+        "hash": "11668216314734683816"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/utils/update-azdevops-stage.ts",
+        "hash": "9119902022788390846",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/utils/update-azure-devops-updatesnapshots.ts",
+        "hash": "16813425272011669345",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:path",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression-deployment/utils/update-tasks-yamls.ts",
+        "hash": "2955655789683574935",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:yaml"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/files/applitools/applitools-eyes-grid.spec.ts__template__",
+        "hash": "9510880893184452684"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/files/native/playwright-visual-regression.spec.ts__template__",
+        "hash": "10598908832654081068"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/generator.spec.ts",
+        "hash": "15713905012303547757",
+        "deps": [
+          "common-core",
+          "common-test",
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/generator.ts",
+        "hash": "1244417731060826871",
+        "deps": [
+          "common-core",
+          "npm:@nx/devkit",
+          "npm:@nx/workspace",
+          "npm:path"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/schema.d.ts",
+        "hash": "4404450794122440160"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/schema.json",
+        "hash": "1761396047824146220"
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/utils/update-playwright-config.ts",
+        "hash": "516974499241289080",
+        "deps": [
+          "npm:@nx/devkit",
+          "npm:ts-morph"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/generators/visual-regression/utils/update-targets.ts",
+        "hash": "12273178541680994220",
+        "deps": [
+          "npm:@nx/devkit"
+        ]
+      },
+      {
+        "file": "packages/playwright/src/index.ts",
+        "hash": "14589052303491651394"
+      },
+      {
+        "file": "packages/playwright/src/utils/types.ts",
+        "hash": "2042329886593870672"
+      },
+      {
+        "file": "packages/playwright/src/utils/versions.ts",
+        "hash": "18348540266218780154"
+      },
+      {
+        "file": "packages/playwright/tsconfig.json",
+        "hash": "8428878190469550949"
+      },
+      {
+        "file": "packages/playwright/tsconfig.lib.json",
+        "hash": "14022495631187104357"
+      },
+      {
+        "file": "packages/playwright/tsconfig.spec.json",
+        "hash": "17796050757650504141"
+      }
+    ],
+    "logger-e2e": [
+      {
+        "file": "e2e/logger-e2e/jest.config.ts",
+        "hash": "14778532952976673693"
+      },
+      {
+        "file": "e2e/logger-e2e/project.json",
+        "hash": "18226056698127889479"
+      },
+      {
+        "file": "e2e/logger-e2e/tests/logger.spec.ts",
+        "hash": "2146727353640970569",
+        "deps": [
+          "common-e2e",
+          "npm:@nx/plugin"
+        ]
+      },
+      {
+        "file": "e2e/logger-e2e/tsconfig.json",
+        "hash": "1714459049630752951"
+      },
+      {
+        "file": "e2e/logger-e2e/tsconfig.spec.json",
+        "hash": "15226029701661289164"
+      }
+    ]
+  }
+}
