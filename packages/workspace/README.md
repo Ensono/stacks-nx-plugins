@@ -1,8 +1,8 @@
 # @ensono-stacks/workspace
 
 Please visit the stacks documentation page for `workspace`
-[here](https://stacks.ensono.com/docs/nx/workspace/ensono-stacks-workspace) for
-more information
+[here](https://stacks.ensono.com/docs/getting_started/workspace/ensono-stacks-workspace)
+for more information
 
 ## Generators and Executors
 

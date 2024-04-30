@@ -1,8 +1,8 @@
 # @ensono-stacks/logger
 
 Please visit the stacks documentation page for `logger`
-[here](https://stacks.ensono.com/docs/nx/logger/ensono-stacks-logger) for more
-information
+[here](https://stacks.ensono.com/docs/getting_started/logger/ensono-stacks-logger)
+for more information
 
 ## Generators and Executors
 
