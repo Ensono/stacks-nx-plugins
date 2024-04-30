@@ -45,3 +45,4 @@ Run the following to publish the NPM package
 ```bash
 nx publish playwright
 ```
+

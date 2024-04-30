@@ -10,3 +10,4 @@ Run `nx build common-test` to build the library.
 
 Run `nx test common-test` to execute the unit tests via
 [Jest](https://jestjs.io).
+

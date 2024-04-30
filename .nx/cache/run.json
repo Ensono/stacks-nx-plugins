@@ -1,0 +1,9 @@
+{
+  "run": {
+    "command": "nx affected:lint --uncommitted",
+    "startTime": "2024-04-30T09:57:49.966Z",
+    "endTime": "2024-04-30T09:57:49.971Z",
+    "inner": false
+  },
+  "tasks": []
+}
