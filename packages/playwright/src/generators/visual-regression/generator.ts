@@ -12,8 +12,8 @@ import {
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
+    runTasksInSerial,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { VisualRegressionGeneratorSchema } from './schema';

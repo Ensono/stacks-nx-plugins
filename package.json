@@ -10,12 +10,13 @@
     "devDependencies": {
         "@commitlint/cli": "17.6.5",
         "@commitlint/config-conventional": "17.6.5",
-        "@commitlint/config-nx-scopes": "17.6.4",
+        "@commitlint/config-nx-scopes": "^19.3.0",
         "@commitlint/cz-commitlint": "17.5.0",
-        "@jscutlery/semver": "3.0.0",
+        "@jscutlery/semver": "^5.2.2",
         "@mands/nx-playwright": "~0.6.2",
         "@nx/cypress": "18.3.4",
         "@nx/devkit": "18.3.4",
+        "@nx/eslint": "18.3.4",
         "@nx/eslint-plugin": "18.3.4",
         "@nx/jest": "18.3.4",
         "@nx/js": "18.3.4",
@@ -57,8 +58,7 @@
         "tcp-port-used": "1.0.2",
         "ts-jest": "29.1.0",
         "ts-node": "10.9.1",
-        "verdaccio": "5.25.0",
-        "@nx/eslint": "18.3.4"
+        "verdaccio": "5.25.0"
     },
     "config": {
         "commitizen": {

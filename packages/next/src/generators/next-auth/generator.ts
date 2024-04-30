@@ -11,8 +11,8 @@ import {
     readProjectConfiguration,
     Tree,
     logger,
+    runTasksInSerial,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthGeneratorSchema } from './schema';

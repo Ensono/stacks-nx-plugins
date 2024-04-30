@@ -18,9 +18,9 @@ import {
     addDependenciesToPackageJson,
     joinPathFragments,
     updateJson,
+    runTasksInSerial,
 } from '@nx/devkit';
 import { Linter } from '@nx/eslint';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
