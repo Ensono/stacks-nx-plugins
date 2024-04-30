@@ -1,8 +1,8 @@
 # @ensono-stacks/next
- 
+
 Please visit the stacks documentation page for `next`
-[here](https://stacks.ensono.com/docs/nx/next/ensono-stacks-next) for more
-information
+[here](https://stacks.ensono.com/docs/getting_started/next/ensono-stacks-next)
+for more information
 
 ## Generators and Executors
 
