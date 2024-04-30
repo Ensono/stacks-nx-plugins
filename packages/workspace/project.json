@@ -39,7 +39,15 @@
         },
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"]
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "packages/workspace/**/*.ts",
+                    "packages/workspace/generators.json",
+                    "packages/workspace/executors.json",
+                    "packages/workspace/package.json"
+                ]
+            }
         },
         "test": {
             "executor": "@nx/jest:jest",
