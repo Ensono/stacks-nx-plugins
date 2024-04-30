@@ -16,7 +16,7 @@ import {
     runTasksInSerial,
     joinPathFragments,
 } from '@nx/devkit';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { existsSync } from 'fs';
 
 import { CypressGeneratorSchema } from './schema';

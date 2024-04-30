@@ -3,12 +3,12 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/azure-react/src",
     "projectType": "library",
+    "tags": ["plugin"],
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "buildableProjectDepsInPackageJsonType": "dependencies",
                 "outputPath": "dist/packages/azure-react",
                 "main": "packages/azure-react/src/index.ts",
                 "tsConfig": "packages/azure-react/tsconfig.lib.json",
@@ -37,26 +37,6 @@
                 ]
             }
         },
-        // "lint": {
-        //     "executor": "@nx/linter:eslint",
-        //     "outputs": ["{options.outputFile}"],
-        //     "options": {
-        //         "lintFilePatterns": [
-        //             "packages/azure-react/**/*.ts",
-        //             "packages/azure-react/generators.json",
-        //             "packages/azure-react/executors.json",
-        //             "packages/azure-react/package.json"
-        //         ]
-        //     }
-        // },
-        // "test": {
-        //     "executor": "@nx/jest:jest",
-        //     "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-        //     "options": {
-        //         "jestConfig": "packages/azure-react/jest.config.ts",
-        //         "passWithNoTests": true
-        //     }
-        // },
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
@@ -101,6 +81,5 @@
                 "notes": "${notes}"
             }
         }
-    },
-    "tags": ["plugin"]
+    }
 }
