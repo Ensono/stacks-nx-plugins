@@ -1,5 +1,5 @@
 import {
-    getNpmScope,
+    // getNpmScope,
     mergeEslintConfigs,
     updateEslintConfig,
 } from '@ensono-stacks/core';
@@ -86,7 +86,8 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                             ],
                             pathGroups: [
                                 {
-                                    pattern: `@${getNpmScope(tree)}/**`,
+                                    // TODO: get npmScope / name from root package.json
+                                    pattern: `@ensono-stacks/**`,
                                     group: 'internal',
                                 },
                             ],

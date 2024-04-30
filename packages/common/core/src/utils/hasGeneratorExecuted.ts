@@ -7,18 +7,17 @@ import {
 } from './tagExecutedGenerator';
 import { readStacksExecutedGenerators } from '../lib/stacks';
 
-export function getNpmScope(tree: Tree) {
-    const workspace = getWorkspaceLayout(tree);
-    const { name } = tree.exists('package.json')
-        ? readJson(tree, 'package.json')
-        : { name: null };
-    console.log('NAME', name);
-    if (name) {
-        return name;
-    }
+// export function getNpmScope(tree: Tree) {
+//     const workspace = getWorkspaceLayout(tree);
+//     if (workspace.npmScope) {
+//         return workspace.npmScope;
+//     }
+//     const { name } = tree.exists('package.json')
+//         ? readJson(tree, 'package.json')
+//         : { name: null };
 
-    return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
-}
+//     return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
+// }
 
 export function isGeneratorInExecutedListForProject(
     tree: Tree,
@@ -111,7 +110,8 @@ export function hasGeneratorExecutedForWorkspace(
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the workspace`,
-            chalk.magenta`${getNpmScope(tree)}.`,
+            // TODO: get npmScope / name from root package.json 
+            chalk.magenta`@ensono-stacks`,
             chalk.yellow`No changes made.`,
             '\n',
         );

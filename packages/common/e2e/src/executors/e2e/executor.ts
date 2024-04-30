@@ -77,7 +77,8 @@ export default async function runEnd2EndExecutor(
     if (fs.existsSync(verdaccioStoragePath)) {
         const orgPackagePath = joinPathFragments(
             verdaccioStoragePath,
-            `@${npmScope}`,
+            // TODO: get npmScope / name from root package.json
+            `@ensono-stacks`,
         );
         if (fs.existsSync(orgPackagePath)) {
             fs.rmSync(orgPackagePath, { recursive: true, force: true });
