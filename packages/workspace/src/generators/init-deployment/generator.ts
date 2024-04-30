@@ -3,8 +3,12 @@ import {
     hasGeneratorExecutedForWorkspace,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { formatFiles, GeneratorCallback, Tree } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
+import {
+    formatFiles,
+    GeneratorCallback,
+    Tree,
+    runTasksInSerial,
+} from '@nx/devkit';
 
 import { InitDeploymentGeneratorSchema } from './schema';
 import { addPipeline } from './utils/pipeline';
