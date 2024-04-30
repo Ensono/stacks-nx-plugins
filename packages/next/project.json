@@ -3,12 +3,12 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/next/src",
     "projectType": "library",
+    "tags": ["plugin"],
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "buildableProjectDepsInPackageJsonType": "dependencies",
                 "outputPath": "dist/packages/next",
                 "main": "packages/next/src/index.ts",
                 "tsConfig": "packages/next/tsconfig.lib.json",
@@ -38,23 +38,14 @@
             }
         },
         "lint": {
-            "executor": "@nx/linter:eslint",
-            "outputs": ["{options.outputFile}"],
-            "options": {
-                "lintFilePatterns": [
-                    "packages/next/**/*.ts",
-                    "packages/next/generators.json",
-                    "packages/next/executors.json",
-                    "packages/next/package.json"
-                ]
-            }
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"]
         },
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "packages/next/jest.config.ts",
-                "passWithNoTests": true
+                "jestConfig": "packages/next/jest.config.ts"
             }
         },
         "version": {
@@ -101,6 +92,5 @@
                 "notes": "${notes}"
             }
         }
-    },
-    "tags": ["plugin"]
+    }
 }

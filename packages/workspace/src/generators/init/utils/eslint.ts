@@ -6,9 +6,9 @@ import {
 import {
     Tree,
     addDependenciesToPackageJson,
-    readRootPackageJson,
     GeneratorCallback,
 } from '@nx/devkit';
+import { readRootPackageJson } from '@nx/webpack';
 import { Linter } from 'eslint';
 
 import {
