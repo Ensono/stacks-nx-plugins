@@ -12,7 +12,7 @@ export function addQueryClientProviderToApp(
     );
 
     // Check if the App Already contains react-query
-    const isNextAuthImport = appNode
+    const isReactQueryImport = appNode
         .getImportDeclarations()
         .some(
             importDeclaration =>
@@ -20,7 +20,7 @@ export function addQueryClientProviderToApp(
                 REACT_QUERY_NPM_PACKAGE_NAME,
         );
 
-    if (!isNextAuthImport) {
+    if (!isReactQueryImport) {
         appNode.getSourceFile().insertImportDeclaration(0, {
             namedImports: ['QueryClient', 'QueryClientProvider'],
             moduleSpecifier: REACT_QUERY_NPM_PACKAGE_NAME,

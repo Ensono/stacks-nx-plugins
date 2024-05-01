@@ -453,6 +453,12 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     .option('vcs.url', {
                         describe: chalk.dim`Version control remote url`,
                         type: 'string',
+                    })
+                    .option('nxCloud', {
+                        describe: chalk.dim`Enable Nx Cloud`,
+                        type: 'string',
+                        choices: ['skip', 'github', 'circleci', 'yes'],
+                        default: 'skip',
                     }),
             ),
         async (argv: yargs.ArgumentsCamelCase<CreateStacksArguments>) => {
