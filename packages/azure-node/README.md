@@ -1,8 +1,8 @@
 # @ensono-stacks/azure-node
 
 Please visit the stacks documentation page for `azure-node`
-[here](https://stacks.ensono.com/docs/nx/azure-node/ensono-stacks-azure-node) for
-more information
+[here](https://stacks.ensono.com/docs/getting_started/azure-node/ensono-stacks-azure-node)
+for more information
 
 ## Generators and Executors
 

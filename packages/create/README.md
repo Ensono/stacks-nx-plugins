@@ -1,7 +1,7 @@
 # @ensono-stacks/create-stacks-workspace
 
 Please visit the stacks documentation page for `create`
-[here](https://stacks.ensono.com/docs/nx/create-stacks-workspace/ensono-stacks-create-stacks-workspace)
+[here](https://stacks.ensono.com/docs/getting_started/create-stacks-workspace/ensono-stacks-create-stacks-workspace)
 for more information
 
 ## Development
