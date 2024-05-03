@@ -80,7 +80,7 @@ function updateDependencies(tree) {
         {
             playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': PLAYWRIGHT_VERSION,
-            '@mands/nx-playwright': '^0.2.3',
+            '@mands/nx-playwright': '^0.6.3',
         },
     );
 }

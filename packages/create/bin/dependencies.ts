@@ -115,11 +115,21 @@ export async function installPackages(
     }
 
     const versionedPackages = useDevelopment
-        ? packages.map(packageName =>
-              packageName.includes('@ensono-stacks')
+        ? packages.map(packageName => {
+              console.log(packageName);
+              if (packageName.includes('@ensono-stacks/playwright')) {
+                  return `../../../dist/packages/playwright`;
+              }
+              if (packageName.includes('@ensono-stacks/next')) {
+                  return `../../../dist/packages/next`;
+              }
+              if (packageName.includes('@ensono-stacks/workspace')) {
+                  return `../../../dist/packages/workspace`;
+              }
+              return packageName.includes('@ensono-stacks')
                   ? `${packageName}@dev`
-                  : packageName,
-          )
+                  : packageName;
+          })
         : packages;
 
     const packageManager = detectPackageManager(cwd);

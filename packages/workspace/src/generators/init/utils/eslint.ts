@@ -1,5 +1,5 @@
 import {
-    // getNpmScope,
+    getNpmScope,
     mergeEslintConfigs,
     updateEslintConfig,
 } from '@ensono-stacks/core';
@@ -33,7 +33,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
         ignorePatterns: ['**/*'],
         plugins: [
             '@typescript-eslint',
-            '@nx',
+            '@nx/eslint-plugin',
             'import',
             'security',
             'jsx-a11y',
@@ -87,7 +87,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                             pathGroups: [
                                 {
                                     // TODO: get npmScope / name from root package.json
-                                    pattern: `@ensono-stacks/**`,
+                                    pattern: `${getNpmScope(tree)}`,
                                     group: 'internal',
                                 },
                             ],
@@ -200,7 +200,7 @@ function addEslintDependencies(tree: Tree) {
         tree,
         {},
         {
-            '@nx/eslint-plugin': nxDependency || 'latest',
+            '@nx/eslint-plugin': '18.3.4',
             '@typescript-eslint/eslint-plugin': ESLINT_PLUGIN_VERSION,
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,
