@@ -108,8 +108,7 @@ export function hasGeneratorExecutedForWorkspace(
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the workspace`,
-            // TODO: get npmScope / name from root package.json
-            chalk.magenta`@ensono-stacks`,
+            chalk.magenta`${getNpmScope(tree)}.`,
             chalk.yellow`No changes made.`,
             '\n',
         );

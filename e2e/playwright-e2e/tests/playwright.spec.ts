@@ -21,7 +21,7 @@ describe('playwright e2e', () => {
         const baseProject = uniq('playwright');
         const e2eProject = `${baseProject}-e2e`;
         await runNxCommandAsync(
-            `generate @nx/next:application ${baseProject} --e2eTestRunner=none --no-appDir`,
+            `generate @nx/next:application ${baseProject} --e2eTestRunner=none`,
         );
         await runNxCommandAsync(
             `generate @ensono-stacks/playwright:init --project=${baseProject} --no-interactive`,

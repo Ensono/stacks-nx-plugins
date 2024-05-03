@@ -14,10 +14,12 @@ export function addAzureAdProvider(
     const nextAuthNode = morphTree.addSourceFileAtPath(
         joinPathFragments(
             project.root,
-            'pages',
+            'src',
+            'app',
             'api',
             'auth',
-            '[...nextauth].ts',
+            '[...nextauth]',
+            'route.ts',
         ),
     );
 

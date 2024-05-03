@@ -50,8 +50,9 @@ export function addReactAxeConfigToApp(
     try {
         const pagesDirectory = joinPathFragments(
             project.root,
-            'pages',
-            '_app.tsx',
+            'src',
+            'app',
+            'layout.tsx',
         );
         const appNode = morphTree.addSourceFileAtPath(pagesDirectory);
         // only try to modify the _app.tsx file if it exists
@@ -79,7 +80,7 @@ export function addReactAxeConfigToApp(
         }
     } catch (error) {
         console.error(
-            chalk.red`Failed to add the react-axe configuration to the _app.tsx file, got error: ${error}`,
+            chalk.red`Failed to add the react-axe configuration to the src/app/layout.tsx file, got error: ${error}`,
         );
         console.info(
             chalk.yellow`Failed possibly because this next.js application was created with the new app directory which doesn't have an _app.tsx file.`,

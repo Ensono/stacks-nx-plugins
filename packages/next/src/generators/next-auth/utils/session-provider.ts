@@ -5,9 +5,21 @@ export function addSessionProviderToApp(
     project: ProjectConfiguration,
     morphTree: Project,
 ) {
+    console.log('1a');
+    console.log(morphTree);
     const appNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'pages', '_app.tsx'),
+        joinPathFragments(
+            project.root,
+            'src',
+            'app',
+            'api',
+            'auth',
+            '[...nextauth]',
+            'route.ts',
+        ),
     );
+
+    console.log('1b');
 
     // Check if the App Already contains next-auth
     const isNextAuthImport = appNode
@@ -15,13 +27,13 @@ export function addSessionProviderToApp(
         .some(
             importDeclaration =>
                 importDeclaration.getModuleSpecifier().getLiteralValue() ===
-                'next-auth/react',
+                'next-auth',
         );
 
     if (!isNextAuthImport) {
         appNode.getSourceFile().insertImportDeclaration(0, {
-            namedImports: ['SessionProvider'],
-            moduleSpecifier: 'next-auth/react',
+            namedImports: ['getServerSession'],
+            moduleSpecifier: 'next-auth',
         });
 
         // get default export node reference

@@ -31,7 +31,6 @@ describe('next install generator', () => {
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
-            appDir: false,
             ...schema,
         });
 
@@ -159,9 +158,12 @@ describe('next install generator', () => {
             it('should match the snapshot for _app.tsx file', async () => {
                 const underscoreAppFilePath = joinPathFragments(
                     options.project,
-                    'pages',
-                    '_app.tsx',
+                    'src',
+                    'app',
+                    'layout.tsx',
                 );
+
+                console.log(underscoreAppFilePath);
                 snapshotFiles(tree, [underscoreAppFilePath]);
             });
             it('should install the react-axe package', async () => {
