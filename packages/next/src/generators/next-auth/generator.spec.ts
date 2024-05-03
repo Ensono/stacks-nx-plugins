@@ -24,7 +24,6 @@ describe('next-auth generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
-            appDir: false,
         });
 
         addStacksAttributes(appTree, options.project);
@@ -44,7 +43,7 @@ describe('next-auth generator', () => {
             appTree.exists('next-app/pages/api/auth/[...nextauth].ts'),
         ).toBeTruthy();
 
-        const appTs = appTree.read('next-app/pages/_app.tsx');
+        const appTs = appTree.read('next-app/src/app/layout.tsx');
 
         expect(appTs.toString()).toMatchSnapshot();
     });
@@ -75,22 +74,22 @@ describe('next-auth generator', () => {
     });
 
     it('should configure app if there are already wrapping react providers', async () => {
-        appTree.write('next-app/pages/_app.tsx', nextAppWithProviders);
+        appTree.write('next-app/src/app/layout.tsx', nextAppWithProviders);
         await generator(appTree, options);
 
-        const AppTsx = appTree.read('next-app/pages/_app.tsx');
+        const AppTsx = appTree.read('next-app/src/app/layout.tsx');
 
         expect(AppTsx.toString()).toMatchSnapshot();
     });
 
     it('should configure app if pageProps is already destructured', async () => {
         appTree.write(
-            'next-app/pages/_app.tsx',
+            'next-app/src/app/layout.tsx',
             nextAppWithDestructuredProperties,
         );
         await generator(appTree, options);
 
-        const AppTsx = appTree.read('next-app/pages/_app.tsx');
+        const AppTsx = appTree.read('next-app/src/app/layout.tsx');
 
         expect(AppTsx.toString()).toMatchSnapshot();
     });

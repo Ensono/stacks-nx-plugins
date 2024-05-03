@@ -42,10 +42,12 @@ export default async function nextAuthRedisGenerator(
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
-        'pages',
+        'src',
+        'app',
         'api',
         'auth',
-        '[...nextauth].ts',
+        '[...nextauth]',
+        'route.ts',
     );
     if (!tree.exists(nextAuthApiFilePath)) {
         throw new Error(
