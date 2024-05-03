@@ -65,6 +65,7 @@ export default async function initGenerator(
         project: normalizedOptions.projectName,
         directory: 'cypress',
         linter: Linter.EsLint,
+        devServerTarget: `${normalizedOptions.projectName}:serve`,
     };
 
     await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);

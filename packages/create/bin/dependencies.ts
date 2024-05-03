@@ -126,6 +126,9 @@ export async function installPackages(
               if (packageName.includes('@ensono-stacks/workspace')) {
                   return `../../../dist/packages/workspace`;
               }
+              if (packageName.includes('@ensono-stacks/cypress')) {
+                  return `../../../dist/packages/cypress`;
+              }
               return packageName.includes('@ensono-stacks')
                   ? `${packageName}@dev`
                   : packageName;
