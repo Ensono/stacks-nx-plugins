@@ -258,16 +258,19 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
-            expect(tsconfig?.include).toContain('**/*.ts');
-            expect(tsconfig?.include).toContain('**/*.tsx');
-            expect(tsconfig?.include).toContain('**/*.js');
-            expect(tsconfig?.include).toContain('**/*.jsx');
+            console.log({ tsconfig });
+            expect(tsconfig?.include).toContain('src/**/*.ts');
+            expect(tsconfig?.include).toContain('src/**/*.tsx');
+            expect(tsconfig?.include).toContain('src/**/*.js');
+            expect(tsconfig?.include).toContain('src/**/*.jsx');
             expect(tsconfig?.include).toContain('next-env.d.ts');
             expect(tsconfig?.include).toContain('next.config.js');
 
             const tsconfigSpec = readJson(tree, 'next-app/tsconfig.spec.json');
+
+            console.log({ tsconfigSpec });
             expect(tsconfigSpec?.include).toContain('jest.config.ts');
-            expect(tsconfigSpec?.include).toContain('**/*.spec.js');
+            expect(tsconfigSpec?.include).toContain('src/**/*.spec.js');
         });
 
         it('should merge default files with an existing tsconfig file and a src folder', async () => {
