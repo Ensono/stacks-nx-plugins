@@ -1,8 +1,7 @@
 export default `import NextAuth from 'next-auth';
-const nextAuth = NextAuth({
-  providers: [
-    GithubProvider({})
-  ]
+import GitHub from "next-auth/providers/github"
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [GitHub],
 });
-default export nextAuth;
 `;

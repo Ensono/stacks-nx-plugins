@@ -19,7 +19,6 @@ import { NextAuthGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependencies';
 import { addToLocalEnv } from './utils/local-env';
 import { addAzureAdProvider } from './utils/next-auth-provider';
-import { addSessionProviderToApp } from './utils/session-provider';
 
 export default async function nextAuthGenerator(
     tree: Tree,
@@ -32,26 +31,14 @@ export default async function nextAuthGenerator(
 
     const project = readProjectConfiguration(tree, options.project);
 
-    if (
-        !tree.exists(
-            joinPathFragments(
-                project.root,
-                'src',
-                'app',
-                'api',
-                'hello',
-                'route.ts',
-            ),
-        )
-    ) {
+    // if not generated - create route.ts in pages/api/auth/[...nextauth] and auth.ts in root directory
+    if (!tree.exists(joinPathFragments(project.root, 'auth.ts'))) {
         generateFiles(tree, path.join(__dirname, 'files'), project.root, {
             template: '',
         });
     }
 
     const morphTree = tsMorphTree(tree);
-
-    addSessionProviderToApp(project, morphTree);
 
     if (options.provider === 'azureAd') {
         addAzureAdProvider(project, morphTree);

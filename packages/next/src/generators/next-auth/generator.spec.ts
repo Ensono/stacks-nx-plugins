@@ -1,20 +1,20 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { Tree, readJson, updateJson } from '@nx/devkit';
+import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 
 import generator from './generator';
 import { NextAuthGeneratorSchema } from './schema';
 import {
-    nextAppWithProviders,
     nextAppWithDestructuredProperties,
+    nextAppWithProviders,
     nextAuthEmpty,
     nextAuthWithGithub,
 } from './test/fixtures';
 
 describe('next-auth generator', () => {
     let appTree: Tree;
-    const options: NextAuthGeneratorSchema = {
+    const optionsWithAzureAdProvider: NextAuthGeneratorSchema = {
         project: 'next-app',
         provider: 'azureAd',
     };
@@ -26,11 +26,14 @@ describe('next-auth generator', () => {
             style: 'css',
         });
 
-        addStacksAttributes(appTree, options.project);
+        addStacksAttributes(appTree, optionsWithAzureAdProvider.project);
     });
 
     it('should install NextAuth without a provider', async () => {
-        await generator(appTree, { ...options, provider: 'none' });
+        await generator(appTree, {
+            ...optionsWithAzureAdProvider,
+            provider: 'none',
+        });
 
         const packageJson = readJson(appTree, 'package.json');
 
@@ -50,7 +53,10 @@ describe('next-auth generator', () => {
 
     describe('executedGenerators', () => {
         beforeEach(async () => {
-            await generator(appTree, { ...options, provider: 'none' });
+            await generator(appTree, {
+                ...optionsWithAzureAdProvider,
+                provider: 'none',
+            });
         });
 
         it('should update nx.json and tag executed generator true', async () => {
@@ -58,14 +64,14 @@ describe('next-auth generator', () => {
 
             expect(
                 nxJson.stacks.executedGenerators.project[
-                    options.project
+                    optionsWithAzureAdProvider.project
                 ].includes('NextAuth'),
             ).toBe(true);
         });
 
         it('should return false from method and exit generator if already executed', async () => {
             const gen = await generator(appTree, {
-                ...options,
+                ...optionsWithAzureAdProvider,
                 provider: 'none',
             });
 
@@ -75,7 +81,7 @@ describe('next-auth generator', () => {
 
     it('should configure app if there are already wrapping react providers', async () => {
         appTree.write('next-app/src/app/layout.tsx', nextAppWithProviders);
-        await generator(appTree, options);
+        await generator(appTree, optionsWithAzureAdProvider);
 
         const AppTsx = appTree.read('next-app/src/app/layout.tsx');
 
@@ -87,7 +93,7 @@ describe('next-auth generator', () => {
             'next-app/src/app/layout.tsx',
             nextAppWithDestructuredProperties,
         );
-        await generator(appTree, options);
+        await generator(appTree, optionsWithAzureAdProvider);
 
         const AppTsx = appTree.read('next-app/src/app/layout.tsx');
 
@@ -95,52 +101,54 @@ describe('next-auth generator', () => {
     });
 
     it('should install NextAuth with a provider', async () => {
-        await generator(appTree, options);
+        await generator(appTree, optionsWithAzureAdProvider);
 
-        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
-
-        expect(nextAuthTs.toString()).toMatchSnapshot();
-    });
-
-    it('should safely run on an existing NextAuth install', async () => {
-        await generator(appTree, options);
-
-        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
+        const nextAuthTs = appTree.read('next-app/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should error if an existing NextAuth install is not valid', async () => {
-        appTree.write('next-app/src/app/api/hello/route.ts', '');
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        console.log({ appTree });
+        appTree.write('next-app/auth.ts', `const hello = 'hello'`);
+        await expect(
+            generator(appTree, optionsWithAzureAdProvider),
+        ).rejects.toThrowError(
             'Unable to find the NextAuth implementation function.',
         );
     });
+    it('should safely run on an existing NextAuth install', async () => {
+        await generator(appTree, optionsWithAzureAdProvider);
+
+        const nextAuthTs = appTree.read('next-app/auth.ts');
+
+        expect(nextAuthTs.toString()).toMatchSnapshot();
+    });
 
     it('should run on an existing NextAuth install with no providers', async () => {
-        appTree.write('next-app/src/app/api/hello/route.ts', nextAuthEmpty);
-        await generator(appTree, options);
+        appTree.write('next-app/auth.ts', nextAuthEmpty);
+        await generator(appTree, {
+            project: 'next-app',
+            provider: 'none',
+        });
 
-        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
+        const nextAuthTs = appTree.read('next-app/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should appendto an existing list of providers', async () => {
-        appTree.write(
-            'next-app/src/app/api/hello/route.ts',
-            nextAuthWithGithub,
-        );
-        await generator(appTree, options);
+        appTree.write('next-app/auth.ts', nextAuthWithGithub);
+        await generator(appTree, optionsWithAzureAdProvider);
 
-        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
+        const nextAuthTs = appTree.read('next-app/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should append to an existing .env.local', async () => {
         appTree.write('next-app/.env.local', 'NEXTAUTH_URL=http://website.com');
-        await generator(appTree, options);
+        await generator(appTree, optionsWithAzureAdProvider);
         const localEnv = appTree.read('next-app/.env.local');
         expect(localEnv.toString()).toContain(
             'NEXTAUTH_URL=http://website.com',
@@ -151,7 +159,10 @@ describe('next-auth generator', () => {
     });
 
     it('should skip installing depndencies', async () => {
-        await generator(appTree, { ...options, skipPackageJson: true });
+        await generator(appTree, {
+            ...optionsWithAzureAdProvider,
+            skipPackageJson: true,
+        });
 
         const packageJson = readJson(appTree, 'package.json');
 

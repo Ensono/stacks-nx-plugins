@@ -86,7 +86,6 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                             ],
                             pathGroups: [
                                 {
-                                    // TODO: get npmScope / name from root package.json
                                     pattern: `@${getNpmScope(tree)}/**`,
                                     group: 'internal',
                                 },
