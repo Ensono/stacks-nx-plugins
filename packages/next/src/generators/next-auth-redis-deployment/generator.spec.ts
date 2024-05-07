@@ -51,29 +51,29 @@ describe('next-auth-redis-deployment generator', () => {
         expect(helmRedisValues.toString()).toContain('next-app');
     });
 
-    // describe('executedGenerators', () => {
-    //     beforeEach(async () => {
-    //         await generator(appTree, {
-    //             ...options,
-    //         });
-    //     });
+    describe('executedGenerators', () => {
+        beforeEach(async () => {
+            await generator(appTree, {
+                ...options,
+            });
+        });
 
-    //     it('should update nx.json and tag executed generator true', async () => {
-    //         const nxJson = readJson(appTree, 'nx.json');
+        it('should update nx.json and tag executed generator true', async () => {
+            const nxJson = readJson(appTree, 'nx.json');
 
-    //         expect(
-    //             nxJson.stacks.executedGenerators.project[
-    //                 options.project
-    //             ].includes('NextAuthRedisDeployment'),
-    //         ).toBe(true);
-    //     });
+            expect(
+                nxJson.stacks.executedGenerators.project[
+                    options.project
+                ].includes('NextAuthRedisDeployment'),
+            ).toBe(true);
+        });
 
-    //     it('should return false from method and exit generator if already executed', async () => {
-    //         const gen = await generator(appTree, {
-    //             ...options,
-    //         });
+        it('should return false from method and exit generator if already executed', async () => {
+            const gen = await generator(appTree, {
+                ...options,
+            });
 
-    //         expect(gen).toBe(false);
-    //     });
-    // });
+            expect(gen).toBe(false);
+        });
+    });
 });

@@ -39,7 +39,7 @@ export function addAzureAdProvider(
 
         console.log({ nextAuthNode });
         const callExpression = nextAuthNode
-            .getDescendantsOfKind(SyntaxKind.)
+            .getDescendantsOfKind(SyntaxKind.CallExpression)
             .find(
                 d =>
                     d.getFirstChildByKind(SyntaxKind.Identifier).getText() ===

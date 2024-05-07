@@ -13,7 +13,6 @@ jest.mock('@ensono-stacks/core', () => ({
     execAsync: jest.fn(),
     getCommandVersion: jest.fn(() => '1.0.0'),
 }));
-
 describe('next-auth-redis generator', () => {
     let appTree: Tree;
     const options: NextAuthRedisGeneratorSchema = {

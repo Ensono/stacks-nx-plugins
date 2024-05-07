@@ -22,8 +22,7 @@ export function configureAdapter(
             'src',
             'app',
             'api',
-            'auth',
-            '[...nextauth]',
+            'hello',
             'route.ts',
         ),
     );

@@ -257,14 +257,22 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
     updateJson(tree, 'nx.json', nxJson => {
         const updateNxJson = { ...nxJson };
 
-        updateNxJson.tasksRunnerOptions.default.options.cacheableOperations = [
-            ...new Set([
-                ...nxJson.tasksRunnerOptions.default.options
-                    .cacheableOperations,
-                'container',
-                'helm-package',
-            ]),
-        ];
+        updateNxJson.tasksRunnerOptions = {
+            default: {
+                options: {
+                    cacheableOperations: [
+                        ...new Set([
+                            nxJson.tasksRunnerOptions && {
+                                ...nxJson.tasksRunnerOptions.default.options
+                                    .cacheableOperations,
+                            },
+                            'container',
+                            'helm-package',
+                        ]),
+                    ],
+                },
+            },
+        };
 
         updateNxJson.namedInputs = updateNxJson.namedInputs || {};
 
@@ -281,12 +289,15 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
             };
         }
 
+        console.log(nxJson.targetDefaults);
         if (!nxJson.targetDefaults['lint']) {
             updateNxJson.targetDefaults['lint'] = {
                 inputs: ['helm'],
             };
-        } else if (!nxJson.targetDefaults['lint'].inputs.includes('helm')) {
-            nxJson.targetDefaults['lint'].inputs.push('helm');
+        } else if (
+            !nxJson.targetDefaults['@nx/eslint:lint'].inputs.includes('helm')
+        ) {
+            nxJson.targetDefaults['@nx/eslint:lint'].inputs.push('helm');
         }
 
         if (!nxJson.targetDefaults['helm-package']) {
