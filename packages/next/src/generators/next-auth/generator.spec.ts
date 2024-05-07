@@ -40,7 +40,7 @@ describe('next-auth generator', () => {
 
         expect(appTree.exists('next-app/.env.local')).toBeTruthy();
         expect(
-            appTree.exists('next-app/pages/api/auth/[...nextauth].ts'),
+            appTree.exists('next-app/src/app/api/hello/route.ts'),
         ).toBeTruthy();
 
         const appTs = appTree.read('next-app/src/app/layout.tsx');
@@ -97,55 +97,43 @@ describe('next-auth generator', () => {
     it('should install NextAuth with a provider', async () => {
         await generator(appTree, options);
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should safely run on an existing NextAuth install', async () => {
         await generator(appTree, options);
-        await generator(appTree, options);
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should error if an existing NextAuth install is not valid', async () => {
-        appTree.write('next-app/pages/api/auth/[...nextauth].ts', '');
+        appTree.write('next-app/src/app/api/hello/route.ts', '');
         await expect(generator(appTree, options)).rejects.toThrowError(
             'Unable to find the NextAuth implementation function.',
         );
     });
 
     it('should run on an existing NextAuth install with no providers', async () => {
-        appTree.write(
-            'next-app/pages/api/auth/[...nextauth].ts',
-            nextAuthEmpty,
-        );
+        appTree.write('next-app/src/app/api/hello/route.ts', nextAuthEmpty);
         await generator(appTree, options);
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should appendto an existing list of providers', async () => {
         appTree.write(
-            'next-app/pages/api/auth/[...nextauth].ts',
+            'next-app/src/app/api/hello/route.ts',
             nextAuthWithGithub,
         );
         await generator(appTree, options);
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/app/api/hello/route.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });

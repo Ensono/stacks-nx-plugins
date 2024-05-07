@@ -45,8 +45,7 @@ export default async function nextAuthRedisGenerator(
         'src',
         'app',
         'api',
-        'auth',
-        '[...nextauth]',
+        'hello',
         'route.ts',
     );
     if (!tree.exists(nextAuthApiFilePath)) {
