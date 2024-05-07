@@ -17,8 +17,7 @@ export function addAzureAdProvider(
             'src',
             'app',
             'api',
-            'auth',
-            '[...nextauth]',
+            'hello',
             'route.ts',
         ),
     );
@@ -37,12 +36,14 @@ export function addAzureAdProvider(
             defaultImport: 'AzureADProvider',
             moduleSpecifier: 'next-auth/providers/azure-ad',
         });
+
+        console.log({ nextAuthNode });
         const callExpression = nextAuthNode
-            .getDescendantsOfKind(SyntaxKind.CallExpression)
+            .getDescendantsOfKind(SyntaxKind.)
             .find(
                 d =>
                     d.getFirstChildByKind(SyntaxKind.Identifier).getText() ===
-                    'NextAuth',
+                    'nextAuthNode',
             );
 
         if (!callExpression) {

@@ -5,21 +5,16 @@ export function addSessionProviderToApp(
     project: ProjectConfiguration,
     morphTree: Project,
 ) {
-    console.log('1a');
-    console.log(morphTree);
     const appNode = morphTree.addSourceFileAtPath(
         joinPathFragments(
             project.root,
             'src',
             'app',
             'api',
-            'auth',
-            '[...nextauth]',
+            'hello',
             'route.ts',
         ),
     );
-
-    console.log('1b');
 
     // Check if the App Already contains next-auth
     const isNextAuthImport = appNode
@@ -32,50 +27,12 @@ export function addSessionProviderToApp(
 
     if (!isNextAuthImport) {
         appNode.getSourceFile().insertImportDeclaration(0, {
-            namedImports: ['getServerSession'],
+            defaultImport: 'NextAuth',
             moduleSpecifier: 'next-auth',
         });
 
-        // get default export node reference
-        const defaultExport = appNode
-            .getExportAssignmentOrThrow(d => !d.isExportEquals())
-            .getExpression()
-            .getText();
-        const main = appNode.getFunction(defaultExport);
-
-        // destruct the session from the pageProps in JSX Component
-        const parameter = main.getDescendantsOfKind(
-            SyntaxKind.ObjectBindingPattern,
-        )[0];
-
-        const pageProperties = parameter
-            .getDescendantsOfKind(SyntaxKind.BindingElement)
-            .find(d => d.getText().startsWith('pageProps'));
-
-        if (!pageProperties) {
-            parameter.replaceWithText(
-                '{ Component, pageProps: { session, ...pageProps } }',
-            );
-        } else if (pageProperties.getText() === 'pageProps') {
-            pageProperties.replaceWithText(
-                'pageProps: { session, ...pageProps }',
-            );
-        } else {
-            const destructered = pageProperties
-                .getDescendantsOfKind(SyntaxKind.BindingElement)
-                .map(d => d.getText())
-                .join(', ');
-            pageProperties
-                .getFirstChildByKind(SyntaxKind.ObjectBindingPattern)
-                .replaceWithText(`{ session, ${destructered} }`);
-        }
-
-        // Add the SessionProvider
-        const content = main
-            .getDescendantsOfKind(SyntaxKind.ReturnStatement)
-            .pop()
-            .getFirstChildByKind(SyntaxKind.ParenthesizedExpression)
-            .getChildAtIndex(1);
+        // TODO: what does this do
+        const content = appNode.getSourceFile();
 
         const update = content.isKind(SyntaxKind.JsxFragment)
             ? content
@@ -84,11 +41,7 @@ export function addSessionProviderToApp(
                   .join('')
             : content.getText();
 
-        content.replaceWithText(
-            `<SessionProvider session={session}>
-${update}
-</SessionProvider>`,
-        );
+        content.replaceWithText(`${update}`);
 
         appNode.saveSync();
     }

@@ -27,16 +27,11 @@ export default async function nextAuthGenerator(
 ) {
     verifyPluginCanBeInstalled(tree, options.project);
 
-    console.log('1');
-
     if (hasGeneratorExecutedForProject(tree, options.project, 'NextAuth', true))
         return false;
 
-    console.log('2');
-
     const project = readProjectConfiguration(tree, options.project);
 
-    console.log('3');
     if (
         !tree.exists(
             joinPathFragments(
@@ -44,8 +39,7 @@ export default async function nextAuthGenerator(
                 'src',
                 'app',
                 'api',
-                'auth',
-                '[...nextauth]',
+                'hello',
                 'route.ts',
             ),
         )
@@ -55,16 +49,10 @@ export default async function nextAuthGenerator(
         });
     }
 
-    console.log('4');
-
     const morphTree = tsMorphTree(tree);
-    console.log('5');
-
-    console.log({ tree });
 
     addSessionProviderToApp(project, morphTree);
 
-    console.log('6');
     if (options.provider === 'azureAd') {
         addAzureAdProvider(project, morphTree);
     }
