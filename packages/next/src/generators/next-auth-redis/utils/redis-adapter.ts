@@ -1,4 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
+import { tsMorphTree, getNpmScope } from '@ensono-stacks/core';
 import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
@@ -42,8 +42,7 @@ export function configureAdapter(
     ) {
         nextAuthNode.addImportDeclaration({
             namedImports: ['IORedisAdapter'],
-            // TODO: get npmScope / name from root package.json
-            moduleSpecifier: `@ensono-stacks/${libraryName}`,
+            moduleSpecifier: `@${getNpmScope(tree)}/${libraryName}`,
         });
     }
 

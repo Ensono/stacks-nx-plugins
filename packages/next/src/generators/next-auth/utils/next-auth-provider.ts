@@ -12,14 +12,7 @@ export function addAzureAdProvider(
     morphTree: Project,
 ) {
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(
-            project.root,
-            'src',
-            'app',
-            'api',
-            'hello',
-            'route.ts',
-        ),
+        joinPathFragments(project.root, 'auth.ts'),
     );
 
     // Check if the Provider already exists
@@ -37,13 +30,12 @@ export function addAzureAdProvider(
             moduleSpecifier: 'next-auth/providers/azure-ad',
         });
 
-        console.log({ nextAuthNode });
         const callExpression = nextAuthNode
             .getDescendantsOfKind(SyntaxKind.CallExpression)
             .find(
                 d =>
                     d.getFirstChildByKind(SyntaxKind.Identifier).getText() ===
-                    'nextAuthNode',
+                    'NextAuth',
             );
 
         if (!callExpression) {

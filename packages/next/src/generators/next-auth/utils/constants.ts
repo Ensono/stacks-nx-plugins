@@ -1,1 +1,1 @@
-export const NEXT_AUTH_VERSION = '4.24.7';
+export const NEXT_AUTH_VERSION = 'beta';

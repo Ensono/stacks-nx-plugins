@@ -2,19 +2,74 @@
 
 exports[`next-auth generator should appendto an existing list of providers 1`] = `
 "import NextAuth from 'next-auth';
-import AzureADProvider from "next-auth/providers/azure-ad";
+import GitHub from 'next-auth/providers/github';
+import AzureADProvider from 'next-auth/providers/azure-ad';
 
-const nextAuth = NextAuth({
-  providers: [
-    GithubProvider({}),
+export const { handlers, signIn, signOut, auth } = NextAuth({
+    providers: [
+        GitHub,
         AzureADProvider({
             clientId: process.env.AZURE_AD_CLIENT_ID as string,
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
             tenantId: process.env.AZURE_AD_TENANT_ID as string,
-        })
-    ]
+        }),
+    ],
 });
-default export nextAuth;
+"
+`;
+
+exports[`next-auth generator should configure app if pageProps is already destructured 1`] = `
+"function CustomApp({
+    Component,
+    pageProps: { something, ...pageProperties },
+}: AppProps) {
+    return (
+        <SomeProvider>
+            <Component {...pageProperties} />
+        </SomeProvider>
+    );
+}
+export default CustomApp;
+"
+`;
+
+exports[`next-auth generator should configure app if there are already wrapping react providers 1`] = `
+"function SomeProvider({ children }: PropsWithChildren) {
+    return <>{children}</>;
+
+function RootLayout({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    return (
+      <html lang="en">
+        <body>
+        <SomeProvider>
+          {children}
+          </SomeProvider>
+        </body>
+      </html>
+    );
+  }
+  
+  export default RootLayout;
+  "
+`;
+
+exports[`next-auth generator should install NextAuth with a provider 1`] = `
+"import NextAuth from 'next-auth';
+import AzureADProvider from 'next-auth/providers/azure-ad';
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+    providers: [
+        AzureADProvider({
+            clientId: process.env.AZURE_AD_CLIENT_ID as string,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+            tenantId: process.env.AZURE_AD_TENANT_ID as string,
+        }),
+    ],
+});
 "
 `;
 
@@ -42,15 +97,23 @@ export default function RootLayout({
 
 exports[`next-auth generator should run on an existing NextAuth install with no providers 1`] = `
 "import NextAuth from 'next-auth';
-import AzureADProvider from "next-auth/providers/azure-ad";
 
-const nextAuth = NextAuth({
-    providers: [AzureADProvider({
-        clientId: process.env.AZURE_AD_CLIENT_ID as string,
-        clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
-        tenantId: process.env.AZURE_AD_TENANT_ID as string,
-    })]
+export const { handlers, signIn, signOut, auth } = NextAuth({});
+"
+`;
+
+exports[`next-auth generator should safely run on an existing NextAuth install 1`] = `
+"import NextAuth from 'next-auth';
+import AzureADProvider from 'next-auth/providers/azure-ad';
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+    providers: [
+        AzureADProvider({
+            clientId: process.env.AZURE_AD_CLIENT_ID as string,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+            tenantId: process.env.AZURE_AD_TENANT_ID as string,
+        }),
+    ],
 });
-default export nextAuth;
 "
 `;
