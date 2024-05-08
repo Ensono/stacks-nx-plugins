@@ -109,7 +109,6 @@ describe('next-auth generator', () => {
     });
 
     it('should error if an existing NextAuth install is not valid', async () => {
-        console.log({ appTree });
         appTree.write('next-app/auth.ts', `const hello = 'hello'`);
         await expect(
             generator(appTree, optionsWithAzureAdProvider),

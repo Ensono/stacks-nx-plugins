@@ -32,13 +32,11 @@ describe('client-endpoint generator', () => {
     });
 
     it('should generate the endpoint', async () => {
-        console.log('test options', options);
         await generator(tree, {
             ...options,
             tags: 'testEndpoint',
         });
 
-        console.log({ tree });
         snapshotFiles(tree, [
             joinPathFragments('endpoints/v1/test-endpoint', 'project.json'),
             joinPathFragments('endpoints/v1/test-endpoint', 'tsconfig.json'),
