@@ -48,8 +48,8 @@ export default async function clientEndpoint(
 
     const options = {
         ...optionsParameter,
-        // include endpoint version in library name
-        name: `${optionsParameter.name}/v${optionsParameter.endpointVersion}`,
+        name: `${optionsParameter.name}`,
+        directory: `${optionsParameter.directory}/v${optionsParameter.endpointVersion}`,
         endpointName: optionsParameter.name,
         methods: optionsParameter.methods.map(method => method.toLowerCase()),
     };

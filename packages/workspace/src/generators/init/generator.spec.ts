@@ -252,7 +252,7 @@ describe('init generator', () => {
             const nvmFile = tree.read('.nvmrc');
 
             expect(nvmFile?.toString()).toEqual(
-                expect.stringContaining('v18.17.1'),
+                expect.stringContaining('22.1.0'),
             );
             expect(tree.exists('.nvmrc')).toBeTruthy();
         });

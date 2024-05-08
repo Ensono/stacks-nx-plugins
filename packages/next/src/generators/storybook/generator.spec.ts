@@ -92,7 +92,7 @@ describe('storybook generator', () => {
             await generator(appTree, options);
 
             expect(() =>
-                checkFilesExistInTree(appTree, `next-app/.storybook/main.js`),
+                checkFilesExistInTree(appTree, `next-app/.storybook/main.ts`),
             ).not.toThrow();
         });
 
@@ -102,7 +102,7 @@ describe('storybook generator', () => {
             expect(() =>
                 checkFilesExistInTree(
                     appTree,
-                    `next-app/.storybook/preview.js`,
+                    `next-app/.storybook/preview.ts`,
                 ),
             ).not.toThrow();
         });

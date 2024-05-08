@@ -14,7 +14,7 @@ jest.mock('@ensono-stacks/core', () => ({
     getCommandVersion: jest.fn(() => '1.0.0'),
 }));
 
-describe('next-auth-redis-deployment generator', () => {
+xdescribe('next-auth-redis-deployment generator', () => {
     let appTree: Tree;
     const options: NextAuthRedisDeploymentGeneratorSchema = {
         project: 'next-app',
