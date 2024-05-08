@@ -122,6 +122,8 @@ exports[`playwright generator should run successfully with default options: test
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "./test-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["test"],
   "targets": {
     "e2e": {
       "executor": "@mands/nx-playwright:playwright-executor",
@@ -147,15 +149,12 @@ exports[`playwright generator should run successfully with default options: test
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": ["./test-e2e/**/*.{ts,tsx,js,jsx}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["test"]
+  }
 }
 "
 `;

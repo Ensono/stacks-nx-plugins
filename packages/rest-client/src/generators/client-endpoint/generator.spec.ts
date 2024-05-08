@@ -32,35 +32,37 @@ describe('client-endpoint generator', () => {
     });
 
     it('should generate the endpoint', async () => {
+        console.log('test options', options);
         await generator(tree, {
             ...options,
             tags: 'testEndpoint',
         });
 
+        console.log({ tree });
         snapshotFiles(tree, [
-            joinPathFragments('endpoints/test-endpoint/v1', 'project.json'),
-            joinPathFragments('endpoints/test-endpoint/v1', 'tsconfig.json'),
+            joinPathFragments('endpoints/v1/test-endpoint', 'project.json'),
+            joinPathFragments('endpoints/v1/test-endpoint', 'tsconfig.json'),
             joinPathFragments(
-                'endpoints/test-endpoint/v1',
+                'endpoints/v1/test-endpoint',
                 'tsconfig.lib.json',
             ),
             joinPathFragments(
-                'endpoints/test-endpoint/v1',
+                'endpoints/v1/test-endpoint',
                 'tsconfig.spec.json',
             ),
-            joinPathFragments('endpoints/test-endpoint/v1', '.eslintrc.json'),
-            joinPathFragments('endpoints/test-endpoint/v1', 'package.json'),
-            joinPathFragments('endpoints/test-endpoint/v1', 'jest.config.ts'),
-            joinPathFragments('endpoints/test-endpoint/v1/src', 'index.ts'),
+            joinPathFragments('endpoints/v1/test-endpoint', '.eslintrc.json'),
+            joinPathFragments('endpoints/v1/test-endpoint', 'package.json'),
+            joinPathFragments('endpoints/v1/test-endpoint', 'jest.config.ts'),
+            joinPathFragments('endpoints/v1/test-endpoint/src', 'index.ts'),
             joinPathFragments(
-                'endpoints/test-endpoint/v1/src',
+                'endpoints/v1/test-endpoint/src',
                 'index.test.ts',
             ),
-            joinPathFragments('endpoints/test-endpoint/v1', 'README.md'),
+            joinPathFragments('endpoints/v1/test-endpoint', 'README.md'),
         ]);
 
         const fileContent = tree.read(
-            `endpoints/test-endpoint/v1/src/index.ts`,
+            `endpoints/v1/test-endpoint/src/index.ts`,
             'utf8',
         );
         expect(fileContent).toMatch(
