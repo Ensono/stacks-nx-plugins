@@ -6,7 +6,6 @@ import { applicationGenerator } from '@nx/next';
 import generator from './generator';
 import { ReactQueryGeneratorSchema } from './schema';
 import { nextAppWithProviders } from './test/fixtures';
-import { nextAppWithDestructuredProperties } from '../next-auth/test/fixtures';
 
 describe('react-query generator', () => {
     let appTree: Tree;
@@ -65,14 +64,10 @@ describe('react-query generator', () => {
         expect(AppTsx.toString()).toMatchSnapshot();
     });
 
-    it('should configure app if pageProps is already destructured', async () => {
-        appTree.write(
-            'next-app/src/app/layout.tsx',
-            nextAppWithDestructuredProperties,
-        );
+    it('should have providers content provided', async () => {
         await generator(appTree, options);
 
-        const AppTsx = appTree.read('next-app/src/app/router.tsx');
+        const AppTsx = appTree.read('next-app/src/app/providers.tsx');
 
         expect(AppTsx.toString()).toMatchSnapshot();
     });
