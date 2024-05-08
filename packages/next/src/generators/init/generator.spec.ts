@@ -163,7 +163,6 @@ describe('next install generator', () => {
                     'layout.tsx',
                 );
 
-                console.log(underscoreAppFilePath);
                 snapshotFiles(tree, [underscoreAppFilePath]);
             });
             it('should install the react-axe package', async () => {
@@ -258,7 +257,6 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
-            console.log({ tsconfig });
             expect(tsconfig?.include).toContain('src/**/*.ts');
             expect(tsconfig?.include).toContain('src/**/*.tsx');
             expect(tsconfig?.include).toContain('src/**/*.js');
@@ -268,7 +266,6 @@ describe('next install generator', () => {
 
             const tsconfigSpec = readJson(tree, 'next-app/tsconfig.spec.json');
 
-            console.log({ tsconfigSpec });
             expect(tsconfigSpec?.include).toContain('jest.config.ts');
             expect(tsconfigSpec?.include).toContain('src/**/*.spec.js');
         });

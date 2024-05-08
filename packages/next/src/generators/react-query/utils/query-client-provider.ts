@@ -93,8 +93,6 @@ export function addQueryClientProviderToApp(
             </QueryClientProvider>`,
         );
 
-        console.log({ content });
-
         appNode.saveSync();
     }
 }
