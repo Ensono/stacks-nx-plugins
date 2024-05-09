@@ -210,7 +210,7 @@ describe('create', () => {
         expect(() => run()).not.toThrow();
     });
 
-    it.only('can install with cypress set as e2eTestRunner', async () => {
+    it('can install with cypress set as e2eTestRunner', async () => {
         const run = () =>
             execSync(
                 `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --dir=./proj/ProjectName --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=cypress --nxCloud=skip --skipGit --no-interactive --useDev --verbose`,
