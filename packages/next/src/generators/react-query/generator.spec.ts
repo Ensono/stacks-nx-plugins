@@ -6,7 +6,6 @@ import { applicationGenerator } from '@nx/next';
 import generator from './generator';
 import { ReactQueryGeneratorSchema } from './schema';
 import { nextAppWithProviders } from './test/fixtures';
-import { nextAppWithDestructuredProperties } from '../next-auth/test/fixtures';
 
 describe('react-query generator', () => {
     let appTree: Tree;
@@ -19,7 +18,6 @@ describe('react-query generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
-            appDir: false,
         });
 
         addStacksAttributes(appTree, options.project);
@@ -58,22 +56,18 @@ describe('react-query generator', () => {
     });
 
     it('should configure app if there are already wrapping react providers', async () => {
-        appTree.write('next-app/pages/_app.tsx', nextAppWithProviders);
+        appTree.write('next-app/src/app/layout.tsx', nextAppWithProviders);
         await generator(appTree, options);
 
-        const AppTsx = appTree.read('next-app/pages/_app.tsx');
+        const AppTsx = appTree.read('next-app/src/app/layout.tsx');
 
         expect(AppTsx.toString()).toMatchSnapshot();
     });
 
-    it('should configure app if pageProps is already destructured', async () => {
-        appTree.write(
-            'next-app/pages/_app.tsx',
-            nextAppWithDestructuredProperties,
-        );
+    it('should have providers content provided', async () => {
         await generator(appTree, options);
 
-        const AppTsx = appTree.read('next-app/pages/_app.tsx');
+        const AppTsx = appTree.read('next-app/app/providers.tsx');
 
         expect(AppTsx.toString()).toMatchSnapshot();
     });

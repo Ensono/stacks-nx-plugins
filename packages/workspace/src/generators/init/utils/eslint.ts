@@ -33,7 +33,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
         ignorePatterns: ['**/*'],
         plugins: [
             '@typescript-eslint',
-            '@nx/eslint-plugin',
+            '@nx',
             'import',
             'security',
             'jsx-a11y',
@@ -86,8 +86,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                             ],
                             pathGroups: [
                                 {
-                                    // TODO: get npmScope / name from root package.json
-                                    pattern: `${getNpmScope(tree)}`,
+                                    pattern: `@${getNpmScope(tree)}/**`,
                                     group: 'internal',
                                 },
                             ],
