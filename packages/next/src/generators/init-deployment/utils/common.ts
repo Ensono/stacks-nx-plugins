@@ -289,7 +289,6 @@ export function addCommon(tree: Tree, options: NextGeneratorSchema) {
             };
         }
 
-        console.log(nxJson.targetDefaults);
         if (!nxJson.targetDefaults['lint']) {
             updateNxJson.targetDefaults['lint'] = {
                 inputs: ['helm'],
