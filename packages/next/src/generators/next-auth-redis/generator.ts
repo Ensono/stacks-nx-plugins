@@ -43,7 +43,6 @@ export default async function nextAuthRedisGenerator(
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
-        'src',
         'app',
         'api',
         'hello',
