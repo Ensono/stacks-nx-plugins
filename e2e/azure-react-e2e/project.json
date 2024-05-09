@@ -5,6 +5,16 @@
     "sourceRoot": "e2e/azure-react-e2e/src",
     "tags": ["e2e"],
     "implicitDependencies": ["azure-react", "create", "workspace"],
-    "// targets": "to see all targets run: nx show project azure-react-e2e --web",
-    "targets": {}
+    "targets": {
+        "e2e": {
+            "executor": "@ensono-stacks/e2e:e2e",
+            "options": {
+                "verdaccioConfig": ".verdaccio/config.yml",
+                "jestOptions": {
+                    "jestConfig": "e2e/azure-react-e2e/jest.config.ts",
+                    "passWithNoTests": true
+                }
+            }
+        }
+    }
 }
