@@ -17,14 +17,7 @@ export function configureAdapter(
 ) {
     const morphTree = tsMorphTree(tree);
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(
-            project.root,
-            'src',
-            'app',
-            'api',
-            'hello',
-            'route.ts',
-        ),
+        joinPathFragments(project.root, 'app', 'api', 'hello', 'route.ts'),
     );
     const IORedisAdapterImport = nextAuthNode
         .getImportDeclarations()
