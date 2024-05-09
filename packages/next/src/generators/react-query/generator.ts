@@ -42,11 +42,7 @@ export async function reactQueryGenerator(
     const project = readProjectConfiguration(tree, options.project);
 
     // if not generated - create app/provider.tsx
-    if (
-        !tree.exists(
-            joinPathFragments(project.root, 'app', 'providers.tsx'),
-        )
-    ) {
+    if (!tree.exists(joinPathFragments(project.root, 'app', 'providers.tsx'))) {
         generateFiles(tree, path.join(__dirname, 'files'), project.root, {
             template: '',
         });
