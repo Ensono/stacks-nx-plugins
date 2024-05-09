@@ -2,6 +2,7 @@ export default {
     displayName: 'cypress',
     preset: '../../jest.preset.js',
     globals: {},
+    testEnvironment: 'node',
     transform: {
         '^.+\\.[tj]s$': [
             'ts-jest',
