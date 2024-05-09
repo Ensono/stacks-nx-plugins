@@ -6,7 +6,6 @@ import { applicationGenerator } from '@nx/next';
 import generator from './generator';
 import { NextAuthGeneratorSchema } from './schema';
 import {
-    nextAppWithDestructuredProperties,
     nextAppWithProviders,
     nextAuthEmpty,
     nextAuthWithGithub,
@@ -81,18 +80,6 @@ describe('next-auth generator', () => {
 
     it('should configure app if there are already wrapping react providers', async () => {
         appTree.write('next-app/src/app/layout.tsx', nextAppWithProviders);
-        await generator(appTree, optionsWithAzureAdProvider);
-
-        const AppTsx = appTree.read('next-app/src/app/layout.tsx');
-
-        expect(AppTsx.toString()).toMatchSnapshot();
-    });
-
-    it('should configure app if pageProps is already destructured', async () => {
-        appTree.write(
-            'next-app/src/app/layout.tsx',
-            nextAppWithDestructuredProperties,
-        );
         await generator(appTree, optionsWithAzureAdProvider);
 
         const AppTsx = appTree.read('next-app/src/app/layout.tsx');

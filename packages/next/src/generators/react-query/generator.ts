@@ -44,7 +44,7 @@ export async function reactQueryGenerator(
     // if not generated - create app/provider.tsx
     if (
         !tree.exists(
-            joinPathFragments(project.root, 'src', 'app', 'providers.tsx'),
+            joinPathFragments(project.root, 'app', 'providers.tsx'),
         )
     ) {
         generateFiles(tree, path.join(__dirname, 'files'), project.root, {

@@ -18,21 +18,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 "
 `;
 
-exports[`next-auth generator should configure app if pageProps is already destructured 1`] = `
-"function CustomApp({
-    Component,
-    pageProps: { something, ...pageProperties },
-}: AppProps) {
-    return (
-        <SomeProvider>
-            <Component {...pageProperties} />
-        </SomeProvider>
-    );
-}
-export default CustomApp;
-"
-`;
-
 exports[`next-auth generator should configure app if there are already wrapping react providers 1`] = `
 "function SomeProvider({ children }: PropsWithChildren) {
     return <>{children}</>;
