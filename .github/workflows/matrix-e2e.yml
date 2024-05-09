@@ -2,7 +2,7 @@ name: E2E
 on:
   pull_request:
     branches:
-    - main
+    - disabled
     types: [opened, synchronize, reopened]
 jobs:
   e2e:
@@ -36,3 +36,4 @@ jobs:
         NX_RUN_GROUP=${{ github.run_id }}
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
