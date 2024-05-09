@@ -12,7 +12,7 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
     with:
       runs-on: ubuntu-latest
-      node-version: 18
+      node-version: 22
       number-of-agents: 3
       parallel-commands-on-agents: |
         npx nx affected --base=last-release --target=e2e --parallel=1
@@ -30,7 +30,7 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
     with:
       runs-on: ubuntu-latest
-      node-version: 18
+      node-version: 22
       number-of-agents: 3
       environment-variables: |
         NX_RUN_GROUP=${{ github.run_id }}
