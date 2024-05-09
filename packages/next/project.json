@@ -42,10 +42,10 @@
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
-                    "packages/rest-client/**/*.ts",
-                    "packages/rest-client/generators.json",
-                    "packages/rest-client/executors.json",
-                    "packages/rest-client/package.json"
+                    "packages/next/**/*.ts",
+                    "packages/next/generators.json",
+                    "packages/next/executors.json",
+                    "packages/next/package.json"
                 ]
             }
         },

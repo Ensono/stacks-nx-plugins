@@ -10,10 +10,10 @@
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
-                    "packages/rest-client/**/*.ts",
-                    "packages/rest-client/generators.json",
-                    "packages/rest-client/executors.json",
-                    "packages/rest-client/package.json"
+                    "packages/common/e2e/**/*.ts",
+                    "packages/common/e2e/generators.json",
+                    "packages/common/e2e/executors.json",
+                    "packages/common/e2e/package.json"
                 ]
             }
         }

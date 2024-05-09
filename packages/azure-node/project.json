@@ -42,10 +42,10 @@
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
-                    "packages/rest-client/**/*.ts",
-                    "packages/rest-client/generators.json",
-                    "packages/rest-client/executors.json",
-                    "packages/rest-client/package.json"
+                    "packages/azure-node/**/*.ts",
+                    "packages/azure-node/generators.json",
+                    "packages/azure-node/executors.json",
+                    "packages/azure-node/package.json"
                 ]
             }
         },

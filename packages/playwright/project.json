@@ -42,10 +42,10 @@
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
-                    "packages/rest-client/**/*.ts",
-                    "packages/rest-client/generators.json",
-                    "packages/rest-client/executors.json",
-                    "packages/rest-client/package.json"
+                    "packages/playwright/**/*.ts",
+                    "packages/playwright/generators.json",
+                    "packages/playwright/executors.json",
+                    "packages/playwright/package.json"
                 ]
             }
         },
