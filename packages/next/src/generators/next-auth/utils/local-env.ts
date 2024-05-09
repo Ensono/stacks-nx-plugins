@@ -19,7 +19,6 @@ const providerEnv: Record<
         AZURE_AD_TENANT_ID: '',
     },
     none: {},
-    testing: {},
 };
 
 export function addToLocalEnv(

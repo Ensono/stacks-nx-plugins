@@ -67,7 +67,7 @@ describe('react-query generator', () => {
     it('should have providers content provided', async () => {
         await generator(appTree, options);
 
-        const AppTsx = appTree.read('next-app/src/app/providers.tsx');
+        const AppTsx = appTree.read('next-app/app/providers.tsx');
 
         expect(AppTsx.toString()).toMatchSnapshot();
     });

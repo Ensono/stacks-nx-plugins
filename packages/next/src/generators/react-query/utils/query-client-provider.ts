@@ -8,7 +8,7 @@ export function addQueryClientProviderToApp(
     morphTree: Project,
 ) {
     const appNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'src', 'app', 'providers.tsx'),
+        joinPathFragments(project.root, 'app', 'providers.tsx'),
     );
 
     // Check if the App Already contains react-query
