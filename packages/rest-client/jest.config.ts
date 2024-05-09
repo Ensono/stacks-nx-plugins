@@ -1,6 +1,7 @@
 export default {
     displayName: 'rest-client',
     preset: '../../jest.preset.js',
+    testEnvironment: 'node',
     globals: {},
     transform: {
         '^.+\\.[tj]s$': [
