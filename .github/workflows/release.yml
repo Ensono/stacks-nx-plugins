@@ -23,15 +23,15 @@ jobs:
 
     - uses: volta-cli/action@v4
       with:
-        node-version: "18"
+        node-version: "22"
 
     - name: Node Modules Cache
       uses: actions/cache@v3
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-18-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.os }}-node-22-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-18-
+          ${{ runner.os }}-node-22-
 
     - name: Install
       shell: bash

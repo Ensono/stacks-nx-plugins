@@ -88,7 +88,7 @@ export async function createNextApplication(
 ) {
     const server = customServer ? '--customServer' : '';
     await runNxCommandAsync(
-        `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir ${server}`,
+        `generate @nx/next:application ${project} --e2eTestRunner=none ${server}`,
     );
     await runNxCommandAsync(
         `generate @ensono-stacks/next:init --project=${project} --no-interactive`,

@@ -3,7 +3,8 @@
 exports[`http-client generator should generate the http-client with custom directory: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
-/coverage"
+/coverage
+/.nx/cache"
 `;
 
 exports[`http-client generator should generate the http-client with custom directory: .prettierrc 1`] = `
@@ -27,6 +28,13 @@ exports[`http-client generator should generate the http-client with custom direc
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
@@ -65,7 +73,13 @@ exports[`http-client generator should generate the http-client with custom direc
 "{
   "name": "@proj/custom/test-client",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
 }
 "
 `;
@@ -76,6 +90,7 @@ exports[`http-client generator should generate the http-client with custom direc
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "custom/test-client/src",
   "projectType": "library",
+  "tags": ["test", "client"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -88,23 +103,16 @@ exports[`http-client generator should generate the http-client with custom direc
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["custom/test-client/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "custom/test-client/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "custom/test-client/jest.config.ts"
       },
       "configurations": {
         "ci": {
-          "ci": true,
-          "codeCoverage": true,
           "collectCoverage": true,
           "coverageReporters": ["text", "html"],
           "collectCoverageFrom": [
@@ -113,12 +121,13 @@ exports[`http-client generator should generate the http-client with custom direc
             "./!**/*.d.ts",
             "./!**/*.config.*",
             "./!**/_app.*"
-          ]
+          ],
+          "codeCoverage": true,
+          "ci": true
         }
       }
     }
-  },
-  "tags": ["test", "client"]
+  }
 }
 "
 `;
@@ -202,11 +211,11 @@ exports[`http-client generator should generate the http-client with custom direc
 `;
 
 exports[`http-client generator should generate the http-client with custom directory: jest.config.ts 1`] = `
-"import { getJestProjects } from '@nx/jest';
+"import { getJestProjectsAsync } from '@nx/jest';
 
-export default {
-  projects: getJestProjects(),
-};
+export default async () => ({
+  projects: await getJestProjectsAsync(),
+});
 "
 `;
 
@@ -220,7 +229,8 @@ module.exports = { ...nxPreset };
 exports[`http-client generator should generate the http-client with custom import path: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
-/coverage"
+/coverage
+/.nx/cache"
 `;
 
 exports[`http-client generator should generate the http-client with custom import path: .prettierrc 1`] = `
@@ -229,11 +239,11 @@ exports[`http-client generator should generate the http-client with custom impor
 `;
 
 exports[`http-client generator should generate the http-client with custom import path: jest.config.ts 1`] = `
-"import { getJestProjects } from '@nx/jest';
+"import { getJestProjectsAsync } from '@nx/jest';
 
-export default {
-  projects: getJestProjects(),
-};
+export default async () => ({
+  projects: await getJestProjectsAsync(),
+});
 "
 `;
 
@@ -260,6 +270,13 @@ exports[`http-client generator should generate the http-client with custom impor
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
@@ -298,7 +315,13 @@ exports[`http-client generator should generate the http-client with custom impor
 "{
   "name": "@customimport/restclient",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
 }
 "
 `;
@@ -309,6 +332,7 @@ exports[`http-client generator should generate the http-client with custom impor
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "test-client/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -321,23 +345,16 @@ exports[`http-client generator should generate the http-client with custom impor
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["test-client/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "test-client/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "test-client/jest.config.ts"
       },
       "configurations": {
         "ci": {
-          "ci": true,
-          "codeCoverage": true,
           "collectCoverage": true,
           "coverageReporters": ["text", "html"],
           "collectCoverageFrom": [
@@ -346,12 +363,13 @@ exports[`http-client generator should generate the http-client with custom impor
             "./!**/*.d.ts",
             "./!**/*.config.*",
             "./!**/_app.*"
-          ]
+          ],
+          "codeCoverage": true,
+          "ci": true
         }
       }
     }
-  },
-  "tags": []
+  }
 }
 "
 `;
@@ -437,17 +455,18 @@ exports[`http-client generator should generate the http-client with custom impor
 exports[`http-client generator should generate the http-client with no formatting: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
-/coverage"
+/coverage
+/.nx/cache"
 `;
 
 exports[`http-client generator should generate the http-client with no formatting: .prettierrc 1`] = `"{"singleQuote":true}"`;
 
 exports[`http-client generator should generate the http-client with no formatting: jest.config.ts 1`] = `
-"import { getJestProjects } from '@nx/jest';
+"import { getJestProjectsAsync } from '@nx/jest';
 
-export default {
-projects: getJestProjects()
-};"
+export default async () => ({
+projects: await getJestProjectsAsync()
+});"
 `;
 
 exports[`http-client generator should generate the http-client with no formatting: jest.preset.js 1`] = `
@@ -487,6 +506,15 @@ exports[`http-client generator should generate the http-client with no formattin
         "*.jsx"
       ],
       "rules": {}
+    },
+    {
+      "files": [
+        "*.json"
+      ],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
@@ -533,7 +561,13 @@ exports[`http-client generator should generate the http-client with no formattin
 "{
   "name": "@proj/test-client",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
 }
 "
 `;
@@ -544,6 +578,7 @@ exports[`http-client generator should generate the http-client with no formattin
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "test-client/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -560,15 +595,7 @@ exports[`http-client generator should generate the http-client with no formattin
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "test-client/**/*.ts"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -576,13 +603,10 @@ exports[`http-client generator should generate the http-client with no formattin
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "test-client/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "test-client/jest.config.ts"
       },
       "configurations": {
         "ci": {
-          "ci": true,
-          "codeCoverage": true,
           "collectCoverage": true,
           "coverageReporters": [
             "text",
@@ -594,12 +618,13 @@ exports[`http-client generator should generate the http-client with no formattin
             "./!**/*.d.ts",
             "./!**/*.config.*",
             "./!**/_app.*"
-          ]
+          ],
+          "codeCoverage": true,
+          "ci": true
         }
       }
     }
-  },
-  "tags": []
+  }
 }
 "
 `;
@@ -658,7 +683,10 @@ exports[`http-client generator should generate the http-client with no formattin
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts", 
+    "src/**/*.spec.ts", "src/**/*.test.ts"
+  ]
 }
 "
 `;
@@ -684,7 +712,8 @@ exports[`http-client generator should generate the http-client with no formattin
 exports[`http-client generator should generate the http-client: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
-/coverage"
+/coverage
+/.nx/cache"
 `;
 
 exports[`http-client generator should generate the http-client: .prettierrc 1`] = `
@@ -693,11 +722,11 @@ exports[`http-client generator should generate the http-client: .prettierrc 1`] 
 `;
 
 exports[`http-client generator should generate the http-client: jest.config.ts 1`] = `
-"import { getJestProjects } from '@nx/jest';
+"import { getJestProjectsAsync } from '@nx/jest';
 
-export default {
-  projects: getJestProjects(),
-};
+export default async () => ({
+  projects: await getJestProjectsAsync(),
+});
 "
 `;
 
@@ -724,6 +753,13 @@ exports[`http-client generator should generate the http-client: test-client/.esl
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
@@ -762,7 +798,13 @@ exports[`http-client generator should generate the http-client: test-client/pack
 "{
   "name": "@proj/test-client",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
 }
 "
 `;
@@ -773,6 +815,7 @@ exports[`http-client generator should generate the http-client: test-client/proj
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "test-client/src",
   "projectType": "library",
+  "tags": ["test", "client"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -785,23 +828,16 @@ exports[`http-client generator should generate the http-client: test-client/proj
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["test-client/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "test-client/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "test-client/jest.config.ts"
       },
       "configurations": {
         "ci": {
-          "ci": true,
-          "codeCoverage": true,
           "collectCoverage": true,
           "coverageReporters": ["text", "html"],
           "collectCoverageFrom": [
@@ -810,12 +846,13 @@ exports[`http-client generator should generate the http-client: test-client/proj
             "./!**/*.d.ts",
             "./!**/*.config.*",
             "./!**/_app.*"
-          ]
+          ],
+          "codeCoverage": true,
+          "ci": true
         }
       }
     }
-  },
-  "tags": ["test", "client"]
+  }
 }
 "
 `;

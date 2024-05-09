@@ -49,6 +49,13 @@ exports[`openapi-client generator should run successfully: test-client/.eslintrc
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
@@ -87,7 +94,13 @@ exports[`openapi-client generator should run successfully: test-client/package.j
 "{
   "name": "@proj/test-client",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
 }
 "
 `;
@@ -98,6 +111,7 @@ exports[`openapi-client generator should run successfully: test-client/project.j
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "test-client/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -110,28 +124,16 @@ exports[`openapi-client generator should run successfully: test-client/project.j
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["test-client/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "test-client/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "test-client/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }
 "
 `;

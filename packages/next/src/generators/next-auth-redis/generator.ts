@@ -8,6 +8,7 @@ import {
     hasGeneratorExecutedForProject,
     deploymentGeneratorMessage,
     verifyPluginCanBeInstalled,
+    getNpmScope,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -42,10 +43,11 @@ export default async function nextAuthRedisGenerator(
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
-        'pages',
+        'src',
+        'app',
         'api',
-        'auth',
-        '[...nextauth].ts',
+        'hello',
+        'route.ts',
     );
     if (!tree.exists(nextAuthApiFilePath)) {
         throw new Error(
@@ -77,8 +79,7 @@ export default async function nextAuthRedisGenerator(
     });
 
     configureAdapter(project, tree, {
-        // TODO: get npmScope / name from root package.json
-        npmScope: '@ensono-stacks',
+        npmScope: `@${getNpmScope(tree)}`,
         libraryName,
         envVar: options.envVar,
     });

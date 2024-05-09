@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/.eslintrc.json 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/.eslintrc.json 1`] = `
 "{
   "extends": ["../../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
@@ -16,94 +16,96 @@ exports[`client-endpoint generator should generate the endpoint: endpoints/test-
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/README.md 1`] = `
-"# endpoints-test-endpoint-v1
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/README.md 1`] = `
+"# endpoints-v1-test-endpoint
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
-Run \`nx build endpoints-test-endpoint-v1\` to build the library.
+Run \`nx build endpoints-v1-test-endpoint\` to build the library.
 
 ## Running unit tests
 
-Run \`nx test endpoints-test-endpoint-v1\` to execute the unit tests via [Jest](https://jestjs.io).
+Run \`nx test endpoints-v1-test-endpoint\` to execute the unit tests via [Jest](https://jestjs.io).
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/jest.config.ts 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/jest.config.ts 1`] = `
 "export default {
-  displayName: 'endpoints-test-endpoint-v1',
+  displayName: 'endpoints-v1-test-endpoint',
   preset: '../../../jest.preset.js',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/endpoints/test-endpoint/v1',
+  coverageDirectory: '../../../coverage/endpoints/v1/test-endpoint',
 };
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/package.json 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/package.json 1`] = `
 "{
-  "name": "@proj/endpoints/test-endpoint/v1",
+  "name": "@proj/endpoints/v1/test-endpoint",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
 }
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/project.json 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/project.json 1`] = `
 "{
-  "name": "endpoints-test-endpoint-v1",
+  "name": "endpoints-v1-test-endpoint",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "endpoints/test-endpoint/v1/src",
+  "sourceRoot": "endpoints/v1/test-endpoint/src",
   "projectType": "library",
+  "tags": ["testEndpoint"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/endpoints/test-endpoint/v1",
-        "main": "endpoints/test-endpoint/v1/src/index.ts",
-        "tsConfig": "endpoints/test-endpoint/v1/tsconfig.lib.json",
-        "assets": ["endpoints/test-endpoint/v1/*.md"]
+        "outputPath": "dist/endpoints/v1/test-endpoint",
+        "main": "endpoints/v1/test-endpoint/src/index.ts",
+        "tsConfig": "endpoints/v1/test-endpoint/tsconfig.lib.json",
+        "assets": ["endpoints/v1/test-endpoint/*.md"]
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["endpoints/test-endpoint/v1/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "endpoints/test-endpoint/v1/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "endpoints/v1/test-endpoint/jest.config.ts"
       }
     }
-  },
-  "tags": ["testEndpoint"]
+  }
 }
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/src/index.test.ts 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/src/index.test.ts 1`] = `
 "describe('TestEndpoint endpoint', () => {
   it('should generate the right methods', () => {
     expect(true).toBeTruthy();
@@ -112,7 +114,7 @@ exports[`client-endpoint generator should generate the endpoint: endpoints/test-
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/src/index.ts 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/src/index.ts 1`] = `
 "import httpClient, {
   RequestConfig,
   Response,
@@ -166,7 +168,7 @@ export const patchTestEndpoint = async (
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/tsconfig.json 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/tsconfig.json 1`] = `
 "{
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
@@ -186,7 +188,7 @@ exports[`client-endpoint generator should generate the endpoint: endpoints/test-
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/tsconfig.lib.json 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/tsconfig.lib.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -200,7 +202,7 @@ exports[`client-endpoint generator should generate the endpoint: endpoints/test-
 "
 `;
 
-exports[`client-endpoint generator should generate the endpoint: endpoints/test-endpoint/v1/tsconfig.spec.json 1`] = `
+exports[`client-endpoint generator should generate the endpoint: endpoints/v1/test-endpoint/tsconfig.spec.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {

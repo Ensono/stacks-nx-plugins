@@ -4,6 +4,19 @@ import { Linter } from 'eslint';
 
 const storybookESLintConfig: Linter.Config = {
     extends: ['plugin:storybook/recommended'],
+    overrides: [
+        {
+            files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+            rules: {
+                'storybook/no-uninstalled-addons': [
+                    'error',
+                    {
+                        packageJsonLocation: '../../package.json',
+                    },
+                ],
+            },
+        },
+    ],
 };
 
 export const updateESLint = (

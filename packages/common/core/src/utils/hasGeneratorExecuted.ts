@@ -11,9 +11,6 @@ export function getNpmScope(tree: Tree) {
     const { name } = tree.exists('package.json')
         ? readJson(tree, 'package.json')
         : { name: null };
-
-    console.log('====', name);
-
     return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
 }
 
@@ -108,8 +105,7 @@ export function hasGeneratorExecutedForWorkspace(
         console.log(
             '\n',
             chalk.yellow`This generator has already been executed for the workspace`,
-            // TODO: get npmScope / name from root package.json
-            chalk.magenta`@ensono-stacks`,
+            chalk.magenta`${getNpmScope(tree)}.`,
             chalk.yellow`No changes made.`,
             '\n',
         );

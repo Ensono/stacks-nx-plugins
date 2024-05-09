@@ -1,24 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`react-query generator should configure app if there are already wrapping react providers 1`] = `
-"
-import Providers from './providers'
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <head />
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  )
-}
-"
-`;
-
-exports[`react-query generator should have providers content provided 1`] = `
-"// In Next.js, this file would be called: app/providers.jsx
+// In Next.js, this file would be called: app/providers.jsx
 'use client'
 
 // We can not useState or useRef in a server component, which is why we are
@@ -64,5 +44,4 @@ export default function Providers({ children }) {
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
-}"
-`;
+}
