@@ -8,7 +8,7 @@ jobs:
     permissions:
       contents: read
     name: E2E
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
     with:
       runs-on: ubuntu-latest
       node-version: 22
@@ -27,7 +27,7 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   agents:
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
     with:
       runs-on: ubuntu-latest
       node-version: 22
