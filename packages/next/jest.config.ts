@@ -3,6 +3,7 @@ export default {
     displayName: 'next',
     preset: '../../jest.preset.js',
     globals: {},
+    testEnvironment: 'node',
     transform: {
         '^.+\\.[tj]s$': [
             'ts-jest',
