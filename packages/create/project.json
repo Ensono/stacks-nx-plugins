@@ -61,9 +61,10 @@
                 "local-release": {
                     "dryRun": false,
                     "noVerify": true,
-                    "push": true,
+                    "push": false,
                     "postTargets": ["create:publish"],
-                    "allowEmptyRelease": true
+                    "allowEmptyRelease": true,
+                    "skipCommit": true
                 }
             }
         },
