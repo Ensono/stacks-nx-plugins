@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`next install generator Project config executedGenerators should match the snapshot for layout.tsx file: next-app/app/layout.tsx 1`] = `
+exports[`next install generator Project config executedGenerators should match the snapshot for layout.tsx file: next-app/src/app/layout.tsx 1`] = `
 "import './global.css';
 
 export const metadata = {
