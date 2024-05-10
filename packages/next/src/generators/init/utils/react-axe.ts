@@ -50,6 +50,7 @@ export function addReactAxeConfigToApp(
     try {
         const appDirectory = joinPathFragments(
             project.root,
+            'src',
             'app',
             'layout.tsx',
         );
