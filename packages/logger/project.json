@@ -79,6 +79,13 @@
                     "noVerify": true,
                     "push": true,
                     "postTargets": ["logger:publish", "logger:github"]
+                },
+                "local-release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["create:publish"],
+                    "allowEmptyRelease": true
                 }
             }
         },

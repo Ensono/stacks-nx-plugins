@@ -79,6 +79,13 @@
                     "noVerify": true,
                     "push": true,
                     "postTargets": ["azure-node:publish", "azure-node:github"]
+                },
+                "local-release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["create:publish"],
+                    "allowEmptyRelease": true
                 }
             }
         },

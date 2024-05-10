@@ -11,8 +11,5 @@
     "peerDependencies": {
         "nx": "^18.3.4",
         "@nx/devkit": "^18.3.4"
-    },
-    "scripts": {
-        "local-publish": "npm version patch && npm publish"
     }
 }
