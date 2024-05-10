@@ -83,5 +83,8 @@
     "engines": {
         "npm": "10.7.0",
         "node": "22.1.0"
+    },
+    "nx": {
+        "includedScripts": []
     }
 }
