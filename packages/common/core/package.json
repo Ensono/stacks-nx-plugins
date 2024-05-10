@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "type": "commonjs",
     "dependencies": {
         "ts-morph": "17.0.1",
@@ -10,5 +10,8 @@
     },
     "peerDependencies": {
         "@nx/devkit": "^18.3.4"
+    },
+    "scripts": {
+        "local-publish": "npm version patch && npm publish"
     }
 }
