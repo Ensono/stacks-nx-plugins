@@ -1,7 +1,7 @@
 # @ensono-stacks/rest-client
 
 Please visit the stacks documentation page for `rest-client`
-[here](https://stacks.ensono.com/docs/nx/rest-client/ensono-stacks-rest-client)
+[here](https://stacks.ensono.com/docs/getting_started/rest-client/ensono-stacks-rest-client)
 for more information
 
 ## Generators and Executors
