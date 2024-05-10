@@ -79,6 +79,13 @@
                     "noVerify": true,
                     "push": true,
                     "postTargets": ["cypress:publish", "cypress:github"]
+                },
+                "local-release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["create:publish"],
+                    "allowEmptyRelease": true
                 }
             }
         },

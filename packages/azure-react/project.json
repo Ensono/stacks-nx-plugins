@@ -80,6 +80,13 @@
                     "noVerify": true,
                     "push": true,
                     "postTargets": ["azure-react:publish", "azure-react:github"]
+                },
+                "local-release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": true,
+                    "postTargets": ["create:publish"],
+                    "allowEmptyRelease": true
                 }
             }
         },
