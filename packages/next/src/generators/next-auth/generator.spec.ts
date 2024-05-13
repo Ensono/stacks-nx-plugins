@@ -80,6 +80,8 @@ describe('next-auth generator', () => {
 
     it('should configure app if there are already wrapping react providers', async () => {
         appTree.write('next-app/src/app/layout.tsx', nextAppWithProviders);
+        appTree.write('next-app/src/auth.ts', nextAuthEmpty);
+
         await generator(appTree, optionsWithAzureAdProvider);
 
         const AppTsx = appTree.read('next-app/src/app/layout.tsx');
@@ -90,13 +92,13 @@ describe('next-auth generator', () => {
     it('should install NextAuth with a provider', async () => {
         await generator(appTree, optionsWithAzureAdProvider);
 
-        const nextAuthTs = appTree.read('next-app/auth.ts');
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should error if an existing NextAuth install is not valid', async () => {
-        appTree.write('next-app/auth.ts', `const hello = 'hello'`);
+        appTree.write('next-app/src/auth.ts', `const hello = 'hello'`);
         await expect(
             generator(appTree, optionsWithAzureAdProvider),
         ).rejects.toThrowError(
@@ -106,28 +108,28 @@ describe('next-auth generator', () => {
     it('should safely run on an existing NextAuth install', async () => {
         await generator(appTree, optionsWithAzureAdProvider);
 
-        const nextAuthTs = appTree.read('next-app/auth.ts');
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should run on an existing NextAuth install with no providers', async () => {
-        appTree.write('next-app/auth.ts', nextAuthEmpty);
+        appTree.write('next-app/src/auth.ts', nextAuthEmpty);
         await generator(appTree, {
             project: 'next-app',
             provider: 'none',
         });
 
-        const nextAuthTs = appTree.read('next-app/auth.ts');
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });
 
     it('should appendto an existing list of providers', async () => {
-        appTree.write('next-app/auth.ts', nextAuthWithGithub);
+        appTree.write('next-app/src/auth.ts', nextAuthWithGithub);
         await generator(appTree, optionsWithAzureAdProvider);
 
-        const nextAuthTs = appTree.read('next-app/auth.ts');
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
     });

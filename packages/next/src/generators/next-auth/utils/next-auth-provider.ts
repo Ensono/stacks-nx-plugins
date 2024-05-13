@@ -12,7 +12,7 @@ export function addAzureAdProvider(
     morphTree: Project,
 ) {
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'auth.ts'),
+        joinPathFragments(project.root, 'src', 'auth.ts'),
     );
 
     // Check if the Provider already exists
