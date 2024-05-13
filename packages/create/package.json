@@ -13,8 +13,5 @@
         "yargs": "17.7.2",
         "enquirer": "2.3.6",
         "chalk": "4.1.0"
-    },
-    "scripts": {
-        "local-publish": "npm version patch && npm publish"
     }
 }
