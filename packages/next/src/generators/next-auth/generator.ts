@@ -32,7 +32,7 @@ export default async function nextAuthGenerator(
     const project = readProjectConfiguration(tree, options.project);
 
     // if not generated - create route.ts in pages/api/auth/[...nextauth] and auth.ts in root directory
-    if (!tree.exists(joinPathFragments(project.root, 'auth.ts'))) {
+    if (!tree.exists(joinPathFragments(project.root, 'src', 'auth.ts'))) {
         generateFiles(tree, path.join(__dirname, 'files'), project.root, {
             template: '',
         });

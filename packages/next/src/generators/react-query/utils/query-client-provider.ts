@@ -8,7 +8,7 @@ export function addQueryClientProviderToApp(
     morphTree: Project,
 ) {
     const appNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'app', 'providers.tsx'),
+        joinPathFragments(project.root, 'src', 'app', 'providers.tsx'),
     );
 
     // Check if the App Already contains react-query
@@ -40,9 +40,9 @@ export function addQueryClientProviderToApp(
                   },
                 })
               }
-              
+
               let browserQueryClient: QueryClient | undefined = undefined
-              
+
               function getQueryClient() {
                 if (typeof window === 'undefined') {
                   // Server: always make a new query client
