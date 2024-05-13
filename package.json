@@ -14,7 +14,6 @@
         "@commitlint/config-conventional": "19.2.2",
         "@commitlint/config-nx-scopes": "19.3.0",
         "@commitlint/cz-commitlint": "19.2.0",
-        "@ensono-stacks/next": "file:dist/packages/next",
         "@jscutlery/semver": "^5.2.2",
         "@mands/nx-playwright": "~0.6.3",
         "@nx/cypress": "18.3.4",
