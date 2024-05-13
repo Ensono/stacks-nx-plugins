@@ -1,7 +1,0 @@
-import NextAuth from 'next-auth';
-
-const nextAuth = NextAuth({
-    providers: []
-})
-
-export default nextAuth;

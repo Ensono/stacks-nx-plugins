@@ -95,7 +95,7 @@ describe('next e2e', () => {
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/pages/api/auth/[...nextauth].ts`,
+                    `apps/${project}/pages/api/hello/route.ts`,
                     `apps/${project}/.env.local`,
                 ),
             ).not.toThrow();

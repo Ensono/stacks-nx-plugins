@@ -8,7 +8,7 @@ import { Project, SyntaxKind } from 'ts-morph';
 
 import { REACT_AXE_CORE_VERSION } from '../../../utils/constants';
 
-// the code that needs to be injected to _app.tsx file.
+// the code that needs to be injected to layout.tsx file.
 const reactAxeConfigurationCode = `
 /**
  * A dynamic import is used here to only load the react-axe library for a11y checks
@@ -48,26 +48,27 @@ export function addReactAxeConfigToApp(
     morphTree: Project,
 ) {
     try {
-        const pagesDirectory = joinPathFragments(
+        const appDirectory = joinPathFragments(
             project.root,
-            'pages',
-            '_app.tsx',
+            'src',
+            'app',
+            'layout.tsx',
         );
-        const appNode = morphTree.addSourceFileAtPath(pagesDirectory);
-        // only try to modify the _app.tsx file if it exists
+        const appNode = morphTree.addSourceFileAtPath(appDirectory);
+        // only try to modify the layout.tsx file if it exists
         if (appNode) {
-            // Find the line containing "function CustomApp"
-            const functionCustomAppLine = appNode
+            // Find the line containing "function RootLayout"
+            const functionRootLayoutLine = appNode
                 .getDescendantsOfKind(SyntaxKind.FunctionDeclaration)
-                .find(node => node.getName() === 'CustomApp')
+                .find(node => node.getName() === 'RootLayout')
                 ?.getStartLineNumber();
 
-            if (functionCustomAppLine) {
+            if (functionRootLayoutLine) {
                 // Get all the lines in the source file
                 const lines = appNode.getFullText().split('\n');
 
                 // Calculate the line number to insert the new code
-                const insertLine = functionCustomAppLine - 2;
+                const insertLine = functionRootLayoutLine - 2;
 
                 // Insert the react-axe config code
                 lines.splice(insertLine, 0, reactAxeConfigurationCode);
@@ -79,10 +80,10 @@ export function addReactAxeConfigToApp(
         }
     } catch (error) {
         console.error(
-            chalk.red`Failed to add the react-axe configuration to the _app.tsx file, got error: ${error}`,
+            chalk.red`Failed to add the react-axe configuration to the app/layout.tsx file, got error: ${error}`,
         );
         console.info(
-            chalk.yellow`Failed possibly because this next.js application was created with the new app directory which doesn't have an _app.tsx file.`,
+            chalk.yellow`Failed possibly because this next.js application was created with the new app directory which doesn't have an layout.tsx file.`,
         );
     }
 }

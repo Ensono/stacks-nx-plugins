@@ -51,7 +51,7 @@ describe('create', () => {
     it('configures an empty apps stacks workspace', async () => {
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -122,7 +122,7 @@ describe('create', () => {
 
     it('can install within a specific directory if it does not exist', async () => {
         execSync(
-            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/project-name --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose`,
+            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/project-name --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
@@ -150,7 +150,7 @@ describe('create', () => {
         });
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/project-name --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/project-name --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip  --skipGit --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -170,7 +170,7 @@ describe('create', () => {
             recursive: true,
         });
         execSync(
-            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/ProjectName --nxVersion=${nxVersion} --overwrite --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --no-nxCloud --skipGit --no-interactive --verbose`,
+            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/ProjectName --nxVersion=${nxVersion} --overwrite --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
@@ -195,7 +195,7 @@ describe('create', () => {
     it('can install with playwright set as e2eTestRunner', async () => {
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest --name=proj --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=playwright --no-nxCloud --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=playwright --nxCloud=skip --skipGit --no-interactive --useDev --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -213,7 +213,7 @@ describe('create', () => {
     it('can install with cypress set as e2eTestRunner', async () => {
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=cypress --no-nxCloud --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --dir=./proj/ProjectName --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=cypress --nxCloud=skip --skipGit --no-interactive --useDev --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -231,7 +231,7 @@ describe('create', () => {
     it('can install different nx version', async () => {
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=next --appName=test-app --nxVersion 16.5.1 --no-nxCloud --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=next --appName=test-app --nxVersion 18.3.0 --nxCloud=skip  --skipGit --no-interactive --useDev --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -249,7 +249,7 @@ describe('create', () => {
 
         expect(packageJson.devDependencies).toMatchObject(
             expect.objectContaining({
-                    "@nx/workspace": "16.5.1"
+                '@nx/workspace': '18.3.0',
             }),
         );
     });

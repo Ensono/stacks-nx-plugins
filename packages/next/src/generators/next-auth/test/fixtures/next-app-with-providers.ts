@@ -1,15 +1,21 @@
 export default `function SomeProvider({ children }: PropsWithChildren) {
     return <>{children}</>;
-}
-function CustomApp({
-    Component,
-    pageProps,
-}: AppProps) {
+
+function RootLayout({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
     return (
+      <html lang="en">
+        <body>
         <SomeProvider>
-            <Component {...pageProps} />
-        </SomeProvider>
+          {children}
+          </SomeProvider>
+        </body>
+      </html>
     );
-}
-export default CustomApp;
-`;
+  }
+  
+  export default RootLayout;
+  `;

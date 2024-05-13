@@ -1,15 +1,14 @@
-export default `function SomeProvider({ children }: PropsWithChildren) {
-    return <>{children}</>;
+export default `
+import Providers from './providers'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head />
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
 }
-function CustomApp({
-    Component,
-    pageProps,
-}: AppProps) {
-    return (
-        <SomeProvider>
-            <Component {...pageProps} />
-        </SomeProvider>
-    );
-}
-export default CustomApp;
 `;

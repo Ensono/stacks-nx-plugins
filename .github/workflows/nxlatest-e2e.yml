@@ -1,6 +1,6 @@
 name: NX_Latest_E2E
 on:
-  schedule: 
+  schedule:
     - cron: 0 6 * * 1
   workflow_dispatch:
 jobs:
@@ -8,10 +8,10 @@ jobs:
     permissions:
       contents: read
     name: E2E
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
     with:
       runs-on: ubuntu-latest
-      node-version: 18
+      node-version: 22
       number-of-agents: 3
       parallel-commands-on-agents: |
         npx nx run-many --skip-nx-cache --target=e2e --parallel=1
@@ -27,10 +27,10 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   agents:
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
     with:
       runs-on: ubuntu-latest
-      node-version: 18
+      node-version: 22
       number-of-agents: 3
       environment-variables: |
         NX_RUN_GROUP=${{ github.run_id }}

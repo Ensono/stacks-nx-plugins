@@ -9,10 +9,10 @@
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "nx": "16.4.0",
-        "@nx/devkit": "16.4.0"
+        "nx": "18.3.4",
+        "@nx/devkit": "18.3.4"
     },
     "dependencies": {
-        "@nx/cypress": "16.4.0"
+        "@nx/cypress": "18.3.4"
     }
 }

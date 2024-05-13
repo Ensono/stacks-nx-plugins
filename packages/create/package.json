@@ -5,5 +5,13 @@
     "bin": {
         "create-stacks-workspace": "./bin/index.js"
     },
-    "main": "./bin/index.js"
+    "main": "./bin/index.js",
+    "dependencies": {
+        "@ensono-stacks/core": "^2.0.6",
+        "change-case": "4.1.2",
+        "yargs-unparser": "2.0.0",
+        "yargs": "17.7.2",
+        "enquirer": "2.3.6",
+        "chalk": "4.1.0"
+    }
 }

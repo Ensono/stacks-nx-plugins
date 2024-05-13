@@ -329,6 +329,33 @@ nx e2e <plugin name>-e2e
     -   From your workspace used for testing you can then directly reference the
         pack file from your `package.json` and install it with `npm install`
 
+### Testing stacks workspace locally
+
+Follow these steps to run the stacks workspace locally.
+
+-   Step 1: Create a local registry:
+
+    ```bash
+    nx local-registry
+    ```
+
+-   Step 2: Bump up packages version:
+    - Manually bump up version for all packages (current version for example is `2.1.0` ---> bump up `2.1.100` for all packages package.json version)
+    - Also make sure to bump the package version (Any `@ensono-stacks/**`) in the dependencies inside each packages package.json to (`2.1.100` same version as above)
+    - Then package up by running the command below. 
+
+    ```bash
+    npm run publish
+    ```
+
+-   Step 3: Run workspace locally
+    - If minimatch throws an error - remove node_modules folder and package.json-lock file then npm install
+    - To run workspace local with latest changes - run this command outside of the stacks-nx-plugin repository:
+
+    ```bash
+    npx @ensono-stacks/create-stacks-workspace@latest
+    ```
+
 ### Create stacks workspace script
 
 The

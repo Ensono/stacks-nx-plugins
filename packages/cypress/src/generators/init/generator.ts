@@ -4,10 +4,8 @@ import {
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import {
-    CypressE2EConfigSchema,
-    cypressE2EConfigurationGenerator,
-} from '@nx/cypress/src/generators/cypress-e2e-configuration/cypress-e2e-configuration';
+import { cypressE2EConfigurationGenerator } from '@nx/cypress';
+import { CypressE2EConfigSchema } from '@nx/cypress/src/generators/configuration/configuration';
 import {
     formatFiles,
     Tree,
@@ -16,7 +14,7 @@ import {
     runTasksInSerial,
     joinPathFragments,
 } from '@nx/devkit';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { existsSync } from 'fs';
 
 import { CypressGeneratorSchema } from './schema';
@@ -67,6 +65,7 @@ export default async function initGenerator(
         project: normalizedOptions.projectName,
         directory: 'cypress',
         linter: Linter.EsLint,
+        devServerTarget: `${normalizedOptions.projectName}:serve`,
     };
 
     await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);

@@ -8,14 +8,9 @@ import {
 import { readStacksExecutedGenerators } from '../lib/stacks';
 
 export function getNpmScope(tree: Tree) {
-    const workspace = getWorkspaceLayout(tree);
-    if (workspace.npmScope) {
-        return workspace.npmScope;
-    }
     const { name } = tree.exists('package.json')
         ? readJson(tree, 'package.json')
         : { name: null };
-
     return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
 }
 

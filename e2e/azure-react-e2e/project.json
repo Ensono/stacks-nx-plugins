@@ -3,18 +3,18 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
     "sourceRoot": "e2e/azure-react-e2e/src",
-    "targets": {
-        // "e2e": {
-        //     "executor": "@ensono-stacks/e2e:e2e",
-        //     "options": {
-        //         "verdaccioConfig": ".verdaccio/config.yml",
-        //         "jestOptions": {
-        //             "jestConfig": "e2e/azure-react-e2e/jest.config.ts",
-        //             "passWithNoTests": true
-        //         }
-        //     }
-        // }
-    },
     "tags": ["e2e"],
-    "implicitDependencies": ["azure-react", "create", "workspace"]
+    "implicitDependencies": ["azure-react", "create", "workspace"],
+    "targets": {
+        "e2e": {
+            "executor": "@ensono-stacks/e2e:e2e",
+            "options": {
+                "verdaccioConfig": ".verdaccio/config.yml",
+                "jestOptions": {
+                    "jestConfig": "e2e/azure-react-e2e/jest.config.ts",
+                    "passWithNoTests": true
+                }
+            }
+        }
+    }
 }

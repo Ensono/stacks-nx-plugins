@@ -6,9 +6,9 @@ import {
 import {
     Tree,
     addDependenciesToPackageJson,
-    readRootPackageJson,
     GeneratorCallback,
 } from '@nx/devkit';
+import { readRootPackageJson } from '@nx/webpack';
 import { Linter } from 'eslint';
 
 import {
@@ -199,7 +199,7 @@ function addEslintDependencies(tree: Tree) {
         tree,
         {},
         {
-            '@nx/eslint-plugin': nxDependency || 'latest',
+            '@nx/eslint-plugin': '18.3.4',
             '@typescript-eslint/eslint-plugin': ESLINT_PLUGIN_VERSION,
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,

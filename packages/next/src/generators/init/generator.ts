@@ -13,8 +13,8 @@ import {
     readProjectConfiguration,
     Tree,
     updateProjectConfiguration,
+    runTasksInSerial,
 } from '@nx/devkit';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import chalk from 'chalk';
 import path from 'path';
 

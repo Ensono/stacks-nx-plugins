@@ -5,7 +5,7 @@ import chalk from 'chalk';
 export async function addStorybook(tree: Tree, project: ProjectConfiguration) {
     try {
         await execAsync(
-            `npx nx g @nx/react:storybook-configuration --name=${project.name} --configureCypress=false --generateCypressSpecs=false --no-interactive --verbose`,
+            `npx nx g @nx/react:storybook-configuration --project=${project.name} --interactionTests=false --no-interactive --verbose`,
             project.root,
         );
 
