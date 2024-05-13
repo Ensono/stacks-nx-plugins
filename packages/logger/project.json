@@ -3,12 +3,12 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/logger/src",
     "projectType": "library",
+    "tags": ["plugin"],
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "buildableProjectDepsInPackageJsonType": "dependencies",
                 "outputPath": "dist/packages/logger",
                 "main": "packages/logger/src/index.ts",
                 "tsConfig": "packages/logger/tsconfig.lib.json",
@@ -38,7 +38,7 @@
             }
         },
         "lint": {
-            "executor": "@nx/linter:eslint",
+            "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
@@ -53,8 +53,7 @@
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "packages/logger/jest.config.ts",
-                "passWithNoTests": true
+                "jestConfig": "packages/logger/jest.config.ts"
             }
         },
         "version": {
@@ -80,6 +79,14 @@
                     "noVerify": true,
                     "push": true,
                     "postTargets": ["logger:publish", "logger:github"]
+                },
+                "local-release": {
+                    "dryRun": false,
+                    "noVerify": true,
+                    "push": false,
+                    "postTargets": ["create:publish"],
+                    "allowEmptyRelease": true,
+                    "skipCommit": true
                 }
             }
         },
@@ -101,6 +108,5 @@
                 "notes": "${notes}"
             }
         }
-    },
-    "tags": ["plugin"]
+    }
 }

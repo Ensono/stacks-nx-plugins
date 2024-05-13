@@ -38,7 +38,7 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
         options.preset || 'apps'
     } --packageManager=${
         options.packageManager
-    } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --no-nxCloud --no-interactive ${
+    } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
         options.args ?? ''
     }`;
     logger.log(`[create] Running create command:\n${command}`);
@@ -88,7 +88,7 @@ export async function createNextApplication(
 ) {
     const server = customServer ? '--customServer' : '';
     await runNxCommandAsync(
-        `generate @nx/next:application ${project} --e2eTestRunner=none --no-appDir ${server}`,
+        `generate @nx/next:application ${project} --e2eTestRunner=none ${server}`,
     );
     await runNxCommandAsync(
         `generate @ensono-stacks/next:init --project=${project} --no-interactive`,

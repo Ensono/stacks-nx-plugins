@@ -1,4 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
+import { tsMorphTree, getNpmScope } from '@ensono-stacks/core';
 import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
@@ -17,20 +17,14 @@ export function configureAdapter(
 ) {
     const morphTree = tsMorphTree(tree);
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(
-            project.root,
-            'pages',
-            'api',
-            'auth',
-            '[...nextauth].ts',
-        ),
+        joinPathFragments(project.root, 'app', 'api', 'hello', 'route.ts'),
     );
     const IORedisAdapterImport = nextAuthNode
         .getImportDeclarations()
         .find(
             importDeclaration =>
                 importDeclaration.getModuleSpecifier().getLiteralValue() ===
-                `@${npmScope}/${libraryName}`,
+                `@ensono-stacks/${libraryName}`,
         );
     IORedisAdapterImport?.setIsTypeOnly(false);
 
@@ -41,7 +35,7 @@ export function configureAdapter(
     ) {
         nextAuthNode.addImportDeclaration({
             namedImports: ['IORedisAdapter'],
-            moduleSpecifier: `@${npmScope}/${libraryName}`,
+            moduleSpecifier: `@${getNpmScope(tree)}/${libraryName}`,
         });
     }
 

@@ -8,6 +8,7 @@ import {
     hasGeneratorExecutedForProject,
     deploymentGeneratorMessage,
     verifyPluginCanBeInstalled,
+    getNpmScope,
 } from '@ensono-stacks/core';
 import {
     joinPathFragments,
@@ -19,9 +20,9 @@ import {
     names,
     getWorkspaceLayout,
     generateFiles,
+    runTasksInSerial,
 } from '@nx/devkit';
 import { libraryGenerator } from '@nx/js';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
 import path from 'path';
 
 import { NextAuthRedisGeneratorSchema } from './schema';
@@ -42,10 +43,10 @@ export default async function nextAuthRedisGenerator(
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
-        'pages',
+        'app',
         'api',
-        'auth',
-        '[...nextauth].ts',
+        'hello',
+        'route.ts',
     );
     if (!tree.exists(nextAuthApiFilePath)) {
         throw new Error(
@@ -53,7 +54,7 @@ export default async function nextAuthRedisGenerator(
         );
     }
 
-    const { npmScope } = readNxJson(tree);
+    // const { npmScope } = readNxJson(tree);
     const name = options.adapterName;
 
     const libraryName = names(name).fileName;
@@ -77,7 +78,7 @@ export default async function nextAuthRedisGenerator(
     });
 
     configureAdapter(project, tree, {
-        npmScope,
+        npmScope: `@${getNpmScope(tree)}`,
         libraryName,
         envVar: options.envVar,
     });

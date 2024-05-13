@@ -2,6 +2,7 @@ export default {
     displayName: 'playwright',
     preset: '../../jest.preset.js',
     globals: {},
+    testEnvironment: 'node',
     transform: {
         '^.+\\.[tj]s$': [
             'ts-jest',

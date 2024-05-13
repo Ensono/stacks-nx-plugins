@@ -18,9 +18,9 @@ import {
     addDependenciesToPackageJson,
     joinPathFragments,
     updateJson,
+    runTasksInSerial,
 } from '@nx/devkit';
-import { Linter } from '@nx/linter';
-import { runTasksInSerial } from '@nx/workspace/src/utilities/run-tasks-in-serial';
+import { Linter } from '@nx/eslint';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
@@ -80,7 +80,7 @@ function updateDependencies(tree) {
         {
             playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': PLAYWRIGHT_VERSION,
-            '@mands/nx-playwright': '^0.2.3',
+            '@mands/nx-playwright': '^0.6.3',
         },
     );
 }
