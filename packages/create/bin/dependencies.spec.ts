@@ -129,7 +129,7 @@ describe('workspace generator', () => {
             'folder/path',
         );
         expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @nx/next:app next-app --e2eTestRunner=none',
+            'npx nx g @nx/next:app next-app --directory=apps --e2eTestRunner=none',
             'folder/path',
         );
         expect(execAsync).toHaveBeenCalledWith(

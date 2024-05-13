@@ -69,7 +69,7 @@ export function getGeneratorsToRun(
 
     if (argv.preset === Preset.NextJs) {
         generators.push(
-            `@nx/next:app ${argv.appName} --e2eTestRunner=none`,
+            `@nx/next:app ${argv.appName} --directory=apps --e2eTestRunner=none`,
             `@ensono-stacks/next:init --project=${argv.appName}`,
         );
     }
