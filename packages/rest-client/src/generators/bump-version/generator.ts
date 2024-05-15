@@ -178,9 +178,7 @@ export default async function bumpVersion(
         optionsParameter.name,
     ).root.replaceAll(/v(\d+)$/g, '');
 
-    const endpointRoot = libsEndpoint.replace('libs/', '');
-
-    const splitPath = endpointRoot.split('/');
+    const splitPath = libsEndpoint.split('/');
 
     const directoryPath = splitPath[0];
     const namePath = splitPath[2];
