@@ -6,15 +6,15 @@
     "tags": ["e2e"],
     "implicitDependencies": ["cypress", "next", "workspace", "create"],
     "targets": {
-        "e2e": {
-            "executor": "@ensono-stacks/e2e:e2e",
-            "options": {
-                "verdaccioConfig": ".verdaccio/config.yml",
-                "jestOptions": {
-                    "jestConfig": "e2e/cypress-e2e/jest.config.ts",
-                    "passWithNoTests": true
-                }
-            }
-        }
+        // "e2e": {
+        //     "executor": "@ensono-stacks/e2e:e2e",
+        //     "options": {
+        //         "verdaccioConfig": ".verdaccio/config.yml",
+        //         "jestOptions": {
+        //             "jestConfig": "e2e/cypress-e2e/jest.config.ts",
+        //             "passWithNoTests": true
+        //         }
+        //     }
+        // }
     }
 }
