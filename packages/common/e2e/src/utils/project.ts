@@ -88,14 +88,14 @@ export async function createNextApplication(
 ) {
     const server = customServer ? '--customServer' : '';
     await runNxCommandAsync(
-        `generate @nx/next:application ${project} --e2eTestRunner=none ${server}`,
+        `generate @nx/next:application ${project} --directory=apps --e2eTestRunner=none ${server}`,
     );
     await runNxCommandAsync(
-        `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
+        `generate @ensono-stacks/next:init --project=${project} --directory=apps --no-interactive`,
     );
     if (deployment) {
         await runNxCommandAsync(
-            `generate @ensono-stacks/next:init-deployment --project=${project} --no-interactive`,
+            `generate @ensono-stacks/next:init-deployment --directory=apps --project=${project} --no-interactive`,
         );
     }
 }
