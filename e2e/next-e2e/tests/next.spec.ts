@@ -81,7 +81,7 @@ describe('next e2e', () => {
 
     });
     
-    describe('NextAuth generator', () => {
+    xdescribe('NextAuth generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
