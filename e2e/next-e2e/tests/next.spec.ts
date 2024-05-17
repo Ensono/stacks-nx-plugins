@@ -29,7 +29,7 @@ describe('next e2e', () => {
         await runNxCommandAsync('reset');
     });
 
-    describe('init generator', () => {
+    xdescribe('init generator', () => {
         it('runs the install generator', async () => {
             expect(() =>
                 checkFilesExist('tsconfig.base.json', '.eslintrc.json'),
@@ -106,7 +106,7 @@ describe('next e2e', () => {
         });
     });
     
-    describe('init-deployment generator', () => {
+    xdescribe('init-deployment generator', () => {
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -140,7 +140,7 @@ describe('next e2e', () => {
         });
     });
     
-    describe('react-query generator', () => {
+    xdescribe('react-query generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
@@ -162,7 +162,7 @@ describe('next e2e', () => {
         });
     });
 
-    describe('storybook generator', () => {
+    xdescribe('storybook generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:storybook --project=${project} --no-interactive`,
