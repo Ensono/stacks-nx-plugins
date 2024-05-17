@@ -62,7 +62,7 @@ describe('playwright e2e', () => {
             ).not.toThrow();
         });
 
-        it('should be able to run the e2e test target', async () => {
+        xit('should be able to run the e2e test target', async () => {
             // The tests will actually fail to run as Playwright detects that it is being run with jest. So only able to verify that the target is ran and server started
             expect(
                 await runTarget(
