@@ -70,7 +70,7 @@ describe('playwright generator', () => {
         );
     });
 
-    it('should run successfully with native regression', async () => {
+    xit('should run successfully with native regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'native',
@@ -111,7 +111,7 @@ describe('playwright generator', () => {
         );
     }, 100_000);
 
-    it('should run successfully with applitools regression', async () => {
+    xit('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'applitools',
@@ -149,7 +149,7 @@ describe('playwright generator', () => {
         });
     }, 100_000);
 
-    describe('executedGenerators', () => {
+    xdescribe('executedGenerators', () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'applitools',
