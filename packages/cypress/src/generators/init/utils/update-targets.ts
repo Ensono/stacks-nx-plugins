@@ -12,7 +12,7 @@ export function updateProjectJsonWithHtmlReport(
 ) {
     updateJson(
         tree,
-        joinPathFragments(project.root, 'project.json'),
+        joinPathFragments(`${project.sourceRoot}-e2e`, 'project.json'),
         projectJson => {
             const updatedProjectJson = { ...projectJson };
 
@@ -25,7 +25,7 @@ export function updateProjectJsonWithHtmlReport(
                             'marge merged-html-report.json --reportDir ./ --inline',
                         ],
                         parallel: false,
-                        cwd: `${projectRoot}/cypress/test-results/downloads`,
+                        cwd: `${projectRoot}/test-results/downloads`,
                     },
                     configurations: {
                         ci: {

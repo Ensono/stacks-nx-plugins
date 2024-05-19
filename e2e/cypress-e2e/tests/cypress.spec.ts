@@ -24,7 +24,7 @@ describe('cypress e2e', () => {
     function setupBaseProject() {
         baseProject = uniq('cypress');
         applicationDirectory = `apps/${baseProject}`;
-        cypressDirectory = `${applicationDirectory}/cypress`;
+        cypressDirectory = `apps/${applicationDirectory}-e2e`;
         runNxCommand(
             `generate @nx/next:application ${baseProject} --e2eTestRunner=none --verbose`,
         );
@@ -58,27 +58,13 @@ describe('cypress e2e', () => {
             it('should add/update the relevant files', () => {
                 expect(() =>
                     checkFilesExist(
-                        'cypress.config.base.ts',
-                        `${applicationDirectory}/cypress.config.ts`,
-                        `${applicationDirectory}/project.json`,
-                        `${cypressDirectory}/e2e/example.cy.ts`,
-                        `${cypressDirectory}/support/e2e.ts`,
-                        `${applicationDirectory}/tsconfig.json`,
-                        `${applicationDirectory}/cypress.config.ts`,
+                        `${cypressDirectory}/cypress.config.ts`,
+                        `${cypressDirectory}/project.json`,
+                        `${cypressDirectory}/src/e2e/example.cy.ts`,
+                        `${cypressDirectory}/src/support/e2e.ts`,
+                        `${cypressDirectory}/tsconfig.json`,
                     ),
                 ).not.toThrow();
-            });
-
-            it('should delete the relevant files', () => {
-                expect(() => {
-                    checkFilesExist(`${cypressDirectory}/support/app.po.ts`);
-                }).toThrow();
-                expect(() => {
-                    checkFilesExist(`${cypressDirectory}/e2e/app.cy.ts`);
-                }).toThrow();
-                expect(() => {
-                    checkFilesExist(`${applicationDirectory}/tsconfig.cy.json`);
-                }).toThrow();
             });
 
             it('should update the package.json', () => {
@@ -99,7 +85,7 @@ describe('cypress e2e', () => {
 
                 expect(() =>
                     checkFilesExist(
-                        `${cypressDirectory}/e2e/axe-accessibility.cy.ts`,
+                        `${cypressDirectory}/src/e2e/axe-accessibility.cy.ts`,
                     ),
                 ).not.toThrow();
 

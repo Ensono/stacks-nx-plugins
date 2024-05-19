@@ -33,10 +33,7 @@ export function normalizeOptions(
         ...options,
         projectName: project?.name as string,
         projectRoot: project?.sourceRoot as string,
-        cypressProject: joinPathFragments(
-            project?.sourceRoot as string,
-            'cypress',
-        ),
+        cypressProject: `${project?.sourceRoot}-e2e`,
     };
 }
 

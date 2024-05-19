@@ -11,13 +11,12 @@ import {
     MOCHAWESOME_VERSION,
     MOCHAWESOMEJUNITREPORTER_VERSION,
     MOCHAWESOMEMERGE_VERSION,
-    NXCYPRESS_VERSION,
     CYPRESSGREP_VERSION,
 } from '../../versions';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
-const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
+const E2EApplicationDirectory = `apps/${applicationName}-e2e`;
 
 let appTree: Tree;
 let options: CypressGeneratorSchema;
@@ -119,12 +118,16 @@ describe('should run successfully with default options', () => {
     it('should update the applications eslintrc.json', () => {
         const eslintrc = readJson(
             appTree,
-            joinPathFragments(applicationDirectory, '.eslintrc.json'),
+            joinPathFragments(E2EApplicationDirectory, '.eslintrc.json'),
         );
+
         expect(
             checkOneOccurence(
                 eslintrc.overrides[0].parserOptions.project,
-                joinPathFragments(cypressDirectory, 'tsconfig(.*)?.json'),
+                joinPathFragments(
+                    E2EApplicationDirectory,
+                    'tsconfig(.*)?.json',
+                ),
             ),
         ).toBeTruthy();
     });
@@ -138,14 +141,17 @@ describe('should run successfully with default options', () => {
     it('should update the project cypress config', () => {
         snapshotFiles(
             appTree,
-            joinPathFragments(applicationDirectory, 'cypress.config.ts'),
+            joinPathFragments(
+                `${E2EApplicationDirectory}`,
+                'cypress.config.ts',
+            ),
         );
     });
 
     it('should update the project.json with the html-report target', () => {
         const projectJson = readJson(
             appTree,
-            joinPathFragments(applicationDirectory, 'project.json'),
+            joinPathFragments(`${E2EApplicationDirectory}`, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
 
@@ -158,41 +164,46 @@ describe('should run successfully with default options', () => {
                     'marge merged-html-report.json --reportDir ./ --inline',
                 ],
                 parallel: false,
-                cwd: `${applicationDirectory}/cypress/test-results/downloads`,
+                cwd: `${E2EApplicationDirectory}/test-results/downloads`,
             },
             configurations: {
                 ci: {
-                    cwd: `${applicationDirectory}/../../test-results/${applicationName}/downloads`,
+                    cwd: `${E2EApplicationDirectory}/../../test-results/${applicationName}/downloads`,
                 },
             },
         };
+
         expect(projectJson.targets['html-report']).toBeTruthy();
         expect(projectJson.targets['html-report']).toEqual(expectedJson);
     });
 
     it('should set up the example files', () => {
-        expect(
-            appTree.exists(
-                joinPathFragments(cypressDirectory, 'e2e', 'app.cy.ts'),
-            ),
-        ).toBeFalsy();
-        expect(
-            appTree.exists(
-                joinPathFragments(cypressDirectory, 'support', 'app.po.ts'),
-            ),
-        ).toBeFalsy();
         snapshotFiles(
             appTree,
-            joinPathFragments(cypressDirectory, 'e2e', 'example.cy.ts'),
-            joinPathFragments(cypressDirectory, 'fixtures', 'example.json'),
-            joinPathFragments(cypressDirectory, 'support', 'commands.ts'),
+            joinPathFragments(
+                E2EApplicationDirectory,
+                'src',
+                'fixtures',
+                'example.json',
+            ),
+            joinPathFragments(
+                E2EApplicationDirectory,
+                'src',
+                'support',
+                'commands.ts',
+            ),
         );
     });
 
     it('should update the support e2e file', () => {
         snapshotFiles(
             appTree,
-            joinPathFragments(cypressDirectory, 'support', 'e2e.ts'),
+            joinPathFragments(
+                E2EApplicationDirectory,
+                'src',
+                'support',
+                'e2e.ts',
+            ),
         );
     });
 
@@ -208,7 +219,11 @@ describe('should run successfully with default options', () => {
         it('has excluded cypress from the application tsconfig.json', () => {
             const configJson = readJson(
                 appTree,
-                joinPathFragments(applicationDirectory, 'tsconfig.json'),
+                joinPathFragments(
+                    E2EApplicationDirectory,
+                    'src',
+                    'tsconfig.json',
+                ),
             );
             expect(
                 checkOneOccurence(configJson.exclude, 'cypress/**/**'),
@@ -221,13 +236,13 @@ describe('should run successfully with default options', () => {
         it('has configured the new tsconfig.json within the cypress directory', () => {
             snapshotFiles(
                 appTree,
-                joinPathFragments(cypressDirectory, 'tsconfig.json'),
+                joinPathFragments(
+                    E2EApplicationDirectory,
+                    'src',
+                    'tsconfig.json',
+                ),
             );
         });
-    });
-
-    it('should create the base cypress configuration', () => {
-        snapshotFiles(appTree, 'cypress.config.base.ts');
     });
 
     it('should update the tsconfig.base.json', () => {
