@@ -1,16 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`cypress accessibility generator should correctly add accessibility should update the applications cypress.config.ts 1`] = `
-"import { defineConfig } from 'cypress';
+"import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 
-import { baseConfig } from '../../cypress.config.base';
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  ...baseConfig,
   e2e: {
-    ...baseConfig.e2e,
-    screenshotOnRunFailure: true,
-    video: true,
+    ...nxE2EPreset(__filename, { cypressDir: 'src' }),
     setupNodeEvents(on, config) {
       on('task', {
         log(message) {
