@@ -6,15 +6,15 @@
     "tags": ["e2e"],
     "implicitDependencies": ["azure-node", "create", "workspace", "next"],
     "targets": {
-        // "e2e": {
-        //     "executor": "@ensono-stacks/e2e:e2e",
-        //     "options": {
-        //         "verdaccioConfig": ".verdaccio/config.yml",
-        //         "jestOptions": {
-        //             "jestConfig": "e2e/azure-node-e2e/jest.config.ts",
-        //             "passWithNoTests": true
-        //         }
-        //     }
-        // }
+        "e2e": {
+            "executor": "@ensono-stacks/e2e:e2e",
+            "options": {
+                "verdaccioConfig": ".verdaccio/config.yml",
+                "jestOptions": {
+                    "jestConfig": "e2e/azure-node-e2e/jest.config.ts",
+                    "passWithNoTests": true
+                }
+            }
+        }
     }
 }

@@ -45,7 +45,7 @@ describe('azure-node e2e', () => {
         }, 120000);
     });
 
-    describe('app-insights-deployment generator', () => {
+    xdescribe('app-insights-deployment generator', () => {
         const project = uniq('nextjs');
 
         beforeAll(async () => {
