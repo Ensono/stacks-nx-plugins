@@ -10,7 +10,7 @@
     },
     "peerDependencies": {
         "ts-morph": "^17.0.1",
-        "nx": "^18.3.4",
-        "@nx/devkit": "^18.3.4"
+        "nx": "18.3.4",
+        "@nx/devkit": "18.3.4"
     }
 }

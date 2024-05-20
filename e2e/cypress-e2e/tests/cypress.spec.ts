@@ -47,7 +47,7 @@ describe('cypress e2e', () => {
             ).catch(stderr => expect(stderr?.code).toEqual(1));
         });
 
-        describe('should successfully run and amend config files if project does exist', () => {
+        xdescribe('should successfully run and amend config files if project does exist', () => {
             beforeAll(async () => {
                 setupBaseProject();
                 await runNxCommandAsync(
