@@ -5,7 +5,6 @@ import {
 } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { SyntaxKind } from 'ts-morph';
 
 import generator from './generator';
 import { PlaywrightGeneratorSchema } from './schema';
@@ -50,7 +49,7 @@ describe('playwright generator', () => {
 
     beforeEach(() => {
         options = {
-            project: projectName,
+            project: `${projectName}`,
         };
         appTree = createTreeWithEmptyWorkspace();
         addStacksAttributes(appTree, options.project);
@@ -59,40 +58,39 @@ describe('playwright generator', () => {
     it('should resolve false if the project already exists', async () => {
         await generator(appTree, options);
         await expect(generator(appTree, options)).resolves.toBe(false);
-    }, 100_000);
+    });
 
     it('should run successfully with default options', async () => {
         await generator(appTree, options);
 
         snapshotFiles(appTree, [
-            joinPathFragments(projectNameE2E, 'project.json'),
-            joinPathFragments(projectNameE2E, 'playwright.config.ts'),
-            joinPathFragments(projectNameE2E, 'tsconfig.e2e.json'),
-            joinPathFragments(projectNameE2E, 'tsconfig.json'),
-            joinPathFragments(projectNameE2E, '.eslintrc.json'),
-            joinPathFragments(projectNameE2E, 'src', 'example.spec.ts'),
-            'playwright.config.base.ts',
+            joinPathFragments('.prettierrc'),
+            joinPathFragments('package.json'),
+            joinPathFragments('nx.json'),
+            joinPathFragments('tsconfig.base.json'),
+            joinPathFragments('apps', projectNameE2E, 'src', 'example.spec.ts'),
+            joinPathFragments('apps', projectNameE2E, 'playwright.config.ts'),
         ]);
-        // app.spec.ts to be removed
+
         expect(
             appTree.exists(
-                joinPathFragments(projectNameE2E, 'src', 'app.spec.ts'),
+                joinPathFragments(
+                    'apps',
+                    projectNameE2E,
+                    'src',
+                    'lib',
+                    'test-e2e.spec.ts',
+                ),
             ),
         ).toBeFalsy();
-
-        // expect .gitignore entries to be added
-        const gitIgnoreFile = appTree.read('/.gitignore', 'utf8');
-        expect(gitIgnoreFile).toContain('**/test-results');
-        expect(gitIgnoreFile).toContain('**/playwright-report');
-        expect(gitIgnoreFile).toContain('**/playwright/.cache');
 
         // Add target to project.json
         const projectJson = readJson(
             appTree,
-            joinPathFragments(projectNameE2E, 'project.json'),
+            joinPathFragments('apps', projectNameE2E, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
-    }, 100_000);
+    });
 
     describe('executedGenerators', () => {
         beforeEach(async () => {

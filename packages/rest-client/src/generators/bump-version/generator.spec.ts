@@ -10,13 +10,17 @@ describe('bump-version generator', () => {
     let tree: Tree;
     const options: BumpVersionGeneratorSchema = {
         name: 'test',
+        directory: 'test-directory',
     };
 
     beforeEach(async () => {
         tree = createTreeWithEmptyWorkspace();
-        tree.write('endpoints/test/v1/src/index.ts', 'test');
         tree.write(
-            'endpoints/test/v1/project.json',
+            `${options.directory}/v1/${options.name}/src/index.ts`,
+            'test',
+        );
+        tree.write(
+            `${options.directory}/v1/${options.name}/project.json`,
             `{
                 "name": "test"
             }`,
@@ -55,47 +59,53 @@ describe('bump-version generator', () => {
     });
 
     it('should generate the new version of the endpoint', async () => {
-        tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
+        tree.write(
+            `fixtures/${options.directory}/v1/test/src/index.ts`,
+            'test',
+        );
         await generator(tree, {
             ...options,
         });
 
         expect(() =>
-            tree.exists('fixtures/endpoints/test/v1/src/index.ts'),
+            tree.exists(`fixtures/${options.directory}/v1/test/src/index.ts`),
         ).not.toThrow();
         expect(() =>
-            tree.exists('fixtures/endpoints/test/v2/src/index.ts'),
+            tree.exists(`fixtures/${options.directory}/v2/test/src/index.ts`),
         ).not.toThrow();
     });
 
     it('should determine new version based on existing versions if --endpointVersion is omitted', async () => {
         // intentionally in random order
-        tree.write('fixtures/endpoints/test/v1/index.ts', 'test');
-        tree.write('fixtures/endpoints/test/v6/index.ts', 'test');
-        tree.write('fixtures/endpoints/test/v5/index.ts', 'test');
-        tree.write('fixtures/endpoints/test/v3/index.ts', 'test');
+        tree.write(`fixtures/${options.directory}/v1/test/index.ts`, 'test');
+        tree.write(`fixtures/${options.directory}/v6/test/index.ts`, 'test');
+        tree.write(`fixtures/${options.directory}/v5/test/index.ts`, 'test');
+        tree.write(`fixtures/${options.directory}/v3/test/index.ts`, 'test');
 
         await generator(tree, {
             ...options,
         });
 
         expect(() =>
-            tree.exists('fixtures/endpoints/test/v7/src/index.ts'),
+            tree.exists(`fixtures/${options.directory}/v7/test/src/index.ts`),
         ).not.toThrow();
     });
 
     it('should respect --endpointVersion', async () => {
-        tree.write('fixtures/endpoints/test/v1/src/index.ts', 'test');
+        tree.write(
+            `fixtures/${options.directory}/v1/test/src/index.ts`,
+            'test',
+        );
         await generator(tree, {
             ...options,
             endpointVersion: 3,
         });
 
         expect(() =>
-            tree.exists('fixtures/endpoints/test/v1/src/index.ts'),
+            tree.exists(`fixtures/${options.directory}/v1/test/src/index.ts`),
         ).not.toThrow();
         expect(() =>
-            tree.exists('fixtures/endpoints/test/v3/src/index.ts'),
+            tree.exists(`fixtures/${options.directory}/v3/test/src/index.ts`),
         ).not.toThrow();
     });
 
@@ -106,15 +116,15 @@ describe('bump-version generator', () => {
         );
 
         tree.write(
-            'endpoints/test/v1/src/index.ts',
+            `${options.directory}/v1/test/src/index.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.ts.fixture')),
         );
         tree.write(
-            'endpoints/test/v1/src/index.test.ts',
+            `${options.directory}/v1/test/src/index.test.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.test.ts.fixture')),
         );
         tree.write(
-            'endpoints/test/v1/src/index.types.ts',
+            `${options.directory}/v1/test/src/index.types.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.types.ts.fixture')),
         );
 
@@ -123,12 +133,14 @@ describe('bump-version generator', () => {
             endpointVersion: 3,
         });
 
-        const indexTs = tree.read('endpoints/test/v3/src/index.ts')?.toString();
+        const indexTs = tree
+            .read(`${options.directory}/v3/test/src/index.ts`)
+            ?.toString();
         const indexTestTs = tree
-            .read('endpoints/test/v3/src/index.test.ts')
+            .read(`${options.directory}/v3/test/src/index.test.ts`)
             ?.toString();
         const indexTypesTs = tree
-            .read('endpoints/test/v3/src/index.types.ts')
+            .read(`${options.directory}/v3/test/src/index.types.ts`)
             ?.toString();
 
         expect(indexTs).not.toContain(
@@ -162,7 +174,10 @@ describe('bump-version generator', () => {
     });
 
     it('should throw an error if a folder name does not match folder convention', async () => {
-        await tree.write('endpoints/test/fakeVersion/src/index.ts', 'test');
+        await tree.write(
+            `${options.directory}/fakeVersion/test/src/index.ts`,
+            'test',
+        );
 
         await expect(() =>
             generator(tree, {

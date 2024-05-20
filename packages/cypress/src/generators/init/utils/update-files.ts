@@ -29,11 +29,7 @@ export function updateApplicationLintFile(tree: Tree, path: string) {
         if (!override.parserOptions.project) {
             override.parserOptions.project = [];
         }
-        const requiredEntry = joinPathFragments(
-            path,
-            'cypress',
-            'tsconfig(.*)?.json',
-        );
+        const requiredEntry = joinPathFragments(path, 'tsconfig(.*)?.json');
         if (!override.parserOptions.project.includes(requiredEntry)) {
             override.parserOptions.project.push(requiredEntry);
         }
@@ -44,14 +40,21 @@ export function updateApplicationLintFile(tree: Tree, path: string) {
 export function updateTsConfig(tree: Tree, project: string) {
     updateJson(
         tree,
-        joinPathFragments(project, 'tsconfig.json'),
+        joinPathFragments(project, 'src', 'tsconfig.json'),
         tsConfigJson => {
             const updatedProjectJson = { ...tsConfigJson };
 
-            updatedProjectJson.exclude.push(
-                'cypress/**/**',
-                'cypress.config.ts',
-            );
+            if (updatedProjectJson.exclude) {
+                updatedProjectJson.exclude.push(
+                    'cypress/**/**',
+                    'cypress.config.ts',
+                );
+            } else {
+                updatedProjectJson.exclude = [
+                    'cypress/**/**',
+                    'cypress.config.ts',
+                ];
+            }
             return updatedProjectJson;
         },
     );

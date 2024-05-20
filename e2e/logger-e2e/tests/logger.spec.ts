@@ -28,11 +28,11 @@ describe('logger e2e', () => {
             );
             expect(() =>
                 checkFilesExist(
-                    `libs/${project}/src/index.ts`,
-                    `libs/${project}/src/index.test.ts`,
+                    `${project}/src/index.ts`,
+                    `${project}/src/index.test.ts`,
                 ),
             ).not.toThrow();
-            const projectJson = readJson(`libs/${project}/project.json`);
+            const projectJson = readJson(`${project}/project.json`);
             expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
         });
 
@@ -44,8 +44,8 @@ describe('logger e2e', () => {
                 );
                 expect(() =>
                     checkFilesExist(
-                        `libs/subdir/${project}/src/index.ts`,
-                        `libs/subdir/${project}/src/index.test.ts`,
+                        `subdir/${project}/src/index.ts`,
+                        `subdir/${project}/src/index.test.ts`,
                     ),
                 ).not.toThrow();
             });

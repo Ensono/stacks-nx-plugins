@@ -13,7 +13,7 @@ import initGenerator from '../init/generator';
 
 const applicationName = 'application';
 const applicationDirectory = `apps/${applicationName}`;
-const cypressDirectory = joinPathFragments(applicationDirectory, 'cypress');
+const E2EApplicationDirectory = `apps/${applicationName}-e2e`;
 
 jest.mock('@nx/devkit', () => {
     const actual = jest.requireActual('@nx/devkit');
@@ -74,7 +74,7 @@ describe('cypress accessibility generator', () => {
     it('should correctly update the setUpNodeEvents if it already exists', async () => {
         await initGenerator(appTree, options);
         const config = project.addSourceFileAtPath(
-            joinPathFragments(applicationDirectory, 'cypress.config.ts'),
+            joinPathFragments(E2EApplicationDirectory, 'cypress.config.ts'),
         );
         config.replaceWithText(`export default defineConfig({
             ...baseConfig,
@@ -92,7 +92,7 @@ describe('cypress accessibility generator', () => {
             appTree
                 .read(
                     joinPathFragments(
-                        applicationDirectory,
+                        E2EApplicationDirectory,
                         'cypress.config.ts',
                     ),
                 )
@@ -126,16 +126,17 @@ describe('cypress accessibility generator', () => {
         it('should run successfully and create the accessibility test', async () => {
             // axe-accessibility.spec.ts to be added
             const filePath = joinPathFragments(
-                cypressDirectory,
+                E2EApplicationDirectory,
+                'src',
                 'e2e',
                 'axe-accessibility.cy.ts',
             );
             expect(appTree.exists(filePath)).toBeTruthy();
             compareToFile(
                 project.addSourceFileAtPath(filePath),
-                './files/cypress/e2e/axe-accessibility.cy.ts__template__',
+                './files/src/e2e/axe-accessibility.cy.ts__template__',
             );
-        }, 100_000);
+        });
 
         it('should update the package.json with the required dependencies', () => {
             // expect package.json updated
@@ -153,7 +154,7 @@ describe('cypress accessibility generator', () => {
                 appTree
                     .read(
                         joinPathFragments(
-                            applicationDirectory,
+                            E2EApplicationDirectory,
                             'cypress.config.ts',
                         ),
                     )
@@ -163,7 +164,8 @@ describe('cypress accessibility generator', () => {
 
         it('should update the applications e2e.ts support file', () => {
             const filePath = joinPathFragments(
-                cypressDirectory,
+                E2EApplicationDirectory,
+                'src',
                 'support',
                 'e2e.ts',
             );
@@ -195,7 +197,11 @@ describe('cypress accessibility generator', () => {
         it('should update the applications cypress tsconfig.json file', () => {
             const tsconfig = readJson(
                 appTree,
-                joinPathFragments(cypressDirectory, 'tsconfig.json'),
+                joinPathFragments(
+                    E2EApplicationDirectory,
+                    'src',
+                    'tsconfig.json',
+                ),
             );
             expect(
                 checkOneOccurence(

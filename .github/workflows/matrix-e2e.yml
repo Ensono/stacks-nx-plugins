@@ -2,7 +2,7 @@ name: E2E
 on:
   pull_request:
     branches:
-    - disabled
+    - main
     types: [opened, synchronize, reopened]
 jobs:
   e2e:

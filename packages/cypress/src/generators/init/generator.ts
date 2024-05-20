@@ -15,7 +15,7 @@ import {
     joinPathFragments,
 } from '@nx/devkit';
 import { Linter } from '@nx/eslint';
-import { existsSync } from 'fs';
+import { libraryGenerator } from '@nx/js';
 
 import { CypressGeneratorSchema } from './schema';
 import {
@@ -61,53 +61,31 @@ export default async function initGenerator(
         return false;
     const normalizedOptions = normalizeOptions(tree, options);
 
+    const projectE2EName = `${normalizedOptions.project}-e2e`;
+
     const cypressGeneratorConfiguration: CypressE2EConfigSchema = {
-        project: normalizedOptions.projectName,
-        directory: 'cypress',
+        project: projectE2EName,
+        directory: 'src',
         linter: Linter.EsLint,
-        devServerTarget: `${normalizedOptions.projectName}:serve`,
+        devServerTarget: `${normalizedOptions.projectName}:serve-static`,
     };
+
+    await libraryGenerator(tree, {
+        name: projectE2EName,
+        directory: `apps/${projectE2EName}`,
+        projectNameAndRootFormat: 'as-provided',
+    });
 
     await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);
     // update application eslint.rc
-    updateApplicationLintFile(tree, normalizedOptions.projectRoot);
+    updateApplicationLintFile(tree, normalizedOptions.cypressProject);
     // update ts config
-    updateTsConfig(tree, normalizedOptions.projectRoot);
+    updateTsConfig(tree, normalizedOptions.cypressProject);
     updateBaseTsConfig(tree);
-    // add / remove files
-    tree.delete(
-        joinPathFragments(
-            normalizedOptions.cypressProject,
-            'support',
-            'app.po.ts',
-        ),
-    );
-    tree.delete(
-        joinPathFragments(normalizedOptions.cypressProject, 'e2e', 'app.cy.ts'),
-    );
-    tree.delete(
-        joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.cy.json'),
-    );
-    addFiles(
-        tree,
-        joinPathFragments('files', 'e2e-folder'),
-        __dirname,
-        normalizedOptions.projectRoot,
-        normalizedOptions,
-    );
-    if (!existsSync(joinPathFragments(tree.root, 'cypress.config.base.ts'))) {
-        addFiles(
-            tree,
-            joinPathFragments('files', 'root'),
-            __dirname,
-            '',
-            normalizedOptions,
-        );
-    }
 
     // update targets
     updateProjectJsonWithHtmlReport(
-        normalizedOptions.projectRoot,
+        normalizedOptions.cypressProject,
         readProjectConfiguration(tree, normalizedOptions.projectName),
         tree,
     );

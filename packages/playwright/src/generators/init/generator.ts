@@ -1,46 +1,31 @@
 import {
-    addIgnoreEntry,
     deploymentGeneratorMessage,
     execAsync,
     hasGeneratorExecutedForProject,
-    tsMorphTree,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import initPlaywrightGenerator from '@mands/nx-playwright/src/generators/project/generator';
-import { NxPlaywrightGeneratorSchema } from '@mands/nx-playwright/src/generators/project/schema-types';
 import {
     formatFiles,
     generateFiles,
     getProjects,
     offsetFromRoot,
     Tree,
-    readProjectConfiguration,
     addDependenciesToPackageJson,
-    joinPathFragments,
-    updateJson,
     runTasksInSerial,
 } from '@nx/devkit';
 import { Linter } from '@nx/eslint';
+import { libraryGenerator } from '@nx/js';
+import { configurationGenerator } from '@nx/playwright';
+// eslint-disable-next-line import/no-unresolved, import/extensions
+import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
-import { updatePlaywrightConfigWithDefault } from './utils/update-playwright-config';
-import { updatePlaywrightConfigBase } from './utils/update-playwright-config-base';
 import { PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;
     projectRoot: string;
-}
-
-function updateTsConfig(tree: Tree, project: string) {
-    updateJson(tree, joinPathFragments(project, 'tsconfig.json'), tsconfig => ({
-        ...tsconfig,
-        compilerOptions: {
-            ...tsconfig.compilerOptions,
-            lib: ['dom'],
-        },
-    }));
 }
 
 function normalizeOptions(
@@ -59,11 +44,11 @@ function normalizeOptions(
 function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
     const templateOptions = {
         ...options,
-        offsetFromRoot: offsetFromRoot(options.projectRoot),
+        offsetFromRoot: offsetFromRoot(options.project),
         template: '',
     };
 
-    const projectRootE2E = `${options.projectRoot}-e2e/src`;
+    const projectRootE2E = `apps/${options.project}/src`;
 
     generateFiles(
         tree,
@@ -80,7 +65,7 @@ function updateDependencies(tree) {
         {
             playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': PLAYWRIGHT_VERSION,
-            '@mands/nx-playwright': '^0.6.3',
+            '@nx/playwright': '18.3.4',
         },
     );
 }
@@ -94,50 +79,29 @@ export default async function initGenerator(
     if (hasGeneratorExecutedForProject(tree, options.project, 'PlaywrightInit'))
         return false;
 
-    const projectE2E = `${options.project}-e2e`;
+    const normalizedOptions = normalizeOptions(tree, options);
 
-    const optionsE2E = {
-        ...options,
-        projectE2E,
-    };
-    const normalizedOptionsForE2E = normalizeOptions(tree, optionsE2E);
+    const projectE2EName = `${normalizedOptions.project}-e2e`;
 
-    const playwrightGeneratorSchema: NxPlaywrightGeneratorSchema = {
-        name: projectE2E,
+    const playwrightGeneratorSchema: ConfigurationGeneratorSchema = {
         linter: Linter.EsLint,
-        packageRunner: 'npx',
-        project: options.project,
+        directory: 'src',
+        project: projectE2EName,
+        js: false,
+        skipFormat: false,
+        skipPackageJson: false,
+        setParserOptionsProject: false,
     };
 
-    await initPlaywrightGenerator(tree, playwrightGeneratorSchema);
-
-    const morphTree = tsMorphTree(tree);
-
-    // playwright.config.base.ts
-    updatePlaywrightConfigBase(morphTree);
-
-    // add extra config to playwright.config.ts in project
-    updatePlaywrightConfigWithDefault(
-        readProjectConfiguration(tree, projectE2E),
-        morphTree,
-    );
-
-    // example.spec.ts
-    addFiles(tree, 'files', normalizedOptionsForE2E);
-
-    // remove app.spec.ts added from @mands generato
-    const { projectRoot } = normalizedOptionsForE2E;
-    tree.delete(`${projectRoot}-e2e/src/app.spec.ts`);
-
-    // Update tsconfig
-    updateTsConfig(tree, `${projectRoot}-e2e`);
-
-    // add records to gitignore
-    addIgnoreEntry(tree, '.gitignore', 'Playwright', [
-        '/test-results/',
-        '/playwright-report/',
-        '/playwright/.cache/',
-    ]);
+    await libraryGenerator(tree, {
+        name: projectE2EName,
+        directory: `apps/${projectE2EName}`,
+        projectNameAndRootFormat: 'as-provided',
+    });
+    // Delete the default generated lib folder
+    tree.delete(path.join('apps', projectE2EName, 'src', 'index.ts'));
+    tree.delete(path.join('apps', projectE2EName, 'src', 'lib'));
+    await configurationGenerator(tree, playwrightGeneratorSchema);
 
     await formatFiles(tree);
 
@@ -148,6 +112,10 @@ export default async function initGenerator(
                 tree,
                 'nx g @ensono-stacks/playwright:init-deployment',
             ),
-        () => execAsync('npx playwright install', projectRoot) as Promise<void>,
+        () =>
+            execAsync(
+                'npx playwright install',
+                `apps/${projectE2EName}`,
+            ) as Promise<void>,
     );
 }
