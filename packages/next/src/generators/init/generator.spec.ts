@@ -353,7 +353,7 @@ describe('next install generator', () => {
                             excludedFiles: ['jest.config.ts'],
                             rules: expect.objectContaining({
                                 'testing-library/await-async-utils': 'error',
-                                'testing-library/await-async-query': 'error',
+                                'testing-library/await-async-queries': 'error',
                                 'testing-library/no-wait-for-side-effects':
                                     'error',
                                 'testing-library/no-manual-cleanup': 'error',
@@ -361,12 +361,11 @@ describe('next install generator', () => {
                                     'warn',
                                 'testing-library/prefer-presence-queries':
                                     'warn',
-                                'testing-library/prefer-wait-for': 'error',
                                 'testing-library/prefer-user-event': 'warn',
                                 'testing-library/no-debug': 'off',
                             }),
                             parserOptions: {
-                                project: ['next-app/tsconfig(.*)?.json'],
+                                project: ['tsconfig(.*)?.json'],
                             },
                         }),
                     ]),
