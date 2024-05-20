@@ -30,7 +30,7 @@ async function updateDependencies(tree: Tree) {
 function updateTsConfig(tree: Tree, project: string) {
     updateJson(
         tree,
-        joinPathFragments(project, 'tsconfig.json'),
+        joinPathFragments(project, 'src', 'tsconfig.json'),
         tsConfigJson => {
             const updatedProjectJson = { ...tsConfigJson };
             if (
@@ -72,17 +72,18 @@ export default async function accessibilityGenerator(
         tree,
         'files',
         __dirname,
-        normalizedOptions.projectRoot,
+        normalizedOptions.cypressProject,
         normalizedOptions,
     );
 
     // update ts config
     updateTsConfig(tree, normalizedOptions.cypressProject);
 
-    updateCypressConfig(tree, normalizedOptions.projectRoot);
+    updateCypressConfig(tree, normalizedOptions.cypressProject);
 
     // add terminal logging funcitonality to e2e.ts
     addTerminalLogging(tree, normalizedOptions.cypressProject);
+
     await formatFiles(tree);
 
     return updateDependencies(tree);

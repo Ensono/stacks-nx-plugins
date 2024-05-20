@@ -11,17 +11,19 @@ import { BumpVersionGeneratorSchema } from './schema';
 
 function findLatestVersion(
     tree: Tree,
-    { endpointName }: { endpointName: string },
+    {
+        endpointDirectory,
+        endpointName,
+    }: {
+        endpointName: string;
+        endpointDirectory: string;
+    },
 ): number {
     let children;
     try {
-        const versionsPath = readProjectConfiguration(tree, endpointName);
-        const versionFolderFromPath = versionsPath.root.replaceAll(
-            /v(\d+)$/g,
-            '',
-        );
+        readProjectConfiguration(tree, endpointName);
 
-        children = tree.children(versionFolderFromPath);
+        children = tree.children(endpointDirectory);
     } catch {
         throw new Error(
             "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
@@ -157,6 +159,7 @@ export default async function bumpVersion(
 
     const latestVersion = findLatestVersion(tree, {
         endpointName: optionsParameter.name,
+        endpointDirectory: optionsParameter.directory,
     });
 
     if (Number.isNaN(latestVersion)) {
@@ -175,23 +178,29 @@ export default async function bumpVersion(
         optionsParameter.name,
     ).root.replaceAll(/v(\d+)$/g, '');
 
-    const endpointRoot = libsEndpoint.replace('libs/', '');
+    const splitPath = libsEndpoint.split('/');
+
+    const directoryPath = splitPath[0];
+    const namePath = splitPath[2];
 
     const latestVersionOptions = normalizeOptions(tree, {
-        name: `${endpointRoot}v${latestVersion}`,
-        endpointName: endpointRoot,
+        name: namePath,
+        directory: `${directoryPath}/v${latestVersion}`,
+        endpointName: namePath,
         endpointVersion: latestVersion,
     });
 
     const newVersionOptions = normalizeOptions(tree, {
         ...optionsParameter,
-        // include endpoint version in library name
-        name: `${endpointRoot}v${newVersion}`,
-        endpointName: endpointRoot,
+        name: namePath,
+        directory: `${directoryPath}/v${newVersion}`,
+        endpointName: namePath,
         endpointVersion: newVersion,
     });
+
     // create a new library for the new version
     await libraryGenerator(tree, newVersionOptions);
+
     // Delete the default generated lib folder
     tree.delete(path.join(newVersionOptions.projectRoot, 'src', 'lib'));
 
@@ -209,13 +218,14 @@ export default async function bumpVersion(
             isRelative(newVersionOptions.projectRoot, change.path),
         )
         .map(change => change.path);
+
     updateVersionInCode(
         tree,
         filesToChange,
         latestVersion,
-        latestVersionOptions.name,
+        latestVersionOptions.directory,
         newVersion,
-        newVersionOptions.name,
+        newVersionOptions.directory,
     );
 
     await formatFiles(tree);
