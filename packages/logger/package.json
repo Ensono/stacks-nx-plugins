@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/logger",
-    "version": "2.0.1003",
+    "version": "2.1.0-alpha-223.0",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
