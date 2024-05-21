@@ -21,4 +21,4 @@ export const ESLINT_PLUGIN_NO_UNSANITIZED = '4.0.2';
 
 export const LINT_STAGED_VERSION = '13.1.2';
 
-export const NODE_LTS = '22.2.0';
+export const NODE_LTS = '22.1.0';
