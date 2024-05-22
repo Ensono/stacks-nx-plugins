@@ -16,7 +16,7 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
             'plugin:@next/next/recommended',
             'next/core-web-vitals',
         ],
-        ignorePatterns: ['!**/*'],
+        ignorePatterns: ['!**/*', '.next/**/*'],
         overrides: [
             {
                 excludedFiles: ['jest.config.ts'],
