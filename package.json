@@ -6,7 +6,7 @@
         "prepare": "husky install",
         "build": "nx run-many --target build --all --parallel 8",
         "test": "nx run-many --target test --all --parallel 8",
-        "publish": "npm run build && npm publish ./dist/packages/azure-node && npm publish ./dist/packages/azure-react && npm publish ./dist/packages/common/core && npm publish ./dist/packages/create && npm publish ./dist/packages/cypress && npm publish ./dist/packages/logger && npm publish ./dist/packages/next && npm publish ./dist/packages/rest-client && npm publish ./dist/packages/workspace"
+        "publish": "npm run build && npm publish ./dist/packages/azure-node && npm publish ./dist/packages/azure-react && npm publish ./dist/packages/common/core && npm publish ./dist/packages/create && npm publish ./dist/packages/cypress && npm publish ./dist/packages/logger && npm publish ./dist/packages/next && npm publish ./dist/playwright && npm publish ./dist/packages/rest-client && npm publish ./dist/packages/workspace"
     },
     "private": true,
     "devDependencies": {
