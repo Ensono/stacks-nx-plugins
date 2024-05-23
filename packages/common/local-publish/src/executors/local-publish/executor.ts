@@ -107,11 +107,6 @@ export default async function runExecutor(options: LocalPublishExecutorSchema) {
             );
 
             Object.keys(packageJson.dependencies || {}).forEach(dependency => {
-                console.log('dependency', dependency);
-                console.log(
-                    'versionCacheFile[dependency]',
-                    versionCacheFile[packageNames[dependency]],
-                );
                 if (versionCacheFile[packageNames[dependency]]) {
                     packageJson.dependencies[dependency] =
                         versionCacheFile[packageNames[dependency]];
