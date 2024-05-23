@@ -9,6 +9,12 @@
                 "config": ".verdaccio/config.yml",
                 "storage": "tmp/local-registry/storage"
             }
+        },
+        "local-publish": {
+            "executor": "local-publish:publish",
+            "options": {
+                "buildCommand": "npm run build"
+            }
         }
     }
 }

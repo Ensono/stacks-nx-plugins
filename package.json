@@ -5,8 +5,7 @@
     "scripts": {
         "prepare": "husky install",
         "build": "nx run-many --target build --all --parallel 8",
-        "test": "nx run-many --target test --all --parallel 8",
-        "publish": "npm run build && npm publish ./dist/packages/azure-node && npm publish ./dist/packages/azure-react && npm publish ./dist/packages/common/core && npm publish ./dist/packages/create && npm publish ./dist/packages/cypress && npm publish ./dist/packages/logger && npm publish ./dist/packages/next && npm publish ./dist/playwright && npm publish ./dist/packages/rest-client && npm publish ./dist/packages/workspace"
+        "test": "nx run-many --target test --all --parallel 8"
     },
     "private": true,
     "devDependencies": {
@@ -61,6 +60,7 @@
         "tcp-port-used": "1.0.2",
         "ts-jest": "29.1.0",
         "ts-node": "10.9.1",
+        "typescript": "~5.4.2",
         "verdaccio": "5.25.0"
     },
     "config": {
