@@ -17,7 +17,7 @@ export function configureAdapter(
 ) {
     const morphTree = tsMorphTree(tree);
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'app', 'api', 'hello', 'route.ts'),
+        joinPathFragments(project.root, 'src', 'auth.ts'),
     );
     const IORedisAdapterImport = nextAuthNode
         .getImportDeclarations()
@@ -35,7 +35,7 @@ export function configureAdapter(
     ) {
         nextAuthNode.addImportDeclaration({
             namedImports: ['IORedisAdapter'],
-            moduleSpecifier: `@${getNpmScope(tree)}/${libraryName}`,
+            moduleSpecifier: `${npmScope}/${libraryName}`,
         });
     }
 
@@ -88,7 +88,7 @@ export function configureAdapter(
     }
     config.addPropertyAssignment({
         name: 'adapter',
-        initializer: `IORedisAdapter(new Redis(process.env.${envVar}))`,
+        initializer: `IORedisAdapter(new Redis(process.env.${envVar})) as string`,
     });
 
     nextAuthNode.saveSync();

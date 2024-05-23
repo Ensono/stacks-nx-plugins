@@ -43,10 +43,8 @@ export default async function nextAuthRedisGenerator(
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
-        'app',
-        'api',
-        'hello',
-        'route.ts',
+        'src',
+        'auth.ts',
     );
     if (!tree.exists(nextAuthApiFilePath)) {
         throw new Error(
@@ -54,18 +52,19 @@ export default async function nextAuthRedisGenerator(
         );
     }
 
-    // const { npmScope } = readNxJson(tree);
     const name = options.adapterName;
 
     const libraryName = names(name).fileName;
     const projectDirectory = libraryName;
-    const projectRoot = `${
+    const projectRoot = `apps/${
         getWorkspaceLayout(tree).libsDir
     }/${projectDirectory}`;
 
     // generate the lib package
     await libraryGenerator(tree, {
         name: libraryName,
+        directory: `apps/${libraryName}`,
+        projectNameAndRootFormat: 'as-provided',
     });
     // delete the default generated lib folder
     const libraryDirectory = path.join(projectRoot, 'src');
