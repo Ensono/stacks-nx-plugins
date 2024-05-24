@@ -99,7 +99,7 @@ export async function runTarget(
         case targetOptions['html-report']:
         case targetOptions.lint: {
             const { stdout, stderr } = await runNxCommandAsync(
-                `${command} --skip-nx-cache`,
+                `${command} --skip-nx-cache --verbose`,
                 {
                     silenceError,
                 },

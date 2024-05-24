@@ -24,9 +24,9 @@ describe('cypress e2e', () => {
     function setupBaseProject() {
         baseProject = uniq('cypress');
         applicationDirectory = `apps/${baseProject}`;
-        cypressDirectory = `apps/${applicationDirectory}-e2e`;
+        cypressDirectory = `${applicationDirectory}-e2e`;
         runNxCommand(
-            `generate @nx/next:application ${baseProject} --e2eTestRunner=none --verbose`,
+            `generate @nx/next:application ${baseProject} --directory=apps/${baseProject} --e2eTestRunner=none --style=none --appDir=false --src=true --projectNameAndRootFormat=as-provided --verbose`,
         );
         return { baseProject, applicationDirectory, cypressDirectory };
     }
@@ -47,7 +47,7 @@ describe('cypress e2e', () => {
             ).catch(stderr => expect(stderr?.code).toEqual(1));
         });
 
-        xdescribe('should successfully run and amend config files if project does exist', () => {
+        describe('should successfully run and amend config files if project does exist', () => {
             beforeAll(async () => {
                 setupBaseProject();
                 await runNxCommandAsync(
@@ -60,7 +60,7 @@ describe('cypress e2e', () => {
                     checkFilesExist(
                         `${cypressDirectory}/cypress.config.ts`,
                         `${cypressDirectory}/project.json`,
-                        `${cypressDirectory}/src/e2e/example.cy.ts`,
+                        `${cypressDirectory}/src/e2e/app.cy.ts`,
                         `${cypressDirectory}/src/support/e2e.ts`,
                         `${cypressDirectory}/tsconfig.json`,
                     ),
@@ -104,7 +104,7 @@ describe('cypress e2e', () => {
                     process.env.CI = 'true';
                     results =
                         await runTarget(
-                            baseProject,
+                            `${baseProject}-e2e`,
                             targetOptions.e2e,
                             undefined,
                             '--env.grep="should be up and running"',
@@ -119,15 +119,15 @@ describe('cypress e2e', () => {
 
                 it('should generate html reports', async () => {
                     expect(await runTarget(
-                        baseProject,
+                        `${baseProject}-e2e`,
                         targetOptions['html-report'],
                         undefined,
                         '--configuration=ci'
                     )).toContain(`Successfully ran target html-report for project ${baseProject}`);
                     expect(() =>
                     checkFilesExist(
-                        `test-results/${baseProject}/downloads/merged-html-report.html`,
-                        `test-results/${baseProject}/downloads/merged-html-report.json`,
+                        `test-results/${baseProject}-e2e/downloads/merged-html-report.html`,
+                        `test-results/${baseProject}-e2e/downloads/merged-html-report.json`,
                     ),
                 ).not.toThrow();
                 });
