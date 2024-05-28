@@ -126,7 +126,7 @@ describe('cypress e2e', () => {
                     )).toContain(`Successfully ran target html-report for project ${baseProject}`);
                     expect(() =>
                     checkFilesExist(
-                        `test-results/${baseProject}-e2e/downloads/merged-html-report.html`,
+                        `test-results/${baseProject}-e2e/downloads/mochawesome-report/merged-html-report.html`,
                         `test-results/${baseProject}-e2e/downloads/merged-html-report.json`,
                     ),
                 ).not.toThrow();
