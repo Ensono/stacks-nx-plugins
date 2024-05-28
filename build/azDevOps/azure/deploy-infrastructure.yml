@@ -165,11 +165,11 @@ stages:
                         $TF_VAR_sku_name: $(sku_name)
 
                         ##### DNS (All need to exist and should have been created prior (stacks-ancillary-resources & stacks-infrastructure-aks) EXCEPT the A Record name!)
-                        $TF_VAR_app_gateway_frontend_ip_name: "redistestip"
-                        $TF_VAR_app_gateway_frontend_ip_rg: "danredistest"
-                        $TF_VAR_dns_a_record_name: "testarecord"
-                        $TF_VAR_dns_zone: "redistest.com"
-                        $TF_VAR_dns_zone_rg: "danredistest"
+                        $TF_VAR_app_gateway_frontend_ip_name: $(app_gateway_frontend_ip_name)
+                        $TF_VAR_app_gateway_frontend_ip_rg: $(app_gateway_frontend_ip_rg)
+                        $TF_VAR_dns_a_record_name: $(dns_a_record_name)
+                        $TF_VAR_dns_zone: $(dns_zone)
+                        $TF_VAR_dns_zone_rg: $(dns_zone_rg)
 
                     # Upload the Terraform variables file and the plan for debugging
                     - ${{ if eq(parameters.upload, true) }}:
