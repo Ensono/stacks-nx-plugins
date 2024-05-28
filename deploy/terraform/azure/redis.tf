@@ -1,4 +1,5 @@
 module "redis" {
+  count   = var.create_redis ? 1 : 0
   source  = "claranet/redis/azurerm"
   version = "7.8.1"
 

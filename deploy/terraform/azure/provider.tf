@@ -1,8 +1,4 @@
 terraform {
-
-  backend "azurerm" {
-  }
-
   required_providers {
     acme = {
       source  = "vancluever/acme"

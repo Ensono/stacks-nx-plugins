@@ -1,9 +1,9 @@
-####### DNS Variables
+####### DNS & Public IP Variables
 variable "app_gateway_frontend_ip_name" {
   type = string
 }
 
-variable "core_resource_group" {
+variable "app_gateway_frontend_ip_rg" {
   type = string
 }
 
@@ -62,6 +62,10 @@ variable "name_domain" {
 
 
 ###### Redis Variables
+variable "create_redis" {
+  type    = bool
+  default = null
+}
 variable "custom_name" {
   type        = string
   default     = null
