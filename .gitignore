@@ -41,3 +41,7 @@ Thumbs.db
 
 # Infrastructure Testing Files
 envfile_*
+required_variables.ps1
+
+# Testing Directories
+test
