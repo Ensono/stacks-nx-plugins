@@ -37,6 +37,11 @@ pipelines:
     - task: infra:destroy:apply
       depends_on:
         - infra:destroy:plan
+  
+  app:
+    - task: build
+    - task: deploy
+
 
 
   docs:
