@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nx-app
+  labels:
+    app: nx-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nx-app
+  template:
+    metadata:
+      labels:
+        app: nx-app
+    spec:
+      containers:
+      - name: nx-container
+        image: node:14-alpine # Replace with the NX App Image
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: nx-config
+        - secretRef:
+            name: nx-secret
