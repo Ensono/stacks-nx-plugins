@@ -8,7 +8,7 @@ data "azurerm_dns_zone" "default" {
 
 data "azurerm_public_ip" "application_gateway" {
   name                = var.app_gateway_frontend_ip_name
-  resource_group_name = var.core_resource_group
+  resource_group_name = var.app_gateway_frontend_ip_rg
 }
 
 ###
