@@ -78,25 +78,6 @@ describe('cypress e2e', () => {
                 });
             });
 
-            it('should successfully add accessibility test files and add dependencies', async () => {
-                runNxCommand(
-                    `generate @ensono-stacks/cypress:accessibility --project=${baseProject} --no-interactive`,
-                );
-
-                expect(() =>
-                    checkFilesExist(
-                        `${cypressDirectory}/src/e2e/axe-accessibility.cy.ts`,
-                    ),
-                ).not.toThrow();
-
-                // add axe packages to package.json
-                const packageJson = readJson('package.json');
-                expect(packageJson?.devDependencies).toMatchObject({
-                    'axe-core': AXECORE_VERSION,
-                    'cypress-axe': CYPRESSAXE_VERSION,
-                });
-            });
-
             describe('should be a runnable test suite', () => {
                 
                 let results;
@@ -117,19 +98,46 @@ describe('cypress e2e', () => {
                     );
                 });
 
-                it('should generate html reports', async () => {
-                    expect(await runTarget(
-                        `${baseProject}-e2e`,
-                        targetOptions['html-report'],
-                        undefined,
-                        '--configuration=ci'
-                    )).toContain(`Successfully ran target html-report for project ${baseProject}`);
-                    expect(() =>
+                
+                describe('should run executor to produce html reports', () => {
+                    beforeAll(async () => {
+                        results =
+                        await runTarget(
+                            `${baseProject}-e2e`,
+                            targetOptions['html-report'],
+                            undefined,
+                            '--configuration=ci'
+                        );
+                    });
+
+                    it('should produce html and json reports as output', () => {
+                        expect(results).toContain(`Successfully ran target html-report for project ${baseProject}`);
+                        expect(() =>
+                            checkFilesExist(
+                                `test-results/${baseProject}-e2e/downloads/mochawesome-report/merged-html-report.html`,
+                                `test-results/${baseProject}-e2e/downloads/merged-html-report.json`,
+                            ),
+                        ).not.toThrow();
+                    });
+                });
+            });
+
+            it('should successfully add accessibility test files and add dependencies', async () => {
+                runNxCommand(
+                    `generate @ensono-stacks/cypress:accessibility --project=${baseProject} --no-interactive`,
+                );
+
+                expect(() =>
                     checkFilesExist(
-                        `test-results/${baseProject}-e2e/downloads/mochawesome-report/merged-html-report.html`,
-                        `test-results/${baseProject}-e2e/downloads/merged-html-report.json`,
+                        `${cypressDirectory}/src/e2e/axe-accessibility.cy.ts`,
                     ),
                 ).not.toThrow();
+
+                // add axe packages to package.json
+                const packageJson = readJson('package.json');
+                expect(packageJson?.devDependencies).toMatchObject({
+                    'axe-core': AXECORE_VERSION,
+                    'cypress-axe': CYPRESSAXE_VERSION,
                 });
             });
            
