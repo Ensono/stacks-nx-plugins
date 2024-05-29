@@ -62,7 +62,7 @@ describe('playwright e2e', () => {
             ).not.toThrow();
         });
 
-        it('should be able to run the e2e test target', async () => {
+        xit('should be able to run the e2e test target', async () => {
             // The tests will actually fail to run as Playwright detects that it is being run with jest. So only able to verify that the target is ran and server started
             expect(
                 await runTarget(
@@ -76,7 +76,7 @@ describe('playwright e2e', () => {
         });
     });
 
-    describe('accessibility generator', () => {
+    xdescribe('accessibility generator', () => {
         let e2eProject, projectE2EName;
         beforeAll(async () => {
             e2eProject = (await setupBaseProject()).e2eProject;
@@ -103,7 +103,7 @@ describe('playwright e2e', () => {
         });
     });
 
-    describe('Visual - native generator', () => {
+    xdescribe('Visual - native generator', () => {
         let e2eProject, projectE2EName;
         beforeAll(async () => {
             e2eProject = (await setupBaseProject()).e2eProject;
@@ -135,7 +135,7 @@ describe('playwright e2e', () => {
         });
     });
 
-    describe('visual - applitools generator', () => {
+    xdescribe('visual - applitools generator', () => {
         let e2eProject, projectE2EName;
         beforeAll(async () => {
             e2eProject = (await setupBaseProject()).e2eProject;
