@@ -82,7 +82,7 @@ describe('playwright e2e', () => {
             e2eProject = (await setupBaseProject()).e2eProject;
             projectE2EName = `${e2eProject}-e2e`
             await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:accessibility --project=${e2eProject} --no-interactive`,
+                `generate @ensono-stacks/playwright:accessibility --project=${projectE2EName} --no-interactive --verbose`,
             );
         });
 
@@ -97,7 +97,7 @@ describe('playwright e2e', () => {
             // add axe packages to package.json
             const packageJson = readJson('package.json');
             expect(packageJson?.devDependencies).toMatchObject({
-                '@axe-core/playwright': '4.5.2',
+                '@axe-core/playwright': '4.9.0',
                 'axe-result-pretty-print': '1.0.2',
             });
         });
@@ -109,7 +109,7 @@ describe('playwright e2e', () => {
             e2eProject = (await setupBaseProject()).e2eProject;
             projectE2EName = `${e2eProject}-e2e`
             await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=native --no-interactive`,
+                `generate @ensono-stacks/playwright:visual-regression --project=${projectE2EName} --type=native --no-interactive --verbose`,
             );
         });
 
@@ -141,7 +141,7 @@ describe('playwright e2e', () => {
             e2eProject = (await setupBaseProject()).e2eProject;
             projectE2EName = `${e2eProject}-e2e`
             await runNxCommandAsync(
-                `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=applitools --no-interactive`,
+                `generate @ensono-stacks/playwright:visual-regression --project=${projectE2EName} --type=applitools --no-interactive --verbose`,
             );
         });
         it('should successfully add applitools regression config and add dependencies', async () => {
