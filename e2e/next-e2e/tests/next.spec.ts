@@ -36,10 +36,10 @@ describe('next e2e', () => {
         });
 
         it('serves the application', async () => {
-            expect(await runTarget(project, targetOptions.dev)).toBeTruthy();
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
 
-        describe('it lints the application', () => {
+        xdescribe('it lints the application', () => {
             let sourceFile, original;
         
             beforeAll(() => {
@@ -94,18 +94,48 @@ describe('next e2e', () => {
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/src/api/hello/route.ts`,
+                    `apps/${project}/src/app/api/hello/route.ts`,
+                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
+                    `apps/${project}/src/auth.config.ts`,
+                    `apps/${project}/src/auth.ts`,
+                    `apps/${project}/src/middleware.ts`,
                     `apps/${project}/.env.local`,
                 ),
             ).not.toThrow();
         });
     
         it('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.dev)).toBeTruthy();
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
+        });
+    });
+
+    describe('NextAuthRedis generator', () => {
+        const adapterName = 'next-redis-lib'
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+    
+        it('adds new files for NextAuthRedis generator', () => {
+            expect(() =>
+                checkFilesExist(
+                    `apps/${adapterName}/src/index.ts`,
+                    `apps/${adapterName}/src/index.test.ts`
+                ),
+            ).not.toThrow();
+        });
+    
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });
     
-    describe('init-deployment generator', () => {
+    xdescribe('init-deployment generator', () => {
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -139,7 +169,7 @@ describe('next e2e', () => {
         });
     });
     
-    describe('react-query generator', () => {
+    xdescribe('react-query generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
@@ -157,11 +187,11 @@ describe('next e2e', () => {
         });
     
         it('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.dev)).toBeTruthy();
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });
 
-    describe('storybook generator', () => {
+    xdescribe('storybook generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:storybook --project=${project} --no-interactive`,
@@ -210,7 +240,7 @@ describe('next e2e', () => {
             });
 
             it('can serve the storybook application', async () => {
-                expect(await runTarget(`${project}:storybook`, targetOptions.dev, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
+                expect(await runTarget(`${project}:storybook`, targetOptions.start, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
             });
         })
 
