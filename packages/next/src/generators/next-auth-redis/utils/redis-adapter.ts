@@ -1,6 +1,6 @@
-import { tsMorphTree, getNpmScope } from '@ensono-stacks/core';
+import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
-import { SyntaxKind, WriterFunction } from 'ts-morph';
+import { SyntaxKind } from 'ts-morph';
 
 export function configureAdapter(
     project: ProjectConfiguration,

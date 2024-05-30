@@ -5,7 +5,8 @@ import { killPort } from './process-utils';
 
 export enum targetOptions {
     build,
-    serve,
+    // eslint-disable-next-line unicorn/prevent-abbreviations
+    dev,
     test,
     // eslint-disable-next-line unicorn/prevent-abbreviations
     e2e,
@@ -106,7 +107,7 @@ export async function runTarget(
             );
             return stripConsoleColors(`${stdout}\n${stderr}`);
         }
-        case targetOptions.serve: {
+        case targetOptions.dev: {
             const port = 4000;
             try {
                 await runCommandUntil(

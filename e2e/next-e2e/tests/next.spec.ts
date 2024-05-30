@@ -35,11 +35,11 @@ describe('next e2e', () => {
             ).not.toThrow();
         });
 
-        xit('serves the application', async () => {
-            expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
+        it('serves the application', async () => {
+            expect(await runTarget(project, targetOptions.dev)).toBeTruthy();
         });
 
-        xdescribe('it lints the application', () => {
+        describe('it lints the application', () => {
             let sourceFile, original;
         
             beforeAll(() => {
@@ -55,13 +55,13 @@ describe('next e2e', () => {
                 original = sourceFile.getFullText();
             });
         
-            xit('should have no linting errors', async () => {
+            it('should have no linting errors', async () => {
                 expect(await runTarget(project, targetOptions.lint)).toContain(
                     'All files pass linting',
                 );
             });
         
-            xit('it should having ally linting errors', async () => {
+            it('it should having ally linting errors', async () => {
                 sourceFile.insertText(
                     original.indexOf('<div className="text-container">'),
                     '<div role="date">Some Text in a \'div\' with an incorrect aria role</div>\n',
@@ -91,17 +91,17 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
     
-        xit('adds new files for NextAuth', () => {
+        it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/pages/api/hello/route.ts`,
+                    `apps/${project}/src/api/hello/route.ts`,
                     `apps/${project}/.env.local`,
                 ),
             ).not.toThrow();
         });
     
-        xit('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.dev)).toBeTruthy();
         });
     });
     
@@ -117,7 +117,7 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
     
-        xit('creates the required helm chart library', async () => {
+        it('creates the required helm chart library', async () => {
             const libraryPath = joinPathFragments('libs', library);
             expect(() =>
                 checkFilesExist(
@@ -132,7 +132,7 @@ describe('next e2e', () => {
             ).not.toThrow();
         });
     
-        xit('is a usable package and can be linted', async () => {
+        it('is a usable package and can be linted', async () => {
             expect(await runTarget(library, targetOptions.lint)).toContain(
                 '1 chart(s) linted, 0 chart(s) failed',
             );
@@ -150,14 +150,14 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
     
-        xit('successfully lint with new linting update', async () => {
+        it('successfully lint with new linting update', async () => {
             expect(await runTarget(project, targetOptions.lint)).toContain(
                 `Successfully ran target lint for project ${project}`,
             );
         });
     
-        xit('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.serve)).toBeTruthy();
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.dev)).toBeTruthy();
         });
     });
 
@@ -172,7 +172,7 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
 
-        xit('should modify project.json with storybook command', async () => {
+        it('should modify project.json with storybook command', async () => {
             const projectJson = readJson(`apps/${project}/project.json`);
 
 
@@ -209,8 +209,8 @@ describe('next e2e', () => {
                 ).not.toThrow();
             });
 
-            xit('can serve the storybook application', async () => {
-                expect(await runTarget(`${project}:storybook`, targetOptions.serve, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
+            it('can serve the storybook application', async () => {
+                expect(await runTarget(`${project}:storybook`, targetOptions.dev, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
             });
         })
 
