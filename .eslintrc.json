@@ -143,7 +143,9 @@
         {
             "files": "*.json",
             "parser": "jsonc-eslint-parser",
-            "rules": {}
+            "rules": {
+                "unicorn/prevent-abbreviations": "off"
+            }
         }
     ]
 }

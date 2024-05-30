@@ -148,7 +148,9 @@ exports[`workspace updates the eslintrc.json 1`] = `
     {
       "files": "*.json",
       "parser": "jsonc-eslint-parser",
-      "rules": {},
+      "rules": {
+        "unicorn/prevent-abbreviations": "off",
+      },
     },
     {
       "files": "jest.config.ts",

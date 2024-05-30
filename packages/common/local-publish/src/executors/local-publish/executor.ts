@@ -18,6 +18,19 @@ const packageDirectories = {
     workspace: 'packages/workspace',
 };
 
+const packageNames = {
+    '@ensono-stacks/azure-node': 'azure-node',
+    '@ensono-stacks/azure-react': 'azure-react',
+    '@ensono-stacks/core': 'common-core',
+    '@ensono-stacks/create-stacks-workspace': 'create',
+    '@ensono-stacks/cypress': 'cypress',
+    '@ensono-stacks/logger': 'logger',
+    '@ensono-stacks/next': 'next',
+    '@ensono-stacks/playwright': 'playwright',
+    '@ensono-stacks/rest-client': 'rest-client',
+    '@ensono-stacks/workspace': 'workspace',
+};
+
 function bumpVersion(version: string): string {
     const [major, minor, patch] = version
         .split('.')
@@ -60,6 +73,7 @@ export default async function runExecutor(options: LocalPublishExecutorSchema) {
             packageDirectories[packageName],
         );
 
+        // Bump package json versions
         try {
             process.chdir(packagePath);
             const currentVersion = versionCacheFile[packageName];
@@ -79,11 +93,44 @@ export default async function runExecutor(options: LocalPublishExecutorSchema) {
             );
 
             versionCacheFile[packageName] = newVersion;
+        } catch {
+            throw new Error(
+                `Error bumping version for ${packageName}, Please restart the local registry and try again.`,
+            );
+        }
+
+        // Update versions for any stacks packages in dependencies / devDependencies
+        try {
+            const packageJsonPath = path.join(packagePath, 'package.json');
+            const packageJson = JSON.parse(
+                fs.readFileSync(packageJsonPath, 'utf8'),
+            );
+
+            Object.keys(packageJson.dependencies || {}).forEach(dependency => {
+                if (versionCacheFile[packageNames[dependency]]) {
+                    packageJson.dependencies[dependency] =
+                        versionCacheFile[packageNames[dependency]];
+                }
+            });
+
+            Object.keys(packageJson.devDependencies || {}).forEach(
+                dependency => {
+                    if (versionCacheFile[packageNames[dependency]]) {
+                        packageJson.devDependencies[dependency] =
+                            versionCacheFile[packageNames[dependency]];
+                    }
+                },
+            );
+
+            fs.writeFileSync(
+                packageJsonPath,
+                JSON.stringify(packageJson, null, 2),
+            );
 
             execSync('npm publish', { stdio: 'inherit' });
         } catch {
             throw new Error(
-                `Error bumping version for ${packageName}, Please restart the local registry and try again.`,
+                `Error updating dependencies for ${packageName}, Please restart the local registry and try again.`,
             );
         }
     });

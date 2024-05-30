@@ -13,7 +13,7 @@
         "local-publish": {
             "executor": "local-publish:publish",
             "options": {
-                "buildCommand": "npm run build"
+                "buildCommand": "npm run build -- --skip-nx-cache"
             }
         }
     }
