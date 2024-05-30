@@ -168,7 +168,9 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             {
                 files: '*.json',
                 parser: 'jsonc-eslint-parser',
-                rules: {},
+                rules: {
+                    'unicorn/prevent-abbreviations': 'off',
+                },
             },
             {
                 files: 'jest.config.ts',

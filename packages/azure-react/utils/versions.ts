@@ -1,2 +1,2 @@
-export const appInsightsWebVersion = '2.8.10';
-export const appInsightsReactVersion = '3.4.0';
+export const appInsightsWebVersion = '3.2.1';
+export const appInsightsReactVersion = '17.2.0';
