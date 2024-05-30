@@ -19,7 +19,7 @@ import path from 'path';
 import { VisualRegressionGeneratorSchema } from './schema';
 import {
     updatePlaywrightConfigWithApplitoolsVisualRegression,
-    updatePlaywrightConfigWithNativeVisualRegression,
+    updatePlaywrightConfigWithDefault,
 } from './utils/update-playwright-config';
 import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
 import { visualRegressionTypes } from '../../utils/types';
@@ -109,8 +109,10 @@ export default async function visualRegressionGenerator(
             );
 
             // update targets
-            updatePlaywrightConfigWithNativeVisualRegression(morphTree);
-
+            updatePlaywrightConfigWithDefault(
+                readProjectConfiguration(tree, options.project),
+                morphTree,
+            );
             // example.spec.ts
             addFiles(tree, 'files/native', normalizedOptions);
             break;
@@ -118,6 +120,12 @@ export default async function visualRegressionGenerator(
         case visualRegressionTypes.APPLITOOLS: {
             // add extra to playwright.config.ts in project
             updatePlaywrightConfigWithApplitoolsVisualRegression(
+                readProjectConfiguration(tree, options.project),
+                morphTree,
+            );
+
+            // update targets
+            updatePlaywrightConfigWithDefault(
                 readProjectConfiguration(tree, options.project),
                 morphTree,
             );

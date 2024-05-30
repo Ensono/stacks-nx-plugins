@@ -5,6 +5,7 @@ import { Linter } from 'eslint';
 import {
     ESLINT_PLUGIN_TESTING_LIBRARY_VERSION,
     TYPESCRIPT_ESLINT_PLUGIN_VERSION,
+    TYPESCRIPT_ESLINT_PARSER_VERSION,
 } from './constants';
 
 function stacksEslintConfig(projectRootPath: string): Linter.Config {
@@ -15,23 +16,22 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
             'plugin:@next/next/recommended',
             'next/core-web-vitals',
         ],
-        ignorePatterns: ['!**/*'],
+        ignorePatterns: ['!**/*', '.next/**/*'],
         overrides: [
             {
                 excludedFiles: ['jest.config.ts'],
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                 parserOptions: {
-                    project: [`${projectRootPath}/tsconfig(.*)?.json`],
+                    project: ['tsconfig(.*)?.json'],
                 },
                 rules: {
                     '@typescript-eslint/no-floating-promises': 'error',
                     'testing-library/await-async-utils': 'error',
-                    'testing-library/await-async-query': 'error',
+                    'testing-library/await-async-queries': 'error',
                     'testing-library/no-wait-for-side-effects': 'error',
                     'testing-library/no-manual-cleanup': 'error',
                     'testing-library/prefer-explicit-assert': 'warn',
                     'testing-library/prefer-presence-queries': 'warn',
-                    'testing-library/prefer-wait-for': 'error',
                     'testing-library/prefer-user-event': 'warn',
                     'testing-library/no-debug': 'off',
                 },
@@ -61,6 +61,7 @@ function addEslintDependencies(tree: Tree) {
                 ESLINT_PLUGIN_TESTING_LIBRARY_VERSION || 'latest',
             '@typescript-eslint/eslint-plugin':
                 TYPESCRIPT_ESLINT_PLUGIN_VERSION || 'latest',
+            '@typescript-eslint/parser': TYPESCRIPT_ESLINT_PARSER_VERSION,
         },
     );
 }
