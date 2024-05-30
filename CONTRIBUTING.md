@@ -1,20 +1,22 @@
 # Stacks Project Guidelines
 
--   [Introduction](#introduction)
-    -   [Get Started](#get-started)
-        -   [System Requirements](#system-requirements)
-        -   [Setup](#setup)
-    -   [Naming Conventions and Coding Style](#naming-conventions-and-coding-style)
-    -   [Creating a New Plugin](#creating-a-new-plugin)
-        -   [Generator Analysis](#generator-analysis)
-        -   [Development process](#development-process)
-    -   [Testing](#testing)
-        -   [Unit Testing](#unit-testing)
-        -   [End to end testing](#end-to-end-testing)
-        -   [Testing packages locally](#testing-packages-locally)
-        -   [Create stacks workspace script](#create-stacks-workspace-script)
-    -   [Contributing Changes](#contributing-changes)
-    -   [Releasing packages and publishing to NPM](#releasing-packages-and-publishing-to-npm)
+- [Stacks Project Guidelines](#stacks-project-guidelines)
+  - [Introduction](#introduction)
+  - [Get Started](#get-started)
+    - [System Requirements](#system-requirements)
+    - [Setup](#setup)
+  - [Naming Conventions and Coding Style](#naming-conventions-and-coding-style)
+  - [Creating a New Plugin](#creating-a-new-plugin)
+    - [Generator Analysis](#generator-analysis)
+    - [Development process](#development-process)
+  - [Testing](#testing)
+    - [Unit Testing](#unit-testing)
+    - [End to end testing](#end-to-end-testing)
+    - [Testing packages locally](#testing-packages-locally)
+    - [Testing stacks workspace locally](#testing-stacks-workspace-locally)
+    - [Create stacks workspace script](#create-stacks-workspace-script)
+  - [Contributing Changes](#contributing-changes)
+  - [Releasing packages and publishing to NPM](#releasing-packages-and-publishing-to-npm)
 
 ## Introduction
 
@@ -336,17 +338,18 @@ Follow these steps to run the stacks workspace locally.
 -   Step 1: Create a local registry:
 
     ```bash
-    nx local-registry
+    npx nx local-registry
     ```
 
--   Step 2: Bump up packages version:
-    - Manually bump up version for all packages (current version for example is `2.1.0` ---> bump up `2.1.100` for all packages package.json version)
-    - Also make sure to bump the package version (Any `@ensono-stacks/**`) in the dependencies inside each packages package.json to (`2.1.100` same version as above)
-    - Then package up by running the command below. 
+    You should now be able to visit http://localhost:4873/ to see the registry.
+
+-   Step 2: Run local-publish executor
 
     ```bash
-    npm run publish
+    npx nx local-publish
     ```
+
+    This will build and publish packages to the locally running package manager (verdaccio). Further info is available on its [readme](./packages/common/local-publish/README.md)
 
 -   Step 3: Run workspace locally
     - If minimatch throws an error - remove node_modules folder and package.json-lock file then npm install

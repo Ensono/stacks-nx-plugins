@@ -25,18 +25,17 @@ exports[`logger generator should generate the logger: custom/test-logger/.eslint
       "rules": {
         "@typescript-eslint/no-floating-promises": "error",
         "testing-library/await-async-utils": "error",
-        "testing-library/await-async-query": "error",
+        "testing-library/await-async-queries": "error",
         "testing-library/no-wait-for-side-effects": "error",
         "testing-library/no-manual-cleanup": "error",
         "testing-library/prefer-explicit-assert": "warn",
         "testing-library/prefer-presence-queries": "warn",
-        "testing-library/prefer-wait-for": "error",
         "testing-library/prefer-user-event": "warn",
         "testing-library/no-debug": "off"
       },
       "excludedFiles": ["jest.config.ts"],
       "parserOptions": {
-        "project": ["custom/test-logger/tsconfig(.*)?.json"]
+        "project": ["tsconfig(.*)?.json"]
       }
     },
     {

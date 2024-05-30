@@ -9,8 +9,8 @@
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "ts-morph": "^17.0.1",
-        "nx": "18.3.4",
-        "@nx/devkit": "18.3.4"
+        "ts-morph": "^22.0.0",
+        "nx": "^18.3.4",
+        "@nx/devkit": "^18.3.4"
     }
 }

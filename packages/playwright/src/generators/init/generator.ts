@@ -91,6 +91,8 @@ export default async function initGenerator(
         skipFormat: false,
         skipPackageJson: false,
         setParserOptionsProject: false,
+        webServerCommand: `npx nx start ${normalizedOptions.project}`,
+        webServerAddress: 'http://127.0.0.1:3000',
     };
 
     await libraryGenerator(tree, {
