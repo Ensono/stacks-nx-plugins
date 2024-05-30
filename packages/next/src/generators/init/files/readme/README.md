@@ -24,14 +24,29 @@ Checkout a list of [Ensono Stacks Plugins](https://stacks.ensono.com/docs/gettin
 nx build <%= projectName %>
 ```
 
-### Serve
+### Start
 ```
-nx serve <%= projectName %>
+nx start <%= projectName %>
+```
+
+### Serve Static
+```
+nx serve-static <%= projectName %>
+```
+
+### Dev
+```
+nx dev <%= projectName %>
 ```
 
 ### Test
 ```
 nx test <%= projectName %>
+```
+
+### Lint
+```
+nx lint <%= projectName %>
 ```
 
 Custom targets can be defined in the `package.json` or `projects.json`. Learn more [in the NX docs](https://nx.dev/core-features/run-tasks).
