@@ -7,7 +7,7 @@ jobs:
     name: Test
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
     with:
-      node-version: 22
+      node-version: 22.1.0
       number-of-agents: 3
       init-commands: |
         git config --global user.name '@ensono'
