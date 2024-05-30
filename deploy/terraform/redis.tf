@@ -7,7 +7,7 @@ module "redis" {
   custom_name = var.custom_name ? "${module.default_label.id}-redis" : null
 
   # Required (For Data Blocks and other local generated variables)
-  resource_group_name   = var.resource_group_name
+  resource_group_name   = var.redis_resource_group_name
   location              = var.location
   location_short        = local.location_short_key
   client_name           = var.name_company

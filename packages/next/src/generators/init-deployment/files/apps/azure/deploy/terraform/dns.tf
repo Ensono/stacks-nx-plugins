@@ -42,7 +42,7 @@ data "azurerm_public_ip" "application_gateway" {
 ###
 # Resources
 ###
-resource "azurerm_dns_a_record" "<%= snakeCase(projectName) %>" {
+resource "azurerm_dns_a_record" "changedforTF" {
   name                = var.dns_a_record_name
   zone_name           = data.azurerm_dns_zone.this.name
   resource_group_name = data.azurerm_dns_zone.this.resource_group_name

@@ -1,0 +1,93 @@
+---
+id: aci_getting_started
+title: Getting Started
+description: Details about how architecture of the AKS resources and how there are deployed using Terraform.
+weight: 40
+---
+
+== Getting Started
+
+One of the things with the Ensono Digital Independent Runner (EDIR) is that it is designed to make things easier for people to run things locally that will also be run by the CI/CD platform. That is all well and good, but not if it has not been used before. This section provides a quick overview of how to start off with the repo from scratch.
+
+=== Prerequisites
+
+Please ensure that the following prerequisites are satisfied:
+
+* Docker Engine
+** This can be Docker, Rancher Desktop or Podman
+* Taskctl (https://github.com/russellseymour/taskctl/releases)
+
+NOTE: Taskctl has been forked to add some new functionality to the tool that this repository uses.
+
+=== Setup
+
+In order to run the pipeline locally a number of environment variables are required. These are used to pass variable values to Terraform. The following table shows what these variables are. If you require more help running this module locally please look at the Terraform Repository and its associated README.md here ~> https://github.com/Ensono/terraform-azurerm-aci/blob/fca71851f529ba25708f594289bdd05778299021/README.md
+
+[cols="2,3,1,3,2,2",options="header",stripes=even]
+|===
+| Name                        | Description                                                                 | Type           | Default | Example | Required
+| `TF_VAR_FILE_LOCATION`     | Path to the Terraform template files                                        | string              | "/deploy/terraform"      | -      | [green]#icon:check[]#
+| `TF_VAR_BACKEND_INIT`      | Arguments that should be passed to Terraform during the init process        | string              | "key=$(tf_state_key),container_name=$(tf_state_container),storage_account_name=$(tf_state_storage),resource_group_name=$(tf_state_rg)       | -      | [red]#icon:times[]#
+| `TF_VAR_BACKEND_PLAN`      | Arguments that should be passed to Terraform during the plan process        | string              | "-input=false,-out=\"tfplan\""      | -       | [red]#icon:times[]# 
+| `TF_VAR_name_company`      | Name of the company that the cluster is being built for                     |  string              | - | "myCompany"      | [red]#icon:times[]#
+| `TF_VAR_name_project`      | Name of the project                                                         |   string             | - | "myProject"        | [green]#icon:check[]#
+| `TF_VAR_name_component`    |                                                                             |   string             | - | "myComponent"     | [green]#icon:check[]#
+| `TF_VAR_name_environment`  |                                                                             |   string             | -       | "myEnv"       | [green]#icon:check[]#
+| `TF_VAR_stage`             |                                                                             |   string             | -       | "myStage"       | [green]#icon:check[]#
+| `TF_VAR_attributes`        |                                                                             |   string             | -       | -       | [red]#icon:times[]# 
+| `TF_VAR_tags`              |                                                                             |    list(string)          | -       | -            | [red]#icon:times[]# 
+| `TF_VAR_container_group_name`| Name of the Azure Container Group                                           | string         | -       | "my_container_group" | [green]#icon:check[]#
+| `TF_VAR_location`          | Location of the Azure Resource Group                                        | string         | -       | "UKSouth" | [green]#icon:check[]#
+| `TF_VAR_resource_group_name`| Name of the Azure Resource Group you wish to create.                        | string         | -       | "my_rg"   | [green]#icon:check[]#
+| `TF_VAR_os_type`           | The OS for the container group. Allowed values are Linux and Windows. Changing this forces a new resource to be created. | string | Linux |"Windows" | [red]#icon:times[]#
+| `TF_VAR_container_group_sku`| Specifies the SKU of the Container Group. Possible values are Confidential, Dedicated, and Standard. Defaults to Standard. Changing this forces a new resource to be created. | string | Standard |"Confidential" | [red]#icon:times[]#
+| `TF_VAR_acr_admin_enabled`| A boolean flag indicating whether admin user should be enabled for the Azure Container Registry (ACR). | bool | true |true | [red]#icon:times[]#
+| `TF_VAR_acr_sku`           | The SKU (pricing tier) of the Azure Container Registry (ACR).               | string         | Standard |"Premium" | [red]#icon:times[]#
+| `TF_VAR_acr_resource_group_name`| The name of the resource group where the Azure Container Registry (ACR) should be created or where the existing ACR is located. | string | null |"my_acr_rg" | [red]#icon:times[]#
+| `TF_VAR_acr_name`          | Name of the Azure Container Registry you wish to create or to reference an existing ACR.| string | - | "my_acr" | [red]#icon:times[]#
+| `TF_VAR_acr_location`      | Location of the Azure Container Registry                                    | string         | -       | "UKSouth" | [red]#icon:times[]#
+| `TF_VAR_create_acr`        | Whether to create Azure Container Registry                                  | bool           | -       | true      | [red]#icon:times[]#
+| `TF_VAR_create_virtual_network`| A boolean flag indicating whether to create a new virtual network. If set to true, a new virtual network will be created; if set to false, an existing virtual network will be used. | bool | false | false | [red]#icon:times[]#
+| `TF_VAR_integrate_with_vnet`| Whether or not you wish to integrate your ACI Group with a virtual network or not. If not, your IP address type must be public. Private IP address type if not integrated with a virtual network. | bool | - | false | [red]#icon:times[]#
+| `TF_VAR_vnet_name`        | Name of the new OR existing Virtual Network to integrate into the Azure Container Group. If create_virtual_network is set to true you MUST provide this. | string | null | "my_vnet" | [red]#icon:times[]#
+| `TF_VAR_vnet_resource_group_name`| The name of the resource group where the virtual network should be created or which resource group the existing virtual network is located. | string | null |"my_vnet_rg" | [red]#icon:times[]#
+| `TF_VAR_vnet_cidr`        | The CIDR block(s) to be used for the address space of the virtual network. This specifies the range of IP addresses available for the virtual network. | list(string) | ["10.1.0.0/16"] | ["10.10.0.0/16"] | [red]#icon:times[]#
+| `TF_VAR_subnet_names`     | List of names of new OR existing subnets to integrate into the Azure Container Group. If create_virtual_network is set to true you MUST provide this. | list(string) | null | ["my_subnet1", "my_subnet2"] |[red]#icon:times[]# 
+| `TF_VAR_subnet_prefixes`  | The CIDR block(s) to be used for the address space of each subnet within the virtual network. If left blank, this is calculated for you via the `terraform-azurerm-aci\locals.tf` file. | list(string) | null | ["10.10.0.0/24"] | [red]#icon:times[]#
+|===
+
+
+==== PowerShell
+
+If using PowerShell there is a cmdlet in the Ensono Stacks Independent Runner module that reads the `build/config/stage_envvars.yml` and creates a skeleton PowerShell script which will setup the variables.
+
+[source,powershell,linenums]
+---
+New-EnvConfig -Path .\build\config\stage_envvars.yml -scriptPath local -Cloud Azure -Stage stacks-aci
+---
+
+The resultant script will be `local/envvar-azure-stacks-aci.ps1`. The naming convention is `envvar-<CLOUD>-<STAGE>.ps1`.
+
+.Environment variable script
+image::images/envvar-script.png[width=500]
+
+Edit this file as needed and then run the script `. ./local/envvar-azure-stacks-aci.ps1`. This will then setup the necessary environment variables in your local shell. These will then be copied into the container when it is spun up by Taskctl.
+
+==== Bash
+
+Currently we do not have an option when running in `bash` for creating such a script file. We have some ideas on how this will be done, but the biggest issue is how this will be distributed.
+
+=== Running the Pipelines
+
+Now that the environment has been configured the pipelines can be run.
+
+[cols="1,4",options=header,stripes=even]
+|===
+| # | Command
+| 1 | `taskctl lint`
+| 2 | `taskctl infrastructure`
+| 3 | `taskctl tests`
+| 4 | `taskctl docs`
+|===
+
+These pipelines can be run in any order based on the task that needs to be accomplished. In addition to these any of the tasks, as described in <<Pipeline>> can be executed.

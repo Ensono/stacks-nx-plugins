@@ -55,7 +55,9 @@ variables:
 
   # ------- Redis Cache Configuration (See claranet documentation for full customization options and terraform.io for further context)
   - name: create_redis
-    value: true
+    value: false
+  - name: redis_resource_group_name
+    value: danredistest
   - name: maxmemory_policy
     value: allkeys-lru
   - name: sku_name
@@ -69,7 +71,7 @@ variables:
   - name: OWNER
     value: ensono
   - name: REPOSITORY
-    value: stacks-infrastructure-aks
+    value: stacks-nx-plugins
   - name: ARTIFACTS_DIR
     value: artifacts/
 

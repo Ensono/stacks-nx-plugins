@@ -1,0 +1,55 @@
+---
+id: aci_testing_locally
+title: Testing Infrastructure Locally
+description: To keep the resources in a known configuration and assist in keeping the necessary versions of software, e.g. Azure Container Instances, up to date the project contains infrastructure tests. 
+weight: 70
+---
+
+== How to Locally Test via Inspec
+
+Ensure that your taskctl envfile OR environment variables contain the following values:
+
+* `resource_group_name`
+  - Description: Group containing all the resources for the Azure Kubernetes Cluster
+
+* `location`
+  - Description: Location that the resources are expected to be deployed into
+
+* `container_group_name`
+  - Description: Name of the container group
+
+* `CHEF_LICENSE = "accept-silent"`
+  - Description: Sets the Chef license acceptance to silent mode.
+
+* `TESTS_PATH = "/app/deploy/tests"`
+  - Description: Specifies the path where the tests are located.
+
+* `REPORT_FILENAME = "inspec_azure_aci.xml"`
+  - Description: Defines the filename for the InSpec Azure ACI report.
+
+=== How to Run
+
+* Via your own envfile (*_envfile can be anything you wish to call it upon creation but must be in your root directory!_*):
+```
+taskctl tests envfile
+```
+
+* Via your environment variables, loaded into your current terminal session:
+```
+taskctl tests
+```
+
+=== Things to check
+
+* Your tests are located in the `~/deploy/tests/controls` directory and your `inspec.yml` has the correct inputs, for example:
+```yaml
+# Define the inputs for the control
+inputs:
+  - name: resource_group_name
+    description: Group containing all the resources for the Azure Kubernertes Cluster
+  - name: location
+    description: location that the resources are expected to be deployed into
+  - name: container_group_name
+    description: Name of the container group
+```
+* Your infrastructure has been deployed, as Inspec is testing against LIVE Infrastructure via Inspec Train & the Azure REST API - Read more here: https://github.com/inspec/inspec-azure!

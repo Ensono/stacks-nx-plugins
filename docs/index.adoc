@@ -1,0 +1,36 @@
+:source-highlighter: rouge
+:pdf-theme: docs/styles/ensono_digital_theme.yml
+:pdf-fontsdir: docs/styles/fonts;GEM_FONTS_DIR
+:table-stripes: even
+:listing-caption: Listing
+:icons: font
+:image_path: images
+:toc:
+
+:company: Ensono
+
+= Ensono Stacks - Azure Container Instances
+
+include::_index.adoc[]
+
+include::introduction.adoc[]
+
+include::infrastructure.adoc[]
+
+<<<
+
+include::getting_started.adoc[]
+
+<<<
+
+include::pipeline.adoc[]
+
+<<<
+
+include::testing_locally.adoc[]
+
+include::tests.adoc[]
+
+<<<
+
+include::glossary.adoc[]

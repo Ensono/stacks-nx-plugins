@@ -1,0 +1,36 @@
+---
+id: aci_tests
+title: Tests
+description: To keep the resources in a known configuration and assist in keeping the necessary versions of software, e.g. Azure Container Instances, up to date the project contains infrastructure tests. 
+weight: 70
+---
+
+== Infrastructure Tests
+
+Infrastructure tests have been built into the EDIR pipeline. These tests are designed to check that the deployed resources are configured as expected. These tests will be expanded upon to test further considerations when new features are added to the ACI terraform module.
+
+The tests are located in `deploy/tests` and are https://inspec.io[Inspec] controls. The following table shows the tests that are being performed.
+
+.InSpec Controls
+[cols="1,3a",options="header",stripes=even]
+|===
+| Details| Description
+| Name: `azure-container-group`
+
+Filename: `controls/aci.rb` | Checks that the container group is deployed as expected.
+
+- it should exist
+- it is in the correct location
+- it has the correct resource group
+| Name: `azure-resource-group`
+
+Filename: `controls/resource_group.rb`
+
+| The resource group that everything is deployed to, the control checks:
+
+- the group exists
+- it is in the correct location
+- its deployment succeeded
+|===
+
+NOTE: There is an ADO pipeline that runs these tests on a schedule at 0600 which can be added to Azure DevOps. The file for this pipeline is `build/azDevOps/azure/infrastructure-tests.yml`.

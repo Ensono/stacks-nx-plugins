@@ -14,7 +14,7 @@ default:
       - name: AWS_REGION
 
 stages:
-  - name: stacks-aks
+  - name: stacks-nx-infra
     variables:
       - name: TF_FILE_LOCATION
         description: Path to the Terraform template files
@@ -23,44 +23,26 @@ stages:
       - name: TF_BACKEND_PLAN
         description: Arguments that should be passed to Terraform during the plan process
         required: false
-      - name: TF_VAR_name_company
-        description: Name of the company that the cluster is being built for
-      - name: TF_VAR_name_project
-        description: Name of the project
-      - name: TF_VAR_name_component
-      - name: TF_VAR_name_environment
-      - name: TF_VAR_stage
-      - name: TF_VAR_attributes
+      - name: $TF_VAR_custom_name # Use this if you wish for the Cloudposse Terraform Null Label resource to overwrite the claranet naming convention
         required: false
-      - name: TF_VAR_tags
+      - name: $TF_VAR_name_company
+      - name: $TF_VAR_name_project
+      - name: $TF_VAR_name_environment
+      - name: $TF_VAR_name_domain
+      - name: $TF_VAR_create_redis # Set to "true" if you want a Redis Instance and "false" if you do not.
         required: false
-      - name: TF_VAR_resource_group_location
-        description: Location that the cluster should be deployed to
-      - name: TF_VAR_dns_zone
-        description: Public DNS zone that should be used for URLs
-      - name: TF_VAR_internal_dns_zone
-        description: Private DNS zone for internal services
-      - name: TF_VAR_pfx_password
-        description: Password for the certificate deployed into Kubernetes
-      - name: TF_VAR_dns_resource_group
-        description: Resource group that contains the DNS zones to update
-      - name: TF_VAR_create_dns_zone
-        description: State if the DNS zone should be created
-      - name: TF_VAR_create_aksvnet
-        description: State if the virtual network for AKS should be created
-      - name: TF_VAR_cluster_version
-        description: Version of Kubernetes to deploy
-      - name: TF_VAR_create_acr
-        description: State if a container registry should be created
-      - name: TF_VAR_acr_resource_group
-        description: Resource group that the ACR can be found if not being created
-      - name: TF_VAR_acr_name
-        description: Name of the ACR to create
-      - name: TF_VAR_is_cluster_private
-        description: Can the API be accessed remotely
-      - name: TF_VAR_key_vault_name
-        description: Name of the key vault to create
+      - name: $TF_VAR_redis_resource_group_name
         required: false
-      - name: TF_VAR_acme_email
-        description: Email address for Acme certificate registration, must be a valid email
-      - name: TF_VAR_create_user_identity
+      - name: $TF_VAR_location
+        required: false
+      - name: $TF_VAR_maxmemory_policy
+        required: false
+      - name: $TF_VAR_sku_name
+        required: false
+      - name: $TF_VAR_dns_zone
+      - name: $TF_VAR_dns_zone_rg
+      - name: $TF_VAR_dns_a_record_name
+      - name: $TF_VAR_app_gateway_frontend_ip_name
+      - name: $TF_VAR_app_gateway_frontend_ip_rg
+
+

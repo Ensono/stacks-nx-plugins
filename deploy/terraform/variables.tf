@@ -66,6 +66,7 @@ variable "create_redis" {
   type    = bool
   default = null
 }
+
 variable "custom_name" {
   type        = string
   default     = null
@@ -77,25 +78,26 @@ variable "attributes" {
   default = []
 }
 
-# Required By Module!
-variable "resource_group_name" {
-  description = "The name of the resource group"
+# Required By Module IF You wish to create Redis Cache Instance ONLY!
+variable "redis_resource_group_name" {
+  description = "The name of the resource group to deploy Redis to."
   type        = string
+  default     = null
 }
 
 variable "location" {
-  description = "The region location"
+  description = "The region that your resources will deploy to."
   type        = string
 }
 
 variable "logs_destinations_ids" {
-  description = "The list of destination IDs for logging"
+  description = "The list of destination IDs for logging."
   type        = list(string)
   default     = []
 }
 
 variable "sku_name" {
-  description = "The SKU name for the Redis instance"
+  description = "The SKU name for the Redis instance."
   type        = string
   default     = "Basic"
 }

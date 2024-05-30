@@ -1,0 +1,12 @@
+---
+id: aci_introduction
+title: Introduction
+description: Introduction detailing what the ACI project is for
+weight: 20
+---
+
+== Introduction
+
+The Azure Container Instance Project is about building upon the original Stacks philosophy of deployment of applications into Kubernetes Clusters, but providing an alternative method/infrastructure choice for people who want to manage and support their application stack without the prior knowledge Azure Kubernetes Service requires.
+
+Currently this project is very basic, but with future iterations, this will be an alternative selection within the Stacks-CLI project!

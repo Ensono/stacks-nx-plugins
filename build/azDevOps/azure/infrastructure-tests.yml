@@ -44,11 +44,11 @@ stages:
               CHEF_LICENSE: $(CHEF_LICENSE)
               TESTS_PATH: /app/deploy/tests
               INSPEC_ARGS: "--input resource_group_name=$(resource_group_name) storage_account_name=$(storage_account_name) region=$(location)"
-              REPORT_FILENAME: inspec_azure_aks.xml
+              REPORT_FILENAME: inspec_azure_redis.xml
 
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: JUnit
-              testResultsFiles: outputs/tests/inspec_azure_aks.xml
-              testRunTitle: AKS Tests
+              testResultsFiles: outputs/tests/inspec_azure_redis.xml
+              testRunTitle: Redis Tests
               failTaskOnFailedTests: true
