@@ -1,6 +1,6 @@
 import { tsMorphTree, getNpmScope } from '@ensono-stacks/core';
 import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
-import { SyntaxKind } from 'ts-morph';
+import { SyntaxKind, WriterFunction } from 'ts-morph';
 
 export function configureAdapter(
     project: ProjectConfiguration,
@@ -88,7 +88,15 @@ export function configureAdapter(
     }
     config.addPropertyAssignment({
         name: 'adapter',
-        initializer: `IORedisAdapter(new Redis(process.env.${envVar})) as string`,
+        initializer: `IORedisAdapter(new Redis(process.env.${envVar} as string))`,
+    });
+
+    config.addPropertyAssignment({
+        name: 'session',
+        initializer: `
+        {
+            strategy: 'jwt'
+        }`,
     });
 
     nextAuthNode.saveSync();

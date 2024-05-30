@@ -3,12 +3,12 @@
 exports[`next-auth generator should appendto an existing list of providers 1`] = `
 "import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
-import AzureADProvider from 'next-auth/providers/azure-ad';
+import AzureAd from 'next-auth/providers/microsoft-entra-id';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         GitHub,
-        AzureADProvider({
+        AzureAd({
             clientId: process.env.AZURE_AD_CLIENT_ID as string,
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
             tenantId: process.env.AZURE_AD_TENANT_ID as string,
@@ -44,11 +44,11 @@ function RootLayout({
 
 exports[`next-auth generator should install NextAuth with a provider 1`] = `
 "import NextAuth from 'next-auth';
-import AzureADProvider from 'next-auth/providers/azure-ad';
+import AzureAd from 'next-auth/providers/microsoft-entra-id';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
-        AzureADProvider({
+        AzureAd({
             clientId: process.env.AZURE_AD_CLIENT_ID as string,
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
             tenantId: process.env.AZURE_AD_TENANT_ID as string,
@@ -89,11 +89,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({});
 
 exports[`next-auth generator should safely run on an existing NextAuth install 1`] = `
 "import NextAuth from 'next-auth';
-import AzureADProvider from 'next-auth/providers/azure-ad';
+import AzureAd from 'next-auth/providers/microsoft-entra-id';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
-        AzureADProvider({
+        AzureAd({
             clientId: process.env.AZURE_AD_CLIENT_ID as string,
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
             tenantId: process.env.AZURE_AD_TENANT_ID as string,

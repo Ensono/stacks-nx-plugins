@@ -41,7 +41,6 @@ describe('next-auth-redis generator', () => {
 
         const nextAuthTs = appTree.read('next-app/src/auth.ts');
 
-        console.log({ appTree });
         expect(nextAuthTs.toString()).toMatchSnapshot();
 
         expect(

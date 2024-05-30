@@ -7,7 +7,10 @@ import { Redis } from 'ioredis';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [],
-  adapter: IORedisAdapter(new Redis(process.env.REDIS_URL)),
+  adapter: IORedisAdapter(new Redis(process.env.REDIS_URL as string)),
+  session: {
+    strategy: 'jwt',
+  },
 });
 "
 `;
@@ -19,7 +22,12 @@ import { Redis } from 'ioredis';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [],
-  adapter: IORedisAdapter(new Redis(process.env.REDIS_CONNECTION_STRING)),
+  adapter: IORedisAdapter(
+    new Redis(process.env.REDIS_CONNECTION_STRING as string)
+  ),
+  session: {
+    strategy: 'jwt',
+  },
 });
 "
 `;
@@ -31,7 +39,10 @@ import { Redis } from 'ioredis';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [],
-  adapter: IORedisAdapter(new Redis(process.env.REDIS_URL)),
+  adapter: IORedisAdapter(new Redis(process.env.REDIS_URL as string)),
+  session: {
+    strategy: 'jwt',
+  },
 });
 "
 `;
