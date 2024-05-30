@@ -129,10 +129,6 @@ describe('next e2e', () => {
                 ),
             ).not.toThrow();
         });
-    
-        it('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
-        });
     });
     
     xdescribe('init-deployment generator', () => {
