@@ -21,15 +21,15 @@ export function updateProjectJsonWithHtmlReport(
                     executor: 'nx:run-commands',
                     options: {
                         commands: [
-                            'mochawesome-merge reports-json-file/*.json>merged-html-report.json',
-                            'marge merged-html-report.json --reportDir ./ --inline',
+                            'mochawesome-merge reports-json-file/app.json -o merged-html-report.json',
+                            'marge merged-html-report.json ./ --inline',
                         ],
                         parallel: false,
                         cwd: `${projectRoot}/test-results/downloads`,
                     },
                     configurations: {
                         ci: {
-                            cwd: `${projectRoot}/../../test-results/${project.name}/downloads`,
+                            cwd: `test-results/${project.name}-e2e/downloads`,
                         },
                     },
                 };
