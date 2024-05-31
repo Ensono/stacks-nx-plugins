@@ -12,7 +12,6 @@ import {
     readProjectConfiguration,
     addDependenciesToPackageJson,
     runTasksInSerial,
-    joinPathFragments,
 } from '@nx/devkit';
 import { Linter } from '@nx/eslint';
 import { libraryGenerator } from '@nx/js';
@@ -77,6 +76,16 @@ export default async function initGenerator(
     });
 
     await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);
+
+    // add custom reporters in cypress.config
+    addFiles(
+        tree,
+        'files',
+        __dirname,
+        normalizedOptions.cypressProject,
+        normalizedOptions,
+    );
+
     // update application eslint.rc
     updateApplicationLintFile(tree, normalizedOptions.cypressProject);
     // update ts config

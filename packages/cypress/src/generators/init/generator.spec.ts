@@ -160,15 +160,15 @@ describe('should run successfully with default options', () => {
             executor: 'nx:run-commands',
             options: {
                 commands: [
-                    'mochawesome-merge reports-json-file/*.json>merged-html-report.json',
-                    'marge merged-html-report.json --reportDir ./ --inline',
+                    'mochawesome-merge reports-json-file/app.json -o merged-html-report.json',
+                    'marge merged-html-report.json ./ --inline',
                 ],
                 parallel: false,
                 cwd: `${E2EApplicationDirectory}/test-results/downloads`,
             },
             configurations: {
                 ci: {
-                    cwd: `${E2EApplicationDirectory}/../../test-results/${applicationName}/downloads`,
+                    cwd: 'test-results/application-e2e/downloads',
                 },
             },
         };
