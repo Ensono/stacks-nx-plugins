@@ -1,6 +1,5 @@
 import {
     newProject,
-    createNextApplication,
     runTarget,
     targetOptions,
 } from '@ensono-stacks/e2e';
@@ -11,7 +10,6 @@ import {
     readFile,
     uniq,
 } from '@nx/plugin/testing';
-import { Project, SyntaxKind } from 'ts-morph';
 
 describe('playwright e2e', () => {
     process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = 'true';
