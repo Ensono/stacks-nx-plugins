@@ -124,8 +124,8 @@ describe('next e2e', () => {
         it('adds new files for NextAuthRedis generator', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${adapterName}/src/index.ts`,
-                    `apps/${adapterName}/src/index.test.ts`
+                    `libs/${adapterName}/src/index.ts`,
+                    `libs/${adapterName}/src/index.test.ts`
                 ),
             ).not.toThrow();
         });

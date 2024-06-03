@@ -43,9 +43,8 @@ describe('next-auth-redis generator', () => {
 
         expect(nextAuthTs.toString()).toMatchSnapshot();
 
-        expect(
-            appTree.exists('apps/next-auth-redis/src/index.ts'),
-        ).toBeTruthy();
+        console.log(appTree);
+        expect(appTree.exists('next-auth-redis/src/index.ts')).toBeTruthy();
 
         const localEnv = appTree.read('next-app/.env.local');
         expect(localEnv.toString()).toContain('REDIS_URL=localhost:6379');
@@ -84,7 +83,7 @@ describe('next-auth-redis generator', () => {
         expect(nextAuthTs.toString()).toMatchSnapshot();
 
         expect(
-            appTree.exists('apps/redis-adapter-for-next-auth/src/index.ts'),
+            appTree.exists('redis-adapter-for-next-auth/src/index.ts'),
         ).toBeTruthy();
     });
 

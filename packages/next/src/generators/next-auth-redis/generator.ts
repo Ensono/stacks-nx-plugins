@@ -56,15 +56,13 @@ export default async function nextAuthRedisGenerator(
 
     const libraryName = names(name).fileName;
     const projectDirectory = libraryName;
-    const projectRoot = `apps/${
+    const projectRoot = `${
         getWorkspaceLayout(tree).libsDir
     }/${projectDirectory}`;
 
     // generate the lib package
     await libraryGenerator(tree, {
         name: libraryName,
-        directory: `apps/${libraryName}`,
-        projectNameAndRootFormat: 'as-provided',
     });
     // delete the default generated lib folder
     const libraryDirectory = path.join(projectRoot, 'src');
