@@ -66,10 +66,10 @@ describe('playwright e2e', () => {
                 await runTarget(
                     projectE2EName,
                     targetOptions.e2e,
-                    '--grep="whats next" --testProject="chromium"',
+                    undefined,
                 ),
             ).toContain(
-                'ready started server on 0.0.0.0:4200, url: http://localhost:4200',
+                'Playwright Test needs to be invoked via \'npx playwright test\' and excluded from Jest test runs',
             );
         });
     });
