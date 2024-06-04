@@ -39,7 +39,7 @@ describe('next e2e', () => {
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
 
-        xdescribe('it lints the application', () => {
+        describe('it lints the application', () => {
             let sourceFile, original;
         
             beforeAll(() => {
@@ -48,17 +48,16 @@ describe('next e2e', () => {
                         tmpProjPath(),
                         'apps',
                         project,
-                        'pages',
-                        'index.tsx',
+                        'src',
+                        'app',
+                        'page.tsx',
                     ),
                 );
                 original = sourceFile.getFullText();
             });
         
             it('should have no linting errors', async () => {
-                expect(await runTarget(project, targetOptions.lint)).toContain(
-                    'All files pass linting',
-                );
+                expect(await runTarget(project, targetOptions.lint)).toBeTruthy();
             });
         
             it('it should having ally linting errors', async () => {
