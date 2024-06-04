@@ -9,6 +9,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import { createHash, randomUUID } from 'crypto';
 import Redis from 'ioredis-mock';
+import type { Adapter } from 'next-auth/adapters';
 
 import { hydrateDates, IORedisAdapter } from '.';
 
