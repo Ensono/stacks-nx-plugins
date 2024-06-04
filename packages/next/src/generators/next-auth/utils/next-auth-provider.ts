@@ -1,10 +1,15 @@
 import { joinPathFragments, ProjectConfiguration } from '@nx/devkit';
 import { SyntaxKind, Project } from 'ts-morph';
 
-const azureAdProvider = `AzureADProvider({
+const azureAdProvider = `AzureAd({
     clientId: process.env.AZURE_AD_CLIENT_ID as string,
     clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
     tenantId: process.env.AZURE_AD_TENANT_ID as string,
+    authorization: {
+        params: {
+            scope: 'openid profile email offline_access User.Read',
+        },
+    },
 })`;
 
 export function addAzureAdProvider(
@@ -21,13 +26,13 @@ export function addAzureAdProvider(
         .some(
             importDeclaration =>
                 importDeclaration.getModuleSpecifier().getLiteralValue() ===
-                'next-auth/providers/azure-ad',
+                'next-auth/providers/microsoft-entra-id',
         );
 
     if (!isAzureADImport) {
         nextAuthNode.addImportDeclaration({
-            defaultImport: 'AzureADProvider',
-            moduleSpecifier: 'next-auth/providers/azure-ad',
+            defaultImport: 'AzureAd',
+            moduleSpecifier: 'next-auth/providers/microsoft-entra-id',
         });
 
         const callExpression = nextAuthNode
@@ -63,7 +68,7 @@ export function addAzureAdProvider(
         } else if (
             !providerProperty
                 .getDescendantsOfKind(SyntaxKind.Identifier)
-                .some(d => d.getText() === 'AzureADProvider')
+                .some(d => d.getText() === 'AzureAd')
         ) {
             providerProperty.addElement(azureAdProvider);
         }

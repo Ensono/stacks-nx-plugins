@@ -1,4 +1,4 @@
-import { tsMorphTree, getNpmScope } from '@ensono-stacks/core';
+import { tsMorphTree } from '@ensono-stacks/core';
 import { joinPathFragments, ProjectConfiguration, Tree } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
@@ -17,7 +17,7 @@ export function configureAdapter(
 ) {
     const morphTree = tsMorphTree(tree);
     const nextAuthNode = morphTree.addSourceFileAtPath(
-        joinPathFragments(project.root, 'app', 'api', 'hello', 'route.ts'),
+        joinPathFragments(project.root, 'src', 'auth.ts'),
     );
     const IORedisAdapterImport = nextAuthNode
         .getImportDeclarations()
@@ -35,7 +35,7 @@ export function configureAdapter(
     ) {
         nextAuthNode.addImportDeclaration({
             namedImports: ['IORedisAdapter'],
-            moduleSpecifier: `@${getNpmScope(tree)}/${libraryName}`,
+            moduleSpecifier: `${npmScope}/${libraryName}`,
         });
     }
 
@@ -88,7 +88,15 @@ export function configureAdapter(
     }
     config.addPropertyAssignment({
         name: 'adapter',
-        initializer: `IORedisAdapter(new Redis(process.env.${envVar}))`,
+        initializer: `IORedisAdapter(new Redis(process.env.${envVar} as string))`,
+    });
+
+    config.addPropertyAssignment({
+        name: 'session',
+        initializer: `
+        {
+            strategy: 'jwt'
+        }`,
     });
 
     nextAuthNode.saveSync();
