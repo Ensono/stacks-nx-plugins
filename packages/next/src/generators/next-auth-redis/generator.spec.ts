@@ -14,7 +14,7 @@ jest.mock('@ensono-stacks/core', () => ({
     getCommandVersion: jest.fn(() => '1.0.0'),
 }));
 
-xdescribe('next-auth-redis generator', () => {
+describe('next-auth-redis generator', () => {
     let appTree: Tree;
     const options: NextAuthRedisGeneratorSchema = {
         project: 'next-app',
@@ -36,14 +36,14 @@ xdescribe('next-auth-redis generator', () => {
         });
     });
 
-    xit('should generate redis adapter lib', async () => {
+    it('should generate redis adapter lib', async () => {
         await generator(appTree, options);
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
+
         expect(nextAuthTs.toString()).toMatchSnapshot();
 
+        console.log(appTree);
         expect(appTree.exists('next-auth-redis/src/index.ts')).toBeTruthy();
 
         const localEnv = appTree.read('next-app/.env.local');
@@ -58,15 +58,13 @@ xdescribe('next-auth-redis generator', () => {
         );
     });
 
-    xit('should generate redis adapter lib with custom env var name', async () => {
+    it('should generate redis adapter lib with custom env var name', async () => {
         await generator(appTree, {
             ...options,
             envVar: 'REDIS_CONNECTION_STRING',
         });
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
         expect(nextAuthTs.toString()).toMatchSnapshot();
 
         const localEnv = appTree.read('next-app/.env.local');
@@ -75,15 +73,13 @@ xdescribe('next-auth-redis generator', () => {
         );
     });
 
-    xit('should generate redis adapter lib with custom name', async () => {
+    it('should generate redis adapter lib with custom name', async () => {
         await generator(appTree, {
             ...options,
             adapterName: 'redis-adapter-for-next-auth',
         });
 
-        const nextAuthTs = appTree.read(
-            'next-app/pages/api/auth/[...nextauth].ts',
-        );
+        const nextAuthTs = appTree.read('next-app/src/auth.ts');
         expect(nextAuthTs.toString()).toMatchSnapshot();
 
         expect(
@@ -109,7 +105,7 @@ xdescribe('next-auth-redis generator', () => {
             ).toBe(true);
         });
 
-        it('should return false from method and exit generator if already executed', async () => {
+        it('should return false from method and eit generator if already executed', async () => {
             const gen = await generator(appTree, {
                 ...options,
             });

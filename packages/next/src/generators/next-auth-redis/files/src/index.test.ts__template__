@@ -9,6 +9,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import { createHash, randomUUID } from 'crypto';
 import Redis from 'ioredis-mock';
+import type { Adapter } from 'next-auth/adapters';
 
 import { hydrateDates, IORedisAdapter } from '.';
 
@@ -21,9 +22,11 @@ function hashToken(token: string) {
   return createHash('sha256').update(`${token}anything`).digest('hex');
 }
 
+type adapterTypes = Required<Adapter>;
+
 describe('Next Auth Redis Adapter', () => {
   const client = new Redis();
-  const adapter = IORedisAdapter(client, { baseKeyPrefix: 'testApp:' });
+  const adapter = IORedisAdapter(client, { baseKeyPrefix: 'testApp:' }) as adapterTypes;
   const db = {
     async user(id: string) {
       const data = await client.hgetall(`testApp:user:${id}`);

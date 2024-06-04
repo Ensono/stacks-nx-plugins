@@ -77,11 +77,6 @@ export default async function initGenerator(
         ciCoverageConfig,
     );
 
-    tasks.push(
-        formatFilesWithEslint(options.project),
-        addReactAxeDependency(tree),
-    );
-
     updateTsConfig(
         tree,
         project,
@@ -93,6 +88,11 @@ export default async function initGenerator(
         tree,
         project,
         path.join(project.sourceRoot, 'tsconfig.spec.json'),
+    );
+
+    tasks.push(
+        formatFilesWithEslint(options.project),
+        addReactAxeDependency(tree),
     );
 
     // Create README.md if it doesn't exist

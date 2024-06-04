@@ -28,6 +28,19 @@ export function configureNx(
             },
         };
 
+        nxJson.workspaceLayout = {
+            appsDir: 'apps',
+            libsDir: 'libs',
+        };
+        nxJson.generators = [
+            {
+                '@nx/js': {
+                    libs: {
+                        projectNameAndRootFormat: 'derived',
+                    },
+                },
+            },
+        ];
         fs.writeFileSync(nxJsonPath, JSON.stringify(nxJson, null, 2), {
             encoding: 'utf8',
         });

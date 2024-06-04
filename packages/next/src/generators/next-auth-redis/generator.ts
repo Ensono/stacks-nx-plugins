@@ -43,10 +43,8 @@ export default async function nextAuthRedisGenerator(
 
     const nextAuthApiFilePath = joinPathFragments(
         project.root,
-        'app',
-        'api',
-        'hello',
-        'route.ts',
+        'src',
+        'auth.ts',
     );
     if (!tree.exists(nextAuthApiFilePath)) {
         throw new Error(
@@ -54,7 +52,6 @@ export default async function nextAuthRedisGenerator(
         );
     }
 
-    // const { npmScope } = readNxJson(tree);
     const name = options.adapterName;
 
     const libraryName = names(name).fileName;

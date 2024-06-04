@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import { NextAuthGeneratorSchema } from '../schema';
 
 const commonEnv = {
-    AUTH_URL: 'http://localhost:4200',
+    NEXTAUTH_URL_INTERNAL: 'http://localhost:3000',
     AUTH_SECRET: `${crypto.randomBytes(32).toString('hex')}`,
 };
 
