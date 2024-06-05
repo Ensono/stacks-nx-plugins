@@ -1,35 +1,67 @@
 {
-    "compilerOptions": {
-        "target": "es2015",
-        "sourceMap": true,
-        "importHelpers": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "outDir": "dist",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "skipLibCheck": true,
-        "types": ["node", "jest"],
-        "lib": ["es2021"],
-        "declaration": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "baseUrl": ".",
-        "rootDir": ".",
-        "paths": {
-            "@ensono-stacks/azure-node": ["packages/azure-node/src/index.ts"],
-            "@ensono-stacks/azure-react": ["packages/azure-react/src/index.ts"],
-            "@ensono-stacks/core": ["packages/common/core/src/index.ts"],
-            "@ensono-stacks/e2e": ["packages/common/e2e/src/index.ts"],
-            "@ensono-stacks/logger": ["packages/logger/src/index.ts"],
-            "@ensono-stacks/next": ["packages/next/src/index.ts"],
-            "@ensono-stacks/playwright": ["packages/playwright/src/index.ts"],
-            "@ensono-stacks/rest-client": ["packages/rest-client/src/index.ts"],
-            "@ensono-stacks/test": ["packages/common/test/src/index.ts"],
-            "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"],
-            "local-publish": ["packages/common/local-publish/src/index.ts"]
-        }
-    },
-    "include": ["**/*"],
-    "exclude": ["node_modules", "tmp"]
+  "compilerOptions": {
+    "target": "es2015",
+    "sourceMap": true,
+    "importHelpers": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "jest"
+    ],
+    "lib": [
+      "es2021"
+    ],
+    "declaration": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@ensono-stacks/azure-node": [
+        "packages/azure-node/src/index.ts"
+      ],
+      "@ensono-stacks/azure-react": [
+        "packages/azure-react/src/index.ts"
+      ],
+      "@ensono-stacks/core": [
+        "packages/common/core/src/index.ts"
+      ],
+      "@ensono-stacks/e2e": [
+        "packages/common/e2e/src/index.ts"
+      ],
+      "@ensono-stacks/logger": [
+        "packages/logger/src/index.ts"
+      ],
+      "@ensono-stacks/next": [
+        "packages/next/src/index.ts"
+      ],
+      "@ensono-stacks/playwright": [
+        "packages/playwright/src/index.ts"
+      ],
+      "@ensono-stacks/rest-client": [
+        "packages/rest-client/src/index.ts"
+      ],
+      "@ensono-stacks/test": [
+        "packages/common/test/src/index.ts"
+      ],
+      "@ensono-stacks/workspace": [
+        "packages/workspace/src/index.ts"
+      ],
+      "local-publish": [
+        "packages/common/local-publish/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

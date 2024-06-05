@@ -16,14 +16,14 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
             'plugin:@next/next/recommended',
             'next/core-web-vitals',
         ],
+        parserOptions: {
+            project: ['tsconfig(.*)?.json'],
+        },
         ignorePatterns: ['!**/*', '.next/**/*'],
         overrides: [
             {
                 excludedFiles: ['jest.config.ts'],
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                parserOptions: {
-                    project: ['tsconfig(.*)?.json'],
-                },
                 rules: {
                     '@typescript-eslint/no-floating-promises': 'error',
                     'testing-library/await-async-utils': 'error',

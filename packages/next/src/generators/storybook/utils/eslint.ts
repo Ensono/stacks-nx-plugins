@@ -4,6 +4,10 @@ import { Linter } from 'eslint';
 
 const storybookESLintConfig: Linter.Config = {
     extends: ['plugin:storybook/recommended'],
+    ignorePatterns: ['!**/*', '.next/**/*', 'storybook-static'],
+    parserOptions: {
+        project: ['tsconfig(.*)?.json', '**/tsconfig.storybook.json'],
+    },
     overrides: [
         {
             files: ['*.ts', '*.tsx', '*.js', '*.jsx'],

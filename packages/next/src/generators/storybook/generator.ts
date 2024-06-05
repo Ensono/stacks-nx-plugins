@@ -1,4 +1,5 @@
 import {
+    execAsync,
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
@@ -34,13 +35,25 @@ export async function storybookGenerator(
 
     const project = readProjectConfiguration(tree, options.project);
 
+    // Run NPM install after eslint dependencies etc have been added to package.json
+    const npmInstall = (): GeneratorCallback => {
+        return async () => {
+            try {
+                await execAsync('npm install', project.root);
+            } catch {
+                console.log(`Error installing dependencies on ${project.name}`);
+            }
+        };
+    };
+
     tasks.push(
-        updateESLint(tree, project.root),
         installDependencies(tree, options),
-        await addStorybook(tree, project),
+        addStorybook(tree, project),
+        updateESLint(tree, project.root),
         createFiles(tree, project),
         addCustomCommand(tree, project),
         formatFilesWithEslint(options.project),
+        npmInstall(),
     );
 
     return runTasksInSerial(...tasks, () => {
