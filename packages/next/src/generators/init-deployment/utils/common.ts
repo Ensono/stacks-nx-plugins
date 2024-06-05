@@ -32,7 +32,7 @@ function addCommonInfrastructureDependencies(tree: Tree) {
 }
 
 export function setPort(project) {
-    return project.targets?.serve.options.port || 4200;
+    return 3000;
 }
 
 export function addCommon(tree: Tree, options: NextGeneratorSchema) {

@@ -130,7 +130,7 @@ describe('next e2e', () => {
         });
     });
     
-    xdescribe('init-deployment generator', () => {
+    describe('init-deployment generator', () => {
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
