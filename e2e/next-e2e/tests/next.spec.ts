@@ -164,7 +164,7 @@ describe('next e2e', () => {
         });
     });
     
-    xdescribe('react-query generator', () => {
+    describe('react-query generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
@@ -238,8 +238,5 @@ describe('next e2e', () => {
                 expect(await runTarget(`${project}:storybook`, targetOptions.start, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
             });
         })
-
     });
-
-
 });
