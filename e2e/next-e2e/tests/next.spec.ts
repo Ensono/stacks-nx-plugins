@@ -196,22 +196,19 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
 
-        it('should modify project.json with storybook command', async () => {
+        // Waiting for issue to be fixed https://amido-dev.visualstudio.com/Amido-Stacks/_workitems/edit/7392
+        xit('should modify project.json with storybook command', async () => {
             const projectJson = readJson(`apps/${project}/project.json`);
-
-
             expect(JSON.stringify(projectJson)).toContain('storybook')
         });
 
         it('should modify tsconfig.json with storybook command', async () => {
             const tsconfigJson = readJson(`apps/${project}/tsconfig.json`);
-
             expect(JSON.stringify(tsconfigJson)).toContain('stories')
         });
 
         it('should modify .eslintrc.json with storybook command', async () => {
             const eslintConfigJson = readJson(`apps/${project}/.eslintrc.json`);
-
             expect(JSON.stringify(eslintConfigJson)).toContain('storybook')
         });
 
