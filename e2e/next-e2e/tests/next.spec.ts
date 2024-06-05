@@ -76,7 +76,28 @@ describe('next e2e', () => {
                 sourceFile.saveSync();
             });
         });
+    });
 
+    describe('react-query generator', () => {
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+    
+        it('successfully lint with new linting update', async () => {
+            expect(await runTarget(project, targetOptions.lint)).toContain(
+                `Successfully ran target lint for project ${project}`,
+            );
+        });
+    
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
+        });
     });
     
     describe('NextAuth generator', () => {
@@ -163,30 +184,8 @@ describe('next e2e', () => {
             );
         });
     });
-    
-    describe('react-query generator', () => {
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
-            );
-        });
 
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-    
-        it('successfully lint with new linting update', async () => {
-            expect(await runTarget(project, targetOptions.lint)).toContain(
-                `Successfully ran target lint for project ${project}`,
-            );
-        });
-    
-        it('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
-        });
-    });
-
-    xdescribe('storybook generator', () => {
+    describe('storybook generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:storybook --project=${project} --no-interactive`,
@@ -216,7 +215,8 @@ describe('next e2e', () => {
             expect(JSON.stringify(eslintConfigJson)).toContain('storybook')
         });
 
-        describe('it generates a component using custom command', () => {
+        // Waiting for issue to be fixed https://amido-dev.visualstudio.com/Amido-Stacks/_workitems/edit/7392
+        xdescribe('it generates a component using custom command', () => {
             beforeAll(async () => {
                 await runNxCommandAsync(
                     `run ${project}:custom-component --name=testcomponent --folderPath=components --verbose`,

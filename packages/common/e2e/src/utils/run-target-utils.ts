@@ -108,16 +108,18 @@ export async function runTarget(
             return stripConsoleColors(`${stdout}\n${stderr}`);
         }
         case targetOptions.start: {
-            const port = 4000;
+            const appPort = 4000;
+            const redisPort = 6379;
             try {
                 await runCommandUntil(
-                    `${command} --port=${port} --verbose`,
+                    `${command} --port=${appPort} --verbose`,
                     output => {
-                        return output.includes(`localhost:${port}`);
+                        return output.includes(`localhost:${appPort}`);
                     },
                 );
             } finally {
-                await killPort(port);
+                await killPort(appPort);
+                await killPort(redisPort);
             }
             return true;
         }
