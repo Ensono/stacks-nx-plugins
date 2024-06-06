@@ -104,6 +104,7 @@ describe('rest-client e2e', () => {
         });
     });
 
+    // Will be re-enabled once this bug is fixed https://amido-dev.visualstudio.com/Amido-Stacks/_backlogs/backlog/Cycle%2014%20-%20Frontend/Epics/?workitem=7375
     xdescribe('bump-version', () => {
         const libName = uniq('test-endpoint');
         const endpointsDir = uniq('endpoints');
