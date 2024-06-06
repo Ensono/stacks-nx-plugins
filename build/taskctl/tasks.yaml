@@ -92,11 +92,16 @@ tasks:
   
   app:build:
     context: powershell
-    description: Prepare the application image to be pushed to ACR
+    description: Prepare the application image to be pushed to Image Registry
+    command:
+      - Build-DockerImage -Provider $Provider -Name $ImageName -Registry $RegistryName -Tags $Tags -BuildArgs $buildargs -push
 
   app:deploy:
     context: powershell
     description: Deploy the application to AKS
+    command:
+      - Invoke-Kubectl -custom -arguments @("create secret generic nx2-secret --from-literal=redis_connection_string='your-redis-output-from-tf'") -provider azure -target redistestaks -identifier danredistest
+      - Invoke-Kubectl -apply -arguments @("deployment.yaml", "service.yaml", "ingress.yaml") -provider azure -target redistestaks -identifier danredistest
 
   setup:dev:
     context: powershell
