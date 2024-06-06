@@ -47,3 +47,4 @@ modules/
 
 # Testing Directories
 test
+deploy/app/k8s-manifest/testing 
