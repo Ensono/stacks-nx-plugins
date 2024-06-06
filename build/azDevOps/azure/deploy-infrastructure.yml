@@ -222,31 +222,47 @@ stages:
                             testRunTitle: Terraform Redis Tests
                             failTaskOnFailedTests: true
 
-          # - deployment: ${{ stage.deployment_apps }}
-          #   dependsOn: ${{ stage.deployment_infra }}
-          #   condition: and(succeeded(), eq('${{ parameters.deploy }}', true))
-          #   environment: ${{ variables.domain }}-${{ stage.environment_shortname }}
-          #   pool:
-          #     vmImage: $(pool_vm_image)
+          - deployment: ${{ stage.deployment_apps }}
+            dependsOn: ${{ stage.deployment_infra }}
+            condition: and(succeeded(), eq('${{ parameters.deploy }}', true))
+            environment: ${{ variables.domain }}-${{ stage.environment_shortname }}
+            pool:
+              vmImage: $(pool_vm_image)
 
-          #   strategy:
-          #     runOnce:
-          #       deploy:
-          #         steps:
-          #           - template: templates/setup.yml
-          #             parameters:
-          #               TaskctlVersion: ${{ variables.TaskctlVersion }}
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - template: templates/setup.yml
+                      parameters:
+                        TaskctlVersion: ${{ variables.TaskctlVersion }}
+                    
+                    - task: Bash@3
+                      displayName: Build Application Image
+                      inputs:
+                        targetType: inline
+                        script: |
+                          taskctl app:build
+                      env:
+                        Provider: $Provider #could be CLOUD_PLATFORM
+                        ImageName: $ImageName
+                        RegistryName: $RegistryName
+                        REGISTRY_RESOURCE_GROUP: $RegistryResourceGroup
+                        BuildArgs: $BuildArgs
+                        Tags: $ImageTags
 
-          #           - task: Bash@3
-          #             displayName: Deploy K8s Manifest YAML
-          #             inputs:
-          #               targetType: inline
-          #               script: |
-          #                 taskctl app:deploy
-          #             env:
-          #               TF_FILE_LOCATION: /app/deploy/terraform
-          #               TF_VAR_name_environment: ${{ stage.environment_shortname }}
-          #               TF_BACKEND_INIT: "key=core,container_name=$(tf_state_container),storage_account_name=$(tf_state_storage),resource_group_name=$(tf_state_rg)"
+
+
+                    # - task: Bash@3
+                    #   displayName: Deploy K8s Manifest YAML
+                    #   inputs:
+                    #     targetType: inline
+                    #     script: |
+                    #       taskctl app:deploy
+                    #   env:
+                    #     provider: azure
+                    #     target: k8sclustername
+                    #     identifier: k8sresourcegroupname
 
   - stage: Release
     dependsOn:
