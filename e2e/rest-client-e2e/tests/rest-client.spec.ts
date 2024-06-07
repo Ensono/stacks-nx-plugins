@@ -6,7 +6,7 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 import { tmpProjPath } from '@nx/plugin/testing';
-import { newProject, cleanup, runTarget, targetOptions } from '@ensono-stacks/e2e';
+import { newProject, runTarget, targetOptions } from '@ensono-stacks/e2e';
 import YAML from 'yaml';
 import fs from 'fs';
 
@@ -35,8 +35,8 @@ describe('rest-client e2e', () => {
         it('should create src in the specified directory', async () => {
             expect(() =>
                 checkFilesExist(
-                    `${project}/src/index.ts`,
-                    `${project}/src/index.test.ts`,
+                    `libs/${project}/src/index.ts`,
+                    `libs/${project}/src/index.test.ts`,
                 ),
             ).not.toThrow();
         });
@@ -69,11 +69,11 @@ describe('rest-client e2e', () => {
 
             expect(() =>
                 checkFilesExist(
-                    `${endpointsDir}/v1/${libName}/src/index.ts`,
-                    `${endpointsDir}/v1/${libName}/src/index.test.ts`,
-                    `${endpointsDir}/v1/${libName}/src/index.types.ts`,
-                    `${endpointsDir}/v1/${libName}/project.json`,
-                    `${endpointsDir}/v1/${libName}/tsconfig.json`,
+                    `libs/${endpointsDir}/v1/${libName}/src/index.ts`,
+                    `libs/${endpointsDir}/v1/${libName}/src/index.test.ts`,
+                    `libs/${endpointsDir}/v1/${libName}/src/index.types.ts`,
+                    `libs/${endpointsDir}/v1/${libName}/project.json`,
+                    `libs/${endpointsDir}/v1/${libName}/tsconfig.json`,
                     `.env.local`
                 ),
             ).not.toThrow();
@@ -83,7 +83,7 @@ describe('rest-client e2e', () => {
             const tsConfig = readJson('tsconfig.base.json');
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportName,
-                [`${endpointsDir}/v1/${libName}/src/index.ts`],
+                [`libs/${endpointsDir}/v1/${libName}/src/index.ts`],
             );
         });
 
@@ -104,6 +104,7 @@ describe('rest-client e2e', () => {
         });
     });
 
+    // Will be re-enabled once this bug is fixed https://amido-dev.visualstudio.com/Amido-Stacks/_backlogs/backlog/Cycle%2014%20-%20Frontend/Epics/?workitem=7375
     xdescribe('bump-version', () => {
         const libName = uniq('test-endpoint');
         const endpointsDir = uniq('endpoints');
@@ -179,7 +180,7 @@ describe('rest-client e2e', () => {
     describe('openapi-client', () => {
         const client = uniq('petstore');
 
-        it('should create the orval client with zod validation', async () => {
+        beforeAll(async ()=> {
             const tempPath = tmpProjPath();
             // Create schema file in the filesystem
             fs.writeFileSync(
@@ -187,19 +188,21 @@ describe('rest-client e2e', () => {
                 YAML.stringify(petstoreSchemaJSON),
             );
 
-            await runNxCommand(
-                `generate @ensono-stacks/rest-client:openapi-client ${client} --schema=petstore-3.0.yaml --zod --no-interactive`,
+            await runNxCommandAsync(
+                `generate @ensono-stacks/rest-client:openapi-client ${client} --directory=libs --schema=petstore-3.0.yaml --zod --no-interactive --verbose`
             );
+        });
 
+        it('should create the orval client with zod validation', async () => {
             expect(() =>
                 checkFilesExist(
-                    `${client}/orval.config.js`,
-                    `${client}/orval.zod.config.js`,
-                    `${client}/petstore-3.0.yaml`,
-                    `${client}/src/index.ts`,
-                    `${client}/src/${client}.ts`,
-                    `${client}/src/${client}.msw.ts`,
-                    `${client}/src/${client}.zod.ts`,
+                    `libs/${client}/orval.config.js`,
+                    `libs/${client}/orval.zod.config.js`,
+                    `libs/${client}/petstore-3.0.yaml`,
+                    `libs/${client}/src/index.ts`,
+                    `libs/${client}/src/${client}.ts`,
+                    `libs/${client}/src/${client}.msw.ts`,
+                    `libs/${client}/src/${client}.zod.ts`,
                 ),
             ).not.toThrow();
 
@@ -208,7 +211,7 @@ describe('rest-client e2e', () => {
             const tsConfig = readJson('tsconfig.base.json');
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportName,
-                [`${client}/src/index.ts`],
+                [`libs/${client}/src/index.ts`],
             );
         });
     });
