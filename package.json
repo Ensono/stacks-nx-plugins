@@ -23,6 +23,7 @@
         "@nx/next": "18.3.4",
         "@nx/playwright": "18.3.4",
         "@nx/plugin": "18.3.4",
+        "@nx/react": "18.3.4",
         "@nx/webpack": "18.3.4",
         "@nx/workspace": "18.3.4",
         "@playwright/test": "^1.36.0",
