@@ -175,8 +175,7 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
 
-        // Waiting for issue to be fixed https://amido-dev.visualstudio.com/Amido-Stacks/_workitems/edit/7392
-        xit('should modify project.json with storybook command', async () => {
+        it('should modify project.json with storybook command', async () => {
             const projectJson = readJson(`apps/${project}/project.json`);
 
             expect(JSON.stringify(projectJson)).toContain('storybook');
@@ -194,8 +193,7 @@ describe('next e2e', () => {
             expect(JSON.stringify(eslintConfigJson)).toContain('storybook');
         });
 
-        // Waiting for issue to be fixed https://amido-dev.visualstudio.com/Amido-Stacks/_workitems/edit/7392
-        xdescribe('it generates a component using custom command', () => {
+        describe('it generates a component using custom command', () => {
             beforeAll(async () => {
                 await runNxCommandAsync(
                     `run ${project}:custom-component --name=testcomponent --folderPath=components --verbose`,
