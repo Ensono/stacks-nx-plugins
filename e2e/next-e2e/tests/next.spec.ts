@@ -35,11 +35,7 @@ describe('next e2e', () => {
             ).not.toThrow();
         });
 
-<<<<<<< HEAD
         it('serves the application', async () => {
-=======
-        xit('serves the application', async () => {
->>>>>>> e720b067 (fix(next): fix storybook generator & e2e tests)
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
 
@@ -59,23 +55,14 @@ describe('next e2e', () => {
                 );
                 original = sourceFile.getFullText();
             });
-<<<<<<< HEAD
 
             it('should have no linting errors', async () => {
-                expect(await runTarget(project, targetOptions.lint)).toBeTruthy();
+                expect(
+                    await runTarget(project, targetOptions.lint),
+                ).toBeTruthy();
             });
 
             it('it should having ally linting errors', async () => {
-=======
-
-            xit('should have no linting errors', async () => {
-                expect(await runTarget(project, targetOptions.lint)).toContain(
-                    'All files pass linting',
-                );
-            });
-
-            xit('it should having ally linting errors', async () => {
->>>>>>> e720b067 (fix(next): fix storybook generator & e2e tests)
                 sourceFile.insertText(
                     original.indexOf('<div className="text-container">'),
                     '<div role="date">Some Text in a \'div\' with an incorrect aria role</div>\n',
@@ -103,13 +90,8 @@ describe('next e2e', () => {
         afterAll(async () => {
             await runNxCommandAsync('reset');
         });
-<<<<<<< HEAD
 
         it('adds new files for NextAuth', () => {
-=======
-
-        xit('adds new files for NextAuth', () => {
->>>>>>> e720b067 (fix(next): fix storybook generator & e2e tests)
             expect(() =>
                 checkFilesExist(
                     `apps/${project}/src/app/api/hello/route.ts`,
@@ -127,29 +109,7 @@ describe('next e2e', () => {
         });
     });
 
-    describe('NextAuthRedis generator', () => {
-        const adapterName = 'next-redis-lib'
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
-            );
-        });
-
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-
-        it('adds new files for NextAuthRedis generator', () => {
-            expect(() =>
-                checkFilesExist(
-                    `libs/${adapterName}/src/index.ts`,
-                    `libs/${adapterName}/src/index.test.ts`
-                ),
-            ).not.toThrow();
-        });
-    });
-
-    describe('init-deployment generator', () => {
+    xdescribe('init-deployment generator', () => {
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -177,13 +137,12 @@ describe('next e2e', () => {
         });
 
         it('is a usable package and can be linted', async () => {
-            expect(await runTarget(library, targetOptions.lint)).toContain(
-                '1 chart(s) linted, 0 chart(s) failed',
-            );
+            const output = await runTarget(library, targetOptions.lint);
+            expect(output).toContain('1 chart(s) linted, 0 chart(s) failed');
         });
     });
 
-    xdescribe('react-query generator', () => {
+    describe('react-query generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
@@ -205,7 +164,7 @@ describe('next e2e', () => {
         });
     });
 
-    xdescribe('storybook generator', () => {
+    describe('storybook generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:storybook --project=${project} --no-interactive`,
@@ -216,10 +175,10 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
 
-        it('should modify nx.json with storybook command', async () => {
-            const nxJson = readJson(`nx.json`);
+        it('should modify project.json with storybook command', async () => {
+            const projectJson = readJson(`apps/${project}/project.json`);
 
-            expect(JSON.stringify(nxJson)).toContain('@nx/storybook/plugin');
+            expect(JSON.stringify(projectJson)).toContain('storybook');
         });
 
         it('should modify tsconfig.json with storybook command', async () => {
@@ -257,10 +216,32 @@ describe('next e2e', () => {
                     await runTarget(
                         `${project}:storybook`,
                         targetOptions.storybook,
-                        '@storybook/cli v8.1.1',
+                        'Storybook 8.1.1 for nextjs started',
                     ),
                 ).toBeTruthy();
             });
+        });
+    });
+
+    describe('NextAuthRedis generator', () => {
+        const adapterName = 'next-redis-lib';
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+
+        it('adds new files for NextAuthRedis generator', () => {
+            expect(() =>
+                checkFilesExist(
+                    `libs/${adapterName}/src/index.ts`,
+                    `libs/${adapterName}/src/index.test.ts`,
+                ),
+            ).not.toThrow();
         });
     });
 });

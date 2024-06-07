@@ -16,9 +16,6 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
             'plugin:@next/next/recommended',
             'next/core-web-vitals',
         ],
-        parserOptions: {
-            project: ['tsconfig(.*)?.json'],
-        },
         ignorePatterns: ['!**/*', '.next/**/*'],
         overrides: [
             {
@@ -34,6 +31,9 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
                     'testing-library/prefer-presence-queries': 'warn',
                     'testing-library/prefer-user-event': 'warn',
                     'testing-library/no-debug': 'off',
+                },
+                parserOptions: {
+                    project: ['tsconfig(.*)?.json'],
                 },
             },
         ],
