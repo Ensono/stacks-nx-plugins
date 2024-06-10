@@ -244,25 +244,24 @@ stages:
                         script: |
                           taskctl app:build
                       env:
-                        Provider: $Provider #could be CLOUD_PLATFORM
-                        ImageName: $ImageName
-                        RegistryName: $RegistryName
-                        REGISTRY_RESOURCE_GROUP: $RegistryResourceGroup
-                        BuildArgs: $BuildArgs
-                        Tags: $ImageTags
+                        workspace_name: $(workspace_name)
+                        Provider: $(provider) # could be CLOUD_PLATFORM
+                        ImageName: $(image_name)
+                        RegistryName: $(registry_name)
+                        registry_resource_group: $(registry_resource_group)
+                        BuildArgs: $(build_args)
+                        Tags: $(image_tags)
 
-
-
-                    # - task: Bash@3
-                    #   displayName: Deploy K8s Manifest YAML
-                    #   inputs:
-                    #     targetType: inline
-                    #     script: |
-                    #       taskctl app:deploy
-                    #   env:
-                    #     provider: azure
-                    #     target: k8sclustername
-                    #     identifier: k8sresourcegroupname
+                    - task: Bash@3
+                      displayName: Deploy K8s Manifest YAML
+                      inputs:
+                        targetType: inline
+                        script: |
+                          taskctl app:deploy
+                      env:
+                        provider: $(provider) # could be CLOUD_PLATFORM
+                        target: $(aks_cluster)
+                        identifier: $(aks_resource_group)
 
   - stage: Release
     dependsOn:
