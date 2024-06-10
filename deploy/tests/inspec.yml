@@ -1,4 +1,4 @@
-name: stacks-infrastructure-aks
+name: stacks-nx-plugins
 title: Stacks NX Plugins
 maintainer: Ensono Digital
 copyright: Ensono Digital
@@ -20,3 +20,10 @@ inputs:
     description: Group containing all the resources for the Redis Cache
   - name: region
     description: Region that the resources are expected to be deployed into
+  - name: redis_name
+  - name: redis_port
+  - name: redis_ssl_port
+  - name: redis_sku_name
+  - name: redis_family
+  - name: redis_capacity
+

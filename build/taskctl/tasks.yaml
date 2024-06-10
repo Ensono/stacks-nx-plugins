@@ -104,9 +104,11 @@ tasks:
       - |
         Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
         Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/tf_outputs.yml
-        $base64EncodedString = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($env:TFOUT_redis_primary_connection_string))
+        $redis_connection_string = "$($env:TFOUT_redis_hostname):$($env:TFOUT_redis_port),password=$($env:TFOUT_redis_primary_access_key),ssl=True,abortConnect=False" # It is done this way because if you require port 6379 and use the redis_primary_connection_string output the port is ALWAYS 6380
+        $base64EncodedString = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($redis_connection_string))
+        Write-Host "this is the string = $redis_connection_string"
         cd ./deploy/app/k8s-manifest
-        Invoke-Kubectl -custom -arguments @("create secret generic nx-secret --from-literal=redis_connection_string='$base64EncodedString'") -provider azure -target redistestaks -identifier danredistest
+        Invoke-Kubectl -custom -arguments @("create secret generic nx-secret --from-literal=redis_connection_string='$base64EncodedString'") -provider $env:provider -target $env:target -identifier $env:identifier
         Invoke-Kubectl -apply -arguments @("deployment.yaml", "service.yaml", "ingress.yaml") -provider $env:provider -target $env:target -identifier $env:identifier
 
   setup:dev:
@@ -140,25 +142,10 @@ tasks:
       - |
         Import-Module Az.RedisCache
         Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
-        # Set-Content -Path "${PWD}/inspec_inputs.yml" -Value ""
+        Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/tf_outputs.yml
         Add-Content -Path ${PWD}/inspec_inputs.yml -Value "resource_group_name: ${env:TF_VAR_resource_group_name}"
         Add-Content -Path ${PWD}/inspec_inputs.yml -Value "region: ${env:TF_VAR_location}"
-        Invoke-Inspec -execute -arguments "--input-file ${PWD}/inspec_inputs.yml"
-
-  helm:charts:
-    context: powershell
-    description: Deploy Helm charts to the cluster as defined by configuration file
-    command:
-      - |
-        Import-Module Az.Aks
-        Invoke-Terraform -Init -Path $env:TF_FILE_LOCATION -Arguments $env:TF_BACKEND_INIT -debug
-        Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
-        Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value"
-        /app/build/scripts/Deploy-Charts.ps1 `
-              -Path /app/deploy/helm/k8s_apps.yml `
-              -ResourceGroup ${env:TFOUT_resource_group_name} `
-              -Clustername ${env:TFOUT_aks_cluster_name} `
-              -Provider ${env:CLOUD_PLATFORM}
+        Invoke-Inspec -execute -arguments "--input-file ${PWD}/tf_outputs.yml"
 
   _docs:
     description: Build Docs for AKS
