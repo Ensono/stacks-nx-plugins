@@ -48,3 +48,5 @@ modules/
 # Testing Directories
 test
 deploy/app/k8s-manifest/testing 
+deploy/deploytesting/*
+tf_outputs.yml
