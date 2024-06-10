@@ -142,10 +142,10 @@ tasks:
       - |
         Import-Module Az.RedisCache
         Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
-        Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/tf_outputs.yml
+        Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/inspec_inputs.yml
         Add-Content -Path ${PWD}/inspec_inputs.yml -Value "resource_group_name: ${env:TF_VAR_resource_group_name}"
         Add-Content -Path ${PWD}/inspec_inputs.yml -Value "region: ${env:TF_VAR_location}"
-        Invoke-Inspec -execute -arguments "--input-file ${PWD}/tf_outputs.yml"
+        Invoke-Inspec -execute -arguments "--input-file ${PWD}/inspec_inputs.yml"
 
   _docs:
     description: Build Docs for AKS

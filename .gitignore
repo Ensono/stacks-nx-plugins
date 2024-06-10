@@ -43,10 +43,14 @@ Thumbs.db
 envfile_*
 required_variables.ps1
 modules/
-.terraform/
+.terraform
+.terraform.lock.hcl
 
 # Testing Directories
 test
 deploy/app/k8s-manifest/testing 
 deploy/deploytesting/*
 tf_outputs.yml
+deploy/tests/vendor
+inspec.lock
+inspec_inputs.yml
