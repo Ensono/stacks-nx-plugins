@@ -14,16 +14,22 @@ depends:
 supports:
   - platform: azure
 
-# Define the inputs for the control
 inputs:
   - name: resource_group_name
     description: Group containing all the resources for the Redis Cache
   - name: region
     description: Region that the resources are expected to be deployed into
   - name: redis_name
+    description: Name of the Redis Cache instance
   - name: redis_port
+    description: Port number on which Redis is running
   - name: redis_ssl_port
+    description: SSL port number on which Redis is running
   - name: redis_sku_name
+    description: SKU name of the Redis Cache instance (e.g., Basic, Standard, Premium)
   - name: redis_family
+    description: Family of the Redis Cache instance (e.g., C, P)
   - name: redis_capacity
-
+    description: Capacity of the Redis Cache instance (e.g., 1, 2, 3)
+  - name: redis_configuration
+    description: Configuration settings for the Redis Cache instance

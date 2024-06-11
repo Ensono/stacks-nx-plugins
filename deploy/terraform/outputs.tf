@@ -4,11 +4,11 @@ output "redis_capacity" {
   value       = one(module.redis[*].redis_capacity)
 }
 
-# output "redis_configuration" {
-#   description = "Redis configuration"
-#   value       = one(module.redis[*].redis_configuration)
-#   sensitive = true
-# }
+output "redis_configuration" {
+  description = "Redis configuration"
+  value       = one(module.redis[*].redis_configuration)
+  sensitive   = true
+}
 
 output "redis_family" {
   description = "Redis family"

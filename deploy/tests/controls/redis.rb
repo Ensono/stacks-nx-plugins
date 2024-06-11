@@ -12,9 +12,9 @@ control 'redis-sku-and-size' do
   title 'Verify Redis SKU and size'
   desc 'Ensure the Redis instance has the correct SKU and size'
   describe azure_redis_cache(resource_group: input("resource_group_name"), name: input("redis_name")) do
-    its('sku.name') { should cmp input("redis_sku_name") }
-    its('sku.family') { should cmp input("redis_family") }
-    its('sku.capacity') { should cmp input("redis_capacity") }
+    its('properties.sku.name') { should cmp input("redis_sku_name") }
+    its('properties.sku.family') { should cmp input("redis_family") }
+    its('properties.sku.capacity') { should cmp input("redis_capacity") }
   end
 end
 
@@ -32,10 +32,36 @@ end
 control 'redis-configuration' do
   title 'Validate Redis configuration'
   desc 'Ensure Redis instance has correct configurations'
+  
+  # Extract the configuration string from the array
+  redis_configuration_array = input('redis_configuration')
+  redis_configuration_string = redis_configuration_array.first
+  
+  # Function to parse the configuration string into a hash
+  def parse_redis_configuration(config_string)
+    config_string.gsub(/[@{}]/, '')         # Remove '@', '{', and '}'
+                 .split(';')                # Split by semicolon
+                 .reject(&:empty?)          # Remove any empty strings
+                 .map { |pair| pair.split('=', 2) } # Split each pair by '=', limit to 2 parts
+                 .map { |k, v| [k&.strip, v&.strip] } # Strip whitespace from keys and values, handle nil
+                 .to_h                      # Convert array of pairs to hash
+  end
 
-  describe command("az redis show --resource-group #{input('resource_group_name')} --name #{input('redis_name')} --query properties.redisConfiguration") do
-    its('stdout') { should include '"maxmemory-reserved": "200mb"' }
-    its('stdout') { should include '"maxmemory-delta": "200mb"' }
-    its('stdout') { should include '"maxmemory-policy": "allkeys-lru"' }
+  # Parse the configuration string
+  redis_configuration_formatted = parse_redis_configuration(redis_configuration_string)
+  
+  # Debugging output to check the parsed configuration
+  describe "Parsed Redis Configuration" do
+    subject { redis_configuration_formatted }
+    it { should_not be_nil }
+    it { should be_a(Hash) }
+  end
+
+  # Validate the Redis configuration
+  describe azure_redis_cache(resource_group: input("resource_group_name"), name: input("redis_name")) do
+    its('properties.redisConfiguration.maxmemory-reserved') { should cmp redis_configuration_formatted['maxmemory_reserved'] }
+    its('properties.redisConfiguration.maxmemory-delta') { should cmp redis_configuration_formatted['maxmemory_delta'] }
+    its('properties.redisConfiguration.maxmemory-policy') { should cmp redis_configuration_formatted['maxmemory_policy'] }
   end
 end
+
