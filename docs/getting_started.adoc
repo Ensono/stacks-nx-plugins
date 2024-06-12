@@ -23,39 +23,185 @@ NOTE: Taskctl has been forked to add some new functionality to the tool that thi
 
 In order to run the pipeline locally a number of environment variables are required. These are used to pass variable values to Terraform. The following table shows what these variables are. If you require more help running this module locally please look at the Terraform Repository and its associated README.md here ~> https://github.com/Ensono/terraform-azurerm-aci/blob/fca71851f529ba25708f594289bdd05778299021/README.md
 
-[cols="2,3,1,3,2,2",options="header",stripes=even]
+[cols="1,2,1,1", options="header"]
 |===
-| Name                        | Description                                                                 | Type           | Default | Example | Required
-| `TF_VAR_FILE_LOCATION`     | Path to the Terraform template files                                        | string              | "/deploy/terraform"      | -      | [green]#icon:check[]#
-| `TF_VAR_BACKEND_INIT`      | Arguments that should be passed to Terraform during the init process        | string              | "key=$(tf_state_key),container_name=$(tf_state_container),storage_account_name=$(tf_state_storage),resource_group_name=$(tf_state_rg)       | -      | [red]#icon:times[]#
-| `TF_VAR_BACKEND_PLAN`      | Arguments that should be passed to Terraform during the plan process        | string              | "-input=false,-out=\"tfplan\""      | -       | [red]#icon:times[]# 
-| `TF_VAR_name_company`      | Name of the company that the cluster is being built for                     |  string              | - | "myCompany"      | [red]#icon:times[]#
-| `TF_VAR_name_project`      | Name of the project                                                         |   string             | - | "myProject"        | [green]#icon:check[]#
-| `TF_VAR_name_component`    |                                                                             |   string             | - | "myComponent"     | [green]#icon:check[]#
-| `TF_VAR_name_environment`  |                                                                             |   string             | -       | "myEnv"       | [green]#icon:check[]#
-| `TF_VAR_stage`             |                                                                             |   string             | -       | "myStage"       | [green]#icon:check[]#
-| `TF_VAR_attributes`        |                                                                             |   string             | -       | -       | [red]#icon:times[]# 
-| `TF_VAR_tags`              |                                                                             |    list(string)          | -       | -            | [red]#icon:times[]# 
-| `TF_VAR_container_group_name`| Name of the Azure Container Group                                           | string         | -       | "my_container_group" | [green]#icon:check[]#
-| `TF_VAR_location`          | Location of the Azure Resource Group                                        | string         | -       | "UKSouth" | [green]#icon:check[]#
-| `TF_VAR_resource_group_name`| Name of the Azure Resource Group you wish to create.                        | string         | -       | "my_rg"   | [green]#icon:check[]#
-| `TF_VAR_os_type`           | The OS for the container group. Allowed values are Linux and Windows. Changing this forces a new resource to be created. | string | Linux |"Windows" | [red]#icon:times[]#
-| `TF_VAR_container_group_sku`| Specifies the SKU of the Container Group. Possible values are Confidential, Dedicated, and Standard. Defaults to Standard. Changing this forces a new resource to be created. | string | Standard |"Confidential" | [red]#icon:times[]#
-| `TF_VAR_acr_admin_enabled`| A boolean flag indicating whether admin user should be enabled for the Azure Container Registry (ACR). | bool | true |true | [red]#icon:times[]#
-| `TF_VAR_acr_sku`           | The SKU (pricing tier) of the Azure Container Registry (ACR).               | string         | Standard |"Premium" | [red]#icon:times[]#
-| `TF_VAR_acr_resource_group_name`| The name of the resource group where the Azure Container Registry (ACR) should be created or where the existing ACR is located. | string | null |"my_acr_rg" | [red]#icon:times[]#
-| `TF_VAR_acr_name`          | Name of the Azure Container Registry you wish to create or to reference an existing ACR.| string | - | "my_acr" | [red]#icon:times[]#
-| `TF_VAR_acr_location`      | Location of the Azure Container Registry                                    | string         | -       | "UKSouth" | [red]#icon:times[]#
-| `TF_VAR_create_acr`        | Whether to create Azure Container Registry                                  | bool           | -       | true      | [red]#icon:times[]#
-| `TF_VAR_create_virtual_network`| A boolean flag indicating whether to create a new virtual network. If set to true, a new virtual network will be created; if set to false, an existing virtual network will be used. | bool | false | false | [red]#icon:times[]#
-| `TF_VAR_integrate_with_vnet`| Whether or not you wish to integrate your ACI Group with a virtual network or not. If not, your IP address type must be public. Private IP address type if not integrated with a virtual network. | bool | - | false | [red]#icon:times[]#
-| `TF_VAR_vnet_name`        | Name of the new OR existing Virtual Network to integrate into the Azure Container Group. If create_virtual_network is set to true you MUST provide this. | string | null | "my_vnet" | [red]#icon:times[]#
-| `TF_VAR_vnet_resource_group_name`| The name of the resource group where the virtual network should be created or which resource group the existing virtual network is located. | string | null |"my_vnet_rg" | [red]#icon:times[]#
-| `TF_VAR_vnet_cidr`        | The CIDR block(s) to be used for the address space of the virtual network. This specifies the range of IP addresses available for the virtual network. | list(string) | ["10.1.0.0/16"] | ["10.10.0.0/16"] | [red]#icon:times[]#
-| `TF_VAR_subnet_names`     | List of names of new OR existing subnets to integrate into the Azure Container Group. If create_virtual_network is set to true you MUST provide this. | list(string) | null | ["my_subnet1", "my_subnet2"] |[red]#icon:times[]# 
-| `TF_VAR_subnet_prefixes`  | The CIDR block(s) to be used for the address space of each subnet within the virtual network. If left blank, this is calculated for you via the `terraform-azurerm-aci\locals.tf` file. | list(string) | null | ["10.10.0.0/24"] | [red]#icon:times[]#
-|===
+| Name | Description | Required | Example
 
+| app_gateway_frontend_ip_name
+| The name of the frontend IP configuration for the application gateway.
+| yes
+| myAppGatewayFrontendIP
+
+| app_gateway_frontend_ip_rg
+| The resource group of the application gateway frontend IP.
+| yes
+| myResourceGroup
+
+| dns_a_record_name
+| The name of the DNS A record.
+| yes
+| myDnsARecord
+
+| dns_a_record_ttl
+| The TTL (Time To Live) of the DNS A record in seconds.
+| no
+| 300
+
+| dns_zone
+| The DNS zone in which to create the A record.
+| yes
+| myDnsZone
+
+| dns_zone_rg
+| The resource group of the DNS zone.
+| yes
+| myDnsZoneResourceGroup
+
+| location_name_map
+| A map of Azure region names to custom short names.
+| no
+| { "northeurope": "eun", "westeurope": "euw", ... }
+
+| name_company
+| The name of the company.
+| yes
+| myCompany
+
+| name_environment
+| The environment name (e.g., production, staging).
+| yes
+| production
+
+| name_project
+| The project stack name.
+| yes
+| myProject
+
+| name_domain
+| The domain name.
+| yes
+| mydomain.com
+
+| create_redis
+| Flag to create a Redis instance.
+| no
+| true
+
+| custom_name
+| Provide a custom UNIQUE name for your cache instance. This overrides the name that is generated by the Claranet Redis module.
+| no
+| myCustomRedis
+
+| attributes
+| Additional attributes for the resources.
+| no
+| ["attr1", "attr2"]
+
+| redis_resource_group_name
+| The name of the resource group to deploy Redis to.
+| yes
+| myRedisResourceGroup
+
+| location
+| The region that your resources will deploy to.
+| yes
+| eastus
+
+| logs_destinations_ids
+| The list of destination IDs for logging.
+| no
+| ["/subscriptions/.../resourceGroups/..."]
+
+| sku_name
+| The SKU name for the Redis instance.
+| no
+| Basic
+
+| capacity
+| Redis size: (Basic/Standard: 1,2,3,4,5,6) (Premium: 1,2,3,4)
+| no
+| 1
+
+| public_network_access_enabled
+| Flag to enable public network access.
+| no
+| true
+
+| allow_non_ssl_connections
+| Flag to allow non-SSL connections.
+| no
+| true
+
+| aof_backup_enabled
+| Flag to enable AOF backup.
+| no
+| true
+
+| aof_storage_connection_string_0
+| Connection string for the first AOF storage.
+| no
+| DefaultEndpointsProtocol=https;AccountName=...
+
+| aof_storage_connection_string_1
+| Connection string for the second AOF storage.
+| no
+| DefaultEndpointsProtocol=https;AccountName=...
+
+| enable_authentication
+| Flag to enable authentication.
+| no
+| true
+
+| active_directory_authentication_enabled
+| Flag to enable Active Directory authentication.
+| no
+| true
+
+| maxmemory_reserved
+| Amount of memory reserved.
+| no
+| 512
+
+| maxmemory_delta
+| Amount of memory delta.
+| no
+| 256
+
+| maxmemory_policy
+| Memory eviction policy.
+| no
+| volatile-lru
+
+| maxfragmentationmemory_reserved
+| Amount of fragmentation memory reserved.
+| no
+| 512
+
+| rdb_backup_enabled
+| Flag to enable RDB backup.
+| no
+| true
+
+| rdb_backup_frequency
+| Frequency of RDB backups in minutes.
+| no
+| 60
+
+| rdb_backup_max_snapshot_count
+| Maximum number of RDB snapshots to keep.
+| no
+| 5
+
+| rdb_storage_connection_string
+| Connection string for RDB storage.
+| no
+| DefaultEndpointsProtocol=https;AccountName=...
+
+| notify_keyspace_events
+| Keyspace events to notify.
+| no
+| Ex
+|===
 
 ==== PowerShell
 

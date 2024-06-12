@@ -9,7 +9,7 @@
 
 :company: Ensono
 
-= Ensono Stacks - Azure Container Instances
+= Ensono Stacks - Stacks NX-Plugins
 
 include::_index.adoc[]
 

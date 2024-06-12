@@ -1,13 +1,13 @@
 ---
-id: aci_tests
+id: nx-plugins_tests
 title: Tests
-description: To keep the resources in a known configuration and assist in keeping the necessary versions of software, e.g. Azure Container Instances, up to date the project contains infrastructure tests. 
+description: To keep the resources in a known configuration, e.g. Azure Cache for Redis, up to date the project contains infrastructure tests. 
 weight: 70
 ---
 
 == Infrastructure Tests
 
-Infrastructure tests have been built into the EDIR pipeline. These tests are designed to check that the deployed resources are configured as expected. These tests will be expanded upon to test further considerations when new features are added to the ACI terraform module.
+Infrastructure tests have been built into the EDIR pipeline. These tests are designed to check that the deployed resources are configured as expected.
 
 The tests are located in `deploy/tests` and are https://inspec.io[Inspec] controls. The following table shows the tests that are being performed.
 
@@ -15,22 +15,41 @@ The tests are located in `deploy/tests` and are https://inspec.io[Inspec] contro
 [cols="1,3a",options="header",stripes=even]
 |===
 | Details| Description
-| Name: `azure-container-group`
-
-Filename: `controls/aci.rb` | Checks that the container group is deployed as expected.
-
-- it should exist
-- it is in the correct location
-- it has the correct resource group
 | Name: `azure-resource-group`
 
-Filename: `controls/resource_group.rb`
-
-| The resource group that everything is deployed to, the control checks:
+Filename: `controls/resource_group.rb` | The resource group that everything is deployed to, the control checks:
 
 - the group exists
 - it is in the correct location
 - its deployment succeeded
+| Name: `redis-instance-existence`
+
+Filename: `controls/redis.rb` | Ensures the Redis instance exists within the resource group.
+
+- it should exist
+- it has the correct name
+| Name: `redis-sku-and-size`
+
+Filename: `controls/redis.rb` | Ensures the Redis instance has the correct SKU and size.
+
+- it has the correct SKU name
+- it has the correct SKU family
+- it has the correct capacity
+| Name: `redis-availability-status`
+
+Filename: `controls/redis.rb` | Ensures the Redis instance is available and healthy.
+
+- its provisioning state should be 'Succeeded'
+- it should have a hostname
+- it should have the correct port
+- it should have the correct SSL port
+| Name: `redis-configuration`
+
+Filename: `controls/redis.rb` | Ensures the Redis instance has correct configurations.
+
+- it has the correct maxmemory-reserved
+- it has the correct maxmemory-delta
+- it has the correct maxmemory-policy
 |===
 
 NOTE: There is an ADO pipeline that runs these tests on a schedule at 0600 which can be added to Azure DevOps. The file for this pipeline is `build/azDevOps/azure/infrastructure-tests.yml`.

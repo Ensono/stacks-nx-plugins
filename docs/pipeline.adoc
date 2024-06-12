@@ -1,5 +1,5 @@
 ---
-id: aci_pipeline
+id: nx-plugins_pipeline
 title: Pipeline
 description: There are a number of pipelines in the project, but the main one is the Ensono Digital Independent Runner (EDIR). Regardless of the CI/CD system in use, EDIR is always called. Currently only Azure DevOps is supported but there will be pipelines for GitHub Actions and Gitlab Runner in the future.
 weight: 60
@@ -35,6 +35,8 @@ Currently knows how to set the build number for Azure DevOps.
 | `infra:output` | Present the Terraform outputs as a JSON string
 | `setup:dev` | Create a shell script which will configure the environment variables based on the `build/config/stage_envvars.yaml`
 | `setup:environment` | Ensure that the environment is configured correctly. This can be used to ensure that all the necessary environment variables have been set.
+| `app:build` | Builds a Docker Image for the associated Stacks-App
+| `app:deploy` | Deploys associated Docker Image to AKS Cluster via K8s manifests, and updates the secret value to ensure redis connection string is exposed.
 | `tests:infra:init` | Initialse the Inspec test profile. 
 | `tests:infra:vendor` | This will analyse the profile and download the required providers to run the tests
 | `tests:infra:run` | Execute infrastructure tests against the deployed Cloud Resources using Inspec
@@ -70,6 +72,11 @@ include::diagrams/infrastructure.dot[]
 [graphviz]
 ----
 include::diagrams/documentation.dot[]
+----
+| app | Build and deploy Docker Image to AKS |
+[graphviz]
+----
+include::diagrams/app.dot[]
 ----
 | release | Runs all of the tasks to create a GitHub release |
 [graphviz]

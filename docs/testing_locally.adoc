@@ -1,31 +1,40 @@
 ---
-id: aci_testing_locally
+id: nx-plugins_testing_locally
 title: Testing Infrastructure Locally
-description: To keep the resources in a known configuration and assist in keeping the necessary versions of software, e.g. Azure Container Instances, up to date the project contains infrastructure tests. 
+description: To keep the resources in a known configuration, e.g. Azure Cache for Redis, up to date the project contains infrastructure tests. 
 weight: 70
 ---
 
 == How to Locally Test via Inspec
 
 Ensure that your taskctl envfile OR environment variables contain the following values:
-
 * `resource_group_name`
-  - Description: Group containing all the resources for the Azure Kubernetes Cluster
+  - Description: Group containing all the resources for the Redis Cache
 
-* `location`
-  - Description: Location that the resources are expected to be deployed into
+* `region`
+  - Description: Region that the resources are expected to be deployed into
 
-* `container_group_name`
-  - Description: Name of the container group
+* `redis_name`
+  - Description: Name of the Redis Cache instance
 
-* `CHEF_LICENSE = "accept-silent"`
-  - Description: Sets the Chef license acceptance to silent mode.
+* `redis_port`
+  - Description: Port number on which Redis is running
 
-* `TESTS_PATH = "/app/deploy/tests"`
-  - Description: Specifies the path where the tests are located.
+* `redis_ssl_port`
+  - Description: SSL port number on which Redis is running
 
-* `REPORT_FILENAME = "inspec_azure_aci.xml"`
-  - Description: Defines the filename for the InSpec Azure ACI report.
+* `redis_sku_name`
+  - Description: SKU name of the Redis Cache instance (e.g., Basic, Standard, Premium)
+
+* `redis_family`
+  - Description: Family of the Redis Cache instance (e.g., C, P)
+
+* `redis_capacity`
+  - Description: Capacity of the Redis Cache instance (e.g., 1, 2, 3)
+
+* `redis_configuration`
+  - Description: Configuration settings for the Redis Cache instance
+
 
 === How to Run
 
@@ -36,6 +45,8 @@ taskctl tests envfile
 
 * Via your environment variables, loaded into your current terminal session:
 ```
+$env:CHEF_LICENCE = "accept"
+$env:TEST_PATH = "./path/to/tests"
 taskctl tests
 ```
 
@@ -46,10 +57,22 @@ taskctl tests
 # Define the inputs for the control
 inputs:
   - name: resource_group_name
-    description: Group containing all the resources for the Azure Kubernertes Cluster
-  - name: location
-    description: location that the resources are expected to be deployed into
-  - name: container_group_name
-    description: Name of the container group
+    description: Group containing all the resources for the Redis Cache
+  - name: region
+    description: Region that the resources are expected to be deployed into
+  - name: redis_name
+    description: Name of the Redis Cache instance
+  - name: redis_port
+    description: Port number on which Redis is running
+  - name: redis_ssl_port
+    description: SSL port number on which Redis is running
+  - name: redis_sku_name
+    description: SKU name of the Redis Cache instance (e.g., Basic, Standard, Premium)
+  - name: redis_family
+    description: Family of the Redis Cache instance (e.g., C, P)
+  - name: redis_capacity
+    description: Capacity of the Redis Cache instance (e.g., 1, 2, 3)
+  - name: redis_configuration
+    description: Configuration settings for the Redis Cache instance
 ```
 * Your infrastructure has been deployed, as Inspec is testing against LIVE Infrastructure via Inspec Train & the Azure REST API - Read more here: https://github.com/inspec/inspec-azure!

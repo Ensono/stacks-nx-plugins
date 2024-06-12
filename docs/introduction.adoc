@@ -7,6 +7,6 @@ weight: 20
 
 == Introduction
 
-The Azure Container Instance Project is about building upon the original Stacks philosophy of deployment of applications into Kubernetes Clusters, but providing an alternative method/infrastructure choice for people who want to manage and support their application stack without the prior knowledge Azure Kubernetes Service requires.
+The Stacks NX Plugins Infra Project extends the foundational principles of the Stacks philosophy, focusing on streamlined deployment processes for Redis instances and facilitating access to AKS clusters through environment variables containing connection strings. This initiative serves as an alternative solution for developers seeking efficient management and deployment of their application stack within Azure Kubernetes Service (AKS), without necessitating the comprehensive knowledge typically associated with AKS deployment.
 
-Currently this project is very basic, but with future iterations, this will be an alternative selection within the Stacks-CLI project!
+At its current stage, the project exhibits a foundational structure, but with subsequent iterations, it aims to evolve into an integral component of the Stacks-CLI ecosystem. Through ongoing development, the Stacks NX Plugins Infra Project will emerge as a versatile and user-friendly option within the Stacks-CLI framework, empowering developers to seamlessly build, deploy, and manage their applications on AKS clusters.
