@@ -104,11 +104,12 @@ tasks:
       - |
         Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
         Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/tf_outputs.yml
-        $redis_connection_string = "$($env:TFOUT_redis_hostname):$($env:TFOUT_redis_port),password=$($env:TFOUT_redis_primary_access_key),ssl=True,abortConnect=False" # It is done this way because if you require port 6379 and use the redis_primary_connection_string output the port is ALWAYS 6380
-        $base64EncodedString = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($redis_connection_string))
-        Write-Host "this is the string = $redis_connection_string"
         cd ./deploy/app/k8s-manifest
-        Invoke-Kubectl -custom -arguments @("create secret generic nx-secret --from-literal=redis_connection_string='$base64EncodedString'") -provider $env:provider -target $env:target -identifier $env:identifier
+        If($env:create_redis -eq "true") {
+          $redis_connection_string = "$($env:TFOUT_redis_hostname):$($env:TFOUT_redis_port),password=$($env:TFOUT_redis_primary_access_key),ssl=True,abortConnect=False" # It is done this way because if you require port 6379 and use the redis_primary_connection_string output the port is ALWAYS 6380
+          $base64EncodedString = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($redis_connection_string))
+          Invoke-Kubectl -custom -arguments @("create secret generic nx-secret --from-literal=redis_connection_string='$base64EncodedString'") -provider $env:provider -target $env:target -identifier $env:identifier
+        }
         Invoke-Kubectl -apply -arguments @("deployment.yaml", "service.yaml", "ingress.yaml") -provider $env:provider -target $env:target -identifier $env:identifier
 
   setup:dev:

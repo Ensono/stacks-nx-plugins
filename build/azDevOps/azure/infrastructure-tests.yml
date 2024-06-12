@@ -26,8 +26,8 @@ stages:
   - stage: infrastructure_tests
 
     jobs:
-      - job: aks
-        displayName: AKS
+      - job: redis
+        displayName: Redis
         pool:
           vmImage: $(pool_vm_image)
 

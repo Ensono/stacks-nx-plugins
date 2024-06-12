@@ -213,6 +213,7 @@ stages:
                             TF_FILE_LOCATION: /app/deploy/terraform
                             TF_VAR_name_environment: ${{ stage.environment_shortname }}
                             TF_VAR_resource_group_location: $(region)
+                            create_redis: $(create_redis)
 
                     - ${{ if eq(parameters.deploy, true) }}:
                         - task: PublishTestResults@2
