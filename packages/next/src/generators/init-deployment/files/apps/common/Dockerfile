@@ -4,7 +4,7 @@ FROM docker.io/node:lts-alpine as deps
 # to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat python3 make gcc g++
 WORKDIR /usr/src/app
-COPY <%= distFolderPath %>/package*.json ./
+COPY ../../<%= distFolderPath %>/package*.json ./
 RUN npm install --omit=dev
 
 # Production image, copy all the files and run next
@@ -18,11 +18,11 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=deps /usr/src/app/package.json ./package.json
 
 # Added below to remove the need to specify which subfolders/files to copy.
-COPY <%= distFolderPath %> .
+COPY ../../<%= distFolderPath %> .
 <% if(customServerRelativePath) { %>
-COPY <%= distFolderPath %>/server ./server
+COPY ../../<%= distFolderPath %>/server ./server
 <% } %>
-COPY <%= distFolderPath %>/.next ./.next
+COPY ../../<%= distFolderPath %>/.next ./.next
 RUN chown -R node:node .
 USER node
 EXPOSE <%= port %>
