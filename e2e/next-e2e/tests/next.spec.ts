@@ -83,7 +83,7 @@ describe('next e2e', () => {
     describe('NextAuth generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
+                `generate @ensono-stacks/next:next-auth --name=auth --project=${project} --provider=ms-entra-id --sessionStorage=redis --guestSession=true --no-interactive`,
             );
         });
 
@@ -94,12 +94,12 @@ describe('next e2e', () => {
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/src/app/api/hello/route.ts`,
                     `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
-                    `apps/${project}/src/auth.config.ts`,
-                    `apps/${project}/src/auth.ts`,
-                    `apps/${project}/src/middleware.ts`,
                     `apps/${project}/.env.local`,
+                    `auth/src/index.ts`,
+                    `auth/src/adapater/index.ts`,
+                    `auth/src/providers/ms-entra-id.ts`,
+                    `auth/src/providers/guest.ts`,
                 ),
             ).not.toThrow();
         });
