@@ -9,6 +9,10 @@ import {
     Tree,
     runTasksInSerial,
     GeneratorCallback,
+    updateJson,
+    offsetFromRoot,
+    getWorkspaceLayout,
+    workspaceRoot,
 } from '@nx/devkit';
 import {
     determineProjectNameAndRootOptions,
@@ -180,6 +184,23 @@ export default async function nextAuthGenerator(
             },
         );
     }
+
+    // update app tsconfig
+    updateJson(tree, joinPathFragments(project.root, 'tsconfig.json'), data => {
+        const rootToLibraryPath = normalizedOptions.projectRoot.replace(
+            workspaceRoot,
+            '',
+        );
+        const pathToType = `${offsetFromRoot(
+            project.root,
+        )}${rootToLibraryPath}/src/types/index.d.ts`;
+
+        if (!data.include.includes(pathToType)) {
+            data.include.push(pathToType);
+        }
+
+        return data;
+    });
 
     if (!normalizedOptions.skipPackageJson) {
         tasks.push(installDependencies(tree, options));

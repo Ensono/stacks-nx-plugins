@@ -96,10 +96,10 @@ describe('next e2e', () => {
                 checkFilesExist(
                     `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
                     `apps/${project}/.env.local`,
-                    `auth/src/index.ts`,
-                    `auth/src/adapater/index.ts`,
-                    `auth/src/providers/ms-entra-id.ts`,
-                    `auth/src/providers/guest.ts`,
+                    `libs/auth/src/index.ts`,
+                    `libs/auth/src/adapter/index.ts`,
+                    `libs/auth/src/providers/ms-entra-id.ts`,
+                    `libs/auth/src/providers/guest.ts`,
                 ),
             ).not.toThrow();
         });
@@ -220,28 +220,6 @@ describe('next e2e', () => {
                     ),
                 ).toBeTruthy();
             });
-        });
-    });
-
-    describe('NextAuthRedis generator', () => {
-        const adapterName = 'next-redis-lib';
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
-            );
-        });
-
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-
-        it('adds new files for NextAuthRedis generator', () => {
-            expect(() =>
-                checkFilesExist(
-                    `libs/${adapterName}/src/index.ts`,
-                    `libs/${adapterName}/src/index.test.ts`,
-                ),
-            ).not.toThrow();
         });
     });
 });

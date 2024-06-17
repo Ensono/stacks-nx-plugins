@@ -51,7 +51,11 @@ export const session: SessionCallback = async function ({
                 return sessionDTO;
             }
 
-            if (account.expires_at && isExpired(account.expires_at)) {
+            if (
+                account.refresh_token &&
+                account.expires_at &&
+                isExpired(account.expires_at)
+            ) {
                 const tokens = await refreshToken({
                     token: account.refresh_token,
                     config: provider.options,
