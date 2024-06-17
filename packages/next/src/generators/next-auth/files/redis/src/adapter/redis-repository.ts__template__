@@ -1,0 +1,173 @@
+import { Redis } from 'ioredis';
+import {
+    AdapterAccount,
+    AdapterSession,
+    AdapterUser,
+} from 'next-auth/adapters';
+
+const isoDateRE =
+    /(\d{4}-[01]\d-[0-3]\dT[0-2](?:\d:[0-5]){2}\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2](?:\d:[0-5]){2}\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/;
+
+const isDate = (value: any) => {
+    return value && isoDateRE.test(value) && !Number.isNaN(Date.parse(value));
+};
+
+export function hydrateDates(object: object) {
+    return Object.entries(object).reduce((accumulator, [key, value]) => {
+        accumulator[key] = isDate(value) ? new Date(value as string) : value;
+        return accumulator;
+    }, {} as any);
+}
+
+export class RedisRepository {
+    client: Redis;
+
+    baseKeyPrefix = '';
+    userKeyPrefix = 'user:';
+    accountKeyPrefix = 'account:';
+    accountByUserIdPrefix = 'account:user:';
+    sessionKeyPrefix = 'session:';
+    sessionByUserIdPrefix = 'session:user:';
+    userByEmailKeyPrefix = 'user:email:';
+    verificationKeyPrefix = 'token:';
+
+    constructor(client: Redis) {
+        this.client = client;
+    }
+
+    getUserByEmailKey(email: string) {
+        return this.userByEmailKeyPrefix + email;
+    }
+    getUserKey(userId: string) {
+        return this.userKeyPrefix + userId;
+    }
+    getAccountKey(accountId: string) {
+        return this.accountKeyPrefix + accountId;
+    }
+    getAccountByUserIdKey(userId: string) {
+        return this.accountByUserIdPrefix + userId;
+    }
+    getAccountId(providerAccountId: string, provider: string) {
+        return `${provider}:${providerAccountId}`;
+    }
+    getSessionKey(sessionId: string) {
+        return this.sessionKeyPrefix + sessionId;
+    }
+    getSessionByUserIdKey(userId: string) {
+        return this.sessionByUserIdPrefix + userId;
+    }
+    getVerificationKey(tokenId: string) {
+        return this.verificationKeyPrefix + tokenId;
+    }
+
+    private async setObjectAsHash(key: string, object: any) {
+        const newObject = Object.entries(object).reduce(
+            (accumulator, [property, value]) => {
+                accumulator[property] =
+                    value instanceof Date ? value.toISOString() : value;
+                return accumulator;
+            },
+            {} as any,
+        );
+        await this.client.hset(key, newObject);
+    }
+
+    private async loadObjectFromHash(key: string) {
+        const object = await this.client.hgetall(key);
+        if (!object || Object.keys(object).length === 0) return null;
+        const newObject = hydrateDates(object);
+        return newObject;
+    }
+
+    async getUser(id: string): Promise<AdapterUser | null> {
+        console.log(this.getUserKey(id));
+        return this.loadObjectFromHash(this.getUserKey(id));
+    }
+
+    async getUserHash(id: string): Promise<string | null> {
+        return this.client.get(this.getUserByEmailKey(id));
+    }
+
+    async setUser(id: string, data: object) {
+        return this.setObjectAsHash(this.getUserKey(id), data);
+    }
+
+    async setUserHash(key: string, hash: string) {
+        return this.client.set(this.getUserByEmailKey(key), hash);
+    }
+
+    async getAccount(
+        id: string,
+        provider: string,
+    ): Promise<AdapterAccount | null> {
+        return this.loadObjectFromHash(
+            this.getAccountKey(this.getAccountId(id, provider)),
+        );
+    }
+
+    async getAccountHash(key: string): Promise<string | null> {
+        return this.client.get(this.getAccountByUserIdKey(key));
+    }
+
+    async setAccount(id: string, data: object) {
+        return this.setObjectAsHash(this.getAccountKey(id), data);
+    }
+
+    async setAccountHash(key: string, hash: string) {
+        return this.client.set(
+            this.getAccountByUserIdKey(key),
+            this.getAccountKey(hash),
+        );
+    }
+
+    async deleteAccount(id: string) {
+        return this.client.del(this.getAccountKey(id));
+    }
+
+    async deleteAccountHash(id: string) {
+        return this.client.del(this.getAccountByUserIdKey(id));
+    }
+
+    async getSession(id: string): Promise<AdapterSession | null> {
+        return this.loadObjectFromHash(this.getSessionKey(id));
+    }
+
+    async getSessionHash(id: string): Promise<string | null> {
+        return this.client.get(this.getSessionByUserIdKey(id));
+    }
+
+    async setSession(id: string, data: object) {
+        return this.setObjectAsHash(this.getSessionKey(id), data);
+    }
+
+    async setSessionHash(id: string, hash: string) {
+        return this.client.set(
+            this.getSessionByUserIdKey(id),
+            this.getSessionKey(hash),
+        );
+    }
+
+    async deleteSession(id: string) {
+        return this.client.del(this.getSessionKey(id));
+    }
+
+    async deleteSessionHash(id: string) {
+        return this.client.del(this.getSessionByUserIdKey(id));
+    }
+
+    async getVerificationToken(id: string) {
+        return this.loadObjectFromHash(this.getVerificationKey(id));
+    }
+
+    async setVerificationToken(id: string, data: object) {
+        return this.setObjectAsHash(this.getVerificationKey(id), data);
+    }
+
+    async deleteVerificationToken(id: string) {
+        return this.client.del(this.getVerificationKey(id));
+    }
+
+    async deleteKeys(...args: string[]) {
+        return this.client.del(...args);
+    }
+}

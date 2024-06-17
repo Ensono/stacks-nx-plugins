@@ -2,25 +2,57 @@
     "$schema": "http://json-schema.org/schema",
     "$id": "NextAuth",
     "title": "Ensono Stacks Next Auth Generator",
-    "description": "The @ensono-stacks/next:next-auth generator will install and configure NextAuth.js into an existing Next application",
+    "description": "The @ensono-stacks/next:next-auth generator will install and configure Auth.js (NextAuth.js) into an existing Next application",
     "type": "object",
     "properties": {
+        "name": {
+            "type": "string",
+            "description": "Auth library name.",
+            "$default": "auth",
+            "x-prompt": "What name would you like to use for the auth library?",
+            "pattern": "(?:^@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*\\/[a-zA-Z0-9-~][a-zA-Z0-9-._~]*|^[a-zA-Z][^:]*)$",
+            "x-priority": "important"
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the lib is placed.",
+            "x-priority": "important"
+        },
         "project": {
             "type": "string",
-            "description": "The name of the project.",
+            "description": "The name of the Next.js project.",
             "alias": "p",
             "$default": {
                 "$source": "projectName"
             },
-            "x-prompt": "What is the name of the project?",
+            "x-prompt": "What is the name of the Next.js project?",
             "x-priority": "important"
         },
         "provider": {
             "type": "string",
             "description": "The provider to be installed.",
-            "enum": ["none", "azureAd"],
+            "enum": ["none", "ms-entra-id", "auth0"],
             "default": "none",
-            "x-prompt": "Which provider do you want to add?"
+            "x-prompt": "Which provider do you want to add?",
+            "x-priority": "important"
+        },
+        "sessionStorage": {
+            "type": "string",
+            "description": "The session storage to be used.",
+            "enum": ["cookie", "redis"],
+            "default": "cookie",
+            "x-prompt": "Which session storage do you want to use?",
+            "x-priority": "important"
+        },
+        "guestSession": {
+            "type": "boolean",
+            "description": "Enable guest sessions.",
+            "default": true,
+            "x-priority": "important"
+        },
+        "importPath": {
+            "type": "string",
+            "description": "The library name used to import it, like @myorg/my-awesome-lib. Required for publishable library."
         },
         "skipPackageJson": {
             "type": "boolean",
@@ -28,5 +60,5 @@
             "description": "Do not add dependencies to `package.json`."
         }
     },
-    "required": ["project"]
+    "required": ["name", "project"]
 }

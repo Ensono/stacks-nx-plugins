@@ -18,11 +18,6 @@
             "schema": "./src/generators/next-auth/schema.json",
             "description": "Add NextAuth to a project"
         },
-        "next-auth-redis": {
-            "factory": "./src/generators/next-auth-redis/generator",
-            "schema": "./src/generators/next-auth-redis/schema.json",
-            "description": "Add NextAuth Redis to a project"
-        },
         "react-query": {
             "factory": "./src/generators/react-query/generator",
             "schema": "./src/generators/react-query/schema.json",

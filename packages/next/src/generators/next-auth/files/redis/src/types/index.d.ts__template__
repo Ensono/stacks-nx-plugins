@@ -1,0 +1,36 @@
+import { OAuthUserConfig } from '@auth/core/providers';
+
+declare module '@auth/core/JWT' {
+    interface JWT {
+        accountProviderId: string;
+<% if(provider !== 'none') { %>
+        provider: <% if(guestSession) { %> 'guest' | <% } %>'<%= provider %>';
+<% } else { %>
+        provider: string
+<% } %>
+    }
+}
+
+declare module '@auth/core/adapters' {
+    interface AdapterSession {
+        id: string;
+    }
+}
+
+declare module '@auth/core/types' {
+    interface User {
+        role: <% if(guestSession) { %>'guest'<% } %><% if(guestSession && provider !== 'none') { %> | <% } %>'user';
+    }
+
+    interface Session {
+        user?: User;
+        error?: string;
+        expires: Date;
+    }
+}
+
+declare module '@auth/core/providers' {
+    interface OIDCConfig<Profile> {
+        options: OAuthUserConfig<Profile>;
+    }
+}

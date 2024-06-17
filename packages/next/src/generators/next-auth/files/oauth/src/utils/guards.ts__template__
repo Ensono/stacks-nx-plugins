@@ -1,0 +1,14 @@
+import { TOKEN_EXPIRATION_OFFSET_SECONDS } from '../config';
+
+/**
+ * Evaluates if the supplied timestamp is expired compared to current time.
+ * @param expiresAt Unix timestamp in seconds
+ * @returns Boolean
+ */
+export function isExpired(expiresAt: number) {
+    return (expiresAt + TOKEN_EXPIRATION_OFFSET_SECONDS) * 1000 < Date.now();
+}
+
+export function isOauthProvider(provider: string) {
+    return provider === 'oauth' || provider === 'oidc';
+}

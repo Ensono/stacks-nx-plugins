@@ -1,0 +1,128 @@
+import { RedisRepository } from './redis-repository';
+import type { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters';
+import { v4 as uuid } from 'uuid';
+
+type CustomAdapter = Required<
+    Omit<
+        Adapter,
+        | 'getAuthenticator'
+        | 'createAuthenticator'
+        | 'listAuthenticatorsByUserId'
+        | 'updateAuthenticatorCounter'
+    >
+>;
+
+export function IORedisAdapter(repo: RedisRepository): CustomAdapter {
+    return {
+        async createUser(user) {
+            const id = user.id || uuid();
+            await repo.setUser(id, { ...user, id });
+            if (user.email) {
+                await repo.setUserHash(user.email, id);
+            }
+            return user;
+        },
+        async getUser(id) {
+            return repo.getUser(id);
+        },
+        async getUserByEmail(email) {
+            const userHash = await repo.getUserHash(email);
+            if (!userHash) return null;
+            return repo.getUser(userHash);
+        },
+        getAccount: repo.getAccount,
+        async getUserByAccount({ providerAccountId, provider }) {
+            const account = await repo.getAccount(providerAccountId, provider);
+            if (!account) return null;
+            return repo.getUser(account.userId);
+        },
+        async updateUser(
+            updates: Partial<AdapterUser> & Pick<AdapterUser, 'id'>,
+        ) {
+            const userId = updates.id as string;
+            const user = (await repo.getUser(userId)) as AdapterUser;
+            const updatedUser = { ...user, ...updates };
+            await repo.setUser(userId, updatedUser);
+            return updatedUser;
+        },
+        async deleteUser(userId) {
+            const user = await repo.getUser(userId);
+            if (!user) return;
+            const hashes = await Promise.all([
+                repo.getAccountHash(userId),
+                repo.getSessionHash(userId),
+            ]);
+
+            const keys = [
+                repo.getAccountByUserIdKey(userId),
+                repo.getSessionByUserIdKey(userId),
+                repo.getUserByEmailKey(user.email),
+                ...(hashes.filter(Boolean) as string[]),
+            ];
+
+            await repo.deleteKeys(...keys);
+        },
+        async linkAccount(account) {
+            const id = repo.getAccountId(
+                account.providerAccountId,
+                account.provider,
+            );
+            Promise.all([
+                repo.setAccountHash(account.userId, id),
+                repo.setAccount(id, { ...account, id }),
+            ]);
+            return account;
+        },
+        async unlinkAccount({ providerAccountId, provider }) {
+            const id = repo.getAccountId(providerAccountId, provider);
+            await repo.deleteAccount(id);
+        },
+        async createSession(session) {
+            const id = session.sessionToken;
+            await Promise.all([
+                repo.setSession(id, { ...session, id }),
+                repo.setSessionHash(session.userId, id),
+            ]);
+            return session as AdapterSession;
+        },
+        async getSessionAndUser(sessionToken) {
+            const id = sessionToken;
+            const session = await repo.getSession(id);
+            if (!session) return null;
+            const user = await repo.getUser(session.userId);
+            if (!user) return null;
+            return { session, user };
+        },
+        async updateSession(updates) {
+            const id = updates.sessionToken;
+            const session = await repo.getSession(id);
+            if (!session) return null;
+            const updatedSession = { ...session, ...updates };
+            await repo.setSession(id, updatedSession);
+            return updatedSession;
+        },
+        async deleteSession(sessionToken: string) {
+            const session = await repo.getSession(sessionToken);
+            if (!session) return;
+
+            const keys = [
+                repo.getSessionByUserIdKey(session.userId),
+                repo.getSessionKey(sessionToken),
+            ];
+
+            await repo.deleteKeys(...keys);
+        },
+        async createVerificationToken(verificationToken) {
+            const id = verificationToken.identifier;
+            await repo.setVerificationToken(id, verificationToken);
+            return verificationToken;
+        },
+        async useVerificationToken(verificationToken) {
+            const id = verificationToken.identifier;
+            const token = await repo.getVerificationToken(id);
+            if (!token || verificationToken.token !== token.token) return null;
+            await repo.deleteVerificationToken(id);
+            return token;
+        },
+    };
+}

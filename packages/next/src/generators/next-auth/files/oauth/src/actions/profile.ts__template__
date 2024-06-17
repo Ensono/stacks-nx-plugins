@@ -1,0 +1,18 @@
+import { Profile } from 'next-auth';
+import { ProfileCallback } from '@auth/core/providers';
+
+function stripUndefined<T extends object>(o: T): T {
+  const result = {} as any;
+  for (const [k, v] of Object.entries(o)) v !== undefined && (result[k] = v);
+  return result as T;
+}
+
+export const profile: ProfileCallback<Profile> = (profile) => {
+  return stripUndefined({
+    id: profile.sub ?? profile.id ?? crypto.randomUUID(),
+    name: profile.name ?? profile.nickname ?? profile.preferred_username,
+    email: profile.email,
+    image: profile.picture,
+    role: 'user',
+  });
+};
