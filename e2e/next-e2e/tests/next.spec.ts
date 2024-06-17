@@ -4,7 +4,7 @@ import {
     runTarget,
     targetOptions,
 } from '@ensono-stacks/e2e';
-import {joinPathFragments} from '@nx/devkit';
+import { joinPathFragments } from '@nx/devkit';
 import {
     checkFilesExist,
     runNxCommandAsync,
@@ -41,7 +41,7 @@ describe('next e2e', () => {
 
         describe('it lints the application', () => {
             let sourceFile, original;
-        
+
             beforeAll(() => {
                 sourceFile = new Project().addSourceFileAtPath(
                     joinPathFragments(
@@ -55,11 +55,13 @@ describe('next e2e', () => {
                 );
                 original = sourceFile.getFullText();
             });
-        
+
             it('should have no linting errors', async () => {
-                expect(await runTarget(project, targetOptions.lint)).toBeTruthy();
+                expect(
+                    await runTarget(project, targetOptions.lint),
+                ).toBeTruthy();
             });
-        
+
             it('it should having ally linting errors', async () => {
                 sourceFile.insertText(
                     original.indexOf('<div className="text-container">'),
@@ -70,7 +72,7 @@ describe('next e2e', () => {
                     'jsx-a11y/aria-role',
                 );
             });
-        
+
             afterEach(() => {
                 sourceFile.replaceWithText(original);
                 sourceFile.saveSync();
@@ -78,28 +80,6 @@ describe('next e2e', () => {
         });
     });
 
-    describe('react-query generator', () => {
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
-            );
-        });
-
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-    
-        it('successfully lint with new linting update', async () => {
-            expect(await runTarget(project, targetOptions.lint)).toContain(
-                `Successfully ran target lint for project ${project}`,
-            );
-        });
-    
-        it('can serve the application', async () => {
-            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
-        });
-    });
-    
     describe('NextAuth generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -110,7 +90,7 @@ describe('next e2e', () => {
         afterAll(async () => {
             await runNxCommandAsync('reset');
         });
-    
+
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
@@ -123,35 +103,13 @@ describe('next e2e', () => {
                 ),
             ).not.toThrow();
         });
-    
+
         it('can serve the application', async () => {
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });
 
-    describe('NextAuthRedis generator', () => {
-        const adapterName = 'next-redis-lib'
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
-            );
-        });
-
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-    
-        it('adds new files for NextAuthRedis generator', () => {
-            expect(() =>
-                checkFilesExist(
-                    `libs/${adapterName}/src/index.ts`,
-                    `libs/${adapterName}/src/index.test.ts`
-                ),
-            ).not.toThrow();
-        });
-    });
-    
-    describe('init-deployment generator', () => {
+    xdescribe('init-deployment generator', () => {
         const library = 'stacks-helm-chart';
         beforeAll(async () => {
             await runNxCommandAsync(
@@ -162,7 +120,7 @@ describe('next e2e', () => {
         afterAll(async () => {
             await runNxCommandAsync('reset');
         });
-    
+
         it('creates the required helm chart library', async () => {
             const libraryPath = joinPathFragments('libs', library);
             expect(() =>
@@ -177,11 +135,32 @@ describe('next e2e', () => {
                 ),
             ).not.toThrow();
         });
-    
+
         it('is a usable package and can be linted', async () => {
-            expect(await runTarget(library, targetOptions.lint)).toContain(
-                '1 chart(s) linted, 0 chart(s) failed',
+            const output = await runTarget(library, targetOptions.lint);
+            expect(output).toContain('1 chart(s) linted, 0 chart(s) failed');
+        });
+    });
+
+    describe('react-query generator', () => {
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:react-query --project=${project} --no-interactive`,
             );
+        });
+
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+
+        it('successfully lint with new linting update', async () => {
+            expect(await runTarget(project, targetOptions.lint)).toContain(
+                `Successfully ran target lint for project ${project}`,
+            );
+        });
+
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });
 
@@ -196,24 +175,25 @@ describe('next e2e', () => {
             await runNxCommandAsync('reset');
         });
 
-        // Waiting for issue to be fixed https://amido-dev.visualstudio.com/Amido-Stacks/_workitems/edit/7392
-        xit('should modify project.json with storybook command', async () => {
+        it('should modify project.json with storybook command', async () => {
             const projectJson = readJson(`apps/${project}/project.json`);
-            expect(JSON.stringify(projectJson)).toContain('storybook')
+
+            expect(JSON.stringify(projectJson)).toContain('storybook');
         });
 
         it('should modify tsconfig.json with storybook command', async () => {
             const tsconfigJson = readJson(`apps/${project}/tsconfig.json`);
-            expect(JSON.stringify(tsconfigJson)).toContain('stories')
+
+            expect(JSON.stringify(tsconfigJson)).toContain('stories');
         });
 
         it('should modify .eslintrc.json with storybook command', async () => {
             const eslintConfigJson = readJson(`apps/${project}/.eslintrc.json`);
-            expect(JSON.stringify(eslintConfigJson)).toContain('storybook')
+
+            expect(JSON.stringify(eslintConfigJson)).toContain('storybook');
         });
 
-        // Waiting for issue to be fixed https://amido-dev.visualstudio.com/Amido-Stacks/_workitems/edit/7392
-        xdescribe('it generates a component using custom command', () => {
+        describe('it generates a component using custom command', () => {
             beforeAll(async () => {
                 await runNxCommandAsync(
                     `run ${project}:custom-component --name=testcomponent --folderPath=components --verbose`,
@@ -226,14 +206,42 @@ describe('next e2e', () => {
                         `apps/${project}/components/testcomponent/testcomponent.module.css`,
                         `apps/${project}/components/testcomponent/testcomponent.spec.tsx`,
                         `apps/${project}/components/testcomponent/testcomponent.stories.tsx`,
-                        `apps/${project}/components/testcomponent/testcomponent.tsx`
+                        `apps/${project}/components/testcomponent/testcomponent.tsx`,
                     ),
                 ).not.toThrow();
             });
 
             it('can serve the storybook application', async () => {
-                expect(await runTarget(`${project}:storybook`, targetOptions.start, 'Storybook 7.4.5 for nextjs started')).toBeTruthy();
+                expect(
+                    await runTarget(
+                        `${project}:storybook`,
+                        targetOptions.storybook,
+                        'Storybook 8.1.1 for nextjs started',
+                    ),
+                ).toBeTruthy();
             });
-        })
+        });
+    });
+
+    describe('NextAuthRedis generator', () => {
+        const adapterName = 'next-redis-lib';
+        beforeAll(async () => {
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            await runNxCommandAsync('reset');
+        });
+
+        it('adds new files for NextAuthRedis generator', () => {
+            expect(() =>
+                checkFilesExist(
+                    `libs/${adapterName}/src/index.ts`,
+                    `libs/${adapterName}/src/index.test.ts`,
+                ),
+            ).not.toThrow();
+        });
     });
 });

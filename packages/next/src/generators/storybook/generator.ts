@@ -1,4 +1,5 @@
 import {
+    execAsync,
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
@@ -10,10 +11,10 @@ import {
     runTasksInSerial,
     Tree,
 } from '@nx/devkit';
+import { storybookConfigurationGenerator } from '@nx/react';
 
 import { StorybookGeneratorSchema } from './schema';
 import { addCustomCommand } from './utils/addCustomCommand';
-import { addStorybook } from './utils/addStorybook';
 import { createFiles } from './utils/createFiles';
 import { installDependencies } from './utils/dependancies';
 import { updateESLint } from './utils/eslint';
@@ -34,13 +35,30 @@ export async function storybookGenerator(
 
     const project = readProjectConfiguration(tree, options.project);
 
+    // Run NPM install after eslint dependencies etc have been added to package.json
+    const npmInstall = (): GeneratorCallback => {
+        return async () => {
+            try {
+                await execAsync('npm install', project.root);
+            } catch {
+                console.log(`Error installing dependencies on ${project.name}`);
+            }
+        };
+    };
+
+    const addStorybook = await storybookConfigurationGenerator(tree, {
+        interactionTests: false,
+        project: options.project,
+    });
+
     tasks.push(
-        updateESLint(tree, project.root),
         installDependencies(tree, options),
-        await addStorybook(tree, project),
+        addStorybook,
+        updateESLint(tree, project.root),
         createFiles(tree, project),
         addCustomCommand(tree, project),
         formatFilesWithEslint(options.project),
+        npmInstall(),
     );
 
     return runTasksInSerial(...tasks, () => {

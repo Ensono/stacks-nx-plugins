@@ -27,7 +27,8 @@
             "@ensono-stacks/rest-client": ["packages/rest-client/src/index.ts"],
             "@ensono-stacks/test": ["packages/common/test/src/index.ts"],
             "@ensono-stacks/workspace": ["packages/workspace/src/index.ts"],
-            "local-publish": ["packages/common/local-publish/src/index.ts"]
+            "local-publish": ["packages/common/local-publish/src/index.ts"],
+            "test-http-client": ["packages/test-http-client/src/index.ts"]
         }
     },
     "include": ["**/*"],
