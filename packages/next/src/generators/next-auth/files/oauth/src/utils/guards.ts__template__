@@ -1,4 +1,8 @@
+import { Profile } from 'next-auth';
+import { OIDCConfig } from '@auth/core/providers';
+
 import { TOKEN_EXPIRATION_OFFSET_SECONDS } from '../config';
+import { providerMap } from '../providers';
 
 /**
  * Evaluates if the supplied timestamp is expired compared to current time.
@@ -6,9 +10,12 @@ import { TOKEN_EXPIRATION_OFFSET_SECONDS } from '../config';
  * @returns Boolean
  */
 export function isExpired(expiresAt: number) {
-    return (expiresAt + TOKEN_EXPIRATION_OFFSET_SECONDS) * 1000 < Date.now();
+  return (expiresAt + TOKEN_EXPIRATION_OFFSET_SECONDS) * 1000 < Date.now();
 }
 
-export function isOauthProvider(provider: string) {
-    return provider === 'oauth' || provider === 'oidc';
+export function isOauthProvider(
+  provider: (typeof providerMap)[keyof typeof providerMap]
+): provider is OIDCConfig<Profile> {
+  const oauthProviderTypes = ['oauth', 'openid'];
+  return oauthProviderTypes.includes(provider.type);
 }
