@@ -1,0 +1,75 @@
+<% if (guestSession) { %>import { cookies } from 'next/headers';<% } %>
+import { AdapterSession } from '@auth/core/adapters';
+import { AuthConfig } from '@auth/core';
+import { providerMap } from '../providers';
+import { adapter, repo } from '../adapter';
+
+import { SESSION_MAX_AGE<% if (guestSession) { %>, GUEST_SESSION_COOKIE_NAME<% } %> } from '../config';
+
+type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
+
+export const jwt: JWTCallback = async function ({
+  account,
+  token,
+  trigger,
+  session: update,
+}) {
+  if (account) {
+    const session = await repo.getSession(token.sub as string);
+    let sessionUpdate: Omit<
+      AdapterSession,
+      'id' | 'sessionToken' | 'userId' | 'expires'
+    >;
+
+<% if (guestSession) { %>
+    const store = cookies();
+    const guestSessionKey = store.get(GUEST_SESSION_COOKIE_NAME)?.value;
+
+    if (guestSessionKey && guestSessionKey !== token.sub) {
+      const guestSession = await repo.getSession(guestSessionKey);
+
+      if (guestSession) {
+        const { userId, sessionToken, expires, id, ...data } = guestSession;
+
+        sessionUpdate = data;
+        await adapter.deleteSession(guestSessionKey);
+      }
+    }
+<% } %>
+    const sessionId = account.userId || (token.sub as string);
+    if (!session) {
+      await adapter.createSession({
+        sessionToken: token.sub as string,
+        userId: sessionId,
+        expires: new Date(
+          (account.expires_at ||
+            Math.floor(Date.now() / 1000) + SESSION_MAX_AGE) * 1000
+        ),
+      });
+    }
+
+    await adapter.updateSession({
+      sessionToken: token.sub as string,
+      ...sessionUpdate,
+    });
+<% if (guestSession) { %>
+    if (account.provider === 'guest') {
+      store.set(GUEST_SESSION_COOKIE_NAME, token.sub as string);
+    } else {
+      store.delete(GUEST_SESSION_COOKIE_NAME);
+    }    
+<% } %>
+
+    return {
+      ...token,
+      accountProviderId: account.providerAccountId,
+      provider: account.provider as keyof typeof providerMap,
+    };
+  }
+
+  if (trigger === 'update' && update) {
+    await adapter.updateSession({ sessionToken: token.sub, ...update });
+  }
+
+  return token;
+};

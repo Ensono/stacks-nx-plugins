@@ -1,0 +1,15 @@
+import EntraId from 'next-auth/providers/microsoft-entra-id';
+import { profile } from '../actions';
+
+export const msEntraId = EntraId({
+    clientId: process.env.AZURE_AD_CLIENT_ID as string,
+    clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
+    tenantId: process.env.AZURE_AD_TENANT_ID as string,
+    token: `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/token`,
+    authorization: {
+        params: {
+            scope: 'openid profile email offline_access User.Read',
+        },
+    },
+    profile,
+});
