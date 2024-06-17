@@ -19,7 +19,7 @@ export const jwt: JWTCallback = async function ({
     let sessionUpdate: Omit<
       AdapterSession,
       'id' | 'sessionToken' | 'userId' | 'expires'
-    >;
+    > = {};
 
 <% if (guestSession) { %>
     const store = cookies();
