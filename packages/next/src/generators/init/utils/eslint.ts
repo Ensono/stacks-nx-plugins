@@ -21,9 +21,6 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
             {
                 excludedFiles: ['jest.config.ts'],
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                parserOptions: {
-                    project: ['tsconfig(.*)?.json'],
-                },
                 rules: {
                     '@typescript-eslint/no-floating-promises': 'error',
                     'testing-library/await-async-utils': 'error',
@@ -34,6 +31,9 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
                     'testing-library/prefer-presence-queries': 'warn',
                     'testing-library/prefer-user-event': 'warn',
                     'testing-library/no-debug': 'off',
+                },
+                parserOptions: {
+                    project: ['tsconfig(.*)?.json'],
                 },
             },
         ],

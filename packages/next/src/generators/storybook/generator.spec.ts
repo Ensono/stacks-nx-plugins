@@ -5,6 +5,7 @@ import {
 import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
+import { storybookConfigurationGenerator } from '@nx/react';
 import { ProjectConfiguration } from 'nx/src/config/workspace-json-project-json';
 
 import generator from './generator';
@@ -15,6 +16,10 @@ jest.mock('@ensono-stacks/core', () => ({
     ...jest.requireActual('@ensono-stacks/core'),
     execAsync: jest.fn(),
     getCommandVersion: jest.fn(() => '1.0.0'),
+}));
+
+jest.mock('@nx/react', () => ({
+    storybookConfigurationGenerator: jest.fn(),
 }));
 
 describe('storybook generator', () => {
@@ -31,6 +36,7 @@ describe('storybook generator', () => {
         });
 
         addStacksAttributes(appTree, options.project);
+        (storybookConfigurationGenerator as jest.Mock).mockResolvedValue(true);
     });
 
     afterEach(() => {

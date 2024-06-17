@@ -5,13 +5,13 @@ import { killPort } from './process-utils';
 
 export enum targetOptions {
     build,
-    // eslint-disable-next-line unicorn/prevent-abbreviations
     start,
     test,
     // eslint-disable-next-line unicorn/prevent-abbreviations
     e2e,
     lint,
     'html-report',
+    storybook,
 }
 
 /**
@@ -22,7 +22,7 @@ export enum targetOptions {
 export function stripConsoleColors(logs: string): string {
     return logs?.replace(
         // eslint-disable-next-line no-control-regex, security/detect-unsafe-regex, prettier/prettier, unicorn/better-regex, unicorn/escape-case
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+        /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
         '',
     );
 }
@@ -98,7 +98,8 @@ export async function runTarget(
         case targetOptions.test:
         case targetOptions.e2e:
         case targetOptions['html-report']:
-        case targetOptions.lint: {
+        case targetOptions.lint:
+        case targetOptions.storybook: {
             const { stdout, stderr } = await runNxCommandAsync(
                 `${command} --skip-nx-cache`,
                 {
