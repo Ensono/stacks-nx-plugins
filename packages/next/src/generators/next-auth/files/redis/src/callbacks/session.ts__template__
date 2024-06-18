@@ -2,11 +2,9 @@ import { <% if(provider !== 'none') { %>Account, <% } %>Session<% if (guestSessi
 import { AuthConfig } from '@auth/core';
 
 import { repo } from '../adapter';
-<% if(provider !== 'none') { %>
-import { providerMap } from '../providers';
+<% if(provider !== 'none') { %>import { providerMap } from '../providers';
 import { refreshToken } from '../actions';
-import { isExpired, isOauthProvider } from '../utils';
-<% } %>
+import { isExpired, isOauthProvider } from '../utils';<% } %>
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
@@ -21,7 +19,7 @@ export const session: SessionCallback = async function ({
     if (!adapterSession) {
         return defaultSession;
     }
-<% if (guestSession) { %>
+    <% if (guestSession) { %>
     if (token.provider === 'guest') {
         return {
             ...adapterSession,

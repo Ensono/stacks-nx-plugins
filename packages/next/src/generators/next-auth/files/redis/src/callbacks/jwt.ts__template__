@@ -21,7 +21,7 @@ export const jwt: JWTCallback = async function ({
       'id' | 'sessionToken' | 'userId' | 'expires'
     > = {};
 
-<% if (guestSession) { %>
+    <% if (guestSession) { %>
     const store = cookies();
     const guestSessionKey = store.get(GUEST_SESSION_COOKIE_NAME)?.value;
 
@@ -34,8 +34,8 @@ export const jwt: JWTCallback = async function ({
         sessionUpdate = data;
         await adapter.deleteSession(guestSessionKey);
       }
-    }
-<% } %>
+    }<% } %>
+
     const sessionId = account.userId || (token.sub as string);
     if (!session) {
       await adapter.createSession({
@@ -52,13 +52,12 @@ export const jwt: JWTCallback = async function ({
       sessionToken: token.sub as string,
       ...sessionUpdate,
     });
-<% if (guestSession) { %>
+    <% if (guestSession) { %>
     if (account.provider === 'guest') {
       store.set(GUEST_SESSION_COOKIE_NAME, token.sub as string);
     } else {
       store.delete(GUEST_SESSION_COOKIE_NAME);
-    }    
-<% } %>
+    }<% } %>
 
     return {
       ...token,
