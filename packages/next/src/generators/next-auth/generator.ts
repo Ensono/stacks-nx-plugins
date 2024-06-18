@@ -73,6 +73,7 @@ export default async function nextAuthGenerator(
             ...options,
             // projectNameAndRootFormat: 'derived',
             unitTestRunner: 'jest',
+            bundler: 'none',
         }),
     );
 
