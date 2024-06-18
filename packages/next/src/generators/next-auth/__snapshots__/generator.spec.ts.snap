@@ -138,7 +138,7 @@ export const jwt: JWTCallback = async function ({
     let sessionUpdate: Omit<
       AdapterSession,
       'id' | 'sessionToken' | 'userId' | 'expires'
-    >;
+    > = {};
 
 
     const store = cookies();
@@ -249,7 +249,11 @@ export const session: SessionCallback = async function ({
                 return sessionDTO;
             }
 
-            if (account.expires_at && isExpired(account.expires_at)) {
+            if (
+                account.refresh_token &&
+                account.expires_at &&
+                isExpired(account.expires_at)
+            ) {
                 const tokens = await refreshToken({
                     token: account.refresh_token,
                     config: provider.options,
@@ -413,7 +417,7 @@ export const jwt: JWTCallback = async function ({
     let sessionUpdate: Omit<
       AdapterSession,
       'id' | 'sessionToken' | 'userId' | 'expires'
-    >;
+    > = {};
 
 
     const sessionId = account.userId || (token.sub as string);
