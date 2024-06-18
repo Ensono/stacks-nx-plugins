@@ -111,7 +111,7 @@ describe('next e2e', () => {
                     tmpProjPath(),
                     'apps',
                     project,
-                    'tsconfg.json',
+                    'tsconfig.json',
                 ),
             );
             console.log(JSON.stringify(tsconfig, null, 2));
