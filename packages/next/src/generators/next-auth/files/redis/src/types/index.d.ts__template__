@@ -1,6 +1,6 @@
 <% if(provider !== 'none') { %>import { OAuthConfig } from '@auth/core/providers';<% } %>
 
-declare module '@auth/core/JWT' {
+declare module '@auth/core/jwt' {
     interface JWT {
         accountProviderId: string;
         <% if(provider !== 'none') { %>provider: <% if(guestSession) { %> 'guest' | <% } %>'<%= provider %>';<% } else { %>provider: string<% } %>
