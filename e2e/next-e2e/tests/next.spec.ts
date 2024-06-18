@@ -115,6 +115,7 @@ describe('next e2e', () => {
                 ),
             );
             console.log(JSON.stringify(tsconfig, null, 2));
+
             const types = readFile(
                 joinPathFragments(
                     tmpProjPath(),
