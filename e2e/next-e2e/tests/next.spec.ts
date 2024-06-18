@@ -10,6 +10,7 @@ import {
     runNxCommandAsync,
     tmpProjPath,
     readJson,
+    readFile,
     uniq,
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
@@ -105,6 +106,27 @@ describe('next e2e', () => {
         });
 
         it('can serve the application', async () => {
+            const tsconfig = readJson(
+                joinPathFragments(
+                    tmpProjPath(),
+                    'apps',
+                    project,
+                    'tsconfg.json',
+                ),
+            );
+            console.log(JSON.stringify(tsconfig, null, 2));
+            const types = readFile(
+                joinPathFragments(
+                    tmpProjPath(),
+                    'libs',
+                    'auth',
+                    'src',
+                    'types',
+                    'index.d.ts',
+                ),
+            );
+            // suspect malformed types
+            console.log(types);
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });

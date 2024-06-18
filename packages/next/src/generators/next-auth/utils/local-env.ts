@@ -11,6 +11,7 @@ import { NextAuthGeneratorSchema } from '../schema';
 
 const commonEnv = {
     NEXTAUTH_URL_INTERNAL: 'http://localhost:3000',
+    AUTH_TRUST_HOST: 'true',
     AUTH_SECRET: `${crypto.randomBytes(32).toString('hex')}`,
 };
 
