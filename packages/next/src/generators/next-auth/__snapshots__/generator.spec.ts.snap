@@ -140,7 +140,7 @@ export const jwt: JWTCallback = async function ({
       'id' | 'sessionToken' | 'userId' | 'expires'
     > = {};
 
-
+    
     const store = cookies();
     const guestSessionKey = store.get(GUEST_SESSION_COOKIE_NAME)?.value;
 
@@ -171,13 +171,12 @@ export const jwt: JWTCallback = async function ({
       sessionToken: token.sub as string,
       ...sessionUpdate,
     });
-
+    
     if (account.provider === 'guest') {
       store.set(GUEST_SESSION_COOKIE_NAME, token.sub as string);
     } else {
       store.delete(GUEST_SESSION_COOKIE_NAME);
-    }    
-
+    }
 
     return {
       ...token,
@@ -200,11 +199,9 @@ exports[`next-auth generator guest session redis matches callback snapshots 2`] 
 import { AuthConfig } from '@auth/core';
 
 import { repo } from '../adapter';
-
 import { providerMap } from '../providers';
 import { refreshToken } from '../actions';
 import { isExpired, isOauthProvider } from '../utils';
-
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
@@ -219,7 +216,7 @@ export const session: SessionCallback = async function ({
     if (!adapterSession) {
         return defaultSession;
     }
-
+    
     if (token.provider === 'guest') {
         return {
             ...adapterSession,
@@ -419,6 +416,7 @@ export const jwt: JWTCallback = async function ({
       'id' | 'sessionToken' | 'userId' | 'expires'
     > = {};
 
+    
 
     const sessionId = account.userId || (token.sub as string);
     if (!session) {
@@ -436,7 +434,7 @@ export const jwt: JWTCallback = async function ({
       sessionToken: token.sub as string,
       ...sessionUpdate,
     });
-
+    
 
     return {
       ...token,
@@ -474,7 +472,7 @@ export const session: SessionCallback = async function ({
     if (!adapterSession) {
         return defaultSession;
     }
-
+    
     const user = (await repo.getUser(adapterSession.id)) || undefined;
 
     const sessionDTO: Session = {

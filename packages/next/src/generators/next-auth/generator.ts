@@ -11,7 +11,6 @@ import {
     GeneratorCallback,
     updateJson,
     offsetFromRoot,
-    getWorkspaceLayout,
     workspaceRoot,
 } from '@nx/devkit';
 import {
