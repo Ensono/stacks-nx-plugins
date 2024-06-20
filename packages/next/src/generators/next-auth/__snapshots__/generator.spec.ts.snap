@@ -31,7 +31,7 @@ import { isExpired, isOauthProvider } from '../utils';
 
 type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
 
-export const jwt: JWTCallback = async function ({ account, token, user }) {
+export const jwt: JWTCallback = async ({ account, token, user }) => {
   if (account) {
 
     if (account.provider === 'guest') {
@@ -98,7 +98,7 @@ import { User } from 'next-auth';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async function ({ session, token }) {
+export const session: SessionCallback = async ({ session, token }) => {
 
   if (token && token.error) {
     return { ...session, user: undefined };
@@ -127,12 +127,12 @@ import { SESSION_MAX_AGE, GUEST_SESSION_COOKIE_NAME } from '../config';
 
 type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
 
-export const jwt: JWTCallback = async function ({
+export const jwt: JWTCallback = async ({
   account,
   token,
   trigger,
   session: update,
-}) {
+}) => {
   if (account) {
     const session = await repo.getSession(token.sub as string);
     let sessionUpdate: Omit<
@@ -205,10 +205,10 @@ import { isExpired, isOauthProvider } from '../utils';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async function ({
+export const session: SessionCallback = async ({
     token,
     session: defaultSession,
-}) {
+}) => {
     if (!token.sub) return defaultSession;
 
     const adapterSession = await repo.getSession(token.sub);
@@ -266,7 +266,7 @@ export const session: SessionCallback = async function ({
                     access_token: tokens.access_token,
                     refresh_token:
                         tokens.refresh_token || account.refresh_token,
-                    expires_in: tokens.expires_in
+                    expires_at: tokens.expires_in
                         ? Math.floor(Date.now() / 1000) + tokens.expires_in
                         : undefined,
                 };
@@ -295,12 +295,12 @@ import { profile } from '../actions';
 export const auth0 = Auth0({
     clientId: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    issuer: process.env.AUTH0_CLIENT_ISSUER,
-    token: \`\${process.env.AUTH0_CLIENT_ISSUER}oauth/token\`,
+    issuer: process.env.AUTH0_ISSUER,
+    token: \`\${process.env.AUTH0_ISSUER}oauth/token\`,
     authorization: {
         params: {
             scope: 'openid profile email offline_access',
-            audience: \`\${process.env.AUTH0_CLIENT_ISSUER}api/v2/\`,
+            audience: \`\${process.env.AUTH0_ISSUER}api/v2/\`,
         },
     },
     profile,
@@ -317,11 +317,11 @@ export const providerMap = {
 "
 `;
 
-exports[`next-auth generator providers ms-entra-id creates the provider 1`] = `
+exports[`next-auth generator providers microsoft-entra-id creates the provider 1`] = `
 "import EntraId from 'next-auth/providers/microsoft-entra-id';
 import { profile } from '../actions';
 
-export const msEntraId = EntraId({
+export const microsoftEntraId = EntraId({
     clientId: process.env.AZURE_AD_CLIENT_ID as string,
     clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
     tenantId: process.env.AZURE_AD_TENANT_ID as string,
@@ -336,11 +336,11 @@ export const msEntraId = EntraId({
 "
 `;
 
-exports[`next-auth generator providers ms-entra-id creates the provider 2`] = `
-"import { msEntraId } from "./ms-entra-id";
+exports[`next-auth generator providers microsoft-entra-id creates the provider 2`] = `
+"import { microsoftEntraId } from "./microsoft-entra-id";
 
 export const providerMap = {
-    'ms-entra-id': msEntraId
+    'microsoft-entra-id': microsoftEntraId
 };
 "
 `;
@@ -352,7 +352,7 @@ import { providerMap } from '../providers';
 
 type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
 
-export const jwt: JWTCallback = async function ({ account, token, user }) {
+export const jwt: JWTCallback = async ({ account, token, user }) => {
   if (account) {
 
 
@@ -378,7 +378,7 @@ import { User } from 'next-auth';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async function ({ session, token }) {
+export const session: SessionCallback = async ({ session, token }) => {
 
   if (token.user) {
     return {
@@ -403,12 +403,12 @@ import { SESSION_MAX_AGE } from '../config';
 
 type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
 
-export const jwt: JWTCallback = async function ({
+export const jwt: JWTCallback = async ({
   account,
   token,
   trigger,
   session: update,
-}) {
+}) => {
   if (account) {
     const session = await repo.getSession(token.sub as string);
     let sessionUpdate: Omit<
@@ -461,10 +461,10 @@ import { repo } from '../adapter';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async function ({
+export const session: SessionCallback = async ({
     token,
     session: defaultSession,
-}) {
+}) => {
     if (!token.sub) return defaultSession;
 
     const adapterSession = await repo.getSession(token.sub);

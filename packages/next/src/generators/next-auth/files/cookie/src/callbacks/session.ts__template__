@@ -3,7 +3,7 @@ import { User } from 'next-auth';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async function ({ session, token }) {
+export const session: SessionCallback = async ({ session, token }) => {
 <% if(provider !== 'none') { %>
   if (token && token.error) {
     return { ...session, user: undefined };

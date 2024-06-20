@@ -158,21 +158,21 @@ describe('next-auth generator', () => {
             });
         });
 
-        describe('ms-entra-id', () => {
+        describe('microsoft-entra-id', () => {
             beforeEach(async () => {
                 await generator(
                     appTree,
-                    getGeneratorOptions({ provider: 'ms-entra-id' }),
+                    getGeneratorOptions({ provider: 'microsoft-entra-id' }),
                 );
             });
 
             it('creates the provider', () => {
                 expect(
-                    appTree.exists('auth/src/providers/ms-entra-id.ts'),
+                    appTree.exists('auth/src/providers/microsoft-entra-id.ts'),
                 ).toBeTruthy();
                 expect(
                     appTree
-                        .read('auth/src/providers/ms-entra-id.ts')
+                        .read('auth/src/providers/microsoft-entra-id.ts')
                         .toString(),
                 ).toMatchSnapshot();
 

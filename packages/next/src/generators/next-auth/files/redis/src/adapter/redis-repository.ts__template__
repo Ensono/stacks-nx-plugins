@@ -47,6 +47,7 @@ export class RedisRepository {
     getAccountByUserIdKey(userId: string) {
         return this.accountByUserIdPrefix + userId;
     }
+    // eslint-disable-next-line class-methods-use-this
     getAccountId(providerAccountId: string, provider: string) {
         return `${provider}:${providerAccountId}`;
     }

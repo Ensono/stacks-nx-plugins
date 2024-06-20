@@ -8,12 +8,12 @@ import { SESSION_MAX_AGE<% if (guestSession) { %>, GUEST_SESSION_COOKIE_NAME<% }
 
 type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
 
-export const jwt: JWTCallback = async function ({
+export const jwt: JWTCallback = async ({
   account,
   token,
   trigger,
   session: update,
-}) {
+}) => {
   if (account) {
     const session = await repo.getSession(token.sub as string);
     let sessionUpdate: Omit<

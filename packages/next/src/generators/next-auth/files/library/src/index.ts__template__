@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import * as callbacks from './callbacks';
 <% if(guestSession || provider !== 'none') { %>import { providerMap } from './providers';<% } %>
 import { SESSION_MAX_AGE } from './config';
-<% if(sessionStorage === 'redis') { %>import adapter from './adapter';<% } %>
+<% if(sessionStorage === 'redis') { %>import { adapter } from './adapter';<% } %>
 
 <% if(guestSession || provider !== 'none') { %>
 export { providerMap };

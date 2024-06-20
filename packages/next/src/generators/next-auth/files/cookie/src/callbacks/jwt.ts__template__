@@ -7,7 +7,7 @@ import { isExpired, isOauthProvider } from '../utils';
 
 type JWTCallback = NonNullable<AuthConfig['callbacks']>['jwt'];
 
-export const jwt: JWTCallback = async function ({ account, token, user }) {
+export const jwt: JWTCallback = async ({ account, token, user }) => {
   if (account) {
 <% if(guestSession && provider !== 'none') { %>
     if (account.provider === 'guest') {
