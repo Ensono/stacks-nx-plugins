@@ -1,6 +1,8 @@
 const {
-    utils: { getProjects },
-} = require('@commitlint/config-nx-scopes');
+    default: {
+        utils: { getProjects },
+    },
+} = await import('@commitlint/config-nx-scopes');
 
 module.exports = {
     extends: ['@commitlint/config-conventional'],
