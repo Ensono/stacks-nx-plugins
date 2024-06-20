@@ -19,6 +19,7 @@ function getGeneratorOptions(
         provider: 'none',
         sessionStorage: 'cookie',
         guestSession: false,
+        projectNameAndRootFormat: 'derived',
         ...options,
     };
 }
