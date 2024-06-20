@@ -16,6 +16,9 @@ import {
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
 
+import { addWebpackAlias } from '../utils/next-config';
+import path from 'path';
+
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
     process.env.HUSKY = '0';
@@ -24,6 +27,11 @@ describe('next e2e', () => {
     beforeAll(async () => {
         await newProject(['@ensono-stacks/next'], ['@nx/next']);
         await createNextApplication(project);
+
+        // Add module resolutions to nextjs webpack config to allow for mocking of imports
+        addWebpackAlias(tmpProjPath(path.join('apps', project)), {
+            ioredis$: 'ioredis-mock',
+        });
     });
 
     afterAll(async () => {
