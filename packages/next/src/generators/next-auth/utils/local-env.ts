@@ -19,7 +19,7 @@ const providerEnv: Record<
     NextAuthGeneratorSchema['provider'],
     Record<string, string>
 > = {
-    'ms-entra-id': {
+    'microsoft-entra-id': {
         AZURE_AD_CLIENT_ID: '',
         AZURE_AD_CLIENT_SECRET: '',
         AZURE_AD_TENANT_ID: '',

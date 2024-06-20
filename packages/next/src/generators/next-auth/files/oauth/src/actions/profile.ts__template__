@@ -1,18 +1,24 @@
-import { Profile } from 'next-auth';
 import { ProfileCallback } from '@auth/core/providers';
+import { Profile } from 'next-auth';
 
 function stripUndefined<T extends object>(o: T): T {
   const result = {} as any;
-  for (const [k, v] of Object.entries(o)) v !== undefined && (result[k] = v);
+  const list = [...Object.entries(o)];
+  for (let index = 0; index < list.length; index += 1) {
+    const [k, v] = list[index];
+    if (v) {
+      result[k] = v;
+    }
+  }
   return result as T;
 }
 
-export const profile: ProfileCallback<Profile> = (profile) => {
+export const profile: ProfileCallback<Profile> = (data) => {
   return stripUndefined({
-    id: profile.sub ?? profile.id ?? crypto.randomUUID(),
-    name: profile.name ?? profile.nickname ?? profile.preferred_username,
-    email: profile.email,
-    image: profile.picture,
+    id: data.sub ?? data.id ?? crypto.randomUUID(),
+    name: data.name ?? data.nickname ?? data.preferred_username,
+    email: data.email,
+    image: data.picture,
     role: 'user',
   });
 };

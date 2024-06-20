@@ -208,6 +208,7 @@ export default async function nextAuthGenerator(
 
     tasks.push(
         formatFilesWithEslint(normalizedOptions.projectNames.projectFileName),
+        formatFilesWithEslint(project.name),
         addToLocalEnv(project, tree, options),
     );
 

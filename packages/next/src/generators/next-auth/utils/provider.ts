@@ -24,13 +24,6 @@ function addProviderToMap(provider: string, root: string, morphTree: Project) {
                 'providerMap',
         );
 
-    if (!exportStatement) {
-        logger.error(
-            'The src/provider/index.ts file is missing `export const providerMap = {}`',
-        );
-        throw new Error('MISSING_PROVIDER_MAP');
-    }
-
     const providerObject = exportStatement.getFirstDescendantByKind(
         SyntaxKind.ObjectLiteralExpression,
     );

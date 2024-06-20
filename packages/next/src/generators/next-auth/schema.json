@@ -31,7 +31,7 @@
         "provider": {
             "type": "string",
             "description": "The provider to be installed.",
-            "enum": ["none", "ms-entra-id", "auth0"],
+            "enum": ["none", "microsoft-entra-id", "auth0"],
             "default": "none",
             "x-prompt": "Which provider do you want to add?",
             "x-priority": "important"

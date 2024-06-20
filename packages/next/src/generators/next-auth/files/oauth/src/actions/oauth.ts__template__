@@ -1,13 +1,12 @@
-import { Profile } from 'next-auth';
-import { OIDCConfig } from '@auth/core/providers';
 import { OAuth2TokenEndpointResponse } from 'oauth4webapi';
 
 export interface RefreshTokenOptions {
     token: string;
-    config: Pick<
-        OIDCConfig<Profile>['options'],
-        'clientId' | 'clientSecret' | 'token'
-    >;
+    config: {
+        clientId: string;
+        clientSecret: string;
+        token: string;
+  };
 }
 
 export async function refreshToken({ token, config }: RefreshTokenOptions) {

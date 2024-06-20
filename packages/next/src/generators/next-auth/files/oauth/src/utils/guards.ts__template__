@@ -9,13 +9,15 @@ import { providerMap } from '../providers';
  * @param expiresAt Unix timestamp in seconds
  * @returns Boolean
  */
-export function isExpired(expiresAt: number) {
-  return (expiresAt + TOKEN_EXPIRATION_OFFSET_SECONDS) * 1000 < Date.now();
+export function isExpired(expiresAt: number | string) {
+  return (
+    (Number(expiresAt) + TOKEN_EXPIRATION_OFFSET_SECONDS) * 1000 < Date.now()
+  );
 }
 
 export function isOauthProvider(
   provider: (typeof providerMap)[keyof typeof providerMap]
 ): provider is OIDCConfig<Profile> {
-  const oauthProviderTypes = ['oauth', 'openid'];
+  const oauthProviderTypes = ['oauth', 'oidc'];
   return oauthProviderTypes.includes(provider.type);
 }

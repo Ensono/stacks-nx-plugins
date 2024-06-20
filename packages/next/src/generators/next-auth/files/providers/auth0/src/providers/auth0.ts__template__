@@ -4,12 +4,12 @@ import { profile } from '../actions';
 export const auth0 = Auth0({
     clientId: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    issuer: process.env.AUTH0_CLIENT_ISSUER,
-    token: `${process.env.AUTH0_CLIENT_ISSUER}oauth/token`,
+    issuer: process.env.AUTH0_ISSUER,
+    token: `${process.env.AUTH0_ISSUER}oauth/token`,
     authorization: {
         params: {
             scope: 'openid profile email offline_access',
-            audience: `${process.env.AUTH0_CLIENT_ISSUER}api/v2/`,
+            audience: `${process.env.AUTH0_ISSUER}api/v2/`,
         },
     },
     profile,
