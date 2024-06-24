@@ -98,7 +98,10 @@ import { User } from 'next-auth';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async ({ session, token }) => {
+export const session: SessionCallback = async ({
+  token,
+  session: defaultSession,
+}) => {
 
   if (token && token.error) {
     return { ...session, user: undefined };
@@ -378,7 +381,10 @@ import { User } from 'next-auth';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
-export const session: SessionCallback = async ({ session, token }) => {
+export const session: SessionCallback = async ({
+  token,
+  session: defaultSession,
+}) => {
 
   if (token.user) {
     return {
