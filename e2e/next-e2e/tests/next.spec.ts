@@ -90,6 +90,35 @@ describe('next e2e', () => {
         });
     });
 
+    describe('NextAuth generator', () => {
+        let config: string;
+        beforeAll(async () => {
+            config = readFile(`apps/${project}/tsconfig.json`);
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:next-auth --name=no-provider --project=${project} --provider=none --sessionStorage=cookie --guestSession=false --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            updateFile(`apps/${project}/tsconfig.json`, config);
+            await runNxCommandAsync('reset');
+        });
+
+        it('adds new files for NextAuth', () => {
+            expect(() =>
+                checkFilesExist(
+                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
+                    `apps/${project}/.env.local`,
+                    `libs/no-provider/src/index.ts`,
+                ),
+            ).not.toThrow();
+        });
+
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
+        });
+    });
+
     describe('MS Entra ID NextAuth generator', () => {
         let config: string;
         beforeAll(async () => {
