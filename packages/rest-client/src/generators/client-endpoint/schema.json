@@ -55,9 +55,10 @@
         },
         "directory": {
             "type": "string",
-            "description": "Subdirectory inside libs/ where the generated library placed.",
-            "x-prompt": "Where in libs/ directory do you want to generate this endpoint?",
-            "alias": "dir"
+            "description": "A directory where the endpoint lib is placed.",
+            "x-prompt": "Where would you like to generate the endpoint?",
+            "alias": "dir",
+            "x-priority": "important"
         },
         "projectNameAndRootFormat": {
             "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",

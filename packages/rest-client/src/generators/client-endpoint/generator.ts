@@ -59,7 +59,7 @@ async function normalizeOptions(
         projectRoot: projectOptions.projectRoot,
         projectNameAndRootFormat: 'as-provided' as const,
         importPath:
-            options.importPath ?? `${getNpmScope(tree)}/${endpointName}`,
+            options.importPath ?? `@${getNpmScope(tree)}/${endpointName}`,
     };
 }
 
