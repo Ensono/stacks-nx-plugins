@@ -1,0 +1,46 @@
+<% if(provider !== 'none') { %>import { OAuthConfig } from '@auth/core/providers';<% } %>
+
+declare module '@auth/core/jwt' {
+    interface JWT {
+        accountProviderId: string;
+        <% if(provider === 'none') { %>
+        provider:  <% if(guestSession) { %>'guest'<% } else { %>string<% } %>;
+        <% } else { %>
+        provider: <% if(guestSession) { %>'guest' | <% } %>'<%= provider %>';
+        <% } %>
+    }
+}
+
+declare module '@auth/core/adapters' {
+    interface AdapterSession {
+        id: string;
+    }
+}
+
+declare module '@auth/core/types' {
+    interface User {
+        role: <% if(guestSession) { %>'guest' | <% } %>'user';
+    }
+
+    interface Session {
+        user?: User;
+        error?: string;
+        expires: Date;
+    }
+}
+
+<% if(provider !== 'none') { %>declare module '@auth/core/providers' {
+  interface OAuth2Config<Profile> {
+    options: Pick<
+      Required<OAuthConfig<Profile>>,
+      'clientId' | 'clientSecret' | 'token'
+    >;
+  }
+
+  interface OIDCConfig<Profile> {
+    options: Pick<
+      Required<OAuthConfig<Profile>>,
+      'clientId' | 'clientSecret' | 'token'
+    >;
+  }
+}<% } %>

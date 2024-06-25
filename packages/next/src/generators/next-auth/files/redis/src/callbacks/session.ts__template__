@@ -1,0 +1,90 @@
+import { <% if(provider !== 'none') { %>Account, <% } %>Session<% if (guestSession) { %>, User<% } %> } from 'next-auth';
+import { AuthConfig } from '@auth/core';
+
+import { repo } from '../adapter';
+<% if(provider !== 'none') { %>import { providerMap } from '../providers';
+import { refreshToken } from '../actions';
+import { isExpired, isOauthProvider } from '../utils';<% } %>
+
+type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
+
+export const session: SessionCallback = async ({
+    token,
+    session: defaultSession,
+}) => {
+    if (!token.sub) return defaultSession;
+
+    const adapterSession = await repo.getSession(token.sub);
+
+    if (!adapterSession) {
+        return defaultSession;
+    }
+    <% if (guestSession) { %>
+    if (token.provider === 'guest') {
+        return {
+            ...adapterSession,
+            user: {
+                role: 'guest',
+              } as User,
+        };
+    }
+<% } %>
+    const user = (await repo.getUser(adapterSession.id)) || undefined;
+
+    const sessionDTO: Session = {
+        ...adapterSession,
+        user,
+    };
+
+<% if(provider !== 'none') { %>
+    const provider = providerMap[token.provider];
+    if (isOauthProvider(provider)) {
+        try {
+            const account = await repo.getAccount(
+                token.accountProviderId,
+                token.provider,
+            );
+
+            if (!account) {
+                return sessionDTO;
+            }
+
+            if (
+                account.refresh_token &&
+                account.expires_at &&
+                isExpired(account.expires_at)
+            ) {
+                const tokens = await refreshToken({
+                    token: account.refresh_token,
+                    config: provider.options,
+                });
+
+                const accountKey = repo.getAccountId(
+                    account.providerAccountId,
+                    account.provider,
+                );
+
+                const updateAccount: Account = {
+                    ...account,
+                    access_token: tokens.access_token,
+                    refresh_token:
+                        tokens.refresh_token || account.refresh_token,
+                    expires_at: tokens.expires_in
+                        ? Math.floor(Date.now() / 1000) + tokens.expires_in
+                        : undefined,
+                };
+
+                await repo.setAccount(accountKey, updateAccount);
+            }
+        } catch (error) {
+            console.log('Error refreshing token', error);
+            return {
+                ...sessionDTO,
+                error: 'RefreshTokenError',
+            };
+        }
+    }
+<% } %>
+
+    return sessionDTO;
+};

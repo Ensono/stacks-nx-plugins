@@ -10,9 +10,14 @@ import {
     runNxCommandAsync,
     tmpProjPath,
     readJson,
+    readFile,
     uniq,
+    updateFile,
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
+
+import { addWebpackAlias } from '../utils/next-config';
+import path from 'path';
 
 describe('next e2e', () => {
     jest.setTimeout(1_000_000);
@@ -22,6 +27,11 @@ describe('next e2e', () => {
     beforeAll(async () => {
         await newProject(['@ensono-stacks/next'], ['@nx/next']);
         await createNextApplication(project);
+
+        // Add module resolutions to nextjs webpack config to allow for mocking of imports
+        addWebpackAlias(tmpProjPath(path.join('apps', project)), {
+            ioredis$: 'ioredis-mock',
+        });
     });
 
     afterAll(async () => {
@@ -81,25 +91,88 @@ describe('next e2e', () => {
     });
 
     describe('NextAuth generator', () => {
+        let config: string;
         beforeAll(async () => {
+            config = readFile(`apps/${project}/tsconfig.json`);
             await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth --project=${project} --provider=azureAd --no-interactive`,
+                `generate @ensono-stacks/next:next-auth --name=no-provider --project=${project} --provider=none --sessionStorage=cookie --guestSession=false --no-interactive`,
             );
         });
 
         afterAll(async () => {
+            updateFile(`apps/${project}/tsconfig.json`, config);
             await runNxCommandAsync('reset');
         });
 
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/src/app/api/hello/route.ts`,
                     `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
-                    `apps/${project}/src/auth.config.ts`,
-                    `apps/${project}/src/auth.ts`,
-                    `apps/${project}/src/middleware.ts`,
                     `apps/${project}/.env.local`,
+                    `libs/no-provider/src/index.ts`,
+                ),
+            ).not.toThrow();
+        });
+
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
+        });
+    });
+
+    describe('MS Entra ID NextAuth generator', () => {
+        let config: string;
+        beforeAll(async () => {
+            config = readFile(`apps/${project}/tsconfig.json`);
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:next-auth --name=ms-entra-id --project=${project} --provider=microsoft-entra-id --sessionStorage=cookie --guestSession=true --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            updateFile(`apps/${project}/tsconfig.json`, config);
+            await runNxCommandAsync('reset');
+        });
+
+        it('adds new files for NextAuth', () => {
+            expect(() =>
+                checkFilesExist(
+                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
+                    `apps/${project}/.env.local`,
+                    `libs/ms-entra-id/src/index.ts`,
+                    `libs/ms-entra-id/src/providers/microsoft-entra-id.ts`,
+                    `libs/ms-entra-id/src/providers/guest.ts`,
+                ),
+            ).not.toThrow();
+        });
+
+        it('can serve the application', async () => {
+            expect(await runTarget(project, targetOptions.start)).toBeTruthy();
+        });
+    });
+
+    describe('Auth0 NextAuth generator', () => {
+        //We want the last set of provider tests to not cleanup so the following tests can still build with next-auth
+        // let config: string;
+        beforeAll(async () => {
+            // config = readFile(`apps/${project}/tsconfig.json`);
+            await runNxCommandAsync(
+                `generate @ensono-stacks/next:next-auth --name=auth0 --project=${project} --provider=auth0 --sessionStorage=redis --guestSession=true --no-interactive`,
+            );
+        });
+
+        afterAll(async () => {
+            // updateFile(`apps/${project}/tsconfig.json`, config);
+            await runNxCommandAsync('reset');
+        });
+
+        it('adds new files for NextAuth', () => {
+            expect(() =>
+                checkFilesExist(
+                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
+                    `apps/${project}/.env.local`,
+                    `libs/auth0/src/index.ts`,
+                    `libs/auth0/src/providers/auth0.ts`,
+                    `libs/auth0/src/providers/guest.ts`,
                 ),
             ).not.toThrow();
         });
@@ -220,28 +293,6 @@ describe('next e2e', () => {
                     ),
                 ).toBeTruthy();
             });
-        });
-    });
-
-    describe('NextAuthRedis generator', () => {
-        const adapterName = 'next-redis-lib';
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth-redis --project=${project} --adapterName=${adapterName} --no-interactive`,
-            );
-        });
-
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-
-        it('adds new files for NextAuthRedis generator', () => {
-            expect(() =>
-                checkFilesExist(
-                    `libs/${adapterName}/src/index.ts`,
-                    `libs/${adapterName}/src/index.test.ts`,
-                ),
-            ).not.toThrow();
         });
     });
 });

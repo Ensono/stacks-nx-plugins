@@ -82,7 +82,8 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                         {
                             groups: [
                                 ['builtin', 'external'],
-                                ['parent', 'internal', 'sibling', 'index'],
+                                ['internal'],
+                                ['parent', 'sibling', 'index'],
                             ],
                             pathGroups: [
                                 {
@@ -159,7 +160,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
                     '@typescript-eslint/no-unsafe-member-access': 'off',
                     '@typescript-eslint/explicit-function-return-type': 'off',
                     '@typescript-eslint/interface-name-prefix': 'off',
-                    '@typescript-eslint/no-use-before-define': ['error'],
+                    '@typescript-eslint/no-use-before-define': 'error',
                     '@typescript-eslint/no-unused-vars': 'off',
                     '@typescript-eslint/no-shadow': 'error',
                     'unicorn/prefer-node-protocol': 'off',
@@ -201,7 +202,7 @@ function addEslintDependencies(tree: Tree) {
         tree,
         {},
         {
-            '@nx/eslint-plugin': '18.3.4',
+            '@nx/eslint-plugin': nxDependency,
             '@typescript-eslint/eslint-plugin': ESLINT_PLUGIN_VERSION,
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,
