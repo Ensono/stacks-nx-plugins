@@ -23,7 +23,10 @@ function snapshotFiles(tree: Tree, files: string[]) {
 
 describe('http-client generator', () => {
     let tree: Tree;
-    const options: HttpClientGeneratorSchema = { name: 'testClient' };
+    const options: HttpClientGeneratorSchema = {
+        name: 'testClient',
+        projectNameAndRootFormat: 'derived',
+    };
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();

@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
+BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')
+
 # Check if the CI environment variable is set
-if [ -z "$CI" ]; then
+if [ -z "$CI" ] || [ $BRANCH_NAME != *'no branch'* ]; then
     . "$(dirname -- "$0")/_/husky.sh"
     exec < /dev/tty && npx cz --hook || true
 fi

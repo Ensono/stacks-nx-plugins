@@ -20,18 +20,12 @@ import { BumpVersionGeneratorSchema } from './schema';
 function findTargetVersion(config: ProjectConfiguration): number {
     const versionDirectory = path.basename(config.root);
 
-    if (!versionDirectory.startsWith('v')) {
-        throw new Error(
-            "Found a folder that does not follow convention, please follow 'v<number>'",
-        );
-    }
-
     const version = Number.parseInt(versionDirectory.replace(/^v/i, ''), 10);
 
     if (Number.isNaN(version)) {
         // eslint-disable-next-line unicorn/prefer-type-error
         throw new Error(
-            "No version is present for the endpoint. Are you sure you don't want to generate a new endpoint?",
+            'No version is present for the target project. Please ensure it was generated with @ensono-stacks/rest-client:client-endpoint',
         );
     }
 
@@ -153,26 +147,31 @@ function isEndpointVersionOptionIncorrectlyPresent(
 
 export default async function bumpVersion(
     tree: Tree,
-    optionsParameter: BumpVersionGeneratorSchema,
+    options: BumpVersionGeneratorSchema,
 ) {
-    verifyPluginCanBeInstalled(tree, optionsParameter.name);
+    verifyPluginCanBeInstalled(tree, options.name);
 
     const endpointVersionOptionIncorrectlyPresent =
-        isEndpointVersionOptionIncorrectlyPresent(
-            optionsParameter.endpointVersion,
-        );
+        isEndpointVersionOptionIncorrectlyPresent(options.endpointVersion);
     if (endpointVersionOptionIncorrectlyPresent) {
         throw new TypeError(`The endpoint version needs to be a number.`);
     }
 
-    const config = readProjectConfiguration(tree, optionsParameter.name);
+    let config: ProjectConfiguration;
+    try {
+        config = readProjectConfiguration(tree, options.name);
+    } catch {
+        throw new Error(
+            `Could not find target project of the endpoint. Are you sure you don't want to generate a new endpoint?`,
+        );
+    }
 
     const targetVersion = findTargetVersion(config);
     const latestVersion = findLatestVersion(tree, config);
 
     const newVersion = determineNewVersion(
         latestVersion,
-        optionsParameter.endpointVersion,
+        options.endpointVersion,
     );
 
     const apiDirectory = path.dirname(config.root);
@@ -182,10 +181,18 @@ export default async function bumpVersion(
         `v${newVersion}`,
     );
 
-    const targetImportPath = readJson(
-        tree,
-        path.join(config.root, 'package.json'),
-    ).name;
+    const tsPaths = readJson(tree, 'tsconfig.base.json').compilerOptions
+        .paths as Record<string, string[]>;
+
+    const entry = Object.entries(tsPaths).find(([importPath, paths]) => {
+        return paths.some(p => p.startsWith(config.sourceRoot ?? config.root));
+    });
+
+    if (!entry) {
+        throw new Error(`Cannot determine ${options.name}'s import path`);
+    }
+
+    const targetImportPath = entry[0];
 
     const newImportPath = targetImportPath.replaceAll(
         /v(\d+)$/g,
