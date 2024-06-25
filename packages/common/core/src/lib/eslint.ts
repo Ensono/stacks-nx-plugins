@@ -17,7 +17,7 @@ export function formatFilesWithEslint(project: string) {
     return () => {
         const { stdout, stderr } = spawnSync(
             'npx',
-            ['nx', 'lint', project, '--fix --verbose'],
+            ['nx', 'run', `${project}:lint`, '--fix', '--verbose'],
             {
                 env: { ...process.env, FORCE_COLOR: '3' },
                 shell: true,

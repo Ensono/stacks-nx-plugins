@@ -1,0 +1,12 @@
+import { User } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+
+export const guest = Credentials({
+    id: 'guest',
+    credentials: {},
+    authorize: () => {
+        return {
+            role: 'guest',
+        } as User;
+    },
+});

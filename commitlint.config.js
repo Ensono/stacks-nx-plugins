@@ -8,14 +8,14 @@ async function getConfig() {
     return {
         extends: ['@commitlint/config-conventional'],
         rules: {
-            'scope-enum': async ctx => [
+            'scope-enum': async context => [
                 2,
                 'always',
                 [
                     'root',
                     ...(await getProjects(
-                        ctx,
-                        ({ projectType }) => projectType === 'library',
+                        context,
+                        ({ name }) => !name.includes('-e2e'),
                     )),
                 ],
             ],

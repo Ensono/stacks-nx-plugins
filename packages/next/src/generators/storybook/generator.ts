@@ -47,7 +47,7 @@ export async function storybookGenerator(
     };
 
     const addStorybook = await storybookConfigurationGenerator(tree, {
-        interactionTests: false,
+        interactionTests: true,
         project: options.project,
     });
 

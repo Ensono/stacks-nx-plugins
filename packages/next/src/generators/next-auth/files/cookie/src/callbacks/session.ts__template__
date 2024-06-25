@@ -1,0 +1,27 @@
+import { AuthConfig } from '@auth/core';
+import { Session, User } from 'next-auth';
+
+type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
+
+export const session: SessionCallback = async ({
+  token,
+  session: defaultSession,
+}) => {
+  const sessionDTO: Session = {
+    ...defaultSession,
+  };
+
+<% if(provider !== 'none') { %>
+  if (token && token.error) {
+    return { ...sessionDTO, error: token.error };
+  }
+<% } %>
+  if (token.user) {
+    return {
+      ...sessionDTO,
+      user: token.user as User,
+    };
+  }
+
+  return sessionDTO;
+};
