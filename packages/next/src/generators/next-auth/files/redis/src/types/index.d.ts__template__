@@ -3,7 +3,11 @@
 declare module '@auth/core/jwt' {
     interface JWT {
         accountProviderId: string;
-        <% if(provider !== 'none') { %>provider: <% if(guestSession) { %> 'guest' | <% } %>'<%= provider %>';<% } else { %>provider: string<% } %>
+        <% if(provider === 'none') { %>
+        provider:  <% if(guestSession) { %>'guest'<% } else { %>string<% } %>;
+        <% } else { %>
+        provider: <% if(guestSession) { %>'guest' | <% } %>'<%= provider %>';
+        <% } %>
     }
 }
 
@@ -15,7 +19,7 @@ declare module '@auth/core/adapters' {
 
 declare module '@auth/core/types' {
     interface User {
-        role: <% if(guestSession) { %>'guest'<% } %><% if(guestSession && provider !== 'none') { %> | <% } %>'user';
+        role: <% if(guestSession) { %>'guest' | <% } %>'user';
     }
 
     interface Session {
