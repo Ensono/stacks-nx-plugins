@@ -1,19 +1,21 @@
 import {
     createOrUpdateLocalEnv,
-    NormalizedSchema as BaseNormalizedSchema,
-    normalizeOptions,
-    warnDirectoryProjectName,
     verifyPluginCanBeInstalled,
+    getNpmScope,
 } from '@ensono-stacks/core';
-import { formatFiles, generateFiles, names, Tree } from '@nx/devkit';
+import {
+    formatFiles,
+    generateFiles,
+    getWorkspaceLayout,
+    names,
+    Tree,
+} from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
+import { paramCase } from 'change-case';
 import path from 'path';
 
 import { ClientEndpointGeneratorSchema } from './schema';
-
-type NormalizedSchema = BaseNormalizedSchema<ClientEndpointGeneratorSchema> & {
-    endpointName: string;
-};
 
 const VALID_METHODS = [
     'get',
@@ -25,10 +27,49 @@ const VALID_METHODS = [
     'options',
 ];
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
+async function normalizeOptions(
+    tree: Tree,
+    options: ClientEndpointGeneratorSchema,
+) {
+    const name = paramCase(options.name);
+    const endpointName = paramCase(`${name}/v${options.endpointVersion}`);
+    let directory = path.join(name, `v${options.endpointVersion}`);
+
+    if (options.directory) {
+        directory = path.join(options.directory, directory);
+    }
+
+    if (options.projectNameAndRootFormat === 'derived') {
+        const { libsDir } = getWorkspaceLayout(tree);
+        directory = path.join(libsDir, directory);
+    }
+
+    const projectOptions = await determineProjectNameAndRootOptions(tree, {
+        name: endpointName,
+        directory,
+        projectType: 'library',
+        projectNameAndRootFormat: 'as-provided',
+        callingGenerator: '@ensono-stacks/rest-client:client-endpoint',
+    });
+
+    return {
+        ...options,
+        directory,
+        name: endpointName,
+        projectRoot: projectOptions.projectRoot,
+        projectNameAndRootFormat: 'as-provided' as const,
+        importPath:
+            options.importPath ?? `${getNpmScope(tree)}/${endpointName}`,
+    };
+}
+
+function addFiles(
+    tree: Tree,
+    options: Awaited<ReturnType<typeof normalizeOptions>>,
+) {
     const templateOptions = {
         ...options,
-        endpointName: names(options.endpointName).className,
+        endpointName: names(options.name).className,
         template: '',
     };
 
@@ -42,18 +83,11 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function clientEndpoint(
     tree: Tree,
-    optionsParameter: ClientEndpointGeneratorSchema,
+    options: ClientEndpointGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree);
 
-    const options = {
-        ...optionsParameter,
-        name: `${optionsParameter.name}`,
-        directory: `${optionsParameter.directory}/v${optionsParameter.endpointVersion}`,
-        endpointName: optionsParameter.name,
-        methods: optionsParameter.methods.map(method => method.toLowerCase()),
-    };
-    const normalizedOptions = normalizeOptions(tree, options);
+    const normalizedOptions = await normalizeOptions(tree, options);
 
     if (
         Array.isArray(normalizedOptions.methods) &&
@@ -65,6 +99,7 @@ export default async function clientEndpoint(
     const hasInvalidMethod = normalizedOptions.methods.some(
         method => !VALID_METHODS.includes(method),
     );
+
     if (hasInvalidMethod) {
         throw new Error(
             `Invalid HTTP method passed to --methods. Please choose from ${VALID_METHODS.join(
@@ -77,7 +112,11 @@ export default async function clientEndpoint(
         throw new TypeError('The endpoint version needs to be a number.');
     }
 
-    await libraryGenerator(tree, normalizedOptions);
+    await libraryGenerator(tree, {
+        ...normalizedOptions,
+        bundler: 'none',
+    });
+
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
@@ -88,6 +127,4 @@ export default async function clientEndpoint(
     });
 
     await formatFiles(tree);
-
-    warnDirectoryProjectName(normalizedOptions);
 }
