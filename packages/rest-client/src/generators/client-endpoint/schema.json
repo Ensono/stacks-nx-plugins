@@ -1,75 +1,80 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "$id": "ClientEndpoint",
-  "title": "Ensono Stacks Rest Client Client Endpoint Generator",
-  "description": "The @ensono-stacks/rest-client:client-endpoint generator will add an endpoint to an existing project",
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?",
-      "pattern": "^[a-z0-9_/-]+"
+    "$schema": "http://json-schema.org/schema",
+    "$id": "ClientEndpoint",
+    "title": "Ensono Stacks Rest Client Client Endpoint Generator",
+    "description": "The @ensono-stacks/rest-client:client-endpoint generator will add an endpoint to an existing project",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What name would you like to use?",
+            "pattern": "^[a-z0-9_/-]+"
+        },
+        "httpClient": {
+            "type": "string",
+            "description": "The import path of the previously generated http-client used in the application",
+            "x-prompt": "What is the import path of your previously generated http-client library? [e.g. @projectName/http-client]",
+            "pattern": "^@[a-z0-9_/-]+"
+        },
+        "envVar": {
+            "type": "string",
+            "description": "The name of the API url environment variable",
+            "default": "API_URL",
+            "x-prompt": "What is the environment variable for the API URL?",
+            "pattern": "^[A-Z_]+[A-Z0-9_]+$"
+        },
+        "endpointVersion": {
+            "type": "number",
+            "description": "The version of the endpoint",
+            "default": 1,
+            "x-prompt": "What is the version of your current endpoint?"
+        },
+        "methods": {
+            "type": "array",
+            "description": "List of HTTP methods to be generated. Choose from get, post, patch, put, delete, head, options.",
+            "x-prompt": {
+                "message": "Which methods should be generated?",
+                "type": "list",
+                "multiselect": true,
+                "items": [
+                    "get",
+                    "post",
+                    "patch",
+                    "put",
+                    "delete",
+                    "head",
+                    "options"
+                ]
+            },
+            "minLength": 1
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the endpoint lib is placed.",
+            "x-prompt": "Where would you like to generate the endpoint?",
+            "alias": "dir",
+            "x-priority": "important"
+        },
+        "projectNameAndRootFormat": {
+            "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
+            "type": "string",
+            "default": "derived",
+            "enum": ["as-provided", "derived"]
+        },
+        "importPath": {
+            "type": "string",
+            "description": "The library name used to import it, like @myorg/my-awesome-lib. Required for publishable library."
+        },
+        "tags": {
+            "type": "string",
+            "description": "Add tags to the project (used for linting)",
+            "alias": "t"
+        }
     },
-    "httpClient": {
-      "type": "string",
-      "description": "The import path of the previously generated http-client used in the application",
-      "x-prompt": "What is the import path of your previously generated http-client library? [e.g. @projectName/http-client]",
-      "pattern": "^@[a-z0-9_/-]+"
-    },
-    "envVar": {
-      "type": "string",
-      "description": "The name of the API url environment variable",
-      "default": "API_URL",
-      "x-prompt": "What is the environment variable for the API URL?",
-      "pattern": "^[A-Z_]+[A-Z0-9_]+$"
-    },
-    "endpointVersion": {
-      "type": "number",
-      "description": "The version of the endpoint",
-      "default": 1,
-      "x-prompt": "What is the version of your current endpoint?"
-    },
-    "methods": {
-      "type": "array",
-      "description": "List of HTTP methods to be generated. Choose from get, post, patch, put, delete, head, options.",
-      "x-prompt": {
-        "message": "Which methods should be generated?",
-        "type": "list",
-        "multiselect": true,
-        "items": [
-          "get",
-          "post",
-          "patch",
-          "put",
-          "delete",
-          "head",
-          "options"
-        ]
-      },
-      "minLength": 1
-    },
-    "directory": {
-      "type": "string",
-      "description": "Subdirectory inside libs/ where the generated library placed.",
-      "x-prompt": "Where in libs/ directory do you want to generate this endpoint?",
-      "alias": "dir"
-    },
-    "tags": {
-      "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
-    }
-  },
-  "required": [
-    "name",
-    "httpClient",
-    "envVar",
-    "endpointVersion",
-    "methods"
-  ]
+    "required": ["name", "httpClient", "envVar", "endpointVersion", "methods"]
 }

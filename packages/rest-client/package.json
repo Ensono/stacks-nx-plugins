@@ -8,6 +8,10 @@
         "type": "git",
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
+    "dependencies": {
+        "@ensono-stacks/core": "dev",
+        "change-case": "4.1.2"
+    },
     "peerDependencies": {
         "nx": "^18.3.4",
         "@nx/devkit": "^18.3.4",

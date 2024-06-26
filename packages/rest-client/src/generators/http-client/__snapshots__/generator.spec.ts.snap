@@ -28,13 +28,6 @@ exports[`http-client generator should generate the http-client with custom direc
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
-    },
-    {
-      "files": ["*.json"],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nx/dependency-checks": "error"
-      }
     }
   ]
 }
@@ -46,10 +39,6 @@ exports[`http-client generator should generate the http-client with custom direc
 
 This library was generated with [Nx](https://nx.dev).
 
-## Building
-
-Run \`nx build custom-test-client\` to build the library.
-
 ## Running unit tests
 
 Run \`nx test custom-test-client\` to execute the unit tests via [Jest](https://jestjs.io).
@@ -60,27 +49,13 @@ exports[`http-client generator should generate the http-client with custom direc
 "export default {
   displayName: 'custom-test-client',
   preset: '../../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/custom/test-client',
 };
-"
-`;
-
-exports[`http-client generator should generate the http-client with custom directory: custom/test-client/package.json 1`] = `
-"{
-  "name": "@proj/custom/test-client",
-  "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
-}
 "
 `;
 
@@ -92,16 +67,6 @@ exports[`http-client generator should generate the http-client with custom direc
   "projectType": "library",
   "tags": ["test", "client"],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/custom/test-client",
-        "main": "custom/test-client/src/index.ts",
-        "tsConfig": "custom/test-client/tsconfig.lib.json",
-        "assets": ["custom/test-client/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
@@ -270,13 +235,6 @@ exports[`http-client generator should generate the http-client with custom impor
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
-    },
-    {
-      "files": ["*.json"],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nx/dependency-checks": "error"
-      }
     }
   ]
 }
@@ -288,10 +246,6 @@ exports[`http-client generator should generate the http-client with custom impor
 
 This library was generated with [Nx](https://nx.dev).
 
-## Building
-
-Run \`nx build test-client\` to build the library.
-
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
@@ -302,27 +256,13 @@ exports[`http-client generator should generate the http-client with custom impor
 "export default {
   displayName: 'test-client',
   preset: '../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../coverage/test-client',
 };
-"
-`;
-
-exports[`http-client generator should generate the http-client with custom import path: test-client/package.json 1`] = `
-"{
-  "name": "@customimport/restclient",
-  "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
-}
 "
 `;
 
@@ -334,16 +274,6 @@ exports[`http-client generator should generate the http-client with custom impor
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/test-client",
-        "main": "test-client/src/index.ts",
-        "tsConfig": "test-client/tsconfig.lib.json",
-        "assets": ["test-client/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
@@ -506,15 +436,6 @@ exports[`http-client generator should generate the http-client with no formattin
         "*.jsx"
       ],
       "rules": {}
-    },
-    {
-      "files": [
-        "*.json"
-      ],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nx/dependency-checks": "error"
-      }
     }
   ]
 }
@@ -525,12 +446,6 @@ exports[`http-client generator should generate the http-client with no formattin
 "# test-client
 
 This library was generated with [Nx](https://nx.dev).
-
-
-
-## Building
-
-Run \`nx build test-client\` to build the library.
 
 
 
@@ -548,27 +463,13 @@ exports[`http-client generator should generate the http-client with no formattin
 "export default {
   displayName: 'test-client',
   preset: '../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }]
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../coverage/test-client'
 };
-"
-`;
-
-exports[`http-client generator should generate the http-client with no formatting: test-client/package.json 1`] = `
-"{
-  "name": "@proj/test-client",
-  "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
-}
 "
 `;
 
@@ -580,20 +481,6 @@ exports[`http-client generator should generate the http-client with no formattin
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/test-client",
-        "main": "test-client/src/index.ts",
-        "tsConfig": "test-client/tsconfig.lib.json",
-        "assets": [
-          "test-client/*.md"
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
@@ -753,13 +640,6 @@ exports[`http-client generator should generate the http-client: test-client/.esl
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
-    },
-    {
-      "files": ["*.json"],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nx/dependency-checks": "error"
-      }
     }
   ]
 }
@@ -771,10 +651,6 @@ exports[`http-client generator should generate the http-client: test-client/READ
 
 This library was generated with [Nx](https://nx.dev).
 
-## Building
-
-Run \`nx build test-client\` to build the library.
-
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
@@ -785,27 +661,13 @@ exports[`http-client generator should generate the http-client: test-client/jest
 "export default {
   displayName: 'test-client',
   preset: '../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../coverage/test-client',
 };
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/package.json 1`] = `
-"{
-  "name": "@proj/test-client",
-  "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
-}
 "
 `;
 
@@ -817,16 +679,6 @@ exports[`http-client generator should generate the http-client: test-client/proj
   "projectType": "library",
   "tags": ["test", "client"],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/test-client",
-        "main": "test-client/src/index.ts",
-        "tsConfig": "test-client/tsconfig.lib.json",
-        "assets": ["test-client/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
