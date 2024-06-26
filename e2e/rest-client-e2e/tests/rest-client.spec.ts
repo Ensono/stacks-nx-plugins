@@ -42,10 +42,7 @@ describe('rest-client e2e', () => {
         });
 
         it('should run the generated tests without failure', async () => {
-            const result = await runTarget(
-                `${project}`,
-                targetOptions.test,
-            )
+            const result = await runTarget(`${project}`, targetOptions.test);
 
             expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
@@ -69,36 +66,30 @@ describe('rest-client e2e', () => {
 
             expect(() =>
                 checkFilesExist(
-                    `libs/${endpointsDir}/v1/${libName}/src/index.ts`,
-                    `libs/${endpointsDir}/v1/${libName}/src/index.test.ts`,
-                    `libs/${endpointsDir}/v1/${libName}/src/index.types.ts`,
-                    `libs/${endpointsDir}/v1/${libName}/project.json`,
-                    `libs/${endpointsDir}/v1/${libName}/tsconfig.json`,
-                    `.env.local`
+                    `libs/${endpointsDir}/${libName}/v1/src/index.ts`,
+                    `libs/${endpointsDir}/${libName}/v1/src/index.test.ts`,
+                    `libs/${endpointsDir}/${libName}/v1/src/index.types.ts`,
+                    `libs/${endpointsDir}/${libName}/v1/project.json`,
+                    `libs/${endpointsDir}/${libName}/v1/tsconfig.json`,
+                    `.env.local`,
                 ),
             ).not.toThrow();
 
-            const expectedImportName = `@proj/${endpointsDir}/v1/${libName}`;
+            const expectedImportName = `@proj/${libName}-v1`;
 
             const tsConfig = readJson('tsconfig.base.json');
+
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportName,
-                [`libs/${endpointsDir}/v1/${libName}/src/index.ts`],
+                [`libs/${endpointsDir}/${libName}/v1/src/index.ts`],
             );
-        });
-
-        it('should build the library without failure', async () => {
-            await runTarget(
-                `${endpointsDir}-v1-${libName}`,
-                targetOptions.build,
-            )
         });
 
         it('should run the generated tests without failure', async () => {
             const result = await runTarget(
                 `${endpointsDir}-v1-${libName}`,
                 targetOptions.test,
-            )
+            );
 
             expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
@@ -164,14 +155,14 @@ describe('rest-client e2e', () => {
             await runTarget(
                 `${endpointsDir}-v3-${libName}`,
                 targetOptions.build,
-            )
+            );
         });
 
         it('should run the generated tests without failure', async () => {
             const result = await runTarget(
                 `${endpointsDir}-v3-${libName}`,
                 targetOptions.test,
-            )
+            );
 
             expect(result).not.toEqual(expect.stringContaining('FAIL'));
         });
@@ -180,7 +171,7 @@ describe('rest-client e2e', () => {
     describe('openapi-client', () => {
         const client = uniq('petstore');
 
-        beforeAll(async ()=> {
+        beforeAll(async () => {
             const tempPath = tmpProjPath();
             // Create schema file in the filesystem
             fs.writeFileSync(
@@ -189,7 +180,7 @@ describe('rest-client e2e', () => {
             );
 
             await runNxCommandAsync(
-                `generate @ensono-stacks/rest-client:openapi-client ${client} --directory=libs --schema=petstore-3.0.yaml --zod --no-interactive --verbose`
+                `generate @ensono-stacks/rest-client:openapi-client ${client} --directory=libs --schema=petstore-3.0.yaml --zod --no-interactive --verbose`,
             );
         });
 

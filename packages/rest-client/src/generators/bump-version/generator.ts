@@ -3,27 +3,40 @@ import {
     copyFiles,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { formatFiles, names, readProjectConfiguration, Tree } from '@nx/devkit';
+import {
+    formatFiles,
+    names,
+    ProjectConfiguration,
+    readJson,
+    readProjectConfiguration,
+    Tree,
+} from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
 import { BumpVersionGeneratorSchema } from './schema';
 
-function findLatestVersion(
-    tree: Tree,
-    {
-        endpointDirectory,
-        endpointName,
-    }: {
-        endpointName: string;
-        endpointDirectory: string;
-    },
-): number {
+function findTargetVersion(config: ProjectConfiguration): number {
+    const versionDirectory = path.basename(config.root);
+
+    const version = Number.parseInt(versionDirectory.replace(/^v/i, ''), 10);
+
+    if (Number.isNaN(version)) {
+        // eslint-disable-next-line unicorn/prefer-type-error
+        throw new Error(
+            'No version is present for the target project. Please ensure it was generated with @ensono-stacks/rest-client:client-endpoint',
+        );
+    }
+
+    return version;
+}
+
+function findLatestVersion(tree: Tree, config: ProjectConfiguration): number {
     let children;
     try {
-        readProjectConfiguration(tree, endpointName);
-
-        children = tree.children(endpointDirectory);
+        const apiDirectory = path.dirname(config.root);
+        children = tree.children(apiDirectory);
     } catch {
         throw new Error(
             "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
@@ -32,18 +45,7 @@ function findLatestVersion(
 
     if (children.length === 0) {
         throw new Error(
-            "No version is present for the endpoint. Are you sure you don't want to generate a new endpoint?",
-        );
-    }
-
-    if (
-        children.some(folderName => {
-            const folderNameMatchesConvention = /v(\d+)$/.test(folderName);
-            return !folderNameMatchesConvention;
-        })
-    ) {
-        throw new Error(
-            "Found a folder that does not follow convention, please follow 'v<number>'",
+            "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
         );
     }
 
@@ -79,13 +81,13 @@ function determineNewVersion(
 function updateVersionInCode(
     tree: Tree,
     filePaths: string[],
-    latestVersion: number,
-    latestVersionName: string,
+    currentVersion: number,
+    currentEndpointName: string,
     newVersion: number,
-    newVersionName: string,
+    newEndpointName: string,
 ) {
-    const latestVersionNames = names(latestVersionName);
-    const newVersionNames = names(newVersionName);
+    const currentEndpointNames = names(currentEndpointName);
+    const newEndpointNames = names(newEndpointName);
 
     filePaths.forEach(filePath => {
         const fileContent = tree.read(filePath)?.toString();
@@ -98,22 +100,22 @@ function updateVersionInCode(
             fileContent
                 .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
-                    new RegExp(latestVersionNames.className, 'g'),
-                    newVersionNames.className,
+                    new RegExp(currentEndpointNames.className, 'g'),
+                    newEndpointNames.className,
                 )
                 .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
-                    new RegExp(latestVersionNames.name, 'g'),
-                    newVersionNames.name,
+                    new RegExp(currentEndpointNames.name, 'g'),
+                    newEndpointNames.name,
                 )
                 .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
-                    new RegExp(`v${latestVersion}`, 'g'),
+                    new RegExp(`v${currentVersion}`, 'g'),
                     `v${newVersion}`,
                 )
                 .replaceAll(
                     // eslint-disable-next-line security/detect-non-literal-regexp
-                    new RegExp(`V${latestVersion}`, 'g'),
+                    new RegExp(`V${currentVersion}`, 'g'),
                     `V${newVersion}`,
                 ),
         );
@@ -145,87 +147,96 @@ function isEndpointVersionOptionIncorrectlyPresent(
 
 export default async function bumpVersion(
     tree: Tree,
-    optionsParameter: BumpVersionGeneratorSchema,
+    options: BumpVersionGeneratorSchema,
 ) {
-    verifyPluginCanBeInstalled(tree, optionsParameter.name);
+    verifyPluginCanBeInstalled(tree, options.name);
 
     const endpointVersionOptionIncorrectlyPresent =
-        isEndpointVersionOptionIncorrectlyPresent(
-            optionsParameter.endpointVersion,
-        );
+        isEndpointVersionOptionIncorrectlyPresent(options.endpointVersion);
     if (endpointVersionOptionIncorrectlyPresent) {
         throw new TypeError(`The endpoint version needs to be a number.`);
     }
 
-    const latestVersion = findLatestVersion(tree, {
-        endpointName: optionsParameter.name,
-        endpointDirectory: optionsParameter.directory,
-    });
-
-    if (Number.isNaN(latestVersion)) {
-        throw new TypeError(
-            `No version found. Please select your project with existing endpoints.`,
+    let config: ProjectConfiguration;
+    try {
+        config = readProjectConfiguration(tree, options.name);
+    } catch {
+        throw new Error(
+            `Could not find target project of the endpoint. Are you sure you don't want to generate a new endpoint?`,
         );
     }
 
+    const targetVersion = findTargetVersion(config);
+    const latestVersion = findLatestVersion(tree, config);
+
     const newVersion = determineNewVersion(
         latestVersion,
-        optionsParameter.endpointVersion,
+        options.endpointVersion,
     );
 
-    const libsEndpoint = readProjectConfiguration(
-        tree,
-        optionsParameter.name,
-    ).root.replaceAll(/v(\d+)$/g, '');
+    const apiDirectory = path.dirname(config.root);
 
-    const splitPath = libsEndpoint.split('/');
+    const newEndpointName = config.name?.replaceAll(
+        /v(\d+)$/g,
+        `v${newVersion}`,
+    );
 
-    const directoryPath = splitPath[0];
-    const namePath = splitPath[2];
+    const tsPaths = readJson(tree, 'tsconfig.base.json').compilerOptions
+        .paths as Record<string, string[]>;
 
-    const latestVersionOptions = normalizeOptions(tree, {
-        name: namePath,
-        directory: `${directoryPath}/v${latestVersion}`,
-        endpointName: namePath,
-        endpointVersion: latestVersion,
+    const entry = Object.entries(tsPaths).find(([importPath, paths]) => {
+        return paths.some(p => p.startsWith(config.sourceRoot ?? config.root));
     });
 
-    const newVersionOptions = normalizeOptions(tree, {
-        ...optionsParameter,
-        name: namePath,
-        directory: `${directoryPath}/v${newVersion}`,
-        endpointName: namePath,
-        endpointVersion: newVersion,
+    if (!entry) {
+        throw new Error(`Cannot determine ${options.name}'s import path`);
+    }
+
+    const targetImportPath = entry[0];
+
+    const newImportPath = targetImportPath.replaceAll(
+        /v(\d+)$/g,
+        `v${newVersion}`,
+    );
+
+    const newProjectConfig = await determineProjectNameAndRootOptions(tree, {
+        name: newEndpointName as string,
+        directory: `${apiDirectory}/v${newVersion}`,
+        projectNameAndRootFormat: 'as-provided',
+        projectType: 'library',
+        importPath: newImportPath,
+        callingGenerator: '@nx/js',
     });
 
+    // TODO: why do we generate a new lib? Cant we skip to copy and add tsconfig.base.json amends?
     // create a new library for the new version
-    await libraryGenerator(tree, newVersionOptions);
+    await libraryGenerator(tree, {
+        name: newEndpointName as string,
+        directory: `${apiDirectory}/v${newVersion}`,
+        importPath: newImportPath,
+        bundler: 'none',
+        projectNameAndRootFormat: 'as-provided',
+    });
 
     // Delete the default generated lib folder
-    tree.delete(path.join(newVersionOptions.projectRoot, 'src', 'lib'));
+    tree.delete(path.join(newProjectConfig.projectRoot, 'src', 'lib'));
 
     // copy files from latestVersion to newVersion
-    copyFiles(
-        tree,
-        latestVersionOptions.projectRoot,
-        newVersionOptions.projectRoot,
-    );
+    copyFiles(tree, config.root, newProjectConfig.projectRoot);
 
     // update version numbers in the newly created files
     const filesToChange = tree
         .listChanges()
-        .filter(change =>
-            isRelative(newVersionOptions.projectRoot, change.path),
-        )
+        .filter(change => isRelative(newProjectConfig.projectRoot, change.path))
         .map(change => change.path);
 
     updateVersionInCode(
         tree,
         filesToChange,
-        latestVersion,
-        latestVersionOptions.directory,
+        targetVersion,
+        config.name as string,
         newVersion,
-        newVersionOptions.directory,
+        newEndpointName as string,
     );
 
     await formatFiles(tree);

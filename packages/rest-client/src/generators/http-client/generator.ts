@@ -1,7 +1,5 @@
 import {
     addCustomTestConfig,
-    NormalizedSchema as BaseNormalizedSchema,
-    normalizeOptions,
     verifyPluginCanBeInstalled,
     warnDirectoryProjectName,
 } from '@ensono-stacks/core';
@@ -14,13 +12,33 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
 import { HttpClientGeneratorSchema } from './schema';
 import { AXIOS_VERSION } from '../../../utils/versions';
 
-type NormalizedSchema = BaseNormalizedSchema<HttpClientGeneratorSchema>;
+async function normalizeOptions(
+    tree: Tree,
+    options: HttpClientGeneratorSchema,
+) {
+    const { importPath, projectName, projectRoot } =
+        await determineProjectNameAndRootOptions(tree, {
+            ...options,
+            projectType: 'library',
+            callingGenerator: '@ensono-stacks/rest-client:http-client',
+        });
+
+    return {
+        ...options,
+        importPath,
+        projectName,
+        projectRoot,
+    };
+}
+
+type NormalizedSchema = Awaited<ReturnType<typeof normalizeOptions>>;
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -54,10 +72,16 @@ export default async function generate(
 ) {
     verifyPluginCanBeInstalled(tree);
 
-    const normalizedOptions = normalizeOptions(tree, options);
+    const normalizedOptions = await normalizeOptions(tree, options);
 
     // Use the existing library generator
-    await libraryGenerator(tree, normalizedOptions);
+    await libraryGenerator(tree, {
+        ...normalizedOptions,
+        bundler: 'none',
+        testEnvironment: 'node',
+        unitTestRunner: 'jest',
+    });
+
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
@@ -98,6 +122,4 @@ export default async function generate(
     if (!normalizedOptions.skipFormat) {
         await formatFiles(tree);
     }
-
-    warnDirectoryProjectName(normalizedOptions);
 }

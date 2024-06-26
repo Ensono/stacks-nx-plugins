@@ -1,30 +1,35 @@
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { libraryGenerator } from '@nx/js';
 import fs from 'fs';
 import path from 'path';
 
 import generator from './generator';
 import { BumpVersionGeneratorSchema } from './schema';
+import clientEndpointGenerator from '../client-endpoint/generator';
+import httpClientGenerator from '../http-client/generator';
 
 describe('bump-version generator', () => {
     let tree: Tree;
     const options: BumpVersionGeneratorSchema = {
-        name: 'test',
-        directory: 'test-directory',
+        name: 'api-v1',
     };
 
     beforeEach(async () => {
         tree = createTreeWithEmptyWorkspace();
-        tree.write(
-            `${options.directory}/v1/${options.name}/src/index.ts`,
-            'test',
-        );
-        tree.write(
-            `${options.directory}/v1/${options.name}/project.json`,
-            `{
-                "name": "test"
-            }`,
-        );
+        await httpClientGenerator(tree, {
+            name: 'http',
+            importPath: '@proj/http',
+            projectNameAndRootFormat: 'derived',
+        });
+        await clientEndpointGenerator(tree, {
+            name: 'api',
+            httpClient: '@proj/http',
+            methods: ['get'],
+            projectNameAndRootFormat: 'derived',
+            envVar: 'API_URL',
+            endpointVersion: 1,
+        });
     });
 
     it('should throw a TypeError if version is not a number', async () => {
@@ -43,7 +48,24 @@ describe('bump-version generator', () => {
                 name: 'nonexistent',
             }),
         ).rejects.toThrowError(
-            "Could not find previous version of the endpoint. Are you sure you don't want to generate a new endpoint?",
+            "Could not find target project of the endpoint. Are you sure you don't want to generate a new endpoint?",
+        );
+    });
+
+    it('should throw an error if the target project is not an endpoint', async () => {
+        await libraryGenerator(tree, {
+            name: 'non-endpoint',
+            bundler: 'none',
+            projectNameAndRootFormat: 'derived',
+            unitTestRunner: 'none',
+        });
+        await expect(() =>
+            generator(tree, {
+                ...options,
+                name: 'non-endpoint',
+            }),
+        ).rejects.toThrowError(
+            'No version is present for the target project. Please ensure it was generated with @ensono-stacks/rest-client:client-endpoint',
         );
     });
 
@@ -59,54 +81,21 @@ describe('bump-version generator', () => {
     });
 
     it('should generate the new version of the endpoint', async () => {
-        tree.write(
-            `fixtures/${options.directory}/v1/test/src/index.ts`,
-            'test',
-        );
         await generator(tree, {
             ...options,
+            endpointVersion: 4,
         });
-
-        expect(() =>
-            tree.exists(`fixtures/${options.directory}/v1/test/src/index.ts`),
-        ).not.toThrow();
-        expect(() =>
-            tree.exists(`fixtures/${options.directory}/v2/test/src/index.ts`),
-        ).not.toThrow();
+        expect(() => tree.exists(`api/v1/src/index.ts`)).not.toThrow();
+        expect(() => tree.exists(`api/v4/src/index.ts`)).not.toThrow();
     });
 
     it('should determine new version based on existing versions if --endpointVersion is omitted', async () => {
-        // intentionally in random order
-        tree.write(`fixtures/${options.directory}/v1/test/index.ts`, 'test');
-        tree.write(`fixtures/${options.directory}/v6/test/index.ts`, 'test');
-        tree.write(`fixtures/${options.directory}/v5/test/index.ts`, 'test');
-        tree.write(`fixtures/${options.directory}/v3/test/index.ts`, 'test');
-
         await generator(tree, {
             ...options,
         });
 
-        expect(() =>
-            tree.exists(`fixtures/${options.directory}/v7/test/src/index.ts`),
-        ).not.toThrow();
-    });
-
-    it('should respect --endpointVersion', async () => {
-        tree.write(
-            `fixtures/${options.directory}/v1/test/src/index.ts`,
-            'test',
-        );
-        await generator(tree, {
-            ...options,
-            endpointVersion: 3,
-        });
-
-        expect(() =>
-            tree.exists(`fixtures/${options.directory}/v1/test/src/index.ts`),
-        ).not.toThrow();
-        expect(() =>
-            tree.exists(`fixtures/${options.directory}/v3/test/src/index.ts`),
-        ).not.toThrow();
+        expect(() => tree.exists(`api/v1/src/index.ts`)).not.toThrow();
+        expect(() => tree.exists(`api/v2/src/index.ts`)).not.toThrow();
     });
 
     it('should update any version numbers in the code', async () => {
@@ -116,15 +105,15 @@ describe('bump-version generator', () => {
         );
 
         tree.write(
-            `${options.directory}/v1/test/src/index.ts`,
+            `api/v1/test/src/index.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.ts.fixture')),
         );
         tree.write(
-            `${options.directory}/v1/test/src/index.test.ts`,
+            `api/v1/test/src/index.test.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.test.ts.fixture')),
         );
         tree.write(
-            `${options.directory}/v1/test/src/index.types.ts`,
+            `api/v1/test/src/index.types.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.types.ts.fixture')),
         );
 
@@ -133,14 +122,12 @@ describe('bump-version generator', () => {
             endpointVersion: 3,
         });
 
-        const indexTs = tree
-            .read(`${options.directory}/v3/test/src/index.ts`)
-            ?.toString();
+        const indexTs = tree.read(`api/v3/test/src/index.ts`)?.toString();
         const indexTestTs = tree
-            .read(`${options.directory}/v3/test/src/index.test.ts`)
+            .read(`api/v3/test/src/index.test.ts`)
             ?.toString();
         const indexTypesTs = tree
-            .read(`${options.directory}/v3/test/src/index.types.ts`)
+            .read(`api/v3/test/src/index.types.ts`)
             ?.toString();
 
         expect(indexTs).not.toContain(
@@ -171,20 +158,5 @@ describe('bump-version generator', () => {
         expect(indexTs).toMatchSnapshot();
         expect(indexTestTs).toMatchSnapshot();
         expect(indexTypesTs).toMatchSnapshot();
-    });
-
-    it('should throw an error if a folder name does not match folder convention', async () => {
-        await tree.write(
-            `${options.directory}/fakeVersion/test/src/index.ts`,
-            'test',
-        );
-
-        await expect(() =>
-            generator(tree, {
-                ...options,
-            }),
-        ).rejects.toThrowError(
-            "Found a folder that does not follow convention, please follow 'v<number>'",
-        );
     });
 });

@@ -23,7 +23,10 @@ function snapshotFiles(tree: Tree, files: string[]) {
 
 describe('http-client generator', () => {
     let tree: Tree;
-    const options: HttpClientGeneratorSchema = { name: 'testClient' };
+    const options: HttpClientGeneratorSchema = {
+        name: 'testClient',
+        projectNameAndRootFormat: 'derived',
+    };
 
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
@@ -34,9 +37,7 @@ describe('http-client generator', () => {
             ...options,
             tags: 'test, client',
         });
-
         const config = readProjectConfiguration(tree, 'test-client');
-
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'client']);
 
@@ -46,10 +47,9 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
             joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'package.json'),
             joinPathFragments(config.root, 'jest.config.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.test.ts'),
+            joinPathFragments(config.root, 'src', 'index.ts'),
+            joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
             'jest.config.ts',
             'jest.preset.js',
@@ -76,10 +76,9 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
             joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'package.json'),
             joinPathFragments(config.root, 'jest.config.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.test.ts'),
+            joinPathFragments(config.root, 'src', 'index.ts'),
+            joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
             'jest.config.ts',
             'jest.preset.js',
@@ -104,10 +103,9 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
             joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'package.json'),
             joinPathFragments(config.root, 'jest.config.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.test.ts'),
+            joinPathFragments(config.root, 'src', 'index.ts'),
+            joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
             'jest.config.ts',
             'jest.preset.js',
@@ -115,8 +113,10 @@ describe('http-client generator', () => {
             '.prettierrc',
         ]);
 
-        const packageJson = readJson(tree, `${config.root}/package.json`);
-        expect(packageJson.name).toEqual('@customimport/restclient');
+        const tsConfig = readJson(tree, `tsconfig.base.json`);
+        expect(tsConfig.compilerOptions.paths).toHaveProperty(
+            '@customimport/restclient',
+        );
     });
 
     it('should generate the http-client with no formatting', async () => {
@@ -135,10 +135,9 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
             joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'package.json'),
             joinPathFragments(config.root, 'jest.config.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.ts'),
-            joinPathFragments(`${config.root}/src`, 'index.test.ts'),
+            joinPathFragments(config.root, 'src', 'index.ts'),
+            joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
             'jest.config.ts',
             'jest.preset.js',

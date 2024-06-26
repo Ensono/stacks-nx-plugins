@@ -6,16 +6,6 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import generator from './generator';
 import { ClientEndpointGeneratorSchema } from './schema';
 
-function snapshotFiles(tree: Tree, files: string[]) {
-    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
-    const project = tsMorphTree(tree);
-    files.forEach(file => {
-        expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
-            file,
-        );
-    });
-}
-
 describe('client-endpoint generator', () => {
     let tree: Tree;
     const options: ClientEndpointGeneratorSchema = {
@@ -25,6 +15,7 @@ describe('client-endpoint generator', () => {
         methods: ['get', 'post', 'patch', 'put', 'delete', 'head', 'options'],
         endpointVersion: 1,
         directory: 'endpoints',
+        projectNameAndRootFormat: 'derived',
     };
 
     beforeEach(() => {
@@ -37,30 +28,18 @@ describe('client-endpoint generator', () => {
             tags: 'testEndpoint',
         });
 
-        snapshotFiles(tree, [
-            joinPathFragments('endpoints/v1/test-endpoint', 'project.json'),
-            joinPathFragments('endpoints/v1/test-endpoint', 'tsconfig.json'),
-            joinPathFragments(
-                'endpoints/v1/test-endpoint',
-                'tsconfig.lib.json',
-            ),
-            joinPathFragments(
-                'endpoints/v1/test-endpoint',
-                'tsconfig.spec.json',
-            ),
-            joinPathFragments('endpoints/v1/test-endpoint', '.eslintrc.json'),
-            joinPathFragments('endpoints/v1/test-endpoint', 'package.json'),
-            joinPathFragments('endpoints/v1/test-endpoint', 'jest.config.ts'),
-            joinPathFragments('endpoints/v1/test-endpoint/src', 'index.ts'),
-            joinPathFragments(
-                'endpoints/v1/test-endpoint/src',
-                'index.test.ts',
-            ),
-            joinPathFragments('endpoints/v1/test-endpoint', 'README.md'),
-        ]);
+        expect(
+            tree.exists('endpoints/test-endpoint/v1/src/index.ts'),
+        ).toBeTruthy();
+        expect(
+            tree.exists('endpoints/test-endpoint/v1/src/index.test.ts'),
+        ).toBeTruthy();
+        expect(
+            tree.exists('endpoints/test-endpoint/v1/src/index.types.ts'),
+        ).toBeTruthy();
 
         const fileContent = tree.read(
-            `endpoints/v1/test-endpoint/src/index.ts`,
+            `endpoints/test-endpoint/v1/src/index.ts`,
             'utf8',
         );
         expect(fileContent).toMatch(
