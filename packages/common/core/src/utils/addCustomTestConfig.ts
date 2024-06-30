@@ -6,14 +6,13 @@ import {
 
 import { mergeProjectConfigTarget } from '../lib/project-config';
 
-export async function addCustomTestConfig(
+export function addCustomTestConfig(
     tree: Tree,
-    projectConfig: ProjectConfiguration,
-    projectConfigDestination: string,
+    config: ProjectConfiguration,
     configurations?: { [config: string]: unknown },
 ) {
     const updatedConfig = mergeProjectConfigTarget(
-        projectConfig,
+        config,
         {
             configurations: {
                 ...configurations,
@@ -21,5 +20,5 @@ export async function addCustomTestConfig(
         },
         'test',
     );
-    updateProjectConfiguration(tree, projectConfigDestination, updatedConfig);
+    updateProjectConfiguration(tree, config.name as string, updatedConfig);
 }
