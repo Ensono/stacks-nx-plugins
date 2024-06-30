@@ -1,0 +1,20 @@
+'use client';
+
+import React from 'react';
+
+export default function Axe() {
+    if (
+        typeof window !== 'undefined' &&
+        process.env.NODE_ENV !== 'production'
+    ) {
+        Promise.all([import('@axe-core/react'), import('react-dom')])
+            .then(([axe, ReactDom]) => {
+                axe.default(React, ReactDom, 1000).catch(error =>
+                    console.warn(error),
+                );
+            })
+            .catch(error => console.error('Unable to initialise Axe', error));
+    }
+
+    return null;
+}

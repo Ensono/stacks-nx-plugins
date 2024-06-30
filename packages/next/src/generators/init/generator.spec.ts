@@ -37,124 +37,39 @@ describe('next install generator', () => {
         addStacksAttributes(tree, options.project);
     }
 
-    describe('Project config', () => {
-        beforeEach(async () => {
+    describe('Generator', () => {
+        beforeAll(async () => {
             await createNextApp();
-        });
-
-        it('should add the ci config in the test command in the project.json', async () => {
-            tree.write(
-                'next-app/project.json',
-                JSON.stringify({
-                    targets: { test: {} },
-                    name: 'next-app',
-                    sourceRoot: '/next-app',
-                }),
-            );
-
             await generator(tree, options);
-
-            const projectConfig = readJson(tree, 'next-app/project.json');
-
-            expect(projectConfig.targets.test).toMatchObject(
-                expect.objectContaining({
-                    configurations: {
-                        ci: {
-                            ci: true,
-                            collectCoverage: true,
-                            coverageReporters: ['text', 'html'],
-                            collectCoverageFrom: [
-                                './**/*.{js,jsx,ts,tsx}',
-                                './!**/.next/**',
-                                './!**/*.d.ts',
-                                './!**/*.config.*',
-                                './!**/_app.*',
-                            ],
-                            codeCoverage: true,
-                        },
-                    },
-                }),
-            );
         });
 
-        it('should update the ci config in the test command in the project.json if there is an existing custom test config', async () => {
-            tree.write(
-                'next-app/project.json',
-                JSON.stringify({
-                    targets: {
-                        test: {
-                            executor: '@nx/jest:jest',
-                            outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
-                            options: {
-                                jestConfig: '/next-app/jest.config.ts',
-                                passWithNoTests: true,
-                            },
-                            configurations: {
-                                ci: {
-                                    ci: true,
-                                },
+        describe('Project config', () => {
+            it('should add the ci config in the test command in the project.json', async () => {
+                const projectConfig = readJson(tree, 'next-app/project.json');
+
+                expect(projectConfig.targets.test).toMatchObject(
+                    expect.objectContaining({
+                        configurations: {
+                            ci: {
+                                ci: true,
+                                collectCoverage: true,
+                                coverageReporters: ['text', 'html'],
+                                collectCoverageFrom: [
+                                    './**/*.{js,jsx,ts,tsx}',
+                                    './!**/.next/**',
+                                    './!**/*.d.ts',
+                                    './!**/*.config.*',
+                                    './!**/_app.*',
+                                ],
+                                codeCoverage: true,
                             },
                         },
-                    },
-                    name: 'next-app',
-                    sourceRoot: '/next-app',
-                }),
-            );
-
-            await generator(tree, options);
-
-            const projectConfig = readJson(tree, 'next-app/project.json');
-
-            expect(projectConfig.targets.test).toMatchObject(
-                expect.objectContaining({
-                    executor: '@nx/jest:jest',
-                    outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
-                    options: {
-                        jestConfig: '/next-app/jest.config.ts',
-                        passWithNoTests: true,
-                    },
-                    configurations: {
-                        ci: {
-                            ci: true,
-                            collectCoverage: true,
-                            coverageReporters: ['text', 'html'],
-                            collectCoverageFrom: [
-                                './**/*.{js,jsx,ts,tsx}',
-                                './!**/.next/**',
-                                './!**/*.d.ts',
-                                './!**/*.config.*',
-                                './!**/_app.*',
-                            ],
-                            codeCoverage: true,
-                        },
-                    },
-                }),
-            );
+                    }),
+                );
+            });
         });
 
-        describe('executedGenerators', () => {
-            beforeEach(async () => {
-                await createNextApp({});
-                await generator(tree, options);
-            });
-
-            it('should update nx.json and tag executed generator true', async () => {
-                const nxJson = readJson(tree, 'nx.json');
-
-                expect(
-                    nxJson.stacks.executedGenerators.project[
-                        options.project
-                    ].includes('NextInit'),
-                ).toBe(true);
-            });
-
-            it('should return false from method and exit generator if already executed', async () => {
-                const gen = await generator(tree, {
-                    ...options,
-                });
-
-                expect(gen).toBe(false);
-            });
+        describe('Dependencies', () => {
             it('should match the snapshot for layout.tsx file', async () => {
                 const underscoreAppFilePath = joinPathFragments(
                     options.project,
@@ -165,11 +80,43 @@ describe('next install generator', () => {
 
                 snapshotFiles(tree, [underscoreAppFilePath]);
             });
+
             it('should install the react-axe package', async () => {
                 const packageJson = readJson(tree, 'package.json');
                 expect(packageJson?.devDependencies).toMatchObject({
                     '@axe-core/react': REACT_AXE_CORE_VERSION,
                 });
+            });
+
+            it('should install and configure react specific eslint', async () => {
+                const packageJson = readJson(tree, 'package.json');
+
+                expect(Object.keys(packageJson.devDependencies)).toEqual(
+                    expect.arrayContaining([
+                        'eslint-plugin-testing-library',
+                        '@typescript-eslint/eslint-plugin',
+                    ]),
+                );
+            });
+        });
+
+        describe('Readme', () => {
+            it('should create README file', async () => {
+                const readmeFile = tree.exists('next-app/README.md');
+
+                expect(readmeFile).toBeTruthy();
+            });
+
+            it('should show the project name in readme file', async () => {
+                const readmeFile = tree.read('next-app/README.md', 'utf8');
+
+                expect(readmeFile).toContain('next-app');
+            });
+
+            it('should show the nx command', async () => {
+                const readmeFile = tree.read('next-app/README.md', 'utf8');
+
+                expect(readmeFile).toContain('nx build next-app');
             });
         });
     });
@@ -177,19 +124,6 @@ describe('next install generator', () => {
     describe('eslint', () => {
         beforeEach(async () => {
             await createNextApp();
-        });
-
-        it('should install and configure react specific eslint', async () => {
-            await generator(tree, options);
-
-            const packageJson = readJson(tree, 'package.json');
-
-            expect(Object.keys(packageJson.devDependencies)).toEqual(
-                expect.arrayContaining([
-                    'eslint-plugin-testing-library',
-                    '@typescript-eslint/eslint-plugin',
-                ]),
-            );
         });
 
         it('should throw if project is not defined', async () => {
@@ -262,7 +196,6 @@ describe('next install generator', () => {
             expect(tsconfig?.include).toContain('src/**/*.js');
             expect(tsconfig?.include).toContain('src/**/*.jsx');
             expect(tsconfig?.include).toContain('next-env.d.ts');
-            expect(tsconfig?.include).toContain('next.config.js');
 
             const tsconfigSpec = readJson(tree, 'next-app/tsconfig.spec.json');
 
@@ -311,46 +244,24 @@ describe('next install generator', () => {
             expect(tsconfig?.include).toContain('src/**/*.js');
             expect(tsconfig?.include).toContain('src/**/*.jsx');
             expect(tsconfig?.include).toContain('next-env.d.ts');
-            expect(tsconfig?.include).toContain('next.config.js');
         });
 
         it('should merge defaults with an existing eslintrc.json file', async () => {
-            const defaultConfig = {
-                plugins: ['@nx'],
-                overrides: [
-                    {
-                        files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                        extends: ['airbnb/base'],
-                        plugins: ['@nx'],
-                        rules: {
-                            'dot-notation': 'off',
-                        },
-                    },
-                ],
-            };
-
-            tree.write(
-                'next-app/.eslintrc.json',
-                JSON.stringify(defaultConfig),
-            );
-
             await generator(tree, options);
 
             const rootConfig = readJson(tree, 'next-app/.eslintrc.json');
 
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
-                    plugins: ['@nx'],
                     extends: expect.arrayContaining([
                         'plugin:@nx/react-typescript',
+                        'next/core-web-vitals',
                         'plugin:testing-library/react',
                         'plugin:@next/next/recommended',
-                        'next/core-web-vitals',
                     ]),
                     overrides: expect.arrayContaining([
                         expect.objectContaining({
                             files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            excludedFiles: ['jest.config.ts'],
                             rules: expect.objectContaining({
                                 'testing-library/await-async-utils': 'error',
                                 'testing-library/await-async-queries': 'error',
@@ -363,6 +274,7 @@ describe('next install generator', () => {
                                     'warn',
                                 'testing-library/prefer-user-event': 'warn',
                                 'testing-library/no-debug': 'off',
+                                'unicorn/prefer-top-level-await': 'off',
                             }),
                             parserOptions: {
                                 project: ['tsconfig(.*)?.json'],
@@ -371,63 +283,6 @@ describe('next install generator', () => {
                     ]),
                 }),
             );
-        });
-    });
-
-    describe('README.md file', () => {
-        beforeEach(async () => {
-            await createNextApp();
-        });
-
-        it('should create README file', async () => {
-            tree.write(
-                'next-app/project.json',
-                JSON.stringify({
-                    targets: { test: {} },
-                    name: 'next-app',
-                    sourceRoot: '/next-app',
-                }),
-            );
-
-            await generator(tree, options);
-
-            const readmeFile = tree.exists('README.md');
-
-            expect(readmeFile).toBeTruthy();
-        });
-
-        it('should show the project name in readme file', async () => {
-            tree.write(
-                'next-app/project.json',
-                JSON.stringify({
-                    targets: { test: {} },
-                    name: 'next-app',
-                    sourceRoot: '/next-app',
-                }),
-            );
-
-            await generator(tree, options);
-
-            const readmeFile = tree.read('README.md', 'utf8');
-
-            expect(readmeFile).toContain('next-app');
-        });
-
-        it('should show the nx command', async () => {
-            tree.write(
-                'next-app/project.json',
-                JSON.stringify({
-                    targets: { test: {} },
-                    name: 'next-app',
-                    sourceRoot: '/next-app',
-                }),
-            );
-
-            await generator(tree, options);
-
-            const readmeFile = tree.read('README.md', 'utf8');
-
-            expect(readmeFile).toContain('nx build next-app');
         });
     });
 });

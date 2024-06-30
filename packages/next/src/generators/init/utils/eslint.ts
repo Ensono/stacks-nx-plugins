@@ -1,5 +1,9 @@
 import { updateEslintConfig, mergeEslintConfigs } from '@ensono-stacks/core';
-import { Tree, addDependenciesToPackageJson } from '@nx/devkit';
+import {
+    ProjectConfiguration,
+    Tree,
+    addDependenciesToPackageJson,
+} from '@nx/devkit';
 import { Linter } from 'eslint';
 
 import {
@@ -8,7 +12,7 @@ import {
     TYPESCRIPT_ESLINT_PARSER_VERSION,
 } from './constants';
 
-function stacksEslintConfig(projectRootPath: string): Linter.Config {
+function stacksEslintConfig(): Linter.Config {
     return {
         extends: [
             'plugin:@nx/react-typescript',
@@ -19,7 +23,6 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
         ignorePatterns: ['!**/*', '.next/**/*'],
         overrides: [
             {
-                excludedFiles: ['jest.config.ts'],
                 files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
                 rules: {
                     '@typescript-eslint/no-floating-promises': 'error',
@@ -31,23 +34,39 @@ function stacksEslintConfig(projectRootPath: string): Linter.Config {
                     'testing-library/prefer-presence-queries': 'warn',
                     'testing-library/prefer-user-event': 'warn',
                     'testing-library/no-debug': 'off',
+                    'unicorn/prefer-top-level-await': 'off',
                 },
                 parserOptions: {
                     project: ['tsconfig(.*)?.json'],
                 },
             },
         ],
-        env: {
-            jest: true,
-        },
     };
 }
 
-function addRules(tree: Tree, projectRootPath: string) {
+function customServerEslintConfig(): Linter.Config {
+    return {
+        overrides: [
+            {
+                files: 'server/main.ts',
+                rules: {
+                    'unicorn/no-process-exit': 'off',
+                },
+            },
+        ],
+    };
+}
+
+function addRules(
+    tree: Tree,
+    projectRootPath: string,
+    options: { isCustomServer: boolean },
+) {
     updateEslintConfig(tree, projectRootPath, baseConfig => {
         return mergeEslintConfigs(
             baseConfig,
-            stacksEslintConfig(projectRootPath),
+            stacksEslintConfig(),
+            options.isCustomServer ? customServerEslintConfig() : {},
         );
     });
 }
@@ -66,7 +85,12 @@ function addEslintDependencies(tree: Tree) {
     );
 }
 
-export function addEslint(tree: Tree, projectSourceRoot: string) {
-    addRules(tree, projectSourceRoot);
+export function addEslint(tree: Tree, project: ProjectConfiguration) {
+    const isCustomServer = Boolean(
+        project.targets?.['build-custom-server'] &&
+            project.targets?.['serve-custom-server'],
+    );
+
+    addRules(tree, project.root, { isCustomServer });
     return addEslintDependencies(tree);
 }
