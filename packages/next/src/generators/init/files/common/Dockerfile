@@ -16,12 +16,7 @@ ENV PORT <%= port %>
 WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=deps /usr/src/app/package.json ./package.json
-COPY <%= distFolderPath %>/next.config.js ./next.config.js
-COPY <%= distFolderPath %>/public ./public
-<% if(customServerRelativePath) { %>
-COPY <%= distFolderPath %>/server ./server
-<% } %>
-COPY <%= distFolderPath %>/.next ./.next
+COPY <%= distFolderPath %> ./
 RUN chown -R node:node .
 USER node
 EXPOSE <%= port %>
