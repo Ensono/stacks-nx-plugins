@@ -111,12 +111,7 @@ export default async function generate(
         },
     };
 
-    await addCustomTestConfig(
-        tree,
-        project,
-        normalizedOptions.projectName,
-        ciCoverageConfig,
-    );
+    addCustomTestConfig(tree, project, ciCoverageConfig);
 
     // Format files
     if (!normalizedOptions.skipFormat) {
