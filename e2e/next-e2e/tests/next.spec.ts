@@ -41,7 +41,11 @@ describe('next e2e', () => {
     describe('init generator', () => {
         it('runs the install generator', async () => {
             expect(() =>
-                checkFilesExist('tsconfig.base.json', '.eslintrc.json'),
+                checkFilesExist(
+                    'tsconfig.base.json',
+                    '.eslintrc.json',
+                    path.join('apps', project, 'Dockerfile'),
+                ),
             ).not.toThrow();
         });
 
@@ -179,39 +183,6 @@ describe('next e2e', () => {
 
         it('can serve the application', async () => {
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
-        });
-    });
-
-    xdescribe('init-deployment generator', () => {
-        const library = 'stacks-helm-chart';
-        beforeAll(async () => {
-            await runNxCommandAsync(
-                `generate @ensono-stacks/next:init-deployment --project=${project} --libraryName=${library} --no-interactive`,
-            );
-        });
-
-        afterAll(async () => {
-            await runNxCommandAsync('reset');
-        });
-
-        it('creates the required helm chart library', async () => {
-            const libraryPath = joinPathFragments('libs', library);
-            expect(() =>
-                checkFilesExist(
-                    joinPathFragments(libraryPath, 'project.json'),
-                    joinPathFragments(
-                        libraryPath,
-                        'build',
-                        'helm',
-                        'Chart.yaml',
-                    ),
-                ),
-            ).not.toThrow();
-        });
-
-        it('is a usable package and can be linted', async () => {
-            const output = await runTarget(library, targetOptions.lint);
-            expect(output).toContain('1 chart(s) linted, 0 chart(s) failed');
         });
     });
 
