@@ -103,7 +103,7 @@ tasks:
     description: Deploy the application to AKS
     command:
       - |
-        Import-Module Az.Aks
+        Import-Module Az.Aks # This is loaded here as when it is imported in lower down modules you end up with conflicts with assembly tasks within Azure DevOps Backend!
         ./build/scripts/Prepare-TerraformOutputs.ps1 -VerboseOutput
         ./build/scripts/Deploy-Secret.ps1 -VerboseOutput
         ./build/scripts/Deploy-Manifests.ps1 -VerboseOutput

@@ -1,7 +1,7 @@
 ---
-id: aci_getting_started
+id: nx-plugins_getting_started
 title: Getting Started
-description: Details about how architecture of the AKS resources and how there are deployed using Terraform.
+description: Details about how architecture of resources and how there are deployed using Terraform.
 weight: 40
 ---
 

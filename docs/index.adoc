@@ -17,6 +17,8 @@ include::introduction.adoc[]
 
 include::infrastructure.adoc[]
 
+include::app_build_deploy.adoc[]
+
 <<<
 
 include::getting_started.adoc[]
@@ -24,6 +26,8 @@ include::getting_started.adoc[]
 <<<
 
 include::pipeline.adoc[]
+
+include::ado_features.adoc[]
 
 <<<
 
