@@ -39,14 +39,14 @@ describe('create', () => {
         }
     });
 
-    // afterEach(() => {
-    //     if (fs.existsSync(temporaryDirectory)) {
-    //         fs.rmSync(temporaryDirectory, {
-    //             recursive: true,
-    //             force: true,
-    //         });
-    //     }
-    // });
+    afterEach(() => {
+        if (fs.existsSync(temporaryDirectory)) {
+            fs.rmSync(temporaryDirectory, {
+                recursive: true,
+                force: true,
+            });
+        }
+    });
 
     it('configures an empty apps stacks workspace', async () => {
         const run = () =>
