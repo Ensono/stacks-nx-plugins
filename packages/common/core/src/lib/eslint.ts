@@ -68,11 +68,13 @@ function formatConfig(config: Linter.Config) {
 }
 
 export function mergeEslintConfigs(...configs: Linter.Config[]): Linter.Config {
-    if (configs.length <= 1) {
-        return formatConfig(configs[0] || {});
+    const data = configs.filter(Boolean);
+
+    if (data.length <= 1) {
+        return formatConfig(data[0] || {});
     }
 
-    const [a, b, ...base] = configs;
+    const [a, b, ...base] = data;
     const result = deepMerge(a, b, {
         arrayMerge: (target, source, options) =>
             combineMerge(target, source, options, 'files'),

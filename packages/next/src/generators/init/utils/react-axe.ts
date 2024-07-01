@@ -1,42 +1,16 @@
+import { tsMorphTree } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
     ProjectConfiguration,
     joinPathFragments,
+    Tree,
+    logger,
+    GeneratorCallback,
 } from '@nx/devkit';
-import chalk from 'chalk';
-import { Project, SyntaxKind } from 'ts-morph';
+import { SyntaxKind } from 'ts-morph';
 
 import { REACT_AXE_CORE_VERSION } from '../../../utils/constants';
 
-// the code that needs to be injected to layout.tsx file.
-const reactAxeConfigurationCode = `
-/**
- * A dynamic import is used here to only load the react-axe library for a11y checks
- * when it is not in production mode
- * This ensures that it is only ran in local env.
- */
-// @ts-ignore
-if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' ) {
-    // eslint-disable-next-line global-require
-    const axe = require('@axe-core/react'); // eslint-disable-line @typescript-eslint/no-var-requires
-    // eslint-disable-next-line global-require
-    const React = require('react'); // eslint-disable-line @typescript-eslint/no-var-requires
-    // eslint-disable-next-line global-require
-    const ReactDOM = require('react-dom'); // eslint-disable-line @typescript-eslint/no-var-requires
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    axe(React, ReactDOM, 1000);
-}
-`;
-
-export function addReactAxeDependency(tree) {
-    return addDependenciesToPackageJson(
-        tree,
-        {},
-        {
-            '@axe-core/react': REACT_AXE_CORE_VERSION,
-        },
-    );
-}
 /**
  * adds react-axe config to _app.tsx file
  * if the file _app.tsx doesn't exist in the project or is not where it is by convention in nextjs, it will do nothing
@@ -44,9 +18,10 @@ export function addReactAxeDependency(tree) {
  * NOTE: In the default configuration of a nextjs v13 app, react-axe will need to be manually configured
  */
 export function addReactAxeConfigToApp(
+    tree: Tree,
     project: ProjectConfiguration,
-    morphTree: Project,
-) {
+): GeneratorCallback {
+    const morphTree = tsMorphTree(tree);
     try {
         const appDirectory = joinPathFragments(
             project.root,
@@ -55,35 +30,59 @@ export function addReactAxeConfigToApp(
             'layout.tsx',
         );
         const appNode = morphTree.addSourceFileAtPath(appDirectory);
+
         // only try to modify the layout.tsx file if it exists
-        if (appNode) {
-            // Find the line containing "function RootLayout"
-            const functionRootLayoutLine = appNode
-                .getDescendantsOfKind(SyntaxKind.FunctionDeclaration)
-                .find(node => node.getName() === 'RootLayout')
-                ?.getStartLineNumber();
+        if (
+            !appNode.getImportDeclaration(d =>
+                d
+                    .getModuleSpecifier()
+                    .getText()
+                    .includes('/components/a11y/axe'),
+            )
+        ) {
+            appNode.addImportDeclaration({
+                defaultImport: 'Axe',
+                moduleSpecifier: '../components/a11y/axe',
+            });
 
-            if (functionRootLayoutLine) {
-                // Get all the lines in the source file
-                const lines = appNode.getFullText().split('\n');
+            const bodyJsx = appNode
+                .getDescendantsOfKind(SyntaxKind.JsxElement)
+                .find(
+                    d =>
+                        d
+                            .getFirstDescendantByKind(
+                                SyntaxKind.JsxOpeningElement,
+                            )
+                            ?.getFirstDescendantByKind(SyntaxKind.Identifier)
+                            ?.getText() === 'body',
+                );
 
-                // Calculate the line number to insert the new code
-                const insertLine = functionRootLayoutLine - 2;
+            const bodyExpression = bodyJsx.getFirstDescendantByKind(
+                SyntaxKind.JsxExpression,
+            );
 
-                // Insert the react-axe config code
-                lines.splice(insertLine, 0, reactAxeConfigurationCode);
+            const update = `<Axe />${bodyExpression.getText()}`;
 
-                // Save the changes to the file.
-                appNode.replaceWithText(lines.join('\n'));
-                appNode.saveSync();
-            }
+            bodyExpression.replaceWithText(update);
+
+            appNode.saveSync();
         }
-    } catch (error) {
-        console.error(
-            chalk.red`Failed to add the react-axe configuration to the app/layout.tsx file, got error: ${error}`,
+
+        return addDependenciesToPackageJson(
+            tree,
+            {},
+            {
+                '@axe-core/react': REACT_AXE_CORE_VERSION,
+            },
         );
-        console.info(
-            chalk.yellow`Failed possibly because this next.js application was created with the new app directory which doesn't have an layout.tsx file.`,
+    } catch (error) {
+        logger.error(
+            `Failed to add the react-axe configuration to the app/layout.tsx file, got error: ${error}`,
+        );
+        logger.warn(
+            `Failed possibly because this next.js application was created with the new app directory which doesn't have an layout.tsx file.`,
         );
     }
+
+    return () => {};
 }

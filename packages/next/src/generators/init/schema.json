@@ -1,21 +1,19 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "$id": "Init",
-  "type": "object",
-  "title": "Ensono Stacks Next Init Generator",
-  "description": "The @ensono-stacks/next:init generator will add a custom ESlint config to an existing NextJs application, install eslint-plugin-testing-library to the project. as well as update project.json with a custom test config to allow coverage collection from jest.",
-  "properties": {
-    "project": {
-      "type": "string",
-      "description": "The name of the project.",
-      "alias": "p",
-      "$default": {
-        "$source": "projectName"
-      },
-      "x-prompt": "What is the name of the project for this component?"
-    }
-  },
-  "required": [
-    "project"
-  ]
+    "$schema": "http://json-schema.org/schema",
+    "$id": "Init",
+    "type": "object",
+    "title": "Ensono Stacks Next Init Generator",
+    "description": "The @ensono-stacks/next:init generator will add a custom ESlint config to an existing NextJs application, install eslint-plugin-testing-library to the project. as well as update project.json with a custom test config to allow coverage collection from jest.",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "alias": "p",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-prompt": "What is the name of the project for this component?"
+        }
+    },
+    "required": ["project"]
 }
