@@ -47,6 +47,8 @@ modules/
 
 # Testing Directories
 test
+tfplan
+inspec.lock
 deploy/app/k8s-manifest/testing 
 deploy/deploytesting/*
 tf_outputs.yml

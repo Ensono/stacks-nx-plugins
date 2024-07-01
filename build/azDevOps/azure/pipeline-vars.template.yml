@@ -20,20 +20,10 @@ variables:
 
   # the email address to use when creating the SSL certificate
   - name: acme_email
-    value:
+    value: 
 
-  # -------- Cluster information
-  # version of AKS to deploy
-  - name: aks_cluster_version
-    value: 1.24.9
-
-  # Should a valid certificate be obtained, or use a self signed one
-  - name: create_valid_cert
-    value: false
-
-  # Additional node pools for kubernetes
-  - name: aks_node_pools
-    value: {}
+  - name: provider
+    value: azure
 
   # -------- Terraform remote state
   # Stacks operates Terraform states based on workspaces **IT IS VERY IMPORTANT** that you ensure a unique name for each application definition
@@ -49,21 +39,52 @@ variables:
   - name: tf_state_key
     value: core
 
-  # -------- Network Domain names
-  - name: base_domain_nonprod
-    value: nonprod.{{.Input.Network.Base.Domain.External}}
-  - name: base_domain_internal_nonprod
-    value: nonprod.{{.Input.Network.Base.Domain.Internal}}
-  - name: base_domain_prod
-    value: prod.{{.Input.Network.Base.Domain.External}}
-  - name: base_domain_internal_prod
-    value: prod.{{.Input.Network.Base.Domain.Internal}}
+  # -------- Custom Name Label
+  - name: custom_name
+    value: true
 
-  # ------- DNS configuration
-  - name: dns_zone_resource_group
-    value:
-  - name: create_dns_zone
-    value: false
+  # ------- DNS & Public IP References
+  - name: dns_zone_rg
+    value: 
+  - name: dns_zone
+    value: 
+  - name: dns_a_record_name
+    value: 
+
+  - name: app_gateway_frontend_ip_rg
+    value: 
+  - name: app_gateway_frontend_ip_name
+    value: 
+
+  # ------- Redis Cache Configuration (See claranet documentation for full customization options and terraform.io for further context)
+  - name: create_redis
+    value: true
+  - name: redis_resource_group_name
+    value: 
+  - name: maxmemory_policy
+    value: 
+  - name: sku_name
+    value: 
+
+  # ------- Build
+  - name: image_name
+    value: 
+  - name: registry_fqdn
+    value: 
+  - name: registry_resource_group
+    value: 
+  - name: app_directory
+    value: ./apps/stacks-app/Dockerfile
+  - name: app_workspace
+    value: nx-workspace
+  - name: image_tag
+    value: 
+
+  # ------- Deploy
+  - name: aks_cluster
+    value: 
+  - name: aks_resource_group
+    value: 
 
   # ------- GitHub
   - name: create_release
@@ -75,4 +96,4 @@ variables:
 
   # ------- Resource Tags
   - name: team_owner
-    value:
+    value: plateng

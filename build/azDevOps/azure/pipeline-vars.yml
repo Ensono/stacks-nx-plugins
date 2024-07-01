@@ -2,16 +2,16 @@ variables:
   # ------- General Agent Setup
   # set the location that the resources should be deployed to
   - name: region
-    value: uksouth
+    value: westeurope
 
   # ------- Stacks configuration
   # name of the company that owns the project
   - name: company
-    value: adopipe
+    value: company
 
   # name of the project
   - name: project
-    value: redisproject
+    value: frontend
 
   # which domain fo the company is this. e.g. core resources, or front end
   # This is not a network domain
@@ -31,13 +31,13 @@ variables:
   # there are some best practices around this if you are going for feature based environments
   # avoid running anything past dev that is not on master
   - name: tf_state_rg
-    value: stacks-terraform-state
+    value: yourstaterg
   - name: tf_state_storage
-    value: stacksstatehjfis
+    value: yourstatestorage
   - name: tf_state_container
     value: tfstate
   - name: tf_state_key
-    value: redisadopipestate
+    value: yourtfstatekey
 
   # -------- Custom Name Label
   - name: custom_name
@@ -45,22 +45,22 @@ variables:
 
   # ------- DNS & Public IP References
   - name: dns_zone_rg
-    value: danredistest
+    value: dnz_zone
   - name: dns_zone
-    value: redistest.com
+    value: yourdomain.com
   - name: dns_a_record_name
-    value: testabcdefgrecord
+    value: yourrecordname
 
   - name: app_gateway_frontend_ip_rg
-    value: danredistest
+    value: youriprg
   - name: app_gateway_frontend_ip_name
-    value: redistestip
+    value: youripname
 
   # ------- Redis Cache Configuration (See claranet documentation for full customization options and terraform.io for further context)
   - name: create_redis
     value: true
   - name: redis_resource_group_name
-    value: danredistest
+    value: redisrgname
   - name: maxmemory_policy
     value: allkeys-lru
   - name: sku_name
@@ -70,21 +70,21 @@ variables:
   - name: image_name
     value: nx-app
   - name: registry_fqdn
-    value: redistestreg.azurecr.io
+    value: yourcontainerregistry.azurecr.io
   - name: registry_resource_group
-    value: danredistest
+    value: registryrg
   - name: app_directory
     value: ./apps/stacks-app/Dockerfile
   - name: app_workspace
     value: nx-workspace
   - name: image_tag
-    value: test
+    value: latest
 
   # ------- Deploy
   - name: aks_cluster
-    value: redistestaks
+    value: yourakscluster
   - name: aks_resource_group
-    value: danredistest
+    value: youraksrg
 
   # ------- GitHub
   - name: VERSION_NUMBER
