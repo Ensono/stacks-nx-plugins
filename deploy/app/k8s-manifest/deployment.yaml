@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nx-container
-        image: node:14-alpine # Replace with the NX App Image
+        image: redistestreg.azurecr.io/nx-app:test # Replace with the NX App Image
         ports:
         - containerPort: 3000
         envFrom:

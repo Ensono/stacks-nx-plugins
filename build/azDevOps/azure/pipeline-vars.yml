@@ -2,12 +2,12 @@ variables:
   # ------- General Agent Setup
   # set the location that the resources should be deployed to
   - name: region
-    value: westeurope
+    value: uksouth
 
   # ------- Stacks configuration
   # name of the company that owns the project
   - name: company
-    value: dansco
+    value: adopipe
 
   # name of the project
   - name: project
@@ -20,7 +20,7 @@ variables:
 
   # the email address to use when creating the SSL certificate
   - name: acme_email
-    value: stacks@amido.com
+    value: stacks@ensono.com
 
   - name: provider
     value: azure
@@ -37,7 +37,7 @@ variables:
   - name: tf_state_container
     value: tfstate
   - name: tf_state_key
-    value: redistest
+    value: redisadopipestate
 
   # -------- Custom Name Label
   - name: custom_name
@@ -49,7 +49,7 @@ variables:
   - name: dns_zone
     value: redistest.com
   - name: dns_a_record_name
-    value: testarecord
+    value: testabcdefgrecord
 
   - name: app_gateway_frontend_ip_rg
     value: danredistest
@@ -58,7 +58,7 @@ variables:
 
   # ------- Redis Cache Configuration (See claranet documentation for full customization options and terraform.io for further context)
   - name: create_redis
-    value: false
+    value: true
   - name: redis_resource_group_name
     value: danredistest
   - name: maxmemory_policy
@@ -67,24 +67,24 @@ variables:
     value: Basic
 
   # ------- Build
-  - name: workspace_name
-    value: nx-workspace
   - name: image_name
     value: nx-app
-  - name: registry_name
-    value: redistestacr
+  - name: registry_fqdn
+    value: redistestreg.azurecr.io
   - name: registry_resource_group
-    value: dantestredis
-  - name: build_args
-    value: "-buildargs "-f apps/stacks-app/Dockerfile"
-  - name: image_tags
+    value: danredistest
+  - name: app_directory
+    value: ./apps/stacks-app/Dockerfile
+  - name: app_workspace
+    value: nx-workspace
+  - name: image_tag
     value: test
 
   # ------- Deploy
   - name: aks_cluster
     value: redistestaks
   - name: aks_resource_group
-    value: dantestredis
+    value: danredistest
 
   # ------- GitHub
   - name: VERSION_NUMBER

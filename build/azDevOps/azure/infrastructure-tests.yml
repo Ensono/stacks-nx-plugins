@@ -43,7 +43,7 @@ stages:
             parameters:
               CHEF_LICENSE: $(CHEF_LICENSE)
               TESTS_PATH: /app/deploy/tests
-              INSPEC_ARGS: "--input resource_group_name=$(resource_group_name) storage_account_name=$(storage_account_name) region=$(location)"
+              INSPEC_ARGS: "--input resource_group_name=$(resource_group_name) region=$(location)"
               REPORT_FILENAME: inspec_azure_redis.xml
 
           - task: PublishTestResults@2

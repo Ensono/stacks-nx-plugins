@@ -232,8 +232,9 @@ Now that the environment has been configured the pipelines can be run.
 | # | Command
 | 1 | `taskctl lint`
 | 2 | `taskctl infrastructure`
-| 3 | `taskctl tests`
-| 4 | `taskctl docs`
+| 3 | `taskctl app`
+| 4 | `taskctl tests`
+| 5 | `taskctl docs`
 |===
 
 These pipelines can be run in any order based on the task that needs to be accomplished. In addition to these any of the tasks, as described in <<Pipeline>> can be executed.

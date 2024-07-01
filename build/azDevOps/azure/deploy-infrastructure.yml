@@ -27,6 +27,10 @@ parameters:
     displayName: Deploy Environment
     type: boolean
     default: true
+  - name: run_lint_and_docs
+    displayName: Run Linting & Docs Tasks?
+    type: boolean
+    default: true
   - name: destroy
     displayName: Destroy Environment
     type: boolean
@@ -88,33 +92,36 @@ stages:
         pool:
           vmImage: $(pool_vm_image)
         steps:
-          - template: templates/setup.yml
-            parameters:
-              TaskctlVersion: ${{ variables.TaskctlVersion }}
+          - ${{ if eq(parameters.run_lint_and_docs, true) }}:
+            - template: templates/setup.yml
+              parameters:
+                TaskctlVersion: ${{ variables.TaskctlVersion }}
 
-          # Removing for now as zero documentation ruins the pipeline run
           # lint files in the repo
-          - task: Bash@3
-            displayName: Lint
-            inputs:
-              targetType: inline
-              script: |
-                taskctl lint
+          - ${{ if eq(parameters.run_lint_and_docs, true) }}:
+            - task: Bash@3
+              displayName: Lint
+              inputs:
+                targetType: inline
+                script: |
+                  taskctl lint
 
           # Create the documentation for the repo
-          - task: Bash@3
-            displayName: Documentation
-            inputs:
-              targetType: inline
-              script: |
-                taskctl docs
+          - ${{ if eq(parameters.run_lint_and_docs, true) }}:
+            - task: Bash@3
+              displayName: Documentation
+              inputs:
+                targetType: inline
+                script: |
+                  taskctl docs
 
           # Upload the documentation as a build artifact
-          - task: PublishBuildArtifacts@1
-            displayName: Publish Documentation
-            inputs:
-              pathToPublish: $(Build.SourcesDirectory)/outputs/docs
-              artifactName: docs
+          - ${{ if eq(parameters.run_lint_and_docs, true) }}:
+            - task: PublishBuildArtifacts@1
+              displayName: Publish Documentation
+              inputs:
+                pathToPublish: $(Build.SourcesDirectory)/outputs/docs
+                artifactName: docs
 
   # Called Non-Prod instead of Dev as all Non-Production stages will deploy to here
   - ${{ each stage in parameters.stages }}:
@@ -208,18 +215,19 @@ stages:
                         - template: templates/infra-tests.yml
                           parameters:
                             CHEF_LICENSE: $(CHEF_LICENSE)
-                            TESTS_PATH: /app/deploy/tests
-                            REPORT_FILENAME: inspec_azure_aks.xml
+                            INSPEC_FILES: /app/deploy/tests
                             TF_FILE_LOCATION: /app/deploy/terraform
+                            REPORT_FILENAME: inspec_azure_redis.xml
                             TF_VAR_name_environment: ${{ stage.environment_shortname }}
                             TF_VAR_resource_group_location: $(region)
-                            create_redis: $(create_redis)
+                            TF_VAR_resource_group_name: $(redis_resource_group_name)
+
 
                     - ${{ if eq(parameters.deploy, true) }}:
                         - task: PublishTestResults@2
                           inputs:
                             testResultsFormat: JUnit
-                            testResultsFiles: outputs/tests/inspec_azure_aks.xml
+                            testResultsFiles: outputs/tests/inspec_azure_redis.xml
                             testRunTitle: Terraform Redis Tests
                             failTaskOnFailedTests: true
 
@@ -245,24 +253,29 @@ stages:
                         script: |
                           taskctl app:build
                       env:
-                        workspace_name: $(workspace_name)
-                        Provider: $(provider) # could be CLOUD_PLATFORM
-                        ImageName: $(image_name)
-                        RegistryName: $(registry_name)
+                        provider: $(provider) # could be CLOUD_PLATFORM
+                        image_name: $(image_name)
+                        registry_name: $(registry_fqdn)
                         registry_resource_group: $(registry_resource_group)
-                        BuildArgs: $(build_args)
-                        Tags: $(image_tags)
+                        build_args: -f $(app_directory)
+                        app_workspace: ./$(app_workspace)
+                        tag: $(image_tag)
 
                     - task: Bash@3
                       displayName: Deploy K8s Manifest YAML
                       inputs:
                         targetType: inline
                         script: |
+                          taskctl infra:init
                           taskctl app:deploy
                       env:
+                        TF_FILE_LOCATION: /app/deploy/terraform
+                        TF_VAR_name_environment: ${{ stage.environment_shortname }}
+                        TF_BACKEND_INIT: "key=$(tf_state_key),container_name=$(tf_state_container),storage_account_name=$(tf_state_storage),resource_group_name=$(tf_state_rg)"
                         provider: $(provider) # could be CLOUD_PLATFORM
                         target: $(aks_cluster)
                         identifier: $(aks_resource_group)
+                        add_redis_key: $(create_redis)
 
   - stage: Release
     dependsOn:

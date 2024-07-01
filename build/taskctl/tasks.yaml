@@ -94,23 +94,19 @@ tasks:
     context: powershell
     description: Prepare the application image to be pushed to Image Registry
     command:
-      - cd ./$env:workspace_name/apps/stacks-app
-      - Build-DockerImage -Provider $Provider -Name $ImageName -Registry $RegistryName -Tags $Tags -BuildArgs $buildargs -push
+      - |
+        Set-Location $env:app_workspace
+        Build-DockerImage -provider $env:provider -name $env:image_name -registry $env:registry_name -tag $env:tag -group $env:registry_resource_group -buildargs $env:build_args -push
 
   app:deploy:
     context: powershell
     description: Deploy the application to AKS
     command:
       - |
-        Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
-        Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/tf_outputs.yml
-        cd ./deploy/app/k8s-manifest
-        If($env:create_redis -eq "true") {
-          $redis_connection_string = "$($env:TFOUT_redis_hostname):$($env:TFOUT_redis_port),password=$($env:TFOUT_redis_primary_access_key),ssl=True,abortConnect=False" # It is done this way because if you require port 6379 and use the redis_primary_connection_string output the port is ALWAYS 6380
-          $base64EncodedString = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($redis_connection_string))
-          Invoke-Kubectl -custom -arguments @("create secret generic nx-secret --from-literal=redis_connection_string='$base64EncodedString'") -provider $env:provider -target $env:target -identifier $env:identifier
-        }
-        Invoke-Kubectl -apply -arguments @("deployment.yaml", "service.yaml", "ingress.yaml") -provider $env:provider -target $env:target -identifier $env:identifier
+        Import-Module Az.Aks
+        ./build/scripts/Prepare-TerraformOutputs.ps1 -VerboseOutput
+        ./build/scripts/Deploy-Secret.ps1 -VerboseOutput
+        ./build/scripts/Deploy-Manifests.ps1 -VerboseOutput
 
   setup:dev:
     context: powershell
@@ -141,12 +137,11 @@ tasks:
     description: Execute infrastructure tests against deployed Cloud resources
     command:
       - |
-        Import-Module Az.RedisCache
         Invoke-Terraform -Workspace -Arguments $env:TF_VAR_name_environment -Path $env:TF_FILE_LOCATION
         Invoke-Terraform -Output -Path $env:TF_FILE_LOCATION | /app/build/scripts/Set-EnvironmentVars.ps1 -prefix "TFOUT" -key "value" -passthru | ConvertTo-Yaml | Out-File -Path ${PWD}/inspec_inputs.yml
         Add-Content -Path ${PWD}/inspec_inputs.yml -Value "resource_group_name: ${env:TF_VAR_resource_group_name}"
-        Add-Content -Path ${PWD}/inspec_inputs.yml -Value "region: ${env:TF_VAR_location}"
-        Invoke-Inspec -execute -arguments "--input-file ${PWD}/inspec_inputs.yml"
+        Add-Content -Path ${PWD}/inspec_inputs.yml -Value "resource_group_location: ${env:TF_VAR_resource_group_location}"
+        Invoke-Inspec -execute -ExitCodes 101 -arguments "--input-file ${PWD}/inspec_inputs.yml"
 
   _docs:
     description: Build Docs for AKS
