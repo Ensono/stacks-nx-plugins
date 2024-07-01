@@ -26,7 +26,7 @@ describe('addCustomTestConfig', () => {
             },
         };
 
-        addCustomTestConfig(appTree, project, 'test', testConfig);
+        addCustomTestConfig(appTree, project, testConfig);
 
         expect(
             project.targets?.['test'].configurations?.['testObject'],
