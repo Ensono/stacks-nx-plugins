@@ -89,12 +89,7 @@ export default async function generate(
     };
 
     if (project.name) {
-        await addCustomTestConfig(
-            tree,
-            project,
-            project.name,
-            ciCoverageConfig,
-        );
+        addCustomTestConfig(tree, project, ciCoverageConfig);
     }
 
     // Format files

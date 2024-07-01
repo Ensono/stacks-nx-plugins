@@ -1,0 +1,56 @@
+import { loadEnvConfig } from '@next/env';
+import express from 'express';
+import next from 'next';
+import path from 'path';
+import { parse } from 'url';
+
+const development = process.env.NODE_ENV === 'development';
+const directory =
+    process.env.NX_NEXT_DIR || development
+        ? path.join(process.cwd(), '<%= projectRoot %>')
+        : __dirname;
+
+process.chdir(directory);
+
+loadEnvConfig('./', development);
+
+const hostname = process.env.HOST || 'localhost';
+const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : <%= port %>;
+
+async function main() {
+    const nextApp = next({
+        dev: development,
+        dir: directory,
+        hostname,
+        port,
+        quiet: true,
+    });
+
+    const handle = nextApp.getRequestHandler();
+
+    await nextApp.prepare();
+
+    const server = express();
+
+    server.set('trust proxy', true);
+    server.disable('x-powered-by');
+
+    server.all('*', async (request, response) => {
+        const parsedUrl = parse(request.url, true);
+        try {
+            await handle(request, response, parsedUrl);
+        } catch (error) {
+            console.error('Failed to render page', {
+                error,
+                path: parsedUrl.pathname,
+            });
+        }
+    });
+
+    server.listen(port, hostname);
+}
+
+main().catch(error => {
+    console.error(error);
+    process.exit(1);
+});
