@@ -55,18 +55,6 @@ export function getGeneratorsToRun(
     // Run workspace init generator
     generators.push(`@ensono-stacks/workspace:init`);
 
-    // Conditionally run workspace init deployment generator
-    if (
-        checkRequiredArguments(argv, [
-            'business',
-            'domain',
-            'cloud',
-            'pipeline',
-        ])
-    ) {
-        generators.push(`@ensono-stacks/workspace:init-deployment`);
-    }
-
     if (argv.preset === Preset.NextJs) {
         generators.push(
             `@nx/next:app ${argv.appName} --directory=apps --e2eTestRunner=none`,
