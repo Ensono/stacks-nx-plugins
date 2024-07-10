@@ -110,17 +110,15 @@ export default async function runEnd2EndExecutor(
                 projectName,
             ).workspaceLibraries;
         }
-        return [
-            ...deps(context.projectName),
-            ...deps('create-e2e'),
-            ...deps('workspace-e2e'),
-        ];
+        return [...deps(context.projectName)];
     }
 
     const publishableLibraries = filterPublishableLibraries(
         getStacksPackageInformation(),
         context.projectGraph,
     );
+
+    console.log(publishableLibraries);
 
     let success = false;
     logger.log(
