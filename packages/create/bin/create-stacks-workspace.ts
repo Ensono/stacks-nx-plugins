@@ -243,7 +243,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             );
             process.exit(1);
         }
-    } else {
+    } else if (!fs.existsSync(workingDirectory)) {
         console.error(
             chalk.red`Working directory ${workingDirectory} does not exist!`,
         );
