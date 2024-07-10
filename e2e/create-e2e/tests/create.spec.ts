@@ -104,7 +104,6 @@ describe('create', () => {
                         external: 'prod.amidostacks.com',
                         internal: 'nonprod.amidostacks.com',
                     },
-                    pipeline: 'azdo',
                     terraform: {
                         container: 'tf-container',
                         group: 'tf-group',
@@ -120,9 +119,12 @@ describe('create', () => {
         expect(() => run()).toThrow();
     });
 
-    it('can install within a specific directory if it does not exist', async () => {
+    it('can install within a specific directory if it exists', async () => {
+        fs.mkdirSync(path.join(temporaryDirectory, 'proj', 'test'), {
+            recursive: true,
+        });
         execSync(
-            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/project-name --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
+            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/test --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
@@ -136,21 +138,21 @@ describe('create', () => {
 
         expect(() =>
             checkFilesExist(
-                'project-name/.eslintrc.json',
-                'project-name/.husky/commit-msg',
-                'project-name/.husky/pre-commit',
-                'project-name/.husky/prepare-commit-msg',
+                'test/project-test/.eslintrc.json',
+                'test/project-test/.husky/commit-msg',
+                'test/project-test/.husky/pre-commit',
+                'test/project-test/.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
     });
 
     it('throws when dir already exists without overwrite', async () => {
-        fs.mkdirSync(path.join(temporaryDirectory, 'proj', 'project-name'), {
+        fs.mkdirSync(path.join(temporaryDirectory, 'proj', 'test', 'name'), {
             recursive: true,
         });
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/project-name --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip  --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest name --dir=./proj/test --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip  --skipGit --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -166,11 +168,14 @@ describe('create', () => {
     });
 
     it('can install to a specific directory with overwrite (stacks-cli)', async () => {
-        fs.mkdirSync(path.join(temporaryDirectory, 'proj', 'ProjectName'), {
-            recursive: true,
-        });
+        fs.mkdirSync(
+            path.join(temporaryDirectory, 'proj', 'test', 'project-test'),
+            {
+                recursive: true,
+            },
+        );
         execSync(
-            `npx --yes @ensono-stacks/create-stacks-workspace@latest ProjectTest --dir=./proj/ProjectName --nxVersion=${nxVersion} --overwrite --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
+            `npx --yes @ensono-stacks/create-stacks-workspace@latest projectTest --dir=./proj/test --nxVersion=${nxVersion} --overwrite --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=apps --nxCloud=skip --skipGit --no-interactive --verbose`,
             {
                 cwd: temporaryDirectory,
                 stdio: 'inherit',
@@ -184,10 +189,10 @@ describe('create', () => {
 
         expect(() =>
             checkFilesExist(
-                'ProjectName/.eslintrc.json',
-                'ProjectName/.husky/commit-msg',
-                'ProjectName/.husky/pre-commit',
-                'ProjectName/.husky/prepare-commit-msg',
+                'test/project-test/.eslintrc.json',
+                'test/project-test/.husky/commit-msg',
+                'test/project-test/.husky/pre-commit',
+                'test/project-test/.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
     });
@@ -213,7 +218,7 @@ describe('create', () => {
     it('can install with cypress set as e2eTestRunner', async () => {
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --dir=./proj/ProjectName --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=cypress --nxCloud=skip --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --nxVersion=${nxVersion} --business.company=Ensono --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --preset=next --appName=test-app --e2eTestRunner=cypress --nxCloud=skip --skipGit --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
