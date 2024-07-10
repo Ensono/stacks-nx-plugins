@@ -4,7 +4,7 @@
     "sourceRoot": "packages/create/src",
     "projectType": "library",
     "tags": ["plugin"],
-    "implicitDependencies": ["playwright", "cypress"],
+    "implicitDependencies": ["workspace", "playwright", "cypress"],
 
     "targets": {
         "build": {
