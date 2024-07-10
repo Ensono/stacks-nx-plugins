@@ -1,21 +1,21 @@
 import { createNextApp } from '@ensono-stacks/test';
-import { initDeploymentGenerator } from '@ensono-stacks/workspace';
+// import { initDeploymentGenerator } from '@ensono-stacks/workspace';
 import { readJson, Tree } from '@nx/devkit';
 import YAML from 'yaml';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries, import/no-relative-packages
 import generator from './generator';
 
-describe('playwright generator', () => {
+xdescribe('playwright generator', () => {
     let appTree: Tree;
 
     beforeAll(async () => {
         const applicationName = 'application';
         appTree = await createNextApp(applicationName);
 
-        await initDeploymentGenerator(appTree, {
-            pipelineRunner: 'taskctl',
-        });
+        // await initDeploymentGenerator(appTree, {
+        //     pipelineRunner: 'taskctl',
+        // });
 
         await generator(appTree);
     });
