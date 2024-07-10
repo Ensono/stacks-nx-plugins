@@ -118,8 +118,6 @@ export default async function runEnd2EndExecutor(
         context.projectGraph,
     );
 
-    console.log(publishableLibraries);
-
     let success = false;
     logger.log(
         `[${context.projectName}] Getting libraries ready for publishing`,
