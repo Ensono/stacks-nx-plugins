@@ -4,7 +4,7 @@
     "projectType": "application",
     "sourceRoot": "e2e/rest-client-e2e/src",
     "tags": ["e2e"],
-    "implicitDependencies": ["rest-client"],
+    "implicitDependencies": ["rest-client", "create"],
     "targets": {
         "e2e": {
             "executor": "@ensono-stacks/e2e:e2e",

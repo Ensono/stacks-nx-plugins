@@ -4,6 +4,8 @@
     "sourceRoot": "packages/create/src",
     "projectType": "library",
     "tags": ["plugin"],
+    "implicitDependencies": ["workspace", "playwright", "cypress"],
+
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
