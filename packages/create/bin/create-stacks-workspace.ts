@@ -6,6 +6,7 @@ import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
 import fs from 'fs';
 import path from 'path';
+import { rimrafSync } from 'rimraf';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
 
@@ -236,7 +237,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     if (fs.existsSync(targetDirectory)) {
         if (overwrite) {
-            fs.rmSync(targetDirectory, { recursive: true, force: true });
+            rimrafSync(targetDirectory);
         } else {
             console.error(
                 chalk.red`Target directory ${targetDirectory} already exists! use --overwrite to force using this folder.`,
