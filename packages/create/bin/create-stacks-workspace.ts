@@ -226,10 +226,15 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
 
-    const targetDirectory = path.resolve(dir);
-    const isTargetDirectoryCurrent = targetDirectory === process.cwd();
+    const workingDirectory = path.resolve(dir);
+    const targetDirectory = path.join(workingDirectory, name);
+    const currentDirectoryIsTarget = targetDirectory === process.cwd();
 
-    if (!isTargetDirectoryCurrent && fs.existsSync(targetDirectory)) {
+    if (currentDirectoryIsTarget) {
+        process.chdir(workingDirectory);
+    }
+
+    if (fs.existsSync(targetDirectory)) {
         if (overwrite) {
             fs.rmSync(targetDirectory, { recursive: true, force: true });
         } else {
@@ -238,12 +243,10 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             );
             process.exit(1);
         }
-    }
-
-    let cwd = path.join(process.cwd(), name);
-
-    if (fs.existsSync(cwd)) {
-        console.error(chalk.red`Directory ${cwd} already exists!`);
+    } else if (!fs.existsSync(workingDirectory)) {
+        console.error(
+            chalk.red`Working directory ${workingDirectory} does not exist!`,
+        );
         process.exit(1);
     }
 
@@ -262,7 +265,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         {
             env: process.env,
             shell: true,
-            cwd: process.cwd(),
+            cwd: workingDirectory,
             stdio: 'inherit',
         },
     );
@@ -274,6 +277,8 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         process.exit(1);
     }
 
+    process.chdir(targetDirectory);
+
     const packagesToInstall = getStacksPlugins(parsedArgv);
 
     // Set nx version for nx packages
@@ -282,7 +287,11 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     );
 
     console.log(chalk.magenta`Installing Stacks dependencies`);
-    await installPackages(versionedPackagesToInstall, cwd, parsedArgv.useDev);
+    await installPackages(
+        versionedPackagesToInstall,
+        targetDirectory,
+        parsedArgv.useDev,
+    );
     console.log(
         chalk.magenta`Successfully installed: ${versionedPackagesToInstall.join(
             '\n',
@@ -290,7 +299,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     );
 
     console.log(chalk.magenta`Configuring Stacks with Nx ${setNxVersion}`);
-    configureNx(parsedArgv, cwd);
+    configureNx(parsedArgv, targetDirectory);
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
     console.log(
         chalk.cyan`Running the following generators:\n${generatorsToRun.join(
@@ -298,7 +307,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         )}`,
     );
     try {
-        await runGenerators(generatorsToRun, cwd);
+        await runGenerators(generatorsToRun, targetDirectory);
     } catch (error: any) {
         console.error(chalk.red`Failed to run Stacks generators.`);
         console.error(error.message);
@@ -306,14 +315,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     }
 
     if (!skipGit) {
-        await commitGeneratedFiles(cwd, 'stacks init');
-    }
-
-    // Move the workspace folder to desired if necessary
-    if (!isTargetDirectoryCurrent && targetDirectory !== cwd) {
-        fs.cpSync(cwd, targetDirectory, { recursive: true, force: true });
-        fs.rmSync(cwd, { recursive: true, force: true });
-        cwd = targetDirectory;
+        await commitGeneratedFiles(targetDirectory, 'stacks init');
     }
 
     console.log(chalk.magenta`Stacks is ready`);
@@ -351,7 +353,7 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         type: 'string',
                     })
                     .option('dir', {
-                        describe: chalk.dim`The directory to install to`,
+                        describe: chalk.dim`The working directory to install from`,
                         type: 'string',
                         default: '.',
                     })
@@ -397,53 +399,6 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         choices: ['azure'],
                         type: 'string',
                         default: 'azure',
-                    })
-                    .option('cloud.region', {
-                        describe: chalk.dim`Region name where resources should be created`,
-                        type: 'string',
-                        default: 'euw',
-                    })
-                    .option('pipeline', {
-                        describe: chalk.dim`Name of the pipeline provider`,
-                        choices: ['azdo'],
-                        type: 'string',
-                        default: 'azdo',
-                    })
-                    .option('business.company', {
-                        describe: chalk.dim`Company Name`,
-                        type: 'string',
-                    })
-                    .option('business.domain', {
-                        describe: chalk.dim`Company Scope or area`,
-                        type: 'string',
-                    })
-                    .option('business.component', {
-                        describe: chalk.dim`Company component being worked on`,
-                        type: 'string',
-                    })
-                    .option('domain.internal', {
-                        describe: chalk.dim`Internal domain for nonprod resources`,
-                        type: 'string',
-                    })
-                    .option('domain.external', {
-                        describe: chalk.dim`External domain for prod resources`,
-                        type: 'string',
-                    })
-                    .option('terraform.group', {
-                        describe: chalk.dim`Terraform state group name`,
-                        type: 'string',
-                    })
-                    .option('terraform.container', {
-                        describe: chalk.dim`Terraform storage container name`,
-                        type: 'string',
-                    })
-                    .option('terraform.storage', {
-                        describe: chalk.dim`Terraform storage name`,
-                        type: 'string',
-                    })
-                    .option('terraform.container', {
-                        describe: chalk.dim`Terraform container name`,
-                        type: 'string',
                     })
                     .option('vcs.type', {
                         describe: chalk.dim`Version control provider`,

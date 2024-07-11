@@ -1,7 +1,4 @@
-import { newProject,
-        runTarget,
-        targetOptions, 
-} from '@ensono-stacks/e2e';
+import { newProject, runTarget, targetOptions } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     readJson,
@@ -60,10 +57,14 @@ describe('logger e2e', () => {
             });
 
             it('should run build', async () => {
-                expect(await runTarget(project, targetOptions.build)).toContain('Successfully ran target build for project');
+                expect(await runTarget(project, targetOptions.build)).toContain(
+                    'Successfully ran target build for project',
+                );
             });
             it('should run logger tests', async () => {
-                expect(await runTarget(project, targetOptions.test)).toContain('Successfully ran target test');
+                expect(await runTarget(project, targetOptions.test)).toContain(
+                    'Successfully ran target test',
+                );
             });
         });
     });
