@@ -244,7 +244,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             process.chdir(temporaryDirectory);
             console.log(`Using temp directory: ${temporaryDirectory}`);
         } else if (overwrite) {
-            fs.rmSync(targetDirectory);
+            fs.rmSync(targetDirectory, { recursive: true, force: true });
         } else {
             console.error(
                 chalk.red`Target directory ${targetDirectory} already exists! use --overwrite to force using this folder.`,
