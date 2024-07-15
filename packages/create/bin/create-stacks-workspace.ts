@@ -5,8 +5,8 @@ import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
 import fs from 'fs';
+import { tmpdir } from 'os';
 import path from 'path';
-import { rimrafSync } from 'rimraf';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
 
@@ -231,13 +231,20 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const targetDirectory = path.join(workingDirectory, name);
     const currentDirectoryIsTarget = targetDirectory === process.cwd();
 
-    if (currentDirectoryIsTarget) {
-        process.chdir(workingDirectory);
-    }
+    let temporaryDirectory: null | string = null;
+    process.chdir(workingDirectory);
 
     if (fs.existsSync(targetDirectory)) {
-        if (overwrite) {
-            rimrafSync(targetDirectory);
+        if (overwrite && currentDirectoryIsTarget) {
+            temporaryDirectory = path.join(
+                tmpdir(),
+                `stacks-tmp-${Math.floor(Math.random() * 10_000)}`,
+            );
+            fs.mkdirSync(temporaryDirectory);
+            process.chdir(temporaryDirectory);
+            console.log(`Using temp directory: ${temporaryDirectory}`);
+        } else if (overwrite) {
+            fs.rmSync(targetDirectory);
         } else {
             console.error(
                 chalk.red`Target directory ${targetDirectory} already exists! use --overwrite to force using this folder.`,
@@ -266,7 +273,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         {
             env: process.env,
             shell: true,
-            cwd: workingDirectory,
+            cwd: process.cwd(),
             stdio: 'inherit',
         },
     );
@@ -276,6 +283,14 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             chalk.red`Failed to create nx workspace. See error above.`,
         );
         process.exit(1);
+    }
+
+    if (temporaryDirectory) {
+        fs.cpSync(path.join(temporaryDirectory, name), targetDirectory, {
+            recursive: true,
+            force: true,
+        });
+        fs.rmSync(path.join(tmpdir(), name), { recursive: true, force: true });
     }
 
     process.chdir(targetDirectory);
