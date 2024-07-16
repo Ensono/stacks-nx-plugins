@@ -1,13 +1,13 @@
 {
     "name": "@ensono-stacks/create-stacks-workspace",
-    "version": "2.0.5",
+    "version": "2.0.6-alpha-242.0",
     "type": "commonjs",
     "bin": {
         "create-stacks-workspace": "./bin/index.js"
     },
     "main": "./bin/index.js",
     "dependencies": {
-        "@ensono-stacks/core": "2.0.5",
+        "@ensono-stacks/core": "2.0.6-alpha-242.0",
         "change-case": "4.1.2",
         "yargs-unparser": "2.0.0",
         "yargs": "17.7.2",
