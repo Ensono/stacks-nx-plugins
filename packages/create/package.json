@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/create-stacks-workspace",
-    "version": "2.0.6-alpha-244.0",
+    "version": "2.0.5",
     "type": "commonjs",
     "bin": {
         "create-stacks-workspace": "./bin/index.js"
