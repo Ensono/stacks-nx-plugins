@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "next:dependency",
+                        "next:lint:release",
                         "next:build",
                         "next:publish:prerelease"
                     ]
