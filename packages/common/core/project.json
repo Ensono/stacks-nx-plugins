@@ -47,7 +47,7 @@
                     "nx run common-core:lint:release",
                     "git add packages/common/core/package.json",
                     "git commit --no-verify --amend --no-edit",
-                    "git push --no-verify origin main {tag}"
+                    "git push --no-verify --atomic origin main {tag}"
                 ],
                 "parallel": false,
                 "forwardAllArgs": false
@@ -63,7 +63,7 @@
                 "noVerify": true,
                 "push": false,
                 "skipCommit": true,
-                "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+                "commitMessageFormat": "chore({projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
