@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Check if the CI environment variable is set
-if [[ -n "$CI" ]] || [[ -n "$GIT_SEQUENCE_EDITOR" ]] || [[ "$2" = "commit" ]]; then
+if [ -n "$CI" ] || [ -n "$GIT_SEQUENCE_EDITOR" ] || [ "$2" = "commit" ]; then
     echo "Skipping git hook for prepare-commit-msg"
     exit 0
 fi
