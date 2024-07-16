@@ -1,9 +1,11 @@
 #!/usr/bin/env sh
 
-BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')
+. "$(dirname -- "$0")/_/husky.sh"
 
 # Check if the CI environment variable is set
-if [[ -z "$CI" ]] && [[ $BRANCH_NAME != *"no branch"* ]]; then
-    . "$(dirname -- "$0")/_/husky.sh"
-    exec < /dev/tty && npx cz --hook || true
+if [[ -n "$CI" ]] || [[ -n "$GIT_SEQUENCE_EDITOR" ]] || [[ "$2" = "commit" ]]; then
+    echo "Skipping git hook for prepare-commit-msg"
+    exit 0
 fi
+
+exec < /dev/tty && npx cz --hook || true

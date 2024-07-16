@@ -67,7 +67,7 @@
                 "commands": [
                     "nx run azure-node:lint:release",
                     "git add packages/azure-node/package.json",
-                    "git commit --amend --no-edit --no-verify"
+                    "git commit --no-verify --amend --no-edit"
                 ],
                 "parallel": false,
                 "forwardAllArgs": false
@@ -77,24 +77,25 @@
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": false,
-                    "postTargets": ["azure-node:dependency", "azure-node:build"]
+                    "postTargets": [
+                        "azure-node:dependency",
+                        "azure-node:build",
+                        "azure-node:publish:prerelease"
+                    ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
                     "postTargets": [
                         "azure-node:dependency",
                         "azure-node:build",
@@ -103,13 +104,10 @@
                     ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
                     "postTargets": [
                         "azure-node:lint:release",
                         "azure-node:build",
-                        "create:publish"
+                        "azure-node:publish"
                     ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
