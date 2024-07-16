@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "cypress:dependency",
+                        "cypress:lint:release",
                         "cypress:build",
                         "cypress:publish:prerelease"
                     ]

@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "logger:dependency",
+                        "logger:lint:release",
                         "logger:build",
                         "logger:publish:prerelease"
                     ]

@@ -70,7 +70,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "common-core:dependency",
+                        "common-core:lint:release",
                         "common-core:build",
                         "common-core:publish:prerelease"
                     ]
