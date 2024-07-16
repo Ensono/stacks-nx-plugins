@@ -47,6 +47,11 @@
                     "packages/playwright/executors.json",
                     "packages/playwright/package.json"
                 ]
+            },
+            "configurations": {
+                "release": {
+                    "fix": true
+                }
             }
         },
         "test": {
@@ -56,35 +61,54 @@
                 "jestConfig": "packages/playwright/jest.config.ts"
             }
         },
+        "dependency": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run playwright:lint:release",
+                    "git add packages/playwright/package.json",
+                    "git commit --no-verify --amend --no-edit"
+                ],
+                "parallel": false,
+                "forwardAllArgs": false
+            }
+        },
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": true,
-                    "postTargets": ["playwright:publish:prerelease"]
+                    "postTargets": [
+                        "playwright:dependency",
+                        "playwright:build",
+                        "playwright:publish:prerelease"
+                    ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["playwright:publish", "playwright:github"]
+                    "postTargets": [
+                        "playwright:dependency",
+                        "playwright:build",
+                        "playwright:publish",
+                        "playwright:github"
+                    ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "playwright:release:lint",
+                        "playwright:build",
+                        "playwright:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }

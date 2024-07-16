@@ -10,7 +10,9 @@
     },
     "peerDependencies": {
         "@nrwl/react": "^18.3.4",
-        "nx": "18.3.4",
-        "@nx/devkit": "18.3.4"
+        "@nx/devkit": "18.3.4",
+        "@ensono-stacks/core": "2.0.5",
+        "@nx/eslint": "18.3.4",
+        "tslib": "^2.6.1"
     }
 }

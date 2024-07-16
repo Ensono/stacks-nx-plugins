@@ -47,6 +47,11 @@
                     "packages/workspace/executors.json",
                     "packages/workspace/package.json"
                 ]
+            },
+            "configurations": {
+                "release": {
+                    "fix": true
+                }
             }
         },
         "test": {
@@ -56,35 +61,54 @@
                 "jestConfig": "packages/workspace/jest.config.ts"
             }
         },
+        "dependency": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run workspace:lint:release",
+                    "git add packages/workspace/package.json",
+                    "git commit --no-verify --amend --no-edit"
+                ],
+                "parallel": false,
+                "forwardAllArgs": false
+            }
+        },
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": true,
-                    "postTargets": ["workspace:publish:prerelease"]
+                    "postTargets": [
+                        "workspace:dependency",
+                        "workspace:build",
+                        "workspace:publish:prerelease"
+                    ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["workspace:publish", "workspace:github"]
+                    "postTargets": [
+                        "workspace:dependency",
+                        "workspace:build",
+                        "workspace:publish",
+                        "workspace:github"
+                    ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "workspace:lint:release",
+                        "workspace:build",
+                        "workspace:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }
