@@ -83,7 +83,7 @@
                 "skipProjectChangelog": true,
                 "noVerify": true,
                 "push": false,
-                "skipCommit": false,
+                "skipCommit": true,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
@@ -97,6 +97,7 @@
                     ]
                 },
                 "release": {
+                    "skipCommit": false,
                     "postTargets": [
                         "next:dependency",
                         "next:build",
@@ -110,8 +111,7 @@
                         "next:build",
                         "next:publish"
                     ],
-                    "allowEmptyRelease": true,
-                    "skipCommit": true
+                    "allowEmptyRelease": true
                 }
             }
         },
