@@ -68,7 +68,8 @@
                 "commands": [
                     "nx run azure-react:lint:release",
                     "git add packages/azure-react/package.json",
-                    "git commit --no-verify --amend --no-edit"
+                    "git commit --no-verify --amend --no-edit",
+                    "git push --no-verify origin main {tag}"
                 ],
                 "parallel": false,
                 "forwardAllArgs": false
