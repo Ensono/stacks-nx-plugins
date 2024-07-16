@@ -67,7 +67,8 @@
                 "commands": [
                     "nx run workspace:lint:release",
                     "git add packages/workspace/package.json",
-                    "git commit --no-verify --amend --no-edit"
+                    "git commit --no-verify --amend --no-edit",
+                    "git push --no-verify origin main {tag}"
                 ],
                 "parallel": false,
                 "forwardAllArgs": false

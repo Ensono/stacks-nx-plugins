@@ -67,7 +67,8 @@
                 "commands": [
                     "nx run azure-node:lint:release",
                     "git add packages/azure-node/package.json",
-                    "git commit --no-verify --amend --no-edit"
+                    "git commit --no-verify --amend --no-edit",
+                    "git push --no-verify origin main {tag}"
                 ],
                 "parallel": false,
                 "forwardAllArgs": false
