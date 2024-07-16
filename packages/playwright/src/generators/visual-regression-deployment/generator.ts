@@ -2,8 +2,7 @@ import {
     hasGeneratorExecutedForWorkspace,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { formatFiles, Tree } from '@nx/devkit';
-import chalk from 'chalk';
+import { formatFiles, Tree, logger } from '@nx/devkit';
 
 import { VisualRegressionDeploymentGeneratorSchema } from './schema';
 import { updateAzureDevopsStagesApplitools } from './utils/update-azdevops-stage';
@@ -40,9 +39,7 @@ export default async function visualRegressionDeploymentGenerator(
         case visualRegressionTypes.APPLITOOLS: {
             updateAzureDevopsStagesApplitools(tree);
 
-            console.warn(
-                chalk.yellow`Don't forget to set your 'APPLITOOLS_API_KEY'.`,
-            );
+            logger.warn(`Don't forget to set your 'APPLITOOLS_API_KEY'.`);
             break;
         }
         default: {
