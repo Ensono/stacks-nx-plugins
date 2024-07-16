@@ -47,6 +47,11 @@
                     "packages/azure-node/executors.json",
                     "packages/azure-node/package.json"
                 ]
+            },
+            "configurations": {
+                "release": {
+                    "fix": true
+                }
             }
         },
         "test": {
@@ -54,6 +59,18 @@
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
                 "jestConfig": "packages/azure-node/jest.config.ts"
+            }
+        },
+        "dependency": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run azure-node:lint:release",
+                    "git add packages/azure-node/package.json",
+                    "git commit --amend --no-edit --no-verify"
+                ],
+                "parallel": false,
+                "forwardAllArgs": false
             }
         },
         "version": {
@@ -71,20 +88,29 @@
                     "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": true,
-                    "postTargets": ["azure-node:publish:prerelease"]
+                    "push": false,
+                    "postTargets": ["azure-node:dependency", "azure-node:build"]
                 },
                 "release": {
                     "dryRun": false,
                     "noVerify": true,
-                    "push": true,
-                    "postTargets": ["azure-node:publish", "azure-node:github"]
+                    "push": false,
+                    "postTargets": [
+                        "azure-node:dependency",
+                        "azure-node:build",
+                        "azure-node:publish",
+                        "azure-node:github"
+                    ]
                 },
                 "local-release": {
                     "dryRun": false,
                     "noVerify": true,
                     "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "azure-node:lint:release",
+                        "azure-node:build",
+                        "create:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }

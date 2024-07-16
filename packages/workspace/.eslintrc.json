@@ -26,7 +26,13 @@
             ],
             "parser": "jsonc-eslint-parser",
             "rules": {
-                "@nx/nx-plugin-checks": "error"
+                "@nx/nx-plugin-checks": "error",
+                "@nx/dependency-checks": [
+                    "error",
+                    {
+                        "ignoredFiles": ["**/src/generators/**/files/**/*.js"]
+                    }
+                ]
             }
         }
     ]
