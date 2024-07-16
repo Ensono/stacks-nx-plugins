@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "2.0.7-alpha-245.0",
+    "version": "2.0.7",
     "type": "commonjs",
     "dependencies": {
         "chalk": "^4.1.0",
