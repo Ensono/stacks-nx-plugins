@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/rest-client",
-    "version": "2.0.5",
+    "version": "2.0.6-alpha-242.0",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
@@ -9,7 +9,7 @@
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "dependencies": {
-        "@ensono-stacks/core": "2.0.5",
+        "@ensono-stacks/core": "2.0.6-alpha-242.0",
         "@nx/js": "18.3.4",
         "change-case": "4.1.2"
     },
