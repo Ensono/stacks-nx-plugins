@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "workspace:dependency",
+                        "workspace:lint:release",
                         "workspace:build",
                         "workspace:publish:prerelease"
                     ]
