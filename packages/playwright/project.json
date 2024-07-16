@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "playwright:dependency",
+                        "playwright:lint:release",
                         "playwright:build",
                         "playwright:publish:prerelease"
                     ]
