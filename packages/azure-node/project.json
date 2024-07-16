@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "azure-node:dependency",
+                        "azure-node:lint:release",
                         "azure-node:build",
                         "azure-node:publish:prerelease"
                     ]
