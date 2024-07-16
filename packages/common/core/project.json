@@ -62,7 +62,7 @@
                 "skipProjectChangelog": true,
                 "noVerify": true,
                 "push": false,
-                "skipCommit": false,
+                "skipCommit": true,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
@@ -76,6 +76,7 @@
                     ]
                 },
                 "release": {
+                    "skipCommit": false,
                     "postTargets": [
                         "common-core:dependency",
                         "common-core:build",
@@ -89,8 +90,7 @@
                         "common-core:build",
                         "common-core:publish"
                     ],
-                    "allowEmptyRelease": true,
-                    "skipCommit": true
+                    "allowEmptyRelease": true
                 }
             }
         },

@@ -63,7 +63,7 @@
                 "skipProjectChangelog": true,
                 "noVerify": true,
                 "push": false,
-                "skipCommit": false,
+                "skipCommit": true,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
@@ -71,12 +71,13 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "create:dependency",
+                        "create:lint:release",
                         "create:build",
                         "create:publish:prerelease"
                     ]
                 },
                 "release": {
+                    "skipCommit": false,
                     "postTargets": [
                         "create:dependency",
                         "create:build",
@@ -90,8 +91,7 @@
                         "create:build",
                         "create:publish"
                     ],
-                    "allowEmptyRelease": true,
-                    "skipCommit": true
+                    "allowEmptyRelease": true
                 }
             }
         },
