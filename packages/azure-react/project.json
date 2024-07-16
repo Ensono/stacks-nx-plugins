@@ -92,7 +92,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "azure-react:dependency",
+                        "azure-react:lint:release",
                         "azure-react:build",
                         "azure-react:publish:prerelease"
                     ]

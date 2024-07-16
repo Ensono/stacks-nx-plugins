@@ -91,7 +91,7 @@
                     "releaseAs": "prerelease",
                     "preid": "alpha",
                     "postTargets": [
-                        "rest-client:dependency",
+                        "rest-client:lint:release",
                         "rest-client:build",
                         "rest-client:publish:prerelease"
                     ]
