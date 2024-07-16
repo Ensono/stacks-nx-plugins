@@ -84,7 +84,7 @@
                 "skipProjectChangelog": true,
                 "noVerify": true,
                 "push": false,
-                "skipCommit": false,
+                "skipCommit": true,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
@@ -98,6 +98,7 @@
                     ]
                 },
                 "release": {
+                    "skipCommit": false,
                     "postTargets": [
                         "azure-react:dependency",
                         "azure-react:build",
@@ -111,8 +112,7 @@
                         "azure-react:build",
                         "azure-react:publish"
                     ],
-                    "allowEmptyRelease": true,
-                    "skipCommit": true
+                    "allowEmptyRelease": true
                 }
             }
         },
