@@ -40,7 +40,7 @@
             "cache": true
         },
         "version": {
-            "dependsOn": ["build"]
+            "dependsOn": ["^version"]
         },
         "@nx/jest:jest": {
             "inputs": [
