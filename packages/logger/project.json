@@ -47,6 +47,11 @@
                     "packages/logger/executors.json",
                     "packages/logger/package.json"
                 ]
+            },
+            "configurations": {
+                "release": {
+                    "fix": true
+                }
             }
         },
         "test": {
@@ -56,35 +61,54 @@
                 "jestConfig": "packages/logger/jest.config.ts"
             }
         },
+        "dependency": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run logger:lint:release",
+                    "git add packages/logger/package.json",
+                    "git commit --no-verify --amend --no-edit"
+                ],
+                "parallel": false,
+                "forwardAllArgs": false
+            }
+        },
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": true,
-                    "postTargets": ["logger:publish:prerelease"]
+                    "postTargets": [
+                        "logger:dependency",
+                        "logger:build",
+                        "logger:publish:prerelease"
+                    ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["logger:publish", "logger:github"]
+                    "postTargets": [
+                        "logger:dependency",
+                        "logger:build",
+                        "logger:publish",
+                        "logger:github"
+                    ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "logger:lint:release",
+                        "logger:build",
+                        "logger:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }

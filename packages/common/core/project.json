@@ -46,7 +46,7 @@
                 "commands": [
                     "nx run common-core:lint:release",
                     "git add packages/common/core/package.json",
-                    "git commit --amend --no-edit --no-verify"
+                    "git commit --no-verify --amend --no-edit"
                 ],
                 "parallel": false,
                 "forwardAllArgs": false
@@ -56,35 +56,38 @@
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": false,
-                    "skipCommit": true,
                     "postTargets": [
                         "common-core:dependency",
-                        "common-core:build"
+                        "common-core:build",
+                        "common-core:publish:prerelease"
                     ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["common-core:publish", "common-core:github"]
+                    "postTargets": [
+                        "common-core:dependency",
+                        "common-core:build",
+                        "common-core:publish",
+                        "common-core:github"
+                    ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "common-core:lint:release",
+                        "common-core:build",
+                        "common-core:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }

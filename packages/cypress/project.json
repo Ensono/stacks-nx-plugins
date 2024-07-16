@@ -47,6 +47,11 @@
                     "packages/cypress/executors.json",
                     "packages/cypress/package.json"
                 ]
+            },
+            "configurations": {
+                "release": {
+                    "fix": true
+                }
             }
         },
         "test": {
@@ -56,35 +61,54 @@
                 "jestConfig": "packages/cypress/jest.config.ts"
             }
         },
+        "dependency": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run cypress:lint:release",
+                    "git add packages/cypress/package.json",
+                    "git commit --no-verify --amend --no-edit"
+                ],
+                "parallel": false,
+                "forwardAllArgs": false
+            }
+        },
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": true,
-                    "postTargets": ["cypress:publish:prerelease"]
+                    "postTargets": [
+                        "cypress:dependency",
+                        "cypress:build",
+                        "cypress:publish:prerelease"
+                    ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["cypress:publish", "cypress:github"]
+                    "postTargets": [
+                        "cypress:dependency",
+                        "cypress:build",
+                        "cypress:publish",
+                        "cypress:github"
+                    ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "cypress:lint:release",
+                        "cypress:build",
+                        "create:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }

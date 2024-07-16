@@ -47,6 +47,11 @@
                     "packages/next/executors.json",
                     "packages/next/package.json"
                 ]
+            },
+            "configurations": {
+                "release": {
+                    "fix": true
+                }
             }
         },
         "test": {
@@ -56,35 +61,54 @@
                 "jestConfig": "packages/next/jest.config.ts"
             }
         },
+        "dependency": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "nx run next:lint:release",
+                    "git add packages/next/package.json",
+                    "git commit --no-verify --amend --no-edit"
+                ],
+                "parallel": false,
+                "forwardAllArgs": false
+            }
+        },
         "version": {
             "executor": "@jscutlery/semver:version",
             "options": {
                 "trackDeps": true,
-                "dryRun": true,
+                "dryRun": false,
                 "skipRootChangelog": true,
                 "skipProjectChangelog": true,
+                "noVerify": true,
+                "push": false,
+                "skipCommit": false,
                 "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
             },
             "configurations": {
                 "prerelease": {
-                    "dryRun": false,
-                    "noVerify": true,
                     "releaseAs": "prerelease",
                     "preid": "alpha",
-                    "push": true,
-                    "postTargets": ["next:publish:prerelease"]
+                    "postTargets": [
+                        "next:dependency",
+                        "next:build",
+                        "next:publish:prerelease"
+                    ]
                 },
                 "release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": true,
-                    "postTargets": ["next:publish", "next:github"]
+                    "postTargets": [
+                        "next:dependency",
+                        "next:build",
+                        "next:publish",
+                        "next:github"
+                    ]
                 },
                 "local-release": {
-                    "dryRun": false,
-                    "noVerify": true,
-                    "push": false,
-                    "postTargets": ["create:publish"],
+                    "postTargets": [
+                        "next:lint:release",
+                        "next:build",
+                        "next:publish"
+                    ],
                     "allowEmptyRelease": true,
                     "skipCommit": true
                 }
