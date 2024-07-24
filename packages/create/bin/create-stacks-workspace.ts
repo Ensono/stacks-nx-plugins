@@ -289,6 +289,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         fs.cpSync(path.join(temporaryDirectory, name), targetDirectory, {
             recursive: true,
             force: true,
+            filter: source => !source.includes('.nx'),
         });
         fs.rmSync(path.join(tmpdir(), name), { recursive: true, force: true });
     }
