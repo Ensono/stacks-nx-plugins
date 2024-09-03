@@ -4,8 +4,8 @@
     "license": "MIT",
     "scripts": {
         "prepare": "husky install",
-        "build": "nx run-many --target build --all --parallel 8",
-        "test": "nx run-many --target test --all --parallel 8"
+        "build": "nx run-many --target build --all --parallel 8 --directory .",
+        "test": "nx run-many --target test --all --parallel 8 --directory ."
     },
     "private": true,
     "devDependencies": {
