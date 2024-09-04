@@ -9,10 +9,10 @@
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "@nrwl/react": "^18.3.4",
-        "@nx/devkit": "18.3.4",
+        "@nrwl/react": "^18.3.5",
+        "@nx/devkit": "^18.3.5",
         "@ensono-stacks/core": "2.0.7",
-        "@nx/eslint": "18.3.4",
+        "@nx/eslint": "^18.3.5",
         "tslib": "^2.6.1"
     }
 }

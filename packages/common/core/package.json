@@ -3,18 +3,18 @@
     "version": "2.0.7",
     "type": "commonjs",
     "dependencies": {
-        "chalk": "^4.1.0",
+        "chalk": "^4.1.2",
         "deepmerge": "^4.3.1",
         "ignore": "^5.3.1",
         "minimatch": "9.0.3",
         "semver": "^7.6.0",
-        "ts-morph": "18.0.0",
+        "ts-morph": "23.0.0",
         "tslib": "^2.6.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "18.3.4",
-        "eslint": "8.57.0",
-        "nx": "18.3.4",
-        "prettier": "2.8.8"
+        "@nx/devkit": "^18.3.5",
+        "eslint": "^8.57.0",
+        "nx": "^18.3.5",
+        "prettier": "^2.8.8"
     }
 }
