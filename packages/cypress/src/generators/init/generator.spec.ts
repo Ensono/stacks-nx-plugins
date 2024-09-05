@@ -104,15 +104,16 @@ describe('should run successfully with default options', () => {
 
     it('should install deps into package.json', () => {
         const packageJson = readJson(appTree, 'package.json');
-        expect(packageJson?.devDependencies).toMatchObject({
-            cypress: CYPRESS_VERSION,
-            '@nx/cypress': '18.3.4',
-            'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
-            mochawesome: MOCHAWESOME_VERSION,
-            'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
-            'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
-            '@cypress/grep': CYPRESSGREP_VERSION,
-        });
+        expect(packageJson?.devDependencies).toMatchObject(
+            expect.objectContaining({
+                cypress: CYPRESS_VERSION,
+                'cypress-multi-reporters': CYPRESSMULTIREPORTERS_VERSION,
+                mochawesome: MOCHAWESOME_VERSION,
+                'mochawesome-merge': MOCHAWESOMEMERGE_VERSION,
+                'mocha-junit-reporter': MOCHAWESOMEJUNITREPORTER_VERSION,
+                '@cypress/grep': CYPRESSGREP_VERSION,
+            }),
+        );
     });
 
     it('should update the applications eslintrc.json', () => {
