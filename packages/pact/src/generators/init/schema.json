@@ -34,5 +34,5 @@
             "x-prompt": "List of endpoints on the provider the consumer will interact with (as a comma separated list of strings. E.g. \"/pets\", \"/pets/1\")"
         }
     },
-    "required": ["name"]
+    "required": ["name", "consumerName"]
 }
