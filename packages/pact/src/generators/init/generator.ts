@@ -16,7 +16,13 @@ export async function initGenerator(tree: Tree, options: InitGeneratorSchema) {
         sourceRoot: `${projectRoot}/src`,
         targets: {},
     });
-    generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
+    generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+        name: options.name,
+        consumerName: options.consumerName,
+        providerName: options.providerName,
+        projectAuthor: options.projectAuthor,
+        endpointList: options.endpointList,
+    });
     await formatFiles(tree);
 }
 

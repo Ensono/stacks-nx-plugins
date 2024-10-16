@@ -1,0 +1,34 @@
+import { setupPactMswAdapter } from "@pactflow/pact-msw-adapter";
+import { Logger } from "@pactflow/pact-msw-adapter/dist/utils/utils";
+import { SetupServer } from "msw/node";
+
+const debug: boolean = process.env.DEBUG === "true" ? true : false;
+
+const createLogger = () => {
+  const emptyFunction = () => {};
+  const logger: Logger = {
+    debug: debug ? console.debug.bind(console) : emptyFunction,
+    info: debug ? console.info.bind(console) : emptyFunction,
+    warn: debug ? console.warn.bind(console) : emptyFunction,
+    error: debug ? console.error.bind(console) : emptyFunction,
+    groupCollapsed: debug ? console.info.bind(console) : emptyFunction,
+    groupEnd: debug ? console.info.bind(console) : emptyFunction,
+  };
+  return logger;
+};
+
+export function configurePactMswAdapter(server: SetupServer) {
+  return setupPactMswAdapter({
+    server,
+    options: {
+      consumer: "<%= consumerName %>",
+      providers: {
+        ["<%= providerName %>"]: [<%= endpointList %>],
+      },
+      debug: false,
+      logger: createLogger(),
+      includeUrl: [<%= endpointList %>],
+      excludeHeaders: ["x-powered-by", "cookie"],
+    },
+  });
+}
