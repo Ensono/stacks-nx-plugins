@@ -1,0 +1,19 @@
+export type Pet = {
+    id: number;
+    name: string;
+    tag: string;
+    size: string;
+};
+
+const petExample: Pet = {
+    id: 1,
+    name: 'Splodgey',
+    tag: 'Cat',
+    size: 'large',
+};
+
+export const petResponse: Pet = petExample;
+
+export const petsResponse: Pet[] = [petExample];
+
+export const newPetRequestBody: Pet = petExample;

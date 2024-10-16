@@ -1,7 +1,10 @@
 {
     "name": "pact",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "@jest/types": "29.6.3",
+        "dotenv": "16.3.2"
+    },
     "peerDependencies": {
         "@nx/devkit": "^18.3.5",
         "tslib": "^2.7.0"
