@@ -1,2 +1,5 @@
 const variable = "<%= name %>";
 const consumer = "<%= consumerName %>"
+const provider = "<%= providerName %>"
+const author = "<%= projectAuthor %>"
+const endpoints = <%- endpointList %>

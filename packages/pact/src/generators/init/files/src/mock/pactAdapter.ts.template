@@ -23,11 +23,11 @@ export function configurePactMswAdapter(server: SetupServer) {
     options: {
       consumer: "<%= consumerName %>",
       providers: {
-        ["<%= providerName %>"]: [<%= endpointList %>],
+        ["<%= providerName %>"]: <%- endpointList %>,
       },
       debug: false,
       logger: createLogger(),
-      includeUrl: [<%= endpointList %>],
+      includeUrl: <%- endpointList %>,
       excludeHeaders: ["x-powered-by", "cookie"],
     },
   });
