@@ -1,1 +1,2 @@
 const variable = "<%= name %>";
+const consumer = "<%= consumerName %>"

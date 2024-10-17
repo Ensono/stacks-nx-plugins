@@ -13,26 +13,26 @@
             },
             "x-prompt": "What name would you like to use for the project?"
         },
-        "consumerName ": {
+        "consumerName": {
             "type": "string",
             "description": "Name of the client application",
             "x-prompt": "Consumer name"
         },
-        "providerName ": {
+        "providerName": {
             "type": "string",
             "description": "Name of the provider of the API",
             "x-prompt": "Provider name"
         },
-        "projectAuthor ": {
+        "projectAuthor": {
             "type": "string",
             "description": "Project author to be used in package.json",
             "x-prompt": "Project author to be used in package.json"
         },
-        "endpointList ": {
+        "endpointList": {
             "type": "string",
             "description": "List of endpoints on the provider the consumer will interact with",
             "x-prompt": "List of endpoints on the provider the consumer will interact with (as a comma separated list of strings. E.g. \"/pets\", \"/pets/1\")"
         }
     },
-    "required": ["name", "consumerName"]
+    "required": ["name"]
 }

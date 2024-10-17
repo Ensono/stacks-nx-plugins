@@ -8,8 +8,10 @@ import path from 'path';
 
 import { InitGeneratorSchema } from './schema';
 
+// const root = `libs/${options.name}`;
+
 export async function initGenerator(tree: Tree, options: InitGeneratorSchema) {
-    const projectRoot = `libs/${options.name}`;
+    const projectRoot = `./testOutput/${options.name}`;
     addProjectConfiguration(tree, options.name, {
         root: projectRoot,
         projectType: 'library',
