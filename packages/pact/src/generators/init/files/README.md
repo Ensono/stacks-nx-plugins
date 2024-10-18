@@ -1,68 +1,192 @@
 # Pact Consumer Tests
-Pact is an open-source testing framework that enables consumer-driven contract testing between service providers and service consumers. Pactflow is a cloud-based platform for implementing and managing contract testing using the Pact framework. 
 
-The tests are using a mock of this [spec](https://github.com/OAI/OpenAPI-Specification/blob/main/examples/v3.0/petstore.yaml).
+Pact is an open-source testing framework that enables consumer-driven contract
+testing between service providers and service consumers. Pactflow is a
+cloud-based platform for implementing and managing contract testing using the
+Pact framework.
 
-An example of a provider repository can be found [here](https://github.com/Ensono/stacks-pacts-provider-pipeline)
+This project is a basic set up for the consumer side of
+[Bi-Directional Contract Testing](https://docs.pactflow.io/docs/bi-directional-contract-testing).
+The examples in this project uses the
+[PetStore OpenApi spec](https://github.com/OAI/OpenAPI-Specification/blob/main/examples/v3.0/petstore.yaml)
+as an example.
 
+# Adapting the project for your application
 
-## Adapting the tests for your application
+This generator partially sets up an example contract test project for your
+applications context based on the prompts when running the generator.
 
-The tests use an example API and requestClient in the [src/api directory](./src/api/). These can be replaced with the actual API and requestClient of your application.
+However, there are changes required that are not handled by the generator due to
+the requirement for a lot of application context.
 
-### Amend the mock API
-Amend the mock API in the [src/mock directory](./src/mock/) to match the API of your application. The `mockData.ts` contains the mock API responses, and the handlers in the `handlers.ts` file define the mock API endpoints.
+### Create mock data
 
-### Configure the pact adapter
-The consumer, provider and endpoints will need to be configured in the [pactAdapter](./src/mock/pactAdapter.ts). The provider name will need to match the name for the provider in Pactflow.
+Within `./src/mock`, you will need to create Typescript classes representing
+mock data for the providers API. There is an example in
+`./src/mock/mockData.ts`.
 
-### Update the tests
-The tests in the [test directory](./test/) will need to be updated to match the API of your application. The tests define the interactions between the consumer and provider, and the expected responses from the provider.
+### Updating handlers
 
-### Configure Pactflow
-A [Pactflow](https://pactflow.io/) account will need to be set up.
+In `./src/mock/handlers.ts`, you will need to add handlers for the provider API.
+These are mocks handlers that intercept HTTP requests and provide your
+predefined responses from mock data classes.
 
-### Update the pipelines
-There is an example ADO and GitHub Actions pipeline. These will need to be updated with any environment variables and secrets required for your application, plus any additional build and deploy steps your application requires. You can remove the pipeline file that you are not using.
+### Pact adapter
 
+The file `./src/mock/pactAdapter.ts` should have automatically been updated
+based on the prompts when running the generator. You should check there are no
+errors here and that the adapted has the correct provider/consumer values and
+endpoints.
 
-## Setting up your local environment
+### Consumer tests
 
-### Install dependencies
-Run `npm install`
+You will need to create your consumer tests within `./src/test`. There is an
+example test class `./src/test/example.test.ts`. The test hooks can be left
+unchanged, but you will need to add tests for your API integration.
 
-### Set environment variables
-Set the following environment variables to the correct values:
-* export API_BASE_URL=${API_BASE_URL} (e.g. http://localhost:3000)
-* export DEBUG=false
+# Running tests locally
+### Pre-requisites
+Download and install [NodeJS](https://nodejs.org/en)
 
-These can also be set by creating a `.env` file and adding the following:
+### Executing tests
+In a terminal, navigate to the root folder containing your new project (the folder name will be the value of the `Name` variable supplied when running the generator)
 
+Install dependencies using `npm i`
+
+Execute tests using `npm test` _(NB: This test will fail without the changes detailed in this ReadMe)__
+
+# Running Pact tests in a pipeline
+The value of Pact contract tests comes from publishing the contracts generated and checking with PactFlow that you are safe to deploy your application without breaking the contract with your provider(s). This section has some pipeline snippets to help set this up.
+
+**Note: These steps assume a [PactFlow](https://pactflow.io/pricing/) broker has been set up for your teams to integrate with**
+
+## Azure DevOps
+First, you need to run your tests after the application build steps. This will need to be run from within the folder containing your contract tests
+```yaml
+- script: npm ci
+    displayName: "Install dependencies"
+
+- script: npm run test
+    displayName: "Run tests"
+    env:
+        BASE_URL: $(API_BASE_URL)
 ```
-API_BASE_URL=${API_BASE_URL}
-DEBUG=false
+
+After your tests have run successfully and before your deployment stage, you need to publish your Pact contracts to PactFlow.
+These steps contain variables that will need to be replaced
+
+```yaml
+
+- script: |
+    docker pull pactfoundation/pact-cli:latest
+    displayName: "Pull Pact CLI Docker image"
+
+- script: |
+    docker run --rm \
+        -w ${PWD} \
+        -v ${PWD}:${PWD} \
+        -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
+        -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
+        pactfoundation/pact-cli:latest \
+        publish \
+        $(PATH_TO_PACT_FILES) \
+        --consumer-app-version $(appVersion) \
+        --tag $(appVersion) $(Build.SourceBranchName) \
+  displayName: "Publish pact to Pactflow"
+  env:
+    PACTFLOW_TOKEN: $(PACT_BROKER_TOKEN)
 ```
 
-### Running the tests
-Run `npm run test` to run all tests in the [test directory](./test/).
+In your Deploy stage, the first thing is to check if you are safe to deploy to this environment using `can-i-deploy`
 
-Set the `DEBUG` environment variable to `true` to see the msw logs when running the tests.
+```yaml
+- job: canideploy_test
+    steps:
+        - script: |
+            docker run --rm \
+                -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
+                -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
+                pactfoundation/pact-cli:latest \
+                broker can-i-deploy \
+                --pacticipant $(CONSUMER_NAME) \
+                --version $(appVersion) \
+                --to-environment test \
+        displayName: "can-i-deploy Test"
+```
 
+When `can-i-deploy` succeeds, you progress your deployment steps.
 
-## Generating the pact
-A pact is generated in in the [msw_generated_pacts](./msw_generated_pacts/) directory after running the tests.
+After successful deployment, you will need to notify PactFlow of the deployment:
 
-The test scenarios in the [test directory](./test/) define the rules in the pact, so any changes to the tests will result in changes to the pact.
+```yaml
+- job: recordDeployment_test
+  dependsOn: canideploy_test
+  condition: succeeded()
+  steps:
+    - script: | # --version should be the version of your app/OpenAPI Spec
+        docker run --rm \
+            -e PACT_BROKER_BASE_URL=$(PACT_BROKER_BASE_URL) \
+            -e PACT_BROKER_TOKEN=$(PACT_BROKER_TOKEN) \
+            pactfoundation/pact-cli:latest \
+            broker record-deployment \
+            --pacticipant $(CONSUMER_NAME) \
+            --version $(appVersion) \
+            --environment test
+      displayName: "record-deployment Test"
+```
 
+## GitHub Actions
+First, you need to run your tests after the application build steps. This will need to be run from within the folder containing your contract tests
+```yaml
+- name: Install dependencies
+  run: npm ci
 
-## Publishing the pact
-The pipeline is set up to deploy the pact to the pact broker and run `can-i-deploy` checks. If the pact is compatible with the provider's OpenApi specification, then the `can-i-deploy` check will succeed and the application can be deployed.
+- name: Run tests
+  run: npm run test
+  env:
+    BASE_URL: ${{ vars.API_BASE_URL }}
+```
 
-The `API_BASE_URL` environment variable and `PACT_BROKER_TOKEN` secret will need to be set in the the repository for the pipelines to read.
+After your tests have run successfully and before your deployment stage, you need to publish your Pact contracts to PactFlow.
+These steps contain variables that will need to be replaced
 
-Two environment variables will need to be set in the `env` property in the `publish-pact.yml`/`ado_build.yml` file:
-* `PACT_BROKER_BASE_URL`
-* `PACTICIPANT_NAME`
+```yaml
+- name: Publish Pact files
+  uses: pactflow/actions/publish-pact-files@v2
+  with:
+    pactfiles: ./msw_generated_pacts
+    version: ${{ env.APP_VERSION }}
+    branch: ${{ env.BRANCH_NAME }}
+    tag: ${{ env.APP_VERSION }} ${{ env.BRANCH_NAME }}
+    broker_url: ${{ env.PACT_BROKER_BASE_URL }}
+    token: ${{ secrets.PACT_BROKER_TOKEN }}
+```
 
+In your Deploy stage, the first thing is to check if you are safe to deploy to this environment using `can-i-deploy`
 
-These values can be found in the Pactflow UI.
+```yaml
+steps:
+  - name: can-i-deploy-test
+    uses: pactflow/actions/can-i-deploy@v2
+    with:
+      broker_url: ${{ env.PACT_BROKER_BASE_URL }}
+      token: ${{ secrets.PACT_BROKER_TOKEN }}
+      application_name: ${{ env.PACTICIPANT_NAME }}
+      version: ${{ env.APP_VERSION }} # This should be the version of your app/OpenAPI Spec
+      to_environment: "test" # This environment needs to be configured in the PactFlow broker.
+```
+
+When `can-i-deploy` succeeds, you progress your deployment steps.
+
+After successful deployment, you will need to notify PactFlow of the deployment:
+
+```yaml
+- name: record-deployment-test
+  uses: pactflow/actions/record-deployment@v2
+  with:
+    version: ${{ env.APP_VERSION }} # This should be the version of your app/OpenAPI Spec
+    environment: "test"
+    application_name: ${{ env.PACTICIPANT_NAME }}
+    broker_url: ${{ env.PACT_BROKER_BASE_URL }}
+    token: ${{ secrets.PACT_BROKER_TOKEN }}
+```
