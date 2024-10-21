@@ -14,7 +14,6 @@
         "@commitlint/config-nx-scopes": "19.3.0",
         "@commitlint/cz-commitlint": "19.2.0",
         "@jscutlery/semver": "^5.2.2",
-        "@nx/cypress": "18.3.5",
         "@nx/devkit": "18.3.5",
         "@nx/eslint": "18.3.5",
         "@nx/eslint-plugin": "18.3.5",
