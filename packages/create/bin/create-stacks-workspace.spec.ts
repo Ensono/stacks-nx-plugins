@@ -166,10 +166,10 @@ describe('determine app-name', () => {
 describe('determine e2e test runner', () => {
     it('with valid test runner', async () => {
         const result = await determineE2eTestRunner({
-            e2eTestRunner: 'cypress',
+            e2eTestRunner: 'playwright',
         } as yargs.Arguments<CreateStacksArguments>);
 
-        expect(result).toBe('cypress');
+        expect(result).toBe('playwright');
     });
 
     it('with no test runner', async () => {
@@ -190,7 +190,7 @@ describe('determine e2e test runner', () => {
         } as yargs.Arguments<CreateStacksArguments>);
 
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-            chalk.red`Invalid test runner: It must be one of the following:none,playwright,cypress`,
+            chalk.red`Invalid test runner: It must be one of the following:none,playwright`,
         );
         expect(mockExit).toHaveBeenCalledWith(1);
     });
@@ -213,7 +213,7 @@ describe('get configuration', () => {
         await getConfiguration({
             _: ['myrepo'],
             preset: 'apps',
-            e2eTestRunner: 'cypress',
+            e2eTestRunner: 'playwright',
         } as yargs.Arguments<CreateStacksArguments>);
     });
 });
