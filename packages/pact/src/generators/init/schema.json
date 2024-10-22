@@ -27,11 +27,6 @@
             "type": "string",
             "description": "Project author to be used in package.json",
             "x-prompt": "Project author to be used in package.json"
-        },
-        "endpointList": {
-            "type": "string",
-            "description": "List of endpoints on the provider the consumer will interact with",
-            "x-prompt": "List of endpoints on the provider the consumer will interact with (as a comma separated list of strings. E.g. \"/pets\", \"/pets/1\")"
         }
     },
     "required": ["name"]

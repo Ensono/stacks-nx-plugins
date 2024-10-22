@@ -34,9 +34,19 @@ predefined responses from mock data classes.
 ### Pact adapter
 
 The file `./src/mock/pactAdapter.ts` should have automatically been updated
-based on the prompts when running the generator. You should check there are no
-errors here and that the adapted has the correct provider/consumer values and
-endpoints.
+based on the consumerName and providerName prompts when running the generator.
+
+You will need to update the array's of endpoints in both the `provider` object and the `includeUrl` value:
+
+```javascript
+      providers: {
+        ["<%= providerName %>"]: ["/pets", "/pets/1"],
+      },
+```
+
+```javascript
+    includeUrl: ["/pets", "/pets/1"],
+```
 
 ### Consumer tests
 

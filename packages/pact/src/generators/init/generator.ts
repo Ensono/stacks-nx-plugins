@@ -11,7 +11,7 @@ import { InitGeneratorSchema } from './schema';
 // const root = `libs/${options.name}`;
 
 export async function initGenerator(tree: Tree, options: InitGeneratorSchema) {
-    const projectRoot = `./testOutput/${options.name}`;
+    const projectRoot = `./${options.name}`;
     addProjectConfiguration(tree, options.name, {
         root: projectRoot,
         projectType: 'library',
@@ -24,7 +24,6 @@ export async function initGenerator(tree: Tree, options: InitGeneratorSchema) {
         consumerName: options.consumerName,
         providerName: options.providerName,
         projectAuthor: options.projectAuthor,
-        endpointList: `[${options.endpointList}]`,
     });
     await formatFiles(tree);
 }
