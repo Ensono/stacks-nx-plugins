@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-abusive-eslint-disable */
 export default {
-    displayName: 'pact',
+    displayName: 'pact-consumer-tests',
     preset: '../../jest.preset.js',
     testEnvironment: 'node',
     transform: {
@@ -10,5 +10,5 @@ export default {
         ],
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
-    coverageDirectory: '../../coverage/packages/pact',
+    coverageDirectory: '../../coverage/packages/pact-consumer-tests',
 };
