@@ -3,5 +3,4 @@ export interface InitGeneratorSchema {
     consumerName: string;
     providerName: string;
     projectAuthor: string;
-    endpointList: string;
 }

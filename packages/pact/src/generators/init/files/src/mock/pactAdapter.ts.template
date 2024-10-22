@@ -4,6 +4,7 @@ import { SetupServer } from "msw/node";
 
 const debug: boolean = process.env.DEBUG === "true" ? true : false;
 
+//Puts all logging behing "debug" flag
 const createLogger = () => {
   const emptyFunction = () => {};
   const logger: Logger = {
@@ -17,17 +18,18 @@ const createLogger = () => {
   return logger;
 };
 
+//todo: replace endpoint lists (["/pets", "/pets/1"]) to match the providers endpoints
 export function configurePactMswAdapter(server: SetupServer) {
   return setupPactMswAdapter({
     server,
     options: {
       consumer: "<%= consumerName %>",
       providers: {
-        ["<%= providerName %>"]: <%- endpointList %>,
+        ["<%= providerName %>"]: ["/pets", "/pets/1"],
       },
       debug: false,
       logger: createLogger(),
-      includeUrl: <%- endpointList %>,
+      includeUrl: ["/pets", "/pets/1"],
       excludeHeaders: ["x-powered-by", "cookie"],
     },
   });
