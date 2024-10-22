@@ -1,4 +1,4 @@
-# Ensono Stacks with Nx
+# Ensono Stacks with Nx Testing
 
 > See [the contributing guide](./CONTRIBUTING.md) for detailed instructions on
 > how to get started with contributing to the stacks project.
