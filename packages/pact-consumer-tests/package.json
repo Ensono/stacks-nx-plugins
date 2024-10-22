@@ -1,5 +1,5 @@
 {
-    "name": "pact",
+    "name": "pact-consumer-tests",
     "version": "0.0.1",
     "dependencies": {
         "@jest/types": "29.6.3",
