@@ -24,7 +24,9 @@
             "@ensono-stacks/e2e": ["packages/common/e2e/src/index.ts"],
             "@ensono-stacks/logger": ["packages/logger/src/index.ts"],
             "@ensono-stacks/next": ["packages/next/src/index.ts"],
-            "@ensono-stacks/pact-consumer-tests": ["packages/pact-consumer-tests/src/index.ts"],
+            "@ensono-stacks/pact-consumer-tests": [
+                "packages/pact-consumer-tests/src/index.ts"
+            ],
             "@ensono-stacks/playwright": ["packages/playwright/src/index.ts"],
             "@ensono-stacks/rest-client": ["packages/rest-client/src/index.ts"],
             "@ensono-stacks/test": ["packages/common/test/src/index.ts"],
