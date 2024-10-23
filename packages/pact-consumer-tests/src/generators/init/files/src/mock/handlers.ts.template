@@ -1,3 +1,6 @@
+// Todo: Generate relevant handlers for your project using GitHub Co-Pilot.
+// Pre-requisites: Add the OpenApi spec, mockData.ts (once updated for your project) and handlers.ts as context in Co-Pilot
+// Prompt: Given the `{openApiSpec}` OpenAPI spec, can you create me some handlers for each endpoint in the OpenApi spec as per the examples in `handlers.ts`. Mock data to be used in the handlers can be found in `mockData.ts`
 import { rest } from 'msw';
 
 // Todo: Import your mock data here

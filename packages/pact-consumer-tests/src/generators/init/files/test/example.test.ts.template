@@ -1,3 +1,6 @@
+// Todo: Update/Add tests for your API integration using GitHub Co-Pilot.
+// Pre-requisites: Add the `example.test.ts`, your applications API client and `mockData.ts` as context in Co-Pilot
+// Prompt: There is an example tests in `example.test.ts` on lines 34-46. Could you create me some tests based off of that example using the API context from `{yourApiClientImplementation}` and `mockData.ts`?
 import { PactMswAdapter } from '@pactflow/pact-msw-adapter';
 import { AxiosResponse } from 'axios';
 import { SetupServer, setupServer } from 'msw/node';

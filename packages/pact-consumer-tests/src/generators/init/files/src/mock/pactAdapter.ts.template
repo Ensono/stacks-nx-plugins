@@ -1,3 +1,6 @@
+// Todo: Update pactAdapter.ts for your project using GitHub Co-Pilot.
+// Pre-requisites: Add the OpenApi spec and pactAdapter.ts as context in Co-Pilot
+// Prompt: Given the `{openApiSpec}` openapi spec, can you update my `pactAdapter.ts` for the endpoints in the specification?
 import { setupPactMswAdapter } from "@pactflow/pact-msw-adapter";
 import { Logger } from "@pactflow/pact-msw-adapter/dist/utils/utils";
 import { SetupServer } from "msw/node";
