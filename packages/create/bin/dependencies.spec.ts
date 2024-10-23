@@ -75,7 +75,8 @@ describe('workspace generator', () => {
         );
     });
 
-    it('runs generators correctly with cypress test runner', async () => {
+    // This test is skipped because the cypress pluginr is no longer supported
+    it.skip('runs generators correctly with cypress test runner', async () => {
         const generators = getGeneratorsToRun({
             e2eTestRunner: E2eTestRunner.Cypress,
             appName: 'cypress-app',

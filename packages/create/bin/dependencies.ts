@@ -24,7 +24,7 @@ export function normaliseForwardedArgv(
     updatedForwardArgv['preset'] =
         forwardArgv['preset'] === 'next' ? 'apps' : forwardArgv['preset'];
 
-    // As we have our own playwright and cypress implementations, we pass in none for the initial Nx create workspace to avoid potential conflict/errors etc.
+    // As we have our own playwright implementations, we pass in none for the initial Nx create workspace to avoid potential conflict/errors etc.
     updatedForwardArgv['e2eTestRunner'] =
         updatedForwardArgv['e2eTestRunner'] === 'playwright'
             ? 'none'
