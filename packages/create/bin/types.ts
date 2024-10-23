@@ -48,5 +48,4 @@ export enum Preset {
 export enum E2eTestRunner {
     None = 'none',
     Playwright = 'playwright',
-    Cypress = 'cypress',
 }
