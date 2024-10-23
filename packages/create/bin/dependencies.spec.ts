@@ -75,26 +75,26 @@ describe('workspace generator', () => {
         );
     });
 
-    // This test is skipped because the cypress pluginr is no longer supported
-    it.skip('runs generators correctly with cypress test runner', async () => {
-        const generators = getGeneratorsToRun({
-            e2eTestRunner: E2eTestRunner.Cypress,
-            appName: 'cypress-app',
-        } as yargs.Arguments<CreateStacksArguments>);
-        await runGenerators(generators, 'folder/path');
+    // cypress pluginr is no longer supported so commented out
+    // it.skip('runs generators correctly with cypress test runner', async () => {
+    //     const generators = getGeneratorsToRun({
+    //         e2eTestRunner: E2eTestRunner.Cypress,
+    //         appName: 'cypress-app',
+    //     } as yargs.Arguments<CreateStacksArguments>);
+    //     await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(2);
-        expect(execAsync).toHaveBeenNthCalledWith(
-            1,
-            'npx nx g @ensono-stacks/workspace:init',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            2,
-            'npx nx g @ensono-stacks/cypress:init --project=cypress-app',
-            'folder/path',
-        );
-    });
+    //     expect(execAsync).toBeCalledTimes(2);
+    //     expect(execAsync).toHaveBeenNthCalledWith(
+    //         1,
+    //         'npx nx g @ensono-stacks/workspace:init',
+    //         'folder/path',
+    //     );
+    //     expect(execAsync).toHaveBeenNthCalledWith(
+    //         2,
+    //         'npx nx g @ensono-stacks/cypress:init --project=cypress-app',
+    //         'folder/path',
+    //     );
+    // });
 
     it('runs generators correctly with playwright test runner', async () => {
         const generators = getGeneratorsToRun({
