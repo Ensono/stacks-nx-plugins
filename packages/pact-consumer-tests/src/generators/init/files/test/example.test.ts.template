@@ -1,0 +1,51 @@
+// Todo: Update/Add tests for your API integration using GitHub Co-Pilot.
+// Pre-requisites: Add the `example.test.ts`, your applications API client and `mockData.ts` as context in Co-Pilot
+// Prompt: There is an example tests in `example.test.ts` on lines 34-46. Could you create me some tests based off of that example using the API context from `{yourApiClientImplementation}` and `mockData.ts`?
+import { PactMswAdapter } from '@pactflow/pact-msw-adapter';
+import { AxiosResponse } from 'axios';
+import { SetupServer, setupServer } from 'msw/node';
+
+import { handlers } from '../src/mock/handlers';
+import { newPetRequestBody, Pet } from '../src/mock/mockData';
+import { configurePactMswAdapter } from '../src/mock/pactAdapter';
+
+// This configures a request mocking server with the given request handlers.
+const server: SetupServer = setupServer(...handlers);
+const pactMswAdapter: PactMswAdapter = configurePactMswAdapter(server);
+
+describe('Example consumer tests', () => {
+    beforeAll(() => {
+        server.listen(); // tell the server to start listening for interactions
+    });
+
+    beforeEach(() => {
+        pactMswAdapter.newTest(); // tell server a new test is starting
+    });
+
+    afterEach(() => {
+        pactMswAdapter.verifyTest(); // Waits for all pending network calls to finish or timeout and that there were no calls to included urls which aren't handled by msw.
+        server.resetHandlers(); // Removes any request handlers that were added on runtime
+    });
+
+    afterAll(async () => {
+        await pactMswAdapter.writeToFile(); // writes the pacts to a file
+        pactMswAdapter.clear(); // clear down adapters
+        server.close(); // stop the server
+    });
+
+    // todo: Add consumer tests here.
+    // Example:
+    test('Get all pets', async () => {
+        // Replace API.getAllPets() with the actual function that makes the request to the API
+        const resp: AxiosResponse = await API.getAllPets();
+        expect(resp.status).toEqual(200);
+
+        const respBody: Pet[] = resp.data;
+        const pet = respBody.find((p: Pet) => p.id === 1);
+
+        expect(pet).toBeDefined();
+        expect(pet!.id).toEqual(1);
+        expect(pet!.name).toEqual('Splodgey');
+        expect(pet!.tag).toEqual('Cat');
+    });
+});
