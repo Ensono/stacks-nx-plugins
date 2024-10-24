@@ -128,7 +128,7 @@ need to be run from within the folder containing your contract tests
 - script: npm run test
     displayName: "Run tests"
     env:
-        BASE_URL: $(API_BASE_URL)
+        API_BASE_URL: $(API_BASE_URL)
 ```
 
 After your tests have run successfully and before your deployment stage, you
@@ -207,7 +207,7 @@ need to be run from within the folder containing your contract tests
 - name: Run tests
   run: npm run test
   env:
-      BASE_URL: ${{ vars.API_BASE_URL }}
+      API_BASE_URL: ${{ vars.API_BASE_URL }}
 ```
 
 After your tests have run successfully and before your deployment stage, you
