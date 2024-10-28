@@ -1,16 +1,9 @@
 {
-    "pluginsConfig": {
-        "@nx/js": {
-            "analyzeSourceFiles": true
-        }
-    },
+    "pluginsConfig": { "@nx/js": { "analyzeSourceFiles": true } },
     "extends": "nx/presets/npm.json",
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "defaultProject": "workspace",
-    "workspaceLayout": {
-        "appsDir": "e2e",
-        "libsDir": "packages"
-    },
+    "workspaceLayout": { "appsDir": "e2e", "libsDir": "packages" },
     "namedInputs": {
         "default": ["{projectRoot}/**/*", "sharedGlobals"],
         "production": [
@@ -24,24 +17,17 @@
         "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
     },
     "targetDefaults": {
-        "build": {
-            "dependsOn": ["^build"],
-            "cache": true
-        },
+        "build": { "dependsOn": ["^build"], "cache": true },
         "e2e": {
             "dependsOn": ["^build"],
             "inputs": [
                 "default",
                 "^production",
-                {
-                    "env": "NX_E2E_CI_CACHE_KEY"
-                }
+                { "env": "NX_E2E_CI_CACHE_KEY" }
             ],
             "cache": true
         },
-        "version": {
-            "dependsOn": ["^build", "^version"]
-        },
+        "version": { "dependsOn": ["^build", "^version"] },
         "@nx/jest:jest": {
             "inputs": [
                 "default",
@@ -49,15 +35,8 @@
                 "{workspaceRoot}/jest.preset.js"
             ],
             "cache": true,
-            "options": {
-                "passWithNoTests": true
-            },
-            "configurations": {
-                "ci": {
-                    "ci": true,
-                    "codeCoverage": true
-                }
-            }
+            "options": { "passWithNoTests": true },
+            "configurations": { "ci": { "ci": true, "codeCoverage": true } }
         },
         "@nx/eslint:lint": {
             "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
@@ -69,7 +48,7 @@
             "inputs": ["production", "^production"]
         }
     },
-    "nxCloudAccessToken": "ZDU0YmQ1NDktOTkxMy00ZjYzLTgyOGYtMzNhYmUzMDljNmU1fHJlYWQ=",
+    "nxCloudAccessToken": "NWY3MDlmZDMtNWMxOC00MGQyLTgzZDktZWUzODYxNmM2NmQwfHJlYWQtd3JpdGU=",
     "nxCloudEncryptionKey": "stacks-nx-plugins",
     "useInferencePlugins": false
 }
