@@ -48,7 +48,6 @@
             "inputs": ["production", "^production"]
         }
     },
-    "nxCloudAccessToken": "NWY3MDlmZDMtNWMxOC00MGQyLTgzZDktZWUzODYxNmM2NmQwfHJlYWQtd3JpdGU=",
     "nxCloudEncryptionKey": "stacks-nx-plugins",
     "useInferencePlugins": false
 }
