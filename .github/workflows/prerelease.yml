@@ -9,6 +9,10 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -22,10 +26,6 @@ jobs:
         git config --global user.email 'stacks@amido.com'
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - uses: volta-cli/action@v4
-      with:
-        node-version: "22"
 
     - name: Node Modules Cache
       uses: actions/cache@v4
