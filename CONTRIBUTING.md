@@ -62,6 +62,11 @@ This will set up [Husky](https://typicode.github.io/husky/) to manage commit
 quality which enforces naming and documentation conventions upon commits through
 [commitizen](https://commitizen-tools.github.io/commitizen/).
 
+### Nx Cloud Integration
+
+Speak with the Team to get read-only access to Nx Cloud.
+Nx Cloud provides remote caching of task executions to speed up tasks in development.
+
 ## Naming Conventions and Coding Style
 
 When working with the Stacks project, adhere to the following naming conventions
