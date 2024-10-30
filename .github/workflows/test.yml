@@ -5,7 +5,7 @@ on:
 jobs:
   test:
     name: Test
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
+    uses: ./.github/workflows/main.yml
     with:
       node-version: 22
       number-of-agents: 3
@@ -19,7 +19,7 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   agents:
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
+    uses: ./.github/workflows/agents.yml
     with:
       number-of-agents: 3
     secrets:
