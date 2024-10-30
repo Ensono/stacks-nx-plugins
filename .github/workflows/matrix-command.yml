@@ -1,21 +1,30 @@
-name: E2E
+name: Matrix Nx Command
 on:
-  pull_request:
-    branches:
-    - main
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      nx-command:
+        description: 'Nx Command to run'
+        default: 'run-many --target=e2e'
+      node-version:
+        description: 'Node version to use'
+        type: 'number'
+        default: 22
+      number-of-agents:
+        description: 'Number of Agents to use'
+        type: 'number'
+        default: 3
 jobs:
-  e2e:
+  command:
     permissions:
       contents: read
-    name: E2E
+    name: Matrix Command
     uses: ./.github/workflows/main.yml
     with:
       runs-on: ubuntu-latest
-      node-version: 22
-      number-of-agents: 3
+      node-version: ${{ inputs.node-version }}
+      number-of-agents: ${{ inputs.number-of-agents }}
       parallel-commands-on-agents: |
-        npx nx affected --base=last-release --target=e2e --parallel=1
+        npx nx ${{ inputs.nx-command }}
       environment-variables: |
         NX_E2E_CI_CACHE_KEY=e2e-gha
         NODE_OPTIONS=--max_old_space_size=8192
@@ -30,8 +39,8 @@ jobs:
     uses: ./.github/workflows/agents.yml
     with:
       runs-on: ubuntu-latest
-      node-version: 22
-      number-of-agents: 3
+      node-version: ${{ inputs.node-version }}
+      number-of-agents: ${{ inputs.number-of-agents }}
       environment-variables: |
         NX_RUN_GROUP=${{ github.run_id }}
     secrets:
