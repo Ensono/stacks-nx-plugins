@@ -15,7 +15,7 @@
         "tslib": "^2.7.0"
     },
     "dependencies": {
-        "@ensono-stacks/core": "2.0.7",
+        "@ensono-stacks/core": "2.0.8",
         "@nx/playwright": "18.3.5",
         "@nx/js": "18.3.5",
         "yaml": "2.5.0"
