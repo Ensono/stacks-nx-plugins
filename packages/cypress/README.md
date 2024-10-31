@@ -1,5 +1,5 @@
 # @ensono-stacks/cypress
-## Deprecated: This plugin is no longer supported. Ensono-stacks/cypress 2.0.7 is the final release version and may not be compatible with the ensono-stacks/workspace plugin above version 2.0.7.
+## Deprecated: This plugin is no longer supported.
 
 Please visit the stacks documentation page for `cypress`
 [here](https://stacks.ensono.com/docs/getting_started/cypress/ensono-stacks-cypress)

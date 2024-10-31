@@ -27,7 +27,8 @@
             ],
             "cache": true
         },
-        "version": { "dependsOn": ["^build", "^version"] },
+        "version": { "dependsOn": ["^build", "^version"], "cache": false },
+        "publish": { "cache": false },
         "@nx/jest:jest": {
             "inputs": [
                 "default",
