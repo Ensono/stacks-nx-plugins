@@ -11,7 +11,7 @@
     "peerDependencies": {
         "@nrwl/react": "^18.3.5",
         "@nx/devkit": "^18.3.5",
-        "@ensono-stacks/core": "2.0.7",
+        "@ensono-stacks/core": "2.0.8",
         "@nx/eslint": "^18.3.5",
         "tslib": "^2.6.1"
     }
