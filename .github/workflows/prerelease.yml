@@ -11,6 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        ref: main
         fetch-depth: 0
         token: ${{ secrets.BOT_TOKEN }}
     
@@ -55,6 +56,6 @@ jobs:
       uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
       with:
         github_token: ${{ secrets.BOT_TOKEN }}
-        branch: ${{ github.ref }}
+        branch: main
         force: true
         tags: true
