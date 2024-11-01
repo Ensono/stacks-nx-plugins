@@ -1,0 +1,22 @@
+// Todo: Generate mock data using GitHub Co-Pilot.
+// Pre-requisites: Add the OpenApi spec and mockData.ts as context in Co-Pilot
+// Prompt: Given the OpenApi spec in {openApiSpec}, can you create a number of mockdata objects like the example in mockData.ts?
+export type Pet = {
+    id: number;
+    name: string;
+    tag: string;
+    size: string;
+};
+
+const petExample: Pet = {
+    id: 1,
+    name: 'Splodgey',
+    tag: 'Cat',
+    size: 'large',
+};
+
+export const petResponse: Pet = petExample;
+
+export const petsResponse: Pet[] = [petExample];
+
+export const newPetRequestBody: Pet = petExample;

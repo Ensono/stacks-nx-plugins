@@ -106,6 +106,12 @@
                             }
                         }
                     }
+                ],
+                "prettier/prettier": [
+                    "error",
+                    {
+                        "endOfLine": "auto"
+                    }
                 ]
             }
         },
@@ -144,7 +150,13 @@
             "files": "*.json",
             "parser": "jsonc-eslint-parser",
             "rules": {
-                "unicorn/prevent-abbreviations": "off"
+                "unicorn/prevent-abbreviations": "off",
+                "prettier/prettier": [
+                    "error",
+                    {
+                        "endOfLine": "auto"
+                    }
+                ]
             }
         }
     ]

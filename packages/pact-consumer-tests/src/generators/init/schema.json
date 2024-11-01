@@ -1,0 +1,33 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "$id": "Init",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What name would you like to use for the project?"
+        },
+        "consumerName": {
+            "type": "string",
+            "description": "Name of the client application",
+            "x-prompt": "Consumer name"
+        },
+        "providerName": {
+            "type": "string",
+            "description": "Name of the provider of the API",
+            "x-prompt": "Provider name"
+        },
+        "projectAuthor": {
+            "type": "string",
+            "description": "Project author to be used in package.json",
+            "x-prompt": "Project author to be used in package.json"
+        }
+    },
+    "required": ["name"]
+}

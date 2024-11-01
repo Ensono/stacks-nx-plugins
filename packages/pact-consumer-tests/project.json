@@ -1,0 +1,29 @@
+{
+    "name": "pact-consumer-tests",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/pact-consumer-tests/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/packages/pact-consumer-tests",
+                "main": "packages/pact-consumer-tests/src/index.ts",
+                "tsConfig": "packages/pact-consumer-tests/tsconfig.lib.json",
+                "assets": ["packages/pact-consumer-tests/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/pact-consumer-tests/jest.config.ts"
+            }
+        }
+    }
+}

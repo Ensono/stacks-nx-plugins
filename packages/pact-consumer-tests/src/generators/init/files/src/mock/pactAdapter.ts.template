@@ -1,0 +1,39 @@
+// Todo: Update pactAdapter.ts for your project using GitHub Co-Pilot.
+// Pre-requisites: Add the OpenApi spec and pactAdapter.ts as context in Co-Pilot
+// Prompt: Given the `{openApiSpec}` openapi spec, can you update my `pactAdapter.ts` for the endpoints in the specification?
+import { setupPactMswAdapter } from "@pactflow/pact-msw-adapter";
+import { Logger } from "@pactflow/pact-msw-adapter/dist/utils/utils";
+import { SetupServer } from "msw/node";
+
+const debug: boolean = process.env.DEBUG === "true" ? true : false;
+
+//Puts all logging behing "debug" flag
+const createLogger = () => {
+  const emptyFunction = () => {};
+  const logger: Logger = {
+    debug: debug ? console.debug.bind(console) : emptyFunction,
+    info: debug ? console.info.bind(console) : emptyFunction,
+    warn: debug ? console.warn.bind(console) : emptyFunction,
+    error: debug ? console.error.bind(console) : emptyFunction,
+    groupCollapsed: debug ? console.info.bind(console) : emptyFunction,
+    groupEnd: debug ? console.info.bind(console) : emptyFunction,
+  };
+  return logger;
+};
+
+//todo: replace endpoint lists (["/pets", "/pets/1"]) to match the providers endpoints
+export function configurePactMswAdapter(server: SetupServer) {
+  return setupPactMswAdapter({
+    server,
+    options: {
+      consumer: "<%= consumerName %>",
+      providers: {
+        ["<%= providerName %>"]: ["/pets", "/pets/1"],
+      },
+      debug: false,
+      logger: createLogger(),
+      includeUrl: ["/pets", "/pets/1"],
+      excludeHeaders: ["x-powered-by", "cookie"],
+    },
+  });
+}
