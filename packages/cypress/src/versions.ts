@@ -1,5 +1,5 @@
-export const CYPRESS_VERSION = '13.8.1';
-export const NXCYPRESS_VERSION = '18.3.4';
+export const CYPRESS_VERSION = '^13.13.0';
+export const NXCYPRESS_VERSION = '19.8.9';
 export const CYPRESSMULTIREPORTERS_VERSION = '1.6.4';
 export const MOCHAWESOME_VERSION = '7.1.3';
 export const MOCHAWESOMEMERGE_VERSION = '4.3.0';

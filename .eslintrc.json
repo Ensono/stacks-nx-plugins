@@ -125,13 +125,18 @@
                 "@typescript-eslint/no-use-before-define": ["error"],
                 "@typescript-eslint/no-unused-vars": "off",
                 "@typescript-eslint/no-shadow": "error",
-                "unicorn/prefer-node-protocol": "off"
+                "unicorn/prefer-node-protocol": "off",
+                "@typescript-eslint/no-extra-semi": "error",
+                "no-extra-semi": "off"
             }
         },
         {
             "files": ["*.js", "*.jsx"],
             "extends": ["plugin:@nx/javascript"],
-            "rules": {}
+            "rules": {
+                "@typescript-eslint/no-extra-semi": "error",
+                "no-extra-semi": "off"
+            }
         },
         {
             "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],

@@ -233,10 +233,10 @@ describe('create', () => {
         expect(() => run()).not.toThrow();
     });
 
-    it('can install different nx version', async () => {
+    it('can install different nx minor version', async () => {
         const run = () =>
             execSync(
-                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=next --appName=test-app --nxVersion 18.3.0 --nxCloud=skip  --skipGit --no-interactive --verbose`,
+                `npx --yes @ensono-stacks/create-stacks-workspace@latest proj --preset=next --appName=test-app --nxVersion 19.0.0 --nxCloud=skip  --skipGit --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -254,7 +254,7 @@ describe('create', () => {
 
         expect(packageJson.devDependencies).toMatchObject(
             expect.objectContaining({
-                '@nx/workspace': '18.3.0',
+                '@nx/workspace': '19.0.0',
             }),
         );
     });

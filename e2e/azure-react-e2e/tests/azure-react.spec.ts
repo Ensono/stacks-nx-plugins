@@ -3,7 +3,7 @@ import { newProject, cleanup } from '@ensono-stacks/e2e';
 
 describe('azure-react e2e', () => {
     beforeAll(async () => {
-        await newProject('@ensono-stacks/azure-react', ['@nrwl/react']);
+        await newProject(['@nrwl/react', '@ensono-stacks/azure-react']);
     });
 
     afterAll(async () => {
