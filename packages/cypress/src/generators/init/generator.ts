@@ -4,7 +4,7 @@ import {
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { cypressE2EConfigurationGenerator } from '@nx/cypress';
+import { configurationGenerator } from '@nx/cypress';
 import { CypressE2EConfigSchema } from '@nx/cypress/src/generators/configuration/configuration';
 import {
     formatFiles,
@@ -75,7 +75,7 @@ export default async function initGenerator(
         projectNameAndRootFormat: 'as-provided',
     });
 
-    await cypressE2EConfigurationGenerator(tree, cypressGeneratorConfiguration);
+    await configurationGenerator(tree, cypressGeneratorConfiguration);
 
     // add custom reporters in cypress.config
     addFiles(

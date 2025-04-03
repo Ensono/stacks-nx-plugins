@@ -3,8 +3,8 @@
     "version": "2.0.7",
     "type": "commonjs",
     "dependencies": {
-        "@nx/devkit": "18.3.5",
-        "@nx/next": "18.3.5",
+        "@nx/devkit": "19.8.9",
+        "@nx/next": "19.8.9",
         "tslib": "^2.6.1"
     }
 }

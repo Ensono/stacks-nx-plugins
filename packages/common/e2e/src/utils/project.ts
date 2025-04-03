@@ -53,6 +53,7 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
             stdio: 'inherit',
         });
     } catch (error) {
+        console.log(error.stderr);
         throw new Error(`Create workspace failed: ${error}`);
     }
     return `${projectName} created in ${temporaryDirectory}`;

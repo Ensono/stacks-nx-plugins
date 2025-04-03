@@ -4,7 +4,8 @@ exports[`http-client generator should generate the http-client with custom direc
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
-/.nx/cache"
+/.nx/cache
+/.nx/workspace-data"
 `;
 
 exports[`http-client generator should generate the http-client with custom directory: .prettierrc 1`] = `
@@ -195,7 +196,8 @@ exports[`http-client generator should generate the http-client with custom impor
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
-/.nx/cache"
+/.nx/cache
+/.nx/workspace-data"
 `;
 
 exports[`http-client generator should generate the http-client with custom import path: .prettierrc 1`] = `
@@ -386,7 +388,8 @@ exports[`http-client generator should generate the http-client with no formattin
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
-/.nx/cache"
+/.nx/cache
+/.nx/workspace-data"
 `;
 
 exports[`http-client generator should generate the http-client with no formatting: .prettierrc 1`] = `"{"singleQuote":true}"`;
@@ -401,8 +404,8 @@ projects: await getJestProjectsAsync()
 
 exports[`http-client generator should generate the http-client with no formatting: jest.preset.js 1`] = `
 "const nxPreset = require('@nx/jest/preset').default;
-
-      module.exports = { ...nxPreset }"
+  
+module.exports = { ...nxPreset };"
 `;
 
 exports[`http-client generator should generate the http-client with no formatting: test-client/.eslintrc.json 1`] = `
@@ -600,7 +603,8 @@ exports[`http-client generator should generate the http-client: .prettierignore 
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
-/.nx/cache"
+/.nx/cache
+/.nx/workspace-data"
 `;
 
 exports[`http-client generator should generate the http-client: .prettierrc 1`] = `
