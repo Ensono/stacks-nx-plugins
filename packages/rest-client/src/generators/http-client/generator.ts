@@ -1,7 +1,6 @@
 import {
     addCustomTestConfig,
     verifyPluginCanBeInstalled,
-    warnDirectoryProjectName,
 } from '@ensono-stacks/core';
 import {
     addDependenciesToPackageJson,
@@ -27,7 +26,6 @@ async function normalizeOptions(
         await determineProjectNameAndRootOptions(tree, {
             ...options,
             projectType: 'library',
-            callingGenerator: '@ensono-stacks/rest-client:http-client',
         });
 
     return {

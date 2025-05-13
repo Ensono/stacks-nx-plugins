@@ -3,13 +3,7 @@ import {
     verifyPluginCanBeInstalled,
     getNpmScope,
 } from '@ensono-stacks/core';
-import {
-    formatFiles,
-    generateFiles,
-    getWorkspaceLayout,
-    names,
-    Tree,
-} from '@nx/devkit';
+import { formatFiles, generateFiles, names, Tree } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
 import { paramCase } from 'change-case';
@@ -33,23 +27,15 @@ async function normalizeOptions(
 ) {
     const name = paramCase(options.name);
     const endpointName = paramCase(`${name}/v${options.endpointVersion}`);
-    let directory = path.join(name, `v${options.endpointVersion}`);
-
-    if (options.directory) {
-        directory = path.join(options.directory, directory);
-    }
-
-    if (options.projectNameAndRootFormat === 'derived') {
-        const { libsDir } = getWorkspaceLayout(tree);
-        directory = path.join(libsDir, directory);
-    }
+    const directory = path.join(
+        options.directory,
+        `v${options.endpointVersion}`,
+    );
 
     const projectOptions = await determineProjectNameAndRootOptions(tree, {
         name: endpointName,
         directory,
         projectType: 'library',
-        projectNameAndRootFormat: 'as-provided',
-        callingGenerator: '@ensono-stacks/rest-client:client-endpoint',
     });
 
     return {
@@ -57,7 +43,6 @@ async function normalizeOptions(
         directory,
         name: endpointName,
         projectRoot: projectOptions.projectRoot,
-        projectNameAndRootFormat: 'as-provided' as const,
         importPath:
             options.importPath ?? `@${getNpmScope(tree)}/${endpointName}`,
     };

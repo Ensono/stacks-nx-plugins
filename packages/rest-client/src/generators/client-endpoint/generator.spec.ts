@@ -14,8 +14,7 @@ describe('client-endpoint generator', () => {
         envVar: 'API_URL',
         methods: ['get', 'post', 'patch', 'put', 'delete', 'head', 'options'],
         endpointVersion: 1,
-        directory: 'endpoints',
-        projectNameAndRootFormat: 'derived',
+        directory: 'endpoints/test-endpoint',
     };
 
     beforeEach(() => {
@@ -63,7 +62,7 @@ describe('client-endpoint generator', () => {
                 methods: [],
                 tags: 'testEndpoint',
             }),
-        ).rejects.toThrowError("You haven't selected any method to generate.");
+        ).rejects.toThrow("You haven't selected any method to generate.");
     });
 
     it('should throw a TypeError if version is not a number', async () => {
@@ -73,6 +72,6 @@ describe('client-endpoint generator', () => {
                 endpointVersion: Number('test'),
                 tags: 'testEndpoint',
             }),
-        ).rejects.toThrowError('The endpoint version needs to be a number.');
+        ).rejects.toThrow('The endpoint version needs to be a number.');
     });
 });

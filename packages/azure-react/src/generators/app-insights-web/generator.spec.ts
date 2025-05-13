@@ -12,6 +12,7 @@ describe('azure-react generator', () => {
     const options: AppInsightsWebGeneratorSchema = {
         name: projectName,
         applicationinsightsConnectionString: 'TEST_CONNECTION_STRING',
+        directory: projectName,
     };
 
     beforeEach(() => {

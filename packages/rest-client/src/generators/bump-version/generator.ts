@@ -1,8 +1,4 @@
-import {
-    normalizeOptions,
-    copyFiles,
-    verifyPluginCanBeInstalled,
-} from '@ensono-stacks/core';
+import { copyFiles, verifyPluginCanBeInstalled } from '@ensono-stacks/core';
 import {
     formatFiles,
     names,
@@ -202,10 +198,8 @@ export default async function bumpVersion(
     const newProjectConfig = await determineProjectNameAndRootOptions(tree, {
         name: newEndpointName as string,
         directory: `${apiDirectory}/v${newVersion}`,
-        projectNameAndRootFormat: 'as-provided',
         projectType: 'library',
         importPath: newImportPath,
-        callingGenerator: '@nx/js',
     });
 
     // TODO: why do we generate a new lib? Cant we skip to copy and add tsconfig.base.json amends?
@@ -215,7 +209,6 @@ export default async function bumpVersion(
         directory: `${apiDirectory}/v${newVersion}`,
         importPath: newImportPath,
         bundler: 'none',
-        projectNameAndRootFormat: 'as-provided',
     });
 
     // Delete the default generated lib folder

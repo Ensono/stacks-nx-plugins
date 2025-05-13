@@ -1,46 +1,43 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "$id": "AppInsightsWeb",
-  "title": "Ensono Stacks Azure React App Insights Web Generator",
-  "description": "The @ensono-stacks/azure-react:app-insights-web generator will install and configures a ReactJs app using the NX/React plugin then install and configures App Insights.",
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "Library name",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use for the library?",
-      "pattern": "^[a-zA-Z].*$"
+    "$schema": "http://json-schema.org/schema",
+    "$id": "AppInsightsWeb",
+    "title": "Ensono Stacks Azure React App Insights Web Generator",
+    "description": "The @ensono-stacks/azure-react:app-insights-web generator will install and configures a ReactJs app using the NX/React plugin then install and configures App Insights.",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Library name",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What name would you like to use for the library?",
+            "pattern": "^[a-zA-Z].*$"
+        },
+        "applicationinsightsConnectionString": {
+            "type": "string",
+            "description": "The env variable that stores the app insights connection string.",
+            "default": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+            "x-prompt": "What is the env variable for the application insights connection string?",
+            "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
+            "minLength": 5,
+            "maxLength": 100
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the lib is placed.",
+            "alias": "dir"
+        },
+        "importPath": {
+            "type": "string",
+            "description": "What import path would you like to use for the library?"
+        },
+        "tags": {
+            "type": "string",
+            "description": "Add tags to the library (used for linting).",
+            "alias": "t"
+        }
     },
-    "applicationinsightsConnectionString": {
-      "type": "string",
-      "description": "The env variable that stores the app insights connection string.",
-      "default": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-      "x-prompt": "What is the env variable for the application insights connection string?",
-      "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
-      "minLength": 5,
-      "maxLength": 100
-    },
-    "directory": {
-      "type": "string",
-      "description": "A directory where the lib is placed.",
-      "alias": "dir"
-    },
-    "importPath": {
-      "type": "string",
-      "description": "What import path would you like to use for the library?"
-    },
-    "tags": {
-      "type": "string",
-      "description": "Add tags to the library (used for linting).",
-      "alias": "t"
-    }
-  },
-  "required": [
-    "name",
-    "applicationinsightsConnectionString"
-  ]
+    "required": ["name", "directory", "applicationinsightsConnectionString"]
 }

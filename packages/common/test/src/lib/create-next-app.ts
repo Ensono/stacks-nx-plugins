@@ -13,6 +13,7 @@ export async function createNextApp(
         name: applicationName,
         style: 'css',
         e2eTestRunner: 'none',
+        directory: `apps/${applicationName}`,
         ...schema,
     });
 

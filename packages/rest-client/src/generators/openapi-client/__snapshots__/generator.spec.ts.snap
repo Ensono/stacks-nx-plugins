@@ -2,10 +2,10 @@
 
 exports[`openapi-client generator --zod should generate orval.zod config: test-client/orval.zod.config.js 1`] = `
 "module.exports = {
-  'testClient-file-transfomer': {
+  'test-client-file-transfomer': {
     output: {
       mode: 'split',
-      target: './src/testClient.zod.ts',
+      target: './src/test-client.zod.ts',
       client: 'zod',
     },
     input: {
@@ -18,10 +18,10 @@ exports[`openapi-client generator --zod should generate orval.zod config: test-c
 
 exports[`openapi-client generator should generate orval config: test-client/orval.config.js 1`] = `
 "module.exports = {
-  'testClient-file-transfomer': {
+  'test-client-file-transfomer': {
     output: {
       mode: 'split',
-      target: './src/testClient.ts',
+      target: './src/test-client.ts',
       schemas: './src/model',
       mock: true,
     },
@@ -86,6 +86,7 @@ exports[`openapi-client generator should run successfully: test-client/jest.conf
 "export default {
   displayName: 'test-client',
   preset: '../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
@@ -99,13 +100,13 @@ exports[`openapi-client generator should run successfully: test-client/package.j
 "{
   "name": "@proj/test-client",
   "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
+  "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
 }
 "
 `;
@@ -144,8 +145,8 @@ exports[`openapi-client generator should run successfully: test-client/project.j
 `;
 
 exports[`openapi-client generator should run successfully: test-client/src/index.ts 1`] = `
-"export * from './testClient';
-export * from './testClient.msw';
+"export * from './test-client';
+export * from './test-client.msw';
 "
 `;
 
@@ -189,6 +190,7 @@ exports[`openapi-client generator should run successfully: test-client/tsconfig.
   "compilerOptions": {
     "outDir": "../dist/out-tsc",
     "module": "commonjs",
+    "moduleResolution": "node10",
     "types": ["jest", "node"]
   },
   "include": [

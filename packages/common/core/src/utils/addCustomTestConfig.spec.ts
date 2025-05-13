@@ -16,6 +16,7 @@ describe('addCustomTestConfig', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         const project = readProjectConfiguration(appTree, 'test');

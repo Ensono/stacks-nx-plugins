@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
