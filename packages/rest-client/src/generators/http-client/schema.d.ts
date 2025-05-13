@@ -1,7 +1,6 @@
 export interface HttpClientGeneratorSchema {
     name: string;
-    directory?: string;
-    projectNameAndRootFormat: 'as-provided' | 'derived';
+    directory: string;
     importPath?: string;
     tags?: string;
     skipFormat?: boolean;

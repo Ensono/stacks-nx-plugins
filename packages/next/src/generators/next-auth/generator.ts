@@ -43,7 +43,6 @@ async function normalizeOptions(tree: Tree, options: NextAuthGeneratorSchema) {
     } = await determineProjectNameAndRootOptions(tree, {
         name: options.name,
         projectType: 'library',
-        callingGenerator: '@ensono-stacks/next:next-auth',
         ...options,
     });
 

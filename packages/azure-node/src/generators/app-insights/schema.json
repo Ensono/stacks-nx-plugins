@@ -1,39 +1,40 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "$id": "AppInsights",
-  "title": "Ensono Stacks Azure Node AppInsights Generator",
-  "description": "The @ensono-stacks/azure-node:app-insights generator will add and configure App Insights into a azure/node project",
-  "type": "object",
-  "properties": {
-    "project": {
-      "type": "string",
-      "description": "The name of the project.",
-      "alias": "p",
-      "$default": {
-        "$source": "projectName"
-      },
-      "x-prompt": "What is the name of the project for this component?"
+    "$schema": "http://json-schema.org/schema",
+    "$id": "AppInsights",
+    "title": "Ensono Stacks Azure Node AppInsights Generator",
+    "description": "The @ensono-stacks/azure-node:app-insights generator will add and configure App Insights into a azure/node project",
+    "type": "object",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "alias": "p",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-prompt": "What is the name of the project for this component?"
+        },
+        "applicationinsightsConnectionString": {
+            "type": "string",
+            "description": "The env variable that stores the app insights connection string.",
+            "alias": "e",
+            "default": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+            "x-prompt": "What is the env variable for the application insights connection string?",
+            "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
+            "minLength": 5,
+            "maxLength": 100
+        },
+        "server": {
+            "type": "string",
+            "description": "The name of your custom server file",
+            "alias": "s",
+            "x-prompt": "What is the path within your app to the server?"
+        }
     },
-    "applicationinsightsConnectionString": {
-      "type": "string",
-      "description": "The env variable that stores the app insights connection string.",
-      "alias": "e",
-      "default": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-      "x-prompt": "What is the env variable for the application insights connection string?",
-      "pattern": "^[A-Z]+(?:_[A-Z]+)*$",
-      "minLength": 5,
-      "maxLength": 100
-    },
-    "server": {
-      "type": "string",
-      "description": "The name of your custom server file",
-      "alias": "s",
-      "x-prompt": "What is the path within your app to the server?"
-    }
-  },
-  "required": [
-    "project",
-    "applicationinsightsConnectionString",
-    "server"
-  ]
+    "required": [
+        "project",
+        "directory",
+        "applicationinsightsConnectionString",
+        "server"
+    ]
 }

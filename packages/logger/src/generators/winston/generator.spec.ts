@@ -26,7 +26,8 @@ function snapshotFiles(tree: Tree, files: string[]) {
 describe('logger generator', () => {
     let tree: Tree;
     const options: WinstonLoggerGeneratorSchema = {
-        name: `${appName}`,
+        name: appName,
+        directory: appName,
         logLevelType: 'npm',
         consoleLogs: false,
         fileTransportPath: undefined,
@@ -44,11 +45,11 @@ describe('logger generator', () => {
     it('should generate the logger', async () => {
         await generator(tree, {
             ...options,
-            directory: 'custom',
+            directory: `custom/${appName}`,
             tags: 'test, logger',
         });
 
-        const config = readProjectConfiguration(tree, 'custom-test-logger');
+        const config = readProjectConfiguration(tree, 'test-logger');
 
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'logger']);
@@ -186,7 +187,7 @@ describe('logger generator', () => {
     it('should add the ci config in the test command in the project.json with a custom directory', async () => {
         await generator(tree, { ...options, directory: 'custom' });
 
-        const projectConfig = readJson(tree, `custom/${appName}/project.json`);
+        const projectConfig = readJson(tree, `custom/project.json`);
 
         expect(projectConfig.targets.test).toMatchObject(
             expect.objectContaining({

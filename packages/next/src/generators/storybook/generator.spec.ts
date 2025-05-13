@@ -33,6 +33,7 @@ describe('storybook generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
+            directory: 'next-app',
         });
 
         addStacksAttributes(appTree, options.project);

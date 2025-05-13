@@ -31,6 +31,7 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         const initAppInsightsSpy = jest.spyOn(
@@ -71,6 +72,7 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         appTree.delete('test/server/main.ts');
@@ -84,6 +86,7 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         appTree.write(
@@ -100,6 +103,7 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         await generator(appTree, options);
@@ -116,6 +120,7 @@ describe('app-insights generator', () => {
                 name: 'test',
                 customServer: true,
                 style: 'css',
+                directory: 'test',
             });
             await generator(appTree, options);
         });

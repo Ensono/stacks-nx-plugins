@@ -20,15 +20,15 @@ describe('bump-version generator', () => {
         await httpClientGenerator(tree, {
             name: 'http',
             importPath: '@proj/http',
-            projectNameAndRootFormat: 'derived',
+            directory: 'client',
         });
         await clientEndpointGenerator(tree, {
             name: 'api',
             httpClient: '@proj/http',
             methods: ['get'],
-            projectNameAndRootFormat: 'derived',
             envVar: 'API_URL',
             endpointVersion: 1,
+            directory: 'api',
         });
     });
 
@@ -38,7 +38,7 @@ describe('bump-version generator', () => {
                 ...options,
                 endpointVersion: Number('test'),
             }),
-        ).rejects.toThrowError('The endpoint version needs to be a number.');
+        ).rejects.toThrow('The endpoint version needs to be a number.');
     });
 
     it("should throw an error if the endpoint doesn't exist", async () => {
@@ -47,7 +47,7 @@ describe('bump-version generator', () => {
                 ...options,
                 name: 'nonexistent',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             "Could not find target project of the endpoint. Are you sure you don't want to generate a new endpoint?",
         );
     });
@@ -56,15 +56,15 @@ describe('bump-version generator', () => {
         await libraryGenerator(tree, {
             name: 'non-endpoint',
             bundler: 'none',
-            projectNameAndRootFormat: 'derived',
             unitTestRunner: 'none',
+            directory: 'non-endpoint',
         });
         await expect(() =>
             generator(tree, {
                 ...options,
                 name: 'non-endpoint',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'No version is present for the target project. Please ensure it was generated with @ensono-stacks/rest-client:client-endpoint',
         );
     });
@@ -75,7 +75,7 @@ describe('bump-version generator', () => {
                 ...options,
                 endpointVersion: 1,
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'Cannot decrease a version. Please use --endpointVersion higher than 1',
         );
     });

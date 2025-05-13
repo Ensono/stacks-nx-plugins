@@ -7,8 +7,8 @@ import {
     Tree,
     addDependenciesToPackageJson,
     GeneratorCallback,
+    readJson,
 } from '@nx/devkit';
-import { readRootPackageJson } from '@nx/webpack';
 import { Linter } from 'eslint';
 
 import {
@@ -190,7 +190,7 @@ function addRules(tree: Tree) {
 }
 
 function addEslintDependencies(tree: Tree) {
-    const { devDependencies } = readRootPackageJson();
+    const { devDependencies } = readJson(tree, 'package.json');
     const nxDependency =
         (devDependencies &&
             Object.entries(devDependencies)

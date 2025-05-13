@@ -8,7 +8,6 @@ exports[`playwright generator should run successfully with default options: .pre
 exports[`playwright generator should run successfully with default options: apps/test-e2e/playwright.config.ts 1`] = `
 "import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
-
 import { workspaceRoot } from '@nx/devkit';
 
 // For CI, you may want to set BASE_URL to the deployed application.
@@ -113,7 +112,7 @@ exports[`playwright generator should run successfully with default options: nx.j
         "default",
         "{workspaceRoot}/.eslintrc.json",
         "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
+        "{workspaceRoot}/eslint.config.mjs"
       ]
     },
     "@nx/jest:jest": {
@@ -170,16 +169,14 @@ exports[`playwright generator should run successfully with default options: nx.j
 exports[`playwright generator should run successfully with default options: package.json 1`] = `
 "{
   "name": "@proj/source",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@nx/devkit": "19.8.9",
-    "@nx/eslint": "19.8.9",
-    "@nx/eslint-plugin": "19.8.9",
-    "@nx/jest": "19.8.9",
-    "@nx/js": "19.8.9",
-    "@nx/playwright": "19.8.9",
+    "@nx/devkit": "20.7.1",
+    "@nx/eslint": "20.7.1",
+    "@nx/eslint-plugin": "20.7.1",
+    "@nx/jest": "20.7.1",
+    "@nx/js": "20.7.1",
+    "@nx/playwright": "20.7.1",
     "@playwright/test": "^1.44.0",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
@@ -189,15 +186,17 @@ exports[`playwright generator should run successfully with default options: pack
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "eslint": "~8.57.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-playwright": "^1.6.2",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "playwright": "^1.44.0",
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.5.2"
+    "tslib": "^2.3.0",
+    "typescript": "~5.7.2"
   }
 }
 "

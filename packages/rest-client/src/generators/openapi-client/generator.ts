@@ -2,7 +2,6 @@ import {
     addIgnoreEntry,
     copyFiles,
     execAsync,
-    normalizeOptions,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
@@ -14,8 +13,8 @@ import {
     runTasksInSerial,
     GeneratorCallback,
 } from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import { fileExists } from 'nx/src/utils/fileutils';
 import path from 'path';
 
 import { printZod } from './art';
@@ -27,16 +26,36 @@ import {
     ZOD_VERSION,
 } from '../../../utils/versions';
 
+async function normalizeOptions(
+    tree: Tree,
+    options: OpenapiClientGeneratorSchema,
+) {
+    const { importPath, projectName, projectRoot } =
+        await determineProjectNameAndRootOptions(tree, {
+            ...options,
+            projectType: 'library',
+        });
+
+    return {
+        ...options,
+        importPath,
+        projectName,
+        projectRoot,
+    };
+}
+
 export default async function generate(
     tree: Tree,
     options: OpenapiClientGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree);
 
+    const normalizedOptions = await normalizeOptions(tree, options);
+
     if (
-        !options.schema ||
-        !tree.exists(options.schema) ||
-        !tree.isFile(options.schema)
+        !normalizedOptions.schema ||
+        !tree.exists(normalizedOptions.schema) ||
+        !tree.isFile(normalizedOptions.schema)
     ) {
         throw new Error(
             'Provided schema does not exist in the workspace. Please check and try again.',
@@ -44,8 +63,6 @@ export default async function generate(
     }
 
     const callbackTasks: GeneratorCallback[] = [];
-
-    const normalizedOptions = normalizeOptions(tree, options);
 
     // Use the existing library generator
     await libraryGenerator(tree, normalizedOptions);

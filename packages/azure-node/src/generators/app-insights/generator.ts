@@ -122,10 +122,5 @@ export default async function appInsightsGenerator(
     );
 
     // Add dependencies and install
-    return runTasksInSerial(updateDependencies(tree), () =>
-        deploymentGeneratorMessage(
-            tree,
-            `nx g @ensono-stacks/azure-node:app-insights-deployment --project ${options.project} --applicationinsightsConnectionString ${applicationinsightsConnectionString}`,
-        ),
-    );
+    return runTasksInSerial(updateDependencies(tree));
 }
