@@ -6,19 +6,32 @@ import {
     runNxCommandAsync,
     uniq,
 } from '@nx/plugin/testing';
+import { execSync } from 'child_process';
 
 describe('azure-node e2e', () => {
-    jest.setTimeout(300_000);
+    let projectDirectory: string;
 
     beforeAll(async () => {
-        await newProject(
+        try {
+            execSync('npx @ensono-stacks/create-stacks-workspace@e2e', {
+                stdio: 'inherit',
+            });
+        } catch (error) {
+            console.error('Error creating workspace:', error);
+            throw error;
+        }
+
+        projectDirectory = await newProject(
+            'azure-node-project',
             ['@ensono-stacks/next', '@ensono-stacks/azure-node'],
             ['@nx/next'],
+            { version: '0.0.0-e2e' },
         );
     });
 
     afterAll(async () => {
-        await runNxCommandAsync('reset');
+        cleanup(projectDirectory);
+        // await runNxCommandAsync('reset');
     });
 
     describe('app-insights generator', () => {
@@ -45,6 +58,6 @@ describe('azure-node e2e', () => {
             );
             expect(fileContent).toMatch(/cloudRole(.|\n)*\'nextjs\d*\'/g);
             expect(fileContent).toMatch(/appInsights\.start/g);
-        }, 12000000);
+        });
     });
 });

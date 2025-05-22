@@ -6,15 +6,16 @@ import { getNxVersion } from './versions';
 
 export async function getPackageManagerNxCreateCommand(
     packageManager: SupportedPackageManager,
+    version = 'latest',
 ): Promise<string> {
     const nxVersion = await getNxVersion();
     switch (packageManager) {
         case 'yarn':
         case 'npm': {
-            return `npx --yes @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
+            return `npx --yes @ensono-stacks/create-stacks-workspace@${version} --nxVersion=${nxVersion}`;
         }
         case 'pnpm': {
-            return `pnpm dlx @ensono-stacks/create-stacks-workspace@latest --nxVersion=${nxVersion}`;
+            return `pnpm dlx @ensono-stacks/create-stacks-workspace@${version} --nxVersion=${nxVersion}`;
         }
         default: {
             throw new Error(

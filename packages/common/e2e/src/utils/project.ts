@@ -18,25 +18,21 @@ export interface CreateWorkspaceOptions {
     preset: SupportedNxPreset;
     packageManager: SupportedPackageManager;
     args?: string;
+    version?: string;
 }
 
-export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
-    const temporaryDirectory = path.dirname(tmpProjPath());
-    const projectName = 'proj';
-    emptyDirSync(temporaryDirectory);
-    logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
+export async function runCreateWorkspace(
+    name: string,
+    options: CreateWorkspaceOptions,
+) {
+    const temporaryDirectory = path.join(process.cwd(), 'tmp', name);
+    fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+    fs.mkdirSync(path.dirname(temporaryDirectory), { recursive: true });
 
-    const cacheDirectory = path.join(temporaryDirectory, '.cache');
-    if (!fs.existsSync(cacheDirectory)) {
-        fs.mkdirSync(cacheDirectory, {
-            recursive: true,
-        });
-    }
     const command = `${await getPackageManagerNxCreateCommand(
         options.packageManager,
-    )} --name=${projectName} --preset=${
-        options.preset || 'apps'
-    } --packageManager=${
+        options.version,
+    )} --name=${name} --preset=${options.preset || 'apps'} --packageManager=${
         options.packageManager
     } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
         options.args ?? ''
@@ -44,10 +40,9 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     logger.log(`[create] Running create command:\n${command}`);
     try {
         execSync(command, {
-            cwd: temporaryDirectory,
+            cwd: path.dirname(temporaryDirectory),
             env: {
                 ...process.env,
-                npm_config_cache: cacheDirectory,
                 HUSKY: '0',
             },
             stdio: 'inherit',
@@ -56,10 +51,11 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
         console.log(error.stderr);
         throw new Error(`Create workspace failed: ${error}`);
     }
-    return `${projectName} created in ${temporaryDirectory}`;
+    return temporaryDirectory;
 }
 
 export async function newProject(
+    name: string,
     stacksPackagesToInstall?: string[],
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
@@ -71,15 +67,15 @@ export async function newProject(
     }
     process.env.HUSKY = '0';
     const packageManager = getSelectedPackageManager();
-    cleanup();
-    const result = await runCreateWorkspace({
+    const result = await runCreateWorkspace(name, {
         preset: 'apps' as SupportedNxPreset,
         packageManager,
         ...options,
     });
-    logger.log(`[create-stacks-workspace] ${result}`);
+    logger.log(`[create-stacks-workspace] created ${name}`);
     await installVersionedPackages(packageManager, stacksPackagesToInstall);
     await installNxPackages(packageManager, nxPackagesToInstall);
+    return result;
 }
 
 export async function createNextApplication(
