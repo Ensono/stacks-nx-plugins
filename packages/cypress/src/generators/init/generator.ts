@@ -72,7 +72,6 @@ export default async function initGenerator(
     await libraryGenerator(tree, {
         name: projectE2EName,
         directory: `apps/${projectE2EName}`,
-        projectNameAndRootFormat: 'as-provided',
     });
 
     await configurationGenerator(tree, cypressGeneratorConfiguration);

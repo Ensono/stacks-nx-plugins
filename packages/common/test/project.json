@@ -10,7 +10,7 @@
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/common/test",
+                "outputPath": "dist/packages/common-test",
                 "main": "packages/common/test/src/index.ts",
                 "tsConfig": "packages/common/test/tsconfig.lib.json",
                 "assets": ["packages/common/test/*.md"]
