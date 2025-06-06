@@ -25,7 +25,7 @@ describe('workspace generator', () => {
         await installPackages(packages, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
-            'npm install -D @ensono-stacks/workspace',
+            'npm install -D @ensono-stacks/workspace@latest',
             'folder/path',
         );
     });
@@ -38,7 +38,7 @@ describe('workspace generator', () => {
         await installPackages(packages, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
-            'npm install -D @ensono-stacks/workspace @nx/next @ensono-stacks/next',
+            'npm install -D @ensono-stacks/workspace@latest @nx/next @ensono-stacks/next@latest',
             'folder/path',
         );
     });
@@ -56,7 +56,7 @@ describe('workspace generator', () => {
         await installPackages(['@ensono-stacks/workspace'], 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
-            'yarn add -D @ensono-stacks/workspace',
+            'yarn add -D @ensono-stacks/workspace@latest',
             'folder/path',
         );
     });
@@ -71,26 +71,6 @@ describe('workspace generator', () => {
         expect(execAsync).toBeCalledTimes(1);
         expect(execAsync).toHaveBeenCalledWith(
             'npx nx g @ensono-stacks/workspace:init',
-            'folder/path',
-        );
-    });
-
-    it('runs generators correctly with cypress test runner', async () => {
-        const generators = getGeneratorsToRun({
-            e2eTestRunner: E2eTestRunner.Cypress,
-            appName: 'cypress-app',
-        } as yargs.Arguments<CreateStacksArguments>);
-        await runGenerators(generators, 'folder/path');
-
-        expect(execAsync).toBeCalledTimes(2);
-        expect(execAsync).toHaveBeenNthCalledWith(
-            1,
-            'npx nx g @ensono-stacks/workspace:init',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            2,
-            'npx nx g @ensono-stacks/cypress:init --project=cypress-app',
             'folder/path',
         );
     });
@@ -189,7 +169,7 @@ describe('workspace generator', () => {
             $0: '',
             _: [],
             appName: 'test-app',
-            preset: 'apps',
+            preset: 'ts',
         });
     });
     it('does not replace a preset other than Next', () => {

@@ -7,6 +7,7 @@ export type CreateStacksArguments = {
     appName: string;
     e2eTestRunner: string;
     nxVersion: string;
+    stacksVersion: string;
     packageManager: PackageManager;
     interactive: boolean;
     overwrite: boolean;
@@ -35,11 +36,9 @@ export type CreateStacksArguments = {
         type: 'github' | 'azdo';
         url: string;
     };
-    useDev?: boolean;
 };
 
 export enum Preset {
-    Apps = 'apps',
     TS = 'ts',
     NextJs = 'next',
 }
@@ -48,5 +47,4 @@ export enum Preset {
 export enum E2eTestRunner {
     None = 'none',
     Playwright = 'playwright',
-    Cypress = 'cypress',
 }

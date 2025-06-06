@@ -31,10 +31,5 @@
             "x-prompt": "What is the path within your app to the server?"
         }
     },
-    "required": [
-        "project",
-        "directory",
-        "applicationinsightsConnectionString",
-        "server"
-    ]
+    "required": ["project", "applicationinsightsConnectionString", "server"]
 }

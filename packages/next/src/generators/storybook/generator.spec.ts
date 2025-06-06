@@ -10,7 +10,6 @@ import { ProjectConfiguration } from 'nx/src/config/workspace-json-project-json'
 
 import generator from './generator';
 import { StorybookGeneratorSchema } from './schema';
-import { addCustomCommand } from './utils/addCustomCommand';
 
 jest.mock('@ensono-stacks/core', () => ({
     ...jest.requireActual('@ensono-stacks/core'),
@@ -134,28 +133,5 @@ describe('storybook generator', () => {
         expect(Object.keys(packageJson.dependencies)).not.toEqual(
             expect.arrayContaining(['storybook']),
         );
-    });
-
-    it('should add custom component command', async () => {
-        const projectConfig: ProjectConfiguration = {
-            root: 'next-app',
-            name: 'next-app',
-        };
-
-        addCustomCommand(appTree, projectConfig);
-        const projectJson = readJson(appTree, 'next-app/project.json');
-
-        const expectedJson = {
-            executor: 'nx:run-commands',
-            options: {
-                commands: [
-                    'nx g @nx/react:component --name={args.name} --project=next-app --directory={args.folderPath}',
-                    'nx g @nx/react:component-story --project=next-app --componentPath={args.folderPath}/{args.name}/{args.name}.tsx',
-                ],
-                parallel: false,
-            },
-        };
-        expect(projectJson.targets['custom-component']).toBeTruthy();
-        expect(projectJson.targets['custom-component']).toEqual(expectedJson);
     });
 });

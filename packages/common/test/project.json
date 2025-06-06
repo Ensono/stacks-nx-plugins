@@ -10,7 +10,7 @@
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/common-test",
+                "outputPath": "dist/packages/common/test",
                 "main": "packages/common/test/src/index.ts",
                 "tsConfig": "packages/common/test/tsconfig.lib.json",
                 "assets": ["packages/common/test/*.md"]
@@ -53,51 +53,7 @@
                 "forwardAllArgs": false
             }
         },
-        "version": {
-            "executor": "@jscutlery/semver:version",
-            "options": {
-                "trackDeps": true,
-                "dryRun": false,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true,
-                "noVerify": true,
-                "push": false,
-                "skipCommit": true,
-                "commitMessageFormat": "chore({projectName}): release version ${version} [skip ci]"
-            },
-            "configurations": {
-                "prerelease": {
-                    "releaseAs": "prerelease",
-                    "preid": "alpha",
-                    "postTargets": [
-                        "common-test:lint:release",
-                        "common-test:build",
-                        "common-test:publish:prerelease"
-                    ]
-                },
-                "release": {
-                    "skipCommit": false,
-                    "postTargets": [
-                        "common-test:dependency",
-                        "common-test:build",
-                        "common-test:publish",
-                        "common-test:github"
-                    ]
-                }
-            }
-        },
-        "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public",
-                "distFolderPath": "dist/packages/common/test"
-            },
-            "configurations": {
-                "prerelease": {
-                    "tag": "dev"
-                }
-            }
-        },
+        "nx-release-publish": {},
         "github": {
             "executor": "@jscutlery/semver:github",
             "options": {

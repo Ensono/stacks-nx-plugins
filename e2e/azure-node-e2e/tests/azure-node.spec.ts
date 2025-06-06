@@ -1,37 +1,21 @@
-import { newProject, cleanup, createNextApplication } from '@ensono-stacks/e2e';
+import { newProject, cleanup } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     readFile,
-    readJson,
-    runNxCommandAsync,
     uniq,
+    runNxCommandAsync,
 } from '@nx/plugin/testing';
-import { execSync } from 'child_process';
 
 describe('azure-node e2e', () => {
-    let projectDirectory: string;
-
     beforeAll(async () => {
-        try {
-            execSync('npx @ensono-stacks/create-stacks-workspace@e2e', {
-                stdio: 'inherit',
-            });
-        } catch (error) {
-            console.error('Error creating workspace:', error);
-            throw error;
-        }
-
-        projectDirectory = await newProject(
-            'azure-node-project',
+        await newProject(
             ['@ensono-stacks/next', '@ensono-stacks/azure-node'],
             ['@nx/next'],
-            { version: '0.0.0-e2e' },
         );
     });
 
     afterAll(async () => {
-        cleanup(projectDirectory);
-        // await runNxCommandAsync('reset');
+        cleanup();
     });
 
     describe('app-insights generator', () => {
@@ -48,10 +32,10 @@ describe('azure-node e2e', () => {
             );
 
             expect(() =>
-                checkFilesExist(`apps/${project}/server/main.ts`),
+                checkFilesExist(`${project}/server/main.ts`),
             ).not.toThrow();
 
-            const fileContent = readFile(`apps/${project}/server/main.ts`);
+            const fileContent = readFile(`${project}/server/main.ts`);
             expect(fileContent).toMatch(/import \* as appInsights/g);
             expect(fileContent).toMatch(
                 /setup\(process\.env\.TEST_CONNECTION_STRING_ENV\)/g,

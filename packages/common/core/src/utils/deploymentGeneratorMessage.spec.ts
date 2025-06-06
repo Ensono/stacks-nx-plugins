@@ -13,13 +13,13 @@ describe('addCustomTestConfig', () => {
     });
 
     it('should add custom test config', async () => {
-        const logSpy = jest.spyOn(global.console, 'log');
+        const logSpy = jest.spyOn(console, 'log');
 
         addStacksAttributes(appTree, '');
 
         deploymentGeneratorMessage(appTree, 'test message');
 
-        expect(logSpy).toBeCalledWith(
+        expect(logSpy).toHaveBeenCalledWith(
             '\n',
             chalk.yellow`If you would like to install the relevant deployment configuration, run the following generator: `,
             chalk.magenta`test message`,

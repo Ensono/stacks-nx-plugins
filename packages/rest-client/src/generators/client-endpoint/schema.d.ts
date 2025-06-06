@@ -4,7 +4,7 @@ export interface ClientEndpointGeneratorSchema {
     methods: string[];
     envVar: string;
     endpointVersion: number;
-    directory: string;
+    folderPath: string;
     importPath?: string;
     tags?: string;
 }

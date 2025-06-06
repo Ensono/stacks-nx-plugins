@@ -6,16 +6,15 @@ import { getNxVersion } from './versions';
 
 export async function getPackageManagerNxCreateCommand(
     packageManager: SupportedPackageManager,
-    version = 'latest',
 ): Promise<string> {
     const nxVersion = await getNxVersion();
     switch (packageManager) {
         case 'yarn':
         case 'npm': {
-            return `npx --yes @ensono-stacks/create-stacks-workspace@${version} --nxVersion=${nxVersion}`;
+            return `npx --yes @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
         }
         case 'pnpm': {
-            return `pnpm dlx @ensono-stacks/create-stacks-workspace@${version} --nxVersion=${nxVersion}`;
+            return `pnpm dlx @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
         }
         default: {
             throw new Error(
@@ -36,9 +35,7 @@ export async function installPackages(
     if (packages.length === 0) {
         return;
     }
-    logger.log(`Installing the following packages:${packages.join('\n')}`);
     const pm = getPackageManagerCommand(packageManager);
-
     const { stdout, stderr } = await runCommandAsync(
         `${pm.addDev} ${packages.join(' ')}`,
     );
@@ -56,11 +53,11 @@ export function installVersionedPackages(
     if (stacksPackagesToInstall) {
         const stacksPackages = stacksPackagesToInstall.map(stacksPackage => {
             const match = stacksPackage.match(/^(?:[a-z]|@).*@(.*)/);
-            return match ? stacksPackage : `${stacksPackage}@latest`;
+            return match ? stacksPackage : `${stacksPackage}@e2e`;
         });
         return installPackages(packageManager, stacksPackages);
     }
-    return 'No pacakges to install';
+    return 'No packages to install';
 }
 
 export async function installNxPackages(
@@ -68,16 +65,6 @@ export async function installNxPackages(
     packages: string[],
 ) {
     const nxVersion = await getNxVersion();
-    const invalidPackages = packages.filter(dependency =>
-        dependency.startsWith('@nrwl/'),
-    );
-    if (invalidPackages.length > 0) {
-        throw new Error(
-            `Following @nrwl packages are not supported, upgrade to @nx: ${invalidPackages.join(
-                '\n',
-            )}`,
-        );
-    }
     const nxPackages = packages
         .filter(dependency => dependency.startsWith('@nx/'))
         .map(dependency => {
@@ -86,6 +73,5 @@ export async function installNxPackages(
                 ? dependency.replace(match[1], nxVersion)
                 : `${dependency}@${nxVersion}`;
         });
-
     return installPackages(packageManager, nxPackages);
 }

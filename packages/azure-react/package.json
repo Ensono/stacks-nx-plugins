@@ -12,9 +12,9 @@
         "@ensono-stacks/core": "2.0.8"
     },
     "peerDependencies": {
-        "@nx/eslint": "^20.7.1",
-        "@nx/react": "^20.7.1",
-        "@nx/devkit": "^20.7.1",
+        "@nx/eslint": "21.x",
+        "@nx/react": "21.x",
+        "@nx/devkit": "21.x",
         "tslib": "^2.7.0"
     }
 }

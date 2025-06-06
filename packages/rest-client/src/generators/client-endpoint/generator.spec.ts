@@ -9,12 +9,12 @@ import { ClientEndpointGeneratorSchema } from './schema';
 describe('client-endpoint generator', () => {
     let tree: Tree;
     const options: ClientEndpointGeneratorSchema = {
-        name: 'testEndpoint',
+        name: 'test-endpoint',
         httpClient: '@ensono-stacks/http-client',
         envVar: 'API_URL',
         methods: ['get', 'post', 'patch', 'put', 'delete', 'head', 'options'],
         endpointVersion: 1,
-        directory: 'endpoints/test-endpoint',
+        folderPath: 'api',
     };
 
     beforeEach(() => {
@@ -27,18 +27,16 @@ describe('client-endpoint generator', () => {
             tags: 'testEndpoint',
         });
 
+        expect(tree.exists('api/test-endpoint/v1/src/index.ts')).toBeTruthy();
         expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.ts'),
+            tree.exists('api/test-endpoint/v1/src/index.test.ts'),
         ).toBeTruthy();
         expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.test.ts'),
-        ).toBeTruthy();
-        expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.types.ts'),
+            tree.exists('api/test-endpoint/v1/src/index.types.ts'),
         ).toBeTruthy();
 
         const fileContent = tree.read(
-            `endpoints/test-endpoint/v1/src/index.ts`,
+            `api/test-endpoint/v1/src/index.ts`,
             'utf8',
         );
         expect(fileContent).toMatch(

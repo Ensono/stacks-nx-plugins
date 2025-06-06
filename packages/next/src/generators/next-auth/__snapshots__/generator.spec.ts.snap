@@ -148,7 +148,7 @@ export const jwt: JWTCallback = async ({
     > = {};
 
     
-    const store = cookies();
+    const store = await cookies();
     const guestSessionKey = store.get(GUEST_SESSION_COOKIE_NAME)?.value;
 
     if (guestSessionKey && guestSessionKey !== token.sub) {

@@ -71,14 +71,20 @@
             "cache": true,
             "dependsOn": ["^build"],
             "inputs": ["production", "^production"]
+        },
+        "nx-release-publish": {
+            "options": {
+                "packageRoot": "dist/{projectRoot}"
+            }
         }
     },
     "nxCloudEncryptionKey": "stacks-nx-plugins",
     "useInferencePlugins": false,
     "release": {
-        "projects": ["*", "!common-e2e"],
+        "projects": ["*", "!*-e2e", "!common-test"],
         "version": {
-            "preVersionCommand": "npx nx run-many -t build"
+            "preVersionCommand": "npx nx run-many -t build",
+            "conventionalCommits": true
         }
     }
 }

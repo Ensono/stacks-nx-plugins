@@ -3,6 +3,7 @@ import {
     newProject,
     runTarget,
     targetOptions,
+    cleanup,
 } from '@ensono-stacks/e2e';
 import { joinPathFragments } from '@nx/devkit';
 import {
@@ -20,7 +21,6 @@ import { addWebpackAlias } from '../utils/next-config';
 import path from 'path';
 
 describe('next e2e', () => {
-    jest.setTimeout(1_000_000);
     process.env.HUSKY = '0';
     const project = uniq('nextjs');
 
@@ -35,7 +35,7 @@ describe('next e2e', () => {
     });
 
     afterAll(async () => {
-        await runNxCommandAsync('reset');
+        cleanup();
     });
 
     describe('init generator', () => {
@@ -99,7 +99,7 @@ describe('next e2e', () => {
         beforeAll(async () => {
             config = readFile(`apps/${project}/tsconfig.json`);
             await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth --name=no-provider --project=${project} --provider=none --sessionStorage=cookie --guestSession=false --no-interactive`,
+                `generate @ensono-stacks/next:next-auth --name=no-provider --project=${project} --directory=libs/no-provider --provider=none --sessionStorage=cookie --guestSession=false --no-interactive`,
             );
         });
 
@@ -128,7 +128,7 @@ describe('next e2e', () => {
         beforeAll(async () => {
             config = readFile(`apps/${project}/tsconfig.json`);
             await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth --name=ms-entra-id --project=${project} --provider=microsoft-entra-id --sessionStorage=cookie --guestSession=true --no-interactive`,
+                `generate @ensono-stacks/next:next-auth --name=ms-entra-id --project=${project} --directory=libs/ms-entra-id --provider=microsoft-entra-id --sessionStorage=cookie --guestSession=true --no-interactive`,
             );
         });
 
@@ -160,7 +160,7 @@ describe('next e2e', () => {
         beforeAll(async () => {
             // config = readFile(`apps/${project}/tsconfig.json`);
             await runNxCommandAsync(
-                `generate @ensono-stacks/next:next-auth --name=auth0 --project=${project} --provider=auth0 --sessionStorage=redis --guestSession=true --no-interactive`,
+                `generate @ensono-stacks/next:next-auth --name=auth0 --project=${project} --directory=libs/auth0 --provider=auth0 --sessionStorage=redis --guestSession=true --no-interactive`,
             );
         });
 
@@ -240,17 +240,20 @@ describe('next e2e', () => {
         describe('it generates a component using custom command', () => {
             beforeAll(async () => {
                 await runNxCommandAsync(
-                    `run ${project}:custom-component --name=testcomponent --folderPath=components --verbose`,
+                    `generate @nx/react:component --path=apps/${project}/src/components/testcomponent/testcomponent --no-interactive`,
+                );
+                await runNxCommandAsync(
+                    `generate @nx/react:component-story --project=${project} --componentPath=src/components/testcomponent/testcomponent.tsx --verbose --no-interactive`,
                 );
             });
 
             it('adds new files for Storybook component', () => {
                 expect(() =>
                     checkFilesExist(
-                        `apps/${project}/components/testcomponent/testcomponent.module.css`,
-                        `apps/${project}/components/testcomponent/testcomponent.spec.tsx`,
-                        `apps/${project}/components/testcomponent/testcomponent.stories.tsx`,
-                        `apps/${project}/components/testcomponent/testcomponent.tsx`,
+                        `apps/${project}/src/components/testcomponent/testcomponent.module.css`,
+                        `apps/${project}/src/components/testcomponent/testcomponent.spec.tsx`,
+                        `apps/${project}/src/components/testcomponent/testcomponent.stories.tsx`,
+                        `apps/${project}/src/components/testcomponent/testcomponent.tsx`,
                     ),
                 ).not.toThrow();
             });

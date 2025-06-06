@@ -1,23 +1,19 @@
 import {
-    deploymentGeneratorMessage,
-    execAsync,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     formatFiles,
-    generateFiles,
     getProjects,
-    offsetFromRoot,
     Tree,
     addDependenciesToPackageJson,
     runTasksInSerial,
+    addProjectConfiguration,
+    NX_VERSION,
+    GeneratorCallback,
 } from '@nx/devkit';
-import { Linter } from '@nx/eslint';
-import { libraryGenerator } from '@nx/js';
 import { configurationGenerator } from '@nx/playwright';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema';
+import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema.d';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
@@ -41,23 +37,6 @@ function normalizeOptions(
     };
 }
 
-function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
-    const templateOptions = {
-        ...options,
-        offsetFromRoot: offsetFromRoot(options.project),
-        template: '',
-    };
-
-    const projectRootE2E = `apps/${options.project}/src`;
-
-    generateFiles(
-        tree,
-        path.join(__dirname, source),
-        projectRootE2E,
-        templateOptions,
-    );
-}
-
 function updateDependencies(tree) {
     return addDependenciesToPackageJson(
         tree,
@@ -65,7 +44,7 @@ function updateDependencies(tree) {
         {
             playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': PLAYWRIGHT_VERSION,
-            '@nx/playwright': '18.3.4',
+            '@nx/playwright': NX_VERSION,
         },
     );
 }
@@ -74,6 +53,7 @@ export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
+    const tasks: GeneratorCallback[] = [];
     verifyPluginCanBeInstalled(tree, options.project);
 
     if (hasGeneratorExecutedForProject(tree, options.project, 'PlaywrightInit'))
@@ -84,7 +64,7 @@ export default async function initGenerator(
     const projectE2EName = `${normalizedOptions.project}-e2e`;
 
     const playwrightGeneratorSchema: ConfigurationGeneratorSchema = {
-        linter: Linter.EsLint,
+        linter: 'eslint',
         directory: 'src',
         project: projectE2EName,
         js: false,
@@ -95,28 +75,23 @@ export default async function initGenerator(
         webServerAddress: 'http://127.0.0.1:3000',
     };
 
-    await libraryGenerator(tree, {
-        name: projectE2EName,
-        directory: `apps/${projectE2EName}`,
+    addProjectConfiguration(tree, projectE2EName, {
+        root: normalizedOptions.directory,
+        projectType: 'application',
+        sourceRoot: path.join(normalizedOptions.directory, 'src'),
+        targets: {},
+        tags: [],
+        implicitDependencies: [options.project],
     });
-    // Delete the default generated lib folder
-    tree.delete(path.join('apps', projectE2EName, 'src', 'index.ts'));
-    tree.delete(path.join('apps', projectE2EName, 'src', 'lib'));
-    await configurationGenerator(tree, playwrightGeneratorSchema);
+
+    const e2eTask = await configurationGenerator(
+        tree,
+        playwrightGeneratorSchema,
+    );
+
+    tasks.push(e2eTask, updateDependencies(tree));
 
     await formatFiles(tree);
 
-    return runTasksInSerial(
-        updateDependencies(tree),
-        () =>
-            deploymentGeneratorMessage(
-                tree,
-                'nx g @ensono-stacks/playwright:init-deployment',
-            ),
-        () =>
-            execAsync(
-                'npx playwright install',
-                `apps/${projectE2EName}`,
-            ) as Promise<void>,
-    );
+    return runTasksInSerial(...tasks);
 }

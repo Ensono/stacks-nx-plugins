@@ -9,10 +9,8 @@
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "@nx/devkit": "^20.7.1",
-        "@nx/eslint": "^20.7.1",
-        "@nx/js": "^20.7.1",
-        "@nx/playwright": "^20.7.1",
+        "@nx/devkit": "21.x",
+        "@nx/playwright": "21.x",
         "ts-morph": "^23.0.0",
         "tslib": "^2.7.0"
     },
