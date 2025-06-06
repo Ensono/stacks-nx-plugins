@@ -13,10 +13,10 @@
         "change-case": "^4.1.2"
     },
     "peerDependencies": {
-        "nx": "^20.7.1",
-        "@nx/devkit": "^20.7.1",
-        "@nx/js": "^20.7.1",
-        "@nx/react": "^20.7.1",
+        "nx": "21.x",
+        "@nx/devkit": "21.x",
+        "@nx/js": "21.x",
+        "@nx/react": "21.x",
         "ts-morph": "^23.0.0",
         "tslib": "^2.7.0",
         "eslint": "^8.57.0"

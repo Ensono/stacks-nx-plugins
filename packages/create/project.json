@@ -4,7 +4,7 @@
     "sourceRoot": "packages/create/src",
     "projectType": "library",
     "tags": ["plugin"],
-    "implicitDependencies": ["workspace", "playwright", "cypress"],
+    "implicitDependencies": ["workspace", "playwright"],
 
     "targets": {
         "build": {
@@ -54,64 +54,9 @@
                 "forwardAllArgs": false
             }
         },
-        "version": {
-            "executor": "@jscutlery/semver:version",
+        "nx-release-publish": {
             "options": {
-                "trackDeps": true,
-                "dryRun": false,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true,
-                "noVerify": true,
-                "push": false,
-                "skipCommit": true,
-                "commitMessageFormat": "chore({projectName}): release version ${version} [skip ci]"
-            },
-            "configurations": {
-                "prerelease": {
-                    "releaseAs": "prerelease",
-                    "preid": "alpha",
-                    "postTargets": [
-                        "create:lint:release",
-                        "create:build",
-                        "create:publish:prerelease"
-                    ]
-                },
-                "release": {
-                    "skipCommit": false,
-                    "postTargets": [
-                        "create:dependency",
-                        "create:build",
-                        "create:publish",
-                        "create:github"
-                    ]
-                },
-                "local-release": {
-                    "postTargets": [
-                        "create:lint:release",
-                        "create:build",
-                        "create:publish"
-                    ],
-                    "allowEmptyRelease": true
-                }
-            }
-        },
-        "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public",
-                "distFolderPath": "dist/packages/create"
-            },
-            "configurations": {
-                "prerelease": {
-                    "tag": "dev"
-                }
-            }
-        },
-        "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
+                "packageRoot": "dist/{projectRoot}"
             }
         }
     }

@@ -17,11 +17,6 @@ packages:
     unpublish: $all
     proxy: npmjs
 
-logs:
-  type: stdout
-  format: pretty
-  level: warn
-
 publish:
   allow_offline: true
 

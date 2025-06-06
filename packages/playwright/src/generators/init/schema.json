@@ -13,7 +13,12 @@
                 "$source": "projectName"
             },
             "x-prompt": "What app would you like to generate a test project for?"
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the e2e application is placed.",
+            "x-priority": "important"
         }
     },
-    "required": ["project"]
+    "required": ["project", "directory"]
 }

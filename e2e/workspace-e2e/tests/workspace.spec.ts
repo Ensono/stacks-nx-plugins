@@ -3,7 +3,8 @@ import {
     readJson,
     runNxCommandAsync,
 } from '@nx/plugin/testing';
-import { newProject } from '@ensono-stacks/e2e';
+import { newProject, cleanup } from '@ensono-stacks/e2e';
+
 describe('workspace', () => {
     jest.setTimeout(1_000_000);
 
@@ -12,7 +13,7 @@ describe('workspace', () => {
     });
 
     afterAll(async () => {
-        await runNxCommandAsync('reset');
+        cleanup();
     });
 
     it('adds and updates the relevant files', async () => {

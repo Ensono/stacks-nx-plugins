@@ -15,11 +15,11 @@ describe('executedDependantGenerator', () => {
     });
 
     it('should return false if no prerequisite present', async () => {
-        const logSpy = jest.spyOn(global.console, 'log');
+        const logSpy = jest.spyOn(console, 'log');
 
         const result = executedDependantGenerator(appTree, generatorName);
 
-        expect(logSpy).toBeCalledWith(
+        expect(logSpy).toHaveBeenCalledWith(
             '\n',
             chalk.yellow`The following generator is required as a prerequisite for this generator to work:`,
             chalk.magenta`testGenerator.`,

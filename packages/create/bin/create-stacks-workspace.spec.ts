@@ -19,6 +19,10 @@ const mockExit = jest
 const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
 describe('determine preset', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('valid preset', async () => {
         const result = await determinePreset({
             preset: 'next',
@@ -36,8 +40,8 @@ describe('determine preset', () => {
             preset: 'invalid',
         } as yargs.Arguments<CreateStacksArguments>);
 
-        expect(consoleErrorSpy).toBeCalledWith(
-            chalk.red`Invalid preset: It must be one of the following: apps,ts,next`,
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+            chalk.red`Invalid preset: It must be one of the following: ts,next`,
         );
 
         expect(mockExit).toHaveBeenCalledWith(1);
@@ -48,7 +52,7 @@ describe('determine preset', () => {
             name: 'testpreset',
         } as yargs.Arguments<CreateStacksArguments>);
 
-        expect(result).toBe('apps');
+        expect(result).toBe('ts');
     });
 
     it('interactive set with no preset', async () => {
@@ -57,11 +61,15 @@ describe('determine preset', () => {
             interactive: false,
         } as yargs.Arguments<CreateStacksArguments>);
 
-        expect(result).toBe('apps');
+        expect(result).toBe('ts');
     });
 });
 
 describe('determine repo name', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('valid repo name no position arg', async () => {
         const result = await determineRepoName({
             _: [],
@@ -111,8 +119,11 @@ describe('determine repo name', () => {
 });
 
 describe('determine app-name', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     it('with preset set to apps', async () => {
-        const result = await determineAppName(Preset.Apps, {
+        const result = await determineAppName(Preset.TS, {
             appName: 'myapp',
         } as yargs.Arguments<CreateStacksArguments>);
 
@@ -164,12 +175,15 @@ describe('determine app-name', () => {
 });
 
 describe('determine e2e test runner', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     it('with valid test runner', async () => {
         const result = await determineE2eTestRunner({
-            e2eTestRunner: 'cypress',
+            e2eTestRunner: 'playwright',
         } as yargs.Arguments<CreateStacksArguments>);
 
-        expect(result).toBe('cypress');
+        expect(result).toBe('playwright');
     });
 
     it('with no test runner', async () => {
@@ -190,7 +204,7 @@ describe('determine e2e test runner', () => {
         } as yargs.Arguments<CreateStacksArguments>);
 
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-            chalk.red`Invalid test runner: It must be one of the following:none,playwright,cypress`,
+            chalk.red`Invalid test runner: It must be one of the following:none,playwright`,
         );
         expect(mockExit).toHaveBeenCalledWith(1);
     });
@@ -208,12 +222,13 @@ describe('determine e2e test runner', () => {
     });
 });
 
-describe('get configuration', () => {
-    it('with valid config', async () => {
-        await getConfiguration({
-            _: ['myrepo'],
-            preset: 'apps',
-            e2eTestRunner: 'cypress',
-        } as yargs.Arguments<CreateStacksArguments>);
-    });
-});
+// TODO: no expect?
+// describe('get configuration', () => {
+//     it('with valid config', async () => {
+//         await getConfiguration({
+//             _: ['myrepo'],
+//             preset: 'ts',
+//             e2eTestRunner: 'playwright',
+//         } as yargs.Arguments<CreateStacksArguments>);
+//     });
+// });

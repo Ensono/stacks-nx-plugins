@@ -10,7 +10,7 @@
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/common-core",
+                "outputPath": "dist/packages/common/core",
                 "main": "packages/common/core/src/index.ts",
                 "tsConfig": "packages/common/core/tsconfig.lib.json",
                 "assets": ["packages/common/core/*.md"]
@@ -53,64 +53,9 @@
                 "forwardAllArgs": false
             }
         },
-        "version": {
-            "executor": "@jscutlery/semver:version",
+        "nx-release-publish": {
             "options": {
-                "trackDeps": true,
-                "dryRun": false,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true,
-                "noVerify": true,
-                "push": false,
-                "skipCommit": true,
-                "commitMessageFormat": "chore({projectName}): release version ${version} [skip ci]"
-            },
-            "configurations": {
-                "prerelease": {
-                    "releaseAs": "prerelease",
-                    "preid": "alpha",
-                    "postTargets": [
-                        "common-core:lint:release",
-                        "common-core:build",
-                        "common-core:publish:prerelease"
-                    ]
-                },
-                "release": {
-                    "skipCommit": false,
-                    "postTargets": [
-                        "common-core:dependency",
-                        "common-core:build",
-                        "common-core:publish",
-                        "common-core:github"
-                    ]
-                },
-                "local-release": {
-                    "postTargets": [
-                        "common-core:lint:release",
-                        "common-core:build",
-                        "common-core:publish"
-                    ],
-                    "allowEmptyRelease": true
-                }
-            }
-        },
-        "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public",
-                "distFolderPath": "dist/packages/common/core"
-            },
-            "configurations": {
-                "prerelease": {
-                    "tag": "dev"
-                }
-            }
-        },
-        "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
+                "packageRoot": "dist/{projectRoot}"
             }
         }
     }

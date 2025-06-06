@@ -14,7 +14,6 @@ import {
 import { storybookConfigurationGenerator } from '@nx/react';
 
 import { StorybookGeneratorSchema } from './schema';
-import { addCustomCommand } from './utils/addCustomCommand';
 import { createFiles } from './utils/createFiles';
 import { installDependencies } from './utils/dependancies';
 import { updateESLint } from './utils/eslint';
@@ -56,7 +55,6 @@ export async function storybookGenerator(
         addStorybook,
         updateESLint(tree, project.root),
         createFiles(tree, project),
-        addCustomCommand(tree, project),
         formatFilesWithEslint(options.project),
         npmInstall(),
     );

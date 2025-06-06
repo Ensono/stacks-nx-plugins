@@ -1,22 +1,22 @@
 # Stacks Project Guidelines
 
-- [Stacks Project Guidelines](#stacks-project-guidelines)
-  - [Introduction](#introduction)
-  - [Get Started](#get-started)
-    - [System Requirements](#system-requirements)
-    - [Setup](#setup)
-  - [Naming Conventions and Coding Style](#naming-conventions-and-coding-style)
-  - [Creating a New Plugin](#creating-a-new-plugin)
-    - [Generator Analysis](#generator-analysis)
-    - [Development process](#development-process)
-  - [Testing](#testing)
-    - [Unit Testing](#unit-testing)
-    - [End to end testing](#end-to-end-testing)
-    - [Testing packages locally](#testing-packages-locally)
-    - [Testing stacks workspace locally](#testing-stacks-workspace-locally)
-    - [Create stacks workspace script](#create-stacks-workspace-script)
-  - [Contributing Changes](#contributing-changes)
-  - [Releasing packages and publishing to NPM](#releasing-packages-and-publishing-to-npm)
+-   [Stacks Project Guidelines](#stacks-project-guidelines)
+    -   [Introduction](#introduction)
+    -   [Get Started](#get-started)
+        -   [System Requirements](#system-requirements)
+        -   [Setup](#setup)
+    -   [Naming Conventions and Coding Style](#naming-conventions-and-coding-style)
+    -   [Creating a New Plugin](#creating-a-new-plugin)
+        -   [Generator Analysis](#generator-analysis)
+        -   [Development process](#development-process)
+    -   [Testing](#testing)
+        -   [Unit Testing](#unit-testing)
+        -   [End to end testing](#end-to-end-testing)
+        -   [Testing packages locally](#testing-packages-locally)
+        -   [Testing stacks workspace locally](#testing-stacks-workspace-locally)
+        -   [Create stacks workspace script](#create-stacks-workspace-script)
+    -   [Contributing Changes](#contributing-changes)
+    -   [Releasing packages and publishing to NPM](#releasing-packages-and-publishing-to-npm)
 
 ## Introduction
 
@@ -64,8 +64,8 @@ quality which enforces naming and documentation conventions upon commits through
 
 ### Nx Cloud Integration
 
-Speak with the Team to get read-only access to Nx Cloud.
-Nx Cloud provides remote caching of task executions to speed up tasks in development.
+Speak with the Team to get read-only access to Nx Cloud. Nx Cloud provides
+remote caching of task executions to speed up tasks in development.
 
 ## Naming Conventions and Coding Style
 
@@ -354,11 +354,16 @@ Follow these steps to run the stacks workspace locally.
     npx nx local-publish
     ```
 
-    This will build and publish packages to the locally running package manager (verdaccio). Further info is available on its [readme](./packages/common/local-publish/README.md)
+    This will build and publish packages to the locally running package manager
+    (verdaccio). Further info is available on its
+    [readme](./packages/common/local-publish/README.md)
 
 -   Step 3: Run workspace locally
-    - If minimatch throws an error - remove node_modules folder and package.json-lock file then npm install
-    - To run workspace local with latest changes - run this command outside of the stacks-nx-plugin repository:
+
+    -   If minimatch throws an error - remove node_modules folder and
+        package.json-lock file then npm install
+    -   To run workspace local with latest changes - run this command outside of
+        the stacks-nx-plugin repository:
 
     ```bash
     npx @ensono-stacks/create-stacks-workspace@latest
@@ -373,11 +378,11 @@ the official stacks documentation for it's usage and command line arguments.
 
 When working with pre-releases (See
 [releasing packages](#releasing-packages-and-publishing-to-npm)) you must pass
-in an additional argument to the create script to ensure that it uses the latest
-pre-released plugin versions:
+in an additional argument to the create script to ensure that it uses the
+specific pre-released plugin versions:
 
 ```bash
-npx @ensono-stacks/create-stacks-workspace@dev --useDev
+npx @ensono-stacks/create-stacks-workspace@dev --stacksVersion=0.0.1-alpha
 ```
 
 ## Contributing Changes

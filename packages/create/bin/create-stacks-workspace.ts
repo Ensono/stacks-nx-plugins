@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
-import fs from 'fs';
+import fs, { rmSync } from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 import yargs from 'yargs';
@@ -28,9 +28,9 @@ import packageJson from '../package.json';
 const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
     {
-        name: Preset.Apps,
+        name: Preset.TS,
         message:
-            'apps              [an empty monorepo with no plugins with a layout that works best for building apps]',
+            'ts              [an empty monorepo with no plugins with a layout that works best for building apps]',
     },
     {
         name: Preset.NextJs,
@@ -48,10 +48,6 @@ const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     {
         name: E2eTestRunner.Playwright,
         message: 'playwright',
-    },
-    {
-        name: E2eTestRunner.Cypress,
-        message: 'cypress',
     },
 ];
 
@@ -87,7 +83,7 @@ export async function determinePreset(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
     if (!(parsedArguments.preset || parsedArguments.interactive)) {
-        return Preset.Apps;
+        return Preset.TS;
     }
 
     if (parsedArguments.preset) {
@@ -122,7 +118,7 @@ export async function determineAppName(
     preset: Preset,
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
-    if (preset === Preset.Apps) {
+    if (preset === Preset.TS) {
         return '';
     }
 
@@ -269,6 +265,9 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             `create-nx-workspace@${setNxVersion}`,
             '--yes',
             '--no-interactive',
+            '--workspaces=false',
+            '--formatter=prettier',
+            '--linter=eslint',
             ...argumentsToForward,
         ],
         {
@@ -308,7 +307,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     await installPackages(
         versionedPackagesToInstall,
         targetDirectory,
-        parsedArgv.useDev,
+        parsedArgv.stacksVersion,
     );
     console.log(
         chalk.magenta`Successfully installed: ${versionedPackagesToInstall.join(
@@ -318,6 +317,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Configuring Stacks with Nx ${setNxVersion}`);
     configureNx(parsedArgv, targetDirectory);
+
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
     console.log(
         chalk.cyan`Running the following generators:\n${generatorsToRun.join(
@@ -332,9 +332,9 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         process.exit(1);
     }
 
-    if (!skipGit) {
-        await commitGeneratedFiles(targetDirectory, 'stacks init');
-    }
+    // if (!skipGit) {
+    //     await commitGeneratedFiles(targetDirectory, 'stacks init');
+    // }
 
     console.log(chalk.magenta`Stacks is ready`);
 }
@@ -385,6 +385,11 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     })
                     .option('nxVersion', {
                         describe: chalk.dim`Set the version of Nx you want installed`,
+                        type: 'string',
+                        default: 'latest',
+                    })
+                    .option('stacksVersion', {
+                        describe: chalk.dim`Set the version of Stacks you want installed`,
                         type: 'string',
                         default: 'latest',
                     })

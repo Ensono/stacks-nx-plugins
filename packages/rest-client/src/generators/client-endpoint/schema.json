@@ -53,11 +53,10 @@
             },
             "minLength": 1
         },
-        "directory": {
+        "folderPath": {
             "type": "string",
-            "description": "A directory where the endpoint lib is placed.",
-            "x-prompt": "Where would you like to generate the endpoint?",
-            "alias": "dir",
+            "description": "A directory where the endpoint collection is placed.",
+            "x-prompt": "Where would you like to generate the endpoint collection?",
             "x-priority": "important"
         },
         "projectNameAndRootFormat": {
@@ -76,5 +75,12 @@
             "alias": "t"
         }
     },
-    "required": ["name", "httpClient", "envVar", "endpointVersion", "methods"]
+    "required": [
+        "name",
+        "folderPath",
+        "httpClient",
+        "envVar",
+        "endpointVersion",
+        "methods"
+    ]
 }

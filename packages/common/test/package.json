@@ -3,8 +3,8 @@
     "version": "2.0.7",
     "type": "commonjs",
     "peerDependencies": {
-        "@nx/devkit": "^20.7.1",
-        "@nx/next": "^20.7.1",
+        "@nx/devkit": "21.x",
+        "@nx/next": "21.x",
         "tslib": "^2.6.1"
     }
 }

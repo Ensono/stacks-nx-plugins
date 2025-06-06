@@ -15,11 +15,11 @@ describe('thirdPartyDependencyWarning', () => {
     });
 
     it('should add entry on execution', async () => {
-        const logSpy = jest.spyOn(global.console, 'warn');
+        const logSpy = jest.spyOn(console, 'warn');
 
         thirdPartyDependencyWarning(['dep1', 'dep2', 'dep3']);
 
-        expect(logSpy).toBeCalledWith(
+        expect(logSpy).toHaveBeenCalledWith(
             chalk.yellow`This generator depends on third party generators listed below:\ndep1\ndep2\ndep3`,
         );
     });
