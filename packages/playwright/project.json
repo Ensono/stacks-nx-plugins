@@ -54,84 +54,11 @@
                 }
             }
         },
-        "_test": {
+        "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
                 "jestConfig": "packages/playwright/jest.config.ts"
-            }
-        },
-        "dependency": {
-            "executor": "nx:run-commands",
-            "options": {
-                "commands": [
-                    "nx run playwright:lint:release",
-                    "git add packages/playwright/package.json",
-                    "git commit --no-verify --amend --no-edit",
-                    "git push --no-verify --atomic origin main {tag}"
-                ],
-                "parallel": false,
-                "forwardAllArgs": false
-            }
-        },
-        "version": {
-            "executor": "@jscutlery/semver:version",
-            "options": {
-                "trackDeps": true,
-                "dryRun": false,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true,
-                "noVerify": true,
-                "push": false,
-                "skipCommit": true,
-                "commitMessageFormat": "chore({projectName}): release version ${version} [skip ci]"
-            },
-            "configurations": {
-                "prerelease": {
-                    "releaseAs": "prerelease",
-                    "preid": "alpha",
-                    "postTargets": [
-                        "playwright:lint:release",
-                        "playwright:build",
-                        "playwright:publish:prerelease"
-                    ]
-                },
-                "release": {
-                    "skipCommit": false,
-                    "postTargets": [
-                        "playwright:dependency",
-                        "playwright:build",
-                        "playwright:publish",
-                        "playwright:github"
-                    ]
-                },
-                "local-release": {
-                    "postTargets": [
-                        "playwright:release:lint",
-                        "playwright:build",
-                        "playwright:publish"
-                    ],
-                    "allowEmptyRelease": true
-                }
-            }
-        },
-        "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public",
-                "distFolderPath": "dist/packages/playwright"
-            },
-            "configurations": {
-                "prerelease": {
-                    "tag": "dev"
-                }
-            }
-        },
-        "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
             }
         }
     }

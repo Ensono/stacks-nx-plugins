@@ -40,24 +40,6 @@
             "options": {
                 "jestConfig": "packages/create/jest.config.ts"
             }
-        },
-        "dependency": {
-            "executor": "nx:run-commands",
-            "options": {
-                "commands": [
-                    "nx run create:lint:release",
-                    "git add packages/create/package.json",
-                    "git commit --no-verify --amend --no-edit",
-                    "git push --no-verify --atomic origin main {tag}"
-                ],
-                "parallel": false,
-                "forwardAllArgs": false
-            }
-        },
-        "nx-release-publish": {
-            "options": {
-                "packageRoot": "dist/{projectRoot}"
-            }
         }
     }
 }
