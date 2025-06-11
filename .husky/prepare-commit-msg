@@ -8,4 +8,4 @@ if [ -n "$CI" ] || [ -n "$GIT_SEQUENCE_EDITOR" ] || [ "$2" = "commit" ]; then
     exit 0
 fi
 
-exec < /dev/tty && npx cz --hook || true
+exec < /dev/tty && pnpm exec cz --hook || true

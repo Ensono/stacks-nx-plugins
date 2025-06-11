@@ -21,7 +21,10 @@
             "!{projectRoot}/.eslintrc.json",
             "!{projectRoot}/src/test-setup.[jt]s"
         ],
-        "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
+        "sharedGlobals": [
+            "{workspaceRoot}/babel.config.json",
+            "{workspaceRoot}/.github/workflows/e2e.yml"
+        ]
     },
     "targetDefaults": {
         "build": {
@@ -73,24 +76,38 @@
             "inputs": ["production", "^production"]
         },
         "nx-release-publish": {
+            "dependsOn": ["^build"],
             "options": {
                 "packageRoot": "dist/{projectRoot}"
             }
         }
     },
+    "plugins": [
+        {
+            "plugin": "@nx/jest/plugin",
+            "include": ["e2e/**/*"],
+            "options": {
+                "targetName": "e2e-local",
+                "ciTargetName": "e2e-ci"
+            }
+        }
+    ],
     "nxCloudEncryptionKey": "stacks-nx-plugins",
-    "useInferencePlugins": false,
     "release": {
-        "projects": ["packages/*", "!*-e2e", "!common-test"],
+        "projects": ["packages/*/**", "!*-e2e", "!common-test"],
         "projectsRelationship": "fixed",
         "changelog": {
             "projectChangelogs": true,
             "createRelease": "github"
         },
         "version": {
-            "preVersionCommand": "npx nx run-many -t build",
+            "manifestRootsToUpdate": ["{projectRoot}", "dist/{projectRoot}"],
+            "preVersionCommand": "pnpm exec nx run-many -t build",
             "conventionalCommits": true,
             "fallbackCurrentVersionResolver": "disk"
+        },
+        "git": {
+            "commitMessage": "chore(release): publish {version} [no ci]"
         }
     }
 }
