@@ -3,7 +3,12 @@ import {
     addStacksAttributes,
     checkFilesExistInTree,
 } from '@ensono-stacks/test';
-import { joinPathFragments, readJson, Tree } from '@nx/devkit';
+import {
+    joinPathFragments,
+    readJson,
+    Tree,
+    addProjectConfiguration,
+} from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
@@ -12,29 +17,8 @@ import { PlaywrightGeneratorSchema } from './schema';
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nx/devkit', () => {
-    const actual = jest.requireActual('@nx/devkit');
-
-    return {
-        ...actual,
-        getProjects: jest.fn(
-            () =>
-                new Map([
-                    [
-                        'test',
-                        {
-                            root: '',
-                            sourceRoot: `${projectName}`,
-                            name: 'test',
-                        },
-                    ],
-                ]),
-        ),
-    };
-});
-
 function snapshotFiles(tree, files: string[]) {
-    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
@@ -49,10 +33,16 @@ describe('playwright generator', () => {
 
     beforeEach(() => {
         options = {
-            project: `${projectName}`,
+            project: projectName,
+            directory: projectNameE2E,
         };
         appTree = createTreeWithEmptyWorkspace();
         addStacksAttributes(appTree, options.project);
+        addProjectConfiguration(appTree, projectName, {
+            projectType: 'application',
+            sourceRoot: projectName,
+            root: projectName,
+        });
     });
 
     it('should resolve false if the project already exists', async () => {
@@ -68,14 +58,13 @@ describe('playwright generator', () => {
             joinPathFragments('package.json'),
             joinPathFragments('nx.json'),
             joinPathFragments('tsconfig.base.json'),
-            joinPathFragments('apps', projectNameE2E, 'src', 'example.spec.ts'),
-            joinPathFragments('apps', projectNameE2E, 'playwright.config.ts'),
+            joinPathFragments(projectNameE2E, 'src', 'example.spec.ts'),
+            joinPathFragments(projectNameE2E, 'playwright.config.ts'),
         ]);
 
         expect(
             appTree.exists(
                 joinPathFragments(
-                    'apps',
                     projectNameE2E,
                     'src',
                     'lib',
@@ -87,7 +76,7 @@ describe('playwright generator', () => {
         // Add target to project.json
         const projectJson = readJson(
             appTree,
-            joinPathFragments('apps', projectNameE2E, 'project.json'),
+            joinPathFragments(projectNameE2E, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
     });

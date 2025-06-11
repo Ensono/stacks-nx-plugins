@@ -57,7 +57,9 @@ exports[`openapi-client generator should run successfully: test-client/.eslintrc
         "@nx/dependency-checks": [
           "error",
           {
-            "ignoredFiles": ["{projectRoot}/eslint.config.{js,cjs,mjs}"]
+            "ignoredFiles": [
+              "{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}"
+            ]
           }
         ]
       }

@@ -7,7 +7,7 @@
 
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { execSync } from 'child_process';
-import { existsSync, mkdirSync, rmSync } from 'fs';
+import { existsSync, rmSync } from 'fs';
 import { releasePublish, releaseVersion } from 'nx/release';
 import path from 'path';
 
@@ -39,7 +39,9 @@ export default async () => {
     }
 
     // Because the process is already running set the env variable
-    process.env.npm_config_cache = npmCacheDirectory;
+    process.env.npm_config_cache_dir = npmCacheDirectory + '/cache';
+    process.env.npm_config_store_dir = npmCacheDirectory + '/store';
+    execSync(`pnpm cache delete @ensono-stacks/*`, { stdio: [0, 1, 2] });
 
     await releaseVersion({
         specifier: '0.0.0-e2e',

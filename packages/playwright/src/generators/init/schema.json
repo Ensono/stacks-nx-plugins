@@ -18,6 +18,11 @@
             "type": "string",
             "description": "A directory where the e2e application is placed.",
             "x-priority": "important"
+        },
+        "skipInstall": {
+            "type": "boolean",
+            "description": "Install playwright browsers with dependencies",
+            "default": false
         }
     },
     "required": ["project", "directory"]

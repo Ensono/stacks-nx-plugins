@@ -1,5 +1,5 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
-import { readJson, Tree } from '@nx/devkit';
+import { readJson, Tree, addProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
@@ -13,35 +13,6 @@ import initGenerator from '../init/generator';
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nx/devkit', () => {
-    const actual = jest.requireActual('@nx/devkit');
-
-    return {
-        ...actual,
-        getProjects: jest.fn(
-            () =>
-                new Map([
-                    [
-                        'test',
-                        {
-                            root: '',
-                            sourceRoot: `${projectName}`,
-                            name: 'test',
-                        },
-                    ],
-                    [
-                        'test-e2e',
-                        {
-                            root: '',
-                            sourceRoot: `${projectNameE2E}`,
-                            name: 'test-e2e',
-                        },
-                    ],
-                ]),
-        ),
-    };
-});
-
 describe('playwright accessibility generator', () => {
     let appTree: Tree;
 
@@ -52,10 +23,16 @@ describe('playwright accessibility generator', () => {
     });
 
     it('should error if the project is not supported', async () => {
+        addProjectConfiguration(appTree, 'test', {
+            root: projectName,
+            sourceRoot: projectName,
+            projectType: 'application',
+        });
+
         const options: AccessibilityGeneratorSchema = {
             project: 'test',
         };
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        await expect(generator(appTree, options)).rejects.toThrow(
             `test is not an e2e project. Please select a supported target.`,
         );
     });
@@ -64,21 +41,28 @@ describe('playwright accessibility generator', () => {
         const options: AccessibilityGeneratorSchema = {
             project: 'non-existent-project-e2e',
         };
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        await expect(generator(appTree, options)).rejects.toThrow(
             `non-existent-project-e2e does not exist`,
         );
     });
 
     it('should run successfully', async () => {
-        const options: AccessibilityGeneratorSchema = {
-            project: projectNameE2E,
-        };
+        addProjectConfiguration(appTree, projectName, {
+            projectType: 'application',
+            sourceRoot: projectName,
+            root: projectName,
+        });
 
-        await initGenerator(appTree, options);
-        await generator(appTree, options);
+        await initGenerator(appTree, {
+            project: projectName,
+            directory: projectNameE2E,
+        });
+        await generator(appTree, {
+            project: projectNameE2E,
+        });
 
         // axe-accessibility.spec.ts to be added
-        expect(appTree.children(projectNameE2E)).toContain(
+        expect(appTree.children(`${projectNameE2E}/src`)).toContain(
             'axe-accessibility.spec.ts',
         );
 

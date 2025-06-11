@@ -5,90 +5,6 @@ exports[`playwright generator should run successfully with default options: .pre
 "
 `;
 
-exports[`playwright generator should run successfully with default options: apps/test-e2e/playwright.config.ts 1`] = `
-"import { defineConfig, devices } from '@playwright/test';
-import { nxE2EPreset } from '@nx/playwright/preset';
-import { workspaceRoot } from '@nx/devkit';
-
-// For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://127.0.0.1:3000';
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './src' }),
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    baseURL,
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-  },
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npx nx start test',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: !process.env.CI,
-    cwd: workspaceRoot,
-  },
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    // Uncomment for mobile browsers support
-    /* {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    }, */
-
-    // Uncomment for branded browsers
-    /* {
-      name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    } */
-  ],
-});
-"
-`;
-
-exports[`playwright generator should run successfully with default options: apps/test-e2e/src/example.spec.ts 1`] = `
-"import { test, expect } from '@playwright/test';
-
-test('has title', async ({ page }) => {
-  await page.goto('/');
-
-  // Expect h1 to contain a substring.
-  expect(await page.locator('h1').innerText()).toContain('Welcome');
-});
-"
-`;
-
 exports[`playwright generator should run successfully with default options: nx.json 1`] = `
 "{
   "affected": {
@@ -101,11 +17,6 @@ exports[`playwright generator should run successfully with default options: nx.j
     "lint": {
       "cache": true
     },
-    "@nx/js:tsc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    },
     "@nx/eslint:lint": {
       "cache": true,
       "inputs": [
@@ -114,19 +25,6 @@ exports[`playwright generator should run successfully with default options: nx.j
         "{workspaceRoot}/.eslintignore",
         "{workspaceRoot}/eslint.config.mjs"
       ]
-    },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
     }
   },
   "stacks": {
@@ -171,43 +69,110 @@ exports[`playwright generator should run successfully with default options: pack
   "name": "@proj/source",
   "dependencies": {},
   "devDependencies": {
-    "@nx/devkit": "20.7.1",
-    "@nx/eslint": "20.7.1",
-    "@nx/eslint-plugin": "20.7.1",
-    "@nx/jest": "20.7.1",
-    "@nx/js": "20.7.1",
-    "@nx/playwright": "20.7.1",
+    "@nx/devkit": "21.2.0",
+    "@nx/eslint": "21.2.0",
+    "@nx/eslint-plugin": "21.2.0",
+    "@nx/playwright": "21.2.0",
     "@playwright/test": "^1.44.0",
-    "@swc-node/register": "~1.9.1",
-    "@swc/core": "~1.5.7",
-    "@swc/helpers": "~0.5.11",
-    "@types/jest": "^29.5.12",
-    "@types/node": "18.16.9",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-playwright": "^1.6.2",
-    "jest": "^29.7.0",
-    "jest-environment-node": "^29.7.0",
-    "jsonc-eslint-parser": "^2.1.0",
-    "playwright": "^1.44.0",
-    "prettier": "^2.6.2",
-    "ts-jest": "^29.1.0",
-    "ts-node": "10.9.1",
-    "tslib": "^2.3.0",
-    "typescript": "~5.7.2"
+    "playwright": "^1.44.0"
   }
 }
+"
+`;
+
+exports[`playwright generator should run successfully with default options: test-e2e/playwright.config.ts 1`] = `
+"import { defineConfig, devices } from '@playwright/test';
+import { nxE2EPreset } from '@nx/playwright/preset';
+import { workspaceRoot } from '@nx/devkit';
+
+// For CI, you may want to set BASE_URL to the deployed application.
+const baseURL = process.env['BASE_URL'] || 'http://127.0.0.1:3000';
+
+/**
+ * Read environment variables from file.
+ * https://github.com/motdotla/dotenv
+ */
+// require('dotenv').config();
+
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
+export default defineConfig({
+  ...nxE2EPreset(__filename, { testDir: './src' }),
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    baseURL,
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: 'on-first-retry',
+  },
+  /* Run your local dev server before starting the tests */
+  webServer: {
+    command: 'pnpm exec nx run test:serve',
+    url: 'http://127.0.0.1:3000',
+    reuseExistingServer: true,
+    cwd: workspaceRoot,
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+
+    // Uncomment for mobile browsers support
+    /* {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    }, */
+
+    // Uncomment for branded browsers
+    /* {
+      name: 'Microsoft Edge',
+      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    },
+    {
+      name: 'Google Chrome',
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    } */
+  ],
+});
+"
+`;
+
+exports[`playwright generator should run successfully with default options: test-e2e/src/example.spec.ts 1`] = `
+"import { test, expect } from '@playwright/test';
+
+test('has title', async ({ page }) => {
+  await page.goto('/');
+
+  // Expect h1 to contain a substring.
+  expect(await page.locator('h1').innerText()).toContain('Welcome');
+});
 "
 `;
 
 exports[`playwright generator should run successfully with default options: tsconfig.base.json 1`] = `
 "{
   "compilerOptions": {
-    "paths": {
-      "@proj/test-e2e": ["apps/test-e2e/src/index.ts"]
-    }
+    "paths": {}
   }
 }
 "

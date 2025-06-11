@@ -11,9 +11,14 @@ import {
     addProjectConfiguration,
     NX_VERSION,
     GeneratorCallback,
+    getPackageManagerCommand,
+    output,
+    workspaceRoot,
+    readProjectConfiguration,
 } from '@nx/devkit';
 import { configurationGenerator } from '@nx/playwright';
 import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema.d';
+import { execSync } from 'child_process';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
@@ -49,6 +54,21 @@ function updateDependencies(tree) {
     );
 }
 
+function getBrowsersInstallTask() {
+    return () => {
+        output.log({
+            title: 'Ensuring Playwright is installed.',
+            bodyLines: ['use --skipInstall to skip installation.'],
+        });
+
+        const pm = getPackageManagerCommand();
+        execSync(`${pm.exec} playwright install --with-deps`, {
+            cwd: workspaceRoot,
+            windowsHide: false,
+        });
+    };
+}
+
 export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
@@ -63,6 +83,15 @@ export default async function initGenerator(
 
     const projectE2EName = `${normalizedOptions.project}-e2e`;
 
+    const pm = getPackageManagerCommand();
+
+    const sourceConfig = readProjectConfiguration(
+        tree,
+        normalizedOptions.project,
+    );
+
+    const port = sourceConfig.targets?.serve?.options?.port || 3000;
+
     const playwrightGeneratorSchema: ConfigurationGeneratorSchema = {
         linter: 'eslint',
         directory: 'src',
@@ -71,8 +100,9 @@ export default async function initGenerator(
         skipFormat: false,
         skipPackageJson: false,
         setParserOptionsProject: false,
-        webServerCommand: `npx nx start ${normalizedOptions.project}`,
-        webServerAddress: 'http://127.0.0.1:3000',
+        skipInstall: true,
+        webServerCommand: `${pm.exec} nx run ${normalizedOptions.project}:serve`,
+        webServerAddress: `http://127.0.0.1:${port}`,
     };
 
     addProjectConfiguration(tree, projectE2EName, {
@@ -89,7 +119,7 @@ export default async function initGenerator(
         playwrightGeneratorSchema,
     );
 
-    tasks.push(e2eTask, updateDependencies(tree));
+    tasks.push(e2eTask, updateDependencies(tree), getBrowsersInstallTask());
 
     await formatFiles(tree);
 

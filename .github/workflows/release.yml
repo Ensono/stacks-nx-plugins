@@ -1,6 +1,15 @@
 name: Release
 on:
-- workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      specifier:
+        description: 'Specific version (eg. 3.0.1), or semver specifier (e.g major, minor, patch) to release'
+        required: true
+      dry-run:
+        description: 'Run in dry-run mode'
+        type: boolean
+        default: false
+        
 jobs:
   release:
     permissions:
@@ -9,53 +18,33 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: main
+        filter: tree:0
         fetch-depth: 0
         token: ${{ secrets.BOT_TOKEN }}
+
+    - uses: pnpm/action-setup@v4
+      with:
+        version: '10'
 
     - uses: actions/setup-node@v4
       with:
         node-version-file: '.nvmrc'
+        cache: 'pnpm'
 
     - name: Setup git user
       shell: bash
       run: |
-        npm config set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
         git config --global user.name 'amidostacks'
         git config --global user.email 'stacks@amido.com'
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - name: Node Modules Cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-22-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-22-
 
     - name: Install
       shell: bash
-      run: npm ci
+      run: pnpm install --frozen-lockfile
 
-    - name: Version
+    - name: Release
       shell: bash
       run: |
-        export CI=true
-        npx nx affected --target=version --base=last-release --configuration=release --parallel=1
+        pnpm exec nx release --specifier=${{ github.event.inputs.specifier }} --skip-publish ${{ fromJson('["", "--dry-run"]')[github.event.inputs.dry-run == 'true'] }}
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - name: Tag last-release
-      shell: bash
-      run: git tag -f last-release
-
-    - name: Push changes
-      uses: ad-m/github-push-action@552c074ed701137ebd2bf098e70c394ca293e87f
-      with:
-        github_token: ${{ secrets.BOT_TOKEN }}
-        branch: main
-        force: true
-        tags: true

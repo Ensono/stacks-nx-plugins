@@ -16,6 +16,7 @@
         "nx": "21.x",
         "@nx/devkit": "21.x",
         "@nx/js": "21.x",
+        "@nx/next": "21.x",
         "@nx/react": "21.x",
         "ts-morph": "^23.0.0",
         "tslib": "^2.7.0",

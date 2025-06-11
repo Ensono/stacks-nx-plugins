@@ -3,7 +3,14 @@ import {
     verifyPluginCanBeInstalled,
     getNpmScope,
 } from '@ensono-stacks/core';
-import { formatFiles, generateFiles, names, Tree } from '@nx/devkit';
+import {
+    formatFiles,
+    generateFiles,
+    GeneratorCallback,
+    names,
+    runTasksInSerial,
+    Tree,
+} from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
 import { paramCase } from 'change-case';
@@ -72,7 +79,7 @@ export default async function clientEndpoint(
     options: ClientEndpointGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree);
-
+    const tasks: GeneratorCallback[] = [];
     const normalizedOptions = await normalizeOptions(tree, options);
 
     if (
@@ -98,10 +105,12 @@ export default async function clientEndpoint(
         throw new TypeError('The endpoint version needs to be a number.');
     }
 
-    await libraryGenerator(tree, {
+    const libraryTask = await libraryGenerator(tree, {
         ...normalizedOptions,
         bundler: 'none',
     });
+
+    tasks.push(libraryTask);
 
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
@@ -113,4 +122,6 @@ export default async function clientEndpoint(
     });
 
     await formatFiles(tree);
+
+    return runTasksInSerial(...tasks);
 }

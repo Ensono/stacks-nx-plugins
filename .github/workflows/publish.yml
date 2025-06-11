@@ -1,12 +1,10 @@
-name: Prerelease
+name: Publish
 on:
-  push:
-    branches:
-      - main
+  release:
+    types:
+      - created
 jobs:
-  prerelease:
-    permissions:
-      contents: write
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -14,36 +12,36 @@ jobs:
         filter: tree:0
         fetch-depth: 0
         token: ${{ secrets.BOT_TOKEN }}
-
+    
     - uses: pnpm/action-setup@v4
       with:
         version: '10'
-
+      
     - uses: actions/setup-node@v4
       with:
         node-version-file: '.nvmrc'
+        scope: '@ensono-stacks'
         cache: 'pnpm'
-     
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_CONFIG_PROVENANCE: true
+
     - name: Setup git user
       shell: bash
       run: |
         git config --global user.name 'amidostacks'
         git config --global user.email 'stacks@amido.com'
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: Install
       shell: bash
       run: pnpm install --frozen-lockfile
 
-    - name: Build
-      shell: bash
-      run: pnpm exec nx run-many -t build
-
     - name: Version
       shell: bash
-      run: pnpm exec nx release --preid="alpha" --first-release --skip-publish --dry-run
+      run: pnpm exec nx release publish --dry-run
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_CONFIG_PROVENANCE: true
 

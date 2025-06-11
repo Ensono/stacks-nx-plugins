@@ -1,4 +1,4 @@
-import { OAuth2TokenEndpointResponse } from 'oauth4webapi';
+import { TokenEndpointResponse } from 'oauth4webapi';
 
 export interface RefreshTokenOptions {
     token: string;
@@ -27,5 +27,5 @@ export async function refreshToken({ token, config }: RefreshTokenOptions) {
         throw data;
     }
 
-    return data as OAuth2TokenEndpointResponse;
+    return data as TokenEndpointResponse;
 }
