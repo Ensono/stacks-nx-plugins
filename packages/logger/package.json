@@ -12,7 +12,7 @@
         "tslib": "^2.7.0",
         "@nx/devkit": "21.x",
         "@nx/js": "21.x",
-        "eslint": "8.57.0"
+        "eslint": "~8.57.0"
     },
     "dependencies": {
         "@ensono-stacks/core": "2.0.8"

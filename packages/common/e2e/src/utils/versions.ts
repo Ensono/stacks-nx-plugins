@@ -1,4 +1,6 @@
 import { readJsonFile } from '@nx/devkit';
+import { existsSync } from 'fs';
+import path from 'path';
 
 // eslint-disable-next-line unicorn/import-style
 const util = require('util');
@@ -15,12 +17,25 @@ export async function getNxVersion(): Promise<string> {
         latestVersion = await getLatestNxVersion();
         latestVersion = latestVersion.trim();
     }
+
+    let rootDirectory = process.cwd();
+
+    while (!existsSync(path.join(rootDirectory, 'nx.json'))) {
+        const parentDirectory = path.dirname(rootDirectory);
+        if (parentDirectory === rootDirectory) {
+            break;
+        }
+        rootDirectory = parentDirectory;
+    }
+
+    const rootPackageJson = readJsonFile(
+        path.join(rootDirectory, 'package.json'),
+    );
+
     return (
         latestVersion ||
         process.env['NX_VERSION'] ||
-        readJsonFile(`${process.cwd()}/package.json`).devDependencies[
-            '@nx/workspace'
-        ] ||
+        rootPackageJson.devDependencies['@nx/workspace'] ||
         'latest'
     );
 }

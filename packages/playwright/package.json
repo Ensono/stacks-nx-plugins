@@ -16,6 +16,6 @@
     },
     "dependencies": {
         "@ensono-stacks/core": "2.0.8",
-        "yaml": "2.7.1"
+        "yaml": "^2.5.0"
     }
 }

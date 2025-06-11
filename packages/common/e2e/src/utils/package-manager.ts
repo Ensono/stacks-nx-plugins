@@ -25,7 +25,7 @@ export async function getPackageManagerNxCreateCommand(
 }
 
 export function getSelectedPackageManager(): SupportedPackageManager {
-    return (process.env['SELECTED_PM'] as SupportedPackageManager) || 'npm';
+    return (process.env['SELECTED_PM'] as SupportedPackageManager) || 'pnpm';
 }
 
 export async function installPackages(
