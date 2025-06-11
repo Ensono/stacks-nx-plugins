@@ -18,5 +18,5 @@ export default () => {
     //     recursive: true,
     //     force: true,
     // });
-    // execSync('npm config delete cache');
+    execSync('pnpm cache delete @ensono-stacks/*');
 };

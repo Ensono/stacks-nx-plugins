@@ -73,7 +73,7 @@ describe('playwright e2e', () => {
             expect(
                 await runTarget(e2eProject, targetOptions.e2e, undefined),
             ).toContain(
-                "Playwright Test needs to be invoked via 'npx playwright test' and excluded from Jest test runs",
+                "Playwright Test needs to be invoked via 'pnpm exec playwright test' and excluded from Jest test runs",
             );
         });
     });

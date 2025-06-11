@@ -20,9 +20,9 @@ const providerEnv: Record<
     Record<string, string>
 > = {
     'microsoft-entra-id': {
-        AZURE_AD_CLIENT_ID: '',
-        AZURE_AD_CLIENT_SECRET: '',
-        AZURE_AD_TENANT_ID: '',
+        AZURE_ENTRAID_ID: '',
+        AZURE_ENTRAID_SECRET: '',
+        AZURE_ENTRAID_TENANT: '',
     },
     auth0: {
         AUTH0_CLIENT_ID: '',

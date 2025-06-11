@@ -1,4 +1,4 @@
-import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
+import { runNxCommandAsync, tmpProjPath, updateFile } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import { logger } from 'nx/src/utils/logger';
@@ -58,11 +58,20 @@ export async function newProject(
     }
     process.env.HUSKY = '0';
     const packageManager = getSelectedPackageManager();
+
     const directory = await runCreateWorkspace({
         preset: 'ts' as SupportedNxPreset,
         packageManager,
         ...options,
     });
+
+    if (packageManager === 'pnpm') {
+        updateFile(
+            '.npmrc',
+            'prefer-frozen-lockfile=false\nstrict-peer-dependencies=false\nauto-install-peers=true',
+        );
+    }
+
     await installNxPackages(packageManager, nxPackagesToInstall);
     await installVersionedPackages(packageManager, stacksPackagesToInstall);
     return directory;

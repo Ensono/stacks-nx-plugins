@@ -17,27 +17,29 @@ export function detectPackageManager(directory = ''): PackageManager {
 export function getPackageManagerCommand(
     packageManager: PackageManager = detectPackageManager(),
 ): {
+    name: string;
     addDependency: string;
     exec: string;
+    download: string;
 } {
     const [pmMajor, pmMinor] = getCommandVersion(packageManager).split('.');
 
     switch (packageManager) {
         case 'yarn': {
             return {
+                name: 'yarn',
                 addDependency: `yarn add -D`,
                 exec: 'yarn',
+                download: 'yarn dlx',
             };
         }
 
         case 'pnpm': {
-            let useExec = false;
-            if ((+pmMajor >= 6 && +pmMinor >= 13) || +pmMajor >= 7) {
-                useExec = true;
-            }
             return {
+                name: 'pnpm',
                 addDependency: 'pnpm add -D',
-                exec: useExec ? 'pnpm exec' : 'pnpx',
+                exec: 'pnpm exec',
+                download: 'pnpx',
             };
         }
 
@@ -45,8 +47,10 @@ export function getPackageManagerCommand(
             process.env['npm_config_legacy_peer_deps'] =
                 process.env['npm_config_legacy_peer_deps'] ?? 'true';
             return {
+                name: 'npm',
                 addDependency: 'npm install -D',
                 exec: 'npx',
+                download: 'npx --yes',
             };
         }
     }

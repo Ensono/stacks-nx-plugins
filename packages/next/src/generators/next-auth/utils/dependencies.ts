@@ -5,6 +5,8 @@ import {
     IOREDIS_VERSION,
     UUID_VERSION,
     TYPES_UUID_VERSION,
+    AUTH_CORE_VERSION,
+    OAUTH_4_WEBAPI_VERSION,
 } from './constants';
 import { NextAuthGeneratorSchema } from '../schema';
 
@@ -14,6 +16,8 @@ export function installDependencies(
 ) {
     const dependencies: Record<string, string> = {
         'next-auth': NEXT_AUTH_VERSION,
+        '@auth/core': AUTH_CORE_VERSION,
+        oauth4webapi: OAUTH_4_WEBAPI_VERSION,
     };
 
     const devDependencies: Record<string, string> = {};

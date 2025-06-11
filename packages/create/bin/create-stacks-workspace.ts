@@ -3,7 +3,7 @@
 import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
-import { spawnSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import enquirer from 'enquirer';
 import fs, { rmSync } from 'fs';
 import { tmpdir } from 'os';
@@ -20,7 +20,10 @@ import {
     normaliseForwardedArgv,
 } from './dependencies';
 import { configureNx } from './nx';
-import { packageManagerList } from './package-manager';
+import {
+    getPackageManagerCommand,
+    packageManagerList,
+} from './package-manager';
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
 import packageJson from '../package.json';
@@ -203,11 +206,19 @@ export async function getConfiguration(
             e2eTestRunner = await determineE2eTestRunner(argv);
         }
 
+        const userAgent = process.env['npm_config_user_agent'] || 'npm';
+        const packageManager = userAgent.includes('pnpm')
+            ? 'pnpm'
+            : userAgent.includes('yarn')
+            ? 'yarn'
+            : 'npm';
+
         Object.assign(argv, {
             name: paramCase(name),
             preset,
             appName: paramCase(appName),
             e2eTestRunner,
+            packageManager,
         });
     } catch (error) {
         console.error(error);
@@ -259,12 +270,14 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${setNxVersion}`);
 
+    const pm = getPackageManagerCommand(parsedArgv.packageManager);
+    const [command, ...parameters] = pm.download.split(' ');
+
     const nxResult = spawnSync(
-        'npx',
+        command,
         [
+            ...parameters,
             `create-nx-workspace@${setNxVersion}`,
-            '--yes',
-            '--no-interactive',
             '--workspaces=false',
             '--formatter=prettier',
             '--linter=eslint',
@@ -392,13 +405,6 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         describe: chalk.dim`Set the version of Stacks you want installed`,
                         type: 'string',
                         default: 'latest',
-                    })
-                    .option('packageManager', {
-                        alias: 'pm',
-                        describe: chalk.dim`Package manager to use`,
-                        choices: [...packageManagerList].sort(),
-                        defaultDescription: 'npm',
-                        type: 'string',
                     })
                     .option('interactive', {
                         describe: chalk.dim`Enable interactive mode`,

@@ -25,7 +25,7 @@ describe('rest-client e2e', () => {
     });
 
     afterAll(async () => {
-        // cleanup();
+        cleanup();
     });
 
     describe('http-client', () => {

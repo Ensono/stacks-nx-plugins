@@ -14,7 +14,7 @@ export async function getPackageManagerNxCreateCommand(
             return `npx --yes @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
         }
         case 'pnpm': {
-            return `pnpm dlx @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
+            return `pnpx @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
         }
         default: {
             throw new Error(

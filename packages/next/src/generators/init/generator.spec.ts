@@ -32,6 +32,9 @@ describe('next install generator', () => {
             name: 'next-app',
             style: 'css',
             directory: 'next-app',
+            linter: 'eslint',
+            unitTestRunner: 'jest',
+            e2eTestRunner: 'none',
             ...schema,
         });
 

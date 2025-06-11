@@ -13,6 +13,7 @@ import {
 
 describe('logger e2e', () => {
     beforeAll(async () => {
+        // await new Promise(resolve => setTimeout(resolve, 900000));
         await newProject(['@ensono-stacks/logger']);
     });
 

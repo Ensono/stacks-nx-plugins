@@ -46,7 +46,7 @@ describe('workspace generator', () => {
     it('skips install if there are no packages defined', async () => {
         await installPackages([], 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(0);
+        expect(execAsync).toHaveBeenCalledTimes(0);
     });
 
     it('installs dependencies with preferred package manager', async () => {
@@ -68,9 +68,9 @@ describe('workspace generator', () => {
         } as yargs.Arguments<CreateStacksArguments>);
         await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(1);
+        expect(execAsync).toHaveBeenCalledTimes(1);
         expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @ensono-stacks/workspace:init',
+            'npx nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
     });
@@ -82,15 +82,15 @@ describe('workspace generator', () => {
         } as yargs.Arguments<CreateStacksArguments>);
         await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(2);
+        expect(execAsync).toHaveBeenCalledTimes(2);
         expect(execAsync).toHaveBeenNthCalledWith(
             1,
-            'npx nx g @ensono-stacks/workspace:init',
+            'npx nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
         expect(execAsync).toHaveBeenNthCalledWith(
             2,
-            'npx nx g @ensono-stacks/playwright:init --project=playwright-app',
+            'npx nx g @ensono-stacks/playwright:init --project=playwright-app --directory=apps/playwright-app-e2e --no-interactive',
             'folder/path',
         );
     });
@@ -103,17 +103,20 @@ describe('workspace generator', () => {
         } as yargs.Arguments<CreateStacksArguments>);
         await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(3);
-        expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @ensono-stacks/workspace:init',
+        expect(execAsync).toHaveBeenCalledTimes(3);
+        expect(execAsync).toHaveBeenNthCalledWith(
+            1,
+            'npx nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
-        expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @nx/next:app next-app --directory=apps --e2eTestRunner=none',
+        expect(execAsync).toHaveBeenNthCalledWith(
+            2,
+            'npx nx g @nx/next:app next-app --directory=apps/next-app --e2eTestRunner=none --no-interactive',
             'folder/path',
         );
-        expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @ensono-stacks/next:init --project=next-app',
+        expect(execAsync).toHaveBeenNthCalledWith(
+            3,
+            'npx nx g @ensono-stacks/next:init --project=next-app --no-interactive',
             'folder/path',
         );
     });
@@ -121,7 +124,7 @@ describe('workspace generator', () => {
     it('skips running generators if there are no generators defined', async () => {
         await runGenerators([], 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(0);
+        expect(execAsync).toHaveBeenCalledTimes(0);
     });
 
     it('runs generators with preferred package manager', async () => {
@@ -129,16 +132,16 @@ describe('workspace generator', () => {
         (detectPackageManager as jest.Mock).mockImplementation(() => 'pnpm');
         await runGenerators(['@ensono-stacks/workspace:init'], 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(1);
+        expect(execAsync).toHaveBeenCalledTimes(1);
         expect(execAsync).toHaveBeenCalledWith(
-            'pnpm exec nx g @ensono-stacks/workspace:init',
+            'pnpm exec nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
     });
 
     it('commits additional generator files', async () => {
         await commitGeneratedFiles('folder/path', 'test commit message');
-        expect(execAsync).toBeCalledTimes(3);
+        expect(execAsync).toHaveBeenCalledTimes(3);
         expect(execAsync).toHaveBeenNthCalledWith(
             1,
             'cd folder/path',
