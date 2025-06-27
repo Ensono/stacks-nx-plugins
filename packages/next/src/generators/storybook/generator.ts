@@ -34,17 +34,6 @@ export async function storybookGenerator(
 
     const project = readProjectConfiguration(tree, options.project);
 
-    // Run NPM install after eslint dependencies etc have been added to package.json
-    const npmInstall = (): GeneratorCallback => {
-        return async () => {
-            try {
-                await execAsync('npm install', project.root);
-            } catch {
-                console.log(`Error installing dependencies on ${project.name}`);
-            }
-        };
-    };
-
     const addStorybook = await storybookConfigurationGenerator(tree, {
         interactionTests: true,
         project: options.project,
@@ -56,7 +45,6 @@ export async function storybookGenerator(
         updateESLint(tree, project.root),
         createFiles(tree, project),
         formatFilesWithEslint(options.project),
-        npmInstall(),
     );
 
     return runTasksInSerial(...tasks, () => {

@@ -11,7 +11,6 @@ export type CreateStacksArguments = {
     packageManager: PackageManager;
     interactive: boolean;
     overwrite: boolean;
-    skipGit: boolean;
     terraform: {
         group: string;
         container: string;
