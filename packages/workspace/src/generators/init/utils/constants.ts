@@ -1,5 +1,5 @@
 export const PACKAGE_JSON = 'package.json';
-export const HUSKY_VERSION = '^9.0.11';
+export const HUSKY_VERSION = '^9.1.7';
 export const COMMITLINT_CLI_VERSION = '19.3.0';
 export const COMMITLINT_CONFIG_CONVENTIONAL_VERSION = '19.2.2';
 export const COMMITLINT_CONFIG_NX_SCOPES_VERSION = '19.3.1';

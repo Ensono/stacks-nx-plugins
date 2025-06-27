@@ -32,9 +32,9 @@ contribution guidelines.
 To set up the Stacks workspace, ensure that you have the following installed on
 your system:
 
--   [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+-   [pnpm](https://pnpm.io/installation)
 
--   [Node.js](https://nodejs.org/en) version 18.6.1 LTS (Minimum/Recommended)
+-   [Node.js](https://nodejs.org/en) version 22.16.0 LTS (Minimum/Recommended)
 
 The following are recommended plugins for visual studio code:
 
@@ -54,7 +54,7 @@ To start working in the `stacks-nx-plugins` run the following command:
 
 ```bash
 
-npm run prepare
+pnpm run prepare
 
 ```
 
@@ -296,7 +296,12 @@ nx e2e <plugin name>-e2e
 
 ### Testing packages locally
 
--   **Option 1**: [npx linking](https://docs.npmjs.com/cli/v9/commands/npm-link)
+In most cases you should leverage the E2E test framework to test packages
+locally, as it automatically handles building and publishing to a local
+registry. However if you want to test this outside of the repo we have a few
+processes you can use.
+
+-   **Option 1**: [pnpm linking](https://pnpm.io/cli/link)
 
     -   Step 1: Build the plugin which you would like to use/test locally:
 
@@ -307,14 +312,14 @@ nx e2e <plugin name>-e2e
     -   Step 2: Link the built plugin through `npx link`:
 
         ```bash
-        npx link dist/packages/<pluginName>
+        pnpm link dist/packages/<pluginName>
         ```
 
     -   Step 3: Link to the built package from the workspace where you want to
         test:
 
         ```bash
-        npx link ../../stacks-nx-plugins/dist/packages/<pluginName>
+        pnpm link ../../stacks-nx-plugins/dist/packages/<pluginName>
         ```
 
     -   From the workspace where you want to test your plugin you should now see
@@ -323,14 +328,14 @@ nx e2e <plugin name>-e2e
         should be enough, without having to go through steps 2 & 3 again. If
         not, repeat the steps.
 
--   **Option 2**: npm packing
+-   **Option 2**: pnpm packing
 
-    -   You can build and package your plugin locally through `npm pack`
+    -   You can build and package your plugin locally through `pnpm pack`
 
         ```bash
         nx run-many -t build -p package1 package2
         cd dist/packages/<package>
-        npm pack
+        pnpm pack
         ```
 
     -   From your workspace used for testing you can then directly reference the
@@ -340,23 +345,13 @@ nx e2e <plugin name>-e2e
 
 Follow these steps to run the stacks workspace locally.
 
--   Step 1: Create a local registry:
+-   Step 1: Run Local Registry Script
 
     ```bash
-    npx nx local-registry
+    pnpm run local-registry
     ```
 
     You should now be able to visit http://localhost:4873/ to see the registry.
-
--   Step 2: Run local-publish executor
-
-    ```bash
-    npx nx local-publish
-    ```
-
-    This will build and publish packages to the locally running package manager
-    (verdaccio). Further info is available on its
-    [readme](./packages/common/local-publish/README.md)
 
 -   Step 3: Run workspace locally
 
@@ -366,7 +361,7 @@ Follow these steps to run the stacks workspace locally.
         the stacks-nx-plugin repository:
 
     ```bash
-    npx @ensono-stacks/create-stacks-workspace@latest
+    pnpx @ensono-stacks/create-stacks-workspace@e2e --stacksVersion=e2e
     ```
 
 ### Create stacks workspace script
