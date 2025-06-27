@@ -203,7 +203,6 @@ export default async function bumpVersion(
         importPath: newImportPath,
     });
 
-    // TODO: why do we generate a new lib? Cant we skip to copy and add tsconfig.base.json amends?
     // create a new library for the new version
     await libraryGenerator(tree, {
         name: newEndpointName as string,

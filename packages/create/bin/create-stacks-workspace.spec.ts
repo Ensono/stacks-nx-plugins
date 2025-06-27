@@ -8,7 +8,6 @@ import {
     determineE2eTestRunner,
     determinePreset,
     determineRepoName,
-    getConfiguration,
 } from './create-stacks-workspace';
 import { CreateStacksArguments, Preset } from './types';
 
@@ -221,14 +220,3 @@ describe('determine e2e test runner', () => {
         expect(result).toBe('mytestrunner');
     });
 });
-
-// TODO: no expect?
-// describe('get configuration', () => {
-//     it('with valid config', async () => {
-//         await getConfiguration({
-//             _: ['myrepo'],
-//             preset: 'ts',
-//             e2eTestRunner: 'playwright',
-//         } as yargs.Arguments<CreateStacksArguments>);
-//     });
-// });

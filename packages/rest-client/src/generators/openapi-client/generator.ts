@@ -12,12 +12,12 @@ import {
     Tree,
     runTasksInSerial,
     GeneratorCallback,
+    getPackageManagerCommand,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
-import { printZod } from './art';
 import { OpenapiClientGeneratorSchema } from './schema';
 import {
     FAKERJS_VERSION,
@@ -97,6 +97,8 @@ export default async function generate(
         template: '',
     });
 
+    const pm = getPackageManagerCommand();
+
     callbackTasks.push(
         addDependenciesToPackageJson(
             tree,
@@ -107,10 +109,9 @@ export default async function generate(
                 '@faker-js/faker': FAKERJS_VERSION,
             },
         ),
-        () => execAsync('npm i -g orval -D', project.root) as Promise<void>,
         () =>
             execAsync(
-                'orval --config ./orval.config.js',
+                `${pm.exec} orval --config ./orval.config.js`,
                 project.root,
             ) as Promise<void>,
     );
@@ -133,10 +134,9 @@ export default async function generate(
             ),
             () =>
                 execAsync(
-                    'orval --config ./orval.zod.config.js',
+                    `${pm.exec} orval --config ./orval.zod.config.js`,
                     project.root,
                 ) as Promise<void>,
-            () => printZod(),
         );
     }
 

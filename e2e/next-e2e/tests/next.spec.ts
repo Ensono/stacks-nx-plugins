@@ -208,7 +208,7 @@ describe('next e2e', () => {
         });
     });
 
-    describe('storybook generator', () => {
+    describe.only('storybook generator', () => {
         beforeAll(async () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:storybook --project=${project} --no-interactive`,

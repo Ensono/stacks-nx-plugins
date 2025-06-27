@@ -27,7 +27,7 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
         options.packageManager,
     )} --name=proj --preset=${options.preset || 'ts'} --packageManager=${
         options.packageManager
-    } --stacksVersion=e2e --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
+    } --stacksVersion=e2e --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
         options.args ?? ''
     }`;
     logger.log(`[create] Running create command:\n${command}`);

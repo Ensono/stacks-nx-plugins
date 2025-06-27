@@ -3,16 +3,15 @@
 import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
-import { execSync, spawnSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
-import fs, { rmSync } from 'fs';
+import fs from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
 
 import {
-    commitGeneratedFiles,
     getGeneratorsToRun,
     getStacksPlugins,
     installPackages,
@@ -228,7 +227,7 @@ export async function getConfiguration(
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
-    const { name, skipGit } = forwardArgv;
+    const { name } = forwardArgv;
 
     const argumentsToForward = unparse(
         normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
@@ -281,6 +280,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
             '--workspaces=false',
             '--formatter=prettier',
             '--linter=eslint',
+            '--skipGit=true',
             ...argumentsToForward,
         ],
         {
@@ -344,10 +344,6 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         console.error(error.message);
         process.exit(1);
     }
-
-    // if (!skipGit) {
-    //     await commitGeneratedFiles(targetDirectory, 'stacks init');
-    // }
 
     console.log(chalk.magenta`Stacks is ready`);
 }
@@ -415,11 +411,6 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     .option('overwrite', {
                         describe: chalk.dim`Overwrite the target directory on install`,
                         alias: 'o',
-                        type: 'boolean',
-                        default: false,
-                    })
-                    .option('skipGit', {
-                        describe: chalk.dim`Skip git init`,
                         type: 'boolean',
                         default: false,
                     })

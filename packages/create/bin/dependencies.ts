@@ -130,10 +130,3 @@ export async function runGenerators(
     // eslint-disable-next-line consistent-return
     return chain(promises);
 }
-
-export async function commitGeneratedFiles(cwd: string, message: string) {
-    process.env['HUSKY'] = '0';
-    await execAsync(`cd ${cwd}`, cwd);
-    await execAsync('git add .', cwd);
-    await execAsync(`git commit -m "${message}"`, cwd);
-}

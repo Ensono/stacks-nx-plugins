@@ -6,7 +6,6 @@ import {
     installPackages,
     getGeneratorsToRun,
     runGenerators,
-    commitGeneratedFiles,
     normaliseForwardedArgv,
 } from './dependencies';
 import { detectPackageManager } from './package-manager';
@@ -135,26 +134,6 @@ describe('workspace generator', () => {
         expect(execAsync).toHaveBeenCalledTimes(1);
         expect(execAsync).toHaveBeenCalledWith(
             'pnpm exec nx g @ensono-stacks/workspace:init --no-interactive',
-            'folder/path',
-        );
-    });
-
-    it('commits additional generator files', async () => {
-        await commitGeneratedFiles('folder/path', 'test commit message');
-        expect(execAsync).toHaveBeenCalledTimes(3);
-        expect(execAsync).toHaveBeenNthCalledWith(
-            1,
-            'cd folder/path',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            2,
-            'git add .',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            3,
-            'git commit -m "test commit message"',
             'folder/path',
         );
     });
