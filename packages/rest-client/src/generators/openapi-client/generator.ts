@@ -1,7 +1,6 @@
 import {
     addIgnoreEntry,
     copyFiles,
-    execAsync,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
@@ -13,9 +12,11 @@ import {
     runTasksInSerial,
     GeneratorCallback,
     getPackageManagerCommand,
+    logger,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
+import { execSync } from 'child_process';
 import path from 'path';
 
 import { OpenapiClientGeneratorSchema } from './schema';
@@ -99,45 +100,38 @@ export default async function generate(
 
     const pm = getPackageManagerCommand();
 
-    callbackTasks.push(
-        addDependenciesToPackageJson(
-            tree,
-            {},
-            {
-                orval: ORVAL_VERSION,
-                msw: MSW_VERSION,
-                '@faker-js/faker': FAKERJS_VERSION,
-            },
-        ),
-        () =>
-            execAsync(
-                `${pm.exec} orval --config ./orval.config.js`,
-                project.root,
-            ) as Promise<void>,
-    );
+    const dependencies: Record<string, string> = {};
+
+    const devDependencies: Record<string, string> = {
+        orval: ORVAL_VERSION,
+        msw: MSW_VERSION,
+        '@faker-js/faker': FAKERJS_VERSION,
+    };
 
     if (options.zod) {
+        dependencies['zod'] = ZOD_VERSION;
         generateFiles(tree, path.join(__dirname, 'files/zod'), project.root, {
             schemaName: options.name,
             schemaPath,
             template: '',
         });
+    }
 
-        // Push ZOD generation to callback tasks
-        callbackTasks.push(
-            addDependenciesToPackageJson(
-                tree,
-                {
-                    zod: ZOD_VERSION,
-                },
-                {},
-            ),
-            () =>
-                execAsync(
-                    `${pm.exec} orval --config ./orval.zod.config.js`,
-                    project.root,
-                ) as Promise<void>,
-        );
+    callbackTasks.push(
+        addDependenciesToPackageJson(tree, dependencies, devDependencies),
+        () => {
+            execSync(
+                `${pm.exec} orval --config ${normalizedOptions.projectRoot}/orval.config.js`,
+            );
+        },
+    );
+
+    if (options.zod) {
+        callbackTasks.push(() => {
+            execSync(
+                `${pm.exec} orval --config ${normalizedOptions.projectRoot}/orval.zod.config.js`,
+            );
+        });
     }
 
     await formatFiles(tree);

@@ -165,7 +165,7 @@ describe('init generator', () => {
             const preCommit = tree.read('.husky/pre-commit');
 
             expect(preCommit?.toString()).toEqual(
-                expect.stringContaining('npx lint-staged'),
+                expect.stringContaining('pnpm exec lint-staged'),
             );
             expect(tree.exists('lint-staged.config.js')).toBeTruthy();
 
@@ -186,7 +186,9 @@ describe('init generator', () => {
             const preCommit = tree.read('.husky/pre-commit');
 
             expect(preCommit?.toString()).toEqual(
-                expect.stringContaining(`npx do-something\nnpx lint-staged`),
+                expect.stringContaining(
+                    `npx do-something\npnpm exec lint-staged`,
+                ),
             );
 
             expect(tree.exists('.husky/commit-msg')).toBeFalsy();
@@ -206,14 +208,12 @@ describe('init generator', () => {
             const prepareMessage = tree.read('.husky/prepare-commit-msg');
 
             expect(commitMessage?.toString()).toEqual(
-                expect.stringContaining(
-                    'npx --no-install commitlint --edit "$1"',
-                ),
+                expect.stringContaining('pnpm exec commitlint --edit "$1"'),
             );
 
             expect(prepareMessage?.toString()).toEqual(
                 expect.stringContaining(
-                    'exec < /dev/tty && npx cz --hook || true',
+                    'exec < /dev/tty && pnpm exec cz --hook || true',
                 ),
             );
         });
