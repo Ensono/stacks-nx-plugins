@@ -12,9 +12,9 @@
         "tslib": "^2.6.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "^18.3.5",
-        "eslint": "^8.57.0",
-        "nx": "^18.3.5",
+        "@nx/devkit": "21.x",
+        "eslint": "8.x",
+        "nx": "21.x",
         "prettier": "^2.8.8"
     }
 }

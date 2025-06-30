@@ -6,7 +6,6 @@ import {
     installPackages,
     getGeneratorsToRun,
     runGenerators,
-    commitGeneratedFiles,
     normaliseForwardedArgv,
 } from './dependencies';
 import { detectPackageManager } from './package-manager';
@@ -25,7 +24,7 @@ describe('workspace generator', () => {
         await installPackages(packages, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
-            'npm install -D @ensono-stacks/workspace',
+            'npm install -D @ensono-stacks/workspace@latest',
             'folder/path',
         );
     });
@@ -38,7 +37,7 @@ describe('workspace generator', () => {
         await installPackages(packages, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
-            'npm install -D @ensono-stacks/workspace @nx/next @ensono-stacks/next',
+            'npm install -D @ensono-stacks/workspace@latest @nx/next @ensono-stacks/next@latest',
             'folder/path',
         );
     });
@@ -46,7 +45,7 @@ describe('workspace generator', () => {
     it('skips install if there are no packages defined', async () => {
         await installPackages([], 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(0);
+        expect(execAsync).toHaveBeenCalledTimes(0);
     });
 
     it('installs dependencies with preferred package manager', async () => {
@@ -56,7 +55,7 @@ describe('workspace generator', () => {
         await installPackages(['@ensono-stacks/workspace'], 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
-            'yarn add -D @ensono-stacks/workspace',
+            'yarn add -D @ensono-stacks/workspace@latest',
             'folder/path',
         );
     });
@@ -68,29 +67,9 @@ describe('workspace generator', () => {
         } as yargs.Arguments<CreateStacksArguments>);
         await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(1);
+        expect(execAsync).toHaveBeenCalledTimes(1);
         expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @ensono-stacks/workspace:init',
-            'folder/path',
-        );
-    });
-
-    it('runs generators correctly with cypress test runner', async () => {
-        const generators = getGeneratorsToRun({
-            e2eTestRunner: E2eTestRunner.Cypress,
-            appName: 'cypress-app',
-        } as yargs.Arguments<CreateStacksArguments>);
-        await runGenerators(generators, 'folder/path');
-
-        expect(execAsync).toBeCalledTimes(2);
-        expect(execAsync).toHaveBeenNthCalledWith(
-            1,
-            'npx nx g @ensono-stacks/workspace:init',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            2,
-            'npx nx g @ensono-stacks/cypress:init --project=cypress-app',
+            'npx nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
     });
@@ -102,15 +81,15 @@ describe('workspace generator', () => {
         } as yargs.Arguments<CreateStacksArguments>);
         await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(2);
+        expect(execAsync).toHaveBeenCalledTimes(2);
         expect(execAsync).toHaveBeenNthCalledWith(
             1,
-            'npx nx g @ensono-stacks/workspace:init',
+            'npx nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
         expect(execAsync).toHaveBeenNthCalledWith(
             2,
-            'npx nx g @ensono-stacks/playwright:init --project=playwright-app',
+            'npx nx g @ensono-stacks/playwright:init --project=playwright-app --directory=apps/playwright-app-e2e --no-interactive',
             'folder/path',
         );
     });
@@ -123,17 +102,20 @@ describe('workspace generator', () => {
         } as yargs.Arguments<CreateStacksArguments>);
         await runGenerators(generators, 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(3);
-        expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @ensono-stacks/workspace:init',
+        expect(execAsync).toHaveBeenCalledTimes(3);
+        expect(execAsync).toHaveBeenNthCalledWith(
+            1,
+            'npx nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
-        expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @nx/next:app next-app --directory=apps --e2eTestRunner=none',
+        expect(execAsync).toHaveBeenNthCalledWith(
+            2,
+            'npx nx g @nx/next:app next-app --directory=apps/next-app --e2eTestRunner=none --no-interactive',
             'folder/path',
         );
-        expect(execAsync).toHaveBeenCalledWith(
-            'npx nx g @ensono-stacks/next:init --project=next-app',
+        expect(execAsync).toHaveBeenNthCalledWith(
+            3,
+            'npx nx g @ensono-stacks/next:init --project=next-app --no-interactive',
             'folder/path',
         );
     });
@@ -141,7 +123,7 @@ describe('workspace generator', () => {
     it('skips running generators if there are no generators defined', async () => {
         await runGenerators([], 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(0);
+        expect(execAsync).toHaveBeenCalledTimes(0);
     });
 
     it('runs generators with preferred package manager', async () => {
@@ -149,29 +131,9 @@ describe('workspace generator', () => {
         (detectPackageManager as jest.Mock).mockImplementation(() => 'pnpm');
         await runGenerators(['@ensono-stacks/workspace:init'], 'folder/path');
 
-        expect(execAsync).toBeCalledTimes(1);
+        expect(execAsync).toHaveBeenCalledTimes(1);
         expect(execAsync).toHaveBeenCalledWith(
-            'pnpm exec nx g @ensono-stacks/workspace:init',
-            'folder/path',
-        );
-    });
-
-    it('commits additional generator files', async () => {
-        await commitGeneratedFiles('folder/path', 'test commit message');
-        expect(execAsync).toBeCalledTimes(3);
-        expect(execAsync).toHaveBeenNthCalledWith(
-            1,
-            'cd folder/path',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            2,
-            'git add .',
-            'folder/path',
-        );
-        expect(execAsync).toHaveBeenNthCalledWith(
-            3,
-            'git commit -m "test commit message"',
+            'pnpm exec nx g @ensono-stacks/workspace:init --no-interactive',
             'folder/path',
         );
     });
@@ -189,7 +151,7 @@ describe('workspace generator', () => {
             $0: '',
             _: [],
             appName: 'test-app',
-            preset: 'apps',
+            preset: 'ts',
         });
     });
     it('does not replace a preset other than Next', () => {

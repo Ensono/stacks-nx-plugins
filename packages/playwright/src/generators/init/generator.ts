@@ -1,23 +1,24 @@
 import {
-    deploymentGeneratorMessage,
-    execAsync,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
     formatFiles,
-    generateFiles,
     getProjects,
-    offsetFromRoot,
     Tree,
     addDependenciesToPackageJson,
     runTasksInSerial,
+    addProjectConfiguration,
+    NX_VERSION,
+    GeneratorCallback,
+    getPackageManagerCommand,
+    output,
+    workspaceRoot,
+    readProjectConfiguration,
 } from '@nx/devkit';
-import { Linter } from '@nx/eslint';
-import { libraryGenerator } from '@nx/js';
 import { configurationGenerator } from '@nx/playwright';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema';
+import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema.d';
+import { execSync } from 'child_process';
 import path from 'path';
 
 import { PlaywrightGeneratorSchema } from './schema';
@@ -41,23 +42,6 @@ function normalizeOptions(
     };
 }
 
-function addFiles(tree: Tree, source: string, options: NormalizedSchema) {
-    const templateOptions = {
-        ...options,
-        offsetFromRoot: offsetFromRoot(options.project),
-        template: '',
-    };
-
-    const projectRootE2E = `apps/${options.project}/src`;
-
-    generateFiles(
-        tree,
-        path.join(__dirname, source),
-        projectRootE2E,
-        templateOptions,
-    );
-}
-
 function updateDependencies(tree) {
     return addDependenciesToPackageJson(
         tree,
@@ -65,15 +49,31 @@ function updateDependencies(tree) {
         {
             playwright: PLAYWRIGHT_VERSION,
             '@playwright/test': PLAYWRIGHT_VERSION,
-            '@nx/playwright': '18.3.4',
+            '@nx/playwright': NX_VERSION,
         },
     );
+}
+
+function getBrowsersInstallTask() {
+    return () => {
+        output.log({
+            title: 'Ensuring Playwright is installed.',
+            bodyLines: ['use --skipInstall to skip installation.'],
+        });
+
+        const pm = getPackageManagerCommand();
+        execSync(`${pm.exec} playwright install --with-deps`, {
+            cwd: workspaceRoot,
+            windowsHide: false,
+        });
+    };
 }
 
 export default async function initGenerator(
     tree: Tree,
     options: PlaywrightGeneratorSchema,
 ) {
+    const tasks: GeneratorCallback[] = [];
     verifyPluginCanBeInstalled(tree, options.project);
 
     if (hasGeneratorExecutedForProject(tree, options.project, 'PlaywrightInit'))
@@ -83,41 +83,45 @@ export default async function initGenerator(
 
     const projectE2EName = `${normalizedOptions.project}-e2e`;
 
+    const pm = getPackageManagerCommand();
+
+    const sourceConfig = readProjectConfiguration(
+        tree,
+        normalizedOptions.project,
+    );
+
+    const port = sourceConfig.targets?.serve?.options?.port || 3000;
+
     const playwrightGeneratorSchema: ConfigurationGeneratorSchema = {
-        linter: Linter.EsLint,
+        linter: 'eslint',
         directory: 'src',
         project: projectE2EName,
         js: false,
         skipFormat: false,
         skipPackageJson: false,
         setParserOptionsProject: false,
-        webServerCommand: `npx nx start ${normalizedOptions.project}`,
-        webServerAddress: 'http://127.0.0.1:3000',
+        skipInstall: true,
+        webServerCommand: `${pm.exec} nx run ${normalizedOptions.project}:serve`,
+        webServerAddress: `http://127.0.0.1:${port}`,
     };
 
-    await libraryGenerator(tree, {
-        name: projectE2EName,
-        directory: `apps/${projectE2EName}`,
-        projectNameAndRootFormat: 'as-provided',
+    addProjectConfiguration(tree, projectE2EName, {
+        root: normalizedOptions.directory,
+        projectType: 'application',
+        sourceRoot: path.join(normalizedOptions.directory, 'src'),
+        targets: {},
+        tags: [],
+        implicitDependencies: [options.project],
     });
-    // Delete the default generated lib folder
-    tree.delete(path.join('apps', projectE2EName, 'src', 'index.ts'));
-    tree.delete(path.join('apps', projectE2EName, 'src', 'lib'));
-    await configurationGenerator(tree, playwrightGeneratorSchema);
+
+    const e2eTask = await configurationGenerator(
+        tree,
+        playwrightGeneratorSchema,
+    );
+
+    tasks.push(e2eTask, updateDependencies(tree), getBrowsersInstallTask());
 
     await formatFiles(tree);
 
-    return runTasksInSerial(
-        updateDependencies(tree),
-        () =>
-            deploymentGeneratorMessage(
-                tree,
-                'nx g @ensono-stacks/playwright:init-deployment',
-            ),
-        () =>
-            execAsync(
-                'npx playwright install',
-                `apps/${projectE2EName}`,
-            ) as Promise<void>,
-    );
+    return runTasksInSerial(...tasks);
 }

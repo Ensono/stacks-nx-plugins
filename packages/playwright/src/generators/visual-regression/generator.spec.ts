@@ -75,7 +75,10 @@ describe('playwright generator', () => {
             project: projectNameE2E,
             type: 'native',
         };
-        await initGenerator(appTree, { project: projectName });
+        await initGenerator(appTree, {
+            project: projectName,
+            directory: projectNameE2E,
+        });
         await generator(appTree, options);
 
         // playwright-visual-regression.spec.ts to be added
@@ -116,7 +119,10 @@ describe('playwright generator', () => {
             project: projectNameE2E,
             type: 'applitools',
         };
-        await initGenerator(appTree, { project: projectName });
+        await initGenerator(appTree, {
+            project: projectName,
+            directory: projectNameE2E,
+        });
         await generator(appTree, options);
 
         // playwright-visual-regression.spec.ts to be added
@@ -156,7 +162,10 @@ describe('playwright generator', () => {
         };
 
         beforeEach(async () => {
-            await initGenerator(appTree, { project: projectName });
+            await initGenerator(appTree, {
+                project: projectName,
+                directory: projectNameE2E,
+            });
             await generator(appTree, options);
         });
 

@@ -15,10 +15,8 @@ export function verifyPluginCanBeInstalled(tree: Tree, project?: string) {
     const errorMessage =
         'Stacks plugins can only be used inside an Nx Monorepo. It looks like the project you selected is a non-monorepo, if you believe this to be an error please raise an issue!';
 
-    if (
-        getAllProjects.size === 1 &&
-        getAllProjects.entries().next().value[1].root === '.'
-    ) {
+    const proj = getAllProjects.entries().next().value;
+    if (getAllProjects.size === 1 && proj && proj[1].root === '.') {
         throw new Error(errorMessage);
     }
 

@@ -7,8 +7,8 @@ import {
     Tree,
     addDependenciesToPackageJson,
     GeneratorCallback,
+    readJson,
 } from '@nx/devkit';
-import { readRootPackageJson } from '@nx/webpack';
 import { Linter } from 'eslint';
 
 import {
@@ -17,6 +17,7 @@ import {
     ESLINT_IMPORT_RESOLVER_TS_VERSION,
     ESLINT_PLUGIN_COMPAT_VERSION,
     ESLINT_PLUGIN_IMPORT_VERSION,
+    ESLINT_PLUGIN_JSX_A11Y_VERSION,
     ESLINT_PLUGIN_PRETTIER_VERSION,
     ESLINT_PLUGIN_SECURITY_VERSION,
     ESLINT_PLUGIN_UNICORN_VERSION,
@@ -25,6 +26,7 @@ import {
     ESLINT_PLUGIN_JEST,
     ESLINT_PLUGIN_JEST_DOM,
     ESLINT_PLUGIN_NO_UNSANITIZED,
+    PRETTIER_VERSION,
 } from './constants';
 
 function stacksEslintConfig(tree: Tree): Linter.Config {
@@ -47,7 +49,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             'plugin:compat/recommended',
             'plugin:import/recommended',
             'plugin:import/typescript',
-            'plugin:security/recommended',
+            'plugin:security/recommended-legacy',
             'plugin:jsx-a11y/recommended',
             'plugin:jest/recommended',
             'plugin:jest-dom/recommended',
@@ -190,7 +192,7 @@ function addRules(tree: Tree) {
 }
 
 function addEslintDependencies(tree: Tree) {
-    const { devDependencies } = readRootPackageJson();
+    const { devDependencies } = readJson(tree, 'package.json');
     const nxDependency =
         (devDependencies &&
             Object.entries(devDependencies)
@@ -210,6 +212,7 @@ function addEslintDependencies(tree: Tree) {
             'eslint-import-resolver-typescript':
                 ESLINT_IMPORT_RESOLVER_TS_VERSION,
             'eslint-plugin-compat': ESLINT_PLUGIN_COMPAT_VERSION,
+            'eslint-plugin-jsx-a11y': ESLINT_PLUGIN_JSX_A11Y_VERSION,
             'eslint-plugin-import': ESLINT_PLUGIN_IMPORT_VERSION,
             'eslint-plugin-prettier': ESLINT_PLUGIN_PRETTIER_VERSION,
             'eslint-plugin-security': ESLINT_PLUGIN_SECURITY_VERSION,
@@ -217,6 +220,7 @@ function addEslintDependencies(tree: Tree) {
             'eslint-plugin-jest': ESLINT_PLUGIN_JEST,
             'eslint-plugin-jest-dom': ESLINT_PLUGIN_JEST_DOM,
             'eslint-plugin-no-unsanitized': ESLINT_PLUGIN_NO_UNSANITIZED,
+            prettier: PRETTIER_VERSION,
         },
     );
 }

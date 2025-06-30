@@ -4,23 +4,16 @@
     "projectType": "application",
     "sourceRoot": "e2e/create-e2e/src",
     "tags": ["e2e"],
-    "implicitDependencies": [
-        "create",
-        "workspace",
-        "next",
-        "cypress",
-        "playwright"
-    ],
+    "implicitDependencies": ["create", "workspace", "next", "playwright"],
     "targets": {
         "e2e": {
-            "executor": "@ensono-stacks/e2e:e2e",
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "verdaccioConfig": ".verdaccio/config.yml",
-                "jestOptions": {
-                    "jestConfig": "e2e/create-e2e/jest.config.ts",
-                    "passWithNoTests": true
-                }
-            }
+                "jestConfig": "e2e/create-e2e/jest.config.ts",
+                "runInBand": true
+            },
+            "dependsOn": ["^build"]
         }
     }
 }

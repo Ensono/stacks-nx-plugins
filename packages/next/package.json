@@ -10,15 +10,16 @@
     },
     "dependencies": {
         "@ensono-stacks/core": "2.0.8",
-        "change-case": "^4.1.2",
-        "@nx/js": "^18.3.5",
-        "@nx/react": "^18.3.5"
+        "change-case": "^4.1.2"
     },
     "peerDependencies": {
-        "nx": "^18.3.5",
-        "@nx/devkit": "^18.3.5",
-        "eslint": "^8.57.0",
+        "nx": "21.x",
+        "@nx/devkit": "21.x",
+        "@nx/js": "21.x",
+        "@nx/next": "21.x",
+        "@nx/react": "21.x",
         "ts-morph": "^23.0.0",
-        "tslib": "^2.7.0"
+        "tslib": "^2.7.0",
+        "eslint": "^8.57.0"
     }
 }

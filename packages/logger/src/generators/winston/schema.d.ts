@@ -1,7 +1,7 @@
 export interface WinstonLoggerGeneratorSchema {
     name: string;
     tags?: string;
-    directory?: string;
+    directory: string;
     skipFormat?: boolean;
     logLevelType?: 'cli' | 'syslog' | 'npm';
     consoleLogs?: boolean;

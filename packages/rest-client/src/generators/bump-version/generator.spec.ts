@@ -12,7 +12,7 @@ import httpClientGenerator from '../http-client/generator';
 describe('bump-version generator', () => {
     let tree: Tree;
     const options: BumpVersionGeneratorSchema = {
-        name: 'api-v1',
+        name: 'endpoint-v1',
     };
 
     beforeEach(async () => {
@@ -20,15 +20,15 @@ describe('bump-version generator', () => {
         await httpClientGenerator(tree, {
             name: 'http',
             importPath: '@proj/http',
-            projectNameAndRootFormat: 'derived',
+            directory: 'client',
         });
         await clientEndpointGenerator(tree, {
-            name: 'api',
+            name: 'endpoint',
             httpClient: '@proj/http',
             methods: ['get'],
-            projectNameAndRootFormat: 'derived',
             envVar: 'API_URL',
             endpointVersion: 1,
+            folderPath: 'api',
         });
     });
 
@@ -38,7 +38,7 @@ describe('bump-version generator', () => {
                 ...options,
                 endpointVersion: Number('test'),
             }),
-        ).rejects.toThrowError('The endpoint version needs to be a number.');
+        ).rejects.toThrow('The endpoint version needs to be a number.');
     });
 
     it("should throw an error if the endpoint doesn't exist", async () => {
@@ -47,7 +47,7 @@ describe('bump-version generator', () => {
                 ...options,
                 name: 'nonexistent',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             "Could not find target project of the endpoint. Are you sure you don't want to generate a new endpoint?",
         );
     });
@@ -56,15 +56,15 @@ describe('bump-version generator', () => {
         await libraryGenerator(tree, {
             name: 'non-endpoint',
             bundler: 'none',
-            projectNameAndRootFormat: 'derived',
             unitTestRunner: 'none',
+            directory: 'non-endpoint',
         });
         await expect(() =>
             generator(tree, {
                 ...options,
                 name: 'non-endpoint',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'No version is present for the target project. Please ensure it was generated with @ensono-stacks/rest-client:client-endpoint',
         );
     });
@@ -75,7 +75,7 @@ describe('bump-version generator', () => {
                 ...options,
                 endpointVersion: 1,
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'Cannot decrease a version. Please use --endpointVersion higher than 1',
         );
     });
@@ -85,8 +85,8 @@ describe('bump-version generator', () => {
             ...options,
             endpointVersion: 4,
         });
-        expect(() => tree.exists(`api/v1/src/index.ts`)).not.toThrow();
-        expect(() => tree.exists(`api/v4/src/index.ts`)).not.toThrow();
+        expect(() => tree.exists(`api/endpoint/v1/src/index.ts`)).not.toThrow();
+        expect(() => tree.exists(`api/endpoint/v4/src/index.ts`)).not.toThrow();
     });
 
     it('should determine new version based on existing versions if --endpointVersion is omitted', async () => {
@@ -94,8 +94,8 @@ describe('bump-version generator', () => {
             ...options,
         });
 
-        expect(() => tree.exists(`api/v1/src/index.ts`)).not.toThrow();
-        expect(() => tree.exists(`api/v2/src/index.ts`)).not.toThrow();
+        expect(() => tree.exists(`api/endpoint/v1/src/index.ts`)).not.toThrow();
+        expect(() => tree.exists(`api/endpoint/v2/src/index.ts`)).not.toThrow();
     });
 
     it('should update any version numbers in the code', async () => {
@@ -105,15 +105,15 @@ describe('bump-version generator', () => {
         );
 
         tree.write(
-            `api/v1/test/src/index.ts`,
+            `api/endpoint/v1/test/src/index.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.ts.fixture')),
         );
         tree.write(
-            `api/v1/test/src/index.test.ts`,
+            `api/endpoint/v1/test/src/index.test.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.test.ts.fixture')),
         );
         tree.write(
-            `api/v1/test/src/index.types.ts`,
+            `api/endpoint/v1/test/src/index.types.ts`,
             fs.readFileSync(path.join(fixturesPath, 'index.types.ts.fixture')),
         );
 
@@ -122,12 +122,14 @@ describe('bump-version generator', () => {
             endpointVersion: 3,
         });
 
-        const indexTs = tree.read(`api/v3/test/src/index.ts`)?.toString();
+        const indexTs = tree
+            .read('api/endpoint/v3/test/src/index.ts')
+            ?.toString();
         const indexTestTs = tree
-            .read(`api/v3/test/src/index.test.ts`)
+            .read(`api/endpoint/v3/test/src/index.test.ts`)
             ?.toString();
         const indexTypesTs = tree
-            .read(`api/v3/test/src/index.types.ts`)
+            .read(`api/endpoint/v3/test/src/index.types.ts`)
             ?.toString();
 
         expect(indexTs).not.toContain(

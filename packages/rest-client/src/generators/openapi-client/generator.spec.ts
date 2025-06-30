@@ -24,9 +24,10 @@ function snapshotFiles(tree: Tree, files: string[]) {
 describe('openapi-client generator', () => {
     let tree: Tree;
     const options: OpenapiClientGeneratorSchema = {
-        name: 'testClient',
+        name: 'test-client',
         schema: 'test.yaml',
         zod: false,
+        directory: 'test-client',
     };
 
     beforeEach(() => {
@@ -59,7 +60,7 @@ describe('openapi-client generator', () => {
                 ...options,
                 schema: '',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'Provided schema does not exist in the workspace. Please check and try again',
         );
     });
@@ -72,7 +73,7 @@ describe('openapi-client generator', () => {
                 ...options,
                 schema: './openapi',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'Provided schema does not exist in the workspace. Please check and try again',
         );
     });
@@ -104,7 +105,7 @@ describe('openapi-client generator', () => {
 
         const orvalConfig = tree.read('test-client/orval.config.js', 'utf8');
 
-        expect(orvalConfig).toContain(`target: './src/testClient.ts',`);
+        expect(orvalConfig).toContain(`target: './src/test-client.ts',`);
         expect(orvalConfig).toContain(`target: './test.yaml',`);
     });
 

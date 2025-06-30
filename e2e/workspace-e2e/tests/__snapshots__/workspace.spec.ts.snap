@@ -9,7 +9,7 @@ exports[`workspace updates the eslintrc.json 1`] = `
     "plugin:compat/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:security/recommended",
+    "plugin:security/recommended-legacy",
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
     "plugin:jest-dom/recommended",

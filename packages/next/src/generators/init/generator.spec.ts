@@ -31,6 +31,10 @@ describe('next install generator', () => {
         await applicationGenerator(tree, {
             name: 'next-app',
             style: 'css',
+            directory: 'next-app',
+            linter: 'eslint',
+            unitTestRunner: 'jest',
+            e2eTestRunner: 'none',
             ...schema,
         });
 

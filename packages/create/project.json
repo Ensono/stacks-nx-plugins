@@ -4,7 +4,7 @@
     "sourceRoot": "packages/create/src",
     "projectType": "library",
     "tags": ["plugin"],
-    "implicitDependencies": ["workspace", "playwright", "cypress"],
+    "implicitDependencies": ["workspace", "playwright"],
 
     "targets": {
         "build": {
@@ -39,78 +39,6 @@
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
                 "jestConfig": "packages/create/jest.config.ts"
-            }
-        },
-        "dependency": {
-            "executor": "nx:run-commands",
-            "options": {
-                "commands": [
-                    "nx run create:lint:release",
-                    "git add packages/create/package.json",
-                    "git commit --no-verify --amend --no-edit",
-                    "git push --no-verify --atomic origin main {tag}"
-                ],
-                "parallel": false,
-                "forwardAllArgs": false
-            }
-        },
-        "version": {
-            "executor": "@jscutlery/semver:version",
-            "options": {
-                "trackDeps": true,
-                "dryRun": false,
-                "skipRootChangelog": true,
-                "skipProjectChangelog": true,
-                "noVerify": true,
-                "push": false,
-                "skipCommit": true,
-                "commitMessageFormat": "chore({projectName}): release version ${version} [skip ci]"
-            },
-            "configurations": {
-                "prerelease": {
-                    "releaseAs": "prerelease",
-                    "preid": "alpha",
-                    "postTargets": [
-                        "create:lint:release",
-                        "create:build",
-                        "create:publish:prerelease"
-                    ]
-                },
-                "release": {
-                    "skipCommit": false,
-                    "postTargets": [
-                        "create:dependency",
-                        "create:build",
-                        "create:publish",
-                        "create:github"
-                    ]
-                },
-                "local-release": {
-                    "postTargets": [
-                        "create:lint:release",
-                        "create:build",
-                        "create:publish"
-                    ],
-                    "allowEmptyRelease": true
-                }
-            }
-        },
-        "publish": {
-            "executor": "ngx-deploy-npm:deploy",
-            "options": {
-                "access": "public"
-            },
-            "configurations": {
-                "prerelease": {
-                    "tag": "dev"
-                }
-            }
-        },
-        "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
             }
         }
     }

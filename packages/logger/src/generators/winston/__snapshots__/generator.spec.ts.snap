@@ -4,7 +4,8 @@ exports[`logger generator should generate the logger: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
-/.nx/cache"
+/.nx/cache
+/.nx/workspace-data"
 `;
 
 exports[`logger generator should generate the logger: .prettierrc 1`] = `
@@ -50,7 +51,14 @@ exports[`logger generator should generate the logger: custom/test-logger/.eslint
       "files": ["*.json"],
       "parser": "jsonc-eslint-parser",
       "rules": {
-        "@nx/dependency-checks": "error"
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredFiles": [
+              "{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}"
+            ]
+          }
+        ]
       }
     },
     {
@@ -66,8 +74,9 @@ exports[`logger generator should generate the logger: custom/test-logger/.eslint
 
 exports[`logger generator should generate the logger: custom/test-logger/jest.config.ts 1`] = `
 "export default {
-  displayName: 'custom-test-logger',
+  displayName: 'test-logger',
   preset: '../../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
@@ -79,22 +88,22 @@ exports[`logger generator should generate the logger: custom/test-logger/jest.co
 
 exports[`logger generator should generate the logger: custom/test-logger/package.json 1`] = `
 "{
-  "name": "@proj/custom/test-logger",
+  "name": "@proj/test-logger",
   "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
+  "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
-  "private": true
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
 }
 "
 `;
 
 exports[`logger generator should generate the logger: custom/test-logger/project.json 1`] = `
 "{
-  "name": "custom-test-logger",
+  "name": "test-logger",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "custom/test-logger/src",
   "projectType": "library",
@@ -211,6 +220,7 @@ exports[`logger generator should generate the logger: custom/test-logger/tsconfi
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
+    "moduleResolution": "node10",
     "types": ["jest", "node"]
   },
   "include": [
@@ -224,9 +234,10 @@ exports[`logger generator should generate the logger: custom/test-logger/tsconfi
 `;
 
 exports[`logger generator should generate the logger: jest.config.ts 1`] = `
-"import { getJestProjectsAsync } from '@nx/jest';
+"import type { Config } from 'jest';
+import { getJestProjectsAsync } from '@nx/jest';
 
-export default async () => ({
+export default async (): Promise<Config> => ({
   projects: await getJestProjectsAsync(),
 });
 "

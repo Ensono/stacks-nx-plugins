@@ -148,7 +148,7 @@ export const jwt: JWTCallback = async ({
     > = {};
 
     
-    const store = cookies();
+    const store = await cookies();
     const guestSessionKey = store.get(GUEST_SESSION_COOKIE_NAME)?.value;
 
     if (guestSessionKey && guestSessionKey !== token.sub) {
@@ -329,10 +329,10 @@ exports[`next-auth generator providers microsoft-entra-id creates the provider 1
 import { profile } from '../actions';
 
 export const microsoftEntraId = EntraId({
-    clientId: process.env.AZURE_AD_CLIENT_ID as string,
-    clientSecret: process.env.AZURE_AD_CLIENT_SECRET as string,
-    tenantId: process.env.AZURE_AD_TENANT_ID as string,
-    token: \`https://login.microsoftonline.com/\${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/token\`,
+    clientId: process.env.AZURE_ENTRAID_ID as string,
+    clientSecret: process.env.AZURE_ENTRAID_SECRET as string,
+    issuer: \`https://login.microsoftonline.com/\${process.env.AZURE_ENTRAID_TENANT}/v2.0\`,
+    token: \`https://login.microsoftonline.com/\${process.env.AZURE_ENTRAID_TENANT}/oauth2/v2.0/token\`,
     authorization: {
         params: {
             scope: 'openid profile email offline_access User.Read',

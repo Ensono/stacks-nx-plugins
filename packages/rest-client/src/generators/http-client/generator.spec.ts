@@ -24,8 +24,8 @@ function snapshotFiles(tree: Tree, files: string[]) {
 describe('http-client generator', () => {
     let tree: Tree;
     const options: HttpClientGeneratorSchema = {
-        name: 'testClient',
-        projectNameAndRootFormat: 'derived',
+        name: 'test-client',
+        directory: 'test-client',
     };
 
     beforeEach(() => {
@@ -65,7 +65,7 @@ describe('http-client generator', () => {
             tags: 'test, client',
         });
 
-        const config = readProjectConfiguration(tree, 'custom-test-client');
+        const config = readProjectConfiguration(tree, 'test-client');
 
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'client']);

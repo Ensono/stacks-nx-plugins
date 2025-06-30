@@ -139,10 +139,5 @@ export default async function visualRegressionGenerator(
 
     await formatFiles(tree);
 
-    return runTasksInSerial(updateDependencies(tree, options.type), () =>
-        deploymentGeneratorMessage(
-            tree,
-            `nx g @ensono-stacks/playwright:visual-regression-deployment --type ${options.type}`,
-        ),
-    );
+    return runTasksInSerial(updateDependencies(tree, options.type));
 }

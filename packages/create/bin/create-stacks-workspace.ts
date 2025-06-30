@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
 import { paramCase } from 'change-case';
@@ -11,7 +12,6 @@ import yargs from 'yargs';
 import unparse from 'yargs-unparser';
 
 import {
-    commitGeneratedFiles,
     getGeneratorsToRun,
     getStacksPlugins,
     installPackages,
@@ -19,7 +19,10 @@ import {
     normaliseForwardedArgv,
 } from './dependencies';
 import { configureNx } from './nx';
-import { packageManagerList } from './package-manager';
+import {
+    getPackageManagerCommand,
+    packageManagerList,
+} from './package-manager';
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
 import packageJson from '../package.json';
@@ -27,9 +30,9 @@ import packageJson from '../package.json';
 const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
     {
-        name: Preset.Apps,
+        name: Preset.TS,
         message:
-            'apps              [an empty monorepo with no plugins with a layout that works best for building apps]',
+            'ts              [an empty monorepo with no plugins with a layout that works best for building apps]',
     },
     {
         name: Preset.NextJs,
@@ -47,10 +50,6 @@ const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     {
         name: E2eTestRunner.Playwright,
         message: 'playwright',
-    },
-    {
-        name: E2eTestRunner.Cypress,
-        message: 'cypress',
     },
 ];
 
@@ -86,7 +85,7 @@ export async function determinePreset(
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<Preset> {
     if (!(parsedArguments.preset || parsedArguments.interactive)) {
-        return Preset.Apps;
+        return Preset.TS;
     }
 
     if (parsedArguments.preset) {
@@ -121,7 +120,7 @@ export async function determineAppName(
     preset: Preset,
     parsedArguments: yargs.Arguments<CreateStacksArguments>,
 ): Promise<string> {
-    if (preset === Preset.Apps) {
+    if (preset === Preset.TS) {
         return '';
     }
 
@@ -206,11 +205,19 @@ export async function getConfiguration(
             e2eTestRunner = await determineE2eTestRunner(argv);
         }
 
+        const userAgent = process.env['npm_config_user_agent'] || 'npm';
+        const packageManager = userAgent.includes('pnpm')
+            ? 'pnpm'
+            : userAgent.includes('yarn')
+            ? 'yarn'
+            : 'npm';
+
         Object.assign(argv, {
             name: paramCase(name),
             preset,
             appName: paramCase(appName),
             e2eTestRunner,
+            packageManager,
         });
     } catch (error) {
         console.error(error);
@@ -220,7 +227,7 @@ export async function getConfiguration(
 
 async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     const { nxVersion, dir, overwrite, ...forwardArgv } = parsedArgv;
-    const { name, skipGit } = forwardArgv;
+    const { name } = forwardArgv;
 
     const argumentsToForward = unparse(
         normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
@@ -262,12 +269,18 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Running Nx create-nx-workspace@${setNxVersion}`);
 
+    const pm = getPackageManagerCommand(parsedArgv.packageManager);
+    const [command, ...parameters] = pm.download.split(' ');
+
     const nxResult = spawnSync(
-        'npx',
+        command,
         [
+            ...parameters,
             `create-nx-workspace@${setNxVersion}`,
-            '--yes',
-            '--no-interactive',
+            '--workspaces=false',
+            '--formatter=prettier',
+            '--linter=eslint',
+            '--skipGit=true',
             ...argumentsToForward,
         ],
         {
@@ -307,7 +320,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     await installPackages(
         versionedPackagesToInstall,
         targetDirectory,
-        parsedArgv.useDev,
+        parsedArgv.stacksVersion,
     );
     console.log(
         chalk.magenta`Successfully installed: ${versionedPackagesToInstall.join(
@@ -317,6 +330,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
     console.log(chalk.magenta`Configuring Stacks with Nx ${setNxVersion}`);
     configureNx(parsedArgv, targetDirectory);
+
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
     console.log(
         chalk.cyan`Running the following generators:\n${generatorsToRun.join(
@@ -329,10 +343,6 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         console.error(chalk.red`Failed to run Stacks generators.`);
         console.error(error.message);
         process.exit(1);
-    }
-
-    if (!skipGit) {
-        await commitGeneratedFiles(targetDirectory, 'stacks init');
     }
 
     console.log(chalk.magenta`Stacks is ready`);
@@ -387,12 +397,10 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                         type: 'string',
                         default: 'latest',
                     })
-                    .option('packageManager', {
-                        alias: 'pm',
-                        describe: chalk.dim`Package manager to use`,
-                        choices: [...packageManagerList].sort(),
-                        defaultDescription: 'npm',
+                    .option('stacksVersion', {
+                        describe: chalk.dim`Set the version of Stacks you want installed`,
                         type: 'string',
+                        default: 'latest',
                     })
                     .option('interactive', {
                         describe: chalk.dim`Enable interactive mode`,
@@ -403,11 +411,6 @@ export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
                     .option('overwrite', {
                         describe: chalk.dim`Overwrite the target directory on install`,
                         alias: 'o',
-                        type: 'boolean',
-                        default: false,
-                    })
-                    .option('skipGit', {
-                        describe: chalk.dim`Skip git init`,
                         type: 'boolean',
                         default: false,
                     })

@@ -6,8 +6,9 @@ import {
 import {
     formatFiles,
     generateFiles,
-    getWorkspaceLayout,
+    GeneratorCallback,
     names,
+    runTasksInSerial,
     Tree,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
@@ -33,23 +34,16 @@ async function normalizeOptions(
 ) {
     const name = paramCase(options.name);
     const endpointName = paramCase(`${name}/v${options.endpointVersion}`);
-    let directory = path.join(name, `v${options.endpointVersion}`);
-
-    if (options.directory) {
-        directory = path.join(options.directory, directory);
-    }
-
-    if (options.projectNameAndRootFormat === 'derived') {
-        const { libsDir } = getWorkspaceLayout(tree);
-        directory = path.join(libsDir, directory);
-    }
+    const directory = path.join(
+        options.folderPath,
+        name,
+        `v${options.endpointVersion}`,
+    );
 
     const projectOptions = await determineProjectNameAndRootOptions(tree, {
         name: endpointName,
         directory,
         projectType: 'library',
-        projectNameAndRootFormat: 'as-provided',
-        callingGenerator: '@ensono-stacks/rest-client:client-endpoint',
     });
 
     return {
@@ -57,7 +51,6 @@ async function normalizeOptions(
         directory,
         name: endpointName,
         projectRoot: projectOptions.projectRoot,
-        projectNameAndRootFormat: 'as-provided' as const,
         importPath:
             options.importPath ?? `@${getNpmScope(tree)}/${endpointName}`,
     };
@@ -86,7 +79,7 @@ export default async function clientEndpoint(
     options: ClientEndpointGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree);
-
+    const tasks: GeneratorCallback[] = [];
     const normalizedOptions = await normalizeOptions(tree, options);
 
     if (
@@ -112,10 +105,12 @@ export default async function clientEndpoint(
         throw new TypeError('The endpoint version needs to be a number.');
     }
 
-    await libraryGenerator(tree, {
+    const libraryTask = await libraryGenerator(tree, {
         ...normalizedOptions,
         bundler: 'none',
     });
+
+    tasks.push(libraryTask);
 
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
@@ -127,4 +122,6 @@ export default async function clientEndpoint(
     });
 
     await formatFiles(tree);
+
+    return runTasksInSerial(...tasks);
 }

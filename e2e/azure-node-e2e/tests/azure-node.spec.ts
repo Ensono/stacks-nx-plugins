@@ -1,15 +1,12 @@
-import { newProject, cleanup, createNextApplication } from '@ensono-stacks/e2e';
+import { newProject, cleanup } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     readFile,
-    readJson,
-    runNxCommandAsync,
     uniq,
+    runNxCommandAsync,
 } from '@nx/plugin/testing';
 
 describe('azure-node e2e', () => {
-    jest.setTimeout(300_000);
-
     beforeAll(async () => {
         await newProject(
             ['@ensono-stacks/next', '@ensono-stacks/azure-node'],
@@ -18,7 +15,7 @@ describe('azure-node e2e', () => {
     });
 
     afterAll(async () => {
-        await runNxCommandAsync('reset');
+        cleanup();
     });
 
     describe('app-insights generator', () => {
@@ -35,16 +32,16 @@ describe('azure-node e2e', () => {
             );
 
             expect(() =>
-                checkFilesExist(`apps/${project}/server/main.ts`),
+                checkFilesExist(`${project}/server/main.ts`),
             ).not.toThrow();
 
-            const fileContent = readFile(`apps/${project}/server/main.ts`);
+            const fileContent = readFile(`${project}/server/main.ts`);
             expect(fileContent).toMatch(/import \* as appInsights/g);
             expect(fileContent).toMatch(
                 /setup\(process\.env\.TEST_CONNECTION_STRING_ENV\)/g,
             );
             expect(fileContent).toMatch(/cloudRole(.|\n)*\'nextjs\d*\'/g);
             expect(fileContent).toMatch(/appInsights\.start/g);
-        }, 12000000);
+        });
     });
 });

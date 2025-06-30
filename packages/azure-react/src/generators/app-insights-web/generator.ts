@@ -1,20 +1,20 @@
 import {
     hasGeneratorExecutedForProject,
-    NormalizedSchema as BaseNormalizedSchema,
+    NormalizedSchema,
     normalizeOptions,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
-import { libraryGenerator } from '@nrwl/react';
 import {
     addDependenciesToPackageJson,
     formatFiles,
     generateFiles,
-    names,
     offsetFromRoot,
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { Linter } from '@nx/eslint';
+import { libraryGenerator } from '@nx/react';
 import path from 'path';
 
 import { AppInsightsWebGeneratorSchema } from './schema';
@@ -23,8 +23,6 @@ import {
     appInsightsReactVersion,
     appInsightsWebVersion,
 } from '../../../utils/versions';
-
-type NormalizedSchema = BaseNormalizedSchema<AppInsightsWebGeneratorSchema>;
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -37,13 +35,15 @@ function updateDependencies(tree: Tree) {
     );
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
+function addFiles(
+    tree: Tree,
+    options: NormalizedSchema<AppInsightsWebGeneratorSchema>,
+) {
     const templateOptions = {
         ...options,
-        ...names(options.name),
         applicationinsightsConnectionString:
             options.applicationinsightsConnectionString,
-        offsetFromRoot: offsetFromRoot(options.projectRoot),
+        offsetFromRoot: offsetFromRoot(options.directory),
         template: '',
     };
     generateFiles(
@@ -73,17 +73,15 @@ export default async function appInsightsWebGenerator(
         throw new Error('applicationinsightsConnectionString cannot be empty.');
     }
 
-    // Normalize options
-    const normalizedOptions = normalizeOptions(tree, options);
+    const normalizedOptions = await normalizeOptions(tree, options, 'library');
 
     // Use the existing library generator
     await libraryGenerator(tree, {
         ...options,
         linter: Linter.EsLint,
         style: 'none',
+        minimal: true,
     });
-    // Delete the default generated lib folder
-    tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
 
     // Generate files
     addFiles(tree, normalizedOptions);
