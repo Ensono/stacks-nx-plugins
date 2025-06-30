@@ -7,14 +7,13 @@
     "implicitDependencies": ["next", "create", "workspace"],
     "targets": {
         "e2e": {
-            "executor": "@ensono-stacks/e2e:e2e",
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "verdaccioConfig": ".verdaccio/config.yml",
-                "jestOptions": {
-                    "jestConfig": "e2e/next-e2e/jest.config.ts",
-                    "passWithNoTests": true
-                }
-            }
+                "jestConfig": "e2e/next-e2e/jest.config.ts",
+                "runInBand": true
+            },
+            "dependsOn": ["^build"]
         }
     }
 }

@@ -4,28 +4,21 @@ uplinks:
   npmjs:
     url: https://registry.npmjs.org/
     cache: true
+    maxage: 60m
   yarn:
     url: https://registry.yarnpkg.com
     cache: true
+    maxage: 60m
 
 packages:
-  '@*/*':
-    # scoped packages
-    access: $all
-    publish: $all
-    unpublish: $all
-    proxy: npmjs
-
   '**':
     access: $all
     publish: $all
     unpublish: $all
     proxy: npmjs
 
-logs:
-  type: stdout
-  format: pretty
-  level: http
+publish:
+  allow_offline: true
 
 web:
   enabled: true

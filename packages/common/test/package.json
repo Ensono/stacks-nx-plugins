@@ -2,9 +2,9 @@
     "name": "@ensono-stacks/test",
     "version": "2.0.7",
     "type": "commonjs",
-    "dependencies": {
-        "@nx/devkit": "18.3.5",
-        "@nx/next": "18.3.5",
+    "peerDependencies": {
+        "@nx/devkit": "21.x",
+        "@nx/next": "21.x",
         "tslib": "^2.6.1"
     }
 }

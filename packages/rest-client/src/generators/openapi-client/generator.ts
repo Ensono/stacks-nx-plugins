@@ -1,8 +1,6 @@
 import {
     addIgnoreEntry,
     copyFiles,
-    execAsync,
-    normalizeOptions,
     verifyPluginCanBeInstalled,
 } from '@ensono-stacks/core';
 import {
@@ -13,12 +11,14 @@ import {
     Tree,
     runTasksInSerial,
     GeneratorCallback,
+    getPackageManagerCommand,
+    logger,
 } from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import { fileExists } from 'nx/src/utils/fileutils';
+import { execSync } from 'child_process';
 import path from 'path';
 
-import { printZod } from './art';
 import { OpenapiClientGeneratorSchema } from './schema';
 import {
     FAKERJS_VERSION,
@@ -27,16 +27,36 @@ import {
     ZOD_VERSION,
 } from '../../../utils/versions';
 
+async function normalizeOptions(
+    tree: Tree,
+    options: OpenapiClientGeneratorSchema,
+) {
+    const { importPath, projectName, projectRoot } =
+        await determineProjectNameAndRootOptions(tree, {
+            ...options,
+            projectType: 'library',
+        });
+
+    return {
+        ...options,
+        importPath,
+        projectName,
+        projectRoot,
+    };
+}
+
 export default async function generate(
     tree: Tree,
     options: OpenapiClientGeneratorSchema,
 ) {
     verifyPluginCanBeInstalled(tree);
 
+    const normalizedOptions = await normalizeOptions(tree, options);
+
     if (
-        !options.schema ||
-        !tree.exists(options.schema) ||
-        !tree.isFile(options.schema)
+        !normalizedOptions.schema ||
+        !tree.exists(normalizedOptions.schema) ||
+        !tree.isFile(normalizedOptions.schema)
     ) {
         throw new Error(
             'Provided schema does not exist in the workspace. Please check and try again.',
@@ -44,8 +64,6 @@ export default async function generate(
     }
 
     const callbackTasks: GeneratorCallback[] = [];
-
-    const normalizedOptions = normalizeOptions(tree, options);
 
     // Use the existing library generator
     await libraryGenerator(tree, normalizedOptions);
@@ -80,47 +98,40 @@ export default async function generate(
         template: '',
     });
 
-    callbackTasks.push(
-        addDependenciesToPackageJson(
-            tree,
-            {},
-            {
-                orval: ORVAL_VERSION,
-                msw: MSW_VERSION,
-                '@faker-js/faker': FAKERJS_VERSION,
-            },
-        ),
-        () => execAsync('npm i -g orval -D', project.root) as Promise<void>,
-        () =>
-            execAsync(
-                'orval --config ./orval.config.js',
-                project.root,
-            ) as Promise<void>,
-    );
+    const pm = getPackageManagerCommand();
+
+    const dependencies: Record<string, string> = {};
+
+    const devDependencies: Record<string, string> = {
+        orval: ORVAL_VERSION,
+        msw: MSW_VERSION,
+        '@faker-js/faker': FAKERJS_VERSION,
+    };
 
     if (options.zod) {
+        dependencies['zod'] = ZOD_VERSION;
         generateFiles(tree, path.join(__dirname, 'files/zod'), project.root, {
             schemaName: options.name,
             schemaPath,
             template: '',
         });
+    }
 
-        // Push ZOD generation to callback tasks
-        callbackTasks.push(
-            addDependenciesToPackageJson(
-                tree,
-                {
-                    zod: ZOD_VERSION,
-                },
-                {},
-            ),
-            () =>
-                execAsync(
-                    'orval --config ./orval.zod.config.js',
-                    project.root,
-                ) as Promise<void>,
-            () => printZod(),
-        );
+    callbackTasks.push(
+        addDependenciesToPackageJson(tree, dependencies, devDependencies),
+        () => {
+            execSync(
+                `${pm.exec} orval --config ${normalizedOptions.projectRoot}/orval.config.js`,
+            );
+        },
+    );
+
+    if (options.zod) {
+        callbackTasks.push(() => {
+            execSync(
+                `${pm.exec} orval --config ${normalizedOptions.projectRoot}/orval.zod.config.js`,
+            );
+        });
     }
 
     await formatFiles(tree);

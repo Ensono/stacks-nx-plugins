@@ -31,6 +31,7 @@ describe('next-auth generator', () => {
         await applicationGenerator(appTree, {
             name: 'next-app',
             style: 'css',
+            directory: 'next-app',
         });
 
         addStacksAttributes(appTree, project);
@@ -179,13 +180,13 @@ describe('next-auth generator', () => {
 
                 expect(
                     appTree.read('next-app/.env.local').toString(),
-                ).toContain('AZURE_AD_CLIENT_ID=');
+                ).toContain('AZURE_ENTRAID_ID=');
                 expect(
                     appTree.read('next-app/.env.local').toString(),
-                ).toContain('AZURE_AD_CLIENT_SECRET=');
+                ).toContain('AZURE_ENTRAID_SECRET=');
                 expect(
                     appTree.read('next-app/.env.local').toString(),
-                ).toContain('AZURE_AD_TENANT_ID=');
+                ).toContain('AZURE_ENTRAID_TENANT=');
 
                 expect(
                     appTree.read('auth/src/providers/index.ts').toString(),

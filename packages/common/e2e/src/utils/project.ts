@@ -1,11 +1,9 @@
-import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
+import { runNxCommandAsync, tmpProjPath, updateFile } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
-import { emptyDirSync } from 'fs-extra';
 import { logger } from 'nx/src/utils/logger';
 import path from 'path';
 
-import { cleanup } from './cleanup';
 import {
     getPackageManagerNxCreateCommand,
     getSelectedPackageManager,
@@ -21,33 +19,23 @@ export interface CreateWorkspaceOptions {
 }
 
 export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
-    const temporaryDirectory = path.dirname(tmpProjPath());
-    const projectName = 'proj';
-    emptyDirSync(temporaryDirectory);
-    logger.log(`[create] Created temporary directory: ${temporaryDirectory}`);
+    const temporaryDirectory = tmpProjPath();
+    fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+    fs.mkdirSync(path.dirname(temporaryDirectory), { recursive: true });
 
-    const cacheDirectory = path.join(temporaryDirectory, '.cache');
-    if (!fs.existsSync(cacheDirectory)) {
-        fs.mkdirSync(cacheDirectory, {
-            recursive: true,
-        });
-    }
     const command = `${await getPackageManagerNxCreateCommand(
         options.packageManager,
-    )} --name=${projectName} --preset=${
-        options.preset || 'apps'
-    } --packageManager=${
+    )} --name=proj --preset=${options.preset || 'ts'} --packageManager=${
         options.packageManager
-    } --skipGit --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
+    } --stacksVersion=e2e --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
         options.args ?? ''
     }`;
     logger.log(`[create] Running create command:\n${command}`);
     try {
         execSync(command, {
-            cwd: temporaryDirectory,
+            cwd: path.dirname(temporaryDirectory),
             env: {
                 ...process.env,
-                npm_config_cache: cacheDirectory,
                 HUSKY: '0',
             },
             stdio: 'inherit',
@@ -55,7 +43,7 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     } catch (error) {
         throw new Error(`Create workspace failed: ${error}`);
     }
-    return `${projectName} created in ${temporaryDirectory}`;
+    return temporaryDirectory;
 }
 
 export async function newProject(
@@ -70,32 +58,34 @@ export async function newProject(
     }
     process.env.HUSKY = '0';
     const packageManager = getSelectedPackageManager();
-    cleanup();
-    const result = await runCreateWorkspace({
-        preset: 'apps' as SupportedNxPreset,
+
+    const directory = await runCreateWorkspace({
+        preset: 'ts' as SupportedNxPreset,
         packageManager,
         ...options,
     });
-    logger.log(`[create-stacks-workspace] ${result}`);
-    await installVersionedPackages(packageManager, stacksPackagesToInstall);
+
+    if (packageManager === 'pnpm') {
+        updateFile(
+            '.npmrc',
+            'prefer-frozen-lockfile=false\nstrict-peer-dependencies=false\nauto-install-peers=true',
+        );
+    }
+
     await installNxPackages(packageManager, nxPackagesToInstall);
+    await installVersionedPackages(packageManager, stacksPackagesToInstall);
+    return directory;
 }
 
 export async function createNextApplication(
     project: string,
     customServer?: boolean,
-    deployment?: boolean,
 ) {
     const server = customServer ? '--customServer' : '';
     await runNxCommandAsync(
-        `generate @nx/next:application ${project} --directory=apps --e2eTestRunner=none ${server}`,
+        `generate @nx/next:application ${project} --directory=apps/${project} --linter=eslint --e2eTestRunner=none --unitTestRunner=none --style=none --appDir=true --src=true ${server} --no-interactive`,
     );
     await runNxCommandAsync(
-        `generate @ensono-stacks/next:init --project=${project} --directory=apps --no-interactive`,
+        `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
     );
-    if (deployment) {
-        await runNxCommandAsync(
-            `generate @ensono-stacks/next:init-deployment --directory=apps --project=${project} --no-interactive`,
-        );
-    }
 }

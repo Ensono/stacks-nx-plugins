@@ -1,6 +1,4 @@
-import { tsMorphTree } from '@ensono-stacks/core';
-import { checkFilesExistInTree } from '@ensono-stacks/test';
-import { Tree, joinPathFragments } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
@@ -9,13 +7,12 @@ import { ClientEndpointGeneratorSchema } from './schema';
 describe('client-endpoint generator', () => {
     let tree: Tree;
     const options: ClientEndpointGeneratorSchema = {
-        name: 'testEndpoint',
+        name: 'test-endpoint',
         httpClient: '@ensono-stacks/http-client',
         envVar: 'API_URL',
         methods: ['get', 'post', 'patch', 'put', 'delete', 'head', 'options'],
         endpointVersion: 1,
-        directory: 'endpoints',
-        projectNameAndRootFormat: 'derived',
+        folderPath: 'api',
     };
 
     beforeEach(() => {
@@ -28,18 +25,16 @@ describe('client-endpoint generator', () => {
             tags: 'testEndpoint',
         });
 
+        expect(tree.exists('api/test-endpoint/v1/src/index.ts')).toBeTruthy();
         expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.ts'),
+            tree.exists('api/test-endpoint/v1/src/index.test.ts'),
         ).toBeTruthy();
         expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.test.ts'),
-        ).toBeTruthy();
-        expect(
-            tree.exists('endpoints/test-endpoint/v1/src/index.types.ts'),
+            tree.exists('api/test-endpoint/v1/src/index.types.ts'),
         ).toBeTruthy();
 
         const fileContent = tree.read(
-            `endpoints/test-endpoint/v1/src/index.ts`,
+            `api/test-endpoint/v1/src/index.ts`,
             'utf8',
         );
         expect(fileContent).toMatch(
@@ -63,7 +58,7 @@ describe('client-endpoint generator', () => {
                 methods: [],
                 tags: 'testEndpoint',
             }),
-        ).rejects.toThrowError("You haven't selected any method to generate.");
+        ).rejects.toThrow("You haven't selected any method to generate.");
     });
 
     it('should throw a TypeError if version is not a number', async () => {
@@ -73,6 +68,6 @@ describe('client-endpoint generator', () => {
                 endpointVersion: Number('test'),
                 tags: 'testEndpoint',
             }),
-        ).rejects.toThrowError('The endpoint version needs to be a number.');
+        ).rejects.toThrow('The endpoint version needs to be a number.');
     });
 });

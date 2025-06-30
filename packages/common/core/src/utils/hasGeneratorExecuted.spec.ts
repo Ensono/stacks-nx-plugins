@@ -30,7 +30,7 @@ describe('hasGeneratorExecuted', () => {
         });
 
         it('should log warning if re-run', async () => {
-            const logSpy = jest.spyOn(global.console, 'log');
+            const logSpy = jest.spyOn(console, 'log');
 
             updateJson(appTree, 'nx.json', nxJson => ({
                 ...nxJson,
@@ -47,7 +47,7 @@ describe('hasGeneratorExecuted', () => {
 
             hasGeneratorExecutedForProject(appTree, projectName, generatorName);
 
-            expect(logSpy).toBeCalledWith(
+            expect(logSpy).toHaveBeenCalledWith(
                 '\n',
                 chalk.yellow`This generator has already been executed for the project`,
                 chalk.magenta`testProject.`,
@@ -69,7 +69,7 @@ describe('hasGeneratorExecuted', () => {
         });
 
         it('should log warning if re-run', async () => {
-            const logSpy = jest.spyOn(global.console, 'log');
+            const logSpy = jest.spyOn(console, 'log');
 
             updateJson(appTree, 'nx.json', nxJson => ({
                 ...nxJson,
@@ -84,7 +84,7 @@ describe('hasGeneratorExecuted', () => {
 
             hasGeneratorExecutedForWorkspace(appTree, generatorName);
 
-            expect(logSpy).toBeCalledWith(
+            expect(logSpy).toHaveBeenCalledWith(
                 '\n',
                 chalk.yellow`This generator has already been executed for the workspace`,
                 chalk.magenta`proj.`,

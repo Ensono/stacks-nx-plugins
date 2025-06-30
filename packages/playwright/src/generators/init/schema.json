@@ -13,7 +13,17 @@
                 "$source": "projectName"
             },
             "x-prompt": "What app would you like to generate a test project for?"
+        },
+        "directory": {
+            "type": "string",
+            "description": "A directory where the e2e application is placed.",
+            "x-priority": "important"
+        },
+        "skipInstall": {
+            "type": "boolean",
+            "description": "Install playwright browsers with dependencies",
+            "default": false
         }
     },
-    "required": ["project"]
+    "required": ["project", "directory"]
 }

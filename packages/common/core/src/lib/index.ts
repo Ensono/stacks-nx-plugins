@@ -1,6 +1,5 @@
 export * from './array';
 export * from './copy-files';
-export * from './directory-name-warning';
 export * from './eslint';
 export * from './exec';
 export * from './findFile';

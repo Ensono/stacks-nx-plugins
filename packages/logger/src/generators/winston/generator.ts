@@ -58,7 +58,7 @@ export default async function generate(
     verifyPluginCanBeInstalled(tree);
 
     const tasks: GeneratorCallback[] = [];
-    const normalizedOptions = normalizeOptions(tree, options);
+    const normalizedOptions = await normalizeOptions(tree, options, 'library');
 
     await libraryGenerator(tree, options);
     // Delete the default generated lib folder

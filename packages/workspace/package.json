@@ -9,12 +9,11 @@
         "url": "https://github.com/ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "@nx/devkit": "^18.3.5",
+        "@nx/devkit": "21.x",
         "eslint": "^8.57.0",
         "tslib": "^2.6.1"
     },
     "dependencies": {
-        "@ensono-stacks/core": "2.0.8",
-        "@nx/webpack": "18.3.5"
+        "@ensono-stacks/core": "2.0.8"
     }
 }

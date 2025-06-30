@@ -1,17 +1,20 @@
-import { addDependenciesToPackageJson, updateJson, Tree } from '@nx/devkit';
+import {
+    addDependenciesToPackageJson,
+    updateJson,
+    Tree,
+    getPackageManagerCommand,
+} from '@nx/devkit';
 
 import { HUSKY_VERSION, PACKAGE_JSON } from './constants';
 import { PackageJson } from './types';
 import { InstallGeneratorSchema } from '../schema';
-
-const HOOK_PREAMBLE = `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\n`;
 
 function addHuskyPrepareScript(tree: Tree) {
     updateJson(tree, PACKAGE_JSON, (json: PackageJson) => {
         const update = json;
         update.scripts = {
             ...json.scripts,
-            prepare: 'husky install',
+            prepare: 'husky',
         };
 
         return update;
@@ -26,22 +29,23 @@ function getOrCreateHook(tree: Tree, path: string) {
     const hasHook: boolean = tree.exists(path);
 
     if (!hasHook) {
-        tree.write(path, `${HOOK_PREAMBLE}`);
-        return HOOK_PREAMBLE;
+        tree.write(path, '');
+        return '';
     }
-    return tree.read(path);
+    return tree.read(path)?.toString();
 }
 
 function addPreCommit(tree: Tree) {
     const path = '.husky/pre-commit';
-    const lintStaged = 'npx lint-staged';
+    const pm = getPackageManagerCommand();
+
+    const lintStaged = 'lint-staged';
 
     const contents = getOrCreateHook(tree, path);
-
     const updatedPreCommit = [contents];
 
     if (!contents?.includes(lintStaged)) {
-        updatedPreCommit.push(lintStaged);
+        updatedPreCommit.push(`${pm.exec} ${lintStaged}`);
     }
 
     tree.write(path, updatedPreCommit.join('\n'), { mode: '775' });
@@ -49,26 +53,33 @@ function addPreCommit(tree: Tree) {
 
 function addCommitMessage(tree: Tree) {
     const path = '.husky/commit-msg';
-    const commitMessage = `npx --no-install commitlint --edit "$1"`;
+    const pm = getPackageManagerCommand();
+
+    const commitMessage = `commitlint --edit "$1"`;
 
     const contents = getOrCreateHook(tree, path);
+    const updateCommitMessage = [contents];
 
     if (!contents?.includes('commitlint')) {
-        tree.write(path, `${contents}\n${commitMessage}`, { mode: '775' });
+        updateCommitMessage.push(`${pm.exec} ${commitMessage}`);
     }
+    tree.write(path, updateCommitMessage.join('\n'), { mode: '775' });
 }
 
 function addPrepareCommitMessage(tree: Tree) {
     const path = '.husky/prepare-commit-msg';
-    const prepareCommitMessage = `exec < /dev/tty && npx cz --hook || true`;
+    const pm = getPackageManagerCommand();
+
+    const commitizenHook = `cz --hook`;
+    const prepareCommitMessage = `exec < /dev/tty && ${pm.exec} cz --hook || true`;
 
     const contents = getOrCreateHook(tree, path);
+    const updatePreCommitMessage = [contents];
 
-    if (!contents?.includes('cz --hook')) {
-        tree.write(path, `${contents}\n${prepareCommitMessage}`, {
-            mode: '775',
-        });
+    if (!contents?.includes(commitizenHook)) {
+        updatePreCommitMessage.push(prepareCommitMessage);
     }
+    tree.write(path, updatePreCommitMessage.join('\n'), { mode: '775' });
 }
 
 export function addHusky(tree: Tree, options: InstallGeneratorSchema) {

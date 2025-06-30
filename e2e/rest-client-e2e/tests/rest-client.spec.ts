@@ -6,7 +6,12 @@ import {
     uniq,
 } from '@nx/plugin/testing';
 import { tmpProjPath } from '@nx/plugin/testing';
-import { newProject, runTarget, targetOptions } from '@ensono-stacks/e2e';
+import {
+    newProject,
+    cleanup,
+    runTarget,
+    targetOptions,
+} from '@ensono-stacks/e2e';
 import YAML from 'yaml';
 import fs from 'fs';
 
@@ -20,7 +25,7 @@ describe('rest-client e2e', () => {
     });
 
     afterAll(async () => {
-        await runNxCommandAsync('reset');
+        cleanup();
     });
 
     describe('http-client', () => {
@@ -28,7 +33,7 @@ describe('rest-client e2e', () => {
 
         beforeAll(async () => {
             await runNxCommandAsync(
-                `generate @ensono-stacks/rest-client:http-client ${project}`,
+                `generate @ensono-stacks/rest-client:http-client ${project} --directory=libs/${project}`,
             );
         });
 
@@ -55,13 +60,13 @@ describe('rest-client e2e', () => {
 
         beforeAll(async () => {
             await runNxCommandAsync(
-                `generate @ensono-stacks/rest-client:http-client ${httpclientName}`,
+                `generate @ensono-stacks/rest-client:http-client ${httpclientName} --directory=libs/${httpclientName}`,
             );
         });
 
         it('should create lib in the specified directory', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${libName} --methods=get,post,patch,put,delete,head,options --directory=${endpointsDir} --httpClient="@proj/${httpclientName}" --no-interactive`,
+                `generate @ensono-stacks/rest-client:client-endpoint ${libName} --methods=get,post,patch,put,delete,head,options --folderPath=libs/${endpointsDir} --httpClient="@proj/${httpclientName}" --no-interactive`,
             );
 
             expect(() =>
@@ -180,7 +185,7 @@ describe('rest-client e2e', () => {
             );
 
             await runNxCommandAsync(
-                `generate @ensono-stacks/rest-client:openapi-client ${client} --directory=libs --schema=petstore-3.0.yaml --zod --no-interactive --verbose`,
+                `generate @ensono-stacks/rest-client:openapi-client ${client} --directory=libs/${client} --schema=petstore-3.0.yaml --zod --no-interactive --verbose`,
             );
         });
 

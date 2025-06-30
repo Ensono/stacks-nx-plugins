@@ -1,5 +1,3 @@
-// TODO: do we still need these mocks?
-/* eslint-disable unicorn/no-empty-file */
 jest.mock('./bin/package-manager', () => ({
     __esModule: true,
     ...jest.requireActual('./bin/package-manager'),

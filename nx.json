@@ -1,9 +1,16 @@
 {
-    "pluginsConfig": { "@nx/js": { "analyzeSourceFiles": true } },
+    "pluginsConfig": {
+        "@nx/js": {
+            "analyzeSourceFiles": true
+        }
+    },
     "extends": "nx/presets/npm.json",
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "defaultProject": "workspace",
-    "workspaceLayout": { "appsDir": "e2e", "libsDir": "packages" },
+    "workspaceLayout": {
+        "appsDir": "e2e",
+        "libsDir": "packages"
+    },
     "namedInputs": {
         "default": ["{projectRoot}/**/*", "sharedGlobals"],
         "production": [
@@ -14,21 +21,33 @@
             "!{projectRoot}/.eslintrc.json",
             "!{projectRoot}/src/test-setup.[jt]s"
         ],
-        "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
+        "sharedGlobals": [
+            "{workspaceRoot}/babel.config.json",
+            "{workspaceRoot}/.github/workflows/e2e.yml"
+        ]
     },
     "targetDefaults": {
-        "build": { "dependsOn": ["^build"], "cache": true },
-        "e2e": {
+        "build": {
             "dependsOn": ["^build"],
+            "cache": true
+        },
+        "e2e": {
             "inputs": [
                 "default",
                 "^production",
-                { "env": "NX_E2E_CI_CACHE_KEY" }
+                {
+                    "env": "NX_E2E_CI_CACHE_KEY"
+                }
             ],
             "cache": true
         },
-        "version": { "dependsOn": ["^build", "^version"], "cache": false },
-        "publish": { "cache": false },
+        "version": {
+            "dependsOn": ["^build", "^version"],
+            "cache": false
+        },
+        "publish": {
+            "cache": false
+        },
         "@nx/jest:jest": {
             "inputs": [
                 "default",
@@ -36,8 +55,15 @@
                 "{workspaceRoot}/jest.preset.js"
             ],
             "cache": true,
-            "options": { "passWithNoTests": true },
-            "configurations": { "ci": { "ci": true, "codeCoverage": true } }
+            "options": {
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
         },
         "@nx/eslint:lint": {
             "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
@@ -47,8 +73,39 @@
             "cache": true,
             "dependsOn": ["^build"],
             "inputs": ["production", "^production"]
+        },
+        "nx-release-publish": {
+            "options": {
+                "packageRoot": "dist/{projectRoot}"
+            }
         }
     },
+    "plugins": [
+        {
+            "plugin": "@nx/jest/plugin",
+            "include": ["e2e/**/*"],
+            "options": {
+                "targetName": "e2e-local",
+                "ciTargetName": "e2e-ci"
+            }
+        }
+    ],
     "nxCloudEncryptionKey": "stacks-nx-plugins",
-    "useInferencePlugins": false
+    "release": {
+        "projects": ["packages/*/**", "!*-e2e", "!common-test"],
+        "projectsRelationship": "fixed",
+        "changelog": {
+            "projectChangelogs": true,
+            "createRelease": "github"
+        },
+        "version": {
+            "manifestRootsToUpdate": ["{projectRoot}", "dist/{projectRoot}"],
+            "preVersionCommand": "pnpm exec nx run-many -t build",
+            "conventionalCommits": true,
+            "fallbackCurrentVersionResolver": "disk"
+        },
+        "git": {
+            "commitMessage": "chore(release): publish {version} [no ci]"
+        }
+    }
 }

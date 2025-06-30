@@ -1,21 +1,8 @@
 import { tmpProjPath } from '@nx/plugin/testing';
 import { existsSync, rmSync } from 'fs';
-import path from 'path';
 
-export function cleanup(registry = false) {
-    const temporaryProject = tmpProjPath();
-    if (existsSync(temporaryProject)) {
-        rmSync(temporaryProject, { force: true, recursive: true });
-    }
-
-    const localRegistryStorage = path.join(
-        temporaryProject,
-        '..',
-        '..',
-        'local-registry',
-    );
-
-    if (registry && existsSync(localRegistryStorage)) {
-        rmSync(localRegistryStorage, { force: true, recursive: true });
+export function cleanup(projectDirectory = tmpProjPath()) {
+    if (existsSync(projectDirectory)) {
+        rmSync(projectDirectory, { force: true, recursive: true });
     }
 }

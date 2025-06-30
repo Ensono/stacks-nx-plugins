@@ -1,5 +1,6 @@
 {
     "eslint.validate": ["json"],
     "typescript.tsdk": "node_modules/typescript/lib",
-    "eslint.workingDirectories": [".", "./tmp/nx-e2e/proj"]
+    "eslint.workingDirectories": [".", "./tmp/nx-e2e/proj"],
+    "prettier.prettierPath": "./node_modules/prettier"
 }

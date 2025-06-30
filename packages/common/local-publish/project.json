@@ -1,8 +1,0 @@
-{
-    "name": "local-publish",
-    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/common/local-publish/src",
-    "projectType": "library",
-    "tags": [],
-    "targets": {}
-}

@@ -1,9 +1,13 @@
-import { getWorkspaceLayout, names, Tree } from '@nx/devkit';
-import path from 'path';
+import { Tree } from '@nx/devkit';
+import {
+    determineProjectNameAndRootOptions,
+    ensureRootProjectName,
+} from '@nx/devkit/src/generators/project-name-and-root-utils';
 
 type BaseSchema = {
     name: string;
-    directory?: string;
+    directory: string;
+    importPath?: string;
     tags?: string;
 };
 
@@ -11,37 +15,23 @@ export type NormalizedSchema<TSchema extends BaseSchema = BaseSchema> =
     TSchema & {
         projectName: string;
         projectRoot: string;
-        projectDirectory: string;
         parsedTags: string[];
     };
 
-export function normalizeOptions<TSchema extends BaseSchema>(
+export async function normalizeOptions<TSchema extends BaseSchema>(
     tree: Tree,
     options: TSchema,
-): NormalizedSchema<TSchema> {
-    const name = names(options.name).fileName;
+    projectType: 'application' | 'library',
+): Promise<NormalizedSchema<TSchema>> {
+    await ensureRootProjectName(options, projectType);
 
-    // nx removes special dir names when generating a project
-    // which prevents `--dir libs` resulting in `libs/libs/projectname` path
-    // we should follow this approach too
-    // @see https://github.com/nrwl/nx/blob/master/packages/devkit/src/utils/get-workspace-layout.ts#L45
-    const directory =
-        options.directory &&
-        !['apps', 'libs', 'packages'].includes(options.directory)
-            ? options.directory
-            : null;
-
-    const projectDirectory = directory
-        ? path.join(names(directory).fileName, name)
-        : name;
-    const projectRoot = path.join(
-        getWorkspaceLayout(tree).libsDir,
-        projectDirectory,
-    );
-
-    const projectName = projectDirectory
-        .replaceAll('/', '-')
-        .replaceAll('\\', '-');
+    const { projectRoot, importPath, projectName } =
+        await determineProjectNameAndRootOptions(tree, {
+            name: options.name,
+            projectType: 'library',
+            directory: options.directory,
+            importPath: options.importPath,
+        });
 
     const parsedTags = options.tags
         ? options.tags.split(',').map(s => s.trim())
@@ -49,10 +39,9 @@ export function normalizeOptions<TSchema extends BaseSchema>(
 
     return {
         ...options,
-        directory,
+        importPath,
         projectName,
         projectRoot,
-        projectDirectory,
         parsedTags,
     };
 }

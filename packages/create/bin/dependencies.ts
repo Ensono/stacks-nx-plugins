@@ -22,12 +22,11 @@ export function normaliseForwardedArgv(
 ) {
     const updatedForwardArgv = forwardArgv;
     updatedForwardArgv['preset'] =
-        forwardArgv['preset'] === 'next' ? 'apps' : forwardArgv['preset'];
+        forwardArgv['preset'] === 'next' ? 'ts' : forwardArgv['preset'];
 
-    // As we have our own playwright and cypress implementations, we pass in none for the initial Nx create workspace to avoid potential conflict/errors etc.
+    // TODO: Remove this once determined if our playwright project could just enhance what already comes out the box
     updatedForwardArgv['e2eTestRunner'] =
-        updatedForwardArgv['e2eTestRunner'] === 'playwright' ||
-        updatedForwardArgv['e2eTestRunner'] === 'cypress'
+        updatedForwardArgv['e2eTestRunner'] === 'playwright'
             ? 'none'
             : updatedForwardArgv['e2eTestRunner'];
     return updatedForwardArgv;
@@ -57,7 +56,7 @@ export function getGeneratorsToRun(
 
     if (argv.preset === Preset.NextJs) {
         generators.push(
-            `@nx/next:app ${argv.appName} --directory=apps --e2eTestRunner=none`,
+            `@nx/next:app ${argv.appName} --directory=apps/${argv.appName} --e2eTestRunner=none`,
             `@ensono-stacks/next:init --project=${argv.appName}`,
         );
     }
@@ -72,7 +71,7 @@ export function getGeneratorsToRun(
             chalk.yellow`\nFor accessibility support, you can run nx g @ensono-stacks/${argv.e2eTestRunner}:accessibility --project ${argv.appName}`,
         );
         generators.push(
-            `@ensono-stacks/${argv.e2eTestRunner}:init --project=${argv.appName}`,
+            `@ensono-stacks/${argv.e2eTestRunner}:init --project=${argv.appName} --directory=apps/${argv.appName}-e2e`,
         );
     }
 
@@ -96,19 +95,17 @@ export function getStacksPlugins(argv: yargs.Arguments<CreateStacksArguments>) {
 export async function installPackages(
     packages: string[],
     cwd: string,
-    useDevelopment?: boolean,
+    stacksVersion = 'latest',
 ): Promise<unknown> {
     if (packages.length === 0) {
         return 'No packages to install';
     }
 
-    const versionedPackages = useDevelopment
-        ? packages.map(packageName =>
-              packageName.includes('@ensono-stacks')
-                  ? `${packageName}@dev`
-                  : packageName,
-          )
-        : packages;
+    const versionedPackages = packages.map(packageName =>
+        packageName.includes('@ensono-stacks')
+            ? `${packageName}@${stacksVersion}`
+            : packageName,
+    );
 
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
@@ -127,16 +124,9 @@ export async function runGenerators(
     const pm = getPackageManagerCommand(packageManager);
 
     const promises = commands.map(command => () => {
-        return execAsync(`${pm.exec} nx g ${command}`, cwd);
+        return execAsync(`${pm.exec} nx g ${command} --no-interactive`, cwd);
     });
 
     // eslint-disable-next-line consistent-return
     return chain(promises);
-}
-
-export async function commitGeneratedFiles(cwd: string, message: string) {
-    process.env['HUSKY'] = '0';
-    await execAsync(`cd ${cwd}`, cwd);
-    await execAsync('git add .', cwd);
-    await execAsync(`git commit -m "${message}"`, cwd);
 }

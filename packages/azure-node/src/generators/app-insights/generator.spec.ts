@@ -31,6 +31,7 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         const initAppInsightsSpy = jest.spyOn(
@@ -61,7 +62,7 @@ describe('app-insights generator', () => {
             server: 'server.js',
             applicationinsightsConnectionString: 'TEST_CONNECTION_STRING_ENV',
         };
-        await expect(generator(appTree, incorrectOptions)).rejects.toThrowError(
+        await expect(generator(appTree, incorrectOptions)).rejects.toThrow(
             `No application was found with the name 'unknown-project'`,
         );
     });
@@ -71,10 +72,11 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         appTree.delete('test/server/main.ts');
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        await expect(generator(appTree, options)).rejects.toThrow(
             'No custom server found.',
         );
     });
@@ -84,13 +86,14 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         appTree.write(
             'test/server/main.ts',
             'import * as appInsights from "applicationinsights"',
         );
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        await expect(generator(appTree, options)).rejects.toThrow(
             'AppInsights SDK is already in use.',
         );
     });
@@ -100,6 +103,7 @@ describe('app-insights generator', () => {
             name: 'test',
             customServer: true,
             style: 'css',
+            directory: 'test',
         });
 
         await generator(appTree, options);
@@ -116,6 +120,7 @@ describe('app-insights generator', () => {
                 name: 'test',
                 customServer: true,
                 style: 'css',
+                directory: 'test',
             });
             await generator(appTree, options);
         });
