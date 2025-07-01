@@ -1,6 +1,6 @@
 // TODO: Use Nx version in workspace instead of hardcoded versions
-export const NX_STORYBOOK_VERSION = '21.2.0';
-export const NX_WEBPACK_VERSION = '21.2.0';
+export const NX_STORYBOOK_VERSION = '21.2.1';
+export const NX_WEBPACK_VERSION = '21.2.1';
 export const NEXTJS_STORYBOOK_VERSION = '8.6.14';
 export const ADDON_LINKS_STORYBOOK_VERSION = '8.6.14';
 export const MANAGER_API_STORYBOOK_VERSION = '8.6.14';
