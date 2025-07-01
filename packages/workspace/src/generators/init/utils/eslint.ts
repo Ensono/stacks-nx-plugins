@@ -53,7 +53,7 @@ function stacksEslintConfig(tree: Tree): Linter.Config {
             'plugin:jsx-a11y/recommended',
             'plugin:jest/recommended',
             'plugin:jest-dom/recommended',
-            'plugin:no-unsanitized/DOM',
+            'plugin:no-unsanitized/recommended-legacy',
         ],
         settings: {
             'import/resolver': {

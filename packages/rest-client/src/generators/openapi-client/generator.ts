@@ -12,7 +12,6 @@ import {
     runTasksInSerial,
     GeneratorCallback,
     getPackageManagerCommand,
-    logger,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
