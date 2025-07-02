@@ -6,7 +6,7 @@
     "executors": "./executors.json",
     "repository": {
         "type": "git",
-        "url": "https://github.com/ensono/stacks-nx-plugins.git"
+        "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
     "dependencies": {
         "@ensono-stacks/core": "2.0.9-alpha.3",
