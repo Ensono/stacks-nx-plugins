@@ -23,6 +23,7 @@ jobs:
         node-version-file: '.nvmrc'
         scope: '@ensono-stacks'
         cache: 'pnpm'
+        registry-url: https://registry.npmjs.org/
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         NPM_CONFIG_PROVENANCE: true
