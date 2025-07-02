@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/playwright",
-    "version": "2.0.9-alpha.1",
+    "version": "2.0.9-alpha.2",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
@@ -15,7 +15,7 @@
         "tslib": "^2.7.0"
     },
     "dependencies": {
-        "@ensono-stacks/core": "2.0.9-alpha.1",
+        "@ensono-stacks/core": "2.0.9-alpha.2",
         "yaml": "^2.5.0"
     }
 }

@@ -1,13 +1,13 @@
 {
     "name": "@ensono-stacks/create-stacks-workspace",
-    "version": "2.0.9-alpha.1",
+    "version": "2.0.9-alpha.2",
     "type": "commonjs",
     "bin": {
         "create-stacks-workspace": "./bin/index.js"
     },
     "main": "./bin/index.js",
     "dependencies": {
-        "@ensono-stacks/core": "2.0.9-alpha.1",
+        "@ensono-stacks/core": "2.0.9-alpha.2",
         "yargs": "17.7.2",
         "tslib": "^2.7.0",
         "chalk": "^4.1.2",
