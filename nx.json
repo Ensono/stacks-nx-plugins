@@ -96,7 +96,10 @@
         "projectsRelationship": "fixed",
         "changelog": {
             "projectChangelogs": true,
-            "createRelease": "github"
+            "workspaceChangelog": {
+                "createRelease": "github",
+                "file": false
+            }
         },
         "version": {
             "manifestRootsToUpdate": ["{projectRoot}", "dist/{projectRoot}"],
