@@ -55,7 +55,6 @@ describe('playwright generator', () => {
 
         snapshotFiles(appTree, [
             joinPathFragments('.prettierrc'),
-            joinPathFragments('package.json'),
             joinPathFragments('nx.json'),
             joinPathFragments('tsconfig.base.json'),
             joinPathFragments(projectNameE2E, 'src', 'example.spec.ts'),
@@ -79,6 +78,15 @@ describe('playwright generator', () => {
             joinPathFragments(projectNameE2E, 'project.json'),
         );
         expect(projectJson.targets.e2e).toBeTruthy();
+
+        const packageJson = readJson(appTree, 'package.json');
+        expect(Object.keys(packageJson.devDependencies)).toStrictEqual(
+            expect.arrayContaining([
+                '@nx/playwright',
+                '@playwright/test',
+                'playwright',
+            ]),
+        );
     });
 
     describe('executedGenerators', () => {
