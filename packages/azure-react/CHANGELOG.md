@@ -1,3 +1,13 @@
+## 2.0.9-alpha.4 (2025-07-02)
+
+### 🩹 Fixes
+
+- **workspace:** ensure all packages have provenance support ([239d311](https://github.com/Ensono/stacks-nx-plugins/commit/239d311))
+
+### ❤️ Thank You
+
+- Gareth Cozens
+
 ## 2.0.9-alpha.3 (2025-07-02)
 
 This was a version bump only for azure-react to align it with other projects, there were no code changes.
