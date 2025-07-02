@@ -2,6 +2,10 @@
     "name": "@ensono-stacks/create-stacks-workspace",
     "version": "2.0.9-alpha.3",
     "type": "commonjs",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Ensono/stacks-nx-plugins.git"
+    },
     "bin": {
         "create-stacks-workspace": "./bin/index.js"
     },
