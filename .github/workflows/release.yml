@@ -44,7 +44,7 @@ jobs:
     - name: Release
       shell: bash
       run: |
-        pnpm exec nx release --specifier=${{ github.event.inputs.specifier }} --git-push --skip-publish ${{ fromJson('["", "--dry-run"]')[github.event.inputs.dry-run == 'true'] }}
+        pnpm exec nx release --specifier=${{ github.event.inputs.specifier }} --skip-publish ${{ fromJson('["", "--dry-run"]')[github.event.inputs.dry-run == 'true'] }}
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
