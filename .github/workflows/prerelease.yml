@@ -42,7 +42,7 @@ jobs:
 
     - name: Version
       shell: bash
-      run: pnpm exec nx release --specifier=prerelease --preid="alpha" --git-push --first-release --skip-publish
+      run: pnpm exec nx release --specifier=prerelease --preid="alpha" --first-release --skip-publish
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
