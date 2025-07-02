@@ -40,8 +40,8 @@ export async function storybookGenerator(
     });
 
     tasks.push(
-        installDependencies(tree, options),
         addStorybook,
+        installDependencies(tree, options),
         updateESLint(tree, project.root),
         createFiles(tree, project),
         formatFilesWithEslint(options.project),

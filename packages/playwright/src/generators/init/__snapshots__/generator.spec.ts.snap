@@ -64,27 +64,6 @@ exports[`playwright generator should run successfully with default options: nx.j
 "
 `;
 
-exports[`playwright generator should run successfully with default options: package.json 1`] = `
-"{
-  "name": "@proj/source",
-  "dependencies": {},
-  "devDependencies": {
-    "@nx/devkit": "21.2.0",
-    "@nx/eslint": "21.2.0",
-    "@nx/eslint-plugin": "21.2.0",
-    "@nx/playwright": "21.2.0",
-    "@playwright/test": "^1.44.0",
-    "@typescript-eslint/eslint-plugin": "^7.16.0",
-    "@typescript-eslint/parser": "^7.16.0",
-    "eslint": "~8.57.0",
-    "eslint-config-prettier": "^10.0.0",
-    "eslint-plugin-playwright": "^1.6.2",
-    "playwright": "^1.44.0"
-  }
-}
-"
-`;
-
 exports[`playwright generator should run successfully with default options: test-e2e/playwright.config.ts 1`] = `
 "import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
