@@ -135,23 +135,18 @@ applicable:
     own generator. Alternatively, if the additional behaviour is only small, you
     could also consider adding this as a optional part of the init schema).
 
-**_Cypress Example:_**
+**Next Example:\_**
 
-**@ensono-stacks/cypress:init** - Add a cypress testing framework to an
-application and configures everything surrounding the test execution and
-reporting
+**@ensono-stacks/next:init** - Configure a Next Application for Stacks
 
-**@ensono-stacks/cypress:init-deployment** - Adds e2e tests as a stage within
-pipeline execution and reporting to azure
-
-**@ensono-stacks/cypress:accessibility** - Adds accessibility tests and it's
-dependencies/configuration to the application/project
+**@ensono-stacks/next:next-auth** - Adds Authentication to an existing Next
+Application
 
 ### Development process
 
 From a process perspective, it is recommended to develop your desired end state
 first, which can then be reverse engineered back into a plugin/generators. Here
-is an example of the process followed for creating our `@ensono-stacks/cypress`
+is an example of the process followed for creating our `@ensono-stacks/next`
 plugin:
 
 **_Step 1: Creating your end state_**
@@ -159,17 +154,13 @@ plugin:
 -   Create a baseline workspace with a Next.js application. Commit this to your
     `main` branch
 
--   Create a new branch, e.g. `cypress-baseline` for the _init_ generator. In
-    this branch, install and configure the Cypress testing framework with the
-    required configurations.
+-   Create a new branch, e.g. `next-baseline` for the _init_ generator. In this
+    branch, install and configure the Next.js application with the required
+    configurations.
 
--   Create a new branch from `cypress-baseline` for the _init-deployment_
-    generator (`cypress-deployment`), adding the additional requirements for
-    deploying your application with cypress tests.
-
--   Create a new branch from `cypress-baseline` for the _accessibility_
-    generator (`cypress-accessibility`), adding the additional requirements for
-    adding accessibility tests using cypress to your application.
+-   Create a new branch from `next-next-auth` for the _next-auth_ generator
+    (`next-next-auth`), adding the additional requirements for adding
+    authentication to a Next.js application application.
 
 **_Step 2: Create your plugin, generators and unit tests._**
 
@@ -194,18 +185,13 @@ nx generate @nx/plugin:generator <generator name> --project=<plugin name>
 ```
 
 -   _init_ generator: Use Git to review the differences between the
-    `cypress-baseline` branch and the `main` branch. This will help identify the
+    `next-baseline` branch and the `main` branch. This will help identify the
     files your generator needs to manipulate or create, then write all of the
     unit tests to check that the desired end state is met.
 
--   _init-deployment_ generator: Use Git to review the differences between the
-    `cypress-deployment` branch and the `cypress-baseline` branch. This will
-    help identify files which need to be amended/created on top of the _init_
-    files and create your unit tests.
-
--   _accessibility_ generator: Use Git to review the differences between the
-    `cypress-accessibility` branch and the `cypress-baseline` branch. Again
-    creating the relevant unit tests.
+-   _next-auth_ generator: Use Git to review the differences between the
+    `next-next-auth` branch and the `next-baseline` branch. Again creating the
+    relevant unit tests.
 
 **_Step 3: Implementation_**
 
