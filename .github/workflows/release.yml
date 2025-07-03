@@ -3,7 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       specifier:
-        description: 'Specific version (eg. 3.0.1), or semver specifier (e.g major, minor, patch) to release'
+        description: 'Semver specifier to release'
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+          - 'prerelease'
         required: true
       dry-run:
         description: 'Run in dry-run mode'
