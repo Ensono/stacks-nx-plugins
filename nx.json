@@ -95,20 +95,20 @@
         "projects": ["packages/*/**", "!*-e2e", "!common-test"],
         "projectsRelationship": "fixed",
         "changelog": {
-            "projectChangelogs": true,
             "workspaceChangelog": {
                 "createRelease": "github",
                 "file": false
             }
         },
         "version": {
-            "manifestRootsToUpdate": ["{projectRoot}", "dist/{projectRoot}"],
+            "manifestRootsToUpdate": [
+                "./",
+                "{projectRoot}",
+                "dist/{projectRoot}"
+            ],
             "preVersionCommand": "pnpm exec nx run-many -t build",
             "conventionalCommits": true,
             "fallbackCurrentVersionResolver": "disk"
-        },
-        "git": {
-            "commitMessage": "chore(release): publish {version} [no ci]"
         }
     }
 }
