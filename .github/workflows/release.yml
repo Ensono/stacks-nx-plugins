@@ -3,7 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       specifier:
-        description: 'Specific version (eg. 3.0.1), or semver specifier (e.g major, minor, patch) to release'
+        description: 'Semver specifier to release'
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+          - 'prerelease'
         required: true
       dry-run:
         description: 'Run in dry-run mode'
@@ -44,7 +50,7 @@ jobs:
     - name: Release
       shell: bash
       run: |
-        pnpm exec nx release --specifier=${{ github.event.inputs.specifier }} --skip-publish ${{ fromJson('["", "--dry-run"]')[github.event.inputs.dry-run == 'true'] }}
+        pnpm release --specifier=${{ github.event.inputs.specifier }} ${{ fromJson('["", "--dry-run"]')[github.event.inputs.dry-run == 'true'] }}
       env:
         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
