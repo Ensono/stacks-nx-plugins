@@ -135,7 +135,7 @@ applicable:
     own generator. Alternatively, if the additional behaviour is only small, you
     could also consider adding this as a optional part of the init schema).
 
-**Next Example:\_**
+**_Next Example:_**
 
 **@ensono-stacks/next:init** - Configure a Next Application for Stacks
 
@@ -383,22 +383,31 @@ To contribute your changes back to the Stacks project, follow these steps:
 
 ## Releasing packages and publishing to NPM
 
-Stacks uses [semantic versioning](https://semver.org/) with the
-[@jscutlery/semver](https://github.com/jscutlery/semver) plugin to handle
-package versioning, alongside
-[commitizen](https://commitizen-tools.github.io/commitizen/) to determine what
-version to bump a plugin to.
+Stacks uses [commitizen](https://commitizen-tools.github.io/commitizen/) to
+create conventional commits. Changes are scoped to individual packages so we can
+highlight changes individually.
+[Nx release](https://nx.dev/features/manage-releases) is used to version and
+publish packages which uses the commit history to determine
+[semantic versioning](https://semver.org/).
+
+Stacks uses a single semantic version for all packages (similar to Nx's
+versioning strategy). Stacks use's Nx release's programmatic API defined in
+`scripts/version.ts`.
 
 There are two workflows in place for deployment:
 
--   **prerelease**: Publishes an alpha version of the plugin to the `@dev` tag
+-   **prerelease**: Creates an alpha release of all packages to the `@dev` tag
     -   When a package is merged to `main` the
-        [prerelease.yml](/.github/workflows/prerelease.yml) workflow is ran,
-        this calls the `version` target for all projects which have been updated
-        using the `prerelease` configuration. Example version:
-        `plugin-2.0.0-alpha-100.0`.
--   **release**: Publishes the next version of the plugin to the `@latest` tag
-    -   The [release.yml](/.github/workflows/release.yml) workflow can be ran
-        manually to publish the next version of **all** plugins. Once a
+        [prerelease.yml](/.github/workflows/prerelease.yml) workflow is run,
+        this calls `pnpm release --specifier=prerelease`. A Prerelease Github
+        Realease is created.
+-   **release**: Creates a production release of all the packages to the
+    `@latest` tag
+    -   The [release.yml](/.github/workflows/release.yml) workflow must be run
+        manually to publish the next version of **all** packages. Once a
         prerelease package has been verified and you are happy, then the release
-        workflow can be ran.
+        workflow can be run. A Production Github Realease is created.
+-   **publish**: Publishes all packages to npm
+    -   When a Github Release is created (prerelease/production) the publish
+        workflow is run [publish.yml](/.github/workflows/publish.yml). This will
+        publish all packages to npm.
