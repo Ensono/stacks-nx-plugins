@@ -135,23 +135,18 @@ applicable:
     own generator. Alternatively, if the additional behaviour is only small, you
     could also consider adding this as a optional part of the init schema).
 
-**_Cypress Example:_**
+**_Next Example:_**
 
-**@ensono-stacks/cypress:init** - Add a cypress testing framework to an
-application and configures everything surrounding the test execution and
-reporting
+**@ensono-stacks/next:init** - Configure a Next Application for Stacks
 
-**@ensono-stacks/cypress:init-deployment** - Adds e2e tests as a stage within
-pipeline execution and reporting to azure
-
-**@ensono-stacks/cypress:accessibility** - Adds accessibility tests and it's
-dependencies/configuration to the application/project
+**@ensono-stacks/next:next-auth** - Adds Authentication to an existing Next
+Application
 
 ### Development process
 
 From a process perspective, it is recommended to develop your desired end state
 first, which can then be reverse engineered back into a plugin/generators. Here
-is an example of the process followed for creating our `@ensono-stacks/cypress`
+is an example of the process followed for creating our `@ensono-stacks/next`
 plugin:
 
 **_Step 1: Creating your end state_**
@@ -159,17 +154,13 @@ plugin:
 -   Create a baseline workspace with a Next.js application. Commit this to your
     `main` branch
 
--   Create a new branch, e.g. `cypress-baseline` for the _init_ generator. In
-    this branch, install and configure the Cypress testing framework with the
-    required configurations.
+-   Create a new branch, e.g. `next-baseline` for the _init_ generator. In this
+    branch, install and configure the Next.js application with the required
+    configurations.
 
--   Create a new branch from `cypress-baseline` for the _init-deployment_
-    generator (`cypress-deployment`), adding the additional requirements for
-    deploying your application with cypress tests.
-
--   Create a new branch from `cypress-baseline` for the _accessibility_
-    generator (`cypress-accessibility`), adding the additional requirements for
-    adding accessibility tests using cypress to your application.
+-   Create a new branch from `next-next-auth` for the _next-auth_ generator
+    (`next-next-auth`), adding the additional requirements for adding
+    authentication to a Next.js application application.
 
 **_Step 2: Create your plugin, generators and unit tests._**
 
@@ -194,18 +185,13 @@ nx generate @nx/plugin:generator <generator name> --project=<plugin name>
 ```
 
 -   _init_ generator: Use Git to review the differences between the
-    `cypress-baseline` branch and the `main` branch. This will help identify the
+    `next-baseline` branch and the `main` branch. This will help identify the
     files your generator needs to manipulate or create, then write all of the
     unit tests to check that the desired end state is met.
 
--   _init-deployment_ generator: Use Git to review the differences between the
-    `cypress-deployment` branch and the `cypress-baseline` branch. This will
-    help identify files which need to be amended/created on top of the _init_
-    files and create your unit tests.
-
--   _accessibility_ generator: Use Git to review the differences between the
-    `cypress-accessibility` branch and the `cypress-baseline` branch. Again
-    creating the relevant unit tests.
+-   _next-auth_ generator: Use Git to review the differences between the
+    `next-next-auth` branch and the `next-baseline` branch. Again creating the
+    relevant unit tests.
 
 **_Step 3: Implementation_**
 
@@ -397,22 +383,31 @@ To contribute your changes back to the Stacks project, follow these steps:
 
 ## Releasing packages and publishing to NPM
 
-Stacks uses [semantic versioning](https://semver.org/) with the
-[@jscutlery/semver](https://github.com/jscutlery/semver) plugin to handle
-package versioning, alongside
-[commitizen](https://commitizen-tools.github.io/commitizen/) to determine what
-version to bump a plugin to.
+Stacks uses [commitizen](https://commitizen-tools.github.io/commitizen/) to
+create conventional commits. Changes are scoped to individual packages so we can
+highlight changes individually.
+[Nx release](https://nx.dev/features/manage-releases) is used to version and
+publish packages which uses the commit history to determine
+[semantic versioning](https://semver.org/).
+
+Stacks uses a single semantic version for all packages (similar to Nx's
+versioning strategy). Stacks use's Nx release's programmatic API defined in
+`scripts/version.ts`.
 
 There are two workflows in place for deployment:
 
--   **prerelease**: Publishes an alpha version of the plugin to the `@dev` tag
+-   **prerelease**: Creates an alpha release of all packages to the `@dev` tag
     -   When a package is merged to `main` the
-        [prerelease.yml](/.github/workflows/prerelease.yml) workflow is ran,
-        this calls the `version` target for all projects which have been updated
-        using the `prerelease` configuration. Example version:
-        `plugin-2.0.0-alpha-100.0`.
--   **release**: Publishes the next version of the plugin to the `@latest` tag
-    -   The [release.yml](/.github/workflows/release.yml) workflow can be ran
-        manually to publish the next version of **all** plugins. Once a
+        [prerelease.yml](/.github/workflows/prerelease.yml) workflow is run,
+        this calls `pnpm release --specifier=prerelease`. A Prerelease Github
+        Realease is created.
+-   **release**: Creates a production release of all the packages to the
+    `@latest` tag
+    -   The [release.yml](/.github/workflows/release.yml) workflow must be run
+        manually to publish the next version of **all** packages. Once a
         prerelease package has been verified and you are happy, then the release
-        workflow can be ran.
+        workflow can be run. A Production Github Realease is created.
+-   **publish**: Publishes all packages to npm
+    -   When a Github Release is created (prerelease/production) the publish
+        workflow is run [publish.yml](/.github/workflows/publish.yml). This will
+        publish all packages to npm.
