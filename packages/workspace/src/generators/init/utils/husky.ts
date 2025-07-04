@@ -71,7 +71,12 @@ function addPrepareCommitMessage(tree: Tree) {
     const pm = getPackageManagerCommand();
 
     const commitizenHook = `cz --hook`;
-    const prepareCommitMessage = `exec < /dev/tty && ${pm.exec} cz --hook || true`;
+    const prepareCommitMessage = `if [ -n "$CI" ] || [ -n "$GIT_SEQUENCE_EDITOR" ] || [ "$2" = "commit" ]; then
+    echo "Skipping git hook for prepare-commit-msg"
+    exit 0
+fi
+
+exec < /dev/tty && ${pm.exec} cz --hook || true`;
 
     const contents = getOrCreateHook(tree, path);
     const updatePreCommitMessage = [contents];
