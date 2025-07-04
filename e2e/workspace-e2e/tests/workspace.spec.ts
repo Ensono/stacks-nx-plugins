@@ -1,9 +1,7 @@
-import {
-    checkFilesExist,
-    readJson,
-    runNxCommandAsync,
-} from '@nx/plugin/testing';
+import { checkFilesExist, readJson, tmpProjPath } from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { execSync, spawn } from 'child_process';
+import { getPackageManagerCommand } from '@nx/devkit';
 
 describe('workspace', () => {
     jest.setTimeout(1_000_000);
@@ -45,5 +43,58 @@ describe('workspace', () => {
     it('updates the eslintrc.json', () => {
         const eslintRc = readJson('.eslintrc.json');
         expect(eslintRc).toMatchSnapshot();
+    });
+
+    it('commits via commitizen', async () => {
+        const pm = getPackageManagerCommand(undefined, tmpProjPath());
+
+        execSync('git init', {
+            cwd: tmpProjPath(),
+            stdio: 'inherit',
+        });
+
+        execSync('git add .', {
+            cwd: tmpProjPath(),
+            stdio: 'inherit',
+        });
+
+        execSync(pm.run('prepare'), {
+            cwd: tmpProjPath(),
+            stdio: 'inherit',
+        });
+
+        const commit = new Promise<string>((resolve, reject) => {
+            const commitizenProcess = spawn('git', ['commit'], {
+                cwd: tmpProjPath(),
+                stdio: 'pipe',
+            });
+
+            commitizenProcess.stdout.on('data', data => {
+                const output = data.toString();
+                if (
+                    output.includes(
+                        "Select the type of change that you're committing",
+                    )
+                ) {
+                    commitizenProcess.kill();
+                    resolve('passed');
+                }
+            });
+
+            commitizenProcess.on('error', error => {
+                reject(error);
+            });
+
+            setTimeout(() => {
+                reject(new Error('Commitizen prompt not found within timeout'));
+            }, 5000);
+        });
+
+        execSync('rm -rf .git', {
+            cwd: tmpProjPath(),
+            stdio: 'inherit',
+        });
+
+        expect(commit).resolves.toBe('passed');
     });
 });
