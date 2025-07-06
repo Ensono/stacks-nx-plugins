@@ -1,4 +1,4 @@
-import { addDependenciesToPackageJson, Tree } from '@nx/devkit';
+import { addDependenciesToPackageJson, Tree, NX_VERSION } from '@nx/devkit';
 
 import {
     ADDON_A11Y_STORYBOOK_VERSION,
@@ -11,8 +11,6 @@ import {
     ESLINT_STORYBOOK_VERSION,
     MANAGER_API_STORYBOOK_VERSION,
     NEXTJS_STORYBOOK_VERSION,
-    NX_STORYBOOK_VERSION,
-    NX_WEBPACK_VERSION,
     PREVIEW_API_STORYBOOK_VERSION,
     THEMING_STORYBOOK_VERSION,
 } from './constants';
@@ -32,8 +30,8 @@ export function installDependencies(
             '@storybook/core-server': CORE_SERVER_STORYBOOK_VERSION,
         },
         {
-            '@nx/storybook': NX_STORYBOOK_VERSION,
-            '@nx/webpack': NX_WEBPACK_VERSION,
+            '@nx/storybook': NX_VERSION,
+            '@nx/webpack': NX_VERSION,
             '@storybook/nextjs': NEXTJS_STORYBOOK_VERSION,
             '@storybook/addon-essentials': ADDON_ESSENTIALS_STORYBOOK_VERSION,
             '@storybook/addon-interactions': ADDON_INTERACTIONS_VERSION,
