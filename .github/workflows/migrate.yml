@@ -1,0 +1,78 @@
+name: migrate
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    main:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  filter: tree:0
+                  fetch-depth: 0
+            
+            - name: Setup git user
+              shell: bash
+              run: |
+                git config --global user.name 'amidostacks'
+                git config --global user.email 'stacks@amido.com'
+            
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: '10'
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'pnpm'
+
+            - run: pnpm install --frozen-lockfile
+
+            - name: Get latest Nx version
+              id: nx-version
+              shell: bash
+              run: |
+                # Store output if NX_VERSION is different from the current version
+                echo "NX_VERSION=$(npm show nx version)" >> $GITHUB_OUTPUT
+                echo "CURRENT_NX_VERSION=$(node -p \"require('./package.json').dependencies.nx\")" >> $GITHUB_OUTPUT
+                echo "SHOULD_MIGRATE=$( [[ $NX_VERSION != $CURRENT_NX_VERSION ]] && echo $? )" >> $GITHUB_OUTPUT
+            
+            - name: Migrate
+              if: steps.nx-version.outputs.should_migrate
+              shell: bash
+              run: |
+                echo "Migrating to latest Nx version: ${{ steps.nx-version.outputs.nx_version }}"
+                pnpm exec nx migrate ${{ steps.nx-version.outputs.nx_version }}
+            
+            - name: Install dependencies after migration
+              if: steps.nx-version.outputs.should_migrate
+              run: pnpm install --frozen-lockfile
+
+            - name: Run Migrations
+              if: steps.nx-version.outputs.should_migrate
+              run: pnpm exec nx migrate --run-migrations=migrations.json --if-exists
+
+            - name: Create Pull Request
+              if: steps.nx-version.outputs.should_migrate
+              uses: peter-evans/create-pull-request@v7
+              with:
+                token: ${{ secrets.BOT_TOKEN }}
+                commit-message: 'chore: migrate to Nx version {{ steps.nx-version.outputs.nx_version }}'
+                title: 'chore: migrate to Nx version {{ steps.nx-version.outputs.nx_version }}'
+                body: |
+                  This PR migrates the Nx workspace to the latest version of [Nx ({{ steps.nx-version.outputs.nx_version }})](https://github.com/nrwl/nx/releases/tag/{{ steps.nx-version.outputs.nx_version }}).
+                  The migration was triggered by a scheduled workflow run.
+                branch: chore/migrate-nx-version-${{ steps.nx-version.outputs.nx_version }}
+                base: main
+                committer: 'amidostacks <stacks@amido.com>'
+                labels: 'chore'
+                reviewers: 'cloudratha'
+
+
