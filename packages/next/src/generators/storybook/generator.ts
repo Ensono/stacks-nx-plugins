@@ -15,7 +15,7 @@ import { storybookConfigurationGenerator } from '@nx/react';
 
 import { StorybookGeneratorSchema } from './schema';
 import { createFiles } from './utils/createFiles';
-import { installDependencies } from './utils/dependancies';
+import { installDependencies } from './utils/dependencies';
 import { updateESLint } from './utils/eslint';
 
 export async function storybookGenerator(
