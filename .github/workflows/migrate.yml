@@ -45,29 +45,29 @@ jobs:
                 echo "SHOULD_MIGRATE=$( [[ $NX_VERSION != $CURRENT_NX_VERSION ]] && echo $? )" >> $GITHUB_OUTPUT
             
             - name: Migrate
-              if: steps.nx-version.outputs.should_migrate
+              if: steps.nx-version.outputs.should_migrate == 'true'
               shell: bash
               run: |
                 echo "Migrating to latest Nx version: ${{ steps.nx-version.outputs.nx_version }}"
                 pnpm exec nx migrate ${{ steps.nx-version.outputs.nx_version }}
             
             - name: Install dependencies after migration
-              if: steps.nx-version.outputs.should_migrate
+              if: steps.nx-version.outputs.should_migrate == 'true'
               run: pnpm install --frozen-lockfile
 
             - name: Run Migrations
-              if: steps.nx-version.outputs.should_migrate
-              run: pnpm exec nx migrate --run-migrations=migrations.json --if-exists
+              if: steps.nx-version.outputs.should_migrate == 'true'
+              run: pnpm exec nx migrate --run-migrations --if-exists
 
             - name: Create Pull Request
-              if: steps.nx-version.outputs.should_migrate
+              if: steps.nx-version.outputs.should_migrate == 'true'
               uses: peter-evans/create-pull-request@v7
               with:
                 token: ${{ secrets.BOT_TOKEN }}
-                commit-message: 'chore: migrate to Nx version {{ steps.nx-version.outputs.nx_version }}'
-                title: 'chore: migrate to Nx version {{ steps.nx-version.outputs.nx_version }}'
+                commit-message: 'chore: migrate to Nx version ${{ steps.nx-version.outputs.nx_version }}'
+                title: 'chore: migrate to Nx version ${{ steps.nx-version.outputs.nx_version }}'
                 body: |
-                  This PR migrates the Nx workspace to the latest version of [Nx ({{ steps.nx-version.outputs.nx_version }})](https://github.com/nrwl/nx/releases/tag/{{ steps.nx-version.outputs.nx_version }}).
+                  This PR migrates the Nx workspace to the latest version of [Nx v${{ steps.nx-version.outputs.nx_version }}](https://github.com/nrwl/nx/releases/tag/${{ steps.nx-version.outputs.nx_version }}).
                   The migration was triggered by a scheduled workflow run.
                 branch: chore/migrate-nx-version-${{ steps.nx-version.outputs.nx_version }}
                 base: main
