@@ -42,8 +42,8 @@ jobs:
                 # Store output if NX_VERSION is different from the current version
                 echo "NX_VERSION=$(npm show nx version)" >> $GITHUB_OUTPUT
                 echo "CURRENT_NX_VERSION=$(node -p \"require('./package.json').dependencies.nx\")" >> $GITHUB_OUTPUT
-                echo "SHOULD_MIGRATE=$( [[ $NX_VERSION != $CURRENT_NX_VERSION ]] && echo $? )" >> $GITHUB_OUTPUT
-            
+                echo "SHOULD_MIGRATE=$( [[ \"$NX_VERSION\" != \"$CURRENT_NX_VERSION\" ]] && echo true || echo false )" >> $GITHUB_OUTPUT
+
             - name: Migrate
               if: steps.nx-version.outputs.should_migrate == 'true'
               shell: bash
