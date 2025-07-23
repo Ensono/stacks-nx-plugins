@@ -37,12 +37,12 @@ jobs:
 
             - name: Get latest Nx version
               id: nx-version
-              shell: bash
-              run: |
-                # Store output if NX_VERSION is different from the current version
-                echo "NX_VERSION=$(npm show nx version)" >> $GITHUB_OUTPUT
-                echo "CURRENT_NX_VERSION=$(node -p \"require('./package.json').dependencies.nx\")" >> $GITHUB_OUTPUT
-                echo "SHOULD_MIGRATE=$( [[ \"$NX_VERSION\" != \"$CURRENT_NX_VERSION\" ]] && echo true || echo false )" >> $GITHUB_OUTPUT
+              uses: actions/github-script@v7
+              with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                  const script = require('${{ github.workspace }}/scripts/resolve-nx-version.js');
+                  await script({ github, context, core });
 
             - name: Migrate
               if: steps.nx-version.outputs.should_migrate == 'true'
@@ -74,5 +74,3 @@ jobs:
                 committer: 'amidostacks <stacks@amido.com>'
                 labels: 'chore'
                 reviewers: 'cloudratha'
-
-
