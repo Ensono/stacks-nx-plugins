@@ -13,7 +13,7 @@ import { NextGeneratorSchema } from './schema';
 import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 
 function snapshotFiles(tree, files: string[]) {
-    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
@@ -136,7 +136,7 @@ describe('next install generator', () => {
                     ...options,
                     project: 'unknown',
                 }),
-            ).rejects.toThrowError("Cannot find configuration for 'unknown'");
+            ).rejects.toThrow("Cannot find configuration for 'unknown'");
         });
 
         it('should merge default files with an existing tsconfig file', async () => {

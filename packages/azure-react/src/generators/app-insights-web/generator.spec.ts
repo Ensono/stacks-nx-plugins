@@ -66,7 +66,7 @@ describe('azure-react generator', () => {
                 ...options,
                 applicationinsightsConnectionString: '',
             }),
-        ).rejects.toThrowError(
+        ).rejects.toThrow(
             'applicationinsightsConnectionString cannot be empty.',
         );
     });
