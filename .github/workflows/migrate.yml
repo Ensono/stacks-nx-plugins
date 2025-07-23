@@ -53,7 +53,8 @@ jobs:
             
             - name: Install dependencies after migration
               if: steps.nx-version.outputs.should_migrate == 'true'
-              run: pnpm install
+              run: pnpm install --no-frozen-lockfile
+
             - name: Run Migrations
               if: steps.nx-version.outputs.should_migrate == 'true'
               run: pnpm exec nx migrate --run-migrations --if-exists
