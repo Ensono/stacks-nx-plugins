@@ -6,8 +6,7 @@
         "prepare": "husky",
         "build": "nx run-many --target build --all --parallel 8",
         "test": "nx run-many --target test --all --parallel 8",
-        "local-registry": "tsx ./tools/scripts/manual-local-registry.ts",
-        "release": "nx version"
+        "local-registry": "tsx ./tools/scripts/manual-local-registry.ts"
     },
     "private": true,
     "devDependencies": {
