@@ -40,7 +40,7 @@ describe('ts morph', () => {
         });
 
         it('throws an error if file does not exist', () => {
-            expect(() => project.addSourceFileAtPath('test.ts')).toThrowError(
+            expect(() => project.addSourceFileAtPath('test.ts')).toThrow(
                 'File at path /test.ts does not exist',
             );
         });
