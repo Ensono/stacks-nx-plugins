@@ -12,7 +12,7 @@ import generator from './generator';
 import { OpenapiClientGeneratorSchema } from './schema';
 
 function snapshotFiles(tree: Tree, files: string[]) {
-    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrowError();
+    expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
