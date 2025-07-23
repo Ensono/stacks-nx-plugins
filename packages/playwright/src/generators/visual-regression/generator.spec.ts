@@ -55,7 +55,7 @@ describe('playwright generator', () => {
             project: 'test',
             type: 'none',
         };
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        await expect(generator(appTree, options)).rejects.toThrow(
             `test is not an e2e project. Please select a supported target.`,
         );
     });
@@ -65,7 +65,7 @@ describe('playwright generator', () => {
             project: 'non-existent-project-e2e',
             type: 'none',
         };
-        await expect(generator(appTree, options)).rejects.toThrowError(
+        await expect(generator(appTree, options)).rejects.toThrow(
             `non-existent-project-e2e does not exist`,
         );
     });
