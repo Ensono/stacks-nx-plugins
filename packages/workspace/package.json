@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/workspace",
-    "version": "3.0.1-alpha.2",
+    "version": "3.0.1-alpha.3",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
@@ -14,6 +14,6 @@
         "tslib": "^2.6.1"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.2"
+        "@ensono-stacks/core": "3.0.1-alpha.3"
     }
 }
