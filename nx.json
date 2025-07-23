@@ -103,6 +103,9 @@
         "releaseTagPatternCheckAllBranchesWhen": false,
         "releaseTagPatternRequireSemver": true,
         "releaseTagPatternStrictPreid": true,
+        "git": {
+            "commitMessage": "chore(release): publish {version} [no ci]"
+        },
         "version": {
             "manifestRootsToUpdate": [
                 "./",
