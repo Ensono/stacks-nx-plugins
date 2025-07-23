@@ -5,7 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "implicitDependencies": ["workspace", "playwright"],
-
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",

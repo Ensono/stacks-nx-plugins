@@ -16,7 +16,7 @@ describe('files exist', () => {
     it('should throw no error if all files present', () => {
         expect(() =>
             checkFilesExistInTree(tree, 'file1', 'file3', 'file7', 'file9'),
-        ).not.toThrowError();
+        ).not.toThrow();
     });
 
     it('should throw an error if files are not present', () => {
