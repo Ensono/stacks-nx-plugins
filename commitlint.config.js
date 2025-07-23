@@ -12,17 +12,31 @@ async function getConfig() {
                 2,
                 'always',
                 [
-                    'root',
                     ...(await getProjects(
                         context,
                         ({ name }) => !name.includes('-e2e'),
                     )),
                 ],
             ],
+            'type-enum': [
+                2,
+                'always',
+                ['feat', 'fix', 'deps', 'docs', 'test', 'chore', 'ci'],
+            ],
         },
         prompt: {
             settings: {
                 enableMultipleScopes: false,
+            },
+            questions: {
+                type: {
+                    enum: {
+                        deps: {
+                            description: 'An update to project dependencies',
+                            title: 'Dependencies',
+                        },
+                    },
+                },
             },
         },
     };

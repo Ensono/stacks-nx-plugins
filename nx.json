@@ -100,13 +100,26 @@
                 "file": false
             }
         },
+        "conventionalCommits": {
+            "types": {
+                "deps": {
+                    "semverBump": "patch",
+                    "changelog": {
+                        "title": "🚚 Dependencies",
+                        "hidden": false
+                    }
+                }
+            }
+        },
         "releaseTagPatternCheckAllBranchesWhen": false,
         "releaseTagPatternRequireSemver": true,
         "releaseTagPatternStrictPreid": true,
-        "git": {
-            "commitMessage": "chore(release): publish {version} [no ci]"
-        },
         "version": {
+            "git": {
+                "commit": true,
+                "commitMessage": "chore(release): publish {version} [no ci]",
+                "stageChanges": true
+            },
             "manifestRootsToUpdate": [
                 "./",
                 "{projectRoot}",
