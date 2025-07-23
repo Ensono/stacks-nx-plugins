@@ -111,15 +111,13 @@
                 }
             }
         },
+        "git": {
+            "commitMessage": "chore(release): publish {version} [no ci]"
+        },
         "releaseTagPatternCheckAllBranchesWhen": false,
         "releaseTagPatternRequireSemver": true,
         "releaseTagPatternStrictPreid": true,
         "version": {
-            "git": {
-                "commit": true,
-                "commitMessage": "chore(release): publish {version} [no ci]",
-                "stageChanges": true
-            },
             "manifestRootsToUpdate": [
                 "./",
                 "{projectRoot}",
