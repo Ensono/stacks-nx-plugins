@@ -7,7 +7,7 @@ import {
     Tree,
     addDependenciesToPackageJson,
     GeneratorCallback,
-    readJson,
+    NX_VERSION,
 } from '@nx/devkit';
 import { Linter } from 'eslint';
 
@@ -192,19 +192,11 @@ function addRules(tree: Tree) {
 }
 
 function addEslintDependencies(tree: Tree) {
-    const { devDependencies } = readJson(tree, 'package.json');
-    const nxDependency =
-        (devDependencies &&
-            Object.entries(devDependencies)
-                .find(([key]) => key.startsWith('@nx/'))
-                ?.at(1)) ||
-        'latest';
-
     return addDependenciesToPackageJson(
         tree,
         {},
         {
-            '@nx/eslint-plugin': nxDependency,
+            '@nx/eslint-plugin': NX_VERSION,
             '@typescript-eslint/eslint-plugin': ESLINT_PLUGIN_VERSION,
             eslint: ESLINT_VERSION,
             'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,

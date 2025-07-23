@@ -1,20 +1,18 @@
-import { getPackageManagerCommand, logger } from '@nx/devkit';
+import { getPackageManagerCommand, logger, NX_VERSION } from '@nx/devkit';
 import { runCommandAsync } from '@nx/plugin/testing';
 
 import { SupportedPackageManager } from './types';
-import { getNxVersion } from './versions';
 
 export async function getPackageManagerNxCreateCommand(
     packageManager: SupportedPackageManager,
 ): Promise<string> {
-    const nxVersion = await getNxVersion();
     switch (packageManager) {
         case 'yarn':
         case 'npm': {
-            return `npx --yes @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
+            return `npx --yes @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${NX_VERSION}`;
         }
         case 'pnpm': {
-            return `pnpx @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${nxVersion}`;
+            return `pnpx @ensono-stacks/create-stacks-workspace@e2e --nxVersion=${NX_VERSION}`;
         }
         default: {
             throw new Error(
@@ -64,14 +62,13 @@ export async function installNxPackages(
     packageManager: SupportedPackageManager,
     packages: string[],
 ) {
-    const nxVersion = await getNxVersion();
     const nxPackages = packages
         .filter(dependency => dependency.startsWith('@nx/'))
         .map(dependency => {
             const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
             return match
-                ? dependency.replace(match[1], nxVersion)
-                : `${dependency}@${nxVersion}`;
+                ? dependency.replace(match[1], NX_VERSION)
+                : `${dependency}@${NX_VERSION}`;
         });
     return installPackages(packageManager, nxPackages);
 }
