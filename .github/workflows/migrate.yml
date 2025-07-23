@@ -64,8 +64,8 @@ jobs:
               uses: peter-evans/create-pull-request@v7
               with:
                 token: ${{ secrets.BOT_TOKEN }}
-                commit-message: 'chore: migrate to Nx version ${{ steps.nx-version.outputs.nx_version }}'
-                title: 'chore: migrate to Nx version ${{ steps.nx-version.outputs.nx_version }}'
+                commit-message: 'deps: migrate to Nx version ${{ steps.nx-version.outputs.nx_version }}'
+                title: 'deps: migrate to Nx version ${{ steps.nx-version.outputs.nx_version }}'
                 body: |
                   This PR migrates the Nx workspace to the latest version of [Nx v${{ steps.nx-version.outputs.nx_version }}](https://github.com/nrwl/nx/releases/tag/${{ steps.nx-version.outputs.nx_version }}).
                   The migration was triggered by a scheduled workflow run.
