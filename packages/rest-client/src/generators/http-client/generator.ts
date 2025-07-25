@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     addCustomTestConfig,
     verifyPluginCanBeInstalled,
@@ -13,10 +15,10 @@ import {
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import path from 'path';
+
+import { AXIOS_VERSION } from '../../../utils/versions';
 
 import { HttpClientGeneratorSchema } from './schema';
-import { AXIOS_VERSION } from '../../../utils/versions';
 
 async function normalizeOptions(
     tree: Tree,

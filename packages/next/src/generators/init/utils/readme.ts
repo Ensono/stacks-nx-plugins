@@ -1,5 +1,6 @@
-import { generateFiles, ProjectConfiguration, Tree } from '@nx/devkit';
 import path from 'path';
+
+import { generateFiles, ProjectConfiguration, Tree } from '@nx/devkit';
 
 function createReadmeFile(tree: Tree, project: ProjectConfiguration) {
     generateFiles(

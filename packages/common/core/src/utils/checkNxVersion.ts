@@ -1,5 +1,6 @@
-import chalk from 'chalk';
 import { execSync } from 'child_process';
+
+import chalk from 'chalk';
 import * as semver from 'semver';
 
 import { NX_VERSION_SCOPE } from './versions';

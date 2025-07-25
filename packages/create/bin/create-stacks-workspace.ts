@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 
-import { checkNxVersion } from '@ensono-stacks/core';
-import chalk from 'chalk';
-import { paramCase } from 'change-case';
 import { spawnSync } from 'child_process';
-import enquirer from 'enquirer';
 import fs from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
+
+import { checkNxVersion } from '@ensono-stacks/core';
+import chalk from 'chalk';
+import { paramCase } from 'change-case';
+import enquirer from 'enquirer';
 import yargs from 'yargs';
 import unparse from 'yargs-unparser';
+
+import packageJson from '../package.json';
 
 import {
     getGeneratorsToRun,
@@ -25,7 +28,6 @@ import {
 } from './package-manager';
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
-import packageJson from '../package.json';
 
 const stacksVersion = packageJson.version;
 const presetOptions: { name: Preset; message: string }[] = [
@@ -41,7 +43,6 @@ const presetOptions: { name: Preset; message: string }[] = [
     },
 ];
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     {
         name: E2eTestRunner.None,

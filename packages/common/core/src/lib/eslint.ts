@@ -1,3 +1,5 @@
+import { spawnSync } from 'child_process';
+
 import {
     joinPathFragments,
     logger,
@@ -5,7 +7,6 @@ import {
     writeJson,
     Tree,
 } from '@nx/devkit';
-import { spawnSync } from 'child_process';
 import deepMerge from 'deepmerge';
 import { Linter } from 'eslint';
 import { SyntaxKind } from 'ts-morph';

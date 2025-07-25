@@ -1,5 +1,6 @@
-import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { exec } from 'child_process';
+
+import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 
 import { killPort } from './process';
 
@@ -20,7 +21,7 @@ export enum targetOptions {
  */
 export function stripConsoleColors(logs: string): string {
     return logs?.replace(
-        // eslint-disable-next-line no-control-regex, security/detect-unsafe-regex, prettier/prettier, unicorn/better-regex, unicorn/escape-case
+        // eslint-disable-next-line no-control-regex, security/detect-unsafe-regex, unicorn/escape-case
         /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
         '',
     );
@@ -80,9 +81,9 @@ export async function runTarget(
     let subProject;
     if (project.includes(':')) {
         const splitString = project.split(':');
-        // eslint-disable-next-line prefer-destructuring, no-param-reassign
+
         project = splitString[0];
-        // eslint-disable-next-line prefer-destructuring
+
         subProject = splitString[1];
         command = `${targetOptions[target]} ${project}:${subProject} ${additionalArguments}`;
     } else {

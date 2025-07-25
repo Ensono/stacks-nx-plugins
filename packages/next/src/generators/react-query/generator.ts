@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
@@ -13,7 +15,6 @@ import {
     runTasksInSerial,
     Tree,
 } from '@nx/devkit';
-import path from 'path';
 
 import { ReactQueryGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependancies';

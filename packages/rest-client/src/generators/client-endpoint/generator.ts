@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     createOrUpdateLocalEnv,
     verifyPluginCanBeInstalled,
@@ -14,7 +16,6 @@ import {
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
 import { paramCase } from 'change-case';
-import path from 'path';
 
 import { ClientEndpointGeneratorSchema } from './schema';
 

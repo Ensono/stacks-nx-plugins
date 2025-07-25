@@ -1,5 +1,7 @@
 import { addDependenciesToPackageJson, Tree, NX_VERSION } from '@nx/devkit';
 
+import { StorybookGeneratorSchema } from '../schema';
+
 import {
     ADDON_A11Y_STORYBOOK_VERSION,
     ADDON_ACTIONS_STORYBOOK_VERSION,
@@ -14,7 +16,6 @@ import {
     PREVIEW_API_STORYBOOK_VERSION,
     THEMING_STORYBOOK_VERSION,
 } from './constants';
-import { StorybookGeneratorSchema } from '../schema';
 
 export function installDependencies(
     tree: Tree,

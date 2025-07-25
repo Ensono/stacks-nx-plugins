@@ -1,6 +1,7 @@
 import { existsSync } from 'fs';
-import type { ProjectGraph } from 'nx/src/config/project-graph';
 import path from 'path';
+
+import type { ProjectGraph } from 'nx/src/config/project-graph';
 import { ParsedCommandLine } from 'typescript';
 
 import type { WorkspaceLibrary } from './types';

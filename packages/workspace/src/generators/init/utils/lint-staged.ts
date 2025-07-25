@@ -1,5 +1,6 @@
-import { addDependenciesToPackageJson, generateFiles, Tree } from '@nx/devkit';
 import path from 'path';
+
+import { addDependenciesToPackageJson, generateFiles, Tree } from '@nx/devkit';
 
 import { LINT_STAGED_VERSION } from './constants';
 

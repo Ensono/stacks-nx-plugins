@@ -1,11 +1,12 @@
 import { getWorkspaceLayout, readJson, Tree, updateJson } from '@nx/devkit';
 import chalk from 'chalk';
 
+import { readStacksExecutedGenerators } from '../lib/stacks';
+
 import {
     tagExecutedGeneratorForProject,
     tagExecutedGeneratorForWorkspace,
 } from './tagExecutedGenerator';
-import { readStacksExecutedGenerators } from '../lib/stacks';
 
 export function getNpmScope(tree: Tree) {
     const { name } = tree.exists('package.json')

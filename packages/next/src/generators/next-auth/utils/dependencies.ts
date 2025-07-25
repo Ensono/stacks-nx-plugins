@@ -1,5 +1,7 @@
 import { addDependenciesToPackageJson, Tree } from '@nx/devkit';
 
+import { NextAuthGeneratorSchema } from '../schema';
+
 import {
     NEXT_AUTH_VERSION,
     IOREDIS_VERSION,
@@ -8,7 +10,6 @@ import {
     AUTH_CORE_VERSION,
     OAUTH_4_WEBAPI_VERSION,
 } from './constants';
-import { NextAuthGeneratorSchema } from '../schema';
 
 export function installDependencies(
     tree: Tree,

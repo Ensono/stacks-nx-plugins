@@ -127,6 +127,5 @@ export async function runGenerators(
         return execAsync(`${pm.exec} nx g ${command} --no-interactive`, cwd);
     });
 
-    // eslint-disable-next-line consistent-return
     return chain(promises);
 }

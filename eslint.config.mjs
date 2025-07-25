@@ -1,19 +1,9 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import eslintPluginImport from 'eslint-plugin-import';
 import eslintPluginSecurity from 'eslint-plugin-security';
-// import globals from 'globals';
-
-const compat = new FlatCompat({
-    baseDirectory: dirname(fileURLToPath(import.meta.url)),
-    recommendedConfig: js.configs.recommended,
-});
 
 export default tseslint.config(
     {
@@ -65,10 +55,6 @@ export default tseslint.config(
             'import/order': [
                 'error',
                 {
-                    groups: [
-                        ['builtin', 'external'],
-                        ['parent', 'internal', 'sibling', 'index'],
-                    ],
                     pathGroups: [
                         {
                             pattern: '@ensono-stacks/**',
@@ -154,6 +140,25 @@ export default tseslint.config(
         files: ['**/*.json'],
         rules: {
             'unicorn/prevent-abbreviations': 'off',
+        },
+        languageOptions: {
+            parser: await import('jsonc-eslint-parser'),
+        },
+    },
+    {
+        files: [
+            '**/*/package.json',
+            '**/*/generators.json',
+            '**/*/executors.json',
+        ],
+        rules: {
+            '@nx/nx-plugin-checks': 'error',
+            '@nx/dependency-checks': [
+                'error',
+                {
+                    ignoredFiles: ['**/generators/**/files/**'],
+                },
+            ],
         },
         languageOptions: {
             parser: await import('jsonc-eslint-parser'),

@@ -1,7 +1,8 @@
+import path from 'path';
+
 import { tsMorphTree } from '@ensono-stacks/core';
 import { generateFiles, joinPathFragments, Tree, logger } from '@nx/devkit';
 import { camelCase } from 'change-case';
-import path from 'path';
 import { SyntaxKind, Project } from 'ts-morph';
 
 function addProviderToMap(provider: string, root: string, morphTree: Project) {

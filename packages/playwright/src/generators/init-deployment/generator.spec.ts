@@ -3,7 +3,6 @@ import { createNextApp } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nx/devkit';
 import * as YAML from 'yaml';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries, import/no-relative-packages
 import generator from './generator';
 
 xdescribe('playwright generator', () => {

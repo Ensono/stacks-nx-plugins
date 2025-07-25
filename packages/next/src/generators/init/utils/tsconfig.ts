@@ -1,5 +1,6 @@
-import { updateJson, Tree, ProjectConfiguration } from '@nx/devkit';
 import path from 'path';
+
+import { updateJson, Tree, ProjectConfiguration } from '@nx/devkit';
 
 const updateTsConfig = (
     tree: Tree,

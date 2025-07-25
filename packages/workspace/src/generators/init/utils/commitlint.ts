@@ -1,10 +1,11 @@
+import path from 'path';
+
 import {
     addDependenciesToPackageJson,
     Tree,
     readJson,
     generateFiles,
 } from '@nx/devkit';
-import path from 'path';
 
 import {
     COMMITLINT_CLI_VERSION,

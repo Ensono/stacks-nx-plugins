@@ -1,5 +1,6 @@
-import { generateFiles, Tree } from '@nx/devkit';
 import path from 'path';
+
+import { generateFiles, Tree } from '@nx/devkit';
 
 import { InstallGeneratorSchema } from '../schema';
 

@@ -1,10 +1,5 @@
-import {
-    createNextApplication,
-    newProject,
-    runTarget,
-    targetOptions,
-    cleanup,
-} from '@ensono-stacks/e2e';
+import path from 'node:path';
+
 import { joinPathFragments } from '@nx/devkit';
 import {
     checkFilesExist,
@@ -18,7 +13,14 @@ import {
 import { Project } from 'ts-morph';
 
 import { addWebpackAlias } from '../utils/next-config';
-import path from 'path';
+
+import {
+    createNextApplication,
+    newProject,
+    runTarget,
+    targetOptions,
+    cleanup,
+} from '@ensono-stacks/e2e';
 
 describe('next e2e', () => {
     process.env.HUSKY = '0';

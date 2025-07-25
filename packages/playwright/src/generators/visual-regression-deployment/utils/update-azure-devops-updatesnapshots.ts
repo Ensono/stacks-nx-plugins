@@ -1,10 +1,11 @@
+import path from 'path';
+
 import {
     Tree,
     generateFiles,
     readJson,
     NxJsonStacksConfiguration,
 } from '@nx/devkit';
-import path from 'path';
 import * as YAML from 'yaml';
 
 export function updateAzureDevopsSnapshotsYaml(tree: Tree) {

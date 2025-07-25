@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
@@ -14,7 +16,9 @@ import {
     Tree,
     runTasksInSerial,
 } from '@nx/devkit';
-import path from 'path';
+
+import { visualRegressionTypes } from '../../utils/types';
+import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 import { VisualRegressionGeneratorSchema } from './schema';
 import {
@@ -22,8 +26,6 @@ import {
     updatePlaywrightConfigWithDefault,
 } from './utils/update-playwright-config';
 import { updateProjectJsonWithNativeVisualRegressionTargets } from './utils/update-targets';
-import { visualRegressionTypes } from '../../utils/types';
-import { APPLITOOLS_EYES_PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 interface NormalizedSchema extends VisualRegressionGeneratorSchema {
     projectName: string;

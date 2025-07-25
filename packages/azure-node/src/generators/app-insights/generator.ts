@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     tsMorphTree,
     addIgnoreEntry,
@@ -14,7 +16,8 @@ import {
     runTasksInSerial,
 } from '@nx/devkit';
 import chalk from 'chalk';
-import path from 'path';
+
+import { appInsightsVersion } from '../../../utils/versions';
 
 import { AppInsightsGeneratorSchema } from './schema';
 import {
@@ -22,7 +25,6 @@ import {
     configureAppInsights,
     startAppInsights,
 } from './templates/appInsights';
-import { appInsightsVersion } from '../../../utils/versions';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

@@ -4,13 +4,13 @@ import {
 } from '@ensono-stacks/core';
 import { formatFiles, Tree, logger } from '@nx/devkit';
 
+import { visualRegressionTypes } from '../../utils/types';
+
 import { VisualRegressionDeploymentGeneratorSchema } from './schema';
 import { updateAzureDevopsStagesApplitools } from './utils/update-azdevops-stage';
 import { updateAzureDevopsSnapshotsYaml } from './utils/update-azure-devops-updatesnapshots';
 import { updateTaskctlYaml, updateTasksYaml } from './utils/update-tasks-yamls';
-import { visualRegressionTypes } from '../../utils/types';
 
-// eslint-disable-next-line consistent-return
 export default async function visualRegressionDeploymentGenerator(
     tree: Tree,
     options: VisualRegressionDeploymentGeneratorSchema,

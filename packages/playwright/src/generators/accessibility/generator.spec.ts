@@ -2,13 +2,14 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { readJson, Tree, addProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
-import generator from './generator';
-import { AccessibilityGeneratorSchema } from './schema';
 import {
     AXE_CORE_PLAYWRIGHT_VERSION,
     AXE_RESULTS_PRETTY_PRINT_VERSION,
 } from '../../utils/versions';
 import initGenerator from '../init/generator';
+
+import generator from './generator';
+import { AccessibilityGeneratorSchema } from './schema';
 
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;

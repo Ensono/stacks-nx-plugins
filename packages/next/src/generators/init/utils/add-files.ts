@@ -1,10 +1,11 @@
+import path from 'path';
+
 import {
     ProjectConfiguration,
     Tree,
     generateFiles,
     readNxJson,
 } from '@nx/devkit';
-import path from 'path';
 
 import { getPort } from './project-targets';
 
