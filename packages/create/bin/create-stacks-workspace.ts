@@ -350,12 +350,11 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
 
 export function withOptions<T>(
     argv: yargs.Argv<T>,
-    ...options: ((argv: yargs.Argv<T>) => yargs.Argv<T>)[]
+    ...options: ((args: yargs.Argv<T>) => yargs.Argv<T>)[]
 ): any {
     // Reversing the options keeps the execution order correct.
     // e.g. [withCI, withGIT] should transform into withGIT(withCI) so withCI resolves first.
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    return options.reverse().reduce((argv, option) => option(argv), argv);
+    return options.toReversed().reduce((args, option) => option(args), argv);
 }
 
 export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs

@@ -17,7 +17,7 @@
     },
     "peerDependencies": {
         "@nx/devkit": "21.x",
-        "eslint": "8.x",
+        "eslint": "9.x",
         "nx": "21.x",
         "prettier": "^2.8.8"
     }

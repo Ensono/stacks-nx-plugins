@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { existsSync } from 'fs';
 import type { ProjectGraph } from 'nx/src/config/project-graph';
 import path from 'path';
@@ -13,7 +12,6 @@ let tsPathMappings: ParsedCommandLine['options']['paths'];
 let tsModule: typeof import('typescript');
 function readTsConfig(tsConfigPath: string): ParsedCommandLine {
     if (!tsModule) {
-        // eslint-disable-next-line global-require
         tsModule = require('typescript');
     }
     const readResult = tsModule.readConfigFile(

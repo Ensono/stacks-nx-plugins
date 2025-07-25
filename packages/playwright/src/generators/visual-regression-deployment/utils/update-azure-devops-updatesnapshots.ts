@@ -5,7 +5,7 @@ import {
     NxJsonStacksConfiguration,
 } from '@nx/devkit';
 import path from 'path';
-import YAML from 'yaml';
+import * as YAML from 'yaml';
 
 export function updateAzureDevopsSnapshotsYaml(tree: Tree) {
     if (

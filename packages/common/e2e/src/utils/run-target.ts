@@ -1,13 +1,12 @@
 import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { exec } from 'child_process';
 
-import { killPort } from './process-utils';
+import { killPort } from './process';
 
 export enum targetOptions {
     build,
     start,
     test,
-    // eslint-disable-next-line unicorn/prevent-abbreviations
     e2e,
     lint,
     'html-report',

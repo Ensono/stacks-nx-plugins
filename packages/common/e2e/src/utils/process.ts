@@ -8,7 +8,6 @@ export async function killPort(port: number): Promise<boolean> {
         try {
             await kill(port);
             await new Promise<void>(resolve =>
-                // eslint-disable-next-line no-promise-executor-return
                 setTimeout(() => resolve(), KILL_PORT_DELAY),
             );
             if (await portCheck(port)) {
