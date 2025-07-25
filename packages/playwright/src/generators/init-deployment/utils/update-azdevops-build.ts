@@ -1,5 +1,5 @@
 import { Tree } from '@nx/devkit';
-import YAML from 'yaml';
+import * as YAML from 'yaml';
 
 export function updateAzureDevopsStages(tree: Tree) {
     if (tree.exists('build/azDevOps/azuredevops-stages.yaml')) {

@@ -1,5 +1,5 @@
 import { Tree } from '@nx/devkit';
-import YAML from 'yaml';
+import * as YAML from 'yaml';
 
 export function updateTasksYaml(tree: Tree) {
     if (!tree.exists('build/taskctl/tasks.yaml')) {

@@ -1,6 +1,7 @@
+import path from 'path';
+
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import path from 'path';
 
 import { normalizeOptions } from '.';
 

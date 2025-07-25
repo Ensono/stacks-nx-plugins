@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     hasGeneratorExecutedForProject,
     NormalizedSchema,
@@ -15,14 +17,14 @@ import {
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { Linter } from '@nx/eslint';
 import { libraryGenerator } from '@nx/react';
-import path from 'path';
 
-import { AppInsightsWebGeneratorSchema } from './schema';
-import updateTsConfig from './utils/tsconfig';
 import {
     appInsightsReactVersion,
     appInsightsWebVersion,
 } from '../../../utils/versions';
+
+import { AppInsightsWebGeneratorSchema } from './schema';
+import updateTsConfig from './utils/tsconfig';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

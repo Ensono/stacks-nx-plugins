@@ -1,13 +1,15 @@
-import { Tree } from '@nx/devkit';
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { libraryGenerator } from '@nx/js';
 import fs from 'fs';
 import path from 'path';
 
-import generator from './generator';
-import { BumpVersionGeneratorSchema } from './schema';
+import { Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { libraryGenerator } from '@nx/js';
+
 import clientEndpointGenerator from '../client-endpoint/generator';
 import httpClientGenerator from '../http-client/generator';
+
+import generator from './generator';
+import { BumpVersionGeneratorSchema } from './schema';
 
 describe('bump-version generator', () => {
     let tree: Tree;
@@ -139,11 +141,9 @@ describe('bump-version generator', () => {
             "import { TestV3, TestV3Data } from './index.types';",
         );
         expect(indexTs).not.toContain(
-            // eslint-disable-next-line no-template-curly-in-string
             'const API_ENDPOINT = `${process.env.API_URL}/test/v1`;',
         );
         expect(indexTs).toContain(
-            // eslint-disable-next-line no-template-curly-in-string
             'const API_ENDPOINT = `${process.env.API_URL}/test/v3`;',
         );
 

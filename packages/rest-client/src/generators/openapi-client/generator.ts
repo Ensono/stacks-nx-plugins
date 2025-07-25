@@ -1,3 +1,6 @@
+import { execSync } from 'child_process';
+import path from 'path';
+
 import {
     addIgnoreEntry,
     copyFiles,
@@ -15,16 +18,15 @@ import {
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import { execSync } from 'child_process';
-import path from 'path';
 
-import { OpenapiClientGeneratorSchema } from './schema';
 import {
     FAKERJS_VERSION,
     MSW_VERSION,
     ORVAL_VERSION,
     ZOD_VERSION,
 } from '../../../utils/versions';
+
+import { OpenapiClientGeneratorSchema } from './schema';
 
 async function normalizeOptions(
     tree: Tree,

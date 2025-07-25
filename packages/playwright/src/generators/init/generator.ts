@@ -1,3 +1,6 @@
+import { execSync } from 'child_process';
+import path from 'path';
+
 import {
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
@@ -18,11 +21,10 @@ import {
 } from '@nx/devkit';
 import { configurationGenerator } from '@nx/playwright';
 import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema.d';
-import { execSync } from 'child_process';
-import path from 'path';
+
+import { PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 import { PlaywrightGeneratorSchema } from './schema';
-import { PLAYWRIGHT_VERSION } from '../../utils/versions';
 
 interface NormalizedSchema extends PlaywrightGeneratorSchema {
     projectName: string;

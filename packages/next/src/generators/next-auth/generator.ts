@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     formatFilesWithEslint,
     verifyPluginCanBeInstalled,
@@ -18,7 +20,6 @@ import {
     type ProjectNameAndRootOptions,
 } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import path from 'path';
 
 import { NextAuthGeneratorSchema } from './schema';
 import { installDependencies } from './utils/dependencies';

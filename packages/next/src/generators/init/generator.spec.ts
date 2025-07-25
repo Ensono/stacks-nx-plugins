@@ -8,9 +8,10 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { Schema as NextSchema } from '@nx/next/src/generators/application/schema';
 
+import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
+
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
-import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 
 function snapshotFiles(tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();

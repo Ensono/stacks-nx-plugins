@@ -10,7 +10,7 @@
     },
     "peerDependencies": {
         "@nx/devkit": "21.x",
-        "eslint": "^8.57.0",
+        "eslint": "9.x",
         "tslib": "^2.6.1"
     },
     "dependencies": {

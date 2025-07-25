@@ -1,8 +1,9 @@
-import { runNxCommandAsync, tmpProjPath, updateFile } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
-import { logger } from 'nx/src/utils/logger';
 import path from 'path';
+
+import { runNxCommandAsync, tmpProjPath, updateFile } from '@nx/plugin/testing';
+import { logger } from 'nx/src/utils/logger';
 
 import {
     getPackageManagerNxCreateCommand,

@@ -1,5 +1,6 @@
-import { generateFiles, Tree } from '@nx/devkit';
 import path from 'path';
+
+import { generateFiles, Tree } from '@nx/devkit';
 
 export function createTsConfigBase(tree: Tree) {
     if (!tree.exists('tsconfig.base.json')) {

@@ -1,5 +1,6 @@
-import { joinPathFragments } from '@nx/devkit';
 import { existsSync } from 'fs';
+
+import { joinPathFragments } from '@nx/devkit';
 import ignore from 'ignore';
 import { Tree } from 'nx/src/generators/tree';
 

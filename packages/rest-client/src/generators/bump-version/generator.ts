@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { copyFiles, verifyPluginCanBeInstalled } from '@ensono-stacks/core';
 import {
     formatFiles,
@@ -10,7 +12,6 @@ import {
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import path from 'path';
 
 import { BumpVersionGeneratorSchema } from './schema';
 

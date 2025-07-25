@@ -1,5 +1,6 @@
-import { Tree } from '@nx/devkit';
 import path from 'path';
+
+import { Tree } from '@nx/devkit';
 
 function copyFile(tree: Tree, sourcePath: string, targetPath: string) {
     tree.write(targetPath, tree.read(sourcePath) ?? '');

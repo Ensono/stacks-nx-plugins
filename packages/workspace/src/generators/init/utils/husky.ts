@@ -5,9 +5,10 @@ import {
     getPackageManagerCommand,
 } from '@nx/devkit';
 
+import { InstallGeneratorSchema } from '../schema';
+
 import { HUSKY_VERSION, PACKAGE_JSON } from './constants';
 import { PackageJson } from './types';
-import { InstallGeneratorSchema } from '../schema';
 
 function addHuskyPrepareScript(tree: Tree) {
     updateJson(tree, PACKAGE_JSON, (json: PackageJson) => {

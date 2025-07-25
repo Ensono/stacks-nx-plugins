@@ -1,7 +1,7 @@
 import { addStacksAttributes } from '@ensono-stacks/test';
 import { readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import YAML from 'yaml';
+import * as YAML from 'yaml';
 
 import generator from './generator';
 import { VisualRegressionDeploymentGeneratorSchema } from './schema';

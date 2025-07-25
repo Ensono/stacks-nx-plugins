@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 import { createOrUpdateLocalEnv } from '@ensono-stacks/core';
 import {
     GeneratorCallback,
@@ -5,7 +7,6 @@ import {
     Tree,
     logger,
 } from '@nx/devkit';
-import crypto from 'crypto';
 
 import { NextAuthGeneratorSchema } from '../schema';
 

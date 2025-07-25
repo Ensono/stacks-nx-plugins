@@ -20,6 +20,6 @@
         "@nx/react": "21.x",
         "ts-morph": "^23.0.0",
         "tslib": "^2.7.0",
-        "eslint": "^8.57.0"
+        "eslint": "9.x"
     }
 }

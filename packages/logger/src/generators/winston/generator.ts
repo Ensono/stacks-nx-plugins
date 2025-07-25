@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     formatFilesWithEslint,
     addCustomTestConfig,
@@ -17,7 +19,6 @@ import {
     runTasksInSerial,
 } from '@nx/devkit';
 import { libraryGenerator } from '@nx/js';
-import path from 'path';
 
 import { WinstonLoggerGeneratorSchema } from './schema';
 import { addEslint } from './utils/eslint';
