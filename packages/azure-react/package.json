@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/azure-react",
-    "version": "3.0.1-alpha.11",
+    "version": "3.0.1-alpha.12",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
@@ -9,7 +9,7 @@
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.11"
+        "@ensono-stacks/core": "3.0.1-alpha.12"
     },
     "peerDependencies": {
         "@nx/eslint": "21.x",
