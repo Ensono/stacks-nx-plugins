@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/logger",
-    "version": "3.0.1-alpha.16",
+    "version": "3.0.1-alpha.17",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
@@ -15,6 +15,6 @@
         "eslint": "~8.57.0"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.16"
+        "@ensono-stacks/core": "3.0.1-alpha.17"
     }
 }
