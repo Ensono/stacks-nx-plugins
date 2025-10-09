@@ -1,6 +1,6 @@
 {
     "name": "stacks-nx-plugins",
-    "version": "3.0.1-alpha.19",
+    "version": "3.0.1-alpha.20",
     "license": "MIT",
     "scripts": {
         "prepare": "husky",
