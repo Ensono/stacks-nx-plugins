@@ -222,3 +222,4 @@ nx graph
 - [Nx DevKit API](https://nx.dev/nx-api/devkit)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - Contributing Guide: `CONTRIBUTING.md`
+- **Security & Compliance**: `.github/copilot-security-instructions.md` - Required reading for all security-related code changes
