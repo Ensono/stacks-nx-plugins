@@ -1,5 +1,5 @@
 {
-    "name": "@enseno-stacks/workspace",
+    "name": "@ensono-stacks/workspace",
     "version": "3.0.1-alpha.22",
     "main": "src/index.js",
     "generators": "./generators.json",
@@ -14,6 +14,6 @@
         "tslib": "^2.6.1"
     },
     "dependencies": {
-        "@enseno-stacks/core": "3.0.1-alpha.22"
+        "@ensono-stacks/core": "3.0.1-alpha.22"
     }
 }
