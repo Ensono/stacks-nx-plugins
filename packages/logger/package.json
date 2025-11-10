@@ -10,11 +10,11 @@
     },
     "peerDependencies": {
         "tslib": "^2.7.0",
-        "@nx/devkit": "21.x",
-        "@nx/js": "21.x",
+        "@nx/devkit": "22.x",
+        "@nx/js": "22.x",
         "eslint": "~8.57.0"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.22"
+        "@enseno-stacks/core": "3.0.1-alpha.22"
     }
 }
