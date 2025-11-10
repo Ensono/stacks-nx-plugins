@@ -13,7 +13,7 @@
         "chalk": "4.1.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "21.x",
+        "@nx/devkit": "22.x",
         "tslib": "^2.6.1"
     }
 }

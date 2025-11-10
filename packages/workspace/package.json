@@ -1,5 +1,5 @@
 {
-    "name": "@ensono-stacks/workspace",
+    "name": "@enseno-stacks/workspace",
     "version": "3.0.1-alpha.22",
     "main": "src/index.js",
     "generators": "./generators.json",
@@ -9,11 +9,11 @@
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "@nx/devkit": "21.x",
+        "@nx/devkit": "22.x",
         "eslint": "^8.57.0",
         "tslib": "^2.6.1"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.22"
+        "@enseno-stacks/core": "3.0.1-alpha.22"
     }
 }
