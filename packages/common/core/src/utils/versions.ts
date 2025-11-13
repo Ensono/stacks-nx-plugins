@@ -1,1 +1,1 @@
-export const NX_VERSION_SCOPE = '21.x';
+export const NX_VERSION_SCOPE = '22.x';
