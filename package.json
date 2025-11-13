@@ -35,7 +35,7 @@
         "@types/ioredis-mock": "^8.2.5",
         "@types/jest": "30.0.0",
         "@types/minimatch": "5.1.2",
-        "@types/node": "18.19.31",
+        "@types/node": "20.19.9",
         "@types/prettier": "2.7.3",
         "@types/semver": "^7.7.0",
         "@types/yargs": "^17.0.33",
@@ -59,6 +59,7 @@
         "jest": "30.0.5",
         "jest-environment-jsdom": "30.0.5",
         "jest-environment-node": "^29.7.0",
+        "jest-util": "^30.0.2",
         "jsonc-eslint-parser": "2.3.0",
         "kill-port": "2.0.1",
         "next": "15.5.4",
@@ -67,6 +68,7 @@
         "prettier": "2.8.8",
         "tcp-port-used": "1.0.2",
         "ts-jest": "29.1.0",
+        "ts-node": "10.9.1",
         "tsx": "^4.20.3",
         "typescript": "5.9.2",
         "verdaccio": "6.1.2"
@@ -89,7 +91,6 @@
         "semver": "^7.7.2",
         "ts-morph": "^23.0.0",
         "tslib": "^2.7.0",
-        "winston": "^3.14.2",
         "yaml": "^2.5.0",
         "yargs": "17.7.2",
         "yargs-unparser": "2.0.0"
