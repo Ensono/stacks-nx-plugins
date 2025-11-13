@@ -39,18 +39,23 @@ describe('logger e2e', () => {
         describe('test logger commands', () => {
             const project = uniq('logger');
             beforeAll(async () => {
+                // Use libs/ prefix to ensure project is generated inside libsDir for discovery
                 await runNxCommandAsync(
-                    `generate @ensono-stacks/logger:winston ${project} --directory=${project}`,
+                    `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project}`,
                 );
             });
 
             it('should run build', async () => {
-                expect(await runTarget(project, targetOptions.build)).toContain(
+                expect(
+                    await runTarget(project, targetOptions.build),
+                ).toContain(
                     'Successfully ran target build for project',
                 );
             });
             it('should run logger tests', async () => {
-                expect(await runTarget(project, targetOptions.test)).toContain(
+                expect(
+                    await runTarget(project, targetOptions.test),
+                ).toContain(
                     'Successfully ran target test',
                 );
             });
