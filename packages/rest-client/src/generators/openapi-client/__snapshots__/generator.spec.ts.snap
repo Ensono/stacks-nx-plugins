@@ -107,7 +107,7 @@ exports[`openapi-client generator should run successfully: test-client/package.j
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "tslib": "^2.8.1"
+    "tslib": "^2.3.0"
   }
 }
 "
