@@ -12,7 +12,7 @@
         "@nx/devkit": "22.x",
         "@nx/playwright": "22.x",
         "ts-morph": "^23.0.0",
-        "tslib": "^2.7.0"
+        "tslib": "^2.8.1"
     },
     "dependencies": {
         "@ensono-stacks/core": "0.0.0-e2e",

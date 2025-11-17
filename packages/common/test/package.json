@@ -7,6 +7,6 @@
         "@nx/next": "22.x"
     },
     "dependencies": {
-        "tslib": "^2.7.0"
+        "tslib": "^2.8.1"
     }
 }
