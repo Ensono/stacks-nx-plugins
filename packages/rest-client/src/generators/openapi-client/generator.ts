@@ -12,7 +12,6 @@ import {
     runTasksInSerial,
     GeneratorCallback,
     getPackageManagerCommand,
-    updateJson,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
@@ -26,24 +25,6 @@ import {
     ORVAL_VERSION,
     ZOD_VERSION,
 } from '../../../utils/versions';
-
-function updateTslibVersion(tree: Tree, projectRoot: string) {
-    const packageJsonPath = path.join(projectRoot, 'package.json');
-    if (tree.exists(packageJsonPath)) {
-        updateJson(tree, packageJsonPath, json => {
-            if (json.dependencies?.tslib) {
-                return {
-                    ...json,
-                    dependencies: {
-                        ...json.dependencies,
-                        tslib: '^2.8.1',
-                    },
-                };
-            }
-            return json;
-        });
-    }
-}
 
 async function normalizeOptions(
     tree: Tree,
@@ -88,9 +69,6 @@ export default async function generate(
 
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
-
-    // Update tslib version in generated package.json
-    updateTslibVersion(tree, normalizedOptions.projectRoot);
 
     const project = readProjectConfiguration(
         tree,
