@@ -15,6 +15,7 @@ import {
     readProjectConfiguration,
     Tree,
     runTasksInSerial,
+    updateJson,
 } from '@nx/devkit';
 import { libraryGenerator } from '@nx/js';
 import path from 'path';
@@ -24,6 +25,24 @@ import { addEslint } from './utils/eslint';
 import { WINSTON_VERSION } from './utils/version';
 
 type NormalizedSchema = BaseNormalizedSchema<WinstonLoggerGeneratorSchema>;
+
+function updateTslibVersion(tree: Tree, projectRoot: string) {
+    const packageJsonPath = path.join(projectRoot, 'package.json');
+    if (tree.exists(packageJsonPath)) {
+        updateJson(tree, packageJsonPath, json => {
+            if (json.dependencies?.tslib) {
+                return {
+                    ...json,
+                    dependencies: {
+                        ...json.dependencies,
+                        tslib: '^2.8.1',
+                    },
+                };
+            }
+            return json;
+        });
+    }
+}
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -63,6 +82,9 @@ export default async function generate(
     await libraryGenerator(tree, options);
     // Delete the default generated lib folder
     tree.delete(path.join(normalizedOptions.projectRoot, 'src', 'lib'));
+
+    // Update tslib version in generated package.json
+    updateTslibVersion(tree, normalizedOptions.projectRoot);
 
     // Generate files
     addFiles(tree, normalizedOptions);
