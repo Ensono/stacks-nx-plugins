@@ -16,7 +16,7 @@ overrides:
   sha.js@<=2.4.11: '>=2.4.12'
   koa@>=3.0.1 <3.0.3: '>=3.0.3'
   validator@<13.15.20: '>=13.15.20'
-  glob@>=10.3.7 <=11.0.3: '>=11.1.0'
+  glob@>=10.3.7 <=11.0.3: 11.1.0
   js-yaml@<3.14.2: '>=3.14.2'
   js-yaml@>=4.0.0 <4.1.1: '>=4.1.1'
   js-yaml: '>=4.1.1'
@@ -5814,8 +5814,8 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  glob@12.0.0:
-    resolution: {integrity: sha512-5Qcll1z7IKgHr5g485ePDdHcNQY0k2dtv/bjYy0iuyGxQw2qSOiiXUXJ+AYQpg3HNoUMHqAruX478Jeev7UULw==}
+  glob@11.1.0:
+    resolution: {integrity: sha512-vuNwKSaKiqm7g0THUBu2x7ckSs3XJLXE+2ssL7/MfTGPLLcrJQ/4Uq1CjPTtO5cCIiRxqvN6Twy1qOwhL0Xjcw==}
     engines: {node: 20 || >=22}
     hasBin: true
 
@@ -12336,7 +12336,7 @@ snapshots:
       chalk: 4.1.2
       collect-v8-coverage: 1.0.2
       exit-x: 0.2.2
-      glob: 12.0.0
+      glob: 11.1.0
       graceful-fs: 4.2.11
       istanbul-lib-coverage: 3.2.2
       istanbul-lib-instrument: 6.0.3
@@ -17624,7 +17624,7 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
-  glob@12.0.0:
+  glob@11.1.0:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.1.1
@@ -18564,7 +18564,7 @@ snapshots:
       chalk: 4.1.2
       ci-info: 4.2.0
       deepmerge: 4.3.1
-      glob: 12.0.0
+      glob: 11.1.0
       graceful-fs: 4.2.11
       jest-circus: 30.0.5(babel-plugin-macros@3.1.0)
       jest-docblock: 30.0.1
@@ -18887,7 +18887,7 @@ snapshots:
       chalk: 4.1.2
       cjs-module-lexer: 2.1.0
       collect-v8-coverage: 1.0.2
-      glob: 12.0.0
+      glob: 11.1.0
       graceful-fs: 4.2.11
       jest-haste-map: 30.0.5
       jest-message-util: 30.0.5
@@ -20912,7 +20912,7 @@ snapshots:
 
   rimraf@6.0.1:
     dependencies:
-      glob: 12.0.0
+      glob: 11.1.0
       package-json-from-dist: 1.0.1
 
   ripemd160@2.0.1:
