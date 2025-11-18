@@ -17,21 +17,33 @@
 - **Solution**: Added pnpm override to enforce `vite@>=7.1.11` (updated to 7.1.12)
 - **Status**: Fixed and verified via pnpm audit
 
+### 4. glob - CVE-2025-64756 (High) ✅ FIXED
+- **Issue**: Command injection via -c/--cmd executes matches with shell:true
+- **Path**: `.>@nx/jest>@jest/reporters>glob` and `.>rimraf>glob`
+- **Vulnerable Versions**: >= 10.3.7, <= 11.0.3
+- **Patched Version**: 11.1.0
+- **Solution**: Added pnpm override to enforce `glob@>=11.1.0`
+- **Status**: Fixed and verified via pnpm audit
+
+### 5. js-yaml - CVE-2025-64718 (Moderate) ✅ FIXED
+- **Issue**: Prototype pollution in merge (<<) function
+- **Path**: Multiple paths including `.>@commitlint/cli>@commitlint/load>cosmiconfig>js-yaml` and Nx dependencies
+- **Vulnerable Versions**: < 3.14.2 and >= 4.0.0, < 4.1.1
+- **Patched Versions**: >= 3.14.2 for 3.x, >= 4.1.1 for 4.x
+- **Solution**: Added pnpm overrides to enforce patched versions
+- **Status**: Fixed and verified via pnpm audit
+
+### 6. validator - CVE-2025-56200 (Moderate) ✅ FIXED
+- **Issue**: URL validation bypass vulnerability in validator.js
+- **Path**: `.>verdaccio>@verdaccio/url>validator`
+- **Vulnerable Versions**: < 13.15.20
+- **Patched Version**: 13.15.20
+- **Solution**: Added pnpm override to enforce `validator@>=13.15.20`
+- **Status**: Fixed and verified - now using v13.15.22
+
 ## Remaining Vulnerabilities (No Patch Available)
 
-### 1. validator - CVE-2025-56200 (Moderate) ⚠️ NO PATCH AVAILABLE
-- **Issue**: URL validation bypass vulnerability in validator.js through version 13.15.15
-- **Path**: `.>verdaccio>@verdaccio/url>validator`
-- **Current Version**: 13.12.0
-- **Patched Versions**: None available (`<0.0.0` per advisory)
-- **Impact**: Dev dependency only (used by Verdaccio for local registry testing)
-- **Mitigation**: 
-  - This is a dev dependency used only for local development and testing
-  - The vulnerability affects URL validation which is not used in our code paths
-  - Monitor for updates to validator package
-- **Advisory**: https://github.com/advisories/GHSA-9965-vmph-33xx
-
-### 2. fast-redact - CVE-2025-57319 (Low) ⚠️ NO PATCH AVAILABLE
+### 1. fast-redact - CVE-2025-57319 (Low) ⚠️ NO PATCH AVAILABLE
 - **Issue**: Prototype Pollution vulnerability in the nestedRestore function
 - **Path**: `.>verdaccio>@verdaccio/logger>pino>fast-redact`
 - **Current Version**: 3.5.0
@@ -46,15 +58,15 @@
 
 ## Summary
 
-- **Total Vulnerabilities Identified**: 5
-- **Fixed**: 3 (60%)
-- **Remaining**: 2 (40%)
-- **Remaining Severity**: 1 Moderate, 1 Low
+- **Total Vulnerabilities Identified**: 7
+- **Fixed**: 6 (86%)
+- **Remaining**: 1 (14%)
+- **Remaining Severity**: 1 Low
 - **All remaining vulnerabilities are dev dependencies with no production impact**
 
 ## Recommendations
 
-1. Monitor for updates to `validator` and `fast-redact` packages
-2. Consider alternatives to Verdaccio if these vulnerabilities become critical
+1. Monitor for updates to `fast-redact` package
+2. Consider alternatives to Verdaccio if this vulnerability becomes critical
 3. Run `pnpm audit` regularly to check for newly available patches
 4. All production dependencies are secure with no known vulnerabilities

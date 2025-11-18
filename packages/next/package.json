@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/next",
-    "version": "3.0.1-alpha.22",
+    "version": "0.0.0-e2e",
     "main": "src/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
@@ -9,17 +9,17 @@
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.22",
+        "@ensono-stacks/core": "0.0.0-e2e",
         "change-case": "^4.1.2"
     },
     "peerDependencies": {
-        "nx": "21.x",
-        "@nx/devkit": "21.x",
-        "@nx/js": "21.x",
-        "@nx/next": "21.x",
-        "@nx/react": "21.x",
+        "nx": "22.x",
+        "@nx/devkit": "22.x",
+        "@nx/js": "22.x",
+        "@nx/next": "22.x",
+        "@nx/react": "22.x",
         "ts-morph": "^23.0.0",
-        "tslib": "^2.7.0",
+        "tslib": "^2.8.1",
         "eslint": "^8.57.0"
     }
 }

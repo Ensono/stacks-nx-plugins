@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "3.0.1-alpha.22",
+    "version": "0.0.0-e2e",
     "type": "commonjs",
     "repository": {
         "type": "git",
@@ -13,12 +13,12 @@
         "minimatch": "9.0.3",
         "semver": "^7.6.0",
         "ts-morph": "23.0.0",
-        "tslib": "^2.6.2"
+        "tslib": "^2.8.1"
     },
     "peerDependencies": {
-        "@nx/devkit": "21.x",
+        "@nx/devkit": "22.x",
         "eslint": "8.x",
-        "nx": "21.x",
+        "nx": "22.x",
         "prettier": "^2.8.8"
     }
 }
