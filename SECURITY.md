@@ -70,4 +70,3 @@
 2. Consider alternatives to Verdaccio if this vulnerability becomes critical
 3. Run `pnpm audit` regularly to check for newly available patches
 4. All production dependencies are secure with no known vulnerabilities
-
