@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`http-client generator should generate the http-client with custom directory: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
@@ -46,8 +46,8 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator should generate the http-client with custom directory: custom/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -75,7 +75,7 @@ exports[`http-client generator should generate the http-client with custom direc
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "custom/jest.config.ts"
+        "jestConfig": "custom/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -153,7 +153,12 @@ exports[`http-client generator should generate the http-client with custom direc
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
 "
 `;
@@ -169,6 +174,7 @@ exports[`http-client generator should generate the http-client with custom direc
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
@@ -257,8 +263,8 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator should generate the http-client with custom import path: test-client/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -286,7 +292,7 @@ exports[`http-client generator should generate the http-client with custom impor
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "test-client/jest.config.ts"
+        "jestConfig": "test-client/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -364,7 +370,12 @@ exports[`http-client generator should generate the http-client with custom impor
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
 "
 `;
@@ -380,6 +391,7 @@ exports[`http-client generator should generate the http-client with custom impor
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
@@ -461,8 +473,8 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator should generate the http-client with no formatting: test-client/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -492,7 +504,7 @@ exports[`http-client generator should generate the http-client with no formattin
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "test-client/jest.config.ts"
+        "jestConfig": "test-client/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -578,6 +590,7 @@ exports[`http-client generator should generate the http-client with no formattin
   ],
   "exclude": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
   ]
@@ -595,6 +608,7 @@ exports[`http-client generator should generate the http-client with no formattin
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
@@ -666,8 +680,8 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client: test-client/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator should generate the http-client: test-client/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -695,7 +709,7 @@ exports[`http-client generator should generate the http-client: test-client/proj
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "test-client/jest.config.ts"
+        "jestConfig": "test-client/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -773,7 +787,12 @@ exports[`http-client generator should generate the http-client: test-client/tsco
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
 "
 `;
@@ -789,6 +808,7 @@ exports[`http-client generator should generate the http-client: test-client/tsco
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
