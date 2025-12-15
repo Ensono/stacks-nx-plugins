@@ -14,6 +14,6 @@ module.exports = {
     moduleFileExtensions: ['ts', 'js', 'html'],
     coverageDirectory: '../../coverage/e2e/next-e2e',
     setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
-    globalSetup: '../../tools/scripts/start-local-registry.ts',
-    globalTeardown: '../../tools/scripts/stop-local-registry.ts',
+    globalSetup: '<rootDir>/../../tools/scripts/start-local-registry.js',
+    globalTeardown: '<rootDir>/../../tools/scripts/stop-local-registry.js',
 };
