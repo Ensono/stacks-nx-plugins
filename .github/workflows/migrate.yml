@@ -12,6 +12,8 @@ permissions:
 jobs:
     main:
         runs-on: ubuntu-latest
+        env:
+            NX_NO_CLOUD: ${{ vars.NX_NO_CLOUD }}
         steps:
             - uses: actions/checkout@v4
               with:

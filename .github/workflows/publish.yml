@@ -7,6 +7,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      NX_NO_CLOUD: ${{ vars.NX_NO_CLOUD }}
     permissions:
       contents: read
       id-token: write
