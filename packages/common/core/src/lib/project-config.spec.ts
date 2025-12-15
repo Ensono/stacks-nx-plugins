@@ -111,7 +111,7 @@ describe('project config', () => {
                             executor: '@nx/jest:jest',
                             outputs: ['{workspaceRoot}/coverage/{projectRoot}'],
                             options: {
-                                jestConfig: 'apps/testing/jest.config.ts',
+                                jestConfig: 'apps/testing/jest.config.cts',
                                 passWithNoTests: true,
                             },
                             configurations: {
