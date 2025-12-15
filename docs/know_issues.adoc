@@ -20,4 +20,3 @@ The workspace now uses Nx version 22.2.3 where this issue has been resolved. If 
 --
 npx @ensono-stacks/create-stacks-workspace@latest --nxVersion 22.2.3
 --
-
