@@ -1,10 +1,5 @@
 /**
- * Wrapper to run TypeScript globalTeardown with tsx for Jest 30 compatibility
+ * Wrapper to run TypeScript globalTeardown with ts-node for Jest 30 compatibility
  */
-const { register } = require('tsx/cjs');
-const unregister = register();
-try {
-    module.exports = require('./stop-local-registry.ts').default;
-} finally {
-    unregister();
-}
+require('ts-node/register');
+module.exports = require('./stop-local-registry.ts').default;
