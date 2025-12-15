@@ -10,16 +10,14 @@ You may see the following error when trying to serve a next application when usi
 
 *Cause*
 
-This occurs due to an issue in Nx vesion 16.4.0 which is currently used by default in ensono stacks.
+This occurs due to an issue in Nx version 16.4.0. This issue has been resolved in later versions of Nx.
 
 *Workaround*
 
-You need to create a workspace using a newer version of Nx where the issue has been resolved. The issue should be fixed in Nx version 16.5.1. You can specify the Nx Version to use by using the --nxVersion argument, eg:
+The workspace now uses Nx version 22.2.3 where this issue has been resolved. If you encounter this error with an older workspace, you can specify the Nx Version to use by using the --nxVersion argument, eg:
 
 [source,shell]
 --
-npx @ensono-stacks/create-stacks-workspace@latest --nxVersion 16.5.1
+npx @ensono-stacks/create-stacks-workspace@latest --nxVersion 22.2.3
 --
-
-It should be noted that stacks hasn't been tested against Nx Versions higher than 16.4.0, so it is possible that unexpected issues could arise if using a later Nx Version.
 
