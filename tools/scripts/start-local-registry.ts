@@ -69,34 +69,37 @@ function startLocalRegistry({
             // Always log registry output for debugging
             process.stdout.write(data);
 
-            if (output.includes(`http://${listenAddress}:`)) {
-                const port = parseInt(
-                    output
-                        .match(new RegExp(`${listenAddress}:(?<port>\\d+)`))
-                        ?.groups?.port ?? ''
-                );
+            // Look for registry URL - handle various formats:
+            // - "http://localhost:4873" (standard)
+            // - "listening on http://localhost:4873" (with text)
+            // - "Verdaccio started on http://localhost:4873" (different format)
+            const urlMatch = output.match(/http:\/\/[^\s"']+/);
+            if (urlMatch) {
+                const registry = urlMatch[0];
+                const portMatch = registry.match(/:(\d+)$/);
 
-                const registry = `http://${listenAddress}:${port}`;
-                const authToken = 'secretVerdaccioToken';
+                if (portMatch) {
+                    const port = portMatch[1];
 
-                console.log(`Local registry started on ${registry}`);
+                    console.log(`Local registry started on ${registry}`);
 
-                process.env.npm_config_registry = registry;
-                execSync(
-                    `npm config set //${listenAddress}:${port}/:_authToken "${authToken}" --ws=false`,
-                    { windowsHide: false }
-                );
+                    process.env.npm_config_registry = registry;
+                    execSync(
+                        `npm config set //${listenAddress}:${port}/:_authToken "secretVerdaccioToken" --ws=false`,
+                        { windowsHide: false }
+                    );
 
-                if (!resolved) {
-                    resolved = true;
-                    cleanup();
-                    resolve(() => {
-                        childProcess.kill();
-                        execSync(
-                            `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
-                            { windowsHide: false }
-                        );
-                    });
+                    if (!resolved) {
+                        resolved = true;
+                        cleanup();
+                        resolve(() => {
+                            childProcess.kill();
+                            execSync(
+                                `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
+                                { windowsHide: false }
+                            );
+                        });
+                    }
                 }
             }
         };
