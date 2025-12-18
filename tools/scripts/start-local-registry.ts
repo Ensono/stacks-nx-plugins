@@ -27,6 +27,8 @@ function startLocalRegistry({
     clearStorage?: boolean;
     listenAddress?: string;
 }): Promise<() => void> {
+    const timeoutMs = 60000;
+
     return new Promise<() => void>((resolve, reject) => {
         const args = [
             'nx',
@@ -43,6 +45,15 @@ function startLocalRegistry({
             stdio: 'pipe',
             shell: true,
         });
+
+        let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
+        let resolved = false;
+
+        const cleanup = () => {
+            if (timeoutHandle) {
+                clearTimeout(timeoutHandle);
+            }
+        };
 
         const listener = (data: Buffer) => {
             if (verbose) {
@@ -68,28 +79,54 @@ function startLocalRegistry({
                     { windowsHide: false }
                 );
 
-                resolve(() => {
-                    childProcess.kill();
-                    execSync(
-                        `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
-                        { windowsHide: false }
-                    );
-                });
+                if (!resolved) {
+                    resolved = true;
+                    cleanup();
+                    resolve(() => {
+                        childProcess.kill();
+                        execSync(
+                            `npm config delete //${listenAddress}:${port}/:_authToken --ws=false`,
+                            { windowsHide: false }
+                        );
+                    });
+                }
             }
         };
+
+        timeoutHandle = setTimeout(() => {
+            if (!resolved) {
+                resolved = true;
+                childProcess.kill();
+                reject(
+                    new Error(
+                        `Local registry failed to start within ${timeoutMs / 1000}s`,
+                    ),
+                );
+            }
+        }, timeoutMs);
 
         childProcess.stdout?.on('data', listener);
         childProcess.stderr?.on('data', listener);
 
         childProcess.on('error', (err) => {
-            console.log('local registry error', err);
-            reject(err);
+            if (!resolved) {
+                resolved = true;
+                cleanup();
+                console.log('local registry error', err);
+                reject(err);
+            }
         });
 
         childProcess.on('exit', (code) => {
-            console.log('local registry exit', code);
-            if (code !== 0) {
-                reject(code);
+            if (!resolved) {
+                resolved = true;
+                cleanup();
+                console.log('local registry exit', code);
+                reject(
+                    new Error(
+                        `Local registry process exited with code ${code}`,
+                    ),
+                );
             }
         });
     });

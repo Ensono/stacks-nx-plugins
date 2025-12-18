@@ -13,6 +13,7 @@ permissions:
 jobs:
     main:
         runs-on: ubuntu-latest
+        timeout-minutes: 60
         env:
             NX_NO_CLOUD: ${{ vars.NX_NO_CLOUD }}
         steps:
@@ -50,4 +51,4 @@ jobs:
 
             - run: pnpm exec nx affected -t test --runInBand
 
-            - run: pnpm exec nx affected -t e2e --parallel=1 --runInBand --verbose
+            - run: pnpm exec nx affected -t e2e --parallel=1 --runInBand --verbose --forceExit --detectOpenHandles
