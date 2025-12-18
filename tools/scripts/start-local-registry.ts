@@ -27,7 +27,9 @@ function startLocalRegistry({
     clearStorage?: boolean;
     listenAddress?: string;
 }): Promise<() => void> {
-    const timeoutMs = 60000;
+    // Allow override via environment variable for CI environments
+    const timeoutMs =
+        parseInt(process.env.NX_REGISTRY_TIMEOUT_MS ?? '', 10) || 180000;
 
     return new Promise<() => void>((resolve, reject) => {
         const args = [
@@ -48,6 +50,11 @@ function startLocalRegistry({
 
         let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
         let resolved = false;
+        let registryOutput = '';
+
+        console.log(
+            `Starting local registry with ${timeoutMs / 1000}s timeout...`,
+        );
 
         const cleanup = () => {
             if (timeoutHandle) {
@@ -56,14 +63,15 @@ function startLocalRegistry({
         };
 
         const listener = (data: Buffer) => {
-            if (verbose) {
-                process.stdout.write(data);
-                console.log('Waiting for local registry to start...');
-            }
-            if (data.toString().includes(`http://${listenAddress}:`)) {
+            const output = data.toString();
+            registryOutput += output;
+
+            // Always log registry output for debugging
+            process.stdout.write(data);
+
+            if (output.includes(`http://${listenAddress}:`)) {
                 const port = parseInt(
-                    data
-                        .toString()
+                    output
                         .match(new RegExp(`${listenAddress}:(?<port>\\d+)`))
                         ?.groups?.port ?? ''
                 );
@@ -97,6 +105,10 @@ function startLocalRegistry({
             if (!resolved) {
                 resolved = true;
                 childProcess.kill();
+                console.error(
+                    `Local registry failed to start within ${timeoutMs / 1000}s`,
+                );
+                console.error('Registry output:', registryOutput);
                 reject(
                     new Error(
                         `Local registry failed to start within ${timeoutMs / 1000}s`,
