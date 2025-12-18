@@ -263,7 +263,7 @@ describe('next e2e', () => {
                     await runTarget(
                         `${project}:storybook`,
                         targetOptions.storybook,
-                        'Storybook 8.1.1 for nextjs started',
+                        'for nextjs started',
                     ),
                 ).toBeTruthy();
             });

@@ -30,45 +30,78 @@ export function stripConsoleColors(logs: string): string {
 export async function runCommandUntil(
     command: string,
     criteria: (output: string) => boolean,
+    timeoutMs = 120_000,
 ) {
     // eslint-disable-next-line security/detect-child-process
     const p = exec(`npx nx ${command}`, {
         cwd: tmpProjPath(),
         encoding: 'utf8',
     });
-    await new Promise((response, rej) => {
-        let output = '';
-        let complete = false;
 
-        function checkCriteria(c: { toString: () => string }) {
-            output += c.toString();
+    let output = '';
+    let complete = false;
+    let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
 
-            if (criteria(stripConsoleColors(output)) && !complete) {
-                console.log(output);
-                complete = true;
-                response(p);
-            } else if (output.includes('Error:')) {
-                rej(new Error(`Error detected running command: \n${output}`));
-            }
+    const cleanup = () => {
+        if (timeoutHandle) {
+            clearTimeout(timeoutHandle);
         }
+        if (!p.killed) {
+            p.kill();
+        }
+    };
 
-        p.stdout?.on('data', checkCriteria);
-        p.stderr?.on('data', checkCriteria);
-        p.on('exit', code => {
-            if (complete) {
-                response(p);
-            } else {
-                console.error(`Original output:
-                ${output
-                    .split('\n')
-                    .map(l => `    ${l}`)
-                    .join('\n')}`);
-                rej(new Error(`Exited with ${code}`));
+    try {
+        await new Promise((response, rej) => {
+            function checkCriteria(c: { toString: () => string }) {
+                output += c.toString();
+
+                if (criteria(stripConsoleColors(output)) && !complete) {
+                    console.log(output);
+                    complete = true;
+                    cleanup();
+                    response(p);
+                } else if (output.includes('Error:')) {
+                    cleanup();
+                    rej(
+                        new Error(
+                            `Error detected running command: \n${output}`,
+                        ),
+                    );
+                }
             }
+
+            timeoutHandle = setTimeout(() => {
+                cleanup();
+                rej(
+                    new Error(
+                        `Timed out after ${
+                            timeoutMs / 1000
+                        }s waiting for criteria to match`,
+                    ),
+                );
+            }, timeoutMs);
+
+            p.stdout?.on('data', checkCriteria);
+            p.stderr?.on('data', checkCriteria);
+            p.on('exit', code => {
+                if (complete) {
+                    cleanup();
+                    response(p);
+                } else {
+                    cleanup();
+                    console.error(`Original output:
+                    ${output
+                        .split('\n')
+                        .map(l => `    ${l}`)
+                        .join('\n')}`);
+                    rej(new Error(`Exited with ${code}`));
+                }
+            });
         });
-    }).finally(() => {
-        p.kill();
-    });
+    } finally {
+        cleanup();
+    }
 }
 
 export async function runTarget(
