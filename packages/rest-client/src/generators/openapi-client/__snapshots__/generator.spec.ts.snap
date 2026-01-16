@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`openapi-client generator --zod should generate orval.zod config: test-client/orval.zod.config.js 1`] = `
 "module.exports = {
