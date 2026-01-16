@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`bump-version generator should update any version numbers in the code 1`] = `
 "import httpClient from '@next-auth/restapi/api-client';
