@@ -8,7 +8,6 @@ function addProviderToMap(provider: string, root: string, morphTree: Project) {
     const providerFile = morphTree.addSourceFileAtPath(
         joinPathFragments(root, 'src', 'providers', 'index.ts'),
     );
-
     const importName = camelCase(provider);
 
     providerFile.addImportDeclaration({
@@ -23,11 +22,9 @@ function addProviderToMap(provider: string, root: string, morphTree: Project) {
                 d.getFirstDescendantByKind(SyntaxKind.Identifier).getText() ===
                 'providerMap',
         );
-
     const providerObject = exportStatement.getFirstDescendantByKind(
         SyntaxKind.ObjectLiteralExpression,
     );
-
     const propertyAttribute =
         provider === importName ? provider : `'${provider}': ${importName}`;
 

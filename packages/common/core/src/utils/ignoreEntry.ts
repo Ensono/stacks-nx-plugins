@@ -12,8 +12,8 @@ export function addIgnoreEntry(
     let content = tree.exists(fileName)
         ? (tree.read(fileName, 'utf8') as string).trimEnd()
         : '';
-
     const ig = ignore();
+
     ig.add(content);
 
     // add comment section to the bottom of file if it doesn't exist

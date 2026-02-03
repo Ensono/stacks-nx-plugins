@@ -26,6 +26,7 @@ function addCommitizenDependencies(tree: Tree) {
 
 function addCommitizenConfig(tree: Tree, options: InstallGeneratorSchema) {
     const packageJson = readJson(tree, PACKAGE_JSON) as PackageJson;
+
     const hasConfig =
         packageJson.config?.commitizen ||
         tree.exists('.czrc') ||
@@ -34,6 +35,7 @@ function addCommitizenConfig(tree: Tree, options: InstallGeneratorSchema) {
     if (!hasConfig) {
         updateJson(tree, PACKAGE_JSON, (json: PackageJson) => {
             const update = json;
+
             if (!options.husky) {
                 update.scripts = {
                     ...update.scripts,
@@ -44,6 +46,7 @@ function addCommitizenConfig(tree: Tree, options: InstallGeneratorSchema) {
                 ...update.config,
                 commitizen: { path: '@commitlint/cz-commitlint' },
             };
+
             return update;
         });
     }

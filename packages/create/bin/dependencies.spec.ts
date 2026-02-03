@@ -21,6 +21,7 @@ describe('workspace generator', () => {
         const packages = getStacksPlugins({
             e2eTestRunner: E2eTestRunner.None,
         } as yargs.Arguments<CreateStacksArguments>);
+
         await installPackages(packages, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
@@ -34,6 +35,7 @@ describe('workspace generator', () => {
             preset: 'next',
             e2eTestRunner: E2eTestRunner.None,
         } as yargs.Arguments<CreateStacksArguments>);
+
         await installPackages(packages, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledWith(
@@ -65,6 +67,7 @@ describe('workspace generator', () => {
             e2eTestRunner: E2eTestRunner.None,
             appName: 'empty-app',
         } as yargs.Arguments<CreateStacksArguments>);
+
         await runGenerators(generators, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledTimes(1);
@@ -79,6 +82,7 @@ describe('workspace generator', () => {
             e2eTestRunner: E2eTestRunner.Playwright,
             appName: 'playwright-app',
         } as yargs.Arguments<CreateStacksArguments>);
+
         await runGenerators(generators, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledTimes(2);
@@ -100,6 +104,7 @@ describe('workspace generator', () => {
             appName: 'next-app',
             e2eTestRunner: E2eTestRunner.None,
         } as yargs.Arguments<CreateStacksArguments>);
+
         await runGenerators(generators, 'folder/path');
 
         expect(execAsync).toHaveBeenCalledTimes(3);
@@ -147,6 +152,7 @@ describe('workspace generator', () => {
             preset: 'next',
             appName: 'test-app',
         };
+
         expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
             $0: '',
             _: [],
@@ -163,6 +169,7 @@ describe('workspace generator', () => {
             appName: 'test-app',
             preset: 'remix',
         };
+
         expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
             $0: '',
             _: [],
@@ -178,6 +185,7 @@ describe('workspace generator', () => {
             _: [],
             appName: 'next',
         };
+
         expect(normaliseForwardedArgv(unparsedArguments)).toMatchObject({
             _: [],
             appName: 'next',

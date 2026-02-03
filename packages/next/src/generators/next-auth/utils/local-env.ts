@@ -14,7 +14,6 @@ const commonEnv = {
     AUTH_TRUST_HOST: 'true',
     AUTH_SECRET: `${crypto.randomBytes(32).toString('hex')}`,
 };
-
 const providerEnv: Record<
     NextAuthGeneratorSchema['provider'],
     Record<string, string>

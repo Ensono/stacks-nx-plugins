@@ -81,6 +81,55 @@
                 "no-shadow": "off",
                 "no-use-before-define": "off",
                 "no-restricted-exports": "off",
+                "padding-line-between-statements": [
+                    "error",
+                    { "blankLine": "always", "prev": "*", "next": "return" },
+                    {
+                        "blankLine": "always",
+                        "prev": "function",
+                        "next": "function"
+                    },
+                    {
+                        "blankLine": "always",
+                        "prev": "singleline-let",
+                        "next": "*"
+                    },
+                    {
+                        "blankLine": "always",
+                        "prev": "singleline-const",
+                        "next": "*"
+                    },
+                    {
+                        "blankLine": "never",
+                        "prev": "singleline-const",
+                        "next": "singleline-let"
+                    },
+                    {
+                        "blankLine": "never",
+                        "prev": "singleline-const",
+                        "next": "singleline-const"
+                    },
+                    {
+                        "blankLine": "never",
+                        "prev": "singleline-let",
+                        "next": "singleline-const"
+                    },
+                    {
+                        "blankLine": "never",
+                        "prev": "singleline-let",
+                        "next": "singleline-let"
+                    },
+                    {
+                        "blankLine": "always",
+                        "prev": "const",
+                        "next": "expression"
+                    },
+                    {
+                        "blankLine": "always",
+                        "prev": "let",
+                        "next": "expression"
+                    }
+                ],
                 "security/detect-object-injection": "off",
                 "security/detect-non-literal-fs-filename": "off",
                 "unicorn/no-array-reduce": "off",

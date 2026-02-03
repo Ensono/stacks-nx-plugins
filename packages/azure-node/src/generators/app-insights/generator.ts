@@ -66,7 +66,6 @@ export default async function appInsightsGenerator(
     }
 
     const morphTree = tsMorphTree(tree);
-
     // Read the Node from the source file
     const customServer = morphTree.addSourceFileAtPath(customServerPath);
 
@@ -111,6 +110,7 @@ export default async function appInsightsGenerator(
     customServer.saveSync();
 
     const serverPath = joinPathFragments(project.root, server);
+
     // add nx/next custom server to prettier ignore
     addIgnoreEntry(tree, '.prettierignore', 'next server', [serverPath]);
     // Format files excluding the server file

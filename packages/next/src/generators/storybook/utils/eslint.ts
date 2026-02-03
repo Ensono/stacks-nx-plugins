@@ -32,11 +32,13 @@ export const updateESLint = (
             baseConfig,
             storybookESLintConfig,
         );
+
         // Overwrite parserOptions set by storybook-configuration generator
         // There seems to be a bug with the nx storybook generator where it doesn't set parserOption.project correctly
         // When a typescript eslint plugin is used, it will try to set a path to the tsconfig.storybook.json e.g apps/test-app/tsconfig.storybook.json which breaks linting
         mergedConfig.overrides[0].parserOptions =
             storybookESLintConfig.overrides[0].parserOptions;
+
         return mergedConfig;
     });
 

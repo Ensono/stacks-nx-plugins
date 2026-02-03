@@ -11,6 +11,7 @@ import httpClientGenerator from '../http-client/generator';
 
 describe('bump-version generator', () => {
     let tree: Tree;
+
     const options: BumpVersionGeneratorSchema = {
         name: 'endpoint-v1',
     };

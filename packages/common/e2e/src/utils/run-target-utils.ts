@@ -36,6 +36,7 @@ export async function runCommandUntil(
         cwd: tmpProjPath(),
         encoding: 'utf8',
     });
+
     await new Promise((response, rej) => {
         let output = '';
         let complete = false;
@@ -79,8 +80,10 @@ export async function runTarget(
 ) {
     let command;
     let subProject;
+
     if (project.includes(':')) {
         const splitString = project.split(':');
+
         // eslint-disable-next-line prefer-destructuring, no-param-reassign
         project = splitString[0];
         // eslint-disable-next-line prefer-destructuring
@@ -90,6 +93,7 @@ export async function runTarget(
         command = `${targetOptions[target]} ${project} ${additionalArguments}`;
     }
     let silenceError = true;
+
     switch (target) {
         case targetOptions.build: {
             silenceError = false;
@@ -107,11 +111,13 @@ export async function runTarget(
                     cwd: tmpProjPath(),
                 },
             );
+
             return stripConsoleColors(`${stdout}\n${stderr}`);
         }
         case targetOptions.start: {
             const appPort = 4000;
             const redisPort = 6379;
+
             try {
                 await runCommandUntil(
                     `${command} --port=${appPort} --verbose`,
@@ -123,6 +129,7 @@ export async function runTarget(
                 await killPort(appPort);
                 await killPort(redisPort);
             }
+
             return true;
         }
         default: {

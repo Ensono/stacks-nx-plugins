@@ -6,11 +6,14 @@ import type * as Prettier from 'prettier';
 
 function getRootTsConfigPath(tree: Tree): string | null {
     let tsConfigPath = null;
+
     ['tsconfig.base.json', 'tsconfig.json'].some(filePath => {
         const filePathExists = tree.exists(filePath);
+
         if (filePathExists) {
             tsConfigPath = filePath;
         }
+
         return filePathExists;
     });
 
@@ -20,6 +23,7 @@ function getRootTsConfigPath(tree: Tree): string | null {
 function sortTsConfig(tree: Tree) {
     try {
         const tsConfigPath = getRootTsConfigPath(tree);
+
         if (!tsConfigPath) {
             return;
         }
@@ -45,6 +49,7 @@ export async function formatFiles(
     excludedFiles?: string[],
 ): Promise<void> {
     let prettier: typeof Prettier | undefined;
+
     try {
         prettier = await import('prettier');
     } catch {
@@ -64,13 +69,14 @@ export async function formatFiles(
             return file.type !== 'DELETE' && !globPatternMatch;
         }),
     );
+
     await Promise.all(
         [...files].map(async file => {
             const systemPath = path.join(tree.root, file.path);
+
             let options = {
                 filepath: systemPath,
             };
-
             const resolvedOptions = await prettier?.resolveConfig(
                 process.cwd(),
                 {

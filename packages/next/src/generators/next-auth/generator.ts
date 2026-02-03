@@ -60,10 +60,10 @@ export default async function nextAuthGenerator(
     options: NextAuthGeneratorSchema,
 ) {
     const tasks: GeneratorCallback[] = [];
+
     verifyPluginCanBeInstalled(tree, options.project);
 
     const normalizedOptions = await normalizeOptions(tree, options);
-
     const project = readProjectConfiguration(tree, options.project);
 
     tasks.push(
@@ -75,6 +75,7 @@ export default async function nextAuthGenerator(
     );
 
     const libraryDirectory = path.join(normalizedOptions.projectRoot, 'src');
+
     tree.delete(path.join(libraryDirectory, 'lib'));
 
     // Add base auth library
@@ -131,6 +132,7 @@ export default async function nextAuthGenerator(
             .read(configPath)
             .toString('utf8')
             .replace(/\n+$/, '');
+
         tree.write(
             configPath,
             `${config}\nexport const GUEST_SESSION_COOKIE_NAME = 'auth.js.guest';\n`,

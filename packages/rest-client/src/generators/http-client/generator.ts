@@ -92,7 +92,6 @@ export default async function generate(
         tree,
         normalizedOptions.projectName,
     );
-
     const ciCoverageConfig = {
         ci: {
             collectCoverage: true,

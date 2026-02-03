@@ -9,6 +9,7 @@ import { nextAppWithProviders } from './test/fixtures';
 
 describe.skip('react-query generator', () => {
     let appTree: Tree;
+
     const options: ReactQueryGeneratorSchema = {
         project: 'next-app',
     };

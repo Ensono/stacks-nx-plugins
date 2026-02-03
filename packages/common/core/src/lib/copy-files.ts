@@ -12,6 +12,7 @@ function copyDirectory(tree: Tree, sourcePath: string, targetPath: string) {
 
         if (!tree.isFile(filePath)) {
             copyDirectory(tree, filePath, targetFilePath);
+
             return;
         }
 
@@ -25,6 +26,7 @@ function copyDirectory(tree: Tree, sourcePath: string, targetPath: string) {
 export function copyFiles(tree: Tree, sourcePath: string, targetPath: string) {
     if (tree.isFile(sourcePath)) {
         copyFile(tree, sourcePath, targetPath);
+
         return;
     }
 

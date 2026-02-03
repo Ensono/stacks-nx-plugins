@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`logger generator should generate the logger: .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
@@ -72,8 +72,8 @@ exports[`logger generator should generate the logger: custom/test-logger/.eslint
 "
 `;
 
-exports[`logger generator should generate the logger: custom/test-logger/jest.config.ts 1`] = `
-"export default {
+exports[`logger generator should generate the logger: custom/test-logger/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-logger',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
@@ -126,7 +126,7 @@ exports[`logger generator should generate the logger: custom/test-logger/project
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "custom/test-logger/jest.config.ts"
+        "jestConfig": "custom/test-logger/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -209,7 +209,12 @@ exports[`logger generator should generate the logger: custom/test-logger/tsconfi
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
 "
 `;
@@ -225,6 +230,7 @@ exports[`logger generator should generate the logger: custom/test-logger/tsconfi
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"

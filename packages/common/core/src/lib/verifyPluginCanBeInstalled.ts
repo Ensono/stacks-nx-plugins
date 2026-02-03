@@ -12,10 +12,11 @@ import { findFile } from './findFile';
 export function verifyPluginCanBeInstalled(tree: Tree, project?: string) {
     let isRootWorkspace = false;
     const getAllProjects = getProjects(tree);
+
     const errorMessage =
         'Stacks plugins can only be used inside an Nx Monorepo. It looks like the project you selected is a non-monorepo, if you believe this to be an error please raise an issue!';
-
     const proj = getAllProjects.entries().next().value;
+
     if (getAllProjects.size === 1 && proj && proj[1].root === '.') {
         throw new Error(errorMessage);
     }
@@ -29,7 +30,6 @@ export function verifyPluginCanBeInstalled(tree: Tree, project?: string) {
 
     const findNxJson = findFile('nx.json', './');
     const findApps = findFile('apps', './');
-
     const isNonMonorepo = !(findNxJson && findApps) && isRootWorkspace;
 
     if (isNonMonorepo) {

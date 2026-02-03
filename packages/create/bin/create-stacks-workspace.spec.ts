@@ -14,7 +14,6 @@ import { CreateStacksArguments, Preset } from './types';
 const mockExit = jest
     .spyOn(process, 'exit')
     .mockImplementation(() => undefined as never);
-
 const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
 describe('determine preset', () => {

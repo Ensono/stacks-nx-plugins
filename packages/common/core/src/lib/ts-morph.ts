@@ -30,6 +30,7 @@ class TreeFileSystem implements FileSystemHost {
     readDirSync(directoryPath: string) {
         return this.tree.children(directoryPath).map(item => {
             const isFile = this.tree.isFile(item);
+
             return {
                 name: item,
                 isFile,
@@ -46,6 +47,7 @@ class TreeFileSystem implements FileSystemHost {
             throw new Error(`File at path ${filePath} does not exist.`);
         }
         const bufferEncoding = encoding as BufferEncoding | undefined;
+
         return buffer.toString(bufferEncoding);
     }
 
@@ -89,6 +91,7 @@ class TreeFileSystem implements FileSystemHost {
     /* istanbul ignore next */
     copySync(sourcePath: string, destinationPath: string): void {
         const content = this.readFileSync(sourcePath);
+
         this.writeFileSync(destinationPath, content);
     }
 
@@ -144,6 +147,7 @@ class TreeFileSystem implements FileSystemHost {
 
 export function tsMorphTree(tree: Tree) {
     const fs = new TreeFileSystem(tree);
+
     return new Project({
         fileSystem: fs,
         compilerOptions: { target: ScriptTarget.ESNext },
@@ -154,6 +158,7 @@ export function readJsonInJs<T extends Record<string, any>>(
     node: ObjectLiteralExpression,
 ): T {
     const jsonInJS = node.getFullText();
+
     const objectJson = JSON.parse(
         jsonInJS
             .replaceAll("'", '"')
@@ -170,10 +175,13 @@ export function updateJsonInJS<
 >(node: ObjectLiteralExpression, updater: (json: T) => U): void {
     const objectJson = readJsonInJs<T>(node);
     const update = updater(objectJson);
+
     const object = JSON.stringify(update, null, 2)
         .replaceAll(/"(\w+?)"(?=:)/g, '$1')
         .replaceAll(/(?!}|]){1}(\s*)(?=}|]){1}/g, ',$1');
+
     node.replaceWithText(object);
     const source = node.getSourceFile();
+
     source.saveSync();
 }

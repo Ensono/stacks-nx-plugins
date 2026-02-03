@@ -46,6 +46,7 @@ function addFiles(
         offsetFromRoot: offsetFromRoot(options.directory),
         template: '',
     };
+
     generateFiles(
         tree,
         path.join(__dirname, 'files'),
@@ -87,6 +88,7 @@ export default async function appInsightsWebGenerator(
     addFiles(tree, normalizedOptions);
 
     const project = readProjectConfiguration(tree, options.name);
+
     updateTsConfig(tree, path.join(project.root, 'tsconfig.json'));
 
     // Format files

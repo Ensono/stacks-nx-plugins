@@ -26,12 +26,14 @@ export function findFile(
                 )
             ) {
                 foundFile = true;
+
                 return foundFile;
             }
 
             runner += 1;
             run(path.resolve(parentDirectory || targetDirectory, '..'));
         }
+
         return foundFile;
     };
 

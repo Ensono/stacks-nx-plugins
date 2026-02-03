@@ -10,7 +10,6 @@ export function addQueryClientProviderToApp(
     const appNode = morphTree.addSourceFileAtPath(
         joinPathFragments(project.root, 'src', 'app', 'providers.tsx'),
     );
-
     // Check if the App Already contains react-query
     const isReactQueryImport = appNode
         .getImportDeclarations()
@@ -72,7 +71,6 @@ export function addQueryClientProviderToApp(
             .pop()
             .getFirstChildByKind(SyntaxKind.ParenthesizedExpression)
             .getChildAtIndex(1);
-
         const update = content.isKind(SyntaxKind.JsxFragment)
             ? content
                   .getJsxChildren()

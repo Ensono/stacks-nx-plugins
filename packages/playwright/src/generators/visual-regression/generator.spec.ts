@@ -55,6 +55,7 @@ describe('playwright generator', () => {
             project: 'test',
             type: 'none',
         };
+
         await expect(generator(appTree, options)).rejects.toThrow(
             `test is not an e2e project. Please select a supported target.`,
         );
@@ -65,6 +66,7 @@ describe('playwright generator', () => {
             project: 'non-existent-project-e2e',
             type: 'none',
         };
+
         await expect(generator(appTree, options)).rejects.toThrow(
             `non-existent-project-e2e does not exist`,
         );
@@ -75,6 +77,7 @@ describe('playwright generator', () => {
             project: projectNameE2E,
             type: 'native',
         };
+
         await initGenerator(appTree, {
             project: projectName,
             directory: projectNameE2E,
@@ -103,6 +106,7 @@ describe('playwright generator', () => {
         expect(projectJson.targets['e2e-docker']).toBeTruthy();
         const playwrightPackageJsonVersion = readJson(appTree, 'package.json')
             ?.devDependencies?.playwright;
+
         expect(playwrightPackageJsonVersion).toBeTruthy();
         expect(
             projectJson.targets['e2e-docker']?.options?.commands[0]?.command,
@@ -119,6 +123,7 @@ describe('playwright generator', () => {
             project: projectNameE2E,
             type: 'applitools',
         };
+
         await initGenerator(appTree, {
             project: projectName,
             directory: projectNameE2E,
@@ -150,6 +155,7 @@ describe('playwright generator', () => {
 
         // expect package.json updated
         const packageJson = JSON.parse(appTree.read('/package.json', 'utf8'));
+
         expect(packageJson?.devDependencies).toMatchObject({
             '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
         });

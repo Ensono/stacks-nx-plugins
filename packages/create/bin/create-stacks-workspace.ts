@@ -28,6 +28,7 @@ import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
 import packageJson from '../package.json';
 
 const stacksVersion = packageJson.version;
+
 const presetOptions: { name: Preset; message: string }[] = [
     {
         name: Preset.TS,
@@ -40,7 +41,6 @@ const presetOptions: { name: Preset; message: string }[] = [
             'next.js           [a monorepo with a single Next.js application]',
     },
 ];
-
 // eslint-disable-next-line unicorn/prevent-abbreviations
 const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     {
@@ -77,6 +77,7 @@ export async function determineRepoName(
                 console.error(chalk.red`Invalid repository name`);
                 process.exit(1);
             }
+
             return value.RepoName;
         });
 }
@@ -145,6 +146,7 @@ export async function determineAppName(
                 console.error(chalk.red`Invalid name: Cannot be empty`);
                 process.exit(1);
             }
+
             return a.AppName;
         });
 }
@@ -206,11 +208,12 @@ export async function getConfiguration(
         }
 
         const userAgent = process.env['npm_config_user_agent'] || 'npm';
+
         const packageManager = userAgent.includes('pnpm')
             ? 'pnpm'
             : userAgent.includes('yarn')
-            ? 'yarn'
-            : 'npm';
+              ? 'yarn'
+              : 'npm';
 
         Object.assign(argv, {
             name: paramCase(name),
@@ -233,12 +236,11 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
         normaliseForwardedArgv(forwardArgv) as unparse.Arguments,
         { alias: { packageManager: ['pm'], interactive: ['i'] } },
     );
-
     const workingDirectory = path.resolve(dir);
     const targetDirectory = path.join(workingDirectory, name);
     const currentDirectoryIsTarget = targetDirectory === process.cwd();
-
     let temporaryDirectory: null | string = null;
+
     process.chdir(workingDirectory);
 
     if (fs.existsSync(targetDirectory)) {
@@ -332,6 +334,7 @@ async function main(parsedArgv: yargs.Arguments<CreateStacksArguments>) {
     configureNx(parsedArgv, targetDirectory);
 
     const generatorsToRun = getGeneratorsToRun(parsedArgv);
+
     console.log(
         chalk.cyan`Running the following generators:\n${generatorsToRun.join(
             '\n',

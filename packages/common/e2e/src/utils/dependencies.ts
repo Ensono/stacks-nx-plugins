@@ -9,8 +9,8 @@ import type { WorkspaceLibrary } from './types';
 const workspaceRoot = path.join(__dirname, '../../../../../');
 let tsConfig: ParsedCommandLine;
 let tsPathMappings: ParsedCommandLine['options']['paths'];
-
 let tsModule: typeof import('typescript');
+
 function readTsConfig(tsConfigPath: string): ParsedCommandLine {
     if (!tsModule) {
         // eslint-disable-next-line global-require
@@ -20,6 +20,7 @@ function readTsConfig(tsConfigPath: string): ParsedCommandLine {
         tsConfigPath,
         tsModule.sys.readFile,
     );
+
     return tsModule.parseJsonConfigFileContent(
         readResult.config,
         tsModule.sys,
@@ -40,6 +41,7 @@ function readTsConfiguration(tsConfigPath: string): ParsedCommandLine {
 function getRootTsConfigFileName(): string | null {
     for (const tsConfigName of ['tsconfig.base.json', 'tsconfig.json']) {
         const tsConfigPath = path.join(workspaceRoot, tsConfigName);
+
         if (existsSync(tsConfigPath)) {
             return tsConfigName;
         }
@@ -76,7 +78,6 @@ function getLibraryImportPath(
     projectGraph: ProjectGraph,
 ): string | undefined {
     const tsConfigPathMappings = readTsPathMappings();
-
     const { sourceRoot } = projectGraph.nodes[library].data;
 
     for (const [key, value] of Object.entries(tsConfigPathMappings)) {
@@ -87,6 +88,7 @@ function getLibraryImportPath(
 
     return undefined;
 }
+
 function collectDependencies(
     projectGraph: ProjectGraph,
     name: string,

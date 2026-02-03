@@ -14,7 +14,6 @@ describe('stacks', () => {
     describe('readStacksConfig', () => {
         it('should read the stacks config from nx.json', () => {
             const { stacksConfig } = addStacksAttributes(tree, 'testProject');
-
             const result = readStacksConfig(tree);
 
             expect(result).toMatchObject(stacksConfig);
@@ -48,7 +47,6 @@ describe('stacks', () => {
                 tree,
                 'testProject',
             );
-
             const result = readStacksExecutedGenerators(tree);
 
             expect(result).toMatchObject(stacksExecutedGenerators);

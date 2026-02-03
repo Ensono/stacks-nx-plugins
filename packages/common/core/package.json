@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "3.0.1-alpha.25",
+    "version": "0.0.0-e2e",
     "type": "commonjs",
     "repository": {
         "type": "git",
@@ -19,6 +19,6 @@
         "@nx/devkit": "22.x",
         "eslint": "8.x",
         "nx": "22.x",
-        "prettier": "^2.8.8"
+        "prettier": "3.6.2"
     }
 }

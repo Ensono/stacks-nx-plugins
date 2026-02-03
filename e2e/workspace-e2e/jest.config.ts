@@ -1,5 +1,5 @@
 /* eslint-disable */
-export default {
+module.exports = {
     displayName: 'workspace-e2e',
     preset: '../../jest.preset.js',
     globals: {},

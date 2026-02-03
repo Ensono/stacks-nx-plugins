@@ -16,13 +16,13 @@ export function getRegistryUrl(
         business: { company, domain },
         cloud: { region, platform },
     } = options;
-
     let registry = lowerCaseCharactersOnly(
         `${company}${domain}${envType}${region}core`,
     );
 
     if (platform === 'azure') {
         registry = `${registry}.azurecr.io`;
+
         return registry;
     }
 
@@ -37,7 +37,6 @@ export function getResourceGroup(
         business: { company, domain },
         cloud: { region },
     } = options;
-
     const resourceGroup = hyphenatedLowerCaseCharactersOnly(
         `${company}-${domain}-${envType}-${region}-core`,
     );

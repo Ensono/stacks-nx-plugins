@@ -34,12 +34,12 @@ async function normalizeOptions(
 ) {
     const name = paramCase(options.name);
     const endpointName = paramCase(`${name}/v${options.endpointVersion}`);
+
     const directory = path.join(
         options.folderPath,
         name,
         `v${options.endpointVersion}`,
     );
-
     const projectOptions = await determineProjectNameAndRootOptions(tree, {
         name: endpointName,
         directory,

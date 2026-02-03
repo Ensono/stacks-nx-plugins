@@ -38,7 +38,6 @@ export async function reactQueryGenerator(
     }
 
     const tasks: GeneratorCallback[] = [];
-
     const project = readProjectConfiguration(tree, options.project);
 
     // if not generated - create app/provider.tsx

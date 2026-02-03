@@ -6,6 +6,7 @@ import { ClientEndpointGeneratorSchema } from './schema';
 
 describe('client-endpoint generator', () => {
     let tree: Tree;
+
     const options: ClientEndpointGeneratorSchema = {
         name: 'test-endpoint',
         httpClient: '@ensono-stacks/http-client',
@@ -37,6 +38,7 @@ describe('client-endpoint generator', () => {
             `api/test-endpoint/v1/src/index.ts`,
             'utf8',
         );
+
         expect(fileContent).toMatch(
             /import httpClient, {\n *RequestConfig,\n *Response,\n *} from '@ensono-stacks\/http-client'/g,
         );

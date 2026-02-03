@@ -10,6 +10,7 @@ const updateTsConfig = (
     updateJson(tree, filePath, tsConfig => {
         const update = tsConfig;
         const sourceFolder = path.join(project.sourceRoot, 'src');
+
         const filesInSource = tree
             .children(sourceFolder)
             .filter(child => tree.exists(path.join(sourceFolder, child)));
@@ -21,6 +22,7 @@ const updateTsConfig = (
         update.include = [
             ...new Set([...(update.include || []), ...(includesFiles || [])]),
         ];
+
         return update;
     });
 };

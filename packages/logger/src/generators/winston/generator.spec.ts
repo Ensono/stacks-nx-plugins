@@ -16,6 +16,7 @@ const appName = 'test-logger';
 function snapshotFiles(tree: Tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
+
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
             file,
@@ -25,6 +26,7 @@ function snapshotFiles(tree: Tree, files: string[]) {
 
 describe('logger generator', () => {
     let tree: Tree;
+
     const options: WinstonLoggerGeneratorSchema = {
         name: appName,
         directory: appName,
@@ -61,7 +63,7 @@ describe('logger generator', () => {
             joinPathFragments(`custom/${appName}`, 'tsconfig.spec.json'),
             joinPathFragments(`custom/${appName}`, '.eslintrc.json'),
             joinPathFragments(`custom/${appName}`, 'package.json'),
-            joinPathFragments(`custom/${appName}`, 'jest.config.ts'),
+            joinPathFragments(`custom/${appName}`, 'jest.config.cts'),
             joinPathFragments(`custom/${appName}/src`, 'index.ts'),
             joinPathFragments(`custom/${appName}/src`, 'index.test.ts'),
             'jest.config.ts',
@@ -75,11 +77,13 @@ describe('logger generator', () => {
         await generator(tree, options);
 
         const packageJson = readJson(tree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['winston']),
         );
 
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain('winston.config.npm.levels');
     });
 
@@ -90,11 +94,13 @@ describe('logger generator', () => {
         });
 
         const packageJson = readJson(tree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['winston']),
         );
 
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain('winston.config.cli.levels');
     });
 
@@ -105,17 +111,20 @@ describe('logger generator', () => {
         });
 
         const packageJson = readJson(tree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['winston']),
         );
 
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain('winston.config.syslog.levels');
     });
 
     it('should add console log transport', async () => {
         await generator(tree, { ...options, consoleLogs: true });
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Console())',
         );
@@ -127,6 +136,7 @@ describe('logger generator', () => {
             fileTransportPath: '/log-file.log',
         });
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain(
             "logger.add(new winston.transports.File({ filename: '/log-file.log' }))",
         );
@@ -140,6 +150,7 @@ describe('logger generator', () => {
             httpTransportHost: 'www.testsite.co.uk',
         });
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain(
             'const httpTransportConfiguration: winston.transports.HttpTransportOptions = {',
         );
@@ -156,6 +167,7 @@ describe('logger generator', () => {
             streamPath: 'www.testsite.co.uk',
         });
         const indexFile = tree.read(`/${appName}/src/index.ts`, 'utf8');
+
         expect(indexFile).toContain(
             'logger.add(new winston.transports.Stream(streamTransportConfiguration));',
         );

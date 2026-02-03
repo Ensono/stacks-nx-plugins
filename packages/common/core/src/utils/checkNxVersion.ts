@@ -11,7 +11,6 @@ const getLatestNxVersion = () => {
 export function checkNxVersion(nxVersion: string) {
     const setNxVersion =
         nxVersion === 'latest' ? getLatestNxVersion() : nxVersion;
-
     const matchVersion = semver.satisfies(setNxVersion, NX_VERSION_SCOPE);
 
     if (!matchVersion) {

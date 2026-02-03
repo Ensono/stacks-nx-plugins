@@ -20,6 +20,7 @@ const projectNameE2E = `${projectName}-e2e`;
 function snapshotFiles(tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
+
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
             file,
@@ -77,9 +78,11 @@ describe('playwright generator', () => {
             appTree,
             joinPathFragments(projectNameE2E, 'project.json'),
         );
+
         expect(projectJson.targets.e2e).toBeTruthy();
 
         const packageJson = readJson(appTree, 'package.json');
+
         expect(Object.keys(packageJson.devDependencies)).toStrictEqual(
             expect.arrayContaining([
                 '@nx/playwright',

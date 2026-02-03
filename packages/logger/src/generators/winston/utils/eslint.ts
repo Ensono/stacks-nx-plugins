@@ -69,5 +69,6 @@ function addEslintDependencies(tree: Tree) {
 
 export function addEslint(tree: Tree, projectSourceRoot: string) {
     addRules(tree, projectSourceRoot);
+
     return addEslintDependencies(tree);
 }
