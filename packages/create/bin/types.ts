@@ -11,11 +11,6 @@ export type CreateStacksArguments = {
     packageManager: PackageManager;
     interactive: boolean;
     overwrite: boolean;
-    terraform: {
-        group: string;
-        container: string;
-        storage: string;
-    };
     business: {
         company: string;
         domain: string;
@@ -30,7 +25,6 @@ export type CreateStacksArguments = {
         region: string;
         group: string;
     };
-    pipeline: 'azdo';
     vcs: {
         type: 'github' | 'azdo';
         url: string;

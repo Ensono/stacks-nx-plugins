@@ -36,29 +36,30 @@ describe('logger e2e', () => {
             expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
         });
 
-        describe('test logger commands', () => {
+        it('should run build', async () => {
             const project = uniq('logger');
-            beforeAll(async () => {
-                // Use libs/ prefix to ensure project is generated inside libsDir for discovery
-                await runNxCommandAsync(
-                    `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project}`,
-                );
-            });
-
-            it('should run build', async () => {
-                expect(
-                    await runTarget(project, targetOptions.build),
-                ).toContain(
-                    'Successfully ran target build for project',
-                );
-            });
-            it('should run logger tests', async () => {
-                expect(
-                    await runTarget(project, targetOptions.test),
-                ).toContain(
-                    'Successfully ran target test',
-                );
-            });
+            await runNxCommandAsync(
+                `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project}`,
+            );
+            await runNxCommandAsync('reset');
+            expect(
+                await runTarget(project, targetOptions.build),
+            ).toContain(
+                'Successfully ran target build for project',
+            );
+        });
+        
+        it('should run logger tests', async () => {
+            const project = uniq('logger');
+            await runNxCommandAsync(
+                `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project}`,
+            );
+            await runNxCommandAsync('reset');
+            expect(
+                await runTarget(project, targetOptions.test),
+            ).toContain(
+                'Successfully ran target test',
+            );
         });
     });
 });

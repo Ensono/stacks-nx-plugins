@@ -22,7 +22,6 @@ packages/<plugin-name>/
 
 **Generator Responsibility Split**: Generators follow a layered approach:
 - `init`: Core requirements and base configuration
-- `init-deployment`: Deployment infrastructure (Azure DevOps, Terraform)
 - Feature-specific generators: Optional enhancements (e.g., `next-auth`, `storybook`)
 
 **Stacks Configuration**: All plugins require a `stacks` object in `nx.json` with business/cloud/domain metadata. Check with `verifyPluginCanBeInstalled()` and track execution via `hasGeneratorExecutedForProject()`.

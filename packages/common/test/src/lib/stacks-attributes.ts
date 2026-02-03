@@ -15,12 +15,6 @@ export function addStacksAttributes(tree: Tree, project: string) {
             region: 'euw',
             platform: 'azure',
         },
-        pipeline: 'azdo',
-        terraform: {
-            group: 'terraform-group',
-            storage: 'terraform-storage',
-            container: 'terraform-container',
-        },
         vcs: {
             type: 'github',
             url: 'remote.git',
@@ -43,17 +37,4 @@ export function addStacksAttributes(tree: Tree, project: string) {
     }));
 
     return { stacksConfig, stacksExecutedGenerators };
-}
-
-export function executeWorkspaceInit(tree: Tree) {
-    updateJson(tree, 'nx.json', nxJson => ({
-        ...nxJson,
-        stacks: {
-            ...nxJson.stacks,
-            executedGenerators: {
-                ...nxJson.stacks.executedGenerators,
-                workspace: ['WorkspaceDeployment'],
-            },
-        },
-    }));
 }

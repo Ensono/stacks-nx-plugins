@@ -125,10 +125,6 @@ applicable:
 -   @ensono-stacks/_plugin_:init (init should be responsible for generating the
     core requirements of your desired end state)
 
--   @ensono-stacks/_plugin_:init-deployment (init-deployment should be
-    responsible for making all relevant changes to deployment files to ensure
-    that your generated code can be deployed. NOTE: Only if required)
-
 -   @ensono-stacks/_plugin_:[additional] (Any additional configuration or code
     which may not always be required, but adds some additional useful
     functionality or behaviour to the users project should be split into their

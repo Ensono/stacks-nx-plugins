@@ -26,12 +26,6 @@ describe('stacks', () => {
                     region: 'euw',
                     platform: 'azure',
                 },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
                 vcs: {
                     type: 'github',
                     url: 'remote.git',

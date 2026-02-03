@@ -104,6 +104,7 @@ export async function runTarget(
                 `${command} --skip-nx-cache`,
                 {
                     silenceError,
+                    cwd: tmpProjPath(),
                 },
             );
             return stripConsoleColors(`${stdout}\n${stderr}`);

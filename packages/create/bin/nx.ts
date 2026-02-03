@@ -18,8 +18,6 @@ export function configureNx(
                 business: options.business,
                 domain: options.domain,
                 cloud: options.cloud,
-                pipeline: options.pipeline,
-                terraform: options.terraform,
                 vcs: options.vcs,
             },
             executedGenerators: {
