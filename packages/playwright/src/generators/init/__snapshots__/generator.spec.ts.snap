@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`playwright generator should run successfully with default options: .prettierrc 1`] = `
 "{ "singleQuote": true }
@@ -41,12 +41,6 @@ exports[`playwright generator should run successfully with default options: nx.j
       "cloud": {
         "region": "euw",
         "platform": "azure"
-      },
-      "pipeline": "azdo",
-      "terraform": {
-        "group": "terraform-group",
-        "storage": "terraform-storage",
-        "container": "terraform-container"
       },
       "vcs": {
         "type": "github",

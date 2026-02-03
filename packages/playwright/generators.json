@@ -8,11 +8,6 @@
             "schema": "./src/generators/init/schema.json",
             "description": "init generator"
         },
-        "init-deployment": {
-            "factory": "./src/generators/init-deployment/generator",
-            "schema": "./src/generators/init-deployment/schema.json",
-            "description": "The deployment generator contains all the pipeline and infrastructure change for playwright."
-        },
         "accessibility": {
             "factory": "./src/generators/accessibility/generator",
             "schema": "./src/generators/accessibility/schema.json",
@@ -22,11 +17,6 @@
             "factory": "./src/generators/visual-regression/generator",
             "schema": "./src/generators/visual-regression/schema.json",
             "description": "visual regression generator"
-        },
-        "visual-regression-deployment": {
-            "factory": "./src/generators/visual-regression-deployment/generator",
-            "schema": "./src/generators/visual-regression-deployment/schema.json",
-            "description": "visual-regression-deployment generator"
         }
     }
 }

@@ -1,6 +1,22 @@
 {
-    "eslint.validate": ["json"],
+    "eslint.validate": [
+        "json"
+    ],
     "typescript.tsdk": "node_modules/typescript/lib",
-    "eslint.workingDirectories": [".", "./tmp/nx-e2e/proj"],
-    "prettier.prettierPath": "./node_modules/prettier"
+    "eslint.workingDirectories": [
+        ".",
+        "./tmp/nx-e2e/proj"
+    ],
+    "prettier.prettierPath": "./node_modules/prettier",
+    "chat.promptFilesRecommendations": {
+        "speckit.constitution": true,
+        "speckit.specify": true,
+        "speckit.plan": true,
+        "speckit.tasks": true,
+        "speckit.implement": true
+    },
+    "chat.tools.terminal.autoApprove": {
+        ".specify/scripts/bash/": true,
+        ".specify/scripts/powershell/": true
+    }
 }
