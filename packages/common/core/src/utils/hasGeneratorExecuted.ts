@@ -11,6 +11,7 @@ export function getNpmScope(tree: Tree) {
     const { name } = tree.exists('package.json')
         ? readJson(tree, 'package.json')
         : { name: null };
+
     return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
 }
 
@@ -31,6 +32,7 @@ export function isGeneratorInExecutedListForProject(
             `The dependent ${generatorName} generator has not been executed`,
         );
     }
+
     return found;
 }
 

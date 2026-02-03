@@ -20,8 +20,10 @@ describe('ts morph', () => {
     describe('TreeFileSystem', () => {
         it('can create files to the tree', async () => {
             const content = 'export default "hello";';
+
             tree.write('test.ts', '');
             const source = project.addSourceFileAtPath('test.ts');
+
             source.replaceWithText(content);
             await source.save();
 
@@ -31,8 +33,10 @@ describe('ts morph', () => {
 
         it('can delete files from the tree', async () => {
             const content = 'export default "hello";';
+
             tree.write('test.ts', content);
             const source = project.addSourceFileAtPath('test.ts');
+
             source.delete();
             await project.save();
 
@@ -50,13 +54,14 @@ describe('ts morph', () => {
         it('can return a JSON object from a literal expression', () => {
             const input =
                 'module.exports = { test: true, key: "value", number: 5 };';
+
             tree.write('test.js', input);
 
             const source = project.addSourceFileAtPath('test.js');
+
             const expression = source.getDescendantsOfKind(
                 SyntaxKind.ObjectLiteralExpression,
             )[0];
-
             const json = readJsonInJs(expression);
 
             expect(json).toMatchObject({
@@ -71,14 +76,16 @@ describe('ts morph', () => {
         it('can update a JSON object from a literal expression', () => {
             const input =
                 'module.exports = { test: true, key: "value", number: 5 };';
+
             tree.write('test.js', input);
 
             const source = project.addSourceFileAtPath('test.js');
+
             const expression = source.getDescendantsOfKind(
                 SyntaxKind.ObjectLiteralExpression,
             )[0];
-
             const update = { hello: 'world' };
+
             updateJsonInJS(expression, () => update);
             expect(tree.read('test.js')?.toString()).toEqual(helloWorld);
         });

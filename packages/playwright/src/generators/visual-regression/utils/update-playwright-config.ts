@@ -33,7 +33,6 @@ export function updatePlaywrightConfigWithDefault(
     const appNode = morphTree.addSourceFileAtPath(
         joinPathFragments(project.root, 'playwright.config.ts'),
     );
-
     const playwrightImport = appNode
         .getImportDeclarations()
         .find(
@@ -41,6 +40,7 @@ export function updatePlaywrightConfigWithDefault(
                 importDeclaration.getModuleSpecifier().getLiteralValue() ===
                 '@playwright/test',
         );
+
     playwrightImport.setIsTypeOnly(false);
 
     if (
@@ -56,12 +56,10 @@ export function updatePlaywrightConfigWithDefault(
     const callExpressions = appNode.getDescendantsOfKind(
         SyntaxKind.CallExpression,
     );
-
     const defineConfigCallExpression = callExpressions.find(
         callExpression =>
             callExpression.getExpression().getText() === 'defineConfig',
     );
-
     const config = defineConfigCallExpression.getArguments()[0];
 
     if (!Node.isObjectLiteralExpression(config)) {
@@ -131,16 +129,13 @@ export function updatePlaywrightConfigWithApplitoolsVisualRegression(
     const appNode = morphTree.addSourceFileAtPath(
         joinPathFragments(project.root, 'playwright.config.ts'),
     );
-
     const callExpressions = appNode.getDescendantsOfKind(
         SyntaxKind.CallExpression,
     );
-
     const defineConfigCallExpression = callExpressions.find(
         callExpression =>
             callExpression.getExpression().getText() === 'defineConfig',
     );
-
     const config = defineConfigCallExpression.getArguments()[0];
 
     if (!Node.isObjectLiteralExpression(config)) {

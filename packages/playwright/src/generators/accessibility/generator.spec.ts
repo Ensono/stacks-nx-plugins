@@ -32,6 +32,7 @@ describe('playwright accessibility generator', () => {
         const options: AccessibilityGeneratorSchema = {
             project: 'test',
         };
+
         await expect(generator(appTree, options)).rejects.toThrow(
             `test is not an e2e project. Please select a supported target.`,
         );
@@ -41,6 +42,7 @@ describe('playwright accessibility generator', () => {
         const options: AccessibilityGeneratorSchema = {
             project: 'non-existent-project-e2e',
         };
+
         await expect(generator(appTree, options)).rejects.toThrow(
             `non-existent-project-e2e does not exist`,
         );
@@ -68,6 +70,7 @@ describe('playwright accessibility generator', () => {
 
         // expect package.json updated
         const packageJson = JSON.parse(appTree.read('/package.json', 'utf8'));
+
         expect(packageJson?.devDependencies).toMatchObject({
             '@axe-core/playwright': AXE_CORE_PLAYWRIGHT_VERSION,
             'axe-result-pretty-print': AXE_RESULTS_PRETTY_PRINT_VERSION,

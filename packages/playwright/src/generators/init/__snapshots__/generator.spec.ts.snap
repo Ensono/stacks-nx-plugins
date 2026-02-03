@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`playwright generator should run successfully with default options: .prettierrc 1`] = `
 "{ "singleQuote": true }

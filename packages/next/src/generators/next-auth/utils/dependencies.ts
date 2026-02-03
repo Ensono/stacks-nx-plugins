@@ -19,7 +19,6 @@ export function installDependencies(
         '@auth/core': AUTH_CORE_VERSION,
         oauth4webapi: OAUTH_4_WEBAPI_VERSION,
     };
-
     const devDependencies: Record<string, string> = {};
 
     if (options.sessionStorage === 'redis') {
@@ -27,5 +26,6 @@ export function installDependencies(
         dependencies.uuid = UUID_VERSION;
         devDependencies['@types/uuid'] = TYPES_UUID_VERSION;
     }
+
     return addDependenciesToPackageJson(tree, dependencies, devDependencies);
 }

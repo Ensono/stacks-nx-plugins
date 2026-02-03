@@ -21,6 +21,7 @@ describe('normalize', () => {
                 },
                 'library',
             );
+
             expect(data).toEqual({
                 name: 'some-lib',
                 importPath: '@proj/some-lib',

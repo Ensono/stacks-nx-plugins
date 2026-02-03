@@ -20,7 +20,6 @@ export function addStacksAttributes(tree: Tree, project: string) {
             url: 'remote.git',
         },
     };
-
     const stacksExecutedGenerators = {
         project: {
             [project]: [],

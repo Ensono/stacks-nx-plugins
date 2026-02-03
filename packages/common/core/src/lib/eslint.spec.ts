@@ -10,11 +10,9 @@ const base = {
         'some-rule': 'off',
     },
 };
-
 const replaceConfig = {
     extends: ['hello'],
 };
-
 const replaceObject = `module.exports = {
   extends: [
     "hello",

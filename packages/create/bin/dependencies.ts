@@ -21,6 +21,7 @@ export function normaliseForwardedArgv(
     forwardArgv: yargs.Arguments<Partial<CreateStacksArguments>>,
 ) {
     const updatedForwardArgv = forwardArgv;
+
     updatedForwardArgv['preset'] =
         forwardArgv['preset'] === 'next' ? 'ts' : forwardArgv['preset'];
 
@@ -29,6 +30,7 @@ export function normaliseForwardedArgv(
         updatedForwardArgv['e2eTestRunner'] === 'playwright'
             ? 'none'
             : updatedForwardArgv['e2eTestRunner'];
+
     return updatedForwardArgv;
 }
 
@@ -106,9 +108,9 @@ export async function installPackages(
             ? `${packageName}@${stacksVersion}`
             : packageName,
     );
-
     const packageManager = detectPackageManager(cwd);
     const pm = getPackageManagerCommand(packageManager);
+
     return execAsync(`${pm.addDependency} ${versionedPackages.join(' ')}`, cwd);
 }
 

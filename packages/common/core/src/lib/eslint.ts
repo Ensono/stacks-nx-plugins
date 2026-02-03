@@ -39,7 +39,6 @@ function formatConfig(config: Linter.Config) {
         overrides,
         ...rest
     } = config;
-
     const formattedConfig: Linter.Config = {
         ...rest,
     };
@@ -75,6 +74,7 @@ export function mergeEslintConfigs(...configs: Linter.Config[]): Linter.Config {
     }
 
     const [a, b, ...base] = data;
+
     const result = deepMerge(a, b, {
         arrayMerge: (target, source, options) =>
             combineMerge(target, source, options, 'files'),
@@ -83,6 +83,7 @@ export function mergeEslintConfigs(...configs: Linter.Config[]): Linter.Config {
     if (base.length > 0) {
         return mergeEslintConfigs(result, ...base);
     }
+
     return formatConfig(result);
 }
 
@@ -106,9 +107,11 @@ export function updateEslintConfig(
         if (configPath.endsWith('.js')) {
             const project = tsMorphTree(tree);
             const source = project.addSourceFileAtPath(configPath);
+
             const node = source.getDescendantsOfKind(
                 SyntaxKind.ObjectLiteralExpression,
             )[0];
+
             updateJsonInJS(node, updater);
         }
     } else {

@@ -16,7 +16,6 @@ describe('executedDependantGenerator', () => {
 
     it('should return false if no prerequisite present', async () => {
         const logSpy = jest.spyOn(console, 'log');
-
         const result = executedDependantGenerator(appTree, generatorName);
 
         expect(logSpy).toHaveBeenCalledWith(

@@ -219,5 +219,6 @@ function addEslintDependencies(tree: Tree) {
 
 export function addEslint(tree: Tree): GeneratorCallback {
     addRules(tree);
+
     return addEslintDependencies(tree);
 }

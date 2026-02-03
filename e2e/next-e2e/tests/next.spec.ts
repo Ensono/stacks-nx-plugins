@@ -32,7 +32,7 @@ describe('next e2e', () => {
         addWebpackAlias(tmpProjPath(path.join('apps', project)), {
             ioredis$: 'ioredis-mock',
         });
-    });
+    }, 300000);
 
     afterAll(async () => {
         cleanup();
@@ -105,7 +105,6 @@ describe('next e2e', () => {
 
         afterAll(async () => {
             updateFile(`apps/${project}/tsconfig.json`, config);
-            await runNxCommandAsync('reset');
         });
 
         it('adds new files for NextAuth', () => {
@@ -119,6 +118,7 @@ describe('next e2e', () => {
         });
 
         it('can serve the application', async () => {
+            await runNxCommandAsync('reset');
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });
@@ -150,6 +150,7 @@ describe('next e2e', () => {
         });
 
         it('can serve the application', async () => {
+            await runNxCommandAsync('reset');
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
     });

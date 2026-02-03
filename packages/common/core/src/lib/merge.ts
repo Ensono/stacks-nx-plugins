@@ -24,6 +24,7 @@ function processUniqueKeyForObject(
             return false;
         }
         const sourceItemClone = [...ensureArray(item[uniqueKeyForObjects])];
+
         const targetItemClone = [
             ...ensureArray(targetItem[uniqueKeyForObjects]),
         ];
@@ -75,5 +76,6 @@ export function combineMerge(
             destination.push(item);
         }
     });
+
     return destination;
 }

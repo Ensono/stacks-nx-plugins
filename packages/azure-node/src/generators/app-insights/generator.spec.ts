@@ -9,6 +9,7 @@ import * as appInisghtsTemplate from './templates/appInsights';
 
 describe('app-insights generator', () => {
     let appTree: Tree;
+
     const options: AppInsightsGeneratorSchema = {
         project: 'test',
         server: 'server/main.ts',
@@ -62,6 +63,7 @@ describe('app-insights generator', () => {
             server: 'server.js',
             applicationinsightsConnectionString: 'TEST_CONNECTION_STRING_ENV',
         };
+
         await expect(generator(appTree, incorrectOptions)).rejects.toThrow(
             `No application was found with the name 'unknown-project'`,
         );
@@ -109,6 +111,7 @@ describe('app-insights generator', () => {
         await generator(appTree, options);
 
         const packageJson = readJson(appTree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['applicationinsights']),
         );
@@ -138,6 +141,7 @@ describe('app-insights generator', () => {
         it('should update server/main.ts', async () => {
             await generator(appTree, options);
             const mainTs = appTree.read('test/server/main.ts');
+
             expect(mainTs.toString()).toMatchSnapshot();
         });
 

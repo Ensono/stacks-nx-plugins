@@ -74,7 +74,6 @@ export default async function generate(
         tree,
         normalizedOptions.projectName,
     );
-
     const schemaPath = path.basename(options.schema);
 
     // Copy schema into generated lib folder
@@ -98,7 +97,6 @@ export default async function generate(
     });
 
     const pm = getPackageManagerCommand();
-
     const dependencies: Record<string, string> = {};
 
     const devDependencies: Record<string, string> = {

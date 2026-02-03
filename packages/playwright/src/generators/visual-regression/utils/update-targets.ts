@@ -29,6 +29,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
     tree: Tree,
 ) {
     const packageJson = readJson(tree, 'package.json');
+
     const playwrightVersion =
         `v${packageJson.devDependencies.playwright?.replace('^', '')}` ||
         'next';

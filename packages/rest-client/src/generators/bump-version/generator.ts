@@ -16,7 +16,6 @@ import { BumpVersionGeneratorSchema } from './schema';
 
 function findTargetVersion(config: ProjectConfiguration): number {
     const versionDirectory = path.basename(config.root);
-
     const version = Number.parseInt(versionDirectory.replace(/^v/i, ''), 10);
 
     if (Number.isNaN(version)) {
@@ -31,8 +30,10 @@ function findTargetVersion(config: ProjectConfiguration): number {
 
 function findLatestVersion(tree: Tree, config: ProjectConfiguration): number {
     let children;
+
     try {
         const apiDirectory = path.dirname(config.root);
+
         children = tree.children(apiDirectory);
     } catch {
         throw new Error(
@@ -59,6 +60,7 @@ function determineNewVersion(
 ): number {
     if (newVersionParameter !== undefined) {
         const newVersionNumber = Number(newVersionParameter);
+
         if (Number.isNaN(newVersionNumber)) {
             throw new TypeError('The endpoint version needs to be a number.');
         }
@@ -88,6 +90,7 @@ function updateVersionInCode(
 
     filePaths.forEach(filePath => {
         const fileContent = tree.read(filePath)?.toString();
+
         if (!fileContent) {
             return;
         }
@@ -121,6 +124,7 @@ function updateVersionInCode(
 
 function isRelative(parent: string, directory: string) {
     const relative = path.relative(parent, directory);
+
     return relative && !relative.startsWith('..') && !path.isAbsolute(relative);
 }
 
@@ -155,6 +159,7 @@ export default async function bumpVersion(
     }
 
     let config: ProjectConfiguration;
+
     try {
         config = readProjectConfiguration(tree, options.name);
     } catch {
@@ -170,17 +175,14 @@ export default async function bumpVersion(
         latestVersion,
         options.endpointVersion,
     );
-
     const apiDirectory = path.dirname(config.root);
 
     const newEndpointName = config.name?.replaceAll(
         /v(\d+)$/g,
         `v${newVersion}`,
     );
-
     const tsPaths = readJson(tree, 'tsconfig.base.json').compilerOptions
         .paths as Record<string, string[]>;
-
     const entry = Object.entries(tsPaths).find(([importPath, paths]) => {
         return paths.some(p => p.startsWith(config.sourceRoot ?? config.root));
     });
@@ -195,7 +197,6 @@ export default async function bumpVersion(
         /v(\d+)$/g,
         `v${newVersion}`,
     );
-
     const newProjectConfig = await determineProjectNameAndRootOptions(tree, {
         name: newEndpointName as string,
         directory: `${apiDirectory}/v${newVersion}`,

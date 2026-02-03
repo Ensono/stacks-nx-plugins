@@ -23,6 +23,7 @@ jest.mock('@nx/react', () => ({
 
 describe('storybook generator', () => {
     let appTree: Tree;
+
     const options: StorybookGeneratorSchema = {
         project: 'next-app',
     };

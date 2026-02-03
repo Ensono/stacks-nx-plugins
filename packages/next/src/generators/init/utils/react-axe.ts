@@ -22,6 +22,7 @@ export function addReactAxeConfigToApp(
     project: ProjectConfiguration,
 ): GeneratorCallback {
     const morphTree = tsMorphTree(tree);
+
     try {
         const appDirectory = joinPathFragments(
             project.root,
@@ -56,11 +57,9 @@ export function addReactAxeConfigToApp(
                             ?.getFirstDescendantByKind(SyntaxKind.Identifier)
                             ?.getText() === 'body',
                 );
-
             const bodyExpression = bodyJsx.getFirstDescendantByKind(
                 SyntaxKind.JsxExpression,
             );
-
             const update = `<Axe />${bodyExpression.getText()}`;
 
             bodyExpression.replaceWithText(update);

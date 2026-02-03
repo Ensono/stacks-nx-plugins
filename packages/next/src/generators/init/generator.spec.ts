@@ -15,6 +15,7 @@ import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 function snapshotFiles(tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
+
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
             file,
@@ -87,6 +88,7 @@ describe('next install generator', () => {
 
             it('should install the react-axe package', async () => {
                 const packageJson = readJson(tree, 'package.json');
+
                 expect(packageJson?.devDependencies).toMatchObject({
                     '@axe-core/react': REACT_AXE_CORE_VERSION,
                 });
@@ -195,6 +197,7 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
+
             expect(tsconfig?.include).toContain('src/**/*.ts');
             expect(tsconfig?.include).toContain('src/**/*.tsx');
             expect(tsconfig?.include).toContain('src/**/*.js');
@@ -243,6 +246,7 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
+
             expect(tsconfig?.include).toContain('src/**/*.ts');
             expect(tsconfig?.include).toContain('src/**/*.tsx');
             expect(tsconfig?.include).toContain('src/**/*.js');

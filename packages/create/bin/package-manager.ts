@@ -10,8 +10,8 @@ export function detectPackageManager(directory = ''): PackageManager {
     return existsSync(path.join(directory, 'yarn.lock'))
         ? 'yarn'
         : existsSync(path.join(directory, 'pnpm-lock.yaml'))
-        ? 'pnpm'
-        : 'npm';
+          ? 'pnpm'
+          : 'npm';
 }
 
 export function getPackageManagerCommand(
@@ -46,6 +46,7 @@ export function getPackageManagerCommand(
         default: {
             process.env['npm_config_legacy_peer_deps'] =
                 process.env['npm_config_legacy_peer_deps'] ?? 'true';
+
             return {
                 name: 'npm',
                 addDependency: 'npm install -D',

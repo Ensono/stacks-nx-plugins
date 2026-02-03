@@ -69,6 +69,7 @@ describe('init generator', () => {
             });
 
             const rootConfig = readJson(tree, '.eslintrc.json');
+
             expect(rootConfig).toMatchObject(
                 expect.objectContaining({
                     plugins: [
@@ -174,6 +175,7 @@ describe('init generator', () => {
 
         it('should append to existing hooks', async () => {
             const preCommitHook = 'npx do-something';
+
             tree.write('.husky/pre-commit', preCommitHook);
 
             await generator(tree, {
@@ -239,6 +241,7 @@ describe('init generator', () => {
 
         it('should update file if it exists', async () => {
             const preCommitHook = 'v16.4.0';
+
             tree.write('.nvmrc', preCommitHook);
 
             await generator(tree, {

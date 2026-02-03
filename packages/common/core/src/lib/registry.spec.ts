@@ -16,6 +16,7 @@ describe('registry', () => {
     describe('getRegistryUrl', () => {
         it('should return with the registry url based on stacks config', () => {
             const result = getRegistryUrl(partialStacksConfig as any, 'test');
+
             expect(result).toEqual('amidostackstesteuwcore.azurecr.io');
         });
 
@@ -38,6 +39,7 @@ describe('registry', () => {
     describe('getResourceGroup', () => {
         it('should return the resource group name', () => {
             const result = getResourceGroup(partialStacksConfig as any, 'test');
+
             expect(result).toEqual('amido-stacks-test-euw-core');
         });
     });

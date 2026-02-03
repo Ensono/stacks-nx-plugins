@@ -28,6 +28,7 @@ export function createOrUpdateLocalEnv(
 
     if (tree.exists(localEnvPath)) {
         let localEnv = tree.read(localEnvPath)?.toString().trim() ?? '';
+
         env.forEach(([key, value]) => {
             if (!localEnv.includes(`${key}=`)) {
                 localEnv += `\n${key}=${value}`;

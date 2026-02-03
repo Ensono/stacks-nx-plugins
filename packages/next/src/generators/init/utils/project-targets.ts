@@ -50,7 +50,6 @@ export function updateProjectTargets(
     const isCustomServer =
         project.targets?.['build-custom-server'] &&
         project.targets?.['serve-custom-server'];
-
     const serveTarget: TargetConfiguration<Partial<NextServeBuilderOptions>> = {
         executor: '@nx/next:server',
         defaultConfiguration: 'development',

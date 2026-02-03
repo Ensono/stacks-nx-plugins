@@ -92,5 +92,6 @@ export function addEslint(tree: Tree, project: ProjectConfiguration) {
     );
 
     addRules(tree, project.root, { isCustomServer });
+
     return addEslintDependencies(tree);
 }

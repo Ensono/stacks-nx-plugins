@@ -32,7 +32,6 @@ export async function normalizeOptions<TSchema extends BaseSchema>(
             directory: options.directory,
             importPath: options.importPath,
         });
-
     const parsedTags = options.tags
         ? options.tags.split(',').map(s => s.trim())
         : [];
