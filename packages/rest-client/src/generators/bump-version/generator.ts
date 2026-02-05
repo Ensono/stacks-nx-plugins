@@ -19,7 +19,6 @@ function findTargetVersion(config: ProjectConfiguration): number {
     const version = Number.parseInt(versionDirectory.replace(/^v/i, ''), 10);
 
     if (Number.isNaN(version)) {
-        // eslint-disable-next-line unicorn/prefer-type-error
         throw new Error(
             'No version is present for the target project. Please ensure it was generated with @ensono-stacks/rest-client:client-endpoint',
         );
@@ -99,22 +98,18 @@ function updateVersionInCode(
             filePath,
             fileContent
                 .replaceAll(
-                    // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(currentEndpointNames.className, 'g'),
                     newEndpointNames.className,
                 )
                 .replaceAll(
-                    // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(currentEndpointNames.name, 'g'),
                     newEndpointNames.name,
                 )
                 .replaceAll(
-                    // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(`v${currentVersion}`, 'g'),
                     `v${newVersion}`,
                 )
                 .replaceAll(
-                    // eslint-disable-next-line security/detect-non-literal-regexp
                     new RegExp(`V${currentVersion}`, 'g'),
                     `V${newVersion}`,
                 ),

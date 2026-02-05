@@ -22,29 +22,29 @@ export const optionsTestV3 = async (config: AxiosRequestConfig) =>
 
 export const postTestV3 = async (
   data: TestV3Data,
-  config: AxiosRequestConfig
+  config: AxiosRequestConfig,
 ) =>
   httpClient.post<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
-    config
+    config,
   );
 
 export const putTestV3 = async (data: TestV3Data, config: AxiosRequestConfig) =>
   httpClient.put<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
-    config
+    config,
   );
 
 export const patchTestV3 = async (
   data: Partial<TestV3Data>,
-  config: AxiosRequestConfig
+  config: AxiosRequestConfig,
 ) =>
   httpClient.patch<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
-    config
+    config,
   );
 "
 `;

@@ -61,7 +61,7 @@ describe('logger generator', () => {
             joinPathFragments(`custom/${appName}`, 'tsconfig.json'),
             joinPathFragments(`custom/${appName}`, 'tsconfig.lib.json'),
             joinPathFragments(`custom/${appName}`, 'tsconfig.spec.json'),
-            joinPathFragments(`custom/${appName}`, '.eslintrc.json'),
+            joinPathFragments(`custom/${appName}`, 'eslint.config.mjs'),
             joinPathFragments(`custom/${appName}`, 'package.json'),
             joinPathFragments(`custom/${appName}`, 'jest.config.cts'),
             joinPathFragments(`custom/${appName}/src`, 'index.ts'),

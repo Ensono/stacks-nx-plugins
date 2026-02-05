@@ -48,7 +48,7 @@ describe('openapi-client generator', () => {
             joinPathFragments('test-client', 'tsconfig.json'),
             joinPathFragments('test-client', 'tsconfig.lib.json'),
             joinPathFragments('test-client', 'tsconfig.spec.json'),
-            joinPathFragments('test-client', '.eslintrc.json'),
+            joinPathFragments('test-client', 'eslint.config.mjs'),
             joinPathFragments('test-client', 'package.json'),
             joinPathFragments('test-client', 'jest.config.cts'),
             joinPathFragments('test-client/src', 'index.ts'),

@@ -41,7 +41,7 @@ const presetOptions: { name: Preset; message: string }[] = [
             'next.js           [a monorepo with a single Next.js application]',
     },
 ];
-// eslint-disable-next-line unicorn/prevent-abbreviations
+
 const e2eTestRunnerOptions: { name: E2eTestRunner; message: string }[] = [
     {
         name: E2eTestRunner.None,

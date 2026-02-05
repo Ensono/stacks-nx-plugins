@@ -17,7 +17,7 @@ import {
 } from '@nx/plugin/testing';
 import { Project } from 'ts-morph';
 
-import { addWebpackAlias } from '../utils/next-config';
+import { addTurbopackAlias } from '../utils/next-config';
 import path from 'path';
 
 describe('next e2e', () => {
@@ -25,14 +25,14 @@ describe('next e2e', () => {
     const project = uniq('nextjs');
 
     beforeAll(async () => {
-        await newProject(['@ensono-stacks/next'], ['@nx/next']);
+        await newProject(['@ensono-stacks/next'], ['@nx/next', '@nx/react']);
         await createNextApplication(project);
 
         // Add module resolutions to nextjs webpack config to allow for mocking of imports
-        addWebpackAlias(tmpProjPath(path.join('apps', project)), {
-            ioredis$: 'ioredis-mock',
+        addTurbopackAlias(tmpProjPath(path.join('apps', project)), {
+            ioredis: 'ioredis-mock',
         });
-    }, 300000);
+    }, 1000000);
 
     afterAll(async () => {
         cleanup();
@@ -43,10 +43,25 @@ describe('next e2e', () => {
             expect(() =>
                 checkFilesExist(
                     'tsconfig.base.json',
-                    '.eslintrc.json',
+                    'eslint.config.mjs',
                     path.join('apps', project, 'Dockerfile'),
+                    path.join('apps', project, 'eslint.config.mjs'),
                 ),
             ).not.toThrow();
+        });
+
+        it('generates flat eslint config files', () => {
+            const rootEslintConfig = readFile('eslint.config.mjs');
+            expect(rootEslintConfig).toContain('typescript-eslint');
+            expect(rootEslintConfig).toContain('eslint-plugin-security');
+
+            const projectEslintConfig = readFile(
+                path.join('apps', project, 'eslint.config.mjs'),
+            );
+            expect(projectEslintConfig).toContain('@next/eslint-plugin-next');
+            expect(projectEslintConfig).toContain(
+                'eslint-plugin-testing-library',
+            );
         });
 
         it('serves the application', async () => {
@@ -97,22 +112,31 @@ describe('next e2e', () => {
     describe('NextAuth generator', () => {
         let config: string;
         beforeAll(async () => {
-            config = readFile(`apps/${project}/tsconfig.json`);
+            config = readFile(path.join('apps', project, 'tsconfig.json'));
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:next-auth --name=no-provider --project=${project} --directory=libs/no-provider --provider=none --sessionStorage=cookie --guestSession=false --no-interactive`,
             );
         });
 
         afterAll(async () => {
-            updateFile(`apps/${project}/tsconfig.json`, config);
+            updateFile(path.join('apps', project, 'tsconfig.json'), config);
         });
 
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
-                    `apps/${project}/.env.local`,
-                    `libs/no-provider/src/index.ts`,
+                    path.join(
+                        'apps',
+                        project,
+                        'src',
+                        'app',
+                        'api',
+                        'auth',
+                        '[...nextauth]',
+                        'route.ts',
+                    ),
+                    path.join('apps', project, '.env.local'),
+                    path.join('libs', 'no-provider', 'src', 'index.ts'),
                 ),
             ).not.toThrow();
         });
@@ -126,25 +150,46 @@ describe('next e2e', () => {
     describe('MS Entra ID NextAuth generator', () => {
         let config: string;
         beforeAll(async () => {
-            config = readFile(`apps/${project}/tsconfig.json`);
+            config = readFile(path.join('apps', project, 'tsconfig.json'));
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:next-auth --name=ms-entra-id --project=${project} --directory=libs/ms-entra-id --provider=microsoft-entra-id --sessionStorage=cookie --guestSession=true --no-interactive`,
             );
         });
 
         afterAll(async () => {
-            updateFile(`apps/${project}/tsconfig.json`, config);
+            updateFile(path.join('apps', project, 'tsconfig.json'), config);
             await runNxCommandAsync('reset');
         });
 
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
-                    `apps/${project}/.env.local`,
-                    `libs/ms-entra-id/src/index.ts`,
-                    `libs/ms-entra-id/src/providers/microsoft-entra-id.ts`,
-                    `libs/ms-entra-id/src/providers/guest.ts`,
+                    path.join(
+                        'apps',
+                        project,
+                        'src',
+                        'app',
+                        'api',
+                        'auth',
+                        '[...nextauth]',
+                        'route.ts',
+                    ),
+                    path.join('apps', project, '.env.local'),
+                    path.join('libs', 'ms-entra-id', 'src', 'index.ts'),
+                    path.join(
+                        'libs',
+                        'ms-entra-id',
+                        'src',
+                        'providers',
+                        'microsoft-entra-id.ts',
+                    ),
+                    path.join(
+                        'libs',
+                        'ms-entra-id',
+                        'src',
+                        'providers',
+                        'guest.ts',
+                    ),
                 ),
             ).not.toThrow();
         });
@@ -159,25 +204,32 @@ describe('next e2e', () => {
         //We want the last set of provider tests to not cleanup so the following tests can still build with next-auth
         // let config: string;
         beforeAll(async () => {
-            // config = readFile(`apps/${project}/tsconfig.json`);
             await runNxCommandAsync(
                 `generate @ensono-stacks/next:next-auth --name=auth0 --project=${project} --directory=libs/auth0 --provider=auth0 --sessionStorage=redis --guestSession=true --no-interactive`,
             );
         });
 
         afterAll(async () => {
-            // updateFile(`apps/${project}/tsconfig.json`, config);
             await runNxCommandAsync('reset');
         });
 
         it('adds new files for NextAuth', () => {
             expect(() =>
                 checkFilesExist(
-                    `apps/${project}/src/app/api/auth/[...nextauth]/route.ts`,
-                    `apps/${project}/.env.local`,
-                    `libs/auth0/src/index.ts`,
-                    `libs/auth0/src/providers/auth0.ts`,
-                    `libs/auth0/src/providers/guest.ts`,
+                    path.join(
+                        'apps',
+                        project,
+                        'src',
+                        'app',
+                        'api',
+                        'auth',
+                        '[...nextauth]',
+                        'route.ts',
+                    ),
+                    path.join('apps', project, '.env.local'),
+                    path.join('libs', 'auth0', 'src', 'index.ts'),
+                    path.join('libs', 'auth0', 'src', 'providers', 'auth0.ts'),
+                    path.join('libs', 'auth0', 'src', 'providers', 'guest.ts'),
                 ),
             ).not.toThrow();
         });
@@ -221,21 +273,27 @@ describe('next e2e', () => {
         });
 
         it('should modify project.json with storybook command', async () => {
-            const projectJson = readJson(`apps/${project}/project.json`);
+            const projectJson = readJson(
+                path.join('apps', project, 'project.json'),
+            );
 
             expect(JSON.stringify(projectJson)).toContain('storybook');
         });
 
         it('should modify tsconfig.json with storybook command', async () => {
-            const tsconfigJson = readJson(`apps/${project}/tsconfig.json`);
+            const tsconfigJson = readJson(
+                path.join('apps', project, 'tsconfig.json'),
+            );
 
             expect(JSON.stringify(tsconfigJson)).toContain('stories');
         });
 
-        it('should modify .eslintrc.json with storybook command', async () => {
-            const eslintConfigJson = readJson(`apps/${project}/.eslintrc.json`);
+        it('should modify eslint.config.mjs with storybook command', async () => {
+            const eslintConfig = readFile(
+                path.join('apps', project, 'eslint.config.mjs'),
+            );
 
-            expect(JSON.stringify(eslintConfigJson)).toContain('storybook');
+            expect(eslintConfig).toContain('storybook');
         });
 
         describe('it generates a component using custom command', () => {
@@ -251,10 +309,38 @@ describe('next e2e', () => {
             it('adds new files for Storybook component', () => {
                 expect(() =>
                     checkFilesExist(
-                        `apps/${project}/src/components/testcomponent/testcomponent.module.css`,
-                        `apps/${project}/src/components/testcomponent/testcomponent.spec.tsx`,
-                        `apps/${project}/src/components/testcomponent/testcomponent.stories.tsx`,
-                        `apps/${project}/src/components/testcomponent/testcomponent.tsx`,
+                        path.join(
+                            'apps',
+                            project,
+                            'src',
+                            'components',
+                            'testcomponent',
+                            'testcomponent.module.css',
+                        ),
+                        path.join(
+                            'apps',
+                            project,
+                            'src',
+                            'components',
+                            'testcomponent',
+                            'testcomponent.spec.tsx',
+                        ),
+                        path.join(
+                            'apps',
+                            project,
+                            'src',
+                            'components',
+                            'testcomponent',
+                            'testcomponent.stories.tsx',
+                        ),
+                        path.join(
+                            'apps',
+                            project,
+                            'src',
+                            'components',
+                            'testcomponent',
+                            'testcomponent.tsx',
+                        ),
                     ),
                 ).not.toThrow();
             });

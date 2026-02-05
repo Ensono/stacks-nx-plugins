@@ -1,11 +1,12 @@
-/* eslint-disable no-restricted-syntax */
 import { existsSync } from 'fs';
+import { createRequire } from 'module';
 import type { ProjectGraph } from 'nx/src/config/project-graph';
 import path from 'path';
 import { ParsedCommandLine } from 'typescript';
 
 import type { WorkspaceLibrary } from './types';
 
+const require = createRequire(import.meta.url);
 const workspaceRoot = path.join(__dirname, '../../../../../');
 let tsConfig: ParsedCommandLine;
 let tsPathMappings: ParsedCommandLine['options']['paths'];
@@ -13,7 +14,6 @@ let tsModule: typeof import('typescript');
 
 function readTsConfig(tsConfigPath: string): ParsedCommandLine {
     if (!tsModule) {
-        // eslint-disable-next-line global-require
         tsModule = require('typescript');
     }
     const readResult = tsModule.readConfigFile(
@@ -92,7 +92,6 @@ function getLibraryImportPath(
 function collectDependencies(
     projectGraph: ProjectGraph,
     name: string,
-    // eslint-disable-next-line unicorn/no-object-as-default-parameter
     dependencies = {
         workspaceLibraries: new Map<string, WorkspaceLibrary>(),
         npmPackages: new Set<string>(),

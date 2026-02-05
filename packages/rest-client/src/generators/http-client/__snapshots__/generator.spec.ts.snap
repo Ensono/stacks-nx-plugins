@@ -13,28 +13,6 @@ exports[`http-client generator should generate the http-client with custom direc
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
 exports[`http-client generator should generate the http-client with custom directory: custom/README.md 1`] = `
 "# test-client
 
@@ -43,6 +21,13 @@ This library was generated with [Nx](https://nx.dev).
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`http-client generator should generate the http-client with custom directory: custom/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [...baseConfig];
 "
 `;
 
@@ -230,28 +215,6 @@ module.exports = { ...nxPreset };
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
 exports[`http-client generator should generate the http-client with custom import path: test-client/README.md 1`] = `
 "# test-client
 
@@ -260,6 +223,13 @@ This library was generated with [Nx](https://nx.dev).
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`http-client generator should generate the http-client with custom import path: test-client/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [...baseConfig];
 "
 `;
 
@@ -425,43 +395,6 @@ exports[`http-client generator should generate the http-client with no formattin
 module.exports = { ...nxPreset };"
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": [
-    "../.eslintrc.json"
-  ],
-  "ignorePatterns": [
-    "!**/*"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
-      "rules": {}
-    },
-    {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "rules": {}
-    },
-    {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
 exports[`http-client generator should generate the http-client with no formatting: test-client/README.md 1`] = `
 "# test-client
 
@@ -470,6 +403,15 @@ This library was generated with [Nx](https://nx.dev).
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`http-client generator should generate the http-client with no formatting: test-client/eslint.config.mjs 1`] = `
+"import baseConfig from "../eslint.config.mjs";
+
+export default [
+    ...baseConfig
+];
 "
 `;
 
@@ -647,28 +589,6 @@ module.exports = { ...nxPreset };
 "
 `;
 
-exports[`http-client generator should generate the http-client: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
 exports[`http-client generator should generate the http-client: test-client/README.md 1`] = `
 "# test-client
 
@@ -677,6 +597,13 @@ This library was generated with [Nx](https://nx.dev).
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`http-client generator should generate the http-client: test-client/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [...baseConfig];
 "
 `;
 

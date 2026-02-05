@@ -1,13 +1,13 @@
 import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { exec } from 'child_process';
 
-import { killPort } from './process-utils';
+import { killPort } from './process-utilities';
 
 export enum targetOptions {
     build,
     start,
     test,
-    // eslint-disable-next-line unicorn/prevent-abbreviations
+
     e2e,
     lint,
     'html-report',
@@ -21,7 +21,7 @@ export enum targetOptions {
  */
 export function stripConsoleColors(logs: string): string {
     return logs?.replace(
-        // eslint-disable-next-line no-control-regex, security/detect-unsafe-regex, prettier/prettier, unicorn/better-regex, unicorn/escape-case
+        // eslint-disable-next-line no-control-regex
         /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
         '',
     );
@@ -31,7 +31,6 @@ export async function runCommandUntil(
     command: string,
     criteria: (output: string) => boolean,
 ) {
-    // eslint-disable-next-line security/detect-child-process
     const p = exec(`npx nx ${command}`, {
         cwd: tmpProjPath(),
         encoding: 'utf8',
@@ -84,9 +83,8 @@ export async function runTarget(
     if (project.includes(':')) {
         const splitString = project.split(':');
 
-        // eslint-disable-next-line prefer-destructuring, no-param-reassign
         project = splitString[0];
-        // eslint-disable-next-line prefer-destructuring
+
         subProject = splitString[1];
         command = `${targetOptions[target]} ${project}:${subProject} ${additionalArguments}`;
     } else {
