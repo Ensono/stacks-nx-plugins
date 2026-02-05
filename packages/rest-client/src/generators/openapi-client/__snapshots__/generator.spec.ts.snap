@@ -33,42 +33,6 @@ exports[`openapi-client generator should generate orval config: test-client/orva
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.json"],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nx/dependency-checks": [
-          "error",
-          {
-            "ignoredFiles": [
-              "{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}"
-            ]
-          }
-        ]
-      }
-    }
-  ]
-}
-"
-`;
-
 exports[`openapi-client generator should run successfully: test-client/README.md 1`] = `
 "# test-client
 
@@ -81,6 +45,29 @@ Run \`nx build test-client\` to build the library.
 ## Running unit tests
 
 Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`openapi-client generator should run successfully: test-client/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [
+  ...baseConfig,
+  {
+    files: ['**/*.json'],
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        {
+          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
+        },
+      ],
+    },
+    languageOptions: {
+      parser: await import('jsonc-eslint-parser'),
+    },
+  },
+];
 "
 `;
 

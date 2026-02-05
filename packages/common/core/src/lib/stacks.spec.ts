@@ -20,7 +20,6 @@ describe('stacks', () => {
         });
 
         it('should throw an error if stacks key is missing', () => {
-            // eslint-disable-next-line unicorn/consistent-function-scoping
             const result = () => readStacksConfig(tree);
 
             expect(result).toThrow(StacksError);
@@ -53,7 +52,6 @@ describe('stacks', () => {
         });
 
         it('should throw an error if stacks key is missing', () => {
-            // eslint-disable-next-line unicorn/consistent-function-scoping
             const result = () => readStacksExecutedGenerators(tree);
 
             expect(result).toThrow(StacksError);

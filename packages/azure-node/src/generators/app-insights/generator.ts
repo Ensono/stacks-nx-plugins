@@ -22,7 +22,7 @@ import {
     configureAppInsights,
     startAppInsights,
 } from './templates/appInsights';
-import { appInsightsVersion } from '../../../utils/versions';
+import { appInsightsVersion } from '../../utils/versions';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

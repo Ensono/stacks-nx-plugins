@@ -90,6 +90,7 @@ export async function createNextApplication(
     await runNxCommandAsync(
         `generate @nx/next:application ${project} --directory=apps/${project} --linter=eslint --e2eTestRunner=none --unitTestRunner=none --style=none --appDir=true --src=true ${server} --no-interactive`,
     );
+    await runNxCommandAsync('reset');
     await runNxCommandAsync(
         `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
     );

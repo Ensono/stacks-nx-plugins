@@ -29,7 +29,8 @@ describe('init generator', () => {
                 expect.arrayContaining([
                     'eslint',
                     '@nx/eslint-plugin',
-                    'eslint-config-airbnb',
+                    '@eslint/js',
+                    'typescript-eslint',
                     'eslint-config-prettier',
                     'eslint-import-resolver-typescript',
                     'eslint-plugin-compat',
@@ -40,27 +41,13 @@ describe('init generator', () => {
                     'eslint-plugin-no-unsanitized',
                     'eslint-plugin-jest',
                     'eslint-plugin-jest-dom',
+                    'jsonc-eslint-parser',
+                    'globals',
                 ]),
             );
         });
 
-        it('should merge defaults with an existing eslintrc file', async () => {
-            const defaultConfig = {
-                plugins: ['@nx'],
-                overrides: [
-                    {
-                        files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                        extends: ['airbnb/base'],
-                        plugins: ['@nx/typescript'],
-                        rules: {
-                            'dot-notation': 'off',
-                        },
-                    },
-                ],
-            };
-
-            tree.write('.eslintrc.json', JSON.stringify(defaultConfig));
-
+        it('should create flat config file (eslint.config.mjs)', async () => {
             await generator(tree, {
                 ...options,
                 eslint: true,
@@ -68,31 +55,30 @@ describe('init generator', () => {
                 husky: false,
             });
 
-            const rootConfig = readJson(tree, '.eslintrc.json');
+            expect(tree.exists('eslint.config.mjs')).toBeTruthy();
 
-            expect(rootConfig).toMatchObject(
-                expect.objectContaining({
-                    plugins: [
-                        '@nx',
-                        '@typescript-eslint',
-                        'import',
-                        'security',
-                        'jsx-a11y',
-                        'jest',
-                    ],
-                    overrides: expect.arrayContaining([
-                        expect.objectContaining({
-                            files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            extends: ['airbnb/base'],
-                            plugins: ['@nx/typescript'],
-                            rules: expect.objectContaining({
-                                'dot-notation': 'off',
-                                'import/no-extraneous-dependencies': 'off',
-                            }),
-                        }),
-                    ]),
-                }),
+            const configContent = tree.read('eslint.config.mjs', 'utf-8');
+
+            // Verify key elements of the flat config
+            expect(configContent).toContain("import js from '@eslint/js'");
+            expect(configContent).toContain(
+                "import tseslint from 'typescript-eslint'",
             );
+            expect(configContent).toContain(
+                "import nxPlugin from '@nx/eslint-plugin'",
+            );
+            expect(configContent).toContain(
+                "import importPlugin from 'eslint-plugin-import'",
+            );
+            expect(configContent).toContain(
+                "import securityPlugin from 'eslint-plugin-security'",
+            );
+            expect(configContent).toContain(
+                "import unicornPlugin from 'eslint-plugin-unicorn'",
+            );
+            expect(configContent).toContain('stacks/global-ignores');
+            expect(configContent).toContain('stacks/nx-boundaries');
+            expect(configContent).toContain('@nx/enforce-module-boundaries');
         });
     });
 

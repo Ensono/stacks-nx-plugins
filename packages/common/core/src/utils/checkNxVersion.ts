@@ -17,7 +17,7 @@ export function checkNxVersion(nxVersion: string) {
         console.error(
             chalk.red`Failed to create nx workspace. Please use Nx version: ${NX_VERSION_SCOPE}`,
         );
-        // eslint-disable-next-line unicorn/no-process-exit
+
         process.exit(1);
     }
 

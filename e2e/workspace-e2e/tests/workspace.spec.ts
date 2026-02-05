@@ -1,7 +1,7 @@
 import {
     checkFilesExist,
     readJson,
-    runNxCommandAsync,
+    readFile,
 } from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
 
@@ -20,7 +20,7 @@ describe('workspace', () => {
         expect(() =>
             checkFilesExist(
                 'tsconfig.base.json',
-                '.eslintrc.json',
+                'eslint.config.mjs',
                 'lint-staged.config.js',
                 '.husky/commit-msg',
                 '.husky/pre-commit',
@@ -42,8 +42,13 @@ describe('workspace', () => {
         );
     });
 
-    it('updates the eslintrc.json', () => {
-        const eslintRc = readJson('.eslintrc.json');
-        expect(eslintRc).toMatchSnapshot();
+    it('generates flat eslint config', () => {
+        const eslintConfig = readFile('eslint.config.mjs');
+        expect(eslintConfig).toMatchSnapshot();
+        expect(eslintConfig).toContain('typescript-eslint');
+        expect(eslintConfig).toContain('eslint-plugin-security');
+        expect(eslintConfig).toContain('eslint-plugin-unicorn');
+        expect(eslintConfig).toContain('eslint-plugin-import');
+        expect(eslintConfig).toContain('eslint-plugin-prettier');
     });
 });

@@ -60,11 +60,15 @@ describe('storybook generator', () => {
         });
 
         it('eslint config with react query plugin', async () => {
-            const eslintConfig = readJson(appTree, 'next-app/.eslintrc.json');
+            expect(appTree.exists('next-app/eslint.config.mjs')).toBeTruthy();
 
-            expect(eslintConfig.extends).toContain(
-                'plugin:storybook/recommended',
+            const configContent = appTree.read(
+                'next-app/eslint.config.mjs',
+                'utf-8',
             );
+
+            expect(configContent).toContain('storybook/recommended');
+            expect(configContent).toContain('storybook/no-uninstalled-addons');
         });
 
         it('return false from method and exit generator if already executed', async () => {

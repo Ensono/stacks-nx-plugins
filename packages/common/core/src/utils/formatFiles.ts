@@ -74,22 +74,27 @@ export async function formatFiles(
         [...files].map(async file => {
             const systemPath = path.join(tree.root, file.path);
 
-            let options = {
+            let options: Prettier.Options = {
                 filepath: systemPath,
             };
+            // Use the file path as a starting point for config resolution
+            // If the file doesn't exist (virtual tree), start from cwd
+            const configSearchPath = tree.root.startsWith('/virtual')
+                ? process.cwd()
+                : systemPath;
             const resolvedOptions = await prettier?.resolveConfig(
-                process.cwd(),
+                configSearchPath,
                 {
                     editorconfig: true,
                 },
             );
-            if (!resolvedOptions) {
-                return;
+            // Merge resolved options if found, otherwise continue with defaults
+            if (resolvedOptions) {
+                options = {
+                    ...options,
+                    ...resolvedOptions,
+                };
             }
-            options = {
-                ...options,
-                ...resolvedOptions,
-            };
 
             const support = await prettier?.getFileInfo(
                 systemPath,

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/better-regex */
 import { Tree } from '@nx/devkit';
 import {
     Project,
@@ -14,7 +13,6 @@ class TreeFileSystem implements FileSystemHost {
         this.tree = tree;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     isCaseSensitive() {
         return true;
     }
@@ -68,7 +66,7 @@ class TreeFileSystem implements FileSystemHost {
     }
 
     /* istanbul ignore next */
-    // eslint-disable-next-line class-methods-use-this
+
     mkdirSync(directoryPath: string): void {
         // no-op
     }
@@ -123,18 +121,17 @@ class TreeFileSystem implements FileSystemHost {
     }
 
     /* istanbul ignore next */
-    // eslint-disable-next-line class-methods-use-this
+
     realpathSync(path: string): string {
         return path;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     getCurrentDirectory(): string {
         return '/';
     }
 
     /* istanbul ignore next */
-    // eslint-disable-next-line class-methods-use-this
+
     globSync(patterns: readonly string[]): string[] {
         throw new Error('Glob is not supported');
     }

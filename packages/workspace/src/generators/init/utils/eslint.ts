@@ -1,7 +1,8 @@
 import {
     getNpmScope,
-    mergeEslintConfigs,
-    updateEslintConfig,
+    writeFlatEslintConfig,
+    readFlatEslintConfig,
+    mergeFlatConfigs,
 } from '@ensono-stacks/core';
 import {
     Tree,
@@ -9,10 +10,8 @@ import {
     GeneratorCallback,
     NX_VERSION,
 } from '@nx/devkit';
-import { Linter } from 'eslint';
 
 import {
-    ESLINT_CONFIG_AIRBNB_VERSION,
     ESLINT_CONFIG_PRETTIER_VERSION,
     ESLINT_IMPORT_RESOLVER_TS_VERSION,
     ESLINT_PLUGIN_COMPAT_VERSION,
@@ -21,174 +20,285 @@ import {
     ESLINT_PLUGIN_PRETTIER_VERSION,
     ESLINT_PLUGIN_SECURITY_VERSION,
     ESLINT_PLUGIN_UNICORN_VERSION,
-    ESLINT_PLUGIN_VERSION,
     ESLINT_VERSION,
     ESLINT_PLUGIN_JEST,
     ESLINT_PLUGIN_JEST_DOM,
     ESLINT_PLUGIN_NO_UNSANITIZED,
     PRETTIER_VERSION,
+    TYPESCRIPT_ESLINT_VERSION,
+    GLOBALS_VERSION,
 } from './constants';
 
-function stacksEslintConfig(tree: Tree): Linter.Config {
-    return {
-        root: true,
-        ignorePatterns: ['**/*'],
-        plugins: [
-            '@typescript-eslint',
-            '@nx',
-            'import',
-            'security',
-            'jsx-a11y',
-            'jest',
-        ],
-        parser: '@typescript-eslint/parser',
-        extends: [
-            'airbnb/base',
-            'plugin:prettier/recommended',
-            'plugin:unicorn/recommended',
-            'plugin:compat/recommended',
-            'plugin:import/recommended',
-            'plugin:import/typescript',
-            'plugin:security/recommended-legacy',
-            'plugin:jsx-a11y/recommended',
-            'plugin:jest/recommended',
-            'plugin:jest-dom/recommended',
-            'plugin:no-unsanitized/recommended-legacy',
-        ],
-        settings: {
-            'import/resolver': {
-                typescript: {
-                    project: 'tsconfig.base.json',
-                },
-            },
+function generateFlatConfig(tree: Tree): string {
+    const npmScope = getNpmScope(tree);
+
+    return `import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import nxPlugin from '@nx/eslint-plugin';
+import importPlugin from 'eslint-plugin-import';
+import securityPlugin from 'eslint-plugin-security';
+import unicornPlugin from 'eslint-plugin-unicorn';
+import prettierConfig from 'eslint-plugin-prettier/recommended';
+import jestPlugin from 'eslint-plugin-jest';
+import jestDomPlugin from 'eslint-plugin-jest-dom';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import noUnsanitizedPlugin from 'eslint-plugin-no-unsanitized';
+import globals from 'globals';
+
+export default [
+  // Global ignores
+  {
+    name: 'stacks/global-ignores',
+    ignores: [
+      '**/dist/',
+      '**/node_modules/',
+      '**/.nx/',
+      '**/coverage/',
+      '**/.next/',
+      '**/tmp/',
+      '**/build/',
+    ],
+  },
+
+  // Base JS config
+  {
+    name: 'stacks/base-js',
+    ...js.configs.recommended,
+  },
+
+  // TypeScript config
+  ...tseslint.configs.recommended.map(config => ({
+    ...config,
+    name: \`stacks/typescript/\${config.name || 'base'}\`,
+  })),
+
+  // Nx module boundaries
+  {
+    name: 'stacks/nx-boundaries',
+    ignores: ['**/eslint.config.mjs'],
+    plugins: { '@nx': nxPlugin },
+    rules: {
+      '@nx/enforce-module-boundaries': [
+        'error',
+        {
+          enforceBuildableLibDependency: true,
+          allow: [],
+          depConstraints: [
+            { sourceTag: '*', onlyDependOnLibsWithTags: ['*'] },
+          ],
         },
-        overrides: [
+      ],
+    },
+  },
+
+  // Import plugin
+  {
+    name: 'stacks/import-rules',
+    plugins: { import: importPlugin },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: 'tsconfig.base.json',
+        },
+      },
+    },
+    rules: {
+      ...importPlugin.configs.recommended.rules,
+      'import/order': [
+        'error',
+        {
+          groups: [
+            ['builtin', 'external'],
+            ['internal'],
+            ['parent', 'sibling', 'index'],
+          ],
+          pathGroups: [
             {
-                files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                rules: {
-                    '@nx/enforce-module-boundaries': [
-                        'error',
-                        {
-                            enforceBuildableLibDependency: true,
-                            allow: [],
-                            depConstraints: [
-                                {
-                                    sourceTag: '*',
-                                    onlyDependOnLibsWithTags: ['*'],
-                                },
-                            ],
-                        },
-                    ],
-                    'import/order': [
-                        'error',
-                        {
-                            groups: [
-                                ['builtin', 'external'],
-                                ['internal'],
-                                ['parent', 'sibling', 'index'],
-                            ],
-                            pathGroups: [
-                                {
-                                    pattern: `@${getNpmScope(tree)}/**`,
-                                    group: 'internal',
-                                },
-                            ],
-                            alphabetize: {
-                                order: 'asc',
-                            },
-                            'newlines-between': 'always',
-                        },
-                    ],
-                    'import/no-extraneous-dependencies': 'off',
-                    'import/prefer-default-export': 'off',
-                    'import/extensions': [
-                        'error',
-                        'always',
-                        {
-                            ts: 'never',
-                            tsx: 'never',
-                            js: 'never',
-                            jsx: 'never',
-                        },
-                    ],
-                    'no-console': 'off',
-                    'no-duplicate-imports': 'error',
-                    'no-irregular-whitespace': 'error',
-                    'no-shadow': 'off',
-                    'no-use-before-define': 'off',
-                    'no-restricted-exports': 'off',
-                    'security/detect-object-injection': 'off',
-                    'unicorn/no-array-reduce': 'off',
-                    'unicorn/no-null': 'off',
-                    'unicorn/prefer-module': 'off',
-                    'unicorn/filename-case': 'off',
-                    'unicorn/no-array-for-each': 'off',
-                    'unicorn/no-for-loop': 'off',
-                    'unicorn/prevent-abbreviations': [
-                        'error',
-                        {
-                            allowList: {
-                                getServerSideProps: true,
-                                getStaticProps: true,
-                            },
-                            replacements: {
-                                env: {
-                                    environment: false,
-                                },
-                            },
-                        },
-                    ],
-                    'jest/expect-expect': [
-                        'error',
-                        {
-                            assertFunctionNames: [
-                                'expect',
-                                'cy.**.should',
-                                '**.contains',
-                            ],
-                        },
-                    ],
-                },
+              pattern: '@${npmScope}/**',
+              group: 'internal',
             },
-            {
-                files: ['*.ts', '*.tsx'],
-                extends: ['plugin:@nx/typescript'],
-                rules: {
-                    '@typescript-eslint/no-empty-function': 'off',
-                    '@typescript-eslint/no-explicit-any': 'off',
-                    '@typescript-eslint/ban-ts-comment': 'off',
-                    '@typescript-eslint/no-unsafe-call': 'off',
-                    '@typescript-eslint/no-unsafe-assignment': 'off',
-                    '@typescript-eslint/no-unsafe-member-access': 'off',
-                    '@typescript-eslint/explicit-function-return-type': 'off',
-                    '@typescript-eslint/interface-name-prefix': 'off',
-                    '@typescript-eslint/no-use-before-define': 'error',
-                    '@typescript-eslint/no-unused-vars': 'off',
-                    '@typescript-eslint/no-shadow': 'error',
-                    'unicorn/prefer-node-protocol': 'off',
-                },
-            },
-            {
-                files: '*.json',
-                parser: 'jsonc-eslint-parser',
-                rules: {
-                    'unicorn/prevent-abbreviations': 'off',
-                },
-            },
-            {
-                files: 'jest.config.ts',
-                rules: {
-                    'unicorn/no-abusive-eslint-disable': 'off',
-                },
-            },
-        ],
-    };
+          ],
+          alphabetize: { order: 'asc' },
+          'newlines-between': 'always',
+        },
+      ],
+      'import/no-extraneous-dependencies': 'off',
+      'import/prefer-default-export': 'off',
+      'import/extensions': [
+        'error',
+        'always',
+        {
+          ts: 'never',
+          tsx: 'never',
+          js: 'never',
+          jsx: 'never',
+        },
+      ],
+    },
+  },
+
+  // Security plugin
+  {
+    name: 'stacks/security-rules',
+    plugins: { security: securityPlugin },
+    rules: {
+      ...securityPlugin.configs.recommended.rules,
+      'security/detect-object-injection': 'off',
+    },
+  },
+
+  // Unicorn plugin
+  {
+    name: 'stacks/unicorn-rules',
+    plugins: { unicorn: unicornPlugin },
+    rules: {
+      ...unicornPlugin.configs['flat/recommended'].rules,
+      'unicorn/no-array-reduce': 'off',
+      'unicorn/no-null': 'off',
+      'unicorn/prefer-module': 'off',
+      'unicorn/filename-case': 'off',
+      'unicorn/no-array-for-each': 'off',
+      'unicorn/no-for-loop': 'off',
+      'unicorn/prefer-node-protocol': 'off',
+      'unicorn/prevent-abbreviations': [
+        'error',
+        {
+          allowList: {
+            getServerSideProps: true,
+            getStaticProps: true,
+          },
+          replacements: {
+            env: { environment: false },
+          },
+        },
+      ],
+    },
+  },
+
+  // JSX A11y plugin
+  {
+    name: 'stacks/jsx-a11y-rules',
+    plugins: { 'jsx-a11y': jsxA11yPlugin },
+    rules: {
+      ...jsxA11yPlugin.configs.recommended.rules,
+    },
+  },
+
+  // No Unsanitized plugin
+  {
+    name: 'stacks/no-unsanitized-rules',
+    plugins: { 'no-unsanitized': noUnsanitizedPlugin },
+    rules: {
+      ...noUnsanitizedPlugin.configs['recommended-legacy'].rules,
+    },
+  },
+
+  // Prettier integration (must be last in plugin configs)
+  prettierConfig,
+
+  // TypeScript-specific rules
+  {
+    name: 'stacks/typescript-rules',
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        projectService: true,
+      },
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/no-use-before-define': 'error',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+      'no-shadow': 'off',
+      'no-use-before-define': 'off',
+      'no-console': 'off',
+      'no-duplicate-imports': 'error',
+      'no-irregular-whitespace': 'error',
+      'no-restricted-exports': 'off',
+    },
+  },
+
+  // Test files
+  {
+    name: 'stacks/test-files',
+    files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.test.ts', '**/*.test.tsx'],
+    plugins: { 
+      jest: jestPlugin,
+      'jest-dom': jestDomPlugin,
+    },
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+    rules: {
+      ...jestPlugin.configs.recommended.rules,
+      ...jestDomPlugin.configs.recommended.rules,
+      'jest/expect-expect': [
+        'error',
+        {
+          assertFunctionNames: [
+            'expect',
+            'cy.**.should',
+            '**.contains',
+          ],
+        },
+      ],
+    },
+  },
+
+  // JSON files
+  {
+    name: 'stacks/json-files',
+    files: ['**/*.json'],
+    languageOptions: {
+      parser: await import('jsonc-eslint-parser'),
+    },
+    rules: {
+      'unicorn/prevent-abbreviations': 'off',
+    },
+  },
+
+  // Jest config files - disable abusive eslint-disable rule
+  {
+    name: 'stacks/jest-config',
+    files: ['**/jest.config.ts'],
+    rules: {
+      'unicorn/no-abusive-eslint-disable': 'off',
+    },
+  },
+];
+`;
 }
 
 function addRules(tree: Tree) {
-    updateEslintConfig(tree, '', baseConfig => {
-        return mergeEslintConfigs(baseConfig, stacksEslintConfig(tree));
-    });
+    const existingConfig = readFlatEslintConfig(tree, '');
+    const flatConfig = generateFlatConfig(tree);
+
+    if (!existingConfig) {
+        // No existing config, write new one
+        writeFlatEslintConfig(tree, '', flatConfig);
+
+        return;
+    }
+
+    // Merge with existing config
+    const mergedConfig = mergeFlatConfigs(existingConfig, flatConfig);
+
+    writeFlatEslintConfig(tree, '', mergedConfig);
 }
 
 function addEslintDependencies(tree: Tree) {
@@ -197,9 +307,9 @@ function addEslintDependencies(tree: Tree) {
         {},
         {
             '@nx/eslint-plugin': NX_VERSION,
-            '@typescript-eslint/eslint-plugin': ESLINT_PLUGIN_VERSION,
+            '@eslint/js': '^9.8.0',
+            'typescript-eslint': TYPESCRIPT_ESLINT_VERSION,
             eslint: ESLINT_VERSION,
-            'eslint-config-airbnb': ESLINT_CONFIG_AIRBNB_VERSION,
             'eslint-config-prettier': ESLINT_CONFIG_PRETTIER_VERSION,
             'eslint-import-resolver-typescript':
                 ESLINT_IMPORT_RESOLVER_TS_VERSION,
@@ -212,6 +322,8 @@ function addEslintDependencies(tree: Tree) {
             'eslint-plugin-jest': ESLINT_PLUGIN_JEST,
             'eslint-plugin-jest-dom': ESLINT_PLUGIN_JEST_DOM,
             'eslint-plugin-no-unsanitized': ESLINT_PLUGIN_NO_UNSANITIZED,
+            'jsonc-eslint-parser': '^2.4.0',
+            globals: GLOBALS_VERSION,
             prettier: PRETTIER_VERSION,
         },
     );
