@@ -1,15 +1,23 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "outDir": "../../dist/out-tsc",
-        "declaration": true,
+        "baseUrl": ".",
+        "rootDir": "src",
+        "outDir": "dist",
+        "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+        "emitDeclarationOnly": false,
         "types": ["node"]
     },
-    "include": ["**/*.ts", "../../tools/nx.d.ts"],
+    "include": ["src/**/*.ts", "../../tools/nx.d.ts", "package.json"],
     "exclude": [
-        "jest.config.ts",
+        "vitest.config.mts",
         "setup-test.ts",
         "**/*.spec.ts",
         "**/*.test.ts"
+    ],
+    "references": [
+        {
+            "path": "../common/core/tsconfig.lib.json"
+        }
     ]
 }

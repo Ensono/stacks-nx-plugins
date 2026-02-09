@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`app-insights generator executedGenerators should update server/main.ts 1`] = `
+exports[`app-insights generator > executedGenerators > should update server/main.ts 1`] = `
 "/*
  * This is only a minimal custom server to get started.
  * You may want to consider using Express or another server framework, and enable security features such as CORS.

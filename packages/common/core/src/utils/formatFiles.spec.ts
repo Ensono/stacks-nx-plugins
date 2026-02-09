@@ -19,8 +19,7 @@ describe('formatFiles', () => {
 
         const formattedFile = appTree.read('test/testFormat.js', 'utf8');
 
-        // Note: In test environments with virtual tree, prettier uses default config (double quotes)
-        // rather than the project's .prettierrc file
-        expect(formattedFile).toBe(`foo();\nconst test = "yoyo";\n`);
+        // Prettier formats the file with single quotes per project config
+        expect(formattedFile).toBe(`foo();\nconst test = 'yoyo';\n`);
     });
 });

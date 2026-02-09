@@ -1,1 +1,1 @@
-pnpm exec nx affected:lint --uncommitted
+pnpm exec nx affected:lint --uncommitted --fix

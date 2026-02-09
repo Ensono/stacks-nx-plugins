@@ -2,6 +2,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { readJson, Tree, updateJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import chalk from 'chalk';
+import { vi } from 'vitest';
 
 import {
     hasGeneratorExecutedForProject,
@@ -30,7 +31,7 @@ describe('hasGeneratorExecuted', () => {
         });
 
         it('should log warning if re-run', async () => {
-            const logSpy = jest.spyOn(console, 'log');
+            const logSpy = vi.spyOn(console, 'log');
 
             updateJson(appTree, 'nx.json', nxJson => ({
                 ...nxJson,
@@ -69,7 +70,7 @@ describe('hasGeneratorExecuted', () => {
         });
 
         it('should log warning if re-run', async () => {
-            const logSpy = jest.spyOn(console, 'log');
+            const logSpy = vi.spyOn(console, 'log');
 
             updateJson(appTree, 'nx.json', nxJson => ({
                 ...nxJson,

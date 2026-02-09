@@ -7,18 +7,19 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { storybookConfigurationGenerator } from '@nx/react';
 import { ProjectConfiguration } from 'nx/src/config/workspace-json-project-json';
+import { vi, type Mock } from 'vitest';
 
 import generator from './generator';
 import { StorybookGeneratorSchema } from './schema';
 
-jest.mock('@ensono-stacks/core', () => ({
-    ...jest.requireActual('@ensono-stacks/core'),
-    execAsync: jest.fn(),
-    getCommandVersion: jest.fn(() => '1.0.0'),
+vi.mock('@ensono-stacks/core', async () => ({
+    ...(await vi.importActual('@ensono-stacks/core')),
+    execAsync: vi.fn(),
+    getCommandVersion: vi.fn(() => '1.0.0'),
 }));
 
-jest.mock('@nx/react', () => ({
-    storybookConfigurationGenerator: jest.fn(),
+vi.mock('@nx/react', () => ({
+    storybookConfigurationGenerator: vi.fn(),
 }));
 
 describe('storybook generator', () => {
@@ -37,11 +38,11 @@ describe('storybook generator', () => {
         });
 
         addStacksAttributes(appTree, options.project);
-        (storybookConfigurationGenerator as jest.Mock).mockResolvedValue(true);
+        (storybookConfigurationGenerator as Mock).mockResolvedValue(true);
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     describe('executedGenerators', () => {

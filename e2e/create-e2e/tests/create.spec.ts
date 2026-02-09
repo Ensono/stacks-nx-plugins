@@ -1,5 +1,5 @@
-import { NX_VERSION } from '@nx/devkit';
 import { cleanup } from '@ensono-stacks/e2e';
+import { NX_VERSION } from '@nx/devkit';
 import { tmpProjPath, checkFilesExist, readJson } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';

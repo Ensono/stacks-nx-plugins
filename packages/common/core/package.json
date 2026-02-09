@@ -1,10 +1,29 @@
 {
     "name": "@ensono-stacks/core",
     "version": "0.0.0-e2e",
-    "type": "commonjs",
+    "main": "./dist/index.js",
+    "exports": {
+        "./package.json": "./package.json",
+        ".": {
+            "@ensono-stacks/source": "./src/index.ts",
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!**/*.tsbuildinfo",
+        "README.md"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
+    },
+    "devDependencies": {
+        "@ensono-stacks/test": "workspace:*",
+        "@types/kill-port": "2.0.3",
+        "@types/tcp-port-used": "1.0.4"
     },
     "dependencies": {
         "chalk": "^4.1.2",
@@ -13,7 +32,8 @@
         "minimatch": "9.0.3",
         "semver": "^7.6.0",
         "ts-morph": "23.0.0",
-        "tslib": "^2.8.1"
+        "tslib": "^2.8.1",
+        "vitest": "^4.0.18"
     },
     "peerDependencies": {
         "@nx/devkit": "22.x",

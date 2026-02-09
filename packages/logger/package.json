@@ -1,9 +1,24 @@
 {
     "name": "@ensono-stacks/logger",
     "version": "0.0.0-e2e",
-    "main": "src/index.js",
+    "main": "./dist/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
+    "exports": {
+        "./package.json": "./package.json",
+        ".": {
+            "@ensono-stacks/source": "./src/index.ts",
+            "types": "./index.d.ts",
+            "import": "./index.js",
+            "default": "./index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!**/*.tsbuildinfo",
+        "generators.json",
+        "README.md"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
@@ -14,7 +29,10 @@
         "@nx/js": "22.x",
         "eslint": "^9.8.0"
     },
+    "devDependencies": {
+        "@ensono-stacks/test": "workspace:*"
+    },
     "dependencies": {
-        "@ensono-stacks/core": "0.0.0-e2e"
+        "@ensono-stacks/core": "workspace:*"
     }
 }

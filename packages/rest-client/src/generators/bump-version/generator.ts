@@ -1,7 +1,6 @@
 import { copyFiles, verifyPluginCanBeInstalled } from '@ensono-stacks/core';
 import {
     formatFiles,
-    getProjects,
     names,
     ProjectConfiguration,
     readJson,

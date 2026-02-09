@@ -41,7 +41,6 @@ async function normalizeOptions(tree: Tree, options: NextAuthGeneratorSchema) {
         projectRoot,
         importPath,
     } = await determineProjectNameAndRootOptions(tree, {
-        name: options.name,
         projectType: 'library',
         ...options,
     });
@@ -128,15 +127,16 @@ export default async function nextAuthGenerator(
             'src',
             'config.ts',
         );
-        const config = tree
-            .read(configPath)
-            .toString('utf8')
-            .replace(/\n+$/, '');
+        const configText = tree.read(configPath);
 
-        tree.write(
-            configPath,
-            `${config}\nexport const GUEST_SESSION_COOKIE_NAME = 'auth.js.guest';\n`,
-        );
+        if (configText) {
+            const config = configText.toString('utf8').replace(/\n+$/, '');
+
+            tree.write(
+                configPath,
+                `${config}\nexport const GUEST_SESSION_COOKIE_NAME = 'auth.js.guest';\n`,
+            );
+        }
 
         if (
             !tree.exists(
@@ -207,7 +207,7 @@ export default async function nextAuthGenerator(
 
     tasks.push(
         formatFilesWithEslint(normalizedOptions.projectNames.projectFileName),
-        formatFilesWithEslint(project.name),
+        formatFilesWithEslint(options.project),
         addToLocalEnv(project, tree, options),
     );
 

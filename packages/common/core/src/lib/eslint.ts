@@ -377,37 +377,6 @@ function areConfigsDuplicate(config1: string, config2: string): boolean {
 }
 
 /**
- * Get config identifier from object literal (name, files pattern, or plugins)
- * @param objectLiteral - Object literal expression from ts-morph
- * @returns Identifier string or undefined
- */
-function getConfigIdentifier(objectLiteral: string): string | undefined {
-    // Try to extract name property (highest priority)
-    const nameMatch = /name:\s*['"]([^'"]+)['"]/.exec(objectLiteral);
-
-    if (nameMatch) {
-        return `name:${nameMatch[1]}`;
-    }
-
-    // Try to extract files property
-    const filesMatch = /files:\s*\[([^\]]+)\]/.exec(objectLiteral);
-
-    if (filesMatch) {
-        return `files:${filesMatch[1]}`;
-    }
-
-    // Try to extract plugins property
-    const pluginKeys = getPluginKeys(objectLiteral);
-
-    if (pluginKeys) {
-        // Sort keys for consistent comparison
-        return `plugins:${pluginKeys.sort().join(',')}`;
-    }
-
-    return undefined;
-}
-
-/**
  * Merge ESLint flat config with proper import handling using ts-morph exclusively
  * @param tree - Nx virtual file system
  * @param projectRoot - Root path of the project

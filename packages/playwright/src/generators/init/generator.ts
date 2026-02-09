@@ -17,7 +17,7 @@ import {
     readProjectConfiguration,
 } from '@nx/devkit';
 import { configurationGenerator } from '@nx/playwright';
-import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema.d';
+import { ConfigurationGeneratorSchema } from '@nx/playwright/generators/configuration/schema';
 import { execSync } from 'child_process';
 import path from 'path';
 
@@ -42,7 +42,7 @@ function normalizeOptions(
     };
 }
 
-function updateDependencies(tree) {
+function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
         tree,
         {},

@@ -6,14 +6,26 @@
     "tags": ["plugin"],
     "targets": {
         "build": {
-            "buildableProjectDepsInPackageJsonType": "dependencies",
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/common/test",
+                "outputPath": "packages/common/test/dist",
                 "main": "packages/common/test/src/index.ts",
                 "tsConfig": "packages/common/test/tsconfig.lib.json",
-                "assets": ["packages/common/test/*.md"]
+                "rootDir": "packages/common/test/src",
+                "generatePackageJson": false,
+                "assets": [
+                    {
+                        "input": "./packages/common/core/src",
+                        "glob": "**/!(*.ts)",
+                        "output": "."
+                    },
+                    {
+                        "input": "./packages/common/core/src",
+                        "glob": "**/*.d.ts",
+                        "output": "."
+                    }
+                ]
             }
         },
         "lint": {
@@ -31,34 +43,6 @@
                 "release": {
                     "fix": true
                 }
-            }
-        },
-        "test": {
-            "executor": "@nx/jest:jest",
-            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-                "jestConfig": "packages/common/test/jest.config.ts"
-            }
-        },
-        "dependency": {
-            "executor": "nx:run-commands",
-            "options": {
-                "commands": [
-                    "nx run common-test:lint:release",
-                    "git add packages/common/test/package.json",
-                    "git commit --no-verify --amend --no-edit",
-                    "git push --no-verify --atomic origin main {tag}"
-                ],
-                "parallel": false,
-                "forwardAllArgs": false
-            }
-        },
-        "nx-release-publish": {},
-        "github": {
-            "executor": "@jscutlery/semver:github",
-            "options": {
-                "tag": "${tag}",
-                "notes": "${notes}"
             }
         }
     }

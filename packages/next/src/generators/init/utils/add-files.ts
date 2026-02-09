@@ -11,18 +11,22 @@ import { getPort } from './project-targets';
 export function addFiles(tree: Tree, project: ProjectConfiguration) {
     const customServer = project.targets?.['build-custom-server'];
     const nxJson = readNxJson(tree);
+    let hasPlugin = false;
 
-    const hasPlugin = nxJson.plugins?.some(p =>
-        typeof p === 'string'
-            ? p === '@nx/next/plugin'
-            : p.plugin === '@nx/next/plugin',
-    );
+    if (nxJson && nxJson.plugins) {
+        hasPlugin = !!nxJson.plugins.some(p =>
+            typeof p === 'string'
+                ? p === '@nx/next/plugin'
+                : p.plugin === '@nx/next/plugin',
+        );
+    }
+
     const distributionFolderPath = hasPlugin
         ? `dist/${project.root}`
         : project.targets?.build?.options?.outputPath;
     const sourceRoot = project?.sourceRoot;
     const port = getPort(project);
-    let customServerRelativePath: string;
+    let customServerRelativePath = '';
 
     if (customServer?.options?.main) {
         customServerRelativePath = customServer?.options?.main

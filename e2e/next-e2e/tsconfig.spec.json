@@ -1,13 +1,19 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "outDir": "../../dist/out-tsc",
-        "module": "commonjs",
-        "types": ["jest", "node"]
+        "outDir": "./out-tsc/vitest",
+        "types": [
+            "vitest/globals",
+            "vitest/importMeta",
+            "vite/client",
+            "node",
+            "vitest"
+        ]
     },
     "include": [
-        "jest.config.ts",
-        "jest-setup.ts",
+        "utils/**/*",
+        "vitest.config.mts",
+        "setup-test.ts",
         "**/*.test.ts",
         "**/*.spec.ts",
         "**/*.d.ts",

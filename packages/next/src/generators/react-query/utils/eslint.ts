@@ -1,4 +1,4 @@
-import { mergeEslintConfig, writeFlatEslintConfig } from '@ensono-stacks/core';
+import { mergeEslintConfig } from '@ensono-stacks/core';
 import { GeneratorCallback, Tree } from '@nx/devkit';
 
 function generateReactQueryConfig(): string {

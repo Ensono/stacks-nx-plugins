@@ -14,7 +14,7 @@ export function installDependencies(
     options: ReactQueryGeneratorSchema,
 ): GeneratorCallback {
     if (options.skipPackageJson) {
-        return () => null;
+        return () => void 0;
     }
 
     return addDependenciesToPackageJson(

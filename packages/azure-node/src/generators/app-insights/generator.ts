@@ -58,7 +58,7 @@ export default async function appInsightsGenerator(
         );
     }
 
-    const customServerPath = path.join(project.sourceRoot, server);
+    const customServerPath = path.join(project.root, server);
 
     // Check if custom server exist
     if (!tree.exists(customServerPath)) {
@@ -91,20 +91,22 @@ export default async function appInsightsGenerator(
 
     const mainFunction = customServer.getFunction('main');
 
-    // Add appInisghts statements
-    mainFunction.insertStatements(
-        0,
-        initAppInsights(applicationinsightsConnectionString),
-    );
-    mainFunction.insertStatements(1, configureAppInsights(project.name));
-    mainFunction.insertStatements(2, startAppInsights());
+    if (mainFunction) {
+        // Add appInisghts statements
+        mainFunction.insertStatements(
+            0,
+            initAppInsights(applicationinsightsConnectionString),
+        );
+        mainFunction.insertStatements(1, configureAppInsights(options.project));
+        mainFunction.insertStatements(2, startAppInsights());
 
-    // Add empty lines after appInisghts statements
-    mainFunction.getStatements().forEach(statement => {
-        if (statement.getText().includes('appInsights')) {
-            statement.appendWhitespace(writer => writer.newLine());
-        }
-    });
+        // Add empty lines after appInisghts statements
+        mainFunction.getStatements().forEach(statement => {
+            if (statement.getText().includes('appInsights')) {
+                statement.appendWhitespace(writer => writer.newLine());
+            }
+        });
+    }
 
     // Save changes
     customServer.saveSync();

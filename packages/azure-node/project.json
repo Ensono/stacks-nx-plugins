@@ -9,29 +9,20 @@
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/azure-node",
+                "outputPath": "packages/azure-node/dist",
                 "main": "packages/azure-node/src/index.ts",
                 "tsConfig": "packages/azure-node/tsconfig.lib.json",
+                "rootDir": "packages/azure-node/src",
+                "generatePackageJson": false,
                 "assets": [
-                    "packages/azure-node/*.md",
                     {
                         "input": "./packages/azure-node/src",
                         "glob": "**/!(*.ts)",
-                        "output": "./src"
+                        "output": "."
                     },
                     {
                         "input": "./packages/azure-node/src",
                         "glob": "**/*.d.ts",
-                        "output": "./src"
-                    },
-                    {
-                        "input": "./packages/azure-node",
-                        "glob": "generators.json",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/azure-node",
-                        "glob": "executors.json",
                         "output": "."
                     }
                 ]
@@ -52,13 +43,6 @@
                 "release": {
                     "fix": true
                 }
-            }
-        },
-        "test": {
-            "executor": "@nx/jest:jest",
-            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-                "jestConfig": "packages/azure-node/jest.config.ts"
             }
         }
     }

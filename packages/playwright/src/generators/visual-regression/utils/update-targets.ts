@@ -6,7 +6,7 @@ import {
     updateJson,
 } from '@nx/devkit';
 
-function updateNxJson(tree) {
+function updateNxJson(tree: Tree) {
     updateJson(tree, 'nx.json', nxJson => {
         const updatedNxJson = { ...nxJson };
 

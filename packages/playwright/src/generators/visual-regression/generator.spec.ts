@@ -3,6 +3,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
+import { vi } from 'vitest';
 
 import generator from './generator';
 import { VisualRegressionGeneratorSchema } from './schema';
@@ -12,12 +13,12 @@ import initGenerator from '../init/generator';
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nx/devkit', () => {
-    const actual = jest.requireActual('@nx/devkit');
+vi.mock('@nx/devkit', async () => {
+    const actual = await vi.importActual('@nx/devkit');
 
     return {
         ...actual,
-        getProjects: jest.fn(
+        getProjects: vi.fn(
             () =>
                 new Map([
                     [
@@ -72,7 +73,7 @@ describe('playwright generator', () => {
         );
     });
 
-    xit('should run successfully with native regression', async () => {
+    it.skip('should run successfully with native regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'native',
@@ -118,7 +119,7 @@ describe('playwright generator', () => {
         );
     }, 100_000);
 
-    xit('should run successfully with applitools regression', async () => {
+    it.skip('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'applitools',
@@ -161,7 +162,7 @@ describe('playwright generator', () => {
         });
     }, 100_000);
 
-    xdescribe('executedGenerators', () => {
+    describe.skip('executedGenerators', () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'applitools',

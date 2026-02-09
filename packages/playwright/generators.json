@@ -4,18 +4,18 @@
     "version": "0.0.1",
     "generators": {
         "init": {
-            "factory": "./src/generators/init/generator",
-            "schema": "./src/generators/init/schema.json",
+            "factory": "./dist/generators/init/generator",
+            "schema": "./dist/generators/init/schema.json",
             "description": "init generator"
         },
         "accessibility": {
-            "factory": "./src/generators/accessibility/generator",
-            "schema": "./src/generators/accessibility/schema.json",
+            "factory": "./dist/generators/accessibility/generator",
+            "schema": "./dist/generators/accessibility/schema.json",
             "description": "accessibility generator"
         },
         "visual-regression": {
-            "factory": "./src/generators/visual-regression/generator",
-            "schema": "./src/generators/visual-regression/schema.json",
+            "factory": "./dist/generators/visual-regression/generator",
+            "schema": "./dist/generators/visual-regression/schema.json",
             "description": "visual regression generator"
         }
     }

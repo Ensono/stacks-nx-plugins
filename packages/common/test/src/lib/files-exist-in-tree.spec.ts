@@ -23,9 +23,9 @@ describe('files exist', () => {
         expect(() =>
             checkFilesExistInTree(tree, 'file1', 'file2', 'file3', 'file4'),
         ).toThrowErrorMatchingInlineSnapshot(`
-            "The following files are not present within the tree:
-            file2
-            file4"
+          [Error: The following files are not present within the tree:
+          file2
+          file4]
         `);
     });
 });

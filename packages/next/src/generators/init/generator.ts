@@ -27,7 +27,7 @@ export default async function initGenerator(
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);
 
-    updateProjectTargets(tree, project);
+    updateProjectTargets(tree, project, options);
 
     tasks.push(addEslint(tree, project));
 
@@ -54,7 +54,7 @@ export default async function initGenerator(
     tasks.push(
         addReactAxeConfigToApp(tree, project),
         updateDependencies(tree, project),
-        formatFilesWithEslint(project.name),
+        formatFilesWithEslint(options.project),
     );
 
     return runTasksInSerial(...tasks);

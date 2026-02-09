@@ -2,6 +2,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator as nextGenerator } from '@nx/next/src/generators/application/application';
+import { vi } from 'vitest';
 
 import generator from './generator';
 import { AppInsightsGeneratorSchema } from './schema';
@@ -27,9 +28,7 @@ describe('app-insights generator', () => {
         addStacksAttributes(appTree, options.project);
     });
 
-    // FIXME: Skipped due to Prettier 3.x dynamic import incompatibility with Jest
-    // See: https://github.com/prettier/prettier/issues/14067
-    it.skip('should run successfully', async () => {
+    it('should run successfully', async () => {
         await nextGenerator(appTree, {
             name: 'test',
             customServer: true,
@@ -37,15 +36,15 @@ describe('app-insights generator', () => {
             directory: 'test',
         });
 
-        const initAppInsightsSpy = jest.spyOn(
+        const initAppInsightsSpy = vi.spyOn(
             appInisghtsTemplate,
             'initAppInsights',
         );
-        const configureAppInsightsSpy = jest.spyOn(
+        const configureAppInsightsSpy = vi.spyOn(
             appInisghtsTemplate,
             'configureAppInsights',
         );
-        const startAppInsightsSpy = jest.spyOn(
+        const startAppInsightsSpy = vi.spyOn(
             appInisghtsTemplate,
             'startAppInsights',
         );
@@ -102,9 +101,7 @@ describe('app-insights generator', () => {
         );
     });
 
-    // FIXME: Skipped due to Prettier 3.x dynamic import incompatibility with Jest
-    // See: https://github.com/prettier/prettier/issues/14067
-    it.skip('should install applicationinsights as dependency', async () => {
+    it('should install applicationinsights as dependency', async () => {
         await nextGenerator(appTree, {
             name: 'test',
             customServer: true,
@@ -132,9 +129,7 @@ describe('app-insights generator', () => {
             await generator(appTree, options);
         });
 
-        // FIXME: Skipped due to Prettier 3.x dynamic import incompatibility with Jest
-        // See: https://github.com/prettier/prettier/issues/14067
-        it.skip('should update nx.json and tag executed generator true', async () => {
+        it('should update nx.json and tag executed generator true', async () => {
             const nxJson = readJson(appTree, 'nx.json');
 
             expect(
@@ -144,18 +139,14 @@ describe('app-insights generator', () => {
             ).toBe(true);
         });
 
-        // FIXME: Skipped due to Prettier 3.x dynamic import incompatibility with Jest
-        // See: https://github.com/prettier/prettier/issues/14067
-        it.skip('should update server/main.ts', async () => {
+        it('should update server/main.ts', async () => {
             await generator(appTree, options);
             const mainTs = appTree.read('test/server/main.ts');
 
-            expect(mainTs.toString()).toMatchSnapshot();
+            expect(mainTs?.toString()).toMatchSnapshot();
         });
 
-        // FIXME: Skipped due to Prettier 3.x dynamic import incompatibility with Jest
-        // See: https://github.com/prettier/prettier/issues/14067
-        it.skip('should return false from method and exit generator if already executed', async () => {
+        it('should return false from method and exit generator if already executed', async () => {
             const gen = await generator(appTree, {
                 ...options,
             });

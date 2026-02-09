@@ -24,7 +24,7 @@ import {
     MSW_VERSION,
     ORVAL_VERSION,
     ZOD_VERSION,
-} from '../../../utils/versions';
+} from '../../utils/versions';
 
 async function normalizeOptions(
     tree: Tree,

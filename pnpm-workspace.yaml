@@ -1,0 +1,5 @@
+packages:
+  - packages/*
+  - packages/common/*
+  - e2e/*
+autoInstallPeers: true
