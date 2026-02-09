@@ -12,7 +12,6 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
-import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { Linter } from '@nx/eslint';
 import { libraryGenerator } from '@nx/react';
 import path from 'path';
@@ -22,7 +21,7 @@ import updateTsConfig from './utils/tsconfig';
 import {
     appInsightsReactVersion,
     appInsightsWebVersion,
-} from '../../../utils/versions';
+} from '../../utils/versions';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(

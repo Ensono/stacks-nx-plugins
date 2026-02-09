@@ -1,13 +1,7 @@
-import {
-    checkFilesExist,
-    readJson,
-    readFile,
-} from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { checkFilesExist, readJson, readFile } from '@nx/plugin/testing';
 
 describe('workspace', () => {
-    jest.setTimeout(1_000_000);
-
     beforeAll(async () => {
         await newProject();
     });
@@ -31,6 +25,7 @@ describe('workspace', () => {
 
     it('updates the packages.json', () => {
         const packageJson = readJson('package.json');
+
         expect(packageJson).toMatchObject(
             expect.objectContaining({
                 config: {
@@ -44,6 +39,7 @@ describe('workspace', () => {
 
     it('generates flat eslint config', () => {
         const eslintConfig = readFile('eslint.config.mjs');
+
         expect(eslintConfig).toMatchSnapshot();
         expect(eslintConfig).toContain('typescript-eslint');
         expect(eslintConfig).toContain('eslint-plugin-security');

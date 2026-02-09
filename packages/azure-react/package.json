@@ -1,15 +1,33 @@
 {
     "name": "@ensono-stacks/azure-react",
     "version": "0.0.0-e2e",
-    "main": "src/index.js",
+    "main": "./dist/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
+    "exports": {
+        "./package.json": "./package.json",
+        ".": {
+            "@ensono-stacks/source": "./src/index.ts",
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!**/*.tsbuildinfo",
+        "generators.json",
+        "README.md"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
+    "devDependencies": {
+        "@ensono-stacks/test": "workspace:*"
+    },
     "dependencies": {
-        "@ensono-stacks/core": "0.0.0-e2e"
+        "@ensono-stacks/core": "workspace:*"
     },
     "peerDependencies": {
         "@nx/eslint": "22.x",

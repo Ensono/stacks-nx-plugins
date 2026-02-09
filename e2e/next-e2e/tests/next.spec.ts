@@ -15,10 +15,10 @@ import {
     uniq,
     updateFile,
 } from '@nx/plugin/testing';
+import path from 'path';
 import { Project } from 'ts-morph';
 
 import { addTurbopackAlias } from '../utils/next-config';
-import path from 'path';
 
 describe('next e2e', () => {
     process.env.HUSKY = '0';
@@ -52,12 +52,14 @@ describe('next e2e', () => {
 
         it('generates flat eslint config files', () => {
             const rootEslintConfig = readFile('eslint.config.mjs');
+
             expect(rootEslintConfig).toContain('typescript-eslint');
             expect(rootEslintConfig).toContain('eslint-plugin-security');
 
             const projectEslintConfig = readFile(
                 path.join('apps', project, 'eslint.config.mjs'),
             );
+
             expect(projectEslintConfig).toContain('@next/eslint-plugin-next');
             expect(projectEslintConfig).toContain(
                 'eslint-plugin-testing-library',
@@ -111,6 +113,7 @@ describe('next e2e', () => {
 
     describe('NextAuth generator', () => {
         let config: string;
+
         beforeAll(async () => {
             config = readFile(path.join('apps', project, 'tsconfig.json'));
             await runNxCommandAsync(
@@ -149,6 +152,7 @@ describe('next e2e', () => {
 
     describe('MS Entra ID NextAuth generator', () => {
         let config: string;
+
         beforeAll(async () => {
             config = readFile(path.join('apps', project, 'tsconfig.json'));
             await runNxCommandAsync(

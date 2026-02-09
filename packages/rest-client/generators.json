@@ -4,23 +4,23 @@
     "version": "0.0.1",
     "generators": {
         "http-client": {
-            "factory": "./src/generators/http-client/generator",
-            "schema": "./src/generators/http-client/schema.json",
+            "factory": "./dist/generators/http-client/generator",
+            "schema": "./dist/generators/http-client/schema.json",
             "description": "http-client generator"
         },
         "client-endpoint": {
-            "factory": "./src/generators/client-endpoint/generator",
-            "schema": "./src/generators/client-endpoint/schema.json",
+            "factory": "./dist/generators/client-endpoint/generator",
+            "schema": "./dist/generators/client-endpoint/schema.json",
             "description": "client-endpoint generator"
         },
         "bump-version": {
-            "factory": "./src/generators/bump-version/generator",
-            "schema": "./src/generators/bump-version/schema.json",
+            "factory": "./dist/generators/bump-version/generator",
+            "schema": "./dist/generators/bump-version/schema.json",
             "description": "bump-version generator"
         },
         "openapi-client": {
-            "factory": "./src/generators/openapi-client/generator",
-            "schema": "./src/generators/openapi-client/schema.json",
+            "factory": "./dist/generators/openapi-client/generator",
+            "schema": "./dist/generators/openapi-client/schema.json",
             "description": "Generates rest client based on an openapi contract"
         }
     }

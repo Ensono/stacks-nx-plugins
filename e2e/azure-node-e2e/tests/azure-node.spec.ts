@@ -40,7 +40,7 @@ describe('azure-node e2e', () => {
             expect(fileContent).toMatch(
                 /setup\(process\.env\.TEST_CONNECTION_STRING_ENV\)/g,
             );
-            expect(fileContent).toMatch(/cloudRole(.|\n)*\'nextjs\d*\'/g);
+            expect(fileContent).toMatch(/cloudRole(.|\n)*'nextjs\d*'/g);
             expect(fileContent).toMatch(/appInsights\.start/g);
         });
     });

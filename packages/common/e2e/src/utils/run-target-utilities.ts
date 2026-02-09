@@ -93,15 +93,16 @@ export async function runTarget(
     let silenceError = true;
 
     switch (target) {
-        case targetOptions.build: {
-            silenceError = false;
-        }
-        // eslint-disable-next-line no-fallthrough
+        case targetOptions.build:
         case targetOptions.test:
         case targetOptions.e2e:
         case targetOptions['html-report']:
         case targetOptions.lint:
         case targetOptions.storybook: {
+            if (targetOptions.build === target) {
+                silenceError = false;
+            }
+
             const { stdout, stderr } = await runNxCommandAsync(
                 `${command} --skip-nx-cache`,
                 {

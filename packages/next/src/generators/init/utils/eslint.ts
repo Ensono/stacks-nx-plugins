@@ -1,4 +1,4 @@
-import { mergeEslintConfig, writeFlatEslintConfig } from '@ensono-stacks/core';
+import { mergeEslintConfig } from '@ensono-stacks/core';
 import {
     ProjectConfiguration,
     Tree,
@@ -91,15 +91,6 @@ function addRules(
     projectRootPath: string,
     options: { isCustomServer: boolean },
 ) {
-    // Delete legacy .eslintrc.json if it exists (created by @nx/next)
-    const legacyConfigPath = `${projectRootPath}/.eslintrc.json`;
-
-    if (tree.exists(legacyConfigPath)) {
-        tree.delete(legacyConfigPath);
-    }
-
-    const configPath = `${projectRootPath}/eslint.config.mjs`;
-    // Always use the full config with imports since mergeEslintConfig handles merging
     const nextConfig = generateNextConfig(options);
 
     mergeEslintConfig(tree, projectRootPath, nextConfig);

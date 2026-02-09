@@ -2,8 +2,28 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { readFile } from '@nx/plugin/testing';
+import { vi } from 'vitest';
 
 import generator from './generator';
+
+// Mock getPackageManagerCommand to return pnpm commands
+vi.mock('@nx/devkit', async importOriginal => {
+    const actual = await importOriginal<typeof import('@nx/devkit')>();
+
+    return {
+        ...actual,
+        getPackageManagerCommand: vi.fn(() => ({
+            exec: 'pnpm exec',
+            install: 'pnpm install',
+            add: 'pnpm add',
+            addDev: 'pnpm add -D',
+            rm: 'pnpm remove',
+            run: (script: string, args?: string) =>
+                `pnpm run ${script}${args ? ` ${args}` : ''}`,
+            list: 'pnpm list',
+        })),
+    };
+});
 
 describe('init generator', () => {
     let tree: Tree;
@@ -12,6 +32,8 @@ describe('init generator', () => {
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
         addStacksAttributes(tree, '');
+        // Add pnpm-lock.yaml so getPackageManagerCommand() returns pnpm commands
+        tree.write('pnpm-lock.yaml', 'lockfileVersion: 5.4');
     });
 
     describe('--eslint', () => {

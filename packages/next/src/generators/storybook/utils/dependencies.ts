@@ -21,7 +21,7 @@ export function installDependencies(
     options: StorybookGeneratorSchema,
 ) {
     if (options.skipPackageJson) {
-        return () => null;
+        return () => void 0;
     }
 
     return addDependenciesToPackageJson(

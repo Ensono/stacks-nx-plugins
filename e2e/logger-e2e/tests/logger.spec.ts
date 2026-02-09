@@ -23,6 +23,7 @@ describe('logger e2e', () => {
     describe('winston generator', () => {
         it('should create logger and with all cli arguments', async () => {
             const project = uniq('logger');
+
             await runNxCommandAsync(
                 `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project} --tags e2etag,e2ePackage --logLevelType npm --consoleLog --fileTransportPath=/logs/log.log --httpTransportHost=localhost --httpTransportPort=3000 --httpTransportPath=somePath --httpTransportSSL --streamPath=/somePath`,
             );
@@ -33,31 +34,30 @@ describe('logger e2e', () => {
                 ),
             ).not.toThrow();
             const projectJson = readJson(`libs/${project}/project.json`);
+
             expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
         });
 
         it('should run build', async () => {
             const project = uniq('logger');
+
             await runNxCommandAsync(
                 `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project}`,
             );
             await runNxCommandAsync('reset');
-            expect(
-                await runTarget(project, targetOptions.build),
-            ).toContain(
+            expect(await runTarget(project, targetOptions.build)).toContain(
                 'Successfully ran target build for project',
             );
         });
-        
+
         it('should run logger tests', async () => {
             const project = uniq('logger');
+
             await runNxCommandAsync(
                 `generate @ensono-stacks/logger:winston ${project} --directory=libs/${project}`,
             );
             await runNxCommandAsync('reset');
-            expect(
-                await runTarget(project, targetOptions.test),
-            ).toContain(
+            expect(await runTarget(project, targetOptions.test)).toContain(
                 'Successfully ran target test',
             );
         });

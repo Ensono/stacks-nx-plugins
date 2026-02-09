@@ -1,0 +1,64 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compileOnSave": false,
+    "files": [],
+    "references": [
+        {
+            "path": "./packages/azure-node"
+        },
+        {
+            "path": "./packages/azure-react"
+        },
+        {
+            "path": "./packages/common/core"
+        },
+        {
+            "path": "./packages/common/e2e"
+        },
+        {
+            "path": "./packages/common/test"
+        },
+        {
+            "path": "./packages/create"
+        },
+        {
+            "path": "./packages/logger"
+        },
+        {
+            "path": "./packages/next"
+        },
+        {
+            "path": "./packages/playwright"
+        },
+        {
+            "path": "./packages/rest-client"
+        },
+        {
+            "path": "./packages/workspace"
+        },
+        {
+            "path": "./e2e/azure-react-e2e"
+        },
+        {
+            "path": "./e2e/rest-client-e2e"
+        },
+        {
+            "path": "./e2e/azure-node-e2e"
+        },
+        {
+            "path": "./e2e/playwright-e2e"
+        },
+        {
+            "path": "./e2e/workspace-e2e"
+        },
+        {
+            "path": "./e2e/create-e2e"
+        },
+        {
+            "path": "./e2e/logger-e2e"
+        },
+        {
+            "path": "./e2e/next-e2e"
+        }
+    ]
+}

@@ -6,6 +6,8 @@ import {
 } from '@nx/devkit';
 import { NextServeBuilderOptions } from '@nx/next';
 
+import { NextGeneratorSchema } from '../schema';
+
 export function getPort(project: ProjectConfiguration) {
     return project.targets?.serve?.options?.port || 3000;
 }
@@ -19,15 +21,18 @@ export function getPort(project: ProjectConfiguration) {
 export function updateProjectTargets(
     tree: Tree,
     project: ProjectConfiguration,
+    options: NextGeneratorSchema,
 ) {
     const update = { ...project };
+
+    update.targets = update.targets || {};
 
     const hasBuildTargetExecutor =
         project.targets?.['build']?.executor === '@nx/next:build';
 
     // The inferred task for building a Next application does not correctly build
     // a valid package.json required for deploying the application into a Dockerfile
-    if (!hasBuildTargetExecutor) {
+    if (!hasBuildTargetExecutor && update.targets) {
         update.targets.build = {
             ...update.targets.build,
             executor: '@nx/next:build',
@@ -72,7 +77,7 @@ export function updateProjectTargets(
 
     // Nx will not create a target that is able to launch/build both the custom server and the next application
     // So we create a `serve` command
-    if (isCustomServer) {
+    if (isCustomServer && serveTarget.options && serveTarget.configurations) {
         serveTarget.options.customServerTarget = `${project.name}:serve-custom-server`;
         serveTarget.configurations.development.customServerTarget = `${project.name}:serve-custom-server:development`;
         serveTarget.configurations.production.customServerTarget = `${project.name}:serve-custom-server:production`;
@@ -80,5 +85,5 @@ export function updateProjectTargets(
 
     update.targets.serve = serveTarget;
 
-    updateProjectConfiguration(tree, project.name, update);
+    updateProjectConfiguration(tree, options.project, update);
 }

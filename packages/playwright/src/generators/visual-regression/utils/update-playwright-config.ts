@@ -41,16 +41,18 @@ export function updatePlaywrightConfigWithDefault(
                 '@playwright/test',
         );
 
-    playwrightImport.setIsTypeOnly(false);
+    if (playwrightImport) {
+        playwrightImport.setIsTypeOnly(false);
 
-    if (
-        !playwrightImport
-            .getNamedImports()
-            ?.some(modules => modules.getName() === 'devices')
-    ) {
-        playwrightImport.insertNamedImport(0, {
-            name: 'devices',
-        });
+        if (
+            !playwrightImport
+                .getNamedImports()
+                ?.some(modules => modules.getName() === 'devices')
+        ) {
+            playwrightImport.insertNamedImport(0, {
+                name: 'devices',
+            });
+        }
     }
 
     const callExpressions = appNode.getDescendantsOfKind(
@@ -60,64 +62,67 @@ export function updatePlaywrightConfigWithDefault(
         callExpression =>
             callExpression.getExpression().getText() === 'defineConfig',
     );
-    const config = defineConfigCallExpression.getArguments()[0];
 
-    if (!Node.isObjectLiteralExpression(config)) {
-        throw new Error('First argument is not an ObjectLiteralExpression');
+    if (defineConfigCallExpression) {
+        const config = defineConfigCallExpression.getArguments()[0];
+
+        if (!Node.isObjectLiteralExpression(config)) {
+            throw new Error('First argument is not an ObjectLiteralExpression');
+        }
+
+        config.getProperty('use')?.remove();
+        config.getProperty('projects')?.remove();
+
+        config.addPropertyAssignments([
+            ...baseConfigPropertyAssignments,
+            {
+                name: 'use',
+                initializer: `{
+                  baseURL,
+                  screenshot: 'only-on-failure',
+                  trace: 'retain-on-failure',
+                }`,
+            },
+            {
+                name: 'projects',
+                initializer: `[
+                  {
+                    name: 'chromium',
+                    use: {
+                      ...devices['Desktop Chrome'],
+                    },
+                  },
+                  {
+                    name: 'firefox',
+                    use: {
+                      ...devices['Desktop Firefox'],
+                    },
+                  },
+    
+                  {
+                    name: 'webkit',
+                    use: {
+                      ...devices['Desktop Safari'],
+                    },
+                  },
+    
+                  /* Test against mobile viewports. */
+                  {
+                    name: 'Mobile Chrome',
+                    use: {
+                      ...devices['Pixel 5'],
+                    },
+                  },
+                  {
+                    name: 'Mobile Safari',
+                    use: {
+                      ...devices['iPhone 12'],
+                    },
+                  },
+                ]`,
+            },
+        ]);
     }
-
-    config.getProperty('use')?.remove();
-    config.getProperty('projects')?.remove();
-
-    config.addPropertyAssignments([
-        ...baseConfigPropertyAssignments,
-        {
-            name: 'use',
-            initializer: `{
-              baseURL,
-              screenshot: 'only-on-failure',
-              trace: 'retain-on-failure',
-            }`,
-        },
-        {
-            name: 'projects',
-            initializer: `[
-              {
-                name: 'chromium',
-                use: {
-                  ...devices['Desktop Chrome'],
-                },
-              },
-              {
-                name: 'firefox',
-                use: {
-                  ...devices['Desktop Firefox'],
-                },
-              },
-
-              {
-                name: 'webkit',
-                use: {
-                  ...devices['Desktop Safari'],
-                },
-              },
-
-              /* Test against mobile viewports. */
-              {
-                name: 'Mobile Chrome',
-                use: {
-                  ...devices['Pixel 5'],
-                },
-              },
-              {
-                name: 'Mobile Safari',
-                use: {
-                  ...devices['iPhone 12'],
-                },
-              },
-            ]`,
-        },
-    ]);
 
     appNode.saveSync();
 }
@@ -136,35 +141,45 @@ export function updatePlaywrightConfigWithApplitoolsVisualRegression(
         callExpression =>
             callExpression.getExpression().getText() === 'defineConfig',
     );
-    const config = defineConfigCallExpression.getArguments()[0];
 
-    if (!Node.isObjectLiteralExpression(config)) {
-        throw new Error('First argument is not an ObjectLiteralExpression');
+    if (defineConfigCallExpression) {
+        const config = defineConfigCallExpression.getArguments()[0];
+
+        if (!Node.isObjectLiteralExpression(config)) {
+            throw new Error('First argument is not an ObjectLiteralExpression');
+        }
+
+        config.addPropertyAssignments([
+            {
+                name: 'grepInvert',
+                initializer: '/.*@visual-regression/',
+            },
+        ]);
+
+        const projectsProperty = config.getProperty('projects');
+
+        if (projectsProperty) {
+            const child = projectsProperty.getFirstChildByKind(
+                SyntaxKind.ArrayLiteralExpression,
+            );
+
+            if (child) {
+                child.insertElement(
+                    0,
+                    `
+                    {
+                      // Applitools project specifically for visual regression
+                      // This prevents all other projects from unnecessarily repeating applitools tests
+                      // Retries disabled to prevent unnecessarily repeating a test within applitools following a visual regression
+                      name: 'applitools',
+                      grep: /.*@visual-regression/,
+                      grepInvert: undefined,
+                      retries: 0,
+                    }`,
+                );
+            }
+        }
     }
-
-    config.addPropertyAssignments([
-        {
-            name: 'grepInvert',
-            initializer: '/.*@visual-regression/',
-        },
-    ]);
-
-    config
-        .getProperty('projects')
-        .getFirstChildByKind(SyntaxKind.ArrayLiteralExpression)
-        .insertElement(
-            0,
-            `
-        {
-          // Applitools project specifically for visual regression
-          // This prevents all other projects from unnecessarily repeating applitools tests
-          // Retries disabled to prevent unnecessarily repeating a test within applitools following a visual regression
-          name: 'applitools',
-          grep: /.*@visual-regression/,
-          grepInvert: undefined,
-          retries: 0,
-        }`,
-        );
 
     appNode.saveSync();
 }

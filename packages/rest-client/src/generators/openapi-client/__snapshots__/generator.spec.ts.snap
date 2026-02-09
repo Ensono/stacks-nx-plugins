@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`openapi-client generator --zod should generate orval.zod config: test-client/orval.zod.config.js 1`] = `
+exports[`openapi-client generator > --zod > should generate orval.zod config > test-client/orval.zod.config.js 1`] = `
 "module.exports = {
   'test-client-file-transfomer': {
     output: {
@@ -16,7 +16,7 @@ exports[`openapi-client generator --zod should generate orval.zod config: test-c
 "
 `;
 
-exports[`openapi-client generator should generate orval config: test-client/orval.config.js 1`] = `
+exports[`openapi-client generator > should generate orval config > test-client/orval.config.js 1`] = `
 "module.exports = {
   'test-client-file-transfomer': {
     output: {
@@ -33,7 +33,7 @@ exports[`openapi-client generator should generate orval config: test-client/orva
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/README.md 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/README.md 1`] = `
 "# test-client
 
 This library was generated with [Nx](https://nx.dev).
@@ -48,7 +48,7 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/eslint.config.mjs 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/eslint.config.mjs 1`] = `
 "import baseConfig from '../eslint.config.mjs';
 
 export default [
@@ -71,7 +71,7 @@ export default [
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/jest.config.cts 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/jest.config.cts 1`] = `
 "module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
@@ -85,7 +85,7 @@ exports[`openapi-client generator should run successfully: test-client/jest.conf
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/package.json 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/package.json 1`] = `
 "{
   "name": "@proj/test-client",
   "version": "0.0.1",
@@ -100,7 +100,7 @@ exports[`openapi-client generator should run successfully: test-client/package.j
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/project.json 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/project.json 1`] = `
 "{
   "name": "test-client",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
@@ -133,13 +133,13 @@ exports[`openapi-client generator should run successfully: test-client/project.j
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/src/index.ts 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/src/index.ts 1`] = `
 "export * from './test-client';
 export * from './test-client.msw';
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/tsconfig.json 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/tsconfig.json 1`] = `
 "{
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
@@ -159,7 +159,7 @@ exports[`openapi-client generator should run successfully: test-client/tsconfig.
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/tsconfig.lib.json 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/tsconfig.lib.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -178,7 +178,7 @@ exports[`openapi-client generator should run successfully: test-client/tsconfig.
 "
 `;
 
-exports[`openapi-client generator should run successfully: test-client/tsconfig.spec.json 1`] = `
+exports[`openapi-client generator > should run successfully > test-client/tsconfig.spec.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {

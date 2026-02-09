@@ -1,5 +1,4 @@
 import {
-    deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
     tsMorphTree,
     verifyPluginCanBeInstalled,

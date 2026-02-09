@@ -1,5 +1,28 @@
 {
     "name": "@ensono-stacks/e2e",
     "version": "0.0.1",
-    "main": "src/index.js"
+    "main": "./dist/index.js",
+    "exports": {
+        "./package.json": "./package.json",
+        ".": {
+            "@ensono-stacks/source": "./src/index.ts",
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!**/*.tsbuildinfo",
+        "README.md"
+    ],
+    "dependencies": {
+        "kill-port": "2.0.1",
+        "tcp-port-used": "1.0.2"
+    },
+    "peerDependencies": {
+        "@nx/devkit": "22.x",
+        "@nx/plugin": "22.x",
+        "nx": "22.x"
+    }
 }

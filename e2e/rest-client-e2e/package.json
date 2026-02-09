@@ -1,0 +1,10 @@
+{
+    "name": "rest-client-e2e",
+    "version": "0.0.1",
+    "devDependencies": {
+        "@ensono-stacks/e2e": "workspace:*"
+    },
+    "peerDependencies": {
+        "@nx/plugin": "22.x"
+    }
+}

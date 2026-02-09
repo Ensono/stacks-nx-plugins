@@ -2,6 +2,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, updateJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import chalk from 'chalk';
+import { vi } from 'vitest';
 
 import { executedDependantGenerator } from './executedDependantGenerator';
 
@@ -15,7 +16,7 @@ describe('executedDependantGenerator', () => {
     });
 
     it('should return false if no prerequisite present', async () => {
-        const logSpy = jest.spyOn(console, 'log');
+        const logSpy = vi.spyOn(console, 'log');
         const result = executedDependantGenerator(appTree, generatorName);
 
         expect(logSpy).toHaveBeenCalledWith(

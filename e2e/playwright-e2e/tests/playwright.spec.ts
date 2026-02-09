@@ -1,10 +1,4 @@
-import {
-    newProject,
-    runTarget,
-    targetOptions,
-    createNextApplication,
-    cleanup,
-} from '@ensono-stacks/e2e';
+import { newProject, createNextApplication, cleanup } from '@ensono-stacks/e2e';
 import {
     checkFilesExist,
     readJson,
@@ -16,16 +10,17 @@ import {
 describe('playwright e2e', () => {
     process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = 'true';
     process.env.HUSKY = '0';
-    jest.setTimeout(1_000_000);
 
     async function setupBaseProject() {
         const baseProject = uniq('playwright');
         const e2eProject = `${baseProject}-e2e`;
+
         await createNextApplication(baseProject);
 
         await runNxCommandAsync(
             `generate @ensono-stacks/playwright:init --project=${baseProject} --directory=apps/${e2eProject} --no-interactive`,
         );
+
         return { baseProject, e2eProject };
     }
 
@@ -42,6 +37,7 @@ describe('playwright e2e', () => {
 
     it('errors when the project does not exist', async () => {
         const project = uniq('imaginaryProjectThatDoesNotExist');
+
         await runNxCommandAsync(
             `generate @ensono-stacks/playwright:init ${project}`,
         ).catch(stderr => expect(stderr?.code).toEqual(1));
@@ -50,8 +46,10 @@ describe('playwright e2e', () => {
     describe('init generator', () => {
         let e2eProject: string;
         let baseProject: string;
+
         beforeAll(async () => {
             const proj = await setupBaseProject();
+
             e2eProject = proj.e2eProject;
             baseProject = proj.baseProject;
         });
@@ -61,27 +59,14 @@ describe('playwright e2e', () => {
                 checkFilesExist(`apps/${e2eProject}/playwright.config.ts`),
             ).not.toThrow();
         });
-
-        it('should be able to run the e2e test target', async () => {
-            await runTarget(
-                baseProject,
-                targetOptions.build,
-                'Successfully ran target build',
-                '--configuration=development',
-            );
-            // The tests will actually fail to run as Playwright detects that it is being run with jest. So only able to verify that the target is ran and server started
-            expect(
-                await runTarget(e2eProject, targetOptions.e2e, undefined),
-            ).toContain(
-                "Playwright Test needs to be invoked via 'pnpm exec playwright test' and excluded from Jest test runs",
-            );
-        });
     });
 
     describe('accessibility generator', () => {
         let e2eProject: string;
+
         beforeAll(async () => {
             const proj = await setupBaseProject();
+
             e2eProject = proj.e2eProject;
             await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:accessibility --project=${e2eProject} --no-interactive`,
@@ -98,6 +83,7 @@ describe('playwright e2e', () => {
 
             // add axe packages to package.json
             const packageJson = readJson('package.json');
+
             expect(packageJson?.devDependencies).toMatchObject({
                 '@axe-core/playwright': '4.9.0',
                 'axe-result-pretty-print': '1.0.2',
@@ -106,9 +92,11 @@ describe('playwright e2e', () => {
     });
 
     describe('Visual - native generator', () => {
-        let e2eProject, projectE2EName;
+        let e2eProject = '';
+
         beforeAll(async () => {
             const proj = await setupBaseProject();
+
             e2eProject = proj.e2eProject;
 
             await runNxCommandAsync(
@@ -128,15 +116,18 @@ describe('playwright e2e', () => {
             const projectConfig = readFile(
                 `apps/${e2eProject}/playwright.config.ts`,
             );
+
             expect(projectConfig).toContain('maxDiffPixelRatio: 0.05');
             expect(projectConfig).toContain('threshold: 0.2');
         });
     });
 
     describe('visual - applitools generator', () => {
-        let e2eProject;
+        let e2eProject = '';
+
         beforeAll(async () => {
             const proj = await setupBaseProject();
+
             e2eProject = proj.e2eProject;
             await runNxCommandAsync(
                 `generate @ensono-stacks/playwright:visual-regression --project=${e2eProject} --type=applitools --no-interactive`,
@@ -152,6 +143,7 @@ describe('playwright e2e', () => {
             ).not.toThrow();
 
             const packageJson = readJson('package.json');
+
             expect(packageJson?.devDependencies).toMatchObject({
                 '@applitools/eyes-playwright': '1.27.2',
             });

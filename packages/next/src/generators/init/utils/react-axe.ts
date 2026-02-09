@@ -57,12 +57,18 @@ export function addReactAxeConfigToApp(
                             ?.getFirstDescendantByKind(SyntaxKind.Identifier)
                             ?.getText() === 'body',
                 );
-            const bodyExpression = bodyJsx.getFirstDescendantByKind(
-                SyntaxKind.JsxExpression,
-            );
-            const update = `<Axe />${bodyExpression.getText()}`;
 
-            bodyExpression.replaceWithText(update);
+            if (bodyJsx) {
+                const bodyExpression = bodyJsx.getFirstDescendantByKind(
+                    SyntaxKind.JsxExpression,
+                );
+
+                if (bodyExpression) {
+                    const update = `<Axe />${bodyExpression.getText()}`;
+
+                    bodyExpression.replaceWithText(update);
+                }
+            }
 
             appNode.saveSync();
         }

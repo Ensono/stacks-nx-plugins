@@ -50,7 +50,7 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
 }
 
 export async function newProject(
-    stacksPackagesToInstall?: string[],
+    stacksPackagesToInstall: string[] = [],
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
 ) {

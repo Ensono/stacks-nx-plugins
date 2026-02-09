@@ -2,6 +2,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import chalk from 'chalk';
+import { vi } from 'vitest';
 
 import { deploymentGeneratorMessage } from './deploymentGeneratorMessage';
 
@@ -13,7 +14,7 @@ describe('addCustomTestConfig', () => {
     });
 
     it('should add custom test config', async () => {
-        const logSpy = jest.spyOn(console, 'log');
+        const logSpy = vi.spyOn(console, 'log');
 
         addStacksAttributes(appTree, '');
 

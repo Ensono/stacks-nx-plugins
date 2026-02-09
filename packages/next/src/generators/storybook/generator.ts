@@ -1,5 +1,4 @@
 import {
-    execAsync,
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,

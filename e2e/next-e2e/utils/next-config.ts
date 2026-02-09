@@ -47,7 +47,7 @@ export function addTurbopackAlias(
     }
 
     // Check if turbopack property already exists
-    let turbopackProp = nextConfigExpression
+    let turbopackProperty = nextConfigExpression
         .getProperties()
         .find(
             p =>
@@ -55,14 +55,14 @@ export function addTurbopackAlias(
                 (p as any).getName() === 'turbopack',
         );
 
-    if (!turbopackProp) {
+    if (!turbopackProperty) {
         // Add turbopack property with resolveAlias
         nextConfigExpression.addPropertyAssignment({
             name: 'turbopack',
             initializer: `{\n    resolveAlias: {}\n  }`,
         });
 
-        turbopackProp = nextConfigExpression
+        turbopackProperty = nextConfigExpression
             .getProperties()
             .find(
                 p =>
@@ -72,23 +72,23 @@ export function addTurbopackAlias(
     }
 
     if (
-        !turbopackProp ||
-        turbopackProp.getKind() !== SyntaxKind.PropertyAssignment
+        !turbopackProperty ||
+        turbopackProperty.getKind() !== SyntaxKind.PropertyAssignment
     ) {
         throw new Error('Failed to find or create turbopack property');
     }
 
     // Find the turbopack object literal
-    const turbopackObj = (turbopackProp as any)
+    const turbopackObject = (turbopackProperty as any)
         .getInitializer()
         ?.asKind(SyntaxKind.ObjectLiteralExpression);
 
-    if (!turbopackObj) {
+    if (!turbopackObject) {
         throw new Error('turbopack property is not an object');
     }
 
     // Check if resolveAlias exists
-    let resolveAliasProp = turbopackObj
+    let resolveAliasProperty = turbopackObject
         .getProperties()
         .find(
             p =>
@@ -96,13 +96,13 @@ export function addTurbopackAlias(
                 (p as any).getName() === 'resolveAlias',
         );
 
-    if (!resolveAliasProp) {
-        turbopackObj.addPropertyAssignment({
+    if (!resolveAliasProperty) {
+        turbopackObject.addPropertyAssignment({
             name: 'resolveAlias',
             initializer: '{}',
         });
 
-        resolveAliasProp = turbopackObj
+        resolveAliasProperty = turbopackObject
             .getProperties()
             .find(
                 p =>
@@ -112,13 +112,13 @@ export function addTurbopackAlias(
     }
 
     if (
-        !resolveAliasProp ||
-        resolveAliasProp.getKind() !== SyntaxKind.PropertyAssignment
+        !resolveAliasProperty ||
+        resolveAliasProperty.getKind() !== SyntaxKind.PropertyAssignment
     ) {
         throw new Error('Failed to find or create resolveAlias property');
     }
 
-    const aliasExpression = (resolveAliasProp as any)
+    const aliasExpression = (resolveAliasProperty as any)
         .getInitializer()
         ?.asKind(SyntaxKind.ObjectLiteralExpression);
 

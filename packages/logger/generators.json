@@ -4,8 +4,8 @@
     "version": "0.0.1",
     "generators": {
         "winston": {
-            "factory": "./src/generators/winston/generator",
-            "schema": "./src/generators/winston/schema.json",
+            "factory": "./dist/generators/winston/generator",
+            "schema": "./dist/generators/winston/schema.json",
             "description": "winston logger generator"
         }
     }

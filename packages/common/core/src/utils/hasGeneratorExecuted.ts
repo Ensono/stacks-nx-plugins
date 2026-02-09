@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, readJson, Tree, updateJson } from '@nx/devkit';
+import { readJson, Tree, updateJson } from '@nx/devkit';
 import chalk from 'chalk';
 
 import {
