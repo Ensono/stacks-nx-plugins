@@ -1,2 +1,4 @@
-export const appInsightsWebVersion = '3.2.1';
-export const appInsightsReactVersion = '17.2.0';
+export const appInsightsWebVersion =
+    __versions__.microsoft___applicationinsights_web;
+export const appInsightsReactVersion =
+    __versions__.microsoft___applicationinsights_react_js;

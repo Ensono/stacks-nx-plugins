@@ -1,4 +1,7 @@
-import EntraId from 'next-auth/providers/microsoft-entra-id';
+import { OIDCConfig } from '@auth/core/providers';
+import EntraId, {
+  MicrosoftEntraIDProfile,
+} from 'next-auth/providers/microsoft-entra-id';
 import { profile } from '../actions';
 
 export const microsoftEntraId = EntraId({
@@ -12,4 +15,4 @@ export const microsoftEntraId = EntraId({
         },
     },
     profile,
-});
+}) as OIDCConfig<MicrosoftEntraIDProfile>;

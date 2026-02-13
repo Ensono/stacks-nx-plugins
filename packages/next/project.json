@@ -5,29 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/next/dist",
-                "main": "packages/next/src/index.ts",
-                "tsConfig": "packages/next/tsconfig.lib.json",
-                "rootDir": "packages/next/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/next/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/next/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],

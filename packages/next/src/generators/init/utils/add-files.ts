@@ -2,36 +2,44 @@ import {
     ProjectConfiguration,
     Tree,
     generateFiles,
-    readNxJson,
+    detectPackageManager,
+    offsetFromRoot,
+    getPackageManagerCommand,
+    getPackageManagerVersion,
 } from '@nx/devkit';
 import path from 'path';
+import semver from 'semver';
 
 import { getPort } from './project-targets';
 
 export function addFiles(tree: Tree, project: ProjectConfiguration) {
-    const customServer = project.targets?.['build-custom-server'];
-    const nxJson = readNxJson(tree);
-    let hasPlugin = false;
+    // Parent directory for .next production build.
+    // If using inferred task nx will place this in the project root.
+    const nextDistributionPath =
+        project.targets?.build?.options?.outputPath ?? project.root;
+    const customServerDistributionPath =
+        project.targets?.['build-custom-server']?.options?.outputPath ?? '';
 
-    if (nxJson && nxJson.plugins) {
-        hasPlugin = !!nxJson.plugins.some(p =>
-            typeof p === 'string'
-                ? p === '@nx/next/plugin'
-                : p.plugin === '@nx/next/plugin',
-        );
-    }
-
-    const distributionFolderPath = hasPlugin
-        ? `dist/${project.root}`
-        : project.targets?.build?.options?.outputPath;
-    const sourceRoot = project?.sourceRoot;
     const port = getPort(project);
-    let customServerRelativePath = '';
+    const packageManager = detectPackageManager();
+    const packageManagerVersion = getPackageManagerVersion(packageManager);
+    const { install } = getPackageManagerCommand(packageManager);
+    let installCommand = install;
 
-    if (customServer?.options?.main) {
-        customServerRelativePath = customServer?.options?.main
-            .replace(`${sourceRoot}/`, '')
-            .replace('.ts', '.js');
+    if (packageManager === 'pnpm') {
+        installCommand += ' --prod';
+    }
+    if (packageManager === 'npm') {
+        installCommand += ' --omit=dev';
+    }
+    if (packageManager === 'yarn') {
+        const majorVersion = semver.major(packageManagerVersion);
+
+        if (majorVersion >= 3) {
+            installCommand = 'yarn workspaces focus --production';
+        } else {
+            installCommand += ' --production';
+        }
     }
 
     generateFiles(
@@ -39,15 +47,17 @@ export function addFiles(tree: Tree, project: ProjectConfiguration) {
         path.join(__dirname, '..', 'files', 'common'),
         project.root,
         {
-            distFolderPath: distributionFolderPath,
-            customServerRelativePath,
+            customServerDistributionPath,
+            nextDistributionPath,
+            packageManagerInstallCommand: installCommand,
             port,
             projectName: project.name,
+            root: project.root,
             template: '',
         },
     );
 
-    if (customServer) {
+    if (customServerDistributionPath) {
         generateFiles(
             tree,
             path.join(__dirname, '..', 'files', 'custom-server'),
@@ -55,6 +65,12 @@ export function addFiles(tree: Tree, project: ProjectConfiguration) {
             {
                 port,
                 projectRoot: project.root,
+                relativeProjectRoot: path.join(
+                    offsetFromRoot(
+                        path.join(customServerDistributionPath, 'server'),
+                    ),
+                    nextDistributionPath,
+                ),
                 template: '',
             },
         );

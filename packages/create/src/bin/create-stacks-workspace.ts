@@ -22,9 +22,8 @@ import { configureNx } from './nx';
 import { getPackageManagerCommand } from './package-manager';
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import { CreateStacksArguments, E2eTestRunner, Preset } from './types';
-import packageJson from '../../package.json';
 
-const stacksVersion = packageJson.version;
+const stacksVersion = __versions__.stacks_nx_plugins;
 
 const presetOptions: { name: Preset; message: string }[] = [
     {

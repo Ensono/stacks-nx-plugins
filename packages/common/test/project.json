@@ -5,29 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/common/test/dist",
-                "main": "packages/common/test/src/index.ts",
-                "tsConfig": "packages/common/test/tsconfig.lib.json",
-                "rootDir": "packages/common/test/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/common/core/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/common/core/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],

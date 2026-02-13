@@ -1,10 +1,12 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vitest/config';
+import { buildVersionDefineMap } from '../../tools/versions.js';
 
 export default defineConfig(() => ({
     root: __dirname,
     cacheDir: '../../node_modules/.vite/packages/rest-client',
     plugins: [],
+    define: buildVersionDefineMap(),
     resolve: {
         conditions: ['@ensono-stacks/source'],
     },

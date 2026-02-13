@@ -11,12 +11,14 @@
         ]
     },
     "include": [
+        "vite.config.ts",
         "vitest.config.mts",
         "setup-test.ts",
         "**/*.test.ts",
         "**/*.spec.ts",
         "**/*.d.ts",
-        "../../tools/nx.d.ts"
+        "../../tools/nx.d.ts",
+        "../../tools/versions.d.ts"
     ],
     "references": [
         {

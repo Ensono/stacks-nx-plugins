@@ -63,11 +63,6 @@
             ],
             "cache": true
         },
-        "@nx/js:tsc": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
-        },
         "nx-release-publish": {
             "options": {
                 "packageRoot": "{projectRoot}"
@@ -81,12 +76,30 @@
                 "typecheck": {
                     "targetName": "typecheck"
                 },
-                "build": {
-                    "targetName": "build",
-                    "configName": "tsconfig.lib.json",
-                    "buildDepsName": "build-deps",
-                    "watchDepsName": "watch-deps"
-                }
+                "build": false
+            }
+        },
+        {
+            "plugin": "@nx/vite/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "testTargetName": "test",
+                "serveTargetName": "serve",
+                "devTargetName": "dev",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static",
+                "typecheckTargetName": "typecheck",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
+            "plugin": "@nx/vitest",
+            "exclude": ["e2e/**/*"],
+            "options": {
+                "testTargetName": "test",
+                "ciTargetName": "test-ci",
+                "testMode": "watch"
             }
         },
         {
@@ -104,15 +117,6 @@
             "plugin": "@nx/eslint/plugin",
             "options": {
                 "targetName": "lint"
-            }
-        },
-        {
-            "plugin": "@nx/vitest",
-            "exclude": ["e2e/**/*"],
-            "options": {
-                "testTargetName": "test",
-                "ciTargetName": "test-ci",
-                "testMode": "watch"
             }
         },
         {

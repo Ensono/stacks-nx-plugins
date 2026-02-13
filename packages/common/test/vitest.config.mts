@@ -1,9 +1,11 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vitest/config';
+import { buildVersionDefineMap } from '../../../tools/versions';
 
 export default defineConfig(() => ({
     root: __dirname,
     cacheDir: '../../../node_modules/.vite/packages/common/test',
+    define: buildVersionDefineMap(),
     resolve: {
         conditions: ['@ensono-stacks/source'],
     },

@@ -6,29 +6,6 @@
     "tags": ["plugin"],
     "implicitDependencies": ["workspace", "playwright"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/create/dist",
-                "main": "packages/create/src/index.ts",
-                "tsConfig": "packages/create/tsconfig.lib.json",
-                "rootDir": "packages/create/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/create/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/create/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
