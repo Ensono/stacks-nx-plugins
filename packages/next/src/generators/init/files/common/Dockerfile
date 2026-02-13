@@ -26,7 +26,6 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=base --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=base --chown=nextjs:nodejs /app/package.json ./package.json
 
-COPY --chown=nextjs:nodejs <%= nextDistributionPath %> ./.next
 <% if(customServerDistributionPath) { %>COPY --chown=nextjs:nodejs <%= customServerDistributionPath %> ./server<% } %>
 
 USER nextjs
