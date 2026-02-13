@@ -30,10 +30,6 @@
         "chalk": "^4.1.2",
         "change-case": "^4.1.2",
         "enquirer": "^2.4.1",
-        "yargs-unparser": "^2.0.0",
-        "vitest": "^4.0.18",
-        "vite": "^7.0.0",
-        "vite-plugin-dts": "^4.5.4",
-        "@nx/vite": "22.4.4"
+        "yargs-unparser": "^2.0.0"
     }
 }

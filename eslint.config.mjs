@@ -247,6 +247,23 @@ export default tseslint.config(
         files: ['**/*.json'],
         rules: {
             'unicorn/prevent-abbreviations': 'off',
+            '@nx/dependency-checks': [
+                'error',
+                {
+                    checkMissingDependencies: true,
+                    checkObsoleteDependencies: true,
+                    checkVersionMismatches: true,
+                    ignoredFiles: [
+                        '**/vitest.config.mts',
+                        '**/vite.config.ts',
+                        '**/*.spec.ts',
+                        '**/setup-test.ts',
+                        '**/files/**/*',
+                        '**/files/*',
+                    ],
+                    useLocalPathsForWorkspaceDependencies: true, // toggle to disable
+                },
+            ],
         },
         languageOptions: {
             parser: jsoncParser,

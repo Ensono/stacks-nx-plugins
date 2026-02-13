@@ -28,8 +28,7 @@
     },
     "dependencies": {
         "@ensono-stacks/core": "workspace:*",
-        "change-case": "^4.1.2",
-        "tslib": "^2.8.1"
+        "change-case": "^4.1.2"
     },
     "peerDependencies": {
         "@nx/devkit": "22.x",

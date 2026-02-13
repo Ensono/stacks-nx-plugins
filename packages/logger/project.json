@@ -14,7 +14,8 @@
                     "packages/logger/generators.json",
                     "packages/logger/executors.json",
                     "packages/logger/package.json"
-                ]
+                ],
+                "ignoredDependencies": ["vitest"]
             },
             "configurations": {
                 "release": {
