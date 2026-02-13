@@ -5,29 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/rest-client/dist",
-                "main": "packages/rest-client/src/index.ts",
-                "tsConfig": "packages/rest-client/tsconfig.lib.json",
-                "rootDir": "packages/rest-client/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/rest-client/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/rest-client/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],

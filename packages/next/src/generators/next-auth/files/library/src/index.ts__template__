@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthResult } from 'next-auth';
 import * as callbacks from './callbacks';
 <% if(guestSession || provider !== 'none') { %>import { providerMap } from './providers';<% } %>
 import { SESSION_MAX_AGE } from './config';
@@ -8,7 +8,7 @@ import { SESSION_MAX_AGE } from './config';
 export { providerMap };
 <% } %>
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const result = NextAuth({
     session: {
         strategy: 'jwt',
         maxAge: SESSION_MAX_AGE,
@@ -17,3 +17,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks,
     <% if(sessionStorage === 'redis') { %>adapter,<% } %>
 });
+
+export const handlers: NextAuthResult['handlers'] = result.handlers;
+export const auth: NextAuthResult['auth'] = result.auth;
+export const signIn: NextAuthResult['signIn'] = result.signIn;
+export const signOut: NextAuthResult['signOut'] = result.signOut;

@@ -6,7 +6,6 @@ import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from '@nx/next';
 import { storybookConfigurationGenerator } from '@nx/react';
-import { ProjectConfiguration } from 'nx/src/config/workspace-json-project-json';
 import { vi, type Mock } from 'vitest';
 
 import generator from './generator';
@@ -85,6 +84,7 @@ describe('storybook generator', () => {
 
             const packageJson = readJson(appTree, 'package.json');
 
+            console.log(JSON.stringify(packageJson, null, 2));
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining([
                     '@nx/storybook',

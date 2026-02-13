@@ -1,4 +1,5 @@
 {
+    "files": ["./tools/types.d.ts"],
     "compilerOptions": {
         "composite": true,
         "declaration": true,

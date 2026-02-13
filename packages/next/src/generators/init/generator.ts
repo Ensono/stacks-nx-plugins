@@ -14,7 +14,6 @@ import { NextGeneratorSchema } from './schema';
 import { addFiles } from './utils/add-files';
 import { updateDependencies } from './utils/dependencies';
 import { addEslint } from './utils/eslint';
-import { updateProjectTargets } from './utils/project-targets';
 import { addReactAxeConfigToApp } from './utils/react-axe';
 import { modifyReadme } from './utils/readme';
 
@@ -26,8 +25,6 @@ export default async function initGenerator(
 
     const tasks: GeneratorCallback[] = [];
     const project = readProjectConfiguration(tree, options.project);
-
-    updateProjectTargets(tree, project, options);
 
     tasks.push(addEslint(tree, project));
 

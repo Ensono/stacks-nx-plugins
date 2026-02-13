@@ -5,36 +5,13 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/azure-node/dist",
-                "main": "packages/azure-node/src/index.ts",
-                "tsConfig": "packages/azure-node/tsconfig.lib.json",
-                "rootDir": "packages/azure-node/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/azure-node/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/azure-node/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
                     "packages/azure-node/**/*.ts",
-                    "packages/azure-node/generators.json",
+                    "qpackages/azure-node/generators.json",
                     "packages/azure-node/executors.json",
                     "packages/azure-node/package.json"
                 ]

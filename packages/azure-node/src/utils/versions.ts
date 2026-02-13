@@ -1,1 +1,1 @@
-export const appInsightsVersion = '3.1.0';
+export const appInsightsVersion = __versions__.applicationinsights;

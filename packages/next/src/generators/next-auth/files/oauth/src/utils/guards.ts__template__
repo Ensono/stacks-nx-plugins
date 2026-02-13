@@ -1,4 +1,3 @@
-import { Profile } from 'next-auth';
 import { OIDCConfig } from '@auth/core/providers';
 
 import { TOKEN_EXPIRATION_OFFSET_SECONDS } from '../config';
@@ -17,7 +16,7 @@ export function isExpired(expiresAt: number | string) {
 
 export function isOauthProvider(
   provider: (typeof providerMap)[keyof typeof providerMap]
-): provider is OIDCConfig<Profile> {
+): provider is OIDCConfig<any> {
   const oauthProviderTypes = ['oauth', 'oidc'];
   return oauthProviderTypes.includes(provider.type);
 }

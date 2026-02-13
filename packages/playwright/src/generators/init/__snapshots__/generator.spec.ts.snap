@@ -85,7 +85,7 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx run test:serve',
+    command: 'pnpm exec nx run test:serve',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: true,
     cwd: workspaceRoot,

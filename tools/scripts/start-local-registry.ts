@@ -25,12 +25,14 @@ export default async () => {
 
     global.stopLocalRegistry = function () {
         stopRegistry();
-        process.exit(0);
+        process.exit();
     };
 
     // Rewrite cache directory for npx commands to be reset between runs
     const npmCacheDirectory = path.resolve(
-        process.cwd(),
+        __dirname,
+        '..',
+        '..',
         'tmp',
         'local-registry',
         '.npm',

@@ -5,29 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/azure-react/dist",
-                "main": "packages/azure-react/src/index.ts",
-                "tsConfig": "packages/azure-react/tsconfig.lib.json",
-                "rootDir": "packages/azure-react/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/azure-react/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/azure-react/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],

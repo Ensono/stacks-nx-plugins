@@ -90,12 +90,6 @@ export default async function nextAuthGenerator(
 
     // Add Provider
     if (normalizedOptions.provider !== 'none') {
-        addProvider(
-            normalizedOptions.provider,
-            normalizedOptions.projectRoot,
-            tree,
-        );
-
         // Add Oauth actions and Utils
         generateFiles(
             tree,
@@ -105,6 +99,12 @@ export default async function nextAuthGenerator(
                 template: '',
                 ...normalizedOptions,
             },
+        );
+
+        addProvider(
+            normalizedOptions.provider,
+            normalizedOptions.projectRoot,
+            tree,
         );
     }
 

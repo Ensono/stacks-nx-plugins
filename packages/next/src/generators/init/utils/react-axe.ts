@@ -9,7 +9,7 @@ import {
 } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
-import { REACT_AXE_CORE_VERSION } from '../../../utils/constants';
+import { REACT_AXE_CORE_VERSION } from './constants';
 
 /**
  * adds react-axe config to _app.tsx file

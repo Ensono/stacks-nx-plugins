@@ -5,29 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/workspace/dist",
-                "main": "packages/workspace/src/index.ts",
-                "tsConfig": "packages/workspace/tsconfig.lib.json",
-                "rootDir": "packages/workspace/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/workspace/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/workspace/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],

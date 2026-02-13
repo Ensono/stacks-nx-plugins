@@ -5,29 +5,6 @@
     "projectType": "library",
     "tags": ["plugin"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "packages/playwright/dist",
-                "main": "packages/playwright/src/index.ts",
-                "tsConfig": "packages/playwright/tsconfig.lib.json",
-                "rootDir": "packages/playwright/src",
-                "generatePackageJson": false,
-                "assets": [
-                    {
-                        "input": "./packages/playwright/src",
-                        "glob": "**/!(*.ts)",
-                        "output": "."
-                    },
-                    {
-                        "input": "./packages/playwright/src",
-                        "glob": "**/*.d.ts",
-                        "output": "."
-                    }
-                ]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],

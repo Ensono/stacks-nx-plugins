@@ -1,5 +1,5 @@
 import { AuthConfig } from '@auth/core';
-import { Session, User } from 'next-auth';
+import { Session, User } from '@auth/core/types';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 

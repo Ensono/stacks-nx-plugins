@@ -16,7 +16,7 @@ import {
     updateFile,
 } from '@nx/plugin/testing';
 import path from 'path';
-import { Project } from 'ts-morph';
+import { Project, SourceFile } from 'ts-morph';
 
 import { addTurbopackAlias } from '../utils/next-config';
 
@@ -71,7 +71,8 @@ describe('next e2e', () => {
         });
 
         describe('it lints the application', () => {
-            let sourceFile, original;
+            let sourceFile: SourceFile;
+            let original: string;
 
             beforeAll(() => {
                 sourceFile = new Project().addSourceFileAtPath(

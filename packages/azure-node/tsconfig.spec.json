@@ -7,10 +7,12 @@
             "vitest/importMeta",
             "vite/client",
             "node",
-            "vitest"
+            "vitest",
+            "../../tools/versions.d.ts"
         ]
     },
     "include": [
+        "vite.config.ts",
         "vitest.config.mts",
         "src/**/*.test.ts",
         "src/**/*.spec.ts",
