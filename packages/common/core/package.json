@@ -26,16 +26,16 @@
         "@types/tcp-port-used": "1.0.4"
     },
     "dependencies": {
-        "chalk": "^4.1.2",
+        "chalk": "4.1.2",
         "deepmerge": "^4.3.1",
         "ignore": "^5.3.1",
         "minimatch": "9.0.3",
-        "semver": "^7.6.0",
+        "semver": "^7.7.2",
         "ts-morph": "23.0.0",
-        "vitest": "^4.0.18",
+        "@nx/vite": "22.4.4",
         "vite": "^7.0.0",
         "vite-plugin-dts": "^4.5.4",
-        "@nx/vite": "22.4.4"
+        "vitest": "^4.0.18"
     },
     "peerDependencies": {
         "@nx/devkit": "22.x",
