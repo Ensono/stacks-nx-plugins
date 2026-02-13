@@ -28,7 +28,8 @@
     },
     "dependencies": {
         "@ensono-stacks/core": "workspace:*",
-        "change-case": "^4.1.2"
+        "change-case": "^4.1.2",
+        "semver": "^7.7.2"
     },
     "peerDependencies": {
         "nx": "22.x",
@@ -36,8 +37,6 @@
         "@nx/js": "22.x",
         "@nx/next": "22.x",
         "@nx/react": "22.x",
-        "ts-morph": "^23.0.0",
-        "tslib": "^2.8.1",
-        "eslint": "^9.8.0"
+        "ts-morph": "^23.0.0"
     }
 }
