@@ -31,11 +31,7 @@
         "ignore": "^5.3.1",
         "minimatch": "9.0.3",
         "semver": "^7.7.2",
-        "ts-morph": "23.0.0",
-        "@nx/vite": "22.4.4",
-        "vite": "^7.0.0",
-        "vite-plugin-dts": "^4.5.4",
-        "vitest": "^4.0.18"
+        "ts-morph": "23.0.0"
     },
     "peerDependencies": {
         "@nx/devkit": "22.x",
