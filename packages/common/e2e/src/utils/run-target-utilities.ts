@@ -1,3 +1,4 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
 import { exec } from 'child_process';
 
@@ -7,7 +8,6 @@ export enum targetOptions {
     build,
     start,
     test,
-
     e2e,
     lint,
     'html-report',
@@ -31,9 +31,17 @@ export async function runCommandUntil(
     command: string,
     criteria: (output: string) => boolean,
 ) {
-    const p = exec(`npx nx ${command}`, {
+    const pm = getPackageManagerCommand();
+
+    const p = exec(`${pm.exec} nx ${command}`, {
         cwd: tmpProjPath(),
         encoding: 'utf8',
+        env: {
+            ...process.env,
+            CI: 'true',
+            FORCE_COLOR: 'false',
+        },
+        windowsHide: true,
     });
 
     await new Promise((response, rej) => {
@@ -54,7 +62,7 @@ export async function runCommandUntil(
 
         p.stdout?.on('data', checkCriteria);
         p.stderr?.on('data', checkCriteria);
-        p.on('exit', code => {
+        p.on('close', code => {
             if (complete) {
                 response(p);
             } else {
@@ -66,8 +74,6 @@ export async function runCommandUntil(
                 rej(new Error(`Exited with ${code}`));
             }
         });
-    }).finally(() => {
-        p.kill();
     });
 }
 
@@ -86,9 +92,9 @@ export async function runTarget(
         project = splitString[0];
 
         subProject = splitString[1];
-        command = `${targetOptions[target]} ${project}:${subProject} ${additionalArguments}`;
+        command = `run ${project}:${targetOptions[target]}:${subProject}${additionalArguments}`;
     } else {
-        command = `${targetOptions[target]} ${project} ${additionalArguments}`;
+        command = `run ${project}:${targetOptions[target]}${additionalArguments}`;
     }
     let silenceError = true;
 
@@ -102,7 +108,6 @@ export async function runTarget(
             if (targetOptions.build === target) {
                 silenceError = false;
             }
-
             const { stdout, stderr } = await runNxCommandAsync(
                 `${command} --skip-nx-cache`,
                 {
