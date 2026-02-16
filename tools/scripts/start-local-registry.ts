@@ -45,8 +45,6 @@ export default async () => {
         });
     }
 
-    process.env.NX_CACHE_PROJECT_GRAPH = 'false';
-
     // Because the process is already running set the env variable
     process.env.npm_config_cache_dir = npmCacheDirectory + '/cache';
     process.env.npm_config_store_dir = npmCacheDirectory + '/store';
