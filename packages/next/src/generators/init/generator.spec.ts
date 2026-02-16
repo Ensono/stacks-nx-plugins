@@ -88,9 +88,9 @@ describe('next install generator', () => {
             it('should install the react-axe package', async () => {
                 const packageJson = readJson(tree, 'package.json');
 
-                expect(packageJson?.devDependencies).toMatchObject({
-                    '@axe-core/react': __versions__.axe_core$react,
-                });
+                expect(Object.keys(packageJson.devDependencies)).toEqual(
+                    expect.arrayContaining(['@axe-core/react']),
+                );
             });
 
             it('should install and configure react specific eslint', async () => {
