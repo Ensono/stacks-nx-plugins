@@ -15,7 +15,8 @@ export async function killPort(port: number): Promise<boolean> {
             } else {
                 return true;
             }
-        } catch {
+        } catch (error) {
+            console.log(error);
             console.error(`Port ${port} closing failed`);
         }
 

@@ -115,7 +115,6 @@ export async function runTarget(
         }
         case targetOptions.start: {
             const appPort = 4000;
-            const redisPort = 6379;
 
             try {
                 await runCommandUntil(
@@ -126,7 +125,6 @@ export async function runTarget(
                 );
             } finally {
                 await killPort(appPort);
-                await killPort(redisPort);
             }
 
             return true;
