@@ -1,11 +1,13 @@
+import { execSync } from 'child_process';
 import kill from 'kill-port';
 import { check as portCheck } from 'tcp-port-used';
 
 const KILL_PORT_DELAY = 5000;
 
 export async function killPort(port: number): Promise<boolean> {
-    if (await portCheck(port)) {
-        try {
+    try {
+        console.log(execSync('lsof -i -P').toString());
+        if (await portCheck(port)) {
             await kill(port);
             await new Promise<void>(resolve =>
                 setTimeout(() => resolve(), KILL_PORT_DELAY),
@@ -15,13 +17,12 @@ export async function killPort(port: number): Promise<boolean> {
             } else {
                 return true;
             }
-        } catch (error) {
-            console.log(error);
-            console.error(`Port ${port} closing failed`);
         }
 
-        return false;
+        return true;
+    } catch (error) {
+        console.error(`Port ${port} closing failed`);
     }
 
-    return true;
+    return false;
 }
