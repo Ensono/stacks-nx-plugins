@@ -1,6 +1,6 @@
 import { getPackageManagerCommand } from '@nx/devkit';
 import { runNxCommandAsync, tmpProjPath } from '@nx/plugin/testing';
-import { exec } from 'child_process';
+import { ChildProcess, exec } from 'child_process';
 
 import { killPort } from './process-utilities';
 
@@ -30,7 +30,7 @@ export function stripConsoleColors(logs: string): string {
 export async function runCommandUntil(
     command: string,
     criteria: (output: string) => boolean,
-) {
+): Promise<ChildProcess> {
     const pm = getPackageManagerCommand();
 
     const p = exec(`${pm.exec} nx ${command}`, {
@@ -44,7 +44,7 @@ export async function runCommandUntil(
         windowsHide: true,
     });
 
-    await new Promise((response, rej) => {
+    await new Promise<void>((response, rej) => {
         let output = '';
         let complete = false;
 
@@ -54,7 +54,7 @@ export async function runCommandUntil(
             if (criteria(stripConsoleColors(output)) && !complete) {
                 console.log(output);
                 complete = true;
-                response(p);
+                response();
             } else if (output.includes('Error:')) {
                 rej(new Error(`Error detected running command: \n${output}`));
             }
@@ -64,7 +64,7 @@ export async function runCommandUntil(
         p.stderr?.on('data', checkCriteria);
         p.on('close', code => {
             if (complete) {
-                response(p);
+                response();
             } else {
                 console.error(`Original output:
                 ${output
@@ -75,6 +75,8 @@ export async function runCommandUntil(
             }
         });
     });
+
+    return p;
 }
 
 export async function runTarget(
@@ -120,15 +122,23 @@ export async function runTarget(
         }
         case targetOptions.start: {
             const appPort = 4000;
+            let serverProcess: ChildProcess | undefined;
 
             try {
-                await runCommandUntil(
+                serverProcess = await runCommandUntil(
                     `${command} --port=${appPort} --verbose`,
                     output => {
                         return output.includes(`localhost:${appPort}`);
                     },
                 );
             } finally {
+                // Signal the process to terminate gracefully
+                if (serverProcess) {
+                    serverProcess.kill('SIGTERM');
+                    // Give the process time to shut down
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+                // Fallback: kill by port if process didn't release it
                 await killPort(appPort);
             }
 

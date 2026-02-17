@@ -67,6 +67,7 @@ describe('next e2e', () => {
         });
 
         it('serves the application', async () => {
+            await runNxCommandAsync('reset');
             expect(await runTarget(project, targetOptions.start)).toBeTruthy();
         });
 
