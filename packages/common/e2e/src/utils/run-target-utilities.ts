@@ -44,7 +44,7 @@ export async function runCommandUntil(
         windowsHide: true,
     });
 
-    await new Promise<void>((response, rej) => {
+    await new Promise<void>((response, reject) => {
         let output = '';
         let complete = false;
 
@@ -56,7 +56,9 @@ export async function runCommandUntil(
                 complete = true;
                 response();
             } else if (output.includes('Error:')) {
-                rej(new Error(`Error detected running command: \n${output}`));
+                reject(
+                    new Error(`Error detected running command: \n${output}`),
+                );
             }
         }
 
@@ -71,7 +73,7 @@ export async function runCommandUntil(
                     .split('\n')
                     .map(l => `    ${l}`)
                     .join('\n')}`);
-                rej(new Error(`Exited with ${code}`));
+                reject(new Error(`Exited with ${code}`));
             }
         });
     });
@@ -134,12 +136,16 @@ export async function runTarget(
             } finally {
                 // Signal the process to terminate gracefully
                 if (serverProcess) {
-                    serverProcess.kill('SIGTERM');
-                    // Give the process time to shut down
-                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    const result = serverProcess.kill('SIGTERM');
+
+                    console.log(`Process kill result: ${result}`);
+                    if (!result) {
+                        // Fallback: kill by port if process didn't release it
+                        await killPort(appPort);
+                    }
                 }
-                // Fallback: kill by port if process didn't release it
-                await killPort(appPort);
+                // Give the process time to shut down
+                await new Promise(done => setTimeout(done, 2000));
             }
 
             return true;
