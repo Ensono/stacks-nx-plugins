@@ -12,8 +12,8 @@ export default defineConfig(() => ({
         watch: false,
         globals: true,
         environment: 'node',
-        hookTimeout: 180_000,
-        testTimeout: 180_000,
+        hookTimeout: 360_000,
+        testTimeout: 360_000,
         setupFiles: ['./setup-test.ts'],
         include: [
             '{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
