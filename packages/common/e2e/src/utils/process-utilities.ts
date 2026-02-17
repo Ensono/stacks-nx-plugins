@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import kill from 'kill-port';
 import { check as portCheck } from 'tcp-port-used';
 
@@ -6,7 +5,6 @@ const KILL_PORT_DELAY = 5000;
 
 export async function killPort(port: number): Promise<boolean> {
     try {
-        console.log(execSync('lsof -i -P').toString());
         if (await portCheck(port)) {
             await kill(port);
             await new Promise<void>(resolve =>
