@@ -65,7 +65,7 @@ export function addFiles(tree: Tree, project: ProjectConfiguration) {
             {
                 port,
                 projectRoot: project.root,
-                relativeProjectRoot: path.join(
+                relativeDistributionPath: path.join(
                     offsetFromRoot(
                         path.join(customServerDistributionPath, 'server'),
                     ),
