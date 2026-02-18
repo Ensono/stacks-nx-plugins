@@ -35,4 +35,4 @@ EXPOSE <%= port %>
 # ENTRYPOINT [ "docker-entrypoint.sh" ]
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
-<% if(customServerDistributionPath) { %>CMD ["node", "app/server/server/main.js"]<% } else { %>CMD ["npx", "next", "start"]<% } %>
+<% if(customServerDistributionPath) { %>CMD ["node", "server/server/main.js"]<% } else { %>CMD [<%= packageManagerRunCommandList.join(', ') %>]<% } %>

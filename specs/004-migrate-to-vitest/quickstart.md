@@ -1,6 +1,6 @@
 # Quickstart: Jest to Vitest Migration
 
-**Feature**: 001-migrate-to-vitest  
+**Feature**: 004-migrate-to-vitest  
 **Date**: 5 February 2026
 
 ## Overview
@@ -11,7 +11,7 @@ task detection.
 
 ## Prerequisites
 
-- Node.js 22.x
+- Node.js 24.x
 - pnpm 9.x
 - Nx 22.4.4
 

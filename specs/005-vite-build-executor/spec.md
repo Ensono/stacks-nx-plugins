@@ -1,6 +1,6 @@
 # Feature Specification: Vite Build Executor with Centralised Dependency Versions
 
-**Feature Branch**: `001-vite-build-executor`  
+**Feature Branch**: `005-vite-build-executor`  
 **Created**: 9 February 2026  
 **Status**: Draft  
 **Input**: User description: "Change build executor for all packages to use Vite

@@ -1,6 +1,6 @@
 # Feature Specification: ESLint v9 Flat Config Migration
 
-**Feature Branch**: `001-eslint-flat-config`  
+**Feature Branch**: `003-eslint-flat-config`  
 **Created**: 3 February 2026  
 **Status**: Draft  
 **Input**: User description: "Migrate ESLint to version ^9.8.0 and adopt flat
@@ -28,7 +28,7 @@ linting completes successfully with the same rule coverage as before.
 
 1. **Given** the monorepo has ESLint v9 installed, **When** a developer runs
    `nx lint <project>`, **Then** linting executes successfully using
-   `eslint.config.js` (flat config format)
+   `eslint.config.mjs` (flat config format)
 2. **Given** the flat config is in place, **When** existing code is linted,
    **Then** the same violations are detected as with the previous ESLint v8
    configuration
@@ -49,13 +49,13 @@ configuration format.
 flat config. Depends on P1 being complete to understand the correct patterns.
 
 **Independent Test**: Run the workspace init generator in a new Nx workspace and
-verify an `eslint.config.js` file is created instead of `.eslintrc.json`.
+verify an `eslint.config.mjs` file is created instead of `.eslintrc.json`.
 
 **Acceptance Scenarios**:
 
 1. **Given** a new Nx workspace, **When** a user runs
    `@ensono-stacks/workspace:init` with the `--eslint` flag, **Then** an
-   `eslint.config.js` file is created at the root with Stacks defaults
+   `eslint.config.mjs` file is created at the root with Stacks defaults
 2. **Given** a workspace with the Next.js plugin, **When** a user runs
    `@ensono-stacks/next:init`, **Then** project-level ESLint configuration is
    added in flat config format
@@ -74,15 +74,15 @@ the new format.
 done alongside or before P2 to avoid duplication.
 
 **Independent Test**: Import flat config utilities from `@ensono-stacks/core` in
-a plugin and successfully read/write an `eslint.config.js` file.
+a plugin and successfully read/write an `eslint.config.mjs` file.
 
 **Acceptance Scenarios**:
 
-1. **Given** a tree with an `eslint.config.js` file, **When** using core
+1. **Given** a tree with an `eslint.config.mjs` file, **When** using core
    utilities to read the config, **Then** the configuration object is correctly
    parsed and returned
 2. **Given** a tree without ESLint config, **When** using core utilities to
-   write a new flat config, **Then** a valid `eslint.config.js` file is created
+   write a new flat config, **Then** a valid `eslint.config.mjs` file is created
 3. **Given** an existing flat config, **When** using core utilities to merge
    configurations, **Then** the configs are combined correctly following ESLint
    v9 flat config semantics
@@ -128,13 +128,13 @@ passing after plugin updates.
 ### Functional Requirements
 
 - **FR-001**: Workspace MUST use ESLint version ^9.8.0 with flat config format
-  (`eslint.config.js`)
+  (`eslint.config.mjs`)
 - **FR-002**: Workspace MUST replace all `.eslintrc.json` files (root and
   project-level) with flat config equivalents
 - **FR-003**: `@ensono-stacks/core` MUST provide utilities for reading, writing,
   and merging ESLint flat configs
 - **FR-004**: `@ensono-stacks/workspace:init` generator MUST generate
-  `eslint.config.js` instead of `.eslintrc.json` when `--eslint` flag is used
+  `eslint.config.mjs` instead of `.eslintrc.json` when `--eslint` flag is used
 - **FR-005**: `@ensono-stacks/next:init` generator MUST produce flat config
   compatible ESLint configuration for Next.js projects
 - **FR-006**: All ESLint plugins MUST be updated to versions compatible with
@@ -160,7 +160,7 @@ passing after plugin updates.
 
 ### Key Entities
 
-- **Root ESLint Config**: The workspace-level `eslint.config.js` that defines
+- **Root ESLint Config**: The workspace-level `eslint.config.mjs` that defines
   shared rules and plugin configurations
 - **Project ESLint Config**: Project-specific flat config that extends or
   overrides root configuration

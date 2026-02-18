@@ -2,7 +2,7 @@
 
 **Status**: ✅ **COMPLETE** (88/88 tasks, 100%)
 
-**Input**: Design documents from `/specs/001-eslint-flat-config/`
+**Input**: Design documents from `/specs/003-eslint-flat-config/`
 **Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, data-model.md ✅,
 contracts/ ✅
 
@@ -82,26 +82,26 @@ implementation and testing.
 - [x] T010 Run nx g @nx/eslint:convert-to-flat-config to generate initial flat
       configs
 - [x] T011 Delete all remaining .eslintrc.json files (verify 12 files deleted)
-- [x] T012 Verify 12 eslint.config.js files were created (root + 11 packages)
-- [x] T013 Update root eslint.config.js to use typescript-eslint meta-package
+- [x] T012 Verify 12 eslint.config.mjs files were created (root + 11 packages)
+- [x] T013 Update root eslint.config.mjs to use typescript-eslint meta-package
       imports
-- [x] T014 [P] Update root eslint.config.js to add eslint-plugin-security with
+- [x] T014 [P] Update root eslint.config.mjs to add eslint-plugin-security with
       flat config export
-- [x] T015 [P] Update root eslint.config.js to add eslint-plugin-unicorn with
+- [x] T015 [P] Update root eslint.config.mjs to add eslint-plugin-unicorn with
       flat config export
-- [x] T016 [P] Update root eslint.config.js to add eslint-plugin-import with
+- [x] T016 [P] Update root eslint.config.mjs to add eslint-plugin-import with
       flat config export
-- [x] T017 Update root eslint.config.js to add eslint-plugin-prettier with flat
+- [x] T017 Update root eslint.config.mjs to add eslint-plugin-prettier with flat
       config export
-- [x] T018 Update root eslint.config.js to replace airbnb rules with manual
+- [x] T018 Update root eslint.config.mjs to replace airbnb rules with manual
       equivalent configuration
-- [x] T019 Update root eslint.config.js to configure
+- [x] T019 Update root eslint.config.mjs to configure
       @nx/enforce-module-boundaries rule
-- [x] T020 [P] Update root eslint.config.js to add globals for node environment
-- [x] T021 [P] Update root eslint.config.js to add jsonc-eslint-parser for JSON
+- [x] T020 [P] Update root eslint.config.mjs to add globals for node environment
+- [x] T021 [P] Update root eslint.config.mjs to add jsonc-eslint-parser for JSON
       files
-- [x] T022 Verify root eslint.config.js syntax is valid by running pnpm exec
-      eslint --print-config eslint.config.js
+- [x] T022 Verify root eslint.config.mjs syntax is valid by running pnpm exec
+      eslint --print-config eslint.config.mjs
 
 **Checkpoint**: Foundation ready - root config complete, ready for project
 configs and user stories
@@ -118,27 +118,27 @@ successfully
 
 ### Implementation for User Story 1
 
-- [x] T023 [P] [US1] Update packages/azure-node/eslint.config.js to extend root
+- [x] T023 [P] [US1] Update packages/azure-node/eslint.config.mjs to extend root
       config correctly
-- [x] T024 [P] [US1] Update packages/azure-react/eslint.config.js to extend root
+- [x] T024 [P] [US1] Update packages/azure-react/eslint.config.mjs to extend
+      root config correctly
+- [x] T025 [P] [US1] Update packages/common/core/eslint.config.mjs to extend
+      root config correctly
+- [x] T026 [P] [US1] Update packages/common/e2e/eslint.config.mjs to extend root
       config correctly
-- [x] T025 [P] [US1] Update packages/common/core/eslint.config.js to extend root
+- [x] T027 [P] [US1] Update packages/common/test/eslint.config.mjs to extend
+      root config correctly
+- [x] T028 [P] [US1] Update packages/create/eslint.config.mjs to extend root
       config correctly
-- [x] T026 [P] [US1] Update packages/common/e2e/eslint.config.js to extend root
+- [x] T029 [P] [US1] Update packages/logger/eslint.config.mjs to extend root
       config correctly
-- [x] T027 [P] [US1] Update packages/common/test/eslint.config.js to extend root
+- [x] T030 [P] [US1] Update packages/next/eslint.config.mjs to extend root
       config correctly
-- [x] T028 [P] [US1] Update packages/create/eslint.config.js to extend root
+- [x] T031 [P] [US1] Update packages/playwright/eslint.config.mjs to extend root
       config correctly
-- [x] T029 [P] [US1] Update packages/logger/eslint.config.js to extend root
-      config correctly
-- [x] T030 [P] [US1] Update packages/next/eslint.config.js to extend root config
-      correctly
-- [x] T031 [P] [US1] Update packages/playwright/eslint.config.js to extend root
-      config correctly
-- [x] T032 [P] [US1] Update packages/rest-client/eslint.config.js to extend root
-      config correctly
-- [x] T033 [P] [US1] Update packages/workspace/eslint.config.js to extend root
+- [x] T032 [P] [US1] Update packages/rest-client/eslint.config.mjs to extend
+      root config correctly
+- [x] T033 [P] [US1] Update packages/workspace/eslint.config.mjs to extend root
       config correctly
 - [x] T034 [US1] Run nx lint on all projects: pnpm exec nx run-many -t lint
       --all
@@ -174,9 +174,9 @@ read/write operations work
 
 - [x] T044 [US3] Create packages/common/core/src/lib/eslint-flat-config.ts with
       type definitions
-- [x] T045 [US3] Implement readFlatEslintConfig() to parse eslint.config.js
+- [x] T045 [US3] Implement readFlatEslintConfig() to parse eslint.config.mjs
       using ts-morph
-- [x] T046 [US3] Implement writeFlatEslintConfig() to generate eslint.config.js
+- [x] T046 [US3] Implement writeFlatEslintConfig() to generate eslint.config.mjs
 - [x] T047 [US3] Implement mergeFlatConfigs() to combine flat config arrays
 - [x] T048 [US3] Implement getFlatConfigPath() to resolve config file location
 - [x] T049 [US3] Export new utilities from packages/common/core/src/lib/index.ts
@@ -194,9 +194,9 @@ ESLint migration.
 
 ## Phase 5: User Story 2 - Plugin Generators Produce Flat Config (Priority: P2)
 
-**Goal**: Generators produce eslint.config.js instead of .eslintrc.json
+**Goal**: Generators produce eslint.config.mjs instead of .eslintrc.json
 
-**Independent Test**: Run workspace:init generator and verify eslint.config.js
+**Independent Test**: Run workspace:init generator and verify eslint.config.mjs
 is created
 
 ### Tests for User Story 2 - Workspace Generator
@@ -205,7 +205,7 @@ is created
       packages/workspace/src/generators/init/generator.spec.ts to test flat
       config output
 - [x] T054 [P] [US2] Update test assertions from .eslintrc.json to
-      eslint.config.js
+      eslint.config.mjs
 
 ### Implementation for User Story 2 - Workspace Generator
 
@@ -216,7 +216,7 @@ is created
       to use flat config utilities
 - [x] T057 [US2] Create flat config template in
       packages/workspace/src/generators/init/files/
-- [x] T058 [US2] Update generator to write eslint.config.js instead of
+- [x] T058 [US2] Update generator to write eslint.config.mjs instead of
       .eslintrc.json
 - [x] T059 [US2] Run unit tests: pnpm exec nx test workspace (15/15 tests
       passed)
@@ -226,7 +226,7 @@ is created
 - [x] T060 [P] [US2] Update packages/next/src/generators/init/generator.spec.ts
       to test flat config output
 - [x] T061 [P] [US2] Update test assertions for Next.js-specific
-      eslint.config.js content
+      eslint.config.mjs content
 
 ### Implementation for User Story 2 - Next.js Generator
 
@@ -429,17 +429,17 @@ can run in parallel **Phase 8 (Polish)**: T078-T080 can run in parallel
 
 ```bash
 # All project config updates can run in parallel:
-T023: packages/azure-node/eslint.config.js
-T024: packages/azure-react/eslint.config.js
-T025: packages/common/core/eslint.config.js
-T026: packages/common/e2e/eslint.config.js
-T027: packages/common/test/eslint.config.js
-T028: packages/create/eslint.config.js
-T029: packages/logger/eslint.config.js
-T030: packages/next/eslint.config.js
-T031: packages/playwright/eslint.config.js
-T032: packages/rest-client/eslint.config.js
-T033: packages/workspace/eslint.config.js
+T023: packages/azure-node/eslint.config.mjs
+T024: packages/azure-react/eslint.config.mjs
+T025: packages/common/core/eslint.config.mjs
+T026: packages/common/e2e/eslint.config.mjs
+T027: packages/common/test/eslint.config.mjs
+T028: packages/create/eslint.config.mjs
+T029: packages/logger/eslint.config.mjs
+T030: packages/next/eslint.config.mjs
+T031: packages/playwright/eslint.config.mjs
+T032: packages/rest-client/eslint.config.mjs
+T033: packages/workspace/eslint.config.mjs
 ```
 
 ---

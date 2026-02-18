@@ -1,8 +1,8 @@
 # Implementation Plan: Vite Build Executor with Centralised Dependency Versions
 
-**Branch**: `001-vite-build-executor` | **Date**: 9 February 2026 | **Spec**:
+**Branch**: `005-vite-build-executor` | **Date**: 9 February 2026 | **Spec**:
 [spec.md](spec.md) **Input**: Feature specification from
-`/specs/001-vite-build-executor/spec.md`
+`/specs/005-vite-build-executor/spec.md`
 
 ## Summary
 
