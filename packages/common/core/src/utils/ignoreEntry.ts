@@ -1,5 +1,5 @@
+import { Tree } from '@nx/devkit';
 import ignore from 'ignore';
-import { Tree } from 'nx/src/generators/tree';
 
 export function addIgnoreEntry(
     tree: Tree,

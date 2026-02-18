@@ -12,6 +12,10 @@ export function getNpmScope(tree: Tree) {
         ? readJson(tree, 'package.json')
         : { name: null };
 
+    if (typeof name !== 'string') {
+        return null;
+    }
+
     return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
 }
 
