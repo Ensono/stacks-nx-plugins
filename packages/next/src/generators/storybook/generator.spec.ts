@@ -84,7 +84,6 @@ describe('storybook generator', () => {
 
             const packageJson = readJson(appTree, 'package.json');
 
-            console.log(JSON.stringify(packageJson, null, 2));
             expect(Object.keys(packageJson.devDependencies)).toEqual(
                 expect.arrayContaining([
                     '@nx/storybook',

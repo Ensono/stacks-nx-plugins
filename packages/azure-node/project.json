@@ -11,7 +11,7 @@
             "options": {
                 "lintFilePatterns": [
                     "packages/azure-node/**/*.ts",
-                    "qpackages/azure-node/generators.json",
+                    "packages/azure-node/generators.json",
                     "packages/azure-node/executors.json",
                     "packages/azure-node/package.json"
                 ]

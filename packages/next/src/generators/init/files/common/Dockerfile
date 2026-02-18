@@ -5,7 +5,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY <%= root %>/package*.json ./
+COPY <%= root %>/package.json ./
 
 RUN <%= packageManagerInstallCommand %>
 
