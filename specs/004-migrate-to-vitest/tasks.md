@@ -1,6 +1,6 @@
 # Tasks: Migrate from Jest to Vitest
 
-**Input**: Design documents from `/specs/001-migrate-to-vitest/`
+**Input**: Design documents from `/specs/004-migrate-to-vitest/`
 **Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, quickstart.md ✅
 
 **Tests**: No test tasks included - this is a test infrastructure migration, not

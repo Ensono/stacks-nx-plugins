@@ -1,6 +1,6 @@
 # Data Model: ESLint v9 Flat Config Migration
 
-**Feature**: 001-eslint-flat-config  
+**Feature**: 003-eslint-flat-config  
 **Date**: 3 February 2026
 
 ## Overview
@@ -13,7 +13,7 @@ rules, plugins, and settings.
 
 ### 1. FlatConfigArray
 
-The root-level ESLint configuration, exported from `eslint.config.js`.
+The root-level ESLint configuration, exported from `eslint.config.mjs`.
 
 **Description**: An array of configuration objects that ESLint processes
 sequentially. Later objects override earlier ones for matching files.
@@ -107,9 +107,9 @@ objects | Deprecate | | formatFilesWithEslint | Run eslint --fix | Keep |
 
 **New Utilities (flat config format)**: | Function | Purpose | Status |
 |----------|---------|--------| | updateFlatEslintConfig | Read/modify
-eslint.config.js | New | | mergeFlatConfigs | Combine flat config arrays | New |
-| createFlatConfigBlock | Create ConfigObject from options | New | |
-getFlatConfigPath | Resolve eslint.config.js location | New |
+eslint.config.mjs | New | | mergeFlatConfigs | Combine flat config arrays | New
+| | createFlatConfigBlock | Create ConfigObject from options | New | |
+getFlatConfigPath | Resolve eslint.config.mjs location | New |
 
 ---
 
@@ -139,25 +139,25 @@ packages/<name>/.eslintrc.json           # Project configs (11 files)
 ### After Migration (flat config format)
 
 ```
-eslint.config.js                         # Root config (ESM)
-packages/<name>/eslint.config.js         # Project configs (11 files, ESM)
+eslint.config.mjs                         # Root config (ESM)
+packages/<name>/eslint.config.mjs         # Project configs (11 files, ESM)
 ```
 
 ## Configuration Inheritance
 
 ```mermaid
 graph TD
-    A[Root eslint.config.js] --> B[packages/azure-node/eslint.config.js]
-    A --> C[packages/azure-react/eslint.config.js]
-    A --> D[packages/common/core/eslint.config.js]
-    A --> E[packages/common/e2e/eslint.config.js]
-    A --> F[packages/common/test/eslint.config.js]
-    A --> G[packages/create/eslint.config.js]
-    A --> H[packages/logger/eslint.config.js]
-    A --> I[packages/next/eslint.config.js]
-    A --> J[packages/playwright/eslint.config.js]
-    A --> K[packages/rest-client/eslint.config.js]
-    A --> L[packages/workspace/eslint.config.js]
+    A[Root eslint.config.mjs] --> B[packages/azure-node/eslint.config.mjs]
+    A --> C[packages/azure-react/eslint.config.mjs]
+    A --> D[packages/common/core/eslint.config.mjs]
+    A --> E[packages/common/e2e/eslint.config.mjs]
+    A --> F[packages/common/test/eslint.config.mjs]
+    A --> G[packages/create/eslint.config.mjs]
+    A --> H[packages/logger/eslint.config.mjs]
+    A --> I[packages/next/eslint.config.mjs]
+    A --> J[packages/playwright/eslint.config.mjs]
+    A --> K[packages/rest-client/eslint.config.mjs]
+    A --> L[packages/workspace/eslint.config.mjs]
 ```
 
 Each project config:

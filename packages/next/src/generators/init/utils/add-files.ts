@@ -23,8 +23,9 @@ export function addFiles(tree: Tree, project: ProjectConfiguration) {
     const port = getPort(project);
     const packageManager = detectPackageManager();
     const packageManagerVersion = getPackageManagerVersion(packageManager);
-    const { install } = getPackageManagerCommand(packageManager);
+    const { install, exec } = getPackageManagerCommand(packageManager);
     let installCommand = install;
+    const runCommand = exec.split(' ');
 
     if (packageManager === 'pnpm') {
         installCommand += ' --prod';
@@ -42,6 +43,8 @@ export function addFiles(tree: Tree, project: ProjectConfiguration) {
         }
     }
 
+    runCommand.push('next', 'start');
+
     generateFiles(
         tree,
         path.join(__dirname, '..', 'files', 'common'),
@@ -50,6 +53,9 @@ export function addFiles(tree: Tree, project: ProjectConfiguration) {
             customServerDistributionPath,
             nextDistributionPath,
             packageManagerInstallCommand: installCommand,
+            packageManagerRunCommandList: runCommand.map(
+                argument => `"${argument}"`,
+            ),
             port,
             projectName: project.name,
             root: project.root,

@@ -1,13 +1,13 @@
 # Research: ESLint v9 Flat Config Migration
 
-**Feature**: 001-eslint-flat-config  
+**Feature**: 003-eslint-flat-config  
 **Date**: 3 February 2026  
 **Status**: Complete
 
 ## Executive Summary
 
 This research validates the feasibility of migrating from ESLint v8.57.0 with
-`.eslintrc.json` to ESLint v9.8.0+ with flat config (`eslint.config.js`). All
+`.eslintrc.json` to ESLint v9.8.0+ with flat config (`eslint.config.mjs`). All
 critical plugins have ESLint v9 compatible versions available, with one
 exception: `eslint-config-airbnb` does not support ESLint v9 and must be
 replaced with equivalent manual rules.
@@ -112,9 +112,9 @@ flat config, then customize.
 
 - v57+ is required for flat config support
 - The monorepo already uses `"type": "module"` pattern
-- eslint.config.js can use ESM imports
+- eslint.config.mjs can use ESM imports
 
-**Impact**: Ensure all eslint.config.js files use `import` statements, not
+**Impact**: Ensure all eslint.config.mjs files use `import` statements, not
 `require()`.
 
 ## Flat Config Structure Pattern
@@ -122,7 +122,7 @@ flat config, then customize.
 Based on ESLint v9 documentation and Nx best practices:
 
 ```javascript
-// eslint.config.js (root)
+// eslint.config.mjs (root)
 import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -199,8 +199,8 @@ The following utilities in `@ensono-stacks/core` need updates:
 
 ### New utilities needed (flat config format)
 
-- `updateFlatEslintConfig()` - Reads/writes `eslint.config.js` (AST manipulation
-  via ts-morph)
+- `updateFlatEslintConfig()` - Reads/writes `eslint.config.mjs` (AST
+  manipulation via ts-morph)
 - `mergeFlatConfigs()` - Merges flat config arrays
 - `formatFilesWithEslint()` - No changes needed (eslint CLI unchanged)
 
@@ -215,8 +215,8 @@ The following utilities in `@ensono-stacks/core` need updates:
 
 Running `nx g @nx/eslint:convert-to-flat-config` will:
 
-1. Create root `eslint.config.js`
-2. Create project-level `eslint.config.js` files
+1. Create root `eslint.config.mjs`
+2. Create project-level `eslint.config.mjs` files
 3. Delete `.eslintrc.json` files
 4. Update `project.json` lint targets if needed
 

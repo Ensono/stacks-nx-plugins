@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- Node.js 22.16.0 (`engines` field in package.json)
+- Node.js 24.13.1 (`engines` field in package.json)
 - pnpm 10.7.0+
-- Repository cloned on branch `001-vite-build-executor`
+- Repository cloned on branch `005-vite-build-executor`
 
 ## How It Works
 

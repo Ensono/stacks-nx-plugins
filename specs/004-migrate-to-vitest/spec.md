@@ -1,6 +1,6 @@
 # Feature Specification: Migrate from Jest to Vitest
 
-**Feature Branch**: `001-migrate-to-vitest`  
+**Feature Branch**: `004-migrate-to-vitest`  
 **Created**: 5 February 2026  
 **Status**: Draft  
 **Input**: User description: "Replace Jest with Vitest across all projects.

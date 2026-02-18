@@ -1,8 +1,8 @@
 # Implementation Plan: Migrate from Jest to Vitest
 
-**Branch**: `001-migrate-to-vitest` | **Date**: 5 February 2026 | **Spec**:
+**Branch**: `004-migrate-to-vitest` | **Date**: 5 February 2026 | **Spec**:
 [spec.md](spec.md) **Input**: Feature specification from
-`/specs/001-migrate-to-vitest/spec.md`
+`/specs/004-migrate-to-vitest/spec.md`
 
 ## Summary
 

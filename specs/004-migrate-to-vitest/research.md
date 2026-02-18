@@ -1,6 +1,6 @@
 # Research: Jest to Vitest Migration with Nx
 
-**Feature**: 001-migrate-to-vitest  
+**Feature**: 004-migrate-to-vitest  
 **Date**: 5 February 2026
 
 ## Executive Summary

@@ -1,13 +1,13 @@
 # Implementation Plan: ESLint v9 Flat Config Migration
 
-**Branch**: `001-eslint-flat-config` | **Date**: 3 February 2026 | **Spec**:
+**Branch**: `003-eslint-flat-config` | **Date**: 3 February 2026 | **Spec**:
 [spec.md](spec.md) **Input**: Feature specification from
-`/specs/001-eslint-flat-config/spec.md`
+`/specs/003-eslint-flat-config/spec.md`
 
 ## Summary
 
 Migrate ESLint from v8.57.0 to v9.8.0+ with flat config format
-(`eslint.config.js`) across the stacks-nx-plugins monorepo and update all
+(`eslint.config.mjs`) across the stacks-nx-plugins monorepo and update all
 generators to produce flat config for consumer workspaces. This requires
 updating 12 `.eslintrc.json` files, upgrading ESLint plugins to v9-compatible
 versions, updating core utilities in `@ensono-stacks/core`, and modifying
@@ -15,7 +15,7 @@ generators in `@ensono-stacks/workspace` and `@ensono-stacks/next`.
 
 ## Technical Context
 
-**Language/Version**: TypeScript ~5.8.0, Node.js 22.x (verified via `.nvmrc`)  
+**Language/Version**: TypeScript ~5.8.0, Node.js 24.x (verified via `.nvmrc`)  
 **Primary Dependencies**:
 
 - ESLint: ~8.57.0 → ^9.8.0
@@ -77,31 +77,31 @@ specs/001-eslint-flat-config/
 
 ```text
 # Root-level changes
-eslint.config.js                    # NEW - replaces .eslintrc.json
+eslint.config.mjs                    # NEW - replaces .eslintrc.json
 .eslintrc.json                      # DELETE
 
 # Package-level changes (11 packages)
-packages/azure-node/eslint.config.js    # NEW
+packages/azure-node/eslint.config.mjs    # NEW
 packages/azure-node/.eslintrc.json      # DELETE
-packages/azure-react/eslint.config.js   # NEW
+packages/azure-react/eslint.config.mjs   # NEW
 packages/azure-react/.eslintrc.json     # DELETE
-packages/common/core/eslint.config.js   # NEW
+packages/common/core/eslint.config.mjs   # NEW
 packages/common/core/.eslintrc.json     # DELETE
-packages/common/e2e/eslint.config.js    # NEW
+packages/common/e2e/eslint.config.mjs    # NEW
 packages/common/e2e/.eslintrc.json      # DELETE
-packages/common/test/eslint.config.js   # NEW
+packages/common/test/eslint.config.mjs   # NEW
 packages/common/test/.eslintrc.json     # DELETE
-packages/create/eslint.config.js        # NEW
+packages/create/eslint.config.mjs        # NEW
 packages/create/.eslintrc.json          # DELETE
-packages/logger/eslint.config.js        # NEW
+packages/logger/eslint.config.mjs        # NEW
 packages/logger/.eslintrc.json          # DELETE
-packages/next/eslint.config.js          # NEW
+packages/next/eslint.config.mjs          # NEW
 packages/next/.eslintrc.json            # DELETE
-packages/playwright/eslint.config.js    # NEW
+packages/playwright/eslint.config.mjs    # NEW
 packages/playwright/.eslintrc.json      # DELETE
-packages/rest-client/eslint.config.js   # NEW
+packages/rest-client/eslint.config.mjs   # NEW
 packages/rest-client/.eslintrc.json     # DELETE
-packages/workspace/eslint.config.js     # NEW
+packages/workspace/eslint.config.mjs     # NEW
 packages/workspace/.eslintrc.json       # DELETE
 
 # Core utility updates

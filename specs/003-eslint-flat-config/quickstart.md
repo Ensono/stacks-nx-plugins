@@ -1,6 +1,6 @@
 # Quickstart: ESLint v9 Flat Config Migration
 
-**Feature**: 001-eslint-flat-config  
+**Feature**: 003-eslint-flat-config  
 **Date**: 3 February 2026
 
 ## Overview
@@ -10,9 +10,9 @@ flat config migration in the stacks-nx-plugins monorepo.
 
 ## Prerequisites
 
-- Node.js 22.x (verified via `.nvmrc`)
+- Node.js 24.x (verified via `.nvmrc`)
 - pnpm (workspace package manager)
-- Current branch: `001-eslint-flat-config`
+- Current branch: `003-eslint-flat-config`
 
 ## Phase 1: Package Updates
 
@@ -62,17 +62,17 @@ pnpm exec nx g @nx/eslint:convert-to-flat-config
 
 This will:
 
-- Create `eslint.config.js` at root
-- Create project-level `eslint.config.js` files
+- Create `eslint.config.mjs` at root
+- Create project-level `eslint.config.mjs` files
 - Delete `.eslintrc.json` files
 
 ### Step 2.2: Verify conversion
 
 ```bash
 # Check that flat config files exist
-ls eslint.config.js
-ls packages/*/eslint.config.js
-ls packages/common/*/eslint.config.js
+ls eslint.config.mjs
+ls packages/*/eslint.config.mjs
+ls packages/common/*/eslint.config.jms
 
 # Verify .eslintrc.json files are deleted
 find . -name ".eslintrc.json" -type f
@@ -81,7 +81,7 @@ find . -name ".eslintrc.json" -type f
 
 ## Phase 3: Configuration Customization
 
-### Step 3.1: Update root eslint.config.js
+### Step 3.1: Update root eslint.config.mjs
 
 Replace the auto-generated config with the Stacks-specific configuration from
 [contracts/eslint-config-schema.md](contracts/eslint-config-schema.md).
@@ -102,8 +102,8 @@ Each project config should:
 2. Add project-specific overrides if needed
 
 ```javascript
-// packages/<project>/eslint.config.js
-import baseConfig from '../../eslint.config.js';
+// packages/<project>/eslint.config.mjs
+import baseConfig from '../../eslint.config.mjs';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([...baseConfig]);
@@ -158,7 +158,7 @@ pnpm exec nx e2e next-e2e
 
 - [x] ESLint v9.8.0+ installed
 - [x] All `.eslintrc.json` files deleted (12 files)
-- [x] All `eslint.config.js` files created (12 files)
+- [x] All `eslint.config.mjs` files created (12 files)
 - [x] `nx lint` passes on all projects
 - [x] Unit tests pass (80% coverage maintained) - Core ESLint packages pass,
       other failures unrelated
