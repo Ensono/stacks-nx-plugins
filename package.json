@@ -168,7 +168,7 @@
     },
     "engines": {
         "pnpm": "^10.7.0",
-        "node": "^24"
+        "node": "^24.13.1"
     },
     "nx": {
         "includedScripts": [],
