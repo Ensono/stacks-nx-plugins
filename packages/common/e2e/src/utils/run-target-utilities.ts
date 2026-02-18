@@ -133,19 +133,16 @@ export async function runTarget(
                         return output.includes(`localhost:${appPort}`);
                     },
                 );
+            } catch (error) {
+                console.error(`Error running target:`, error);
             } finally {
-                // Signal the process to terminate gracefully
+                // Signal the process to terminate
                 if (serverProcess) {
-                    const result = serverProcess.kill('SIGTERM');
-
-                    console.log(`Process kill result: ${result}`);
-                    if (!result) {
-                        // Fallback: kill by port if process didn't release it
-                        await killPort(appPort);
-                    }
+                    // SIGKILL ensures termination (SIGTERM may be ignored)
+                    serverProcess.kill('SIGKILL');
                 }
-                // Give the process time to shut down
-                await new Promise(done => setTimeout(done, 2000));
+                // Always kill by port as safety net - SIGKILL doesn't cascade to grandchildren
+                await killPort(appPort);
             }
 
             return true;
