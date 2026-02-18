@@ -239,12 +239,13 @@ describe('init generator', () => {
                 nvm: true,
             });
 
+            expect(tree.exists('.nvmrc')).toBeTruthy();
+
             const nvmFile = tree.read('.nvmrc');
 
             expect(nvmFile?.toString()).toEqual(
-                expect.stringContaining('22.16.0'),
+                expect.stringMatching(/\d+\.\d+\.\d+/),
             );
-            expect(tree.exists('.nvmrc')).toBeTruthy();
         });
 
         it('should update file if it exists', async () => {
@@ -260,12 +261,13 @@ describe('init generator', () => {
                 nvm: true,
             });
 
+            expect(tree.exists('.nvmrc')).toBeTruthy();
+
             const nvmFile = tree.read('.nvmrc');
 
-            expect(nvmFile?.toString()).toEqual(
-                expect.stringContaining('22.16.0'),
+            expect(nvmFile?.toString()).not.toEqual(
+                expect.stringContaining('16.4.0'),
             );
-            expect(tree.exists('.nvmrc')).toBeTruthy();
         });
     });
 

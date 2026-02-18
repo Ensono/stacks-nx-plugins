@@ -15,7 +15,7 @@ function stripUndefined<T extends object>(o: T): T {
 
 export const profile: ProfileCallback<Auth0Profile> = (data) => {
   return stripUndefined({
-    id: data.oid ?? crypto.randomUUID(),
+    id: data.sub ?? crypto.randomUUID(),
     name: data.name ?? data.preferred_username,
     email: data.email,
     role: 'user',
