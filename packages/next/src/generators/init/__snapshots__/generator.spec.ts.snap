@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`next install generator Generator Dependencies should match the snapshot for layout.tsx file: next-app/src/app/layout.tsx 1`] = `
+exports[`next install generator > Generator > Dependencies > should match the snapshot for layout.tsx file > next-app/src/app/layout.tsx 1`] = `
 "import './global.css';
 import Axe from "../components/a11y/axe";
 

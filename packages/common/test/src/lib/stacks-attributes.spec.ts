@@ -26,12 +26,6 @@ describe('stacks', () => {
                     region: 'euw',
                     platform: 'azure',
                 },
-                pipeline: 'azdo',
-                terraform: {
-                    group: 'terraform-group',
-                    storage: 'terraform-storage',
-                    container: 'terraform-container',
-                },
                 vcs: {
                     type: 'github',
                     url: 'remote.git',
@@ -43,10 +37,9 @@ describe('stacks', () => {
                 },
                 workspace: [],
             };
-
             const result = addStacksAttributes(tree, 'test-project');
-
             const nxJson = JSON.parse(tree.read('nx.json', 'utf8') as string);
+
             expect(nxJson.stacks).toBeTruthy();
             expect(nxJson.stacks.config).toMatchObject(expectedStacksConfig);
             expect(nxJson.stacks.executedGenerators).toMatchObject(

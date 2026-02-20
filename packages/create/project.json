@@ -6,16 +6,6 @@
     "tags": ["plugin"],
     "implicitDependencies": ["workspace", "playwright"],
     "targets": {
-        "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
-            "options": {
-                "outputPath": "dist/packages/create",
-                "main": "packages/create/src/index.ts",
-                "tsConfig": "packages/create/tsconfig.lib.json",
-                "assets": ["packages/create/*.md"]
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
@@ -31,13 +21,6 @@
                 "release": {
                     "fix": true
                 }
-            }
-        },
-        "test": {
-            "executor": "@nx/jest:jest",
-            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-                "jestConfig": "packages/create/jest.config.ts"
             }
         }
     }

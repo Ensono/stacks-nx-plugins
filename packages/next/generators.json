@@ -4,23 +4,23 @@
     "version": "0.0.1",
     "generators": {
         "init": {
-            "factory": "./src/generators/init/generator",
-            "schema": "./src/generators/init/schema.json",
+            "factory": "./dist/generators/init/generator",
+            "schema": "./dist/generators/init/schema.json",
             "description": "next init generator"
         },
         "next-auth": {
-            "factory": "./src/generators/next-auth/generator",
-            "schema": "./src/generators/next-auth/schema.json",
+            "factory": "./dist/generators/next-auth/generator",
+            "schema": "./dist/generators/next-auth/schema.json",
             "description": "Add NextAuth to a project"
         },
         "react-query": {
-            "factory": "./src/generators/react-query/generator",
-            "schema": "./src/generators/react-query/schema.json",
+            "factory": "./dist/generators/react-query/generator",
+            "schema": "./dist/generators/react-query/schema.json",
             "description": "react-query generator"
         },
         "storybook": {
-            "factory": "./src/generators/storybook/generator",
-            "schema": "./src/generators/storybook/schema.json",
+            "factory": "./dist/generators/storybook/generator",
+            "schema": "./dist/generators/storybook/schema.json",
             "description": "storybook generator"
         }
     }

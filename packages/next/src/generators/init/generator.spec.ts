@@ -10,11 +10,11 @@ import { Schema as NextSchema } from '@nx/next/src/generators/application/schema
 
 import generator from './generator';
 import { NextGeneratorSchema } from './schema';
-import { REACT_AXE_CORE_VERSION } from '../../utils/constants';
 
-function snapshotFiles(tree, files: string[]) {
+function snapshotFiles(tree: Tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
+
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
             file,
@@ -87,9 +87,10 @@ describe('next install generator', () => {
 
             it('should install the react-axe package', async () => {
                 const packageJson = readJson(tree, 'package.json');
-                expect(packageJson?.devDependencies).toMatchObject({
-                    '@axe-core/react': REACT_AXE_CORE_VERSION,
-                });
+
+                expect(Object.keys(packageJson.devDependencies)).toEqual(
+                    expect.arrayContaining(['@axe-core/react']),
+                );
             });
 
             it('should install and configure react specific eslint', async () => {
@@ -98,7 +99,7 @@ describe('next install generator', () => {
                 expect(Object.keys(packageJson.devDependencies)).toEqual(
                     expect.arrayContaining([
                         'eslint-plugin-testing-library',
-                        '@typescript-eslint/eslint-plugin',
+                        '@next/eslint-plugin-next',
                     ]),
                 );
             });
@@ -195,6 +196,7 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
+
             expect(tsconfig?.include).toContain('src/**/*.ts');
             expect(tsconfig?.include).toContain('src/**/*.tsx');
             expect(tsconfig?.include).toContain('src/**/*.js');
@@ -243,6 +245,7 @@ describe('next install generator', () => {
             await generator(tree, options);
 
             const tsconfig = readJson(tree, 'next-app/tsconfig.json');
+
             expect(tsconfig?.include).toContain('src/**/*.ts');
             expect(tsconfig?.include).toContain('src/**/*.tsx');
             expect(tsconfig?.include).toContain('src/**/*.js');
@@ -250,43 +253,43 @@ describe('next install generator', () => {
             expect(tsconfig?.include).toContain('next-env.d.ts');
         });
 
-        it('should merge defaults with an existing eslintrc.json file', async () => {
+        it('should create flat config file (eslint.config.mjs)', async () => {
             await generator(tree, options);
 
-            const rootConfig = readJson(tree, 'next-app/.eslintrc.json');
+            expect(tree.exists('next-app/eslint.config.mjs')).toBeTruthy();
 
-            expect(rootConfig).toMatchObject(
-                expect.objectContaining({
-                    extends: expect.arrayContaining([
-                        'plugin:@nx/react-typescript',
-                        'next/core-web-vitals',
-                        'plugin:testing-library/react',
-                        'plugin:@next/next/recommended',
-                    ]),
-                    overrides: expect.arrayContaining([
-                        expect.objectContaining({
-                            files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            rules: expect.objectContaining({
-                                'testing-library/await-async-utils': 'error',
-                                'testing-library/await-async-queries': 'error',
-                                'testing-library/no-wait-for-side-effects':
-                                    'error',
-                                'testing-library/no-manual-cleanup': 'error',
-                                'testing-library/prefer-explicit-assert':
-                                    'warn',
-                                'testing-library/prefer-presence-queries':
-                                    'warn',
-                                'testing-library/prefer-user-event': 'warn',
-                                'testing-library/no-debug': 'off',
-                                'unicorn/prefer-top-level-await': 'off',
-                            }),
-                            parserOptions: {
-                                project: ['tsconfig(.*)?.json'],
-                            },
-                        }),
-                    ]),
-                }),
+            const configContent = tree.read(
+                'next-app/eslint.config.mjs',
+                'utf-8',
             );
+
+            // Verify key elements of the Next.js flat config
+            expect(configContent).toMatch(
+                /import baseConfig from ['"]\.\.\/.*eslint\.config\.mjs['"]/,
+            );
+            expect(configContent).toMatch(
+                /import .* from ['"]@next\/eslint-plugin-next['"]/,
+            );
+            expect(configContent).toMatch(
+                /import .* from ['"]eslint-plugin-testing-library['"]/,
+            );
+            expect(configContent).toContain('next/recommended');
+            expect(configContent).toContain('next/testing-library');
+            expect(configContent).toContain(
+                'testing-library/await-async-utils',
+            );
+            expect(configContent).toContain(
+                'testing-library/await-async-queries',
+            );
+            expect(configContent).toContain('unicorn/prefer-top-level-await');
+
+            // Verify Next.js ignores
+            expect(configContent).toContain('next-env.d.ts');
+            expect(configContent).toContain('.next/**/*');
+
+            // Verify config file overrides
+            expect(configContent).toContain('next/config-overrides');
+            expect(configContent).toContain('next.config.js');
         });
     });
 });

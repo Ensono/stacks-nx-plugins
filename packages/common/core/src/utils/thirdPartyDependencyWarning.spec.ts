@@ -2,6 +2,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import chalk from 'chalk';
+import { vi } from 'vitest';
 
 import { thirdPartyDependencyWarning } from './thirdPartyDependencyWarning';
 
@@ -15,7 +16,7 @@ describe('thirdPartyDependencyWarning', () => {
     });
 
     it('should add entry on execution', async () => {
-        const logSpy = jest.spyOn(console, 'warn');
+        const logSpy = vi.spyOn(console, 'warn');
 
         thirdPartyDependencyWarning(['dep1', 'dep2', 'dep3']);
 

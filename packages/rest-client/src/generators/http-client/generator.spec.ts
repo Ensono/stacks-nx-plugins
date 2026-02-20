@@ -14,6 +14,7 @@ import { HttpClientGeneratorSchema } from './schema';
 function snapshotFiles(tree: Tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
+
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
             file,
@@ -23,6 +24,7 @@ function snapshotFiles(tree: Tree, files: string[]) {
 
 describe('http-client generator', () => {
     let tree: Tree;
+
     const options: HttpClientGeneratorSchema = {
         name: 'test-client',
         directory: 'test-client',
@@ -38,6 +40,7 @@ describe('http-client generator', () => {
             tags: 'test, client',
         });
         const config = readProjectConfiguration(tree, 'test-client');
+
         expect(config).toBeDefined();
         expect(config.tags).toEqual(['test', 'client']);
 
@@ -46,8 +49,8 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.json'),
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
-            joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'jest.config.ts'),
+            joinPathFragments(config.root, 'eslint.config.mjs'),
+            joinPathFragments(config.root, 'jest.config.cts'),
             joinPathFragments(config.root, 'src', 'index.ts'),
             joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
@@ -75,8 +78,8 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.json'),
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
-            joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'jest.config.ts'),
+            joinPathFragments(config.root, 'eslint.config.mjs'),
+            joinPathFragments(config.root, 'jest.config.cts'),
             joinPathFragments(config.root, 'src', 'index.ts'),
             joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
@@ -102,8 +105,8 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.json'),
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
-            joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'jest.config.ts'),
+            joinPathFragments(config.root, 'eslint.config.mjs'),
+            joinPathFragments(config.root, 'jest.config.cts'),
             joinPathFragments(config.root, 'src', 'index.ts'),
             joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
@@ -114,6 +117,7 @@ describe('http-client generator', () => {
         ]);
 
         const tsConfig = readJson(tree, `tsconfig.base.json`);
+
         expect(tsConfig.compilerOptions.paths).toHaveProperty(
             '@customimport/restclient',
         );
@@ -134,8 +138,8 @@ describe('http-client generator', () => {
             joinPathFragments(config.root, 'tsconfig.json'),
             joinPathFragments(config.root, 'tsconfig.lib.json'),
             joinPathFragments(config.root, 'tsconfig.spec.json'),
-            joinPathFragments(config.root, '.eslintrc.json'),
-            joinPathFragments(config.root, 'jest.config.ts'),
+            joinPathFragments(config.root, 'eslint.config.mjs'),
+            joinPathFragments(config.root, 'jest.config.cts'),
             joinPathFragments(config.root, 'src', 'index.ts'),
             joinPathFragments(config.root, 'src', 'index.test.ts'),
             joinPathFragments(config.root, 'README.md'),
@@ -150,6 +154,7 @@ describe('http-client generator', () => {
         await generator(tree, options);
 
         const packageJson = readJson(tree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['axios']),
         );

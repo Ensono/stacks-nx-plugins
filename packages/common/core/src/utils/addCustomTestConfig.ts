@@ -20,5 +20,6 @@ export function addCustomTestConfig(
         },
         'test',
     );
+
     updateProjectConfiguration(tree, config.name as string, updatedConfig);
 }

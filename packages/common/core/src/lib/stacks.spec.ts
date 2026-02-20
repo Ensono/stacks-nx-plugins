@@ -14,14 +14,12 @@ describe('stacks', () => {
     describe('readStacksConfig', () => {
         it('should read the stacks config from nx.json', () => {
             const { stacksConfig } = addStacksAttributes(tree, 'testProject');
-
             const result = readStacksConfig(tree);
 
             expect(result).toMatchObject(stacksConfig);
         });
 
         it('should throw an error if stacks key is missing', () => {
-            // eslint-disable-next-line unicorn/consistent-function-scoping
             const result = () => readStacksConfig(tree);
 
             expect(result).toThrow(StacksError);
@@ -48,14 +46,12 @@ describe('stacks', () => {
                 tree,
                 'testProject',
             );
-
             const result = readStacksExecutedGenerators(tree);
 
             expect(result).toMatchObject(stacksExecutedGenerators);
         });
 
         it('should throw an error if stacks key is missing', () => {
-            // eslint-disable-next-line unicorn/consistent-function-scoping
             const result = () => readStacksExecutedGenerators(tree);
 
             expect(result).toThrow(StacksError);

@@ -13,11 +13,13 @@ export function mergeProjectConfigTarget(
     if (!newConfig.targets) {
         newConfig.targets = {};
         newConfig.targets[targetName] = { ...target };
+
         return newConfig;
     }
 
     if (!newConfig.targets[targetName]) {
         newConfig.targets[targetName] = { ...target };
+
         return newConfig;
     }
 

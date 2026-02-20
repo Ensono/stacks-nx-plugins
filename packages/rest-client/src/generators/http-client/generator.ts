@@ -16,7 +16,7 @@ import { libraryGenerator } from '@nx/js';
 import path from 'path';
 
 import { HttpClientGeneratorSchema } from './schema';
-import { AXIOS_VERSION } from '../../../utils/versions';
+import { AXIOS_VERSION } from '../../utils/versions';
 
 async function normalizeOptions(
     tree: Tree,
@@ -92,7 +92,6 @@ export default async function generate(
         tree,
         normalizedOptions.projectName,
     );
-
     const ciCoverageConfig = {
         ci: {
             collectCoverage: true,

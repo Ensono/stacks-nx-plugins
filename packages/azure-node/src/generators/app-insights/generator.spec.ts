@@ -2,6 +2,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator as nextGenerator } from '@nx/next/src/generators/application/application';
+import { vi } from 'vitest';
 
 import generator from './generator';
 import { AppInsightsGeneratorSchema } from './schema';
@@ -9,6 +10,7 @@ import * as appInisghtsTemplate from './templates/appInsights';
 
 describe('app-insights generator', () => {
     let appTree: Tree;
+
     const options: AppInsightsGeneratorSchema = {
         project: 'test',
         server: 'server/main.ts',
@@ -34,15 +36,15 @@ describe('app-insights generator', () => {
             directory: 'test',
         });
 
-        const initAppInsightsSpy = jest.spyOn(
+        const initAppInsightsSpy = vi.spyOn(
             appInisghtsTemplate,
             'initAppInsights',
         );
-        const configureAppInsightsSpy = jest.spyOn(
+        const configureAppInsightsSpy = vi.spyOn(
             appInisghtsTemplate,
             'configureAppInsights',
         );
-        const startAppInsightsSpy = jest.spyOn(
+        const startAppInsightsSpy = vi.spyOn(
             appInisghtsTemplate,
             'startAppInsights',
         );
@@ -62,6 +64,7 @@ describe('app-insights generator', () => {
             server: 'server.js',
             applicationinsightsConnectionString: 'TEST_CONNECTION_STRING_ENV',
         };
+
         await expect(generator(appTree, incorrectOptions)).rejects.toThrow(
             `No application was found with the name 'unknown-project'`,
         );
@@ -109,6 +112,7 @@ describe('app-insights generator', () => {
         await generator(appTree, options);
 
         const packageJson = readJson(appTree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining(['applicationinsights']),
         );
@@ -138,7 +142,8 @@ describe('app-insights generator', () => {
         it('should update server/main.ts', async () => {
             await generator(appTree, options);
             const mainTs = appTree.read('test/server/main.ts');
-            expect(mainTs.toString()).toMatchSnapshot();
+
+            expect(mainTs?.toString()).toMatchSnapshot();
         });
 
         it('should return false from method and exit generator if already executed', async () => {

@@ -1,5 +1,4 @@
 import {
-    deploymentGeneratorMessage,
     hasGeneratorExecutedForProject,
     tsMorphTree,
     verifyPluginCanBeInstalled,
@@ -97,7 +96,6 @@ export default async function visualRegressionGenerator(
     }
 
     const normalizedOptions = normalizeOptions(tree, options);
-
     const morphTree = tsMorphTree(tree);
 
     switch (options.type) {

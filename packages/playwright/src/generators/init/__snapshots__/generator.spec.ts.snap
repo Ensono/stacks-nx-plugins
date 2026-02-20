@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`playwright generator should run successfully with default options: .prettierrc 1`] = `
+exports[`playwright generator > should run successfully with default options > .prettierrc 1`] = `
 "{ "singleQuote": true }
 "
 `;
 
-exports[`playwright generator should run successfully with default options: nx.json 1`] = `
+exports[`playwright generator > should run successfully with default options > nx.json 1`] = `
 "{
   "affected": {
     "defaultBase": "main"
@@ -42,12 +42,6 @@ exports[`playwright generator should run successfully with default options: nx.j
         "region": "euw",
         "platform": "azure"
       },
-      "pipeline": "azdo",
-      "terraform": {
-        "group": "terraform-group",
-        "storage": "terraform-storage",
-        "container": "terraform-container"
-      },
       "vcs": {
         "type": "github",
         "url": "remote.git"
@@ -64,7 +58,7 @@ exports[`playwright generator should run successfully with default options: nx.j
 "
 `;
 
-exports[`playwright generator should run successfully with default options: test-e2e/playwright.config.ts 1`] = `
+exports[`playwright generator > should run successfully with default options > test-e2e/playwright.config.ts 1`] = `
 "import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
@@ -136,7 +130,7 @@ export default defineConfig({
 "
 `;
 
-exports[`playwright generator should run successfully with default options: test-e2e/src/example.spec.ts 1`] = `
+exports[`playwright generator > should run successfully with default options > test-e2e/src/example.spec.ts 1`] = `
 "import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
@@ -148,7 +142,7 @@ test('has title', async ({ page }) => {
 "
 `;
 
-exports[`playwright generator should run successfully with default options: tsconfig.base.json 1`] = `
+exports[`playwright generator > should run successfully with default options > tsconfig.base.json 1`] = `
 "{ "compilerOptions": { "paths": {} } }
 "
 `;

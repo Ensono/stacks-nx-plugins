@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`bump-version generator should update any version numbers in the code 1`] = `
+exports[`bump-version generator > should update any version numbers in the code 1`] = `
 "import httpClient from '@next-auth/restapi/api-client';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -22,34 +22,34 @@ export const optionsTestV3 = async (config: AxiosRequestConfig) =>
 
 export const postTestV3 = async (
   data: TestV3Data,
-  config: AxiosRequestConfig
+  config: AxiosRequestConfig,
 ) =>
   httpClient.post<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
-    config
+    config,
   );
 
 export const putTestV3 = async (data: TestV3Data, config: AxiosRequestConfig) =>
   httpClient.put<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
-    config
+    config,
   );
 
 export const patchTestV3 = async (
   data: Partial<TestV3Data>,
-  config: AxiosRequestConfig
+  config: AxiosRequestConfig,
 ) =>
   httpClient.patch<TestV3, AxiosResponse<TestV3>, TestV3Data>(
     API_ENDPOINT,
     data,
-    config
+    config,
   );
 "
 `;
 
-exports[`bump-version generator should update any version numbers in the code 2`] = `
+exports[`bump-version generator > should update any version numbers in the code 2`] = `
 "// TODO: Write generated tests
 
 describe('TestV3 endpoint', () => {
@@ -60,7 +60,7 @@ describe('TestV3 endpoint', () => {
 "
 `;
 
-exports[`bump-version generator should update any version numbers in the code 3`] = `
+exports[`bump-version generator > should update any version numbers in the code 3`] = `
 "/* eslint-disable @typescript-eslint/no-empty-interface */
 
 export interface TestV3 {}

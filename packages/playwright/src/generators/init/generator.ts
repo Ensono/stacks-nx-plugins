@@ -17,7 +17,7 @@ import {
     readProjectConfiguration,
 } from '@nx/devkit';
 import { configurationGenerator } from '@nx/playwright';
-import { ConfigurationGeneratorSchema } from '@nx/playwright/src/generators/configuration/schema.d';
+import { ConfigurationGeneratorSchema } from '@nx/playwright/generators/configuration/schema';
 import { execSync } from 'child_process';
 import path from 'path';
 
@@ -42,7 +42,7 @@ function normalizeOptions(
     };
 }
 
-function updateDependencies(tree) {
+function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
         tree,
         {},
@@ -62,6 +62,7 @@ function getBrowsersInstallTask() {
         });
 
         const pm = getPackageManagerCommand();
+
         execSync(`${pm.exec} playwright install --with-deps`, {
             cwd: workspaceRoot,
             windowsHide: false,
@@ -74,22 +75,20 @@ export default async function initGenerator(
     options: PlaywrightGeneratorSchema,
 ) {
     const tasks: GeneratorCallback[] = [];
+
     verifyPluginCanBeInstalled(tree, options.project);
 
     if (hasGeneratorExecutedForProject(tree, options.project, 'PlaywrightInit'))
         return false;
 
     const normalizedOptions = normalizeOptions(tree, options);
-
     const projectE2EName = `${normalizedOptions.project}-e2e`;
-
     const pm = getPackageManagerCommand();
 
     const sourceConfig = readProjectConfiguration(
         tree,
         normalizedOptions.project,
     );
-
     const port = sourceConfig.targets?.serve?.options?.port || 3000;
 
     const playwrightGeneratorSchema: ConfigurationGeneratorSchema = {

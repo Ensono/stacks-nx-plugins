@@ -4,8 +4,8 @@
     "version": "0.0.1",
     "generators": {
         "app-insights": {
-            "factory": "./src/generators/app-insights/generator",
-            "schema": "./src/generators/app-insights/schema.json",
+            "factory": "./dist/generators/app-insights/generator",
+            "schema": "./dist/generators/app-insights/schema.json",
             "description": "app-insights generator"
         }
     }

@@ -6,7 +6,7 @@ import {
     updateJson,
 } from '@nx/devkit';
 
-function updateNxJson(tree) {
+function updateNxJson(tree: Tree) {
     updateJson(tree, 'nx.json', nxJson => {
         const updatedNxJson = { ...nxJson };
 
@@ -29,6 +29,7 @@ export function updateProjectJsonWithNativeVisualRegressionTargets(
     tree: Tree,
 ) {
     const packageJson = readJson(tree, 'package.json');
+
     const playwrightVersion =
         `v${packageJson.devDependencies.playwright?.replace('^', '')}` ||
         'next';

@@ -3,6 +3,7 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { joinPathFragments, readJson, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { SyntaxKind } from 'ts-morph';
+import { vi } from 'vitest';
 
 import generator from './generator';
 import { VisualRegressionGeneratorSchema } from './schema';
@@ -12,12 +13,12 @@ import initGenerator from '../init/generator';
 const projectName = 'test';
 const projectNameE2E = `${projectName}-e2e`;
 
-jest.mock('@nx/devkit', () => {
-    const actual = jest.requireActual('@nx/devkit');
+vi.mock('@nx/devkit', async () => {
+    const actual = await vi.importActual('@nx/devkit');
 
     return {
         ...actual,
-        getProjects: jest.fn(
+        getProjects: vi.fn(
             () =>
                 new Map([
                     [
@@ -55,6 +56,7 @@ describe('playwright generator', () => {
             project: 'test',
             type: 'none',
         };
+
         await expect(generator(appTree, options)).rejects.toThrow(
             `test is not an e2e project. Please select a supported target.`,
         );
@@ -65,16 +67,18 @@ describe('playwright generator', () => {
             project: 'non-existent-project-e2e',
             type: 'none',
         };
+
         await expect(generator(appTree, options)).rejects.toThrow(
             `non-existent-project-e2e does not exist`,
         );
     });
 
-    xit('should run successfully with native regression', async () => {
+    it.skip('should run successfully with native regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'native',
         };
+
         await initGenerator(appTree, {
             project: projectName,
             directory: projectNameE2E,
@@ -103,6 +107,7 @@ describe('playwright generator', () => {
         expect(projectJson.targets['e2e-docker']).toBeTruthy();
         const playwrightPackageJsonVersion = readJson(appTree, 'package.json')
             ?.devDependencies?.playwright;
+
         expect(playwrightPackageJsonVersion).toBeTruthy();
         expect(
             projectJson.targets['e2e-docker']?.options?.commands[0]?.command,
@@ -114,11 +119,12 @@ describe('playwright generator', () => {
         );
     }, 100_000);
 
-    xit('should run successfully with applitools regression', async () => {
+    it.skip('should run successfully with applitools regression', async () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'applitools',
         };
+
         await initGenerator(appTree, {
             project: projectName,
             directory: projectNameE2E,
@@ -150,12 +156,13 @@ describe('playwright generator', () => {
 
         // expect package.json updated
         const packageJson = JSON.parse(appTree.read('/package.json', 'utf8'));
+
         expect(packageJson?.devDependencies).toMatchObject({
             '@applitools/eyes-playwright': APPLITOOLS_EYES_PLAYWRIGHT_VERSION,
         });
     }, 100_000);
 
-    xdescribe('executedGenerators', () => {
+    describe.skip('executedGenerators', () => {
         const options: VisualRegressionGeneratorSchema = {
             project: projectNameE2E,
             type: 'applitools',

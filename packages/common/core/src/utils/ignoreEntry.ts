@@ -1,7 +1,5 @@
-import { joinPathFragments } from '@nx/devkit';
-import { existsSync } from 'fs';
+import { Tree } from '@nx/devkit';
 import ignore from 'ignore';
-import { Tree } from 'nx/src/generators/tree';
 
 export function addIgnoreEntry(
     tree: Tree,
@@ -12,8 +10,8 @@ export function addIgnoreEntry(
     let content = tree.exists(fileName)
         ? (tree.read(fileName, 'utf8') as string).trimEnd()
         : '';
-
     const ig = ignore();
+
     ig.add(content);
 
     // add comment section to the bottom of file if it doesn't exist

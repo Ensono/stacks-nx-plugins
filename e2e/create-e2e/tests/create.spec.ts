@@ -1,5 +1,5 @@
-import { NX_VERSION } from '@nx/devkit';
 import { cleanup } from '@ensono-stacks/e2e';
+import { NX_VERSION } from '@nx/devkit';
 import { tmpProjPath, checkFilesExist, readJson } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
@@ -43,7 +43,7 @@ describe('create', () => {
 
         expect(() =>
             checkFilesExist(
-                '.eslintrc.json',
+                'eslint.config.mjs',
                 '.husky/commit-msg',
                 '.husky/pre-commit',
                 '.husky/prepare-commit-msg',
@@ -80,15 +80,13 @@ describe('create', () => {
                         external: 'prod.amidostacks.com',
                         internal: 'nonprod.amidostacks.com',
                     },
-                    terraform: {
-                        container: 'tf-container',
-                        group: 'tf-group',
-                        storage: 'tf-storage',
-                    },
                     vcs: {
                         type: 'github',
                     },
                 },
+                executedGenerators: expect.objectContaining({
+                    workspace: expect.arrayContaining(['WorkspaceInit']),
+                }),
             }),
         );
         // rerunning should throw because the workspace exists
@@ -113,7 +111,7 @@ describe('create', () => {
 
         expect(() =>
             checkFilesExist(
-                'test/project-test/.eslintrc.json',
+                'test/project-test/eslint.config.mjs',
                 'test/project-test/.husky/commit-msg',
                 'test/project-test/.husky/pre-commit',
                 'test/project-test/.husky/prepare-commit-msg',
@@ -162,7 +160,7 @@ describe('create', () => {
 
         expect(() =>
             checkFilesExist(
-                'test/project-test/.eslintrc.json',
+                'test/project-test/eslint.config.mjs',
                 'test/project-test/.husky/commit-msg',
                 'test/project-test/.husky/pre-commit',
                 'test/project-test/.husky/prepare-commit-msg',

@@ -12,6 +12,7 @@ import { InstallGeneratorSchema } from '../schema';
 function addHuskyPrepareScript(tree: Tree) {
     updateJson(tree, PACKAGE_JSON, (json: PackageJson) => {
         const update = json;
+
         update.scripts = {
             ...json.scripts,
             prepare: 'husky',
@@ -30,17 +31,17 @@ function getOrCreateHook(tree: Tree, path: string) {
 
     if (!hasHook) {
         tree.write(path, '');
+
         return '';
     }
+
     return tree.read(path)?.toString();
 }
 
 function addPreCommit(tree: Tree) {
     const path = '.husky/pre-commit';
     const pm = getPackageManagerCommand();
-
     const lintStaged = 'lint-staged';
-
     const contents = getOrCreateHook(tree, path);
     const updatedPreCommit = [contents];
 
@@ -54,9 +55,7 @@ function addPreCommit(tree: Tree) {
 function addCommitMessage(tree: Tree) {
     const path = '.husky/commit-msg';
     const pm = getPackageManagerCommand();
-
     const commitMessage = `commitlint --edit "$1"`;
-
     const contents = getOrCreateHook(tree, path);
     const updateCommitMessage = [contents];
 
@@ -69,10 +68,8 @@ function addCommitMessage(tree: Tree) {
 function addPrepareCommitMessage(tree: Tree) {
     const path = '.husky/prepare-commit-msg';
     const pm = getPackageManagerCommand();
-
     const commitizenHook = `cz --hook`;
     const prepareCommitMessage = `exec < /dev/tty && ${pm.exec} cz --hook || true`;
-
     const contents = getOrCreateHook(tree, path);
     const updatePreCommitMessage = [contents];
 

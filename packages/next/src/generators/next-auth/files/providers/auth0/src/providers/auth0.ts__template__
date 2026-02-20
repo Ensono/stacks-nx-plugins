@@ -1,4 +1,7 @@
-import Auth0 from 'next-auth/providers/auth0';
+import { OIDCConfig } from '@auth/core/providers';
+import Auth0, {
+    Auth0Profile
+} from 'next-auth/providers/auth0';
 import { profile } from '../actions';
 
 export const auth0 = Auth0({
@@ -13,4 +16,4 @@ export const auth0 = Auth0({
         },
     },
     profile,
-});
+}) as OIDCConfig<Auth0Profile>;

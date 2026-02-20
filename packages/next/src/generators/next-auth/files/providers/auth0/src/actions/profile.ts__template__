@@ -1,0 +1,23 @@
+import { Auth0Profile } from 'next-auth/providers/auth0';
+import { ProfileCallback } from '@auth/core/providers';
+
+function stripUndefined<T extends object>(o: T): T {
+  const result = {} as any;
+  const list = [...Object.entries(o)];
+  for (let index = 0; index < list.length; index += 1) {
+    const [k, v] = list[index];
+    if (v) {
+      result[k] = v;
+    }
+  }
+  return result as T;
+}
+
+export const profile: ProfileCallback<Auth0Profile> = (data) => {
+  return stripUndefined({
+    id: data.sub ?? crypto.randomUUID(),
+    name: data.name ?? data.preferred_username,
+    email: data.email,
+    role: 'user',
+  });
+};

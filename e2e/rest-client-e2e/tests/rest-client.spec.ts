@@ -1,25 +1,23 @@
 import {
-    checkFilesExist,
-    readJson,
-    runNxCommand,
-    runNxCommandAsync,
-    uniq,
-} from '@nx/plugin/testing';
-import { tmpProjPath } from '@nx/plugin/testing';
-import {
     newProject,
     cleanup,
     runTarget,
     targetOptions,
 } from '@ensono-stacks/e2e';
-import YAML from 'yaml';
+import {
+    checkFilesExist,
+    readJson,
+    runNxCommand,
+    runNxCommandAsync,
+    tmpProjPath,
+    uniq,
+} from '@nx/plugin/testing';
 import fs from 'fs';
+import YAML from 'yaml';
 
 import petstoreSchemaJSON from '../fixtures/petstore-3.0.json';
 
 describe('rest-client e2e', () => {
-    jest.setTimeout(1_000_000);
-
     beforeAll(async () => {
         await newProject(['@ensono-stacks/rest-client'], ['@nx/js']);
     });
@@ -54,8 +52,8 @@ describe('rest-client e2e', () => {
     });
 
     describe('client-endpoint', () => {
-        const libName = uniq('test-endpoint');
-        const endpointsDir = uniq('endpoints');
+        const libraryName = uniq('test-endpoint');
+        const endpointsDirectory = uniq('endpoints');
         const httpclientName = uniq('http-client');
 
         beforeAll(async () => {
@@ -66,33 +64,32 @@ describe('rest-client e2e', () => {
 
         it('should create lib in the specified directory', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${libName} --methods=get,post,patch,put,delete,head,options --folderPath=libs/${endpointsDir} --httpClient="@proj/${httpclientName}" --no-interactive`,
+                `generate @ensono-stacks/rest-client:client-endpoint ${libraryName} --methods=get,post,patch,put,delete,head,options --folderPath=libs/${endpointsDirectory} --httpClient="@proj/${httpclientName}" --no-interactive`,
             );
 
             expect(() =>
                 checkFilesExist(
-                    `libs/${endpointsDir}/${libName}/v1/src/index.ts`,
-                    `libs/${endpointsDir}/${libName}/v1/src/index.test.ts`,
-                    `libs/${endpointsDir}/${libName}/v1/src/index.types.ts`,
-                    `libs/${endpointsDir}/${libName}/v1/project.json`,
-                    `libs/${endpointsDir}/${libName}/v1/tsconfig.json`,
+                    `libs/${endpointsDirectory}/${libraryName}/v1/src/index.ts`,
+                    `libs/${endpointsDirectory}/${libraryName}/v1/src/index.test.ts`,
+                    `libs/${endpointsDirectory}/${libraryName}/v1/src/index.types.ts`,
+                    `libs/${endpointsDirectory}/${libraryName}/v1/project.json`,
+                    `libs/${endpointsDirectory}/${libraryName}/v1/tsconfig.json`,
                     `.env.local`,
                 ),
             ).not.toThrow();
 
-            const expectedImportName = `@proj/${libName}-v1`;
-
+            const expectedImportName = `@proj/${libraryName}-v1`;
             const tsConfig = readJson('tsconfig.base.json');
 
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportName,
-                [`libs/${endpointsDir}/${libName}/v1/src/index.ts`],
+                [`libs/${endpointsDirectory}/${libraryName}/v1/src/index.ts`],
             );
         });
 
         it('should run the generated tests without failure', async () => {
             const result = await runTarget(
-                `${endpointsDir}-v1-${libName}`,
+                `${endpointsDirectory}-v1-${libraryName}`,
                 targetOptions.test,
             );
 
@@ -101,10 +98,9 @@ describe('rest-client e2e', () => {
     });
 
     // Will be re-enabled once this bug is fixed https://amido-dev.visualstudio.com/Amido-Stacks/_backlogs/backlog/Cycle%2014%20-%20Frontend/Epics/?workitem=7375
-    xdescribe('bump-version', () => {
-        const libName = uniq('test-endpoint');
-        const endpointsDir = uniq('endpoints');
-
+    describe.skip('bump-version', () => {
+        const libraryName = uniq('test-endpoint');
+        const endpointsDirectory = uniq('endpoints');
         const httpclientName = uniq('http-client');
 
         beforeAll(async () => {
@@ -113,59 +109,59 @@ describe('rest-client e2e', () => {
             );
 
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:client-endpoint ${libName} --methods=get,post --directory=${endpointsDir} --httpClient="@proj/${httpclientName}" --no-interactive`,
+                `generate @ensono-stacks/rest-client:client-endpoint ${libraryName} --methods=get,post --directory=${endpointsDirectory} --httpClient="@proj/${httpclientName}" --no-interactive`,
             );
         });
 
         it('should copy the existing endpoint and bump the version', async () => {
             await runNxCommand(
-                `generate @ensono-stacks/rest-client:bump-version --name ${libName} --directory=${endpointsDir} --endpointVersion=3 --no-interactive`,
+                `generate @ensono-stacks/rest-client:bump-version --name ${libraryName} --directory=${endpointsDirectory} --endpointVersion=3 --no-interactive`,
             );
 
             expect(() =>
                 checkFilesExist(
-                    `${endpointsDir}/v1/${libName}/src/index.ts`,
-                    `${endpointsDir}/v1/${libName}/src/index.test.ts`,
-                    `${endpointsDir}/v1/${libName}/src/index.types.ts`,
-                    `${endpointsDir}/v1/${libName}/project.json`,
-                    `${endpointsDir}/v1/${libName}/tsconfig.json`,
+                    `${endpointsDirectory}/v1/${libraryName}/src/index.ts`,
+                    `${endpointsDirectory}/v1/${libraryName}/src/index.test.ts`,
+                    `${endpointsDirectory}/v1/${libraryName}/src/index.types.ts`,
+                    `${endpointsDirectory}/v1/${libraryName}/project.json`,
+                    `${endpointsDirectory}/v1/${libraryName}/tsconfig.json`,
                 ),
             ).not.toThrow();
 
             expect(() =>
                 checkFilesExist(
-                    `${endpointsDir}/v3/${libName}/src/index.ts`,
-                    `${endpointsDir}/v3/${libName}/src/index.test.ts`,
-                    `${endpointsDir}/v3/${libName}/src/index.types.ts`,
-                    `${endpointsDir}/v3/${libName}/project.json`,
-                    `${endpointsDir}/v3/${libName}/tsconfig.json`,
+                    `${endpointsDirectory}/v3/${libraryName}/src/index.ts`,
+                    `${endpointsDirectory}/v3/${libraryName}/src/index.test.ts`,
+                    `${endpointsDirectory}/v3/${libraryName}/src/index.types.ts`,
+                    `${endpointsDirectory}/v3/${libraryName}/project.json`,
+                    `${endpointsDirectory}/v3/${libraryName}/tsconfig.json`,
                 ),
             ).not.toThrow();
 
-            const expectedImportNameV1 = `@proj/${endpointsDir}/v1/${libName}`;
-            const expectedImportNameV3 = `@proj/${endpointsDir}/v3/${libName}`;
-
+            const expectedImportNameV1 = `@proj/${endpointsDirectory}/v1/${libraryName}`;
+            const expectedImportNameV3 = `@proj/${endpointsDirectory}/v3/${libraryName}`;
             const tsConfig = readJson('tsconfig.base.json');
+
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportNameV1,
-                [`${endpointsDir}/v1/${libName}/src/index.ts`],
+                [`${endpointsDirectory}/v1/${libraryName}/src/index.ts`],
             );
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportNameV3,
-                [`${endpointsDir}/v3/${libName}src/index.ts`],
+                [`${endpointsDirectory}/v3/${libraryName}/src/index.ts`],
             );
         });
 
         it('should build the new version library without failure', async () => {
             await runTarget(
-                `${endpointsDir}-v3-${libName}`,
+                `${endpointsDirectory}-v3-${libraryName}`,
                 targetOptions.build,
             );
         });
 
         it('should run the generated tests without failure', async () => {
             const result = await runTarget(
-                `${endpointsDir}-v3-${libName}`,
+                `${endpointsDirectory}-v3-${libraryName}`,
                 targetOptions.test,
             );
 
@@ -177,10 +173,11 @@ describe('rest-client e2e', () => {
         const client = uniq('petstore');
 
         beforeAll(async () => {
-            const tempPath = tmpProjPath();
+            const temporaryPath = tmpProjPath();
+
             // Create schema file in the filesystem
             fs.writeFileSync(
-                `${tempPath}/petstore-3.0.yaml`,
+                `${temporaryPath}/petstore-3.0.yaml`,
                 YAML.stringify(petstoreSchemaJSON),
             );
 
@@ -203,8 +200,8 @@ describe('rest-client e2e', () => {
             ).not.toThrow();
 
             const expectedImportName = `@proj/${client}`;
-
             const tsConfig = readJson('tsconfig.base.json');
+
             expect(tsConfig.compilerOptions.paths).toHaveProperty(
                 expectedImportName,
                 [`libs/${client}/src/index.ts`],

@@ -17,15 +17,22 @@ export default async () => {
     // storage folder for the local registry
     const storage = './tmp/local-registry/storage';
 
-    global.stopLocalRegistry = await startLocalRegistry({
+    const stopRegistry = await startLocalRegistry({
         localRegistryTarget,
         storage,
         verbose: false,
     });
 
+    global.stopLocalRegistry = function () {
+        stopRegistry();
+        process.exit();
+    };
+
     // Rewrite cache directory for npx commands to be reset between runs
     const npmCacheDirectory = path.resolve(
-        process.cwd(),
+        __dirname,
+        '..',
+        '..',
         'tmp',
         'local-registry',
         '.npm',
@@ -43,7 +50,7 @@ export default async () => {
     process.env.npm_config_store_dir = npmCacheDirectory + '/store';
     execSync(`pnpm cache delete @ensono-stacks/*`, { stdio: [0, 1, 2] });
 
-    await releaseVersion({
+    const { releaseGraph, projectsVersionData } = await releaseVersion({
         specifier: '0.0.0-e2e',
         stageChanges: false,
         gitCommit: false,
@@ -51,11 +58,13 @@ export default async () => {
         firstRelease: true,
         versionActionsOptionsOverrides: {
             skipLockFileUpdate: true,
-            packageRoot: 'dist/{projectRoot}',
+            packageRoot: '{projectRoot}',
         },
     });
 
     await releasePublish({
+        releaseGraph,
+        versionData: projectsVersionData,
         tag: 'e2e',
         firstRelease: true,
     });

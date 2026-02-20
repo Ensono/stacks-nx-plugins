@@ -1,0 +1,29 @@
+/// <reference types="vitest" />
+import { defineConfig } from 'vitest/config';
+import { buildVersionDefineMap } from '../../tools/versions.js';
+
+export default defineConfig(() => ({
+    root: __dirname,
+    cacheDir: '../../node_modules/.vite/packages/azure-node',
+    plugins: [],
+    define: buildVersionDefineMap(),
+    resolve: {
+        conditions: ['@ensono-stacks/source'],
+    },
+    test: {
+        name: 'azure-node',
+        watch: false,
+        globals: true,
+        environment: 'node',
+        testTimeout: 60_000,
+        hookTimeout: 60_000,
+        include: [
+            '{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+        ],
+        reporters: ['default'],
+        coverage: {
+            reportsDirectory: './test-output/vitest/coverage',
+            provider: 'v8' as const,
+        },
+    },
+}));

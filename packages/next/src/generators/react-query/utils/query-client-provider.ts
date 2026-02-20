@@ -10,7 +10,6 @@ export function addQueryClientProviderToApp(
     const appNode = morphTree.addSourceFileAtPath(
         joinPathFragments(project.root, 'src', 'app', 'providers.tsx'),
     );
-
     // Check if the App Already contains react-query
     const isReactQueryImport = appNode
         .getImportDeclarations()
@@ -66,32 +65,42 @@ export function addQueryClientProviderToApp(
             .getText();
         const main = appNode.getFunction(defaultExport);
 
-        // Add the QueryClientProvider
-        const content = main
-            .getDescendantsOfKind(SyntaxKind.ReturnStatement)
-            .pop()
-            .getFirstChildByKind(SyntaxKind.ParenthesizedExpression)
-            .getChildAtIndex(1);
+        if (main) {
+            const topChildReturn = main
+                .getDescendantsOfKind(SyntaxKind.ReturnStatement)
+                .pop();
 
-        const update = content.isKind(SyntaxKind.JsxFragment)
-            ? content
-                  .getJsxChildren()
-                  .map(c => c.getText())
-                  .join('')
-            : content.getText();
+            if (topChildReturn) {
+                const expression = topChildReturn.getFirstChildByKind(
+                    SyntaxKind.ParenthesizedExpression,
+                );
 
-        content.replaceWithText(
-            `
-            // NOTE: Avoid useState when initializing the query client if you don't
-            //       have a suspense boundary between this and the code that may
-            //       suspend because React will throw away the client on the initial
-            //       render if it suspends and there is no boundary
-            const queryClient = getQueryClient()
+                if (expression) {
+                    const content = expression.getChildAtIndex(1);
 
-            <QueryClientProvider client={queryClient}>
-                ${update}
-            </QueryClientProvider>`,
-        );
+                    const update = content.isKind(SyntaxKind.JsxFragment)
+                        ? content
+                              .getJsxChildren()
+                              .map(c => c.getText())
+                              .join('')
+                        : content.getText();
+
+                    content.replaceWithText(
+                        `
+                            // NOTE: Avoid useState when initializing the query client if you don't
+                            //       have a suspense boundary between this and the code that may
+                            //       suspend because React will throw away the client on the initial
+                            //       render if it suspends and there is no boundary
+                            const queryClient = getQueryClient()
+                
+                            <QueryClientProvider client={queryClient}>
+                                ${update}
+                            </QueryClientProvider>`,
+                    );
+                }
+            }
+            // Add the QueryClientProvider
+        }
 
         appNode.saveSync();
     }

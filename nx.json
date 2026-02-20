@@ -1,4 +1,7 @@
 {
+    "cli": {
+        "packageManager": "pnpm"
+    },
     "pluginsConfig": {
         "@nx/js": {
             "analyzeSourceFiles": true
@@ -19,7 +22,8 @@
             "!{projectRoot}/tsconfig.spec.json",
             "!{projectRoot}/jest.config.[jt]s",
             "!{projectRoot}/.eslintrc.json",
-            "!{projectRoot}/src/test-setup.[jt]s"
+            "!{projectRoot}/src/test-setup.[jt]s",
+            "!{projectRoot}/eslint.config.mjs"
         ],
         "sharedGlobals": [
             "{workspaceRoot}/babel.config.json",
@@ -48,51 +52,86 @@
         "publish": {
             "cache": false
         },
-        "@nx/jest:jest": {
-            "inputs": [
-                "default",
-                "^production",
-                "{workspaceRoot}/jest.preset.js"
-            ],
-            "cache": true,
-            "options": {
-                "passWithNoTests": true
-            },
-            "configurations": {
-                "ci": {
-                    "ci": true,
-                    "codeCoverage": true
-                }
-            }
+        "test": {
+            "dependsOn": ["^build"]
         },
         "@nx/eslint:lint": {
-            "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+            "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/eslint.config.mjs"
+            ],
             "cache": true
-        },
-        "@nx/js:tsc": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
         },
         "nx-release-publish": {
             "options": {
-                "packageRoot": "dist/{projectRoot}"
+                "packageRoot": "{projectRoot}"
             }
         }
     },
     "plugins": [
         {
-            "plugin": "@nx/jest/plugin",
+            "plugin": "@nx/js/typescript",
+            "options": {
+                "typecheck": {
+                    "targetName": "typecheck"
+                },
+                "build": false
+            }
+        },
+        {
+            "plugin": "@nx/vite/plugin",
+            "exclude": ["e2e/**/*"],
+            "options": {
+                "buildTargetName": "build",
+                "testTargetName": "test",
+                "serveTargetName": "serve",
+                "devTargetName": "dev",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static",
+                "typecheckTargetName": "typecheck",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
+            "plugin": "@nx/vitest",
+            "exclude": ["e2e/**/*"],
+            "options": {
+                "testTargetName": "test",
+                "ciTargetName": "test-ci",
+                "testMode": "watch"
+            }
+        },
+        {
+            "plugin": "@nx/next/plugin",
+            "options": {
+                "startTargetName": "start",
+                "buildTargetName": "build",
+                "devTargetName": "dev",
+                "serveStaticTargetName": "serve-static",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
+            "plugin": "@nx/eslint/plugin",
+            "options": {
+                "targetName": "lint"
+            }
+        },
+        {
+            "plugin": "@nx/vitest",
             "include": ["e2e/**/*"],
             "options": {
-                "targetName": "e2e-local",
+                "testTargetName": "e2e",
                 "ciTargetName": "e2e-ci"
             }
         }
     ],
     "nxCloudEncryptionKey": "stacks-nx-plugins",
     "release": {
-        "projects": ["packages/*/**", "!*-e2e", "!common-test"],
+        "projects": ["packages/*/**", "!*-e2e"],
         "projectsRelationship": "fixed",
         "changelog": {
             "workspaceChangelog": {
@@ -118,11 +157,7 @@
         "releaseTagPatternRequireSemver": true,
         "releaseTagPatternStrictPreid": true,
         "version": {
-            "manifestRootsToUpdate": [
-                "./",
-                "{projectRoot}",
-                "dist/{projectRoot}"
-            ],
+            "manifestRootsToUpdate": ["./", "{projectRoot}"],
             "preVersionCommand": "pnpm exec nx run-many -t build",
             "conventionalCommits": true,
             "fallbackCurrentVersionResolver": "disk"

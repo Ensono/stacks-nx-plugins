@@ -1,6 +1,9 @@
-import { updateEslintConfig, mergeEslintConfigs } from '@ensono-stacks/core';
+import {
+    mergeFlatConfigs,
+    readFlatEslintConfig,
+    writeFlatEslintConfig,
+} from '@ensono-stacks/core';
 import { Tree, addDependenciesToPackageJson } from '@nx/devkit';
-import { Linter } from 'eslint';
 
 import {
     ESLINT_PLUGIN_TESTING_LIBRARY_VERSION,
@@ -8,49 +11,47 @@ import {
     TYPESCRIPT_ESLINT_PARSER_VERSION,
 } from './version';
 
-function stacksEslintConfig(projectRootPath: string): Linter.Config {
-    return {
-        extends: ['plugin:testing-library/react'],
-        ignorePatterns: ['!**/*'],
-        overrides: [
-            {
-                excludedFiles: ['jest.config.ts'],
-                files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                parserOptions: {
-                    project: ['tsconfig(.*)?.json'],
-                },
-                rules: {
-                    '@typescript-eslint/no-floating-promises': 'error',
-                    'testing-library/await-async-utils': 'error',
-                    'testing-library/await-async-queries': 'error',
-                    'testing-library/no-wait-for-side-effects': 'error',
-                    'testing-library/no-manual-cleanup': 'error',
-                    'testing-library/prefer-explicit-assert': 'warn',
-                    'testing-library/prefer-presence-queries': 'warn',
-                    'testing-library/prefer-user-event': 'warn',
-                    'testing-library/no-debug': 'off',
-                },
-            },
-            {
-                files: 'jest.config.ts',
-                rules: {
-                    'unicorn/no-abusive-eslint-disable': 'off',
-                },
-            },
-        ],
-        env: {
-            jest: true,
-        },
-    };
+function generateTestingLibraryConfig(): string {
+    return `
+  // Testing Library rules
+  {
+    name: 'testing-library/react',
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    ignores: ['**/jest.config.ts'],
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'error',
+      'testing-library/await-async-utils': 'error',
+      'testing-library/await-async-queries': 'error',
+      'testing-library/no-wait-for-side-effects': 'error',
+      'testing-library/no-manual-cleanup': 'error',
+      'testing-library/prefer-explicit-assert': 'warn',
+      'testing-library/prefer-presence-queries': 'warn',
+      'testing-library/prefer-user-event': 'warn',
+      'testing-library/no-debug': 'off',
+    },
+  },
+  
+  // Jest config exclusions
+  {
+    name: 'jest-config-overrides',
+    files: ['**/jest.config.ts'],
+    rules: {
+      'unicorn/no-abusive-eslint-disable': 'off',
+    },
+  },`;
 }
 
 function addRules(tree: Tree, projectRootPath: string) {
-    updateEslintConfig(tree, projectRootPath, baseConfig => {
-        return mergeEslintConfigs(
-            baseConfig,
-            stacksEslintConfig(projectRootPath),
-        );
-    });
+    const existingConfig = readFlatEslintConfig(tree, projectRootPath);
+    const testingLibraryConfig = generateTestingLibraryConfig();
+
+    if (!existingConfig) {
+        return;
+    }
+
+    const mergedConfig = mergeFlatConfigs(existingConfig, testingLibraryConfig);
+
+    writeFlatEslintConfig(tree, projectRootPath, mergedConfig);
 }
 
 function addEslintDependencies(tree: Tree) {
@@ -69,5 +70,6 @@ function addEslintDependencies(tree: Tree) {
 
 export function addEslint(tree: Tree, projectSourceRoot: string) {
     addRules(tree, projectSourceRoot);
+
     return addEslintDependencies(tree);
 }

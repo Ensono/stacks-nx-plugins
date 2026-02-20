@@ -5,15 +5,5 @@
     "sourceRoot": "e2e/azure-node-e2e/test",
     "tags": ["e2e"],
     "implicitDependencies": ["azure-node", "create", "workspace", "next"],
-    "targets": {
-        "e2e": {
-            "executor": "@nx/jest:jest",
-            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-                "jestConfig": "e2e/azure-node-e2e/jest.config.ts",
-                "runInBand": true
-            },
-            "dependsOn": ["^build"]
-        }
-    }
+    "targets": {}
 }

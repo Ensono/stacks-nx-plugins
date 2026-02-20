@@ -41,7 +41,6 @@ async function normalizeOptions(tree: Tree, options: NextAuthGeneratorSchema) {
         projectRoot,
         importPath,
     } = await determineProjectNameAndRootOptions(tree, {
-        name: options.name,
         projectType: 'library',
         ...options,
     });
@@ -60,10 +59,10 @@ export default async function nextAuthGenerator(
     options: NextAuthGeneratorSchema,
 ) {
     const tasks: GeneratorCallback[] = [];
+
     verifyPluginCanBeInstalled(tree, options.project);
 
     const normalizedOptions = await normalizeOptions(tree, options);
-
     const project = readProjectConfiguration(tree, options.project);
 
     tasks.push(
@@ -75,6 +74,7 @@ export default async function nextAuthGenerator(
     );
 
     const libraryDirectory = path.join(normalizedOptions.projectRoot, 'src');
+
     tree.delete(path.join(libraryDirectory, 'lib'));
 
     // Add base auth library
@@ -90,12 +90,6 @@ export default async function nextAuthGenerator(
 
     // Add Provider
     if (normalizedOptions.provider !== 'none') {
-        addProvider(
-            normalizedOptions.provider,
-            normalizedOptions.projectRoot,
-            tree,
-        );
-
         // Add Oauth actions and Utils
         generateFiles(
             tree,
@@ -105,6 +99,12 @@ export default async function nextAuthGenerator(
                 template: '',
                 ...normalizedOptions,
             },
+        );
+
+        addProvider(
+            normalizedOptions.provider,
+            normalizedOptions.projectRoot,
+            tree,
         );
     }
 
@@ -127,14 +127,16 @@ export default async function nextAuthGenerator(
             'src',
             'config.ts',
         );
-        const config = tree
-            .read(configPath)
-            .toString('utf8')
-            .replace(/\n+$/, '');
-        tree.write(
-            configPath,
-            `${config}\nexport const GUEST_SESSION_COOKIE_NAME = 'auth.js.guest';\n`,
-        );
+        const configText = tree.read(configPath);
+
+        if (configText) {
+            const config = configText.toString('utf8').replace(/\n+$/, '');
+
+            tree.write(
+                configPath,
+                `${config}\nexport const GUEST_SESSION_COOKIE_NAME = 'auth.js.guest';\n`,
+            );
+        }
 
         if (
             !tree.exists(
@@ -205,7 +207,7 @@ export default async function nextAuthGenerator(
 
     tasks.push(
         formatFilesWithEslint(normalizedOptions.projectNames.projectFileName),
-        formatFilesWithEslint(project.name),
+        formatFilesWithEslint(options.project),
         addToLocalEnv(project, tree, options),
     );
 
