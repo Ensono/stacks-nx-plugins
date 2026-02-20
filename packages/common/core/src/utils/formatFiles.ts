@@ -6,11 +6,14 @@ import type * as Prettier from 'prettier';
 
 function getRootTsConfigPath(tree: Tree): string | null {
     let tsConfigPath = null;
+
     ['tsconfig.base.json', 'tsconfig.json'].some(filePath => {
         const filePathExists = tree.exists(filePath);
+
         if (filePathExists) {
             tsConfigPath = filePath;
         }
+
         return filePathExists;
     });
 
@@ -20,6 +23,7 @@ function getRootTsConfigPath(tree: Tree): string | null {
 function sortTsConfig(tree: Tree) {
     try {
         const tsConfigPath = getRootTsConfigPath(tree);
+
         if (!tsConfigPath) {
             return;
         }
@@ -45,6 +49,7 @@ export async function formatFiles(
     excludedFiles?: string[],
 ): Promise<void> {
     let prettier: typeof Prettier | undefined;
+
     try {
         prettier = await import('prettier');
     } catch {
@@ -64,26 +69,32 @@ export async function formatFiles(
             return file.type !== 'DELETE' && !globPatternMatch;
         }),
     );
+
     await Promise.all(
         [...files].map(async file => {
             const systemPath = path.join(tree.root, file.path);
-            let options = {
+
+            let options: Prettier.Options = {
                 filepath: systemPath,
             };
-
+            // Use the file path as a starting point for config resolution
+            // If the file doesn't exist (virtual tree), start from cwd
+            const configSearchPath = tree.root.startsWith('/virtual')
+                ? process.cwd()
+                : systemPath;
             const resolvedOptions = await prettier?.resolveConfig(
-                process.cwd(),
+                configSearchPath,
                 {
                     editorconfig: true,
                 },
             );
-            if (!resolvedOptions) {
-                return;
+            // Merge resolved options if found, otherwise continue with defaults
+            if (resolvedOptions) {
+                options = {
+                    ...options,
+                    ...resolvedOptions,
+                };
             }
-            options = {
-                ...options,
-                ...resolvedOptions,
-            };
 
             const support = await prettier?.getFileInfo(
                 systemPath,

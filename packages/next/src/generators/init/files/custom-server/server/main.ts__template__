@@ -6,11 +6,7 @@ import { parse } from 'url';
 
 const development = process.env.NODE_ENV === 'development';
 const directory =
-    process.env.NX_NEXT_DIR || development
-        ? path.join(process.cwd(), '<%= projectRoot %>')
-        : __dirname;
-
-process.chdir(directory);
+    process.env.NX_NEXT_DIR || path.join(__dirname, '<%= relativeDistributionPath %>')
 
 loadEnvConfig('./', development);
 

@@ -9,7 +9,7 @@ import {
 } from '@nx/devkit';
 import { SyntaxKind } from 'ts-morph';
 
-import { REACT_AXE_CORE_VERSION } from '../../../utils/constants';
+import { REACT_AXE_CORE_VERSION } from './constants';
 
 /**
  * adds react-axe config to _app.tsx file
@@ -22,6 +22,7 @@ export function addReactAxeConfigToApp(
     project: ProjectConfiguration,
 ): GeneratorCallback {
     const morphTree = tsMorphTree(tree);
+
     try {
         const appDirectory = joinPathFragments(
             project.root,
@@ -57,13 +58,17 @@ export function addReactAxeConfigToApp(
                             ?.getText() === 'body',
                 );
 
-            const bodyExpression = bodyJsx.getFirstDescendantByKind(
-                SyntaxKind.JsxExpression,
-            );
+            if (bodyJsx) {
+                const bodyExpression = bodyJsx.getFirstDescendantByKind(
+                    SyntaxKind.JsxExpression,
+                );
 
-            const update = `<Axe />${bodyExpression.getText()}`;
+                if (bodyExpression) {
+                    const update = `<Axe />${bodyExpression.getText()}`;
 
-            bodyExpression.replaceWithText(update);
+                    bodyExpression.replaceWithText(update);
+                }
+            }
 
             appNode.saveSync();
         }

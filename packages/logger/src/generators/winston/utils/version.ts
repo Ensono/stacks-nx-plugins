@@ -1,4 +1,7 @@
-export const WINSTON_VERSION = '3.13.0';
-export const ESLINT_PLUGIN_TESTING_LIBRARY_VERSION = '6.2.2';
-export const TYPESCRIPT_ESLINT_PLUGIN_VERSION = '^7.3.0';
-export const TYPESCRIPT_ESLINT_PARSER_VERSION = '^7.3.0';
+export const WINSTON_VERSION = __versions__.winston;
+export const ESLINT_PLUGIN_TESTING_LIBRARY_VERSION =
+    __versions__.eslint_plugin_testing_library;
+export const TYPESCRIPT_ESLINT_PLUGIN_VERSION =
+    __versions__.typescript_eslint___eslint_plugin;
+export const TYPESCRIPT_ESLINT_PARSER_VERSION =
+    __versions__.typescript_eslint___parser;

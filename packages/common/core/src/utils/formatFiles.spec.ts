@@ -17,8 +17,9 @@ describe('formatFiles', () => {
 
         await formatFiles(appTree);
 
-        const ignoreFile = appTree.read('test/testFormat.js', 'utf8');
+        const formattedFile = appTree.read('test/testFormat.js', 'utf8');
 
-        expect(ignoreFile).toBe(`foo();\nconst test = 'yoyo';\n`);
+        // Prettier formats the file with single quotes per project config
+        expect(formattedFile).toBe(`foo();\nconst test = 'yoyo';\n`);
     });
 });

@@ -26,6 +26,7 @@ function getGeneratorOptions(
 
 describe('next-auth generator', () => {
     let appTree: Tree;
+
     beforeEach(async () => {
         appTree = createTreeWithEmptyWorkspace();
         await applicationGenerator(appTree, {

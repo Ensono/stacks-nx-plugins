@@ -1,13 +1,7 @@
-import {
-    checkFilesExist,
-    readJson,
-    runNxCommandAsync,
-} from '@nx/plugin/testing';
 import { newProject, cleanup } from '@ensono-stacks/e2e';
+import { checkFilesExist, readJson, readFile } from '@nx/plugin/testing';
 
 describe('workspace', () => {
-    jest.setTimeout(1_000_000);
-
     beforeAll(async () => {
         await newProject();
     });
@@ -20,7 +14,7 @@ describe('workspace', () => {
         expect(() =>
             checkFilesExist(
                 'tsconfig.base.json',
-                '.eslintrc.json',
+                'eslint.config.mjs',
                 'lint-staged.config.js',
                 '.husky/commit-msg',
                 '.husky/pre-commit',
@@ -31,6 +25,7 @@ describe('workspace', () => {
 
     it('updates the packages.json', () => {
         const packageJson = readJson('package.json');
+
         expect(packageJson).toMatchObject(
             expect.objectContaining({
                 config: {
@@ -42,8 +37,14 @@ describe('workspace', () => {
         );
     });
 
-    it('updates the eslintrc.json', () => {
-        const eslintRc = readJson('.eslintrc.json');
-        expect(eslintRc).toMatchSnapshot();
+    it('generates flat eslint config', () => {
+        const eslintConfig = readFile('eslint.config.mjs');
+
+        expect(eslintConfig).toMatchSnapshot();
+        expect(eslintConfig).toContain('typescript-eslint');
+        expect(eslintConfig).toContain('eslint-plugin-security');
+        expect(eslintConfig).toContain('eslint-plugin-unicorn');
+        expect(eslintConfig).toContain('eslint-plugin-import');
+        expect(eslintConfig).toContain('eslint-plugin-prettier');
     });
 });

@@ -14,6 +14,7 @@ import { OpenapiClientGeneratorSchema } from './schema';
 function snapshotFiles(tree: Tree, files: string[]) {
     expect(() => checkFilesExistInTree(tree, ...files)).not.toThrow();
     const project = tsMorphTree(tree);
+
     files.forEach(file => {
         expect(project.addSourceFileAtPath(file).getText()).toMatchSnapshot(
             file,
@@ -23,6 +24,7 @@ function snapshotFiles(tree: Tree, files: string[]) {
 
 describe('openapi-client generator', () => {
     let tree: Tree;
+
     const options: OpenapiClientGeneratorSchema = {
         name: 'test-client',
         schema: 'test.yaml',
@@ -38,6 +40,7 @@ describe('openapi-client generator', () => {
     it('should run successfully', async () => {
         await generator(tree, options);
         const config = readProjectConfiguration(tree, 'test-client');
+
         expect(config).toBeDefined();
 
         snapshotFiles(tree, [
@@ -45,9 +48,9 @@ describe('openapi-client generator', () => {
             joinPathFragments('test-client', 'tsconfig.json'),
             joinPathFragments('test-client', 'tsconfig.lib.json'),
             joinPathFragments('test-client', 'tsconfig.spec.json'),
-            joinPathFragments('test-client', '.eslintrc.json'),
+            joinPathFragments('test-client', 'eslint.config.mjs'),
             joinPathFragments('test-client', 'package.json'),
-            joinPathFragments('test-client', 'jest.config.ts'),
+            joinPathFragments('test-client', 'jest.config.cts'),
             joinPathFragments('test-client/src', 'index.ts'),
             joinPathFragments('test-client', 'README.md'),
         ]);
@@ -113,6 +116,7 @@ describe('openapi-client generator', () => {
         await generator(tree, options);
 
         const packageJson = readJson(tree, 'package.json');
+
         expect(Object.keys(packageJson.devDependencies)).toEqual(
             expect.arrayContaining(['orval']),
         );
@@ -146,6 +150,7 @@ describe('openapi-client generator', () => {
             await generator(tree, zodOptions);
 
             const packageJson = readJson(tree, 'package.json');
+
             expect(Object.keys(packageJson.dependencies)).toEqual(
                 expect.arrayContaining(['zod']),
             );

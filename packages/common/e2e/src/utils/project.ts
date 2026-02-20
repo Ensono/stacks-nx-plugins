@@ -20,6 +20,7 @@ export interface CreateWorkspaceOptions {
 
 export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     const temporaryDirectory = tmpProjPath();
+
     fs.rmSync(temporaryDirectory, { recursive: true, force: true });
     fs.mkdirSync(path.dirname(temporaryDirectory), { recursive: true });
 
@@ -27,9 +28,10 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
         options.packageManager,
     )} --name=proj --preset=${options.preset || 'ts'} --packageManager=${
         options.packageManager
-    } --stacksVersion=e2e --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --pipeline=azdo --terraform.group=tf-group --terraform.storage=tf-storage --terraform.container=tf-container --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
+    } --stacksVersion=e2e --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
         options.args ?? ''
     }`;
+
     logger.log(`[create] Running create command:\n${command}`);
     try {
         execSync(command, {
@@ -43,11 +45,12 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     } catch (error) {
         throw new Error(`Create workspace failed: ${error}`);
     }
+
     return temporaryDirectory;
 }
 
 export async function newProject(
-    stacksPackagesToInstall?: string[],
+    stacksPackagesToInstall: string[] = [],
     nxPackagesToInstall: string[] = [],
     options: Partial<CreateWorkspaceOptions> = {},
 ) {
@@ -74,6 +77,7 @@ export async function newProject(
 
     await installNxPackages(packageManager, nxPackagesToInstall);
     await installVersionedPackages(packageManager, stacksPackagesToInstall);
+
     return directory;
 }
 
@@ -82,9 +86,11 @@ export async function createNextApplication(
     customServer?: boolean,
 ) {
     const server = customServer ? '--customServer' : '';
+
     await runNxCommandAsync(
         `generate @nx/next:application ${project} --directory=apps/${project} --linter=eslint --e2eTestRunner=none --unitTestRunner=none --style=none --appDir=true --src=true ${server} --no-interactive`,
     );
+    await runNxCommandAsync('reset');
     await runNxCommandAsync(
         `generate @ensono-stacks/next:init --project=${project} --no-interactive`,
     );

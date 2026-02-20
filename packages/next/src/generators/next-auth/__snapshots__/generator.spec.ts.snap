@@ -1,7 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`next-auth generator Library scaffolding should install auth library 1`] = `
-"import NextAuth from 'next-auth';
+exports[`next-auth generator > Library scaffolding > should install auth library 1`] = `
+"import NextAuth, { NextAuthResult } from 'next-auth';
 import * as callbacks from './callbacks';
 
 import { SESSION_MAX_AGE } from './config';
@@ -9,7 +9,7 @@ import { SESSION_MAX_AGE } from './config';
 
 
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const result = NextAuth({
     session: {
         strategy: 'jwt',
         maxAge: SESSION_MAX_AGE,
@@ -18,10 +18,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks,
     
 });
-"
+
+export const handlers: NextAuthResult['handlers'] = result.handlers;
+export const auth: NextAuthResult['auth'] = result.auth;
+export const signIn: NextAuthResult['signIn'] = result.signIn;
+export const signOut: NextAuthResult['signOut'] = result.signOut;"
 `;
 
-exports[`next-auth generator guest session cookie matches callback snapshots 1`] = `
+exports[`next-auth generator > guest session > cookie > matches callback snapshots 1`] = `
 "import { AuthConfig } from '@auth/core';
 import { providerMap } from '../providers';
 
@@ -92,9 +96,9 @@ export const jwt: JWTCallback = async ({ account, token, user }) => {
 "
 `;
 
-exports[`next-auth generator guest session cookie matches callback snapshots 2`] = `
+exports[`next-auth generator > guest session > cookie > matches callback snapshots 2`] = `
 "import { AuthConfig } from '@auth/core';
-import { Session, User } from 'next-auth';
+import { Session, User } from '@auth/core/types';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
@@ -123,7 +127,7 @@ export const session: SessionCallback = async ({
 "
 `;
 
-exports[`next-auth generator guest session redis matches callback snapshots 1`] = `
+exports[`next-auth generator > guest session > redis > matches callback snapshots 1`] = `
 "import { cookies } from 'next/headers';
 import { AdapterSession } from '@auth/core/adapters';
 import { AuthConfig } from '@auth/core';
@@ -201,7 +205,7 @@ export const jwt: JWTCallback = async ({
 "
 `;
 
-exports[`next-auth generator guest session redis matches callback snapshots 2`] = `
+exports[`next-auth generator > guest session > redis > matches callback snapshots 2`] = `
 "import { Account, Session, User } from 'next-auth';
 import { AuthConfig } from '@auth/core';
 
@@ -295,8 +299,11 @@ export const session: SessionCallback = async ({
 "
 `;
 
-exports[`next-auth generator providers auth0 creates the provider 1`] = `
-"import Auth0 from 'next-auth/providers/auth0';
+exports[`next-auth generator > providers > auth0 > creates the provider 1`] = `
+"import { OIDCConfig } from '@auth/core/providers';
+import Auth0, {
+    Auth0Profile
+} from 'next-auth/providers/auth0';
 import { profile } from '../actions';
 
 export const auth0 = Auth0({
@@ -311,11 +318,11 @@ export const auth0 = Auth0({
         },
     },
     profile,
-});
+}) as OIDCConfig<Auth0Profile>;
 "
 `;
 
-exports[`next-auth generator providers auth0 creates the provider 2`] = `
+exports[`next-auth generator > providers > auth0 > creates the provider 2`] = `
 "import { auth0 } from "./auth0";
 
 export const providerMap = {
@@ -324,8 +331,11 @@ export const providerMap = {
 "
 `;
 
-exports[`next-auth generator providers microsoft-entra-id creates the provider 1`] = `
-"import EntraId from 'next-auth/providers/microsoft-entra-id';
+exports[`next-auth generator > providers > microsoft-entra-id > creates the provider 1`] = `
+"import { OIDCConfig } from '@auth/core/providers';
+import EntraId, {
+  MicrosoftEntraIDProfile,
+} from 'next-auth/providers/microsoft-entra-id';
 import { profile } from '../actions';
 
 export const microsoftEntraId = EntraId({
@@ -339,11 +349,11 @@ export const microsoftEntraId = EntraId({
         },
     },
     profile,
-});
+}) as OIDCConfig<MicrosoftEntraIDProfile>;
 "
 `;
 
-exports[`next-auth generator providers microsoft-entra-id creates the provider 2`] = `
+exports[`next-auth generator > providers > microsoft-entra-id > creates the provider 2`] = `
 "import { microsoftEntraId } from "./microsoft-entra-id";
 
 export const providerMap = {
@@ -352,7 +362,7 @@ export const providerMap = {
 "
 `;
 
-exports[`next-auth generator sessionStorage cookies should match expected callbacks 1`] = `
+exports[`next-auth generator > sessionStorage > cookies > should match expected callbacks 1`] = `
 "import { AuthConfig } from '@auth/core';
 import { providerMap } from '../providers';
 
@@ -379,9 +389,9 @@ export const jwt: JWTCallback = async ({ account, token, user }) => {
 "
 `;
 
-exports[`next-auth generator sessionStorage cookies should match expected callbacks 2`] = `
+exports[`next-auth generator > sessionStorage > cookies > should match expected callbacks 2`] = `
 "import { AuthConfig } from '@auth/core';
-import { Session, User } from 'next-auth';
+import { Session, User } from '@auth/core/types';
 
 type SessionCallback = NonNullable<AuthConfig['callbacks']>['session'];
 
@@ -406,7 +416,7 @@ export const session: SessionCallback = async ({
 "
 `;
 
-exports[`next-auth generator sessionStorage redis should match expected callbacks 1`] = `
+exports[`next-auth generator > sessionStorage > redis > should match expected callbacks 1`] = `
 "
 import { AdapterSession } from '@auth/core/adapters';
 import { AuthConfig } from '@auth/core';
@@ -466,7 +476,7 @@ export const jwt: JWTCallback = async ({
 "
 `;
 
-exports[`next-auth generator sessionStorage redis should match expected callbacks 2`] = `
+exports[`next-auth generator > sessionStorage > redis > should match expected callbacks 2`] = `
 "import { Session } from 'next-auth';
 import { AuthConfig } from '@auth/core';
 

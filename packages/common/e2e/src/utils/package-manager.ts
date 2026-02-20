@@ -34,6 +34,7 @@ export async function installPackages(
         return;
     }
     const pm = getPackageManagerCommand(packageManager);
+
     const { stdout, stderr } = await runCommandAsync(
         `${pm.addDev} ${packages.join(' ')}`,
     );
@@ -51,10 +52,13 @@ export function installVersionedPackages(
     if (stacksPackagesToInstall) {
         const stacksPackages = stacksPackagesToInstall.map(stacksPackage => {
             const match = stacksPackage.match(/^(?:[a-z]|@).*@(.*)/);
+
             return match ? stacksPackage : `${stacksPackage}@e2e`;
         });
+
         return installPackages(packageManager, stacksPackages);
     }
+
     return 'No packages to install';
 }
 
@@ -66,9 +70,11 @@ export async function installNxPackages(
         .filter(dependency => dependency.startsWith('@nx/'))
         .map(dependency => {
             const match = dependency.match(/^(?:[a-z]|@).*@(.*)/);
+
             return match
                 ? dependency.replace(match[1], NX_VERSION)
                 : `${dependency}@${NX_VERSION}`;
         });
+
     return installPackages(packageManager, nxPackages);
 }

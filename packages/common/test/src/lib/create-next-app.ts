@@ -9,6 +9,7 @@ export async function createNextApp(
     schema?: Partial<NextSchema>,
 ) {
     const appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+
     await applicationGenerator(appTree, {
         name: applicationName,
         style: 'css',
@@ -18,5 +19,6 @@ export async function createNextApp(
     });
 
     addStacksAttributes(appTree, applicationName);
+
     return appTree;
 }

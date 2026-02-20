@@ -22,7 +22,7 @@ import {
     configureAppInsights,
     startAppInsights,
 } from './templates/appInsights';
-import { appInsightsVersion } from '../../../utils/versions';
+import { appInsightsVersion } from '../../utils/versions';
 
 function updateDependencies(tree: Tree) {
     return addDependenciesToPackageJson(
@@ -58,7 +58,7 @@ export default async function appInsightsGenerator(
         );
     }
 
-    const customServerPath = path.join(project.sourceRoot, server);
+    const customServerPath = path.join(project.root, server);
 
     // Check if custom server exist
     if (!tree.exists(customServerPath)) {
@@ -66,7 +66,6 @@ export default async function appInsightsGenerator(
     }
 
     const morphTree = tsMorphTree(tree);
-
     // Read the Node from the source file
     const customServer = morphTree.addSourceFileAtPath(customServerPath);
 
@@ -92,25 +91,28 @@ export default async function appInsightsGenerator(
 
     const mainFunction = customServer.getFunction('main');
 
-    // Add appInisghts statements
-    mainFunction.insertStatements(
-        0,
-        initAppInsights(applicationinsightsConnectionString),
-    );
-    mainFunction.insertStatements(1, configureAppInsights(project.name));
-    mainFunction.insertStatements(2, startAppInsights());
+    if (mainFunction) {
+        // Add appInisghts statements
+        mainFunction.insertStatements(
+            0,
+            initAppInsights(applicationinsightsConnectionString),
+        );
+        mainFunction.insertStatements(1, configureAppInsights(options.project));
+        mainFunction.insertStatements(2, startAppInsights());
 
-    // Add empty lines after appInisghts statements
-    mainFunction.getStatements().forEach(statement => {
-        if (statement.getText().includes('appInsights')) {
-            statement.appendWhitespace(writer => writer.newLine());
-        }
-    });
+        // Add empty lines after appInisghts statements
+        mainFunction.getStatements().forEach(statement => {
+            if (statement.getText().includes('appInsights')) {
+                statement.appendWhitespace(writer => writer.newLine());
+            }
+        });
+    }
 
     // Save changes
     customServer.saveSync();
 
     const serverPath = joinPathFragments(project.root, server);
+
     // add nx/next custom server to prettier ignore
     addIgnoreEntry(tree, '.prettierignore', 'next server', [serverPath]);
     // Format files excluding the server file

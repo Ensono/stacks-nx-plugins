@@ -30,17 +30,17 @@ describe('azure-node e2e', () => {
             await runNxCommandAsync(
                 `generate @ensono-stacks/azure-node:app-insights --project=${project} --applicationinsightsConnectionString=TEST_CONNECTION_STRING_ENV --server=server/main.ts --no-interactive --verbose`,
             );
-
             expect(() =>
                 checkFilesExist(`${project}/server/main.ts`),
             ).not.toThrow();
 
             const fileContent = readFile(`${project}/server/main.ts`);
+
             expect(fileContent).toMatch(/import \* as appInsights/g);
             expect(fileContent).toMatch(
                 /setup\(process\.env\.TEST_CONNECTION_STRING_ENV\)/g,
             );
-            expect(fileContent).toMatch(/cloudRole(.|\n)*\'nextjs\d*\'/g);
+            expect(fileContent).toMatch(/cloudRole(.|\n)*'nextjs\d*'/g);
             expect(fileContent).toMatch(/appInsights\.start/g);
         });
     });

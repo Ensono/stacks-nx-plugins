@@ -11,6 +11,7 @@ import httpClientGenerator from '../http-client/generator';
 
 describe('bump-version generator', () => {
     let tree: Tree;
+
     const options: BumpVersionGeneratorSchema = {
         name: 'endpoint-v1',
     };
@@ -139,11 +140,9 @@ describe('bump-version generator', () => {
             "import { TestV3, TestV3Data } from './index.types';",
         );
         expect(indexTs).not.toContain(
-            // eslint-disable-next-line no-template-curly-in-string
             'const API_ENDPOINT = `${process.env.API_URL}/test/v1`;',
         );
         expect(indexTs).toContain(
-            // eslint-disable-next-line no-template-curly-in-string
             'const API_ENDPOINT = `${process.env.API_URL}/test/v3`;',
         );
 

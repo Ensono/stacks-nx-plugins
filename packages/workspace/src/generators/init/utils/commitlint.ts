@@ -28,6 +28,7 @@ function addCommitlintDependencies(tree: Tree) {
 
 function addCommitlintConfig(tree: Tree) {
     const packageJson = readJson(tree, PACKAGE_JSON);
+
     const hasConfig =
         packageJson.commitlint ||
         tree.exists('commitlint.config.js') ||

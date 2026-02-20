@@ -15,6 +15,7 @@ const updateTsConfig = (tree: Tree, filePath: string) => {
         };
 
         update.include = [...new Set([...(update.include || []), '**/*.tsx'])];
+
         return update;
     });
 };

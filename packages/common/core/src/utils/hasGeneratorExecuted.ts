@@ -1,4 +1,4 @@
-import { getWorkspaceLayout, readJson, Tree, updateJson } from '@nx/devkit';
+import { readJson, Tree, updateJson } from '@nx/devkit';
 import chalk from 'chalk';
 
 import {
@@ -11,6 +11,11 @@ export function getNpmScope(tree: Tree) {
     const { name } = tree.exists('package.json')
         ? readJson(tree, 'package.json')
         : { name: null };
+
+    if (typeof name !== 'string') {
+        return null;
+    }
+
     return name.startsWith('@') ? name.split('/')[0].slice(1) : null;
 }
 
@@ -31,6 +36,7 @@ export function isGeneratorInExecutedListForProject(
             `The dependent ${generatorName} generator has not been executed`,
         );
     }
+
     return found;
 }
 

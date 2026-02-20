@@ -1,9 +1,24 @@
 {
     "name": "@ensono-stacks/playwright",
-    "version": "3.0.1-alpha.25",
-    "main": "src/index.js",
+    "version": "0.0.0-e2e",
+    "main": "./dist/index.js",
     "generators": "./generators.json",
     "executors": "./executors.json",
+    "exports": {
+        "./package.json": "./package.json",
+        ".": {
+            "@ensono-stacks/source": "./src/index.ts",
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!**/*.tsbuildinfo",
+        "generators.json",
+        "README.md"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
@@ -11,11 +26,12 @@
     "peerDependencies": {
         "@nx/devkit": "22.x",
         "@nx/playwright": "22.x",
-        "ts-morph": "^23.0.0",
-        "tslib": "^2.8.1"
+        "ts-morph": "^23.0.0"
+    },
+    "devDependencies": {
+        "@ensono-stacks/test": "workspace:*"
     },
     "dependencies": {
-        "@ensono-stacks/core": "3.0.1-alpha.25",
-        "yaml": "^2.5.0"
+        "@ensono-stacks/core": "workspace:*"
     }
 }

@@ -2,8 +2,28 @@ import { addStacksAttributes } from '@ensono-stacks/test';
 import { Tree, readJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { readFile } from '@nx/plugin/testing';
+import { vi } from 'vitest';
 
 import generator from './generator';
+
+// Mock getPackageManagerCommand to return pnpm commands
+vi.mock('@nx/devkit', async importOriginal => {
+    const actual = await importOriginal<typeof import('@nx/devkit')>();
+
+    return {
+        ...actual,
+        getPackageManagerCommand: vi.fn(() => ({
+            exec: 'pnpm exec',
+            install: 'pnpm install',
+            add: 'pnpm add',
+            addDev: 'pnpm add -D',
+            rm: 'pnpm remove',
+            run: (script: string, args?: string) =>
+                `pnpm run ${script}${args ? ` ${args}` : ''}`,
+            list: 'pnpm list',
+        })),
+    };
+});
 
 describe('init generator', () => {
     let tree: Tree;
@@ -12,6 +32,8 @@ describe('init generator', () => {
     beforeEach(() => {
         tree = createTreeWithEmptyWorkspace();
         addStacksAttributes(tree, '');
+        // Add pnpm-lock.yaml so getPackageManagerCommand() returns pnpm commands
+        tree.write('pnpm-lock.yaml', 'lockfileVersion: 5.4');
     });
 
     describe('--eslint', () => {
@@ -29,7 +51,8 @@ describe('init generator', () => {
                 expect.arrayContaining([
                     'eslint',
                     '@nx/eslint-plugin',
-                    'eslint-config-airbnb',
+                    '@eslint/js',
+                    'typescript-eslint',
                     'eslint-config-prettier',
                     'eslint-import-resolver-typescript',
                     'eslint-plugin-compat',
@@ -40,27 +63,13 @@ describe('init generator', () => {
                     'eslint-plugin-no-unsanitized',
                     'eslint-plugin-jest',
                     'eslint-plugin-jest-dom',
+                    'jsonc-eslint-parser',
+                    'globals',
                 ]),
             );
         });
 
-        it('should merge defaults with an existing eslintrc file', async () => {
-            const defaultConfig = {
-                plugins: ['@nx'],
-                overrides: [
-                    {
-                        files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                        extends: ['airbnb/base'],
-                        plugins: ['@nx/typescript'],
-                        rules: {
-                            'dot-notation': 'off',
-                        },
-                    },
-                ],
-            };
-
-            tree.write('.eslintrc.json', JSON.stringify(defaultConfig));
-
+        it('should create flat config file (eslint.config.mjs)', async () => {
             await generator(tree, {
                 ...options,
                 eslint: true,
@@ -68,30 +77,30 @@ describe('init generator', () => {
                 husky: false,
             });
 
-            const rootConfig = readJson(tree, '.eslintrc.json');
-            expect(rootConfig).toMatchObject(
-                expect.objectContaining({
-                    plugins: [
-                        '@nx',
-                        '@typescript-eslint',
-                        'import',
-                        'security',
-                        'jsx-a11y',
-                        'jest',
-                    ],
-                    overrides: expect.arrayContaining([
-                        expect.objectContaining({
-                            files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-                            extends: ['airbnb/base'],
-                            plugins: ['@nx/typescript'],
-                            rules: expect.objectContaining({
-                                'dot-notation': 'off',
-                                'import/no-extraneous-dependencies': 'off',
-                            }),
-                        }),
-                    ]),
-                }),
+            expect(tree.exists('eslint.config.mjs')).toBeTruthy();
+
+            const configContent = tree.read('eslint.config.mjs', 'utf-8');
+
+            // Verify key elements of the flat config
+            expect(configContent).toContain("import js from '@eslint/js'");
+            expect(configContent).toContain(
+                "import tseslint from 'typescript-eslint'",
             );
+            expect(configContent).toContain(
+                "import nxPlugin from '@nx/eslint-plugin'",
+            );
+            expect(configContent).toContain(
+                "import importPlugin from 'eslint-plugin-import'",
+            );
+            expect(configContent).toContain(
+                "import securityPlugin from 'eslint-plugin-security'",
+            );
+            expect(configContent).toContain(
+                "import unicornPlugin from 'eslint-plugin-unicorn'",
+            );
+            expect(configContent).toContain('stacks/global-ignores');
+            expect(configContent).toContain('stacks/nx-boundaries');
+            expect(configContent).toContain('@nx/enforce-module-boundaries');
         });
     });
 
@@ -174,6 +183,7 @@ describe('init generator', () => {
 
         it('should append to existing hooks', async () => {
             const preCommitHook = 'npx do-something';
+
             tree.write('.husky/pre-commit', preCommitHook);
 
             await generator(tree, {
@@ -229,16 +239,18 @@ describe('init generator', () => {
                 nvm: true,
             });
 
+            expect(tree.exists('.nvmrc')).toBeTruthy();
+
             const nvmFile = tree.read('.nvmrc');
 
             expect(nvmFile?.toString()).toEqual(
-                expect.stringContaining('22.16.0'),
+                expect.stringMatching(/\d+\.\d+\.\d+/),
             );
-            expect(tree.exists('.nvmrc')).toBeTruthy();
         });
 
         it('should update file if it exists', async () => {
             const preCommitHook = 'v16.4.0';
+
             tree.write('.nvmrc', preCommitHook);
 
             await generator(tree, {
@@ -249,12 +261,13 @@ describe('init generator', () => {
                 nvm: true,
             });
 
+            expect(tree.exists('.nvmrc')).toBeTruthy();
+
             const nvmFile = tree.read('.nvmrc');
 
-            expect(nvmFile?.toString()).toEqual(
-                expect.stringContaining('22.16.0'),
+            expect(nvmFile?.toString()).not.toEqual(
+                expect.stringContaining('16.4.0'),
             );
-            expect(tree.exists('.nvmrc')).toBeTruthy();
         });
     });
 

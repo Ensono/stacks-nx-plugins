@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`http-client generator should generate the http-client with custom directory: .prettierignore 1`] = `
+exports[`http-client generator > should generate the http-client > .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
@@ -8,34 +8,29 @@ exports[`http-client generator should generate the http-client with custom direc
 /.nx/workspace-data"
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: .prettierrc 1`] = `
+exports[`http-client generator > should generate the http-client > .prettierrc 1`] = `
 "{ "singleQuote": true }
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
-}
+exports[`http-client generator > should generate the http-client > jest.config.ts 1`] = `
+"import type { Config } from 'jest';
+import { getJestProjectsAsync } from '@nx/jest';
+
+export default async (): Promise<Config> => ({
+  projects: await getJestProjectsAsync(),
+});
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/README.md 1`] = `
+exports[`http-client generator > should generate the http-client > jest.preset.js 1`] = `
+"const nxPreset = require('@nx/jest/preset').default;
+
+module.exports = { ...nxPreset };
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/README.md 1`] = `
 "# test-client
 
 This library was generated with [Nx](https://nx.dev).
@@ -46,8 +41,183 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator > should generate the http-client > test-client/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [...baseConfig];
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/jest.config.cts 1`] = `
+"module.exports = {
+  displayName: 'test-client',
+  preset: '../jest.preset.js',
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
+  },
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  coverageDirectory: '../coverage/test-client',
+};
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/project.json 1`] = `
+"{
+  "name": "test-client",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "test-client/src",
+  "projectType": "library",
+  "tags": ["test", "client"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "test-client/jest.config.cts"
+      },
+      "configurations": {
+        "ci": {
+          "collectCoverage": true,
+          "coverageReporters": ["text", "html"],
+          "collectCoverageFrom": [
+            "./**/*.{js,jsx,ts,tsx}",
+            "./!**/.next/**",
+            "./!**/*.d.ts",
+            "./!**/*.config.*",
+            "./!**/_app.*"
+          ],
+          "codeCoverage": true,
+          "ci": true
+        }
+      }
+    }
+  }
+}
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/src/index.test.ts 1`] = `
+"import httpClient from '.';
+
+describe('axios', () => {
+  it('should be an axios instance', () => {
+    expect(httpClient).toBeDefined();
+    expect(httpClient).toHaveProperty('get');
+    expect(httpClient).toHaveProperty('post');
+  });
+});
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/src/index.ts 1`] = `
+"import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+
+// Reusable instance
+const httpClient = axios.create();
+
+export type RequestConfig<T = any> = AxiosRequestConfig<T>;
+export type Response<T = any> = AxiosResponse<T>;
+
+export default httpClient;
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/tsconfig.json 1`] = `
+"{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs"
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/tsconfig.lib.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
+}
+"
+`;
+
+exports[`http-client generator > should generate the http-client > test-client/tsconfig.spec.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/out-tsc",
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "types": ["jest", "node"]
+  },
+  "include": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
+"
+`;
+
+exports[`http-client generator > should generate the http-client with custom directory > .prettierignore 1`] = `
+"# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/.nx/cache
+/.nx/workspace-data"
+`;
+
+exports[`http-client generator > should generate the http-client with custom directory > .prettierrc 1`] = `
+"{ "singleQuote": true }
+"
+`;
+
+exports[`http-client generator > should generate the http-client with custom directory > custom/README.md 1`] = `
+"# test-client
+
+This library was generated with [Nx](https://nx.dev).
+
+## Running unit tests
+
+Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
+"
+`;
+
+exports[`http-client generator > should generate the http-client with custom directory > custom/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [...baseConfig];
+"
+`;
+
+exports[`http-client generator > should generate the http-client with custom directory > custom/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -60,7 +230,7 @@ exports[`http-client generator should generate the http-client with custom direc
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/project.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > custom/project.json 1`] = `
 "{
   "name": "test-client",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
@@ -75,7 +245,7 @@ exports[`http-client generator should generate the http-client with custom direc
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "custom/jest.config.ts"
+        "jestConfig": "custom/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -98,7 +268,7 @@ exports[`http-client generator should generate the http-client with custom direc
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/src/index.test.ts 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > custom/src/index.test.ts 1`] = `
 "import httpClient from '.';
 
 describe('axios', () => {
@@ -111,7 +281,7 @@ describe('axios', () => {
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/src/index.ts 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > custom/src/index.ts 1`] = `
 "import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Reusable instance
@@ -124,7 +294,7 @@ export default httpClient;
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/tsconfig.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > custom/tsconfig.json 1`] = `
 "{
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
@@ -144,7 +314,7 @@ exports[`http-client generator should generate the http-client with custom direc
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/tsconfig.lib.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > custom/tsconfig.lib.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -153,12 +323,17 @@ exports[`http-client generator should generate the http-client with custom direc
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: custom/tsconfig.spec.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > custom/tsconfig.spec.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -169,6 +344,7 @@ exports[`http-client generator should generate the http-client with custom direc
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
@@ -177,7 +353,7 @@ exports[`http-client generator should generate the http-client with custom direc
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: jest.config.ts 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > jest.config.ts 1`] = `
 "import type { Config } from 'jest';
 import { getJestProjectsAsync } from '@nx/jest';
 
@@ -187,14 +363,14 @@ export default async (): Promise<Config> => ({
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom directory: jest.preset.js 1`] = `
+exports[`http-client generator > should generate the http-client with custom directory > jest.preset.js 1`] = `
 "const nxPreset = require('@nx/jest/preset').default;
 
 module.exports = { ...nxPreset };
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: .prettierignore 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
@@ -202,12 +378,12 @@ exports[`http-client generator should generate the http-client with custom impor
 /.nx/workspace-data"
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: .prettierrc 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > .prettierrc 1`] = `
 "{ "singleQuote": true }
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: jest.config.ts 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > jest.config.ts 1`] = `
 "import type { Config } from 'jest';
 import { getJestProjectsAsync } from '@nx/jest';
 
@@ -217,36 +393,14 @@ export default async (): Promise<Config> => ({
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: jest.preset.js 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > jest.preset.js 1`] = `
 "const nxPreset = require('@nx/jest/preset').default;
 
 module.exports = { ...nxPreset };
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client with custom import path: test-client/README.md 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/README.md 1`] = `
 "# test-client
 
 This library was generated with [Nx](https://nx.dev).
@@ -257,8 +411,15 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator > should generate the http-client with custom import path > test-client/eslint.config.mjs 1`] = `
+"import baseConfig from '../eslint.config.mjs';
+
+export default [...baseConfig];
+"
+`;
+
+exports[`http-client generator > should generate the http-client with custom import path > test-client/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -271,7 +432,7 @@ exports[`http-client generator should generate the http-client with custom impor
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/project.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/project.json 1`] = `
 "{
   "name": "test-client",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
@@ -286,7 +447,7 @@ exports[`http-client generator should generate the http-client with custom impor
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "test-client/jest.config.ts"
+        "jestConfig": "test-client/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -309,7 +470,7 @@ exports[`http-client generator should generate the http-client with custom impor
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/src/index.test.ts 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/src/index.test.ts 1`] = `
 "import httpClient from '.';
 
 describe('axios', () => {
@@ -322,7 +483,7 @@ describe('axios', () => {
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/src/index.ts 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/src/index.ts 1`] = `
 "import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Reusable instance
@@ -335,7 +496,7 @@ export default httpClient;
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/tsconfig.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/tsconfig.json 1`] = `
 "{
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
@@ -355,7 +516,7 @@ exports[`http-client generator should generate the http-client with custom impor
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/tsconfig.lib.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/tsconfig.lib.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -364,12 +525,17 @@ exports[`http-client generator should generate the http-client with custom impor
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
 "
 `;
 
-exports[`http-client generator should generate the http-client with custom import path: test-client/tsconfig.spec.json 1`] = `
+exports[`http-client generator > should generate the http-client with custom import path > test-client/tsconfig.spec.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -380,6 +546,7 @@ exports[`http-client generator should generate the http-client with custom impor
   },
   "include": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
@@ -388,7 +555,7 @@ exports[`http-client generator should generate the http-client with custom impor
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: .prettierignore 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > .prettierignore 1`] = `
 "# Add files here to ignore them from prettier formatting
 /dist
 /coverage
@@ -396,9 +563,9 @@ exports[`http-client generator should generate the http-client with no formattin
 /.nx/workspace-data"
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: .prettierrc 1`] = `"{"singleQuote":true}"`;
+exports[`http-client generator > should generate the http-client with no formatting > .prettierrc 1`] = `"{"singleQuote":true}"`;
 
-exports[`http-client generator should generate the http-client with no formatting: jest.config.ts 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > jest.config.ts 1`] = `
 "import type { Config } from 'jest';
 import { getJestProjectsAsync } from '@nx/jest';
 
@@ -407,50 +574,13 @@ export default async (): Promise<Config> => ({
 });"
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: jest.preset.js 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > jest.preset.js 1`] = `
 "const nxPreset = require('@nx/jest/preset').default;
 
 module.exports = { ...nxPreset };"
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": [
-    "../.eslintrc.json"
-  ],
-  "ignorePatterns": [
-    "!**/*"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
-      "rules": {}
-    },
-    {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "rules": {}
-    },
-    {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client with no formatting: test-client/README.md 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/README.md 1`] = `
 "# test-client
 
 This library was generated with [Nx](https://nx.dev).
@@ -461,8 +591,17 @@ Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/jest.config.ts 1`] = `
-"export default {
+exports[`http-client generator > should generate the http-client with no formatting > test-client/eslint.config.mjs 1`] = `
+"import baseConfig from "../eslint.config.mjs";
+
+export default [
+    ...baseConfig
+];
+"
+`;
+
+exports[`http-client generator > should generate the http-client with no formatting > test-client/jest.config.cts 1`] = `
+"module.exports = {
   displayName: 'test-client',
   preset: '../jest.preset.js',
   testEnvironment: 'node',
@@ -475,7 +614,7 @@ exports[`http-client generator should generate the http-client with no formattin
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/project.json 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/project.json 1`] = `
 "{
   "name": "test-client",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
@@ -492,7 +631,7 @@ exports[`http-client generator should generate the http-client with no formattin
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "test-client/jest.config.ts"
+        "jestConfig": "test-client/jest.config.cts"
       },
       "configurations": {
         "ci": {
@@ -518,7 +657,7 @@ exports[`http-client generator should generate the http-client with no formattin
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/src/index.test.ts 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/src/index.test.ts 1`] = `
 "import httpClient from '.';
 
 describe('axios', () => {
@@ -530,7 +669,7 @@ describe('axios', () => {
 });"
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/src/index.ts 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/src/index.ts 1`] = `
 "import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Reusable instance
@@ -543,7 +682,7 @@ export default httpClient;
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/tsconfig.json 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/tsconfig.json 1`] = `
 "{
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
@@ -563,7 +702,7 @@ exports[`http-client generator should generate the http-client with no formattin
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/tsconfig.lib.json 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/tsconfig.lib.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -578,6 +717,7 @@ exports[`http-client generator should generate the http-client with no formattin
   ],
   "exclude": [
     "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
   ]
@@ -585,7 +725,7 @@ exports[`http-client generator should generate the http-client with no formattin
 "
 `;
 
-exports[`http-client generator should generate the http-client with no formatting: test-client/tsconfig.spec.json 1`] = `
+exports[`http-client generator > should generate the http-client with no formatting > test-client/tsconfig.spec.json 1`] = `
 "{
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -595,200 +735,7 @@ exports[`http-client generator should generate the http-client with no formattin
   },
   "include": [
     "jest.config.ts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client: .prettierignore 1`] = `
-"# Add files here to ignore them from prettier formatting
-/dist
-/coverage
-/.nx/cache
-/.nx/workspace-data"
-`;
-
-exports[`http-client generator should generate the http-client: .prettierrc 1`] = `
-"{ "singleQuote": true }
-"
-`;
-
-exports[`http-client generator should generate the http-client: jest.config.ts 1`] = `
-"import type { Config } from 'jest';
-import { getJestProjectsAsync } from '@nx/jest';
-
-export default async (): Promise<Config> => ({
-  projects: await getJestProjectsAsync(),
-});
-"
-`;
-
-exports[`http-client generator should generate the http-client: jest.preset.js 1`] = `
-"const nxPreset = require('@nx/jest/preset').default;
-
-module.exports = { ...nxPreset };
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/.eslintrc.json 1`] = `
-"{
-  "extends": ["../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/README.md 1`] = `
-"# test-client
-
-This library was generated with [Nx](https://nx.dev).
-
-## Running unit tests
-
-Run \`nx test test-client\` to execute the unit tests via [Jest](https://jestjs.io).
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/jest.config.ts 1`] = `
-"export default {
-  displayName: 'test-client',
-  preset: '../jest.preset.js',
-  testEnvironment: 'node',
-  transform: {
-    '^.+\\\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
-  },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../coverage/test-client',
-};
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/project.json 1`] = `
-"{
-  "name": "test-client",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "test-client/src",
-  "projectType": "library",
-  "tags": ["test", "client"],
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "test-client/jest.config.ts"
-      },
-      "configurations": {
-        "ci": {
-          "collectCoverage": true,
-          "coverageReporters": ["text", "html"],
-          "collectCoverageFrom": [
-            "./**/*.{js,jsx,ts,tsx}",
-            "./!**/.next/**",
-            "./!**/*.d.ts",
-            "./!**/*.config.*",
-            "./!**/_app.*"
-          ],
-          "codeCoverage": true,
-          "ci": true
-        }
-      }
-    }
-  }
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/src/index.test.ts 1`] = `
-"import httpClient from '.';
-
-describe('axios', () => {
-  it('should be an axios instance', () => {
-    expect(httpClient).toBeDefined();
-    expect(httpClient).toHaveProperty('get');
-    expect(httpClient).toHaveProperty('post');
-  });
-});
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/src/index.ts 1`] = `
-"import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-// Reusable instance
-const httpClient = axios.create();
-
-export type RequestConfig<T = any> = AxiosRequestConfig<T>;
-export type Response<T = any> = AxiosResponse<T>;
-
-export default httpClient;
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/tsconfig.json 1`] = `
-"{
-  "extends": "../tsconfig.base.json",
-  "compilerOptions": {
-    "module": "commonjs"
-  },
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/tsconfig.lib.json 1`] = `
-"{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../dist/out-tsc",
-    "declaration": true,
-    "types": ["node"]
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
-}
-"
-`;
-
-exports[`http-client generator should generate the http-client: test-client/tsconfig.spec.json 1`] = `
-"{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../dist/out-tsc",
-    "module": "commonjs",
-    "moduleResolution": "node10",
-    "types": ["jest", "node"]
-  },
-  "include": [
-    "jest.config.ts",
+    "jest.config.cts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"

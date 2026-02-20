@@ -1,5 +1,4 @@
 import {
-    execAsync,
     formatFilesWithEslint,
     hasGeneratorExecutedForProject,
     verifyPluginCanBeInstalled,
@@ -31,7 +30,6 @@ export async function storybookGenerator(
     }
 
     const tasks: GeneratorCallback[] = [];
-
     const project = readProjectConfiguration(tree, options.project);
 
     const addStorybook = await storybookConfigurationGenerator(tree, {

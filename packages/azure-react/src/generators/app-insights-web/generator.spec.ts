@@ -9,6 +9,7 @@ import { AppInsightsWebGeneratorSchema } from './schema';
 describe('azure-react generator', () => {
     let tree: Tree;
     const projectName = 'app-insights-web';
+
     const options: AppInsightsWebGeneratorSchema = {
         name: projectName,
         applicationinsightsConnectionString: 'TEST_CONNECTION_STRING',
@@ -26,6 +27,7 @@ describe('azure-react generator', () => {
         });
 
         const config = readProjectConfiguration(tree, projectName);
+
         expect(config).toBeDefined();
 
         expect(tree.exists(`${projectName}/src/index.ts`)).toBeTruthy();
@@ -37,6 +39,7 @@ describe('azure-react generator', () => {
         ).toBeTruthy();
 
         const morphTree = tsMorphTree(tree);
+
         const telemetryProvider = morphTree.addSourceFileAtPath(
             `${projectName}/src/telemetry-provider.tsx`,
         );
@@ -52,6 +55,7 @@ describe('azure-react generator', () => {
         await generator(tree, options);
 
         const packageJson = readJson(tree, 'package.json');
+
         expect(Object.keys(packageJson.dependencies)).toEqual(
             expect.arrayContaining([
                 '@microsoft/applicationinsights-web',

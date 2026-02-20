@@ -1,8 +1,6 @@
 import { generateFiles, Tree } from '@nx/devkit';
 import path from 'path';
 
-import { InstallGeneratorSchema } from '../schema';
-
 function createReadmeFile(tree: Tree) {
     generateFiles(
         tree, // the virtual file system
