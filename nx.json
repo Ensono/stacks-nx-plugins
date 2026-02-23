@@ -129,7 +129,6 @@
             }
         }
     ],
-    "nxCloudEncryptionKey": "stacks-nx-plugins",
     "release": {
         "projects": ["packages/*/**", "!*-e2e"],
         "projectsRelationship": "fixed",
