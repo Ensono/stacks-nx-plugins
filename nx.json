@@ -129,7 +129,6 @@
             }
         }
     ],
-    "nxCloudEncryptionKey": "stacks-nx-plugins",
     "release": {
         "projects": ["packages/*/**", "!*-e2e"],
         "projectsRelationship": "fixed",
@@ -162,6 +161,5 @@
             "conventionalCommits": true,
             "fallbackCurrentVersionResolver": "disk"
         }
-    },
-    "nxCloudId": "691b18b0418b664b92a11777"
+    }
 }
