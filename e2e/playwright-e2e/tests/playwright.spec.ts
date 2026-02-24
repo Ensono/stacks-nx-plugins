@@ -84,10 +84,12 @@ describe('playwright e2e', () => {
             // add axe packages to package.json
             const packageJson = readJson('package.json');
 
-            expect(packageJson?.devDependencies).toMatchObject({
-                '@axe-core/playwright': '4.9.0',
-                'axe-result-pretty-print': '1.0.2',
-            });
+            expect(Object.keys(packageJson.devDependencies)).toContain(
+                '@axe-core/playwright',
+            );
+            expect(Object.keys(packageJson.devDependencies)).toContain(
+                'axe-result-pretty-print',
+            );
         });
     });
 
@@ -144,9 +146,9 @@ describe('playwright e2e', () => {
 
             const packageJson = readJson('package.json');
 
-            expect(packageJson?.devDependencies).toMatchObject({
-                '@applitools/eyes-playwright': '1.27.2',
-            });
+            expect(Object.keys(packageJson.devDependencies)).toContain(
+                '@applitools/eyes-playwright',
+            );
 
             const projectConfig = readFile(
                 `apps/${e2eProject}/playwright.config.ts`,

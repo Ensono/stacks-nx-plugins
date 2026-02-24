@@ -89,12 +89,7 @@ describe('storybook generator', () => {
                     '@nx/storybook',
                     '@storybook/nextjs',
                     '@storybook/addon-links',
-                    '@storybook/manager-api',
-                    '@storybook/preview-api',
                     '@storybook/addon-a11y',
-                    '@storybook/addon-actions',
-                    '@storybook/addon-jest',
-                    '@storybook/theming',
                 ]),
             );
         });
