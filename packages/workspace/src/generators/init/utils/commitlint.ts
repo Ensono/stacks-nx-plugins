@@ -9,7 +9,6 @@ import path from 'path';
 import {
     COMMITLINT_CLI_VERSION,
     COMMITLINT_CONFIG_CONVENTIONAL_VERSION,
-    COMMITLINT_CONFIG_NX_SCOPES_VERSION,
     PACKAGE_JSON,
 } from './constants';
 
@@ -21,7 +20,6 @@ function addCommitlintDependencies(tree: Tree) {
             '@commitlint/cli': COMMITLINT_CLI_VERSION,
             '@commitlint/config-conventional':
                 COMMITLINT_CONFIG_CONVENTIONAL_VERSION,
-            '@commitlint/config-nx-scopes': COMMITLINT_CONFIG_NX_SCOPES_VERSION,
         },
     );
 }

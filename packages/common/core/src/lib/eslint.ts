@@ -1,5 +1,10 @@
-import { joinPathFragments, Tree, logger } from '@nx/devkit';
-import { spawnSync } from 'child_process';
+import {
+    joinPathFragments,
+    Tree,
+    logger,
+    getPackageManagerCommand,
+} from '@nx/devkit';
+import { execSync, spawnSync } from 'child_process';
 import { Project, SyntaxKind } from 'ts-morph';
 
 /**
@@ -18,10 +23,42 @@ import { Project, SyntaxKind } from 'ts-morph';
  * ```
  */
 export function formatFilesWithEslint(project: string) {
+    const pm = getPackageManagerCommand();
+    const [initiator, ...execCommand] = pm.exec.split(' ');
+
     return () => {
+        execSync(`${pm.exec} nx reset`);
+        const { stdout: projectsStdout } = spawnSync(
+            initiator,
+            [...execCommand, 'nx', 'show', 'projects'],
+            {
+                env: { ...process.env, FORCE_COLOR: '3' },
+                shell: true,
+            },
+        );
+
+        const projects = projectsStdout
+            .toString()
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line);
+
+        const lintProject = projects.find(p => p === project);
+
+        if (!lintProject) {
+            throw new Error(`Project "${project}" not found in workspace.`);
+        }
+
         const { stdout, stderr } = spawnSync(
-            'npx',
-            ['nx', 'run', `${project}:lint`, '--fix', '--verbose'],
+            initiator,
+            [
+                ...execCommand,
+                'nx',
+                'run',
+                `${lintProject}:lint`,
+                '--fix',
+                '--verbose',
+            ],
             {
                 env: { ...process.env, FORCE_COLOR: '3' },
                 shell: true,
