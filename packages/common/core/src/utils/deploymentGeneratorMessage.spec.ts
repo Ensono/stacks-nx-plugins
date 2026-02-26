@@ -22,8 +22,10 @@ describe('addCustomTestConfig', () => {
 
         expect(logSpy).toHaveBeenCalledWith(
             '\n',
-            chalk.yellow`If you would like to install the relevant deployment configuration, run the following generator: `,
-            chalk.magenta`test message`,
+            chalk.yellow(
+                `If you would like to install the relevant deployment configuration, run the following generator: `,
+            ),
+            chalk.magenta(`test message`),
             '\n',
         );
     });

@@ -12,7 +12,7 @@ import {
     readProjectConfiguration,
     Tree,
 } from '@nx/devkit';
-import { Linter } from '@nx/eslint';
+import { LinterType } from '@nx/eslint';
 import { libraryGenerator } from '@nx/react';
 import path from 'path';
 
@@ -78,7 +78,7 @@ export default async function appInsightsWebGenerator(
     // Use the existing library generator
     await libraryGenerator(tree, {
         ...options,
-        linter: Linter.EsLint,
+        linter: 'eslint' as LinterType,
         style: 'none',
         minimal: true,
     });

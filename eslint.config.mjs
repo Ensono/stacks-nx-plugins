@@ -31,7 +31,14 @@ export default tseslint.config(
                 ...globals.node,
             },
             parserOptions: {
-                projectService: true,
+                projectService: {
+                    allowDefaultProject: [
+                        '*.mjs',
+                        'packages/*/eslint.config.mjs',
+                        'packages/common/*/eslint.config.mjs',
+                        'e2e/*/eslint.config.mjs',
+                    ],
+                },
                 tsconfigRootDir: import.meta.dirname,
             },
         },

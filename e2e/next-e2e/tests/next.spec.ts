@@ -35,7 +35,7 @@ describe('next e2e', () => {
     }, 1000000);
 
     afterAll(async () => {
-        // cleanup();
+        cleanup();
     });
 
     describe('init generator', () => {

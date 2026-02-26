@@ -1,10 +1,13 @@
 import { vi } from 'vitest';
-import yargsFactory from 'yargs/yargs';
 
 // Mock yargs to fix ESM interop issues with Vite SSR transform
 // The issue is that Vite's SSR transform doesn't correctly handle yargs's ESM exports
-vi.mock('yargs', () => {
-    const yargsInstance = yargsFactory();
+// Note: vi.importActual must be used inside the factory to get the real module (await import would
+// return the mocked version, causing circular references)
+vi.mock('yargs', async () => {
+    const { default: yargsFactory } =
+        await vi.importActual<typeof import('yargs')>('yargs');
+    const yargsInstance = (yargsFactory as CallableFunction)();
 
     // Add static methods that the code expects
     yargsInstance.terminalWidth = () => 80;

@@ -10,16 +10,11 @@ import {
     installVersionedPackages,
     installNxPackages,
 } from './package-manager';
-import {
-    StacksNxPreset,
-    PackageManager,
-    SupportedNxPreset,
-    SupportedPackageManager,
-} from './types';
+import { StacksNxPreset, PackageManager } from './types';
 
 export interface CreateWorkspaceOptions {
-    preset: SupportedNxPreset;
-    packageManager: SupportedPackageManager;
+    preset: StacksNxPreset;
+    packageManager: PackageManager;
     args?: string;
 }
 
