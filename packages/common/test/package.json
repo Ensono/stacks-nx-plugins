@@ -17,7 +17,7 @@
         "README.md"
     ],
     "peerDependencies": {
-        "@nx/devkit": "22.x",
-        "@nx/next": "22.x"
+        "@nx/devkit": "22.5.x",
+        "@nx/next": "22.5.x"
     }
 }

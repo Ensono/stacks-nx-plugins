@@ -16,13 +16,17 @@
         "!**/*.tsbuildinfo",
         "README.md"
     ],
+    "devDependencies": {
+        "@types/kill-port": "2.0.3",
+        "@types/tcp-port-used": "1.0.4"
+    },
     "dependencies": {
         "kill-port": "2.0.1",
         "tcp-port-used": "1.0.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "22.x",
-        "@nx/plugin": "22.x",
-        "nx": "22.x"
+        "@nx/devkit": "22.5.x",
+        "@nx/plugin": "22.5.x",
+        "nx": "22.5.x"
     }
 }

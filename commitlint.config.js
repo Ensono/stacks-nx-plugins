@@ -1,23 +1,9 @@
 async function getConfig() {
-    const {
-        default: {
-            utils: { getProjects },
-        },
-    } = await import('@commitlint/config-nx-scopes');
-
     return {
         extends: ['@commitlint/config-conventional'],
         rules: {
-            'scope-enum': async context => [
-                2,
-                'always',
-                [
-                    ...(await getProjects(
-                        context,
-                        ({ name }) => !name.includes('-e2e'),
-                    )),
-                ],
-            ],
+            'scope-empty': [2, 'always'],
+            'scope-enum': [0, 'never'],
             'type-enum': [
                 2,
                 'always',
@@ -31,6 +17,24 @@ async function getConfig() {
             questions: {
                 type: {
                     enum: {
+                        feat: {
+                            emoji: false,
+                        },
+                        fix: {
+                            emoji: false,
+                        },
+                        docs: {
+                            emoji: false,
+                        },
+                        test: {
+                            emoji: false,
+                        },
+                        chore: {
+                            emoji: false,
+                        },
+                        ci: {
+                            emoji: false,
+                        },
                         deps: {
                             description: 'An update to project dependencies',
                             title: 'Dependencies',

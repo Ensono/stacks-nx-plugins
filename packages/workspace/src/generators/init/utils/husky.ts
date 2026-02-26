@@ -65,20 +65,6 @@ function addCommitMessage(tree: Tree) {
     tree.write(path, updateCommitMessage.join('\n'), { mode: '775' });
 }
 
-function addPrepareCommitMessage(tree: Tree) {
-    const path = '.husky/prepare-commit-msg';
-    const pm = getPackageManagerCommand();
-    const commitizenHook = `cz --hook`;
-    const prepareCommitMessage = `exec < /dev/tty && ${pm.exec} cz --hook || true`;
-    const contents = getOrCreateHook(tree, path);
-    const updatePreCommitMessage = [contents];
-
-    if (!contents?.includes(commitizenHook)) {
-        updatePreCommitMessage.push(prepareCommitMessage);
-    }
-    tree.write(path, updatePreCommitMessage.join('\n'), { mode: '775' });
-}
-
 export function addHusky(tree: Tree, options: InstallGeneratorSchema) {
     const hasHusky = tree.exists('.husky/_/husky.sh');
 
@@ -90,7 +76,6 @@ export function addHusky(tree: Tree, options: InstallGeneratorSchema) {
 
     if (options.commitizen) {
         addCommitMessage(tree);
-        addPrepareCommitMessage(tree);
     }
 
     return addHuskyDependency(tree);
