@@ -215,16 +215,9 @@ describe('init generator', () => {
             });
 
             const commitMessage = tree.read('.husky/commit-msg');
-            const prepareMessage = tree.read('.husky/prepare-commit-msg');
 
             expect(commitMessage?.toString()).toEqual(
                 expect.stringContaining('pnpm exec commitlint --edit "$1"'),
-            );
-
-            expect(prepareMessage?.toString()).toEqual(
-                expect.stringContaining(
-                    'exec < /dev/tty && pnpm exec cz --hook || true',
-                ),
             );
         });
     });

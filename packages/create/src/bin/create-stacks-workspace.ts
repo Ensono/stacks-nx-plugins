@@ -2,7 +2,7 @@
 
 import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
-import { paramCase } from 'change-case';
+import { kebabCase } from 'change-case';
 import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
 import fs from 'fs';
@@ -92,9 +92,11 @@ export async function determinePreset(
             return parsedArguments.preset as Preset;
         }
         console.error(
-            chalk.red`Invalid preset: It must be one of the following: ${Object.values(
-                Preset,
-            )}`,
+            chalk.red(
+                `Invalid preset: It must be one of the following: ${Object.values(
+                    Preset,
+                ).join(',')}`,
+            ),
         );
 
         process.exit(1);
@@ -165,9 +167,11 @@ export async function determineE2eTestRunner(
         }
 
         console.error(
-            chalk.red`Invalid test runner: It must be one of the following:${Object.values(
-                E2eTestRunner,
-            )}`,
+            chalk.red(
+                `Invalid test runner: It must be one of the following:${Object.values(
+                    E2eTestRunner,
+                ).join(',')}`,
+            ),
         );
 
         process.exit(1);
@@ -212,9 +216,9 @@ export async function getConfiguration(
               : 'npm';
 
         Object.assign(argv, {
-            name: paramCase(name),
+            name: kebabCase(name),
             preset,
-            appName: paramCase(appName),
+            appName: kebabCase(appName),
             e2eTestRunner,
             packageManager,
         });

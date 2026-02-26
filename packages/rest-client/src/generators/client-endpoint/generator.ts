@@ -13,7 +13,7 @@ import {
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { libraryGenerator } from '@nx/js';
-import { paramCase } from 'change-case';
+import { kebabCase } from 'change-case';
 import path from 'path';
 
 import { ClientEndpointGeneratorSchema } from './schema';
@@ -32,8 +32,8 @@ async function normalizeOptions(
     tree: Tree,
     options: ClientEndpointGeneratorSchema,
 ) {
-    const name = paramCase(options.name);
-    const endpointName = paramCase(`${name}/v${options.endpointVersion}`);
+    const name = kebabCase(options.name);
+    const endpointName = kebabCase(`${name}/v${options.endpointVersion}`);
 
     const directory = path.join(
         options.folderPath,

@@ -34,8 +34,6 @@ export default defineConfig(() => ({
         lib: {
             entry: 'index.ts',
             fileName(format, entryName) {
-                console.log({ format, entryName });
-
                 return `${entryName}.js`;
             },
         },
@@ -46,6 +44,7 @@ export default defineConfig(() => ({
                     dir: 'dist',
                     preserveModulesRoot: 'src',
                     preserveModules: true,
+                    interop: 'auto',
                 },
             ],
             external: id =>

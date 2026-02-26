@@ -4,7 +4,7 @@ import {
     logger,
     getPackageManagerCommand,
 } from '@nx/devkit';
-import { execSync, spawnSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import { Project, SyntaxKind } from 'ts-morph';
 
 /**
@@ -27,7 +27,6 @@ export function formatFilesWithEslint(project: string) {
     const [initiator, ...execCommand] = pm.exec.split(' ');
 
     return () => {
-        execSync(`${pm.exec} nx reset`);
         const { stdout: projectsStdout } = spawnSync(
             initiator,
             [...execCommand, 'nx', 'show', 'projects'],
