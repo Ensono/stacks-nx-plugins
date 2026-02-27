@@ -71,23 +71,29 @@ export function hasGeneratorExecutedForProject(
     if (generatorExecuted) {
         console.log(
             '\n',
-            chalk.yellow`This generator has already been executed for the project`,
-            chalk.magenta`${projectName}.`,
-            chalk.yellow`No changes made.`,
+            chalk.yellow(
+                `This generator has already been executed for the project`,
+            ),
+            chalk.magenta(`${projectName}.`),
+            chalk.yellow(`No changes made.`),
             '\n',
         );
         if (notifyUser)
             console.log(
                 '\n',
-                chalk.yellow`If you wish to run this generator again, please delete the entry`,
-                chalk.magenta`'${generatorName}'`,
-                chalk.yellow`for`,
-                chalk.magenta`'${projectName}'`,
-                chalk.yellow`in`,
-                chalk.magenta`nx.json`,
-                chalk.yellow`under`,
-                chalk.magenta`stacks.executedGenerators.project`,
-                chalk.yellow`and verify the new output is as expected on re-run`,
+                chalk.yellow(
+                    `If you wish to run this generator again, please delete the entry`,
+                ),
+                chalk.magenta(`'${generatorName}'`),
+                chalk.yellow(`for`),
+                chalk.magenta(`'${projectName}'`),
+                chalk.yellow(`in`),
+                chalk.magenta(`nx.json`),
+                chalk.yellow(`under`),
+                chalk.magenta(`stacks.executedGenerators.project`),
+                chalk.yellow(
+                    `and verify the new output is as expected on re-run`,
+                ),
                 '\n',
             );
     } else {
@@ -110,21 +116,27 @@ export function hasGeneratorExecutedForWorkspace(
     if (generatorExecuted) {
         console.log(
             '\n',
-            chalk.yellow`This generator has already been executed for the workspace`,
-            chalk.magenta`${getNpmScope(tree)}.`,
-            chalk.yellow`No changes made.`,
+            chalk.yellow(
+                `This generator has already been executed for the workspace`,
+            ),
+            chalk.magenta(`${getNpmScope(tree)}.`),
+            chalk.yellow(`No changes made.`),
             '\n',
         );
         if (notifyUser)
             console.log(
                 '\n',
-                chalk.yellow`If you wish to run this generator again, please delete the entry`,
-                chalk.magenta`'${generatorName}'`,
-                chalk.yellow`in`,
-                chalk.magenta`nx.json`,
-                chalk.yellow`under`,
-                chalk.magenta`stacks.executedGenerators.workspace`,
-                chalk.yellow`and verify the new output is as expected on re-run`,
+                chalk.yellow(
+                    `If you wish to run this generator again, please delete the entry`,
+                ),
+                chalk.magenta(`'${generatorName}'`),
+                chalk.yellow(`in`),
+                chalk.magenta(`nx.json`),
+                chalk.yellow(`under`),
+                chalk.magenta(`stacks.executedGenerators.workspace`),
+                chalk.yellow(
+                    `and verify the new output is as expected on re-run`,
+                ),
                 '\n',
             );
     } else {

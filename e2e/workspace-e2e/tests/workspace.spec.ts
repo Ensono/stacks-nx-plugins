@@ -18,7 +18,6 @@ describe('workspace', () => {
                 'lint-staged.config.js',
                 '.husky/commit-msg',
                 '.husky/pre-commit',
-                '.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
     });

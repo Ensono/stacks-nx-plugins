@@ -2,13 +2,14 @@
 
 import { checkNxVersion } from '@ensono-stacks/core';
 import chalk from 'chalk';
-import { paramCase } from 'change-case';
+import { kebabCase } from 'change-case';
 import { spawnSync } from 'child_process';
 import enquirer from 'enquirer';
 import fs from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import unparse from 'yargs-unparser';
 
 import {
@@ -92,9 +93,11 @@ export async function determinePreset(
             return parsedArguments.preset as Preset;
         }
         console.error(
-            chalk.red`Invalid preset: It must be one of the following: ${Object.values(
-                Preset,
-            )}`,
+            chalk.red(
+                `Invalid preset: It must be one of the following: ${Object.values(
+                    Preset,
+                ).join(',')}`,
+            ),
         );
 
         process.exit(1);
@@ -165,9 +168,11 @@ export async function determineE2eTestRunner(
         }
 
         console.error(
-            chalk.red`Invalid test runner: It must be one of the following:${Object.values(
-                E2eTestRunner,
-            )}`,
+            chalk.red(
+                `Invalid test runner: It must be one of the following:${Object.values(
+                    E2eTestRunner,
+                ).join(',')}`,
+            ),
         );
 
         process.exit(1);
@@ -212,9 +217,9 @@ export async function getConfiguration(
               : 'npm';
 
         Object.assign(argv, {
-            name: paramCase(name),
+            name: kebabCase(name),
             preset,
-            appName: paramCase(appName),
+            appName: kebabCase(appName),
             e2eTestRunner,
             packageManager,
         });
@@ -357,8 +362,16 @@ export function withOptions<T>(
     return options.reverse().reduce((argv, option) => option(argv), argv);
 }
 
-export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
-    .wrap(yargs.terminalWidth())
+// yargs v18+ default export is the factory function, not a pre-configured instance.
+// We must call it with process.argv to obtain the Argv instance that exposes
+// instance methods such as wrap() and terminalWidth().
+
+const yargsInstance = (yargs as any)(
+    hideBin(process.argv),
+) as yargs.Argv<CreateStacksArguments>;
+
+export const commandsObject: yargs.Argv<CreateStacksArguments> = yargsInstance
+    .wrap(yargsInstance.terminalWidth())
     .parserConfiguration({ 'strip-dashed': true, 'dot-notation': true })
     .command<CreateStacksArguments>(
         '$0 [name] [options]',

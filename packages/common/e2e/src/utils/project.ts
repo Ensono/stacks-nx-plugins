@@ -1,5 +1,5 @@
 import { runNxCommandAsync, tmpProjPath, updateFile } from '@nx/plugin/testing';
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import fs from 'fs';
 import { logger } from 'nx/src/utils/logger';
 import path from 'path';
@@ -10,11 +10,11 @@ import {
     installVersionedPackages,
     installNxPackages,
 } from './package-manager';
-import { SupportedNxPreset, SupportedPackageManager } from './types';
+import { StacksNxPreset, PackageManager } from './types';
 
 export interface CreateWorkspaceOptions {
-    preset: SupportedNxPreset;
-    packageManager: SupportedPackageManager;
+    preset: StacksNxPreset;
+    packageManager: PackageManager;
     args?: string;
 }
 
@@ -24,17 +24,42 @@ export async function runCreateWorkspace(options: CreateWorkspaceOptions) {
     fs.rmSync(temporaryDirectory, { recursive: true, force: true });
     fs.mkdirSync(path.dirname(temporaryDirectory), { recursive: true });
 
-    const command = `${await getPackageManagerNxCreateCommand(
-        options.packageManager,
-    )} --name=proj --preset=${options.preset || 'ts'} --packageManager=${
-        options.packageManager
-    } --stacksVersion=e2e --business.company=Amido --business.domain=Stacks --business.component=Nx --cloud.platform=azure --cloud.region=euw --domain.internal=nonprod.amidostacks.com --domain.external=prod.amidostacks.com --vcs.type=github --vcs.url=amidostacks.git --cli=nx --nxCloud=skip --no-interactive ${
-        options.args ?? ''
-    }`;
+    const preset = StacksNxPreset[options.preset] || StacksNxPreset.ts;
 
-    logger.log(`[create] Running create command:\n${command}`);
+    const packageManager =
+        PackageManager[options.packageManager] || PackageManager.npm;
+
+    const createCommand = await getPackageManagerNxCreateCommand(
+        options.packageManager,
+    );
+
+    const [initiator, ...command] = createCommand.split(' ');
+
+    const createArguments = [
+        ...command,
+        `--name=proj`,
+        `--preset=${preset}`,
+        `--packageManager=${packageManager}`,
+        `--stacksVersion=e2e`,
+        `--business.company=Amido`,
+        `--business.domain=Stacks`,
+        `--business.component=Nx`,
+        `--cloud.platform=azure`,
+        `--cloud.region=euw`,
+        `--domain.internal=nonprod.amidostacks.com`,
+        `--domain.external=prod.amidostacks.com`,
+        `--vcs.type=github`,
+        `--vcs.url=amidostacks.git`,
+        `--cli=nx`,
+        `--nxCloud=skip`,
+        `--no-interactive`,
+    ];
+
+    logger.log(
+        `[create] Running create command:\n${initiator} ${createArguments.join(' ')}`,
+    );
     try {
-        execSync(command, {
+        spawnSync(initiator, createArguments, {
             cwd: path.dirname(temporaryDirectory),
             env: {
                 ...process.env,

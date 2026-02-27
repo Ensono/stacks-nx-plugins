@@ -3,8 +3,6 @@ export const HUSKY_VERSION = __versions__.husky;
 export const COMMITLINT_CLI_VERSION = __versions__.commitlint___cli;
 export const COMMITLINT_CONFIG_CONVENTIONAL_VERSION =
     __versions__.commitlint___config_conventional;
-export const COMMITLINT_CONFIG_NX_SCOPES_VERSION =
-    __versions__.commitlint___config_nx_scopes;
 export const COMMITLINT_CZ_COMMITLINT_VERSION =
     __versions__.commitlint___cz_commitlint;
 export const COMMITIZEN_VERSION = __versions__.commitizen;

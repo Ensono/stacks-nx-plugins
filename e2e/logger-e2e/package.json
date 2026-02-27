@@ -5,6 +5,6 @@
         "@ensono-stacks/e2e": "workspace:*"
     },
     "peerDependencies": {
-        "@nx/plugin": "22.x"
+        "@nx/plugin": "22.5.x"
     }
 }

@@ -30,8 +30,8 @@
         "@ensono-stacks/core": "workspace:*"
     },
     "peerDependencies": {
-        "@nx/eslint": "22.x",
-        "@nx/react": "22.x",
-        "@nx/devkit": "22.x"
+        "@nx/eslint": "22.5.x",
+        "@nx/react": "22.5.x",
+        "@nx/devkit": "22.5.x"
     }
 }

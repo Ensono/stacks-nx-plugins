@@ -50,9 +50,11 @@ describe('hasGeneratorExecuted', () => {
 
             expect(logSpy).toHaveBeenCalledWith(
                 '\n',
-                chalk.yellow`This generator has already been executed for the project`,
-                chalk.magenta`testProject.`,
-                chalk.yellow`No changes made.`,
+                chalk.yellow(
+                    `This generator has already been executed for the project`,
+                ),
+                chalk.magenta(`testProject.`),
+                chalk.yellow(`No changes made.`),
                 '\n',
             );
         });
@@ -87,9 +89,11 @@ describe('hasGeneratorExecuted', () => {
 
             expect(logSpy).toHaveBeenCalledWith(
                 '\n',
-                chalk.yellow`This generator has already been executed for the workspace`,
-                chalk.magenta`proj.`,
-                chalk.yellow`No changes made.`,
+                chalk.yellow(
+                    `This generator has already been executed for the workspace`,
+                ),
+                chalk.magenta(`proj.`),
+                chalk.yellow(`No changes made.`),
                 '\n',
             );
         });

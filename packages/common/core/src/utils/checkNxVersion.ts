@@ -15,7 +15,9 @@ export function checkNxVersion(nxVersion: string) {
 
     if (!matchVersion) {
         console.error(
-            chalk.red`Failed to create nx workspace. Please use Nx version: ${NX_VERSION_SCOPE}`,
+            chalk.red(
+                `Failed to create nx workspace. Please use Nx version: ${NX_VERSION_SCOPE}`,
+            ),
         );
 
         process.exit(1);
