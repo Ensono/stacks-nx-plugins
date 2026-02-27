@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/core",
-    "version": "3.0.3-alpha.0",
+    "version": "3.0.3-alpha.1",
     "main": "./dist/index.js",
     "exports": {
         "./package.json": "./package.json",
