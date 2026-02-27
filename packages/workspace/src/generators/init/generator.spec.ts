@@ -204,7 +204,7 @@ describe('init generator', () => {
             expect(tree.exists('.husky/commit-msg')).toBeFalsy();
         });
 
-        it('should configure prepare-commit-msg and commit-msg for commitlint', async () => {
+        it('should configure commit-msg for commitlint', async () => {
             await addStacksAttributes(tree, '');
 
             await generator(tree, {

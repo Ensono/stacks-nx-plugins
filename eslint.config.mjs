@@ -103,6 +103,8 @@ export default tseslint.config(
                     tsx: 'never',
                     js: 'never',
                     jsx: 'never',
+                    mts: 'never',
+                    mjs: 'never',
                 },
             ],
 
