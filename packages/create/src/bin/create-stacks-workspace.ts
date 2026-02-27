@@ -9,6 +9,7 @@ import fs from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import unparse from 'yargs-unparser';
 
 import {
@@ -361,8 +362,16 @@ export function withOptions<T>(
     return options.reverse().reduce((argv, option) => option(argv), argv);
 }
 
-export const commandsObject: yargs.Argv<CreateStacksArguments> = yargs
-    .wrap(yargs.terminalWidth())
+// yargs v18+ default export is the factory function, not a pre-configured instance.
+// We must call it with process.argv to obtain the Argv instance that exposes
+// instance methods such as wrap() and terminalWidth().
+
+const yargsInstance = (yargs as any)(
+    hideBin(process.argv),
+) as yargs.Argv<CreateStacksArguments>;
+
+export const commandsObject: yargs.Argv<CreateStacksArguments> = yargsInstance
+    .wrap(yargsInstance.terminalWidth())
     .parserConfiguration({ 'strip-dashed': true, 'dot-notation': true })
     .command<CreateStacksArguments>(
         '$0 [name] [options]',
