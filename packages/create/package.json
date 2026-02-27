@@ -26,10 +26,10 @@
     },
     "dependencies": {
         "@ensono-stacks/core": "workspace:*",
-        "yargs": "17.7.2",
-        "chalk": "^4.1.2",
-        "change-case": "^4.1.2",
-        "enquirer": "^2.4.1",
-        "yargs-unparser": "^2.0.0"
+        "yargs": "18.0.0",
+        "chalk": "5.6.2",
+        "change-case": "5.4.4",
+        "enquirer": "2.4.1",
+        "yargs-unparser": "2.0.0"
     }
 }

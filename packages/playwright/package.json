@@ -24,9 +24,9 @@
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
     "peerDependencies": {
-        "@nx/devkit": "22.x",
-        "@nx/playwright": "22.x",
-        "ts-morph": "^23.0.0"
+        "@nx/devkit": "22.5.x",
+        "@nx/playwright": "22.5.x",
+        "ts-morph": "^27.0.2"
     },
     "devDependencies": {
         "@ensono-stacks/test": "workspace:*"

@@ -204,7 +204,7 @@ describe('init generator', () => {
             expect(tree.exists('.husky/commit-msg')).toBeFalsy();
         });
 
-        it('should configure prepare-commit-msg and commit-msg for commitlint', async () => {
+        it('should configure commit-msg for commitlint', async () => {
             await addStacksAttributes(tree, '');
 
             await generator(tree, {
@@ -215,16 +215,9 @@ describe('init generator', () => {
             });
 
             const commitMessage = tree.read('.husky/commit-msg');
-            const prepareMessage = tree.read('.husky/prepare-commit-msg');
 
             expect(commitMessage?.toString()).toEqual(
                 expect.stringContaining('pnpm exec commitlint --edit "$1"'),
-            );
-
-            expect(prepareMessage?.toString()).toEqual(
-                expect.stringContaining(
-                    'exec < /dev/tty && pnpm exec cz --hook || true',
-                ),
             );
         });
     });

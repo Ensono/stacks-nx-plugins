@@ -44,6 +44,7 @@ export default defineConfig(() => ({
                     dir: 'dist',
                     preserveModulesRoot: 'src',
                     preserveModules: true,
+                    interop: 'auto',
                 },
             ],
             external: id =>

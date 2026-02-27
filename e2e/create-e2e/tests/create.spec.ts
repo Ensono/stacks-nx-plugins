@@ -46,7 +46,6 @@ describe('create', () => {
                 'eslint.config.mjs',
                 '.husky/commit-msg',
                 '.husky/pre-commit',
-                '.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
 
@@ -114,7 +113,6 @@ describe('create', () => {
                 'test/project-test/eslint.config.mjs',
                 'test/project-test/.husky/commit-msg',
                 'test/project-test/.husky/pre-commit',
-                'test/project-test/.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
     });
@@ -163,7 +161,6 @@ describe('create', () => {
                 'test/project-test/eslint.config.mjs',
                 'test/project-test/.husky/commit-msg',
                 'test/project-test/.husky/pre-commit',
-                'test/project-test/.husky/prepare-commit-msg',
             ),
         ).not.toThrow();
     });
@@ -185,10 +182,10 @@ describe('create', () => {
         expect(() => run()).not.toThrow();
     });
 
-    it('can install different nx minor version', async () => {
+    it('can install different nx patch version', async () => {
         const run = () =>
             execSync(
-                `pnpx @ensono-stacks/create-stacks-workspace@e2e proj --stacksVersion=e2e --preset=next --appName=test-app --nxVersion=22.0.0 --nxCloud=skip --no-interactive --verbose`,
+                `pnpx @ensono-stacks/create-stacks-workspace@e2e proj --stacksVersion=e2e --preset=next --appName=test-app --nxVersion=22.5.0 --nxCloud=skip --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -205,7 +202,7 @@ describe('create', () => {
 
         expect(packageJson.devDependencies).toMatchObject(
             expect.objectContaining({
-                '@nx/workspace': '22.0.0',
+                '@nx/workspace': '22.5.0',
             }),
         );
     });

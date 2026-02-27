@@ -10,8 +10,10 @@ export function deploymentGeneratorMessage(tree: Tree, message: string) {
         if (stacksConfig) {
             console.log(
                 '\n',
-                chalk.yellow`If you would like to install the relevant deployment configuration, run the following generator: `,
-                chalk.magenta`${message}`,
+                chalk.yellow(
+                    `If you would like to install the relevant deployment configuration, run the following generator: `,
+                ),
+                chalk.magenta(`${message}`),
                 '\n',
             );
         }

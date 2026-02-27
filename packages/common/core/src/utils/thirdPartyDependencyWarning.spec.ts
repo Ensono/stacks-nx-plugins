@@ -21,7 +21,9 @@ describe('thirdPartyDependencyWarning', () => {
         thirdPartyDependencyWarning(['dep1', 'dep2', 'dep3']);
 
         expect(logSpy).toHaveBeenCalledWith(
-            chalk.yellow`This generator depends on third party generators listed below:\ndep1\ndep2\ndep3`,
+            chalk.yellow(
+                `This generator depends on third party generators listed below:\ndep1\ndep2\ndep3`,
+            ),
         );
     });
 });

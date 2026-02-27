@@ -21,21 +21,19 @@
         "url": "https://github.com/Ensono/stacks-nx-plugins.git"
     },
     "devDependencies": {
-        "@ensono-stacks/test": "workspace:*",
-        "@types/kill-port": "2.0.3",
-        "@types/tcp-port-used": "1.0.4"
+        "@ensono-stacks/test": "workspace:*"
     },
     "dependencies": {
-        "chalk": "4.1.2",
+        "chalk": "5.6.2",
         "deepmerge": "^4.3.1",
         "ignore": "^5.3.1",
         "minimatch": "9.0.3",
         "semver": "^7.7.2",
-        "ts-morph": "23.0.0"
+        "ts-morph": "^27.0.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "22.x",
-        "nx": "22.x",
+        "@nx/devkit": "22.5.x",
+        "nx": "22.5.x",
         "prettier": "3.6.2"
     }
 }

@@ -21,9 +21,11 @@ describe('executedDependantGenerator', () => {
 
         expect(logSpy).toHaveBeenCalledWith(
             '\n',
-            chalk.yellow`The following generator is required as a prerequisite for this generator to work:`,
-            chalk.magenta`testGenerator.`,
-            chalk.yellow`No changes made.`,
+            chalk.yellow(
+                `The following generator is required as a prerequisite for this generator to work:`,
+            ),
+            chalk.magenta(`testGenerator.`),
+            chalk.yellow(`No changes made.`),
             '\n',
         );
 

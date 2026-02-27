@@ -40,7 +40,9 @@ describe('determine preset', () => {
         } as yargs.Arguments<CreateStacksArguments>);
 
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-            chalk.red`Invalid preset: It must be one of the following: ts,next`,
+            chalk.red(
+                `Invalid preset: It must be one of the following: ts,next`,
+            ),
         );
 
         expect(mockExit).toHaveBeenCalledWith(1);
@@ -111,7 +113,7 @@ describe('determine repo name', () => {
         } as unknown as yargs.Arguments<CreateStacksArguments>);
 
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-            chalk.red`Invalid repository name`,
+            chalk.red(`Invalid repository name`),
         );
         expect(mockExit).toHaveBeenCalledWith(1);
     });
@@ -167,7 +169,7 @@ describe('determine app-name', () => {
         } as yargs.Arguments<CreateStacksArguments>);
 
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-            chalk.red`Invalid name: Cannot be empty`,
+            chalk.red(`Invalid name: Cannot be empty`),
         );
         expect(mockExit).toHaveBeenCalledWith(1);
     });
@@ -203,7 +205,9 @@ describe('determine e2e test runner', () => {
         } as yargs.Arguments<CreateStacksArguments>);
 
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-            chalk.red`Invalid test runner: It must be one of the following:none,playwright`,
+            chalk.red(
+                `Invalid test runner: It must be one of the following:none,playwright`,
+            ),
         );
         expect(mockExit).toHaveBeenCalledWith(1);
     });
