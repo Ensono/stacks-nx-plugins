@@ -1,6 +1,6 @@
 {
     "name": "@ensono-stacks/test",
-    "version": "3.0.3-alpha.1",
+    "version": "3.0.3-alpha.2",
     "main": "./dist/index.js",
     "exports": {
         "./package.json": "./package.json",
