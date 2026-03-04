@@ -16,6 +16,10 @@
         "!**/*.tsbuildinfo",
         "README.md"
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Ensono/stacks-nx-plugins.git"
+    },
     "devDependencies": {
         "@types/kill-port": "2.0.3",
         "@types/tcp-port-used": "1.0.4"
@@ -25,8 +29,8 @@
         "tcp-port-used": "1.0.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "22.5.x",
-        "@nx/plugin": "22.5.x",
-        "nx": "22.5.x"
+        "@nx/devkit": "22.x",
+        "@nx/plugin": "22.x",
+        "nx": "22.x"
     }
 }

@@ -27,13 +27,13 @@
         "chalk": "5.6.2",
         "deepmerge": "^4.3.1",
         "ignore": "^5.3.1",
-        "minimatch": "9.0.3",
+        "minimatch": "9.0.9",
         "semver": "^7.7.2",
         "ts-morph": "^27.0.2"
     },
     "peerDependencies": {
-        "@nx/devkit": "22.5.x",
-        "nx": "22.5.x",
+        "@nx/devkit": "22.x",
+        "nx": "22.x",
         "prettier": "3.6.2"
     }
 }
