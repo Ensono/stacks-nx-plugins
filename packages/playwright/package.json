@@ -25,13 +25,13 @@
     },
     "peerDependencies": {
         "@nx/devkit": "22.x",
-        "@nx/playwright": "22.x",
-        "ts-morph": "^27.0.2"
+        "@nx/playwright": "22.x"
     },
     "devDependencies": {
         "@ensono-stacks/test": "workspace:*"
     },
     "dependencies": {
-        "@ensono-stacks/core": "workspace:*"
+        "@ensono-stacks/core": "workspace:*",
+        "ts-morph": "^27.0.2"
     }
 }
