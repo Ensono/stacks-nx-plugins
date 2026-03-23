@@ -16,11 +16,8 @@
         "@commitlint/config-conventional": "20.4.2",
         "@commitlint/cz-commitlint": "20.4.1",
         "@eslint/eslintrc": "^2.1.1",
-        "@eslint/js": "~8.57.0",
-        "@nx/devkit": "22.6.1",
         "@nx/eslint": "22.6.1",
         "@nx/eslint-plugin": "22.6.1",
-        "@nx/js": "22.6.1",
         "@nx/next": "22.6.1",
         "@nx/playwright": "22.6.1",
         "@nx/plugin": "22.6.1",
@@ -51,29 +48,21 @@
         "@vitest/ui": "^4.0.0",
         "commitizen": "4.3.1",
         "eslint": "^9.29.3",
-        "eslint-config-prettier": "10.1.5",
         "eslint-import-resolver-typescript": "4.4.1",
         "eslint-plugin-compat": "6.0.2",
-        "eslint-plugin-import": "2.31.0",
         "eslint-plugin-jest": "28.11.1",
         "eslint-plugin-jest-dom": "5.5.0",
         "eslint-plugin-jsx-a11y": "6.10.2",
         "eslint-plugin-no-unsanitized": "4.1.2",
-        "eslint-plugin-prettier": "5.5.5",
-        "eslint-plugin-security": "3.0.1",
         "eslint-plugin-storybook": "0.12.0",
         "eslint-plugin-testing-library": "^7.0.0",
-        "eslint-plugin-unicorn": "^57.0.0",
         "fs-extra": "11.1.1",
-        "globals": "^15.0.0",
         "husky": "^9.1.7",
         "inquirer": "^9.3.7",
         "ioredis-mock": "^8.9.0",
-        "jsonc-eslint-parser": "2.3.0",
         "kill-port": "2.0.1",
         "lint-staged": "16.1.0",
         "next": "16.1.7",
-        "nx": "22.6.1",
         "octokit": "^5.0.3",
         "prettier": "3.6.2",
         "storybook": "9.1.19",
@@ -81,7 +70,6 @@
         "ts-node": "10.9.2",
         "tsx": "^4.20.3",
         "typescript": "~5.8.0",
-        "typescript-eslint": "^8.40.0",
         "verdaccio": "6.2.7",
         "vite": "^7.0.0",
         "vite-plugin-dts": "^4.5.4",
@@ -133,7 +121,20 @@
         "yaml": "^2.8.2",
         "yargs": "18.0.0",
         "yargs-unparser": "2.0.0",
-        "zod": "4.3.6"
+        "zod": "4.3.6",
+        "@eslint/js": "~8.57.0",
+        "typescript-eslint": "^8.40.0",
+        "@nx/eslint-plugin": "22.6.1",
+        "eslint-plugin-import": "2.31.0",
+        "eslint-plugin-security": "3.0.1",
+        "eslint-plugin-unicorn": "^57.0.0",
+        "eslint-plugin-prettier": "5.5.5",
+        "eslint-config-prettier": "10.1.5",
+        "globals": "^15.0.0",
+        "jsonc-eslint-parser": "2.3.0",
+        "@nx/devkit": "22.6.1",
+        "@nx/js": "22.6.1",
+        "nx": "22.6.1"
     },
     "pnpm": {
         "overrides": {
@@ -165,18 +166,25 @@
             "@nx/webpack": "$nx",
             "@nx/workspace": "$nx",
             "nx": "$nx"
-        },
-        "ignoredBuiltDependencies": [
-            "nx"
-        ]
+        }
     },
     "engines": {
         "pnpm": "^10.7.0",
         "node": "^24.13.1"
     },
     "nx": {
-        "includedScripts": [],
         "targets": {
+            "lint": {
+                "executor": "@nx/eslint:lint",
+                "outputs": [
+                    "{options.outputFile}"
+                ],
+                "options": {
+                    "lintFilePatterns": [
+                        "package.json"
+                    ]
+                }
+            },
             "local-registry": {
                 "executor": "@nx/js:verdaccio",
                 "options": {

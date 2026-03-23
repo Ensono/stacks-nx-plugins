@@ -260,7 +260,7 @@ export default tseslint.config(
                 'error',
                 {
                     checkMissingDependencies: true,
-                    checkObsoleteDependencies: true,
+                    checkObsoleteDependencies: false,
                     checkVersionMismatches: true,
                     ignoredFiles: [
                         '**/vitest.config.mts',

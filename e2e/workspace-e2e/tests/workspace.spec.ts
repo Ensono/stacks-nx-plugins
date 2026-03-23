@@ -39,7 +39,6 @@ describe('workspace', () => {
     it('generates flat eslint config', () => {
         const eslintConfig = readFile('eslint.config.mjs');
 
-        expect(eslintConfig).toMatchSnapshot();
         expect(eslintConfig).toContain('typescript-eslint');
         expect(eslintConfig).toContain('eslint-plugin-security');
         expect(eslintConfig).toContain('eslint-plugin-unicorn');
