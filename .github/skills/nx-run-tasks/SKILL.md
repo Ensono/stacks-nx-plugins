@@ -1,17 +1,9 @@
 ---
 name: nx-run-tasks
-description:
-    Helps with running tasks in an Nx workspace. USE WHEN the user wants to execute build, test, lint, serve, or run any other tasks/targets defined in the workspace.
+description: "Execute and manage tasks/targets in an Nx workspace, including build, test, lint, serve, and custom targets. Supports single-project runs, multi-project batch execution, and affected-only runs. USE WHEN the user wants to execute build, test, lint, serve, or run any other tasks/targets defined in the workspace."
 ---
 
-You can run tasks with Nx in the following way.
-
-Keep in mind that you might have to prefix things with npx/pnpx/yarn if the user
-doesn't have nx installed globally. Look at the package.json or lockfile to
-determine which package manager is in use.
-
-For more details on any command, run it with `--help` (e.g.
-`pnpm exec nx run-many --help`, `pnpm exec nx affected --help`).
+Detect the package manager from the lockfile (`pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`) and prefix nx commands accordingly (e.g. `pnpm exec nx`, `npx nx`, `yarn nx`).
 
 ## Understand which tasks can be run
 
@@ -72,3 +64,12 @@ These flags work with `run`, `run-many`, and `affected`:
 - `--verbose` — print additional information such as stack traces
 - `--nxBail` — stop execution after the first failed task
 - `--configuration=<name>` — use a specific configuration (e.g. `production`)
+
+## Handling task failures
+
+When a task fails:
+
+1. Re-run the failing task with `--verbose` to get the full stack trace
+2. Check the target configuration: `pnpm exec nx show project <project> --json | jq '.targets.<task>'`
+3. For cache-related issues, retry with `--skipNxCache`
+4. If multiple tasks fail, isolate with `pnpm exec nx run <project>:<task>` to debug one at a time
