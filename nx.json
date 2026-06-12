@@ -1,11 +1,11 @@
 {
-    "cli": {
-        "packageManager": "pnpm"
-    },
     "pluginsConfig": {
         "@nx/js": {
             "analyzeSourceFiles": true
         }
+    },
+    "cli": {
+        "packageManager": "pnpm"
     },
     "extends": "nx/presets/npm.json",
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
@@ -58,8 +58,10 @@
         "@nx/eslint:lint": {
             "inputs": [
                 "default",
+                "^default",
                 "{workspaceRoot}/.eslintrc.json",
-                "{workspaceRoot}/eslint.config.mjs"
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
             ],
             "cache": true
         },
