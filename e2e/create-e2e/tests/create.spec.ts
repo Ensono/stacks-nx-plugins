@@ -4,6 +4,7 @@ import { tmpProjPath, checkFilesExist, readJson } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import semver from 'semver';
 
 describe('create', () => {
     const temporaryDirectory = path.dirname(tmpProjPath());
@@ -183,9 +184,12 @@ describe('create', () => {
     });
 
     it('can install different nx patch version', async () => {
+        const nxSemver = semver.parse(nxVersion);
+        const minimumNxVersion = `${nxSemver?.major}.${nxSemver?.minor}.0`;
+
         const run = () =>
             execSync(
-                `pnpx @ensono-stacks/create-stacks-workspace@e2e proj --stacksVersion=e2e --preset=next --appName=test-app --nxVersion=22.5.0 --nxCloud=skip --no-interactive --verbose`,
+                `pnpx @ensono-stacks/create-stacks-workspace@e2e proj --stacksVersion=e2e --preset=next --appName=test-app --nxVersion=${minimumNxVersion} --nxCloud=skip --no-interactive --verbose`,
                 {
                     cwd: temporaryDirectory,
                     stdio: 'inherit',
@@ -202,7 +206,7 @@ describe('create', () => {
 
         expect(packageJson.devDependencies).toMatchObject(
             expect.objectContaining({
-                '@nx/workspace': '22.5.0',
+                '@nx/workspace': minimumNxVersion.toString(),
             }),
         );
     });
